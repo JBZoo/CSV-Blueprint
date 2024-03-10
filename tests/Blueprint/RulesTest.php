@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit\Blueprint;
 
 use JBZoo\CsvBlueprint\Validators\Rules\AllowValues;
+use JBZoo\CsvBlueprint\Validators\Rules\CardinalDirection;
 use JBZoo\CsvBlueprint\Validators\Rules\DateFormat;
 use JBZoo\CsvBlueprint\Validators\Rules\ExactValue;
 use JBZoo\CsvBlueprint\Validators\Rules\IsBool;
@@ -40,7 +41,6 @@ use JBZoo\CsvBlueprint\Validators\Rules\OnlyLowercase;
 use JBZoo\CsvBlueprint\Validators\Rules\OnlyUppercase;
 use JBZoo\CsvBlueprint\Validators\Rules\Precision;
 use JBZoo\CsvBlueprint\Validators\Rules\Regex;
-use JBZoo\CsvBlueprint\Validators\Rules\UnitFacing;
 use JBZoo\CsvBlueprint\Validators\Rules\UsaMarketName;
 use JBZoo\PHPUnit\PHPUnit;
 
@@ -556,7 +556,7 @@ final class RulesTest extends PHPUnit
 
     public function testUnitFacing(): void
     {
-        $rule = new UnitFacing('prop', true);
+        $rule = new CardinalDirection('prop', true);
         isSame(null, $rule->validate('N'));
         isSame(null, $rule->validate('S'));
         isSame(null, $rule->validate('E'));

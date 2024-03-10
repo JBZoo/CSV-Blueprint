@@ -27,7 +27,7 @@ final class ValidateFile extends CliCommand
     {
         $this
             ->setName('validate:file')
-            ->setDescription('Validate CSV file(s) by rules from yml file(s)')
+            ->setDescription('Validate CSV file by rules from yml file(s)')
             ->addArgument(
                 'csv-file-or-dir',
                 InputArgument::REQUIRED,

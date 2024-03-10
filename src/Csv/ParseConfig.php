@@ -85,7 +85,8 @@ final class ParseConfig
 
     public function getEncoding(): string
     {
-        $encoding         = \strtolower(\trim($this->structure->getString('encoding', self::FALLBACK_VALUES['encoding'])));
+        $encoding = \strtolower(\trim($this->structure->getString('encoding', self::FALLBACK_VALUES['encoding'])));
+
         $availableOptions = [ // TODO: add flexible handler for this
             self::ENCODING_UTF8,
             self::ENCODING_UTF16,

@@ -28,7 +28,8 @@ final class Error
 
     public function __toString(): string
     {
-        return "Error \"{$this->getRuleCode()}\" at line {$this->getLine()}, column \"{$this->getColumnName()}\". {$this->getMessage()}.";
+        return "Error \"{$this->getRuleCode()}\" at line {$this->getLine()}, " .
+            "column \"{$this->getColumnName()}\". {$this->getMessage()}.";
     }
 
     public function getRuleCode(): string

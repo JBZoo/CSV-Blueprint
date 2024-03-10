@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Validators\Rules;
 
-class UnitFacing extends AllowValues
+class CardinalDirection extends AllowValues
 {
     public function validateRule(?string $cellValue): ?string
     {
@@ -29,17 +29,6 @@ class UnitFacing extends AllowValues
 
     public function getOptionAsArray(): array
     {
-        return [
-            'N',
-            'S',
-            'E',
-            'W',
-            'NE',
-            'SE',
-            'NW',
-            'SW',
-            'none',
-            '',
-        ];
+        return ['N', 'S', 'E', 'W', 'NE', 'SE', 'NW', 'SW', 'none', ''];
     }
 }
