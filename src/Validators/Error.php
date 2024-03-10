@@ -21,7 +21,7 @@ final class Error
     public function __construct(
         private string $ruleCode,
         private string $message,
-        private string $columnName,
+        private string $columnName = '',
         private int $line = 0,
     ) {
     }

@@ -48,12 +48,12 @@ final class Ruleset
         throw new Exception("Rule \"{$ruleName}\" not found. Expected class: {$classname}");
     }
 
-    public function validate(?string $cellValue, int $line): array
+    public function validate(?string $cellValue, int $line): ErrorSuite
     {
-        $errors = [];
+        $errors = new ErrorSuite();
 
         foreach ($this->rules as $rule) {
-            $errors[] = $rule->validate($cellValue, $line);
+            $errors->addError($rule->validate($cellValue, $line));
         }
 
         return $errors;

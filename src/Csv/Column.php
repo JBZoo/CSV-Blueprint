@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Csv;
 
 use JBZoo\CsvBlueprint\Utils;
+use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use JBZoo\CsvBlueprint\Validators\Validator;
 use JBZoo\Data\Data;
 
@@ -104,7 +105,7 @@ final class Column
         return $this->column->getString('inherit', self::FALLBACK_VALUES['inherit']);
     }
 
-    public function validate(string $cellValue, int $line): array
+    public function validate(string $cellValue, int $line): ErrorSuite
     {
         return (new Validator($this))->validate($cellValue, $line);
     }

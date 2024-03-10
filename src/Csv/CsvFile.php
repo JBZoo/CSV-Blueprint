@@ -17,6 +17,8 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Csv;
 
 use JBZoo\CsvBlueprint\Schema;
+use JBZoo\CsvBlueprint\Validators\Error;
+use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use League\Csv\ByteSequence;
 use League\Csv\Reader as LeagueReader;
 use League\Csv\Statement;
@@ -35,9 +37,9 @@ final class CsvFile
         }
 
         $this->csvFilename = \realpath($csvFilename);
-        $this->schema      = new Schema($csvSchemaFilenameOrArray);
-        $this->structure   = $this->schema->getCsvStructure();
-        $this->reader      = $this->prepareReader();
+        $this->schema = new Schema($csvSchemaFilenameOrArray);
+        $this->structure = $this->schema->getCsvStructure();
+        $this->reader = $this->prepareReader();
     }
 
     public function getCsvFilename(): string
@@ -72,11 +74,15 @@ final class CsvFile
         return Statement::create(null, $offset, $limit)->process($this->reader, $this->getHeader());
     }
 
-    public function validate(bool $quickStop = false): array
+    public function validate(bool $quickStop = false): ErrorSuite
     {
-        return $this->validateHeader() +
-            $this->validateEachCell($quickStop) +
-            $this->validateAggregateRules($quickStop);
+        $errors = new ErrorSuite();
+
+        $errors->addErrorSuit($this->validateHeader())
+            ->addErrorSuit($this->validateEachCell($quickStop))
+            ->addErrorSuit($this->validateAggregateRules($quickStop));
+
+        return $errors;
     }
 
     private function prepareReader(): LeagueReader
@@ -105,27 +111,32 @@ final class CsvFile
         return $reader;
     }
 
-    private function validateHeader(): array
+    private function validateHeader(): ErrorSuite
     {
-        if (!$this->getCsvStructure()->isHeader()) {
-            return [];
-        }
+        $errors = new ErrorSuite();
 
-        $errorAcc = [];
+        if (!$this->getCsvStructure()->isHeader()) {
+            return $errors;
+        }
 
         foreach ($this->schema->getColumns() as $column) {
             if ($column->getName() === '') {
-                $errorAcc[] = "Property \"name\" is not defined for column id={$column->getId()} " .
-                    "in schema: {$this->schema->getFilename()}";
+                $error = new Error(
+                    'csv_structure.header',
+                    "Property \"name\" is not defined in schema: {$this->schema->getFilename()}",
+                    $column->getHumanName(),
+                );
+
+                $errors->addError($error);
             }
         }
 
-        return $errorAcc;
+        return $errors;
     }
 
-    private function validateEachCell(bool $quickStop = false): array
+    private function validateEachCell(bool $quickStop = false): ErrorSuite
     {
-        $errorAcc = [];
+        $errors = new ErrorSuite();
 
         foreach ($this->getRecords() as $line => $record) {
             $columns = $this->schema->getColumnsMappedByHeader($this->getHeader());
@@ -135,25 +146,18 @@ final class CsvFile
                     continue;
                 }
 
-                $errorAcc = $this->appendErrors($errorAcc, $column->validate($record[$column->getKey()], $line));
-                if ($quickStop && \count($errorAcc) > 0) {
+                $errors->addErrorSuit($column->validate($record[$column->getKey()], $line));
+                if ($quickStop && $errors->count() > 0) {
                     return $errorAcc;
                 }
             }
         }
 
-        return $errorAcc;
+        return $errors;
     }
 
-    private function validateAggregateRules(bool $quickStop = false): array
+    private function validateAggregateRules(bool $quickStop = false): ErrorSuite
     {
-        return [];
-    }
-
-    private function appendErrors(array $errorAcc, array $newErrors): array
-    {
-        $errorAcc += \array_filter($newErrors);
-
-        return $errorAcc;
+        return new ErrorSuite();
     }
 }

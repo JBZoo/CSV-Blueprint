@@ -31,7 +31,7 @@ final class Validator
     /**
      * @return Error[]
      */
-    public function validate(?string $cellValue, int $line): array
+    public function validate(?string $cellValue, int $line): ErrorSuite
     {
         return $this->ruleset->validate($cellValue, $line);
     }
