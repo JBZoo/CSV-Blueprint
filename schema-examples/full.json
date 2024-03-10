@@ -1,5 +1,5 @@
 {
-    "csv_structure" : {
+    "csv"     : {
         "header"     : true,
         "delimiter"  : ",",
         "quote_char" : "\\",
@@ -7,7 +7,7 @@
         "encoding"   : "utf-8",
         "bom"        : false
     },
-    "columns"       : [
+    "columns" : [
         {
             "name"        : "csv_header_name",
             "description" : "Lorem ipsum",

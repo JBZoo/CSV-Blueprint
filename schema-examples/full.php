@@ -15,7 +15,7 @@
 declare(strict_types=1);
 
 return [
-    'csv_structure' => [
+    'csv' => [
         'header'     => true,
         'delimiter'  => ',',
         'quote_char' => '\\',

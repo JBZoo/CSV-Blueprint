@@ -39,8 +39,8 @@ demo-invalid: ##@Project Run demo invalid CSV
 	$(call title,"Demo - Invalid CSV")
 	@${PHP_BIN} ./csv-blueprint validate:csv      \
        --csv=./tests/fixtures/demo.csv            \
-       --schema=./tests/schemas/demo_invalid.yml  \
-       --output=github
+       --schema=./tests/schemas/demo_invalid.yml
+
 
 demo-github: ##@Project Run demo invalid CSV
 	@${PHP_BIN} ./csv-blueprint validate:csv      \

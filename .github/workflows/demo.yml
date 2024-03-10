@@ -41,14 +41,14 @@ jobs:
           tools: composer
 
       - name: Build the Project
-        run: make update --no-print-directory
+        run: make update
+
+      - name: Validate CSV (default is table)
+        run: make demo-github
+        continue-on-error: true
 
       - name: Validate CSV (text)
         run: OUTPUT=text make demo-github
-        continue-on-error: true
-
-      - name: Validate CSV (table)
-        run: OUTPUT=table make demo-github
         continue-on-error: true
 
       - name: Validate CSV (github)

@@ -69,9 +69,8 @@ final class ValidateCsv extends CliCommand
 
             if ($this->isTextMode()) {
                 $this->_(
-                    '<yellow>CSV file is not valid!</yellow> ' .
-                    'Found <e> ' . $errorSuite->count() . ' </e> errors.',
-                    OutLvl::ERROR,
+                    '<yellow>CSV file is not valid!</yellow> Found <e>' . $errorSuite->count() . '</e> errors.',
+                    OutLvl::E,
                 );
             }
 

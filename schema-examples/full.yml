@@ -12,7 +12,7 @@
 
 # It's a full example of the CSV schema file in YAML format.
 
-csv_structure: # Here are default values. You can skip this section if you don't need to override the default values
+csv: # Here are default values. You can skip this section if you don't need to override the default values
   header: true                          # If the first row is a header. If true, name of each column is required
   delimiter: ,                          # Delimiter character in CSV file
   quote_char: \                         # Quote character in CSV file
