@@ -58,6 +58,9 @@ final class Schema
             }
         } elseif (\is_string($csvSchemaFilenameOrArray)) {
             throw new \InvalidArgumentException("Invalid schema data: {$csvSchemaFilenameOrArray}");
+        } else {
+            $this->filename = null;
+            $this->data     = new Data();
         }
 
         $this->columns = $this->prepareColumns();

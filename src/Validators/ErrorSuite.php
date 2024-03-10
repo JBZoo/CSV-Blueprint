@@ -89,6 +89,10 @@ final class ErrorSuite
 
     public function addErrorSuit(?self $errorSuite): self
     {
+        if ($errorSuite === null) {
+            return $this;
+        }
+
         $this->errors = \array_merge($this->getErrors(), $errorSuite->getErrors());
 
         return $this;
