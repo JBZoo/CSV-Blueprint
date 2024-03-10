@@ -18,28 +18,28 @@ namespace JBZoo\CsvBlueprint\Validators;
 
 final class ErrorSuite
 {
-    public const MODE_PLAIN_TEXT = 'plain';
-    public const MODE_PLAIN_LIST = 'list';
+    public const RENDER_TEXT = 'plain';
+    public const RENDER_LIST = 'list';
 
     /** @var Error[] */
     private array $errors = [];
 
     public function __toString(): string
     {
-        return $this->render(self::MODE_PLAIN_TEXT);
+        return $this->render(self::RENDER_TEXT);
     }
 
-    public function render(string $mode = self::MODE_PLAIN_TEXT): string
+    public function render(string $mode = self::RENDER_TEXT): string
     {
         if ($this->count() === 0) {
             return '';
         }
 
-        if ($mode === self::MODE_PLAIN_TEXT) {
+        if ($mode === self::RENDER_TEXT) {
             return $this->renderPlainText();
         }
 
-        if ($mode === self::MODE_PLAIN_LIST) {
+        if ($mode === self::RENDER_LIST) {
             return $this->renderList();
         }
 
@@ -105,6 +105,6 @@ final class ErrorSuite
             $result[] = (string)$error;
         }
 
-        return ' * ' . \implode("\n * ", $result) . "\n";
+        return ' * ' . \implode("\n * ", $result);
     }
 }

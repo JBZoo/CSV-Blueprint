@@ -123,8 +123,9 @@ final class CsvFile
             if ($column->getName() === '') {
                 $error = new Error(
                     'csv_structure.header',
-                    "Property \"name\" is not defined in schema: {$this->schema->getFilename()}",
+                    "Property \"name\" is not defined in schema: \"{$this->schema->getFilename()}\"",
                     $column->getHumanName(),
+                    1,
                 );
 
                 $errors->addError($error);
@@ -146,7 +147,7 @@ final class CsvFile
                     continue;
                 }
 
-                $errors->addErrorSuit($column->validate($record[$column->getKey()], $line));
+                $errors->addErrorSuit($column->validate($record[$column->getKey()], $line + 1));
                 if ($quickStop && $errors->count() > 0) {
                     return $errorAcc;
                 }

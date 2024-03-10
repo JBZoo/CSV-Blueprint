@@ -63,7 +63,7 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('integer', 'not_empty', true));
         isSame(
-            'Error "not_empty" at line 18, column "integer (0)". Value is empty.',
+            '"not_empty" at line 19, column "integer (0)". Value is empty.',
             (string)$csv->validate(),
         );
     }
@@ -72,8 +72,8 @@ final class ValidatorTest extends PHPUnit
     {
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule(null, 'not_empty', true));
         isSame(
-            'Error "csv_structure.header" at line 0, column "(0)". ' .
-            'Property "name" is not defined in schema: _custom_array_.',
+            '"csv_structure.header" at line 1, column "(0)". ' .
+            'Property "name" is not defined in schema: "_custom_array_".',
             (string)$csv->validate(),
         );
     }
@@ -85,7 +85,7 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('seq', 'min', 10));
         isSame(
-            'Error "min" at line 1, column "seq (0)". Value "1" is less than "10".',
+            '"min" at line 2, column "seq (0)". Value "1" is less than "10".',
             (string)$csv->validate()->get(0),
         );
     }
@@ -97,7 +97,7 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('seq', 'max', 10));
         isSame(
-            'Error "max" at line 11, column "seq (0)". Value "11" is greater than "10".',
+            '"max" at line 12, column "seq (0)". Value "11" is greater than "10".',
             (string)$csv->validate()->get(0),
         );
     }
@@ -112,19 +112,19 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('seq', 'regex', '[a-z]'));
         isSame(
-            'Error "regex" at line 1, column "seq (0)". Value "1" does not match the pattern "/[a-z]/u".',
+            '"regex" at line 2, column "seq (0)". Value "1" does not match the pattern "/[a-z]/u".',
             (string)$csv->validate()->get(0),
         );
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('seq', 'regex', '/[a-z]/'));
         isSame(
-            'Error "regex" at line 1, column "seq (0)". Value "1" does not match the pattern "/[a-z]/".',
+            '"regex" at line 2, column "seq (0)". Value "1" does not match the pattern "/[a-z]/".',
             (string)$csv->validate()->get(0),
         );
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('seq', 'regex', '/[a-z]/i'));
         isSame(
-            'Error "regex" at line 1, column "seq (0)". Value "1" does not match the pattern "/[a-z]/i".',
+            '"regex" at line 2, column "seq (0)". Value "1" does not match the pattern "/[a-z]/i".',
             (string)$csv->validate()->get(0),
         );
     }
@@ -136,7 +136,7 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('seq', 'min_length', 1000));
         isSame(
-            'Error "min_length" at line 1, column "seq (0)". Value "1" (legth: 1) is too short. Min length is 1000.',
+            '"min_length" at line 2, column "seq (0)". Value "1" (legth: 1) is too short. Min length is 1000.',
             (string)$csv->validate()->get(0),
         );
     }
@@ -148,7 +148,7 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('seq', 'max_length', 1));
         isSame(
-            'Error "max_length" at line 10, column "seq (0)". Value "10" (legth: 2) is too long. Max length is 1.',
+            '"max_length" at line 11, column "seq (0)". Value "10" (legth: 2) is too long. Max length is 1.',
             (string)$csv->validate()->get(0),
         );
     }
@@ -160,7 +160,7 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('sentence', 'only_trimed', true));
         isSame(
-            'Error "only_trimed" at line 13, column "sentence (0)". Value " Urecam" is not trimmed.',
+            '"only_trimed" at line 14, column "sentence (0)". Value " Urecam" is not trimmed.',
             (string)$csv->validate()->get(0),
         );
     }
@@ -172,7 +172,7 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('bool', 'only_uppercase', true));
         isSame(
-            'Error "only_uppercase" at line 1, column "bool (0)". Value "true" is not uppercase.',
+            '"only_uppercase" at line 2, column "bool (0)". Value "true" is not uppercase.',
             (string)$csv->validate()->get(0),
         );
     }
@@ -184,7 +184,7 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('bool', 'only_lowercase', true));
         isSame(
-            'Error "only_lowercase" at line 7, column "bool (0)". Value "False" should be in lowercase.',
+            '"only_lowercase" at line 8, column "bool (0)". Value "False" should be in lowercase.',
             (string)$csv->validate()->get(0),
         );
     }
@@ -196,7 +196,7 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('bool', 'only_capitalize', true));
         isSame(
-            'Error "only_capitalize" at line 1, column "bool (0)". Value "true" should be in capitalize.',
+            '"only_capitalize" at line 2, column "bool (0)". Value "true" should be in capitalize.',
             (string)$csv->validate()->get(0),
         );
     }
@@ -208,14 +208,14 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('seq', 'precision', 1));
         isSame(
-            'Error "precision" at line 1, column "seq (0)". ' .
+            '"precision" at line 2, column "seq (0)". ' .
             'Value "1" has a precision of 0 but should have a precision of 1.',
             (string)$csv->validate()->get(0),
         );
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('float', 'precision', 3));
         isSame(
-            'Error "precision" at line 2, column "float (0)". ' .
+            '"precision" at line 3, column "float (0)". ' .
             'Value "506847750940.2624" has a precision of 4 but should have a precision of 3.',
             (string)$csv->validate()->get(0),
         );
@@ -228,14 +228,14 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('date', 'min_date', '2120-01-01'));
         isSame(
-            'Error "min_date" at line 1, column "date (0)". ' .
+            '"min_date" at line 2, column "date (0)". ' .
             'Value "2042/11/18" is less than the minimum date "2120-01-01T00:00:00.000+00:00".',
             (string)$csv->validate()->get(0),
         );
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('date', 'min_date', '2042/11/17'));
         isSame(
-            'Error "min_date" at line 4, column "date (0)". ' .
+            '"min_date" at line 5, column "date (0)". ' .
             'Value "2032/09/09" is less than the minimum date "2042-11-17T00:00:00.000+00:00".',
             (string)$csv->validate()->get(0),
         );
@@ -248,14 +248,14 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('date', 'max_date', '2120-01-01'));
         isSame(
-            'Error "max_date" at line 22, column "date (0)". ' .
+            '"max_date" at line 23, column "date (0)". ' .
             'Value "2120/02/01" is more than the maximum date "2120-01-01T00:00:00.000+00:00".',
             (string)$csv->validate()->get(0),
         );
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('date', 'max_date', '2042/11/17'));
         isSame(
-            'Error "max_date" at line 1, column "date (0)". ' .
+            '"max_date" at line 2, column "date (0)". ' .
             'Value "2042/11/18" is more than the maximum date "2042-11-17T00:00:00.000+00:00".',
             (string)$csv->validate()->get(0),
         );
@@ -268,7 +268,7 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('date', 'date_format', 'Y/m/d H:i:s'));
         isSame(
-            'Error "date_format" at line 1, column "date (0)". ' .
+            '"date_format" at line 2, column "date (0)". ' .
             'Date format of value "2042/11/18" is not valid. Expected format: "Y/m/d H:i:s".',
             (string)$csv->validate()->get(0),
         );
@@ -288,7 +288,7 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('bool', 'allow_values', ['true', 'false']));
         isSame(
-            'Error "allow_values" at line 7, column "bool (0)". ' .
+            '"allow_values" at line 8, column "bool (0)". ' .
             'Value "False" is not allowed. Allowed values: ["true", "false"].',
             (string)$csv->validate()->get(0),
         );
@@ -301,13 +301,13 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('exact', 'exact_value', '2'));
         isSame(
-            'Error "exact_value" at line 1, column "exact (0)". Value "1" is not strict equal to "2".',
+            '"exact_value" at line 2, column "exact (0)". Value "1" is not strict equal to "2".',
             (string)$csv->validate()->get(0),
         );
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('bool', 'exact_value', 'true'));
         isSame(
-            'Error "exact_value" at line 3, column "bool (0)". Value "false" is not strict equal to "true".',
+            '"exact_value" at line 4, column "bool (0)". Value "false" is not strict equal to "true".',
             (string)$csv->validate()->get(0),
         );
     }
@@ -319,7 +319,7 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('bool', 'is_int', true));
         isSame(
-            'Error "is_int" at line 1, column "bool (0)". Value "true" is not an integer.',
+            '"is_int" at line 2, column "bool (0)". Value "true" is not an integer.',
             (string)$csv->validate()->get(0),
         );
     }
@@ -331,7 +331,7 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('bool', 'is_float', true));
         isSame(
-            'Error "is_float" at line 1, column "bool (0)". Value "true" is not a float number.',
+            '"is_float" at line 2, column "bool (0)". Value "true" is not a float number.',
             (string)$csv->validate()->get(0),
         );
     }
@@ -343,7 +343,7 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('yn', 'is_bool', true));
         isSame(
-            'Error "is_bool" at line 1, column "yn (0)". Value "n" is not allowed. Allowed values: ["true", "false"].',
+            '"is_bool" at line 2, column "yn (0)". Value "n" is not allowed. Allowed values: ["true", "false"].',
             (string)$csv->validate()->get(0),
         );
     }
@@ -355,7 +355,7 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('yn', 'is_email', true));
         isSame(
-            'Error "is_email" at line 1, column "yn (0)". Value "N" is not a valid email.',
+            '"is_email" at line 2, column "yn (0)". Value "N" is not a valid email.',
             (string)$csv->validate()->get(0),
         );
     }
