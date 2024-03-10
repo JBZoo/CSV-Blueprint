@@ -38,6 +38,7 @@ use JBZoo\CsvBlueprint\Validators\Rules\OnlyLowercase;
 use JBZoo\CsvBlueprint\Validators\Rules\OnlyUppercase;
 use JBZoo\CsvBlueprint\Validators\Rules\Precision;
 use JBZoo\CsvBlueprint\Validators\Rules\Regex;
+use JBZoo\CsvBlueprint\Validators\Rules\UnitFacing;
 use JBZoo\PHPUnit\PHPUnit;
 
 use function JBZoo\PHPUnit\isSame;
@@ -547,6 +548,25 @@ final class RulesTest extends PHPUnit
         isSame(
             'Error "regex" at line 0, column "prop". Value "1bc" does not match the pattern "/^a/u".',
             $rule->validate('1bc'),
+        );
+    }
+
+    public function testUnitFacing(): void
+    {
+        $rule = new UnitFacing('prop');
+        isSame(null, $rule->validate('N'));
+        isSame(null, $rule->validate('S'));
+        isSame(null, $rule->validate('E'));
+        isSame(null, $rule->validate('W'));
+        isSame(null, $rule->validate('NE'));
+        isSame(null, $rule->validate('SE'));
+        isSame(null, $rule->validate('NW'));
+        isSame(null, $rule->validate('SW'));
+        isSame(null, $rule->validate('none'));
+        isSame(
+            'Error "unit_facing" at line 0, column "prop". Value "qwe" is not allowed. ' .
+            'Allowed values: ["N", "S", "E", "W", "NE", "SE", "NW", "SW", "none", ""].',
+            $rule->validate('qwe'),
         );
     }
 }
