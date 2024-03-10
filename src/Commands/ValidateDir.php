@@ -21,6 +21,7 @@ use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
+ * @codeCoverageIgnore
  */
 final class ValidateDir extends CliCommand
 {
