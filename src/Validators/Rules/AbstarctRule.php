@@ -1,0 +1,92 @@
+<?php
+
+/**
+ * JBZoo Toolbox - Csv-Blueprint.
+ *
+ * This file is part of the JBZoo Toolbox project.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @see        https://github.com/JBZoo/Csv-Blueprint
+ */
+
+declare(strict_types=1);
+
+namespace JBZoo\CsvBlueprint\Validators\Rules;
+
+use JBZoo\CsvBlueprint\Utils;
+
+use function JBZoo\Data\data;
+use function JBZoo\Utils\bool;
+use function JBZoo\Utils\float;
+use function JBZoo\Utils\int;
+
+abstract class AbstarctRule
+{
+    protected null|array|bool|float|int|string $options;
+
+    private string $columnNameId;
+    private string $ruleCode;
+
+    abstract public function validateRule(?string $cellValue): ?string;
+
+    public function __construct(?string $columnNameId, null|array|bool|float|int|string $options = null)
+    {
+        $this->columnNameId = $columnNameId;
+        $this->options      = $options;
+        $this->ruleCode     = $this->getRuleCode();
+    }
+
+    public function validate(?string $cellValue, int $line = 0): ?string
+    {
+        if ($error = $this->validateRule($cellValue)) {
+            $error = \rtrim($error, '.'); // Remove last dot to make the final message nice.
+
+            return "Error \"{$this->ruleCode}\" at line {$line}, column \"{$this->columnNameId}\". {$error}.";
+        }
+
+        return null;
+    }
+
+    protected function getOptionAsBool(): bool
+    {
+        return bool($this->options);
+    }
+
+    protected function getOptionAsString(): string
+    {
+        return (string)$this->options;
+    }
+
+    protected function getOptionAsInt(): int
+    {
+        return int($this->options);
+    }
+
+    protected function getOptionAsFloat(): float
+    {
+        return float($this->options);
+    }
+
+    protected function getOptionAsArray(): array
+    {
+        return (array)$this->options;
+    }
+
+    protected function getOptionAsData(): array
+    {
+        return data($this->options);
+    }
+
+    protected function getOptionAsDate(): \DateTimeImmutable
+    {
+        return new \DateTimeImmutable($this->getOptionAsString(), new \DateTimeZone('UTC'));
+    }
+
+    private function getRuleCode(): string
+    {
+        return Utils::camelToKebabCase((new \ReflectionClass($this))->getShortName());
+    }
+}

@@ -1,0 +1,55 @@
+#
+# JBZoo Toolbox - Csv-Blueprint.
+#
+# This file is part of the JBZoo Toolbox project.
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# @license    MIT
+# @copyright  Copyright (C) JBZoo.com, All rights reserved.
+# @see        https://github.com/JBZoo/Csv-Blueprint
+#
+
+#finename_pattern: ^example\.csv$
+
+#includes: # Alias is always required
+#  - /path/schema_1.yml   as alias_1 # Full path to another schema.
+
+csv_structure:
+  #  inherit: alias_1
+  bom: false
+  delimiter: ,
+  quote_char: \
+  enclosure: "\""
+  encoding: utf-8
+  header: true
+  #  strict_column_order: true
+  #  other_columns_possible: true
+
+columns:
+  - name: Header Name
+    description: Some description
+    rule:
+      not_empty: true
+      regex: ^[a-zA-Z0-9]+$
+      min: 1
+      max: 255
+      precision: 2
+      min_length: 1
+      max_length: 10
+      only_trimed: true
+      only_uppercase: false
+      only_lowercase: false
+      only_capitalize: false
+      min_date: 2023-03-09
+      max_date: 2024-03-09
+      date_format: Y-m-d
+      allow_values: [ value1, value2, value3 ]
+      exact_value: "Qwerty"
+      is_bool: true
+      is_domain: true
+      is_email: true
+      is_float: true
+      is_int: true
+      is_ip: true
+      is_url: true
