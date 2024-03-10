@@ -19,6 +19,7 @@ namespace JBZoo\CsvBlueprint\Validators;
 final class ErrorSuite
 {
     public const MODE_PLAIN_TEXT = 'plain';
+    public const MODE_PLAIN_LIST = 'list';
 
     /** @var Error[] */
     private array $errors = [];
@@ -36,6 +37,10 @@ final class ErrorSuite
 
         if ($mode === self::MODE_PLAIN_TEXT) {
             return $this->renderPlainText();
+        }
+
+        if ($mode === self::MODE_PLAIN_LIST) {
+            return $this->renderList();
         }
 
         throw new Exception('Unknown error render mode: ' . $mode);
@@ -90,5 +95,16 @@ final class ErrorSuite
         }
 
         return \implode("\n", $result);
+    }
+
+    private function renderList(): string
+    {
+        $result = [];
+
+        foreach ($this->errors as $error) {
+            $result[] = (string)$error;
+        }
+
+        return ' * ' . \implode("\n * ", $result) . "\n";
     }
 }
