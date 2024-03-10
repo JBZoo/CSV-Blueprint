@@ -41,11 +41,12 @@ demo-invalid: ##@Project Run demo invalid CSV
        --schema=./tests/schemas/demo_invalid.yml  \
        --output=github
 
-demo-gihub: ##@Project Run demo invalid CSV
+demo-github: ##@Project Run demo invalid CSV
 	@${PHP_BIN} ./csv-blueprint validate:csv      \
        --csv=./tests/fixtures/demo.csv            \
        --schema=./tests/schemas/demo_invalid.yml  \
-       --output=github
+       --output=github\
+       --mute-errors
 
 
 demo: ##@Project Run all demo commands

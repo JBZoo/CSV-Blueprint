@@ -28,9 +28,6 @@ jobs:
   pure-php:
     name: Pure PHP
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        php-version: [ 8.1, 8.2, 8.3 ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -40,11 +37,11 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-version }}
+          php-version: 8.3
           tools: composer
 
       - name: Build the Project
         run: make update --no-print-directory
 
-      - name: 🧪 PHPUnit Tests
+      - name: Validate CSV
         run: make demo-github
