@@ -151,7 +151,7 @@ final class SchemaTest extends PHPUnit
     public function testGetColumnMinimal(): void
     {
         $schemaFull = new Schema(self::SCHEMA_EXAMPLE_FULL);
-        $column = $schemaFull->getColumn(0);
+        $column     = $schemaFull->getColumn(0);
 
         isSame('', $column->getName());
         isSame('', $column->getDescription());
@@ -170,7 +170,7 @@ final class SchemaTest extends PHPUnit
     public function testGetColumnProps(): void
     {
         $schemaFull = new Schema(self::SCHEMA_EXAMPLE_FULL);
-        $column = $schemaFull->getColumn(1);
+        $column     = $schemaFull->getColumn(1);
 
         isSame('General available options', $column->getName());
         isSame('Some description', $column->getDescription());
@@ -189,7 +189,7 @@ final class SchemaTest extends PHPUnit
     public function testGetColumnRules(): void
     {
         $schemaFull = new Schema(self::SCHEMA_EXAMPLE_FULL);
-        $column = $schemaFull->getColumn('Some String');
+        $column     = $schemaFull->getColumn('Some String');
 
         isSame([
             'min_length'      => 1,
@@ -204,23 +204,23 @@ final class SchemaTest extends PHPUnit
     public function testGetColumnAggregateRules(): void
     {
         $schemaFull = new Schema(self::SCHEMA_EXAMPLE_FULL);
-        $column = $schemaFull->getColumn(1);
+        $column     = $schemaFull->getColumn(1);
 
         isSame([
-            'unique'                  => false,
-            'sorted'                  => 'asc',
-            'sorted_flag'             => 'SORT_NATURAL',
-            'count_min'               => 1,
-            'count_max'               => 10,
-            'count_empty_min'         => 1,
-            'count_empty_max'         => 10,
-            'count_filled_min'        => 1,
-            'count_filled_max'        => 10,
-            'custom_1'                => [
+            'unique'           => false,
+            'sorted'           => 'asc',
+            'sorted_flag'      => 'SORT_NATURAL',
+            'count_min'        => 1,
+            'count_max'        => 10,
+            'count_empty_min'  => 1,
+            'count_empty_max'  => 10,
+            'count_filled_min' => 1,
+            'count_filled_max' => 10,
+            'custom_1'         => [
                 'class' => 'My\\Aggregate\\Rules1',
                 'args'  => ['value'],
             ],
-            'custom_2'                => [
+            'custom_2' => [
                 'class' => 'My\\Aggregate\\Rules2',
                 'args'  => ['value1', 'value2'],
             ],

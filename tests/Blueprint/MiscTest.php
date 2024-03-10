@@ -18,7 +18,6 @@ namespace JBZoo\PHPUnit\Blueprint;
 
 use JBZoo\CsvBlueprint\Schema;
 use JBZoo\CsvBlueprint\Utils;
-use JBZoo\Markdown\Markdown;
 use JBZoo\PHPUnit\PHPUnit;
 use Symfony\Component\Finder\Finder;
 
@@ -67,7 +66,7 @@ final class MiscTest extends PHPUnit
             ->name('/\\.php$/');
 
         foreach ($finder as $file) {
-            $ruleName = Utils::camelToKebabCase($file->getFilenameWithoutExtension());
+            $ruleName     = Utils::camelToKebabCase($file->getFilenameWithoutExtension());
             $excludeRules = [
                 'abstarct_rule',
                 'exception',
@@ -101,7 +100,7 @@ final class MiscTest extends PHPUnit
             PROJECT_ROOT . '/schemas-examples/full.yml',
             'yml',
             'YAML format (with comment)',
-            12
+            12,
         );
     }
 
@@ -121,6 +120,10 @@ final class MiscTest extends PHPUnit
 
         $origYml = yml("{$basepath}.yml")->getArrayCopy();
 
+        // To update examples ONLY!!!
+        // file_put_contents("{$basepath}.php", (string)phpArray($origYml));
+        // file_put_contents("{$basepath}.json", (string)json($origYml));
+
         isSame($origYml, phpArray("{$basepath}.php")->getArrayCopy(), 'PHP config is invalid');
         isSame($origYml, json("{$basepath}.json")->getArrayCopy(), 'JSON config is invalid');
     }
@@ -129,7 +132,7 @@ final class MiscTest extends PHPUnit
         string $filepath,
         string $type,
         string $title,
-        int $skipFirstLines = 0
+        int $skipFirstLines = 0,
     ): void {
         $filepath = \implode(
             "\n",
@@ -137,7 +140,7 @@ final class MiscTest extends PHPUnit
         );
 
         if ($type === 'php') {
-            $tmpl = \implode("\n", ["```php", '<?php', $filepath, '```']);
+            $tmpl = \implode("\n", ['```php', '<?php', $filepath, '```']);
         } else {
             $tmpl = \implode("\n", ["```{$type}", $filepath, '```']);
         }
