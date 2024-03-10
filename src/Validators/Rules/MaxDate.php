@@ -23,7 +23,7 @@ final class MaxDate extends AbstarctRule
         $minDate  = $this->getOptionAsDate();
         $cellDate = new \DateTimeImmutable((string)$cellValue);
 
-        if ($cellDate > $minDate) {
+        if ($cellDate->getTimestamp() > $minDate->getTimestamp()) {
             return "Value \"{$cellValue}\" is more than the maximum " .
                 "date \"{$minDate->format(\DATE_RFC3339_EXTENDED)}\"";
         }

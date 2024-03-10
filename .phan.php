@@ -16,8 +16,19 @@ declare(strict_types=1);
 
 $default = include __DIR__ . '/vendor/jbzoo/codestyle/src/phan.php';
 
+// Remove SimplifyExpressionPlugin from plugin list
+$default['plugins'] = \array_diff($default['plugins'], ['SimplifyExpressionPlugin']);
+
 return \array_merge($default, [
     'directory_list' => [
         'src',
+
+        'vendor/jbzoo/data/src',
+        'vendor/jbzoo/cli/src',
+        'vendor/jbzoo/utils/src',
+        'vendor/jbzoo/ci-report-converter/src',
+        'vendor/league/csv/src',
+        'vendor/fakerphp/faker/src',
+        'vendor/symfony/console',
     ],
 ]);

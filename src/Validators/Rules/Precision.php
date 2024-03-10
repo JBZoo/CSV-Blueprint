@@ -20,16 +20,17 @@ final class Precision extends AbstarctRule
 {
     public function validateRule(?string $cellValue): ?string
     {
-        if ($this->getOptionAsInt() !== $this->getFloatPrecision($cellValue)) {
-            return "Value \"{$cellValue}\" has a precision of " . $this->getFloatPrecision(
-                $cellValue,
-            ) . ' but should have a precision of ' . $this->getOptionAsInt();
+        $valuePrecision = self::getFloatPrecision($cellValue);
+
+        if ($this->getOptionAsInt() !== $valuePrecision) {
+            return "Value \"{$cellValue}\" has a precision of {$valuePrecision} " .
+                "but should have a precision of {$this->getOptionAsInt()}";
         }
 
         return null;
     }
 
-    private function getFloatPrecision(?string $cellValue): int
+    private static function getFloatPrecision(?string $cellValue): int
     {
         $floatAsString = (string)$cellValue;
         $dotPosition   = \strpos($floatAsString, '.');

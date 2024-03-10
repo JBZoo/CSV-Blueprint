@@ -84,14 +84,14 @@ final class Schema
 
     /**
      * @return Column[]|null[]
+     * @phan-suppress PhanPartialTypeMismatchReturn
      */
     public function getColumnsMappedByHeader(array $header): array
     {
         $map = [];
 
         foreach ($header as $headerName) {
-            $column           = $this->columns[$headerName] ?? null;
-            $map[$headerName] = $column;
+            $map[$headerName] = $this->columns[$headerName] ?? null;
         }
 
         return $map;
@@ -141,7 +141,7 @@ final class Schema
         $result = [];
 
         foreach ($this->data->getArray('columns') as $columnId => $columnPreferences) {
-            $column = new Column($columnId, $columnPreferences);
+            $column = new Column((int)$columnId, $columnPreferences);
 
             $result[$column->getKey()] = $column;
         }

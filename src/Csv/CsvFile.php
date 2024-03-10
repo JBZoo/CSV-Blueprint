@@ -43,7 +43,7 @@ final class CsvFile
 
     public function getCsvFilename(): string
     {
-        return \str_replace(PROJECT_ROOT, '.', (string)\realpath($this->csvFilename));
+        return \pathinfo((string)\realpath($this->csvFilename), \PATHINFO_BASENAME);
     }
 
     public function getCsvStructure(): ParseConfig
@@ -79,7 +79,7 @@ final class CsvFile
 
         $errors->addErrorSuit($this->validateHeader())
             ->addErrorSuit($this->validateEachCell($quickStop))
-            ->addErrorSuit($this->validateAggregateRules($quickStop));
+            ->addErrorSuit(self::validateAggregateRules($quickStop));
 
         return $errors;
     }
@@ -137,7 +137,7 @@ final class CsvFile
                     continue;
                 }
 
-                $errors->addErrorSuit($column->validate($record[$column->getKey()], $line + 1));
+                $errors->addErrorSuit($column->validate($record[$column->getKey()], (int)$line + 1));
                 if ($quickStop && $errors->count() > 0) {
                     return $errors;
                 }
@@ -147,7 +147,7 @@ final class CsvFile
         return $errors;
     }
 
-    private function validateAggregateRules(bool $quickStop = false): ErrorSuite
+    private static function validateAggregateRules(bool $quickStop = false): ErrorSuite
     {
         $errors = new ErrorSuite();
 

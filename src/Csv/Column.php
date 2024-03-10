@@ -118,10 +118,10 @@ final class Column
     {
         $rules = [];
 
-        $ruleSetConfig = $this->column->getSelf($schemaKey, []);
+        $ruleSetConfig = $this->column->getSelf($schemaKey, [])->getArrayCopy();
 
         foreach ($ruleSetConfig as $ruleName => $ruleValue) {
-            if (\str_starts_with($ruleName, 'custom_')) {
+            if (\str_starts_with((string)$ruleName, 'custom_')) {
                 $rules[$ruleName] = \array_merge(['class' => '', 'args' => []], $ruleValue);
             } else {
                 $rules[$ruleName] = $ruleValue;

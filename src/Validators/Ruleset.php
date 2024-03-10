@@ -31,7 +31,7 @@ final class Ruleset
         $this->rules        = [];
 
         foreach ($rules as $ruleName => $options) {
-            $this->rules[] = $this->createRule($ruleName, $options);
+            $this->rules[] = $this->createRule((string)$ruleName, $options);
         }
     }
 
