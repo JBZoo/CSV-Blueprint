@@ -97,7 +97,12 @@ final class MiscTest extends PHPUnit
 
     public function testCheckYmlSchemaExampleInReadme(): void
     {
-        $this->testCheckExampleInReadme(PROJECT_ROOT . '/schemas-examples/full.yml', 'yml', 'YAML format', 12);
+        $this->testCheckExampleInReadme(
+            PROJECT_ROOT . '/schemas-examples/full.yml',
+            'yml',
+            'YAML format (with comment)',
+            12
+        );
     }
 
     public function testCheckPhpSchemaExampleInReadme(): void
@@ -137,7 +142,7 @@ final class MiscTest extends PHPUnit
             $tmpl = \implode("\n", ["```{$type}", $filepath, '```']);
         }
 
-        $tmpl = $this->getSpoiler("Click to see {$title}", $tmpl);
+        $tmpl = $this->getSpoiler("Click to see: {$title}", $tmpl);
 
         isFileContains($tmpl, PROJECT_ROOT . '/README.md');
     }

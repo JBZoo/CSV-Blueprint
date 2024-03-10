@@ -19,7 +19,7 @@ composer require jbzoo/csv-blueprint
 ### Schema file examples
 
 <details>
-  <summary>Click to see YAML format</summary>
+  <summary>Click to see: YAML format (with comment)</summary>
 
 ```yml
 # It's a full example of the CSV schema file in YAML format.
@@ -71,7 +71,7 @@ columns:
 
 
 <details>
-  <summary>Click to see PHP Array as file</summary>
+  <summary>Click to see: PHP Array as file</summary>
 
 ```php
 <?php
@@ -132,7 +132,7 @@ return [
 
 
 <details>
-  <summary>Click to see JSON Format</summary>
+  <summary>Click to see: JSON Format</summary>
 
 ```json
 {
