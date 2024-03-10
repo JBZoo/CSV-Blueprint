@@ -29,6 +29,7 @@ use JBZoo\CsvBlueprint\Validators\Rules\IsIp;
 use JBZoo\CsvBlueprint\Validators\Rules\IsLatitude;
 use JBZoo\CsvBlueprint\Validators\Rules\IsLongitude;
 use JBZoo\CsvBlueprint\Validators\Rules\IsUrl;
+use JBZoo\CsvBlueprint\Validators\Rules\IsUuid4;
 use JBZoo\CsvBlueprint\Validators\Rules\Max;
 use JBZoo\CsvBlueprint\Validators\Rules\MaxDate;
 use JBZoo\CsvBlueprint\Validators\Rules\MaxLength;
@@ -43,6 +44,7 @@ use JBZoo\CsvBlueprint\Validators\Rules\Precision;
 use JBZoo\CsvBlueprint\Validators\Rules\Regex;
 use JBZoo\CsvBlueprint\Validators\Rules\UsaMarketName;
 use JBZoo\PHPUnit\PHPUnit;
+use JBZoo\Utils\Str;
 
 use function JBZoo\PHPUnit\isSame;
 
@@ -567,7 +569,7 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate('SW'));
         isSame(null, $rule->validate('none'));
         isSame(
-            'Error "unit_facing" at line 0, column "prop". Value "qwe" is not allowed. ' .
+            'Error "cardinal_direction" at line 0, column "prop". Value "qwe" is not allowed. ' .
             'Allowed values: ["N", "S", "E", "W", "NE", "SE", "NW", "SW", "none", ""].',
             (string)$rule->validate('qwe'),
         );
@@ -583,6 +585,16 @@ final class RulesTest extends PHPUnit
             'Invalid market name format for value ", ST". ' .
             'Market name must have format "New York, NY".',
             (string)$rule->validate(', ST'),
+        );
+    }
+
+    public function testIsUuid4(): void
+    {
+        $rule = new IsUuid4('prop', true);
+        isSame(null, $rule->validate(Str::uuid()));
+        isSame(
+            'Error "is_uuid4" at line 0, column "prop". Value is not a valid UUID v4.',
+            (string)$rule->validate('123'),
         );
     }
 }
