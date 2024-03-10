@@ -23,6 +23,9 @@ use JBZoo\CsvBlueprint\Exception;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use Symfony\Component\Console\Input\InputOption;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 final class ValidateCsv extends CliCommand
 {
     protected function configure(): void

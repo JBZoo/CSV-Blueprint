@@ -19,6 +19,9 @@ namespace JBZoo\CsvBlueprint\Commands;
 use JBZoo\Cli\CliCommand;
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 final class ValidateDir extends CliCommand
 {
     protected function configure(): void

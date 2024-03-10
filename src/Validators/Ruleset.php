@@ -28,12 +28,17 @@ final class Ruleset
     public function __construct(array $rules, string $columnNameId)
     {
         $this->columnNameId = $columnNameId;
+        $this->rules        = [];
 
         foreach ($rules as $ruleName => $options) {
             $this->rules[] = $this->createRule($ruleName, $options);
         }
     }
 
+    /**
+     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress LessSpecificReturnStatement
+     */
     public function createRule(string $ruleName, null|array|bool|float|int|string $options = null): AbstarctRule
     {
         $classname = __NAMESPACE__ . '\\Rules\\' . Utils::kebabToCamelCase($ruleName);

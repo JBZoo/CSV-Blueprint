@@ -24,7 +24,11 @@ final class Regex extends AbstarctRule
     {
         $regex = Utils::prepareRegex($this->getOptionAsString());
 
-        if (\preg_match((string)$regex, (string)$cellValue) === 0) {
+        if ($regex === null || $regex === '') {
+            return 'Regex pattern is not defined';
+        }
+
+        if (\preg_match($regex, (string)$cellValue) === 0) {
             return "Value \"{$cellValue}\" does not match the pattern \"{$regex}\"";
         }
 

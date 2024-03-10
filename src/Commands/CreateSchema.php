@@ -20,6 +20,9 @@ use JBZoo\Cli\CliCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 final class CreateSchema extends CliCommand
 {
     protected function configure(): void

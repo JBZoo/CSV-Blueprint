@@ -51,13 +51,14 @@ final class ErrorSuite
             return '';
         }
 
-        $map = [
-            self::RENDER_TEXT     => fn () => $this->renderPlainText(),
-            self::RENDER_TABLE    => fn () => $this->renderTable(),
-            self::RENDER_GITHUB   => fn () => (new GithubCliConverter())->fromInternal($this->prepareSourceSuite()),
-            self::RENDER_GITLAB   => fn () => (new GitLabJsonConverter())->fromInternal($this->prepareSourceSuite()),
-            self::RENDER_TEAMCITY => fn () => (new TeamCityTestsConverter())->fromInternal($this->prepareSourceSuite()),
-            self::RENDER_JUNIT    => fn () => (new JUnitConverter())->fromInternal($this->prepareSourceSuite()),
+        $sourceSuite = $this->prepareSourceSuite();
+        $map         = [
+            self::RENDER_TEXT     => fn (): string => $this->renderPlainText(),
+            self::RENDER_TABLE    => fn (): string => $this->renderTable(),
+            self::RENDER_GITHUB   => static fn (): string => (new GithubCliConverter())->fromInternal($sourceSuite),
+            self::RENDER_GITLAB   => static fn (): string => (new GitLabJsonConverter())->fromInternal($sourceSuite),
+            self::RENDER_TEAMCITY => static fn (): string => (new TeamCityTestsConverter())->fromInternal($sourceSuite),
+            self::RENDER_JUNIT    => static fn (): string => (new JUnitConverter())->fromInternal($sourceSuite),
         ];
 
         if (isset($map[$mode])) {

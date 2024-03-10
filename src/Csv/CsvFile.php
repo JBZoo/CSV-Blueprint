@@ -63,10 +63,7 @@ final class CsvFile
         return [];
     }
 
-    /**
-     * @return iterable|\League\Csv\MapIterator
-     */
-    public function getRecords(): iterable
+    public function getRecords(): \Iterator
     {
         return $this->reader->getRecords($this->getHeader());
     }
