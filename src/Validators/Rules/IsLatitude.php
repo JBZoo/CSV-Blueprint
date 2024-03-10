@@ -18,6 +18,9 @@ namespace JBZoo\CsvBlueprint\Validators\Rules;
 
 final class IsLatitude extends IsFloat
 {
+    private float $min = -90.0;
+    private float $max = 90.0;
+
     public function validateRule(?string $cellValue): ?string
     {
         if (!$this->getOptionAsBool()) {
@@ -30,8 +33,8 @@ final class IsLatitude extends IsFloat
         }
 
         $latitude = (float)$cellValue;
-        if ($latitude < -90.0 || $latitude > 90.0) {
-            return "Value \"{$cellValue}\" is not a valid latitude (-90 <= x <= 90)";
+        if ($latitude < $this->min || $latitude > $this->max) {
+            return "Value \"{$cellValue}\" is not a valid latitude ({$this->min} <= x <= {$this->max})";
         }
 
         return null;
