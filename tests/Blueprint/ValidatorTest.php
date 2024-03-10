@@ -17,8 +17,11 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit\Blueprint;
 
 use JBZoo\CsvBlueprint\Csv\CsvFile;
+use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use JBZoo\PHPUnit\PHPUnit;
 
+use function JBZoo\Data\json;
+use function JBZoo\PHPUnit\isContain;
 use function JBZoo\PHPUnit\isSame;
 
 final class ValidatorTest extends PHPUnit
@@ -358,6 +361,154 @@ final class ValidatorTest extends PHPUnit
             '"is_email" at line 2, column "0:yn". Value "N" is not a valid email.',
             (string)$csv->validate()->get(0),
         );
+    }
+
+    public function testQuickStop(): void
+    {
+        $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('yn', 'is_email', true));
+        isSame(1, $csv->validate(true)->count());
+
+        $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('yn', 'is_email', true));
+        isSame(100, $csv->validate(false)->count());
+
+        $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('yn', 'is_email', true));
+        isSame(100, $csv->validate()->count());
+    }
+
+    public function testRenderText(): void
+    {
+        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
+        isSame(
+            '"min" at line 2, column "0:seq". Value "1" is less than "3".',
+            $csv->validate(true)->render(ErrorSuite::RENDER_TEXT),
+        );
+
+        isSame(
+            \implode("\n", [
+                '"min" at line 2, column "0:seq". Value "1" is less than "3".',
+                '"min" at line 3, column "0:seq". Value "2" is less than "3".',
+            ]),
+            $csv->validate()->render(ErrorSuite::RENDER_TEXT),
+        );
+    }
+
+    public function testRenderTable(): void
+    {
+        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
+        isSame(
+            \implode("\n", [
+                '+------+---------- simple_header.csv ------------------+',
+                '| Line | id:Column | Rule | Message                    |',
+                '+------+-----------+------+----------------------------+',
+                '| 2    | 0:seq     | min  | Value "1" is less than "3" |',
+                '+------+---------- simple_header.csv ------------------+',
+                '',
+            ]),
+            $csv->validate(true)->render(ErrorSuite::RENDER_TABLE),
+        );
+
+        isSame(
+            \implode("\n", [
+                '+------+---------- simple_header.csv ------------------+',
+                '| Line | id:Column | Rule | Message                    |',
+                '+------+-----------+------+----------------------------+',
+                '| 2    | 0:seq     | min  | Value "1" is less than "3" |',
+                '| 3    | 0:seq     | min  | Value "2" is less than "3" |',
+                '+------+---------- simple_header.csv ------------------+',
+                '',
+            ]),
+            $csv->validate()->render(ErrorSuite::RENDER_TABLE),
+        );
+    }
+
+    public function testRenderTeamCity(): void
+    {
+        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
+        $out = $csv->validate()->render(ErrorSuite::RENDER_TEAMCITY);
+
+        isContain("##teamcity[testCount count='2' ", $out);
+        isContain("##teamcity[testSuiteStarted name='simple_header.csv' ", $out);
+        isContain("##teamcity[testStarted name='min at column 0:seq' locationHint='php_qn://simple_header.csv'", $out);
+        isContain("##teamcity[testFinished name='min at column 0:seq' timestamp", $out);
+        isContain('Value "1" is less than "3"', $out);
+        isContain('Value "2" is less than "3"', $out);
+        isContain("##teamcity[testSuiteFinished name='simple_header.csv'", $out);
+    }
+
+    public function testRenderGithub(): void
+    {
+        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
+        isSame(
+            \implode("\n", [
+                '::error file=simple_header.csv,line=2::min at column 0:seq%0AValue "1" is less than "3"',
+                '',
+                '::error file=simple_header.csv,line=3::min at column 0:seq%0AValue "2" is less than "3"',
+                '',
+            ]),
+            $csv->validate()->render(ErrorSuite::RENDER_GITHUB),
+        );
+    }
+
+    public function testRenderGitlab(): void
+    {
+        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
+        isSame(
+            [
+                [
+                    'description' => "min at column 0:seq\nValue \"1\" is less than \"3\"",
+                    'fingerprint' => 'ec0612c9f1610d440b558fff51bbceed086a0212cdeb14d79d09c8a9bd108487',
+                    'severity'    => 'major',
+                    'location'    => [
+                        'path'  => 'simple_header.csv',
+                        'lines' => ['begin' => 2],
+                    ],
+                ],
+                [
+                    'description' => "min at column 0:seq\nValue \"2\" is less than \"3\"",
+                    'fingerprint' => '51f82750d029c395dec5f2f5c1c4eb841e43c1ea6b8ece9ee31126a3e22620cb',
+                    'severity'    => 'major',
+                    'location'    => [
+                        'path'  => 'simple_header.csv',
+                        'lines' => ['begin' => 3],
+                    ],
+                ],
+            ],
+            json($csv->validate()->render(ErrorSuite::RENDER_GITLAB))->getArrayCopy(),
+        );
+    }
+
+    public function testRenderJUnit(): void
+    {
+        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
+        isSame(
+            \implode("\n", [
+                '<?xml version="1.0" encoding="UTF-8"?>',
+                '<testsuites>',
+                '  <testsuite name="simple_header.csv" tests="2">',
+                '    <testcase name="min at column 0:seq" file="simple_header.csv" line="2">',
+                '      <system-out>Value "1" is less than "3"</system-out>',
+                '    </testcase>',
+                '    <testcase name="min at column 0:seq" file="simple_header.csv" line="3">',
+                '      <system-out>Value "2" is less than "3"</system-out>',
+                '    </testcase>',
+                '  </testsuite>',
+                '</testsuites>',
+                '',
+            ]),
+            $csv->validate()->render(ErrorSuite::RENDER_JUNIT),
+        );
+    }
+
+    public function testGetAvaiableRenderFormats(): void
+    {
+        isSame([
+            'text',
+            'table',
+            'github',
+            'gitlab',
+            'teamcity',
+            'junit',
+        ], ErrorSuite::getAvaiableRenderFormats());
     }
 
     private function getRule(?string $columnName, ?string $ruleName, array|bool|float|int|string $options): array
