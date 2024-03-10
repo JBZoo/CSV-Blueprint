@@ -25,6 +25,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
+ * @codeCoverageIgnore
  */
 final class ValidateCsv extends CliCommand
 {

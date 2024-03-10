@@ -22,6 +22,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
+ * @codeCoverageIgnore
  */
 final class CreateCsv extends CliCommand
 {
