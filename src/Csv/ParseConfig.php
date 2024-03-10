@@ -120,17 +120,17 @@ final class ParseConfig
     {
         return [
             // System rules
-            'inherit' => $this->getInherit(),
+            // 'inherit' => $this->getInherit(), // TODO Implement me
             // Reading rules
-            'bom'        => $this->isBom(),
+            'header'     => $this->isHeader(),
             'delimiter'  => $this->getDelimiter(),
             'quote_char' => $this->getQuoteChar(),
             'enclosure'  => $this->getEnclosure(),
             'encoding'   => $this->getEncoding(),
-            'header'     => $this->isHeader(),
+            'bom'        => $this->isBom(),
             // Global validation rules
-            'strict_column_order'    => $this->isStrictColumnOrder(),
-            'other_columns_possible' => $this->isOtherColumnsPossible(),
+            // 'strict_column_order'    => $this->isStrictColumnOrder(),  // TODO Implement me
+            // 'other_columns_possible' => $this->isOtherColumnsPossible(),  // TODO Implement me
         ];
     }
 }

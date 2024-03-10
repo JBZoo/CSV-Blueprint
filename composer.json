@@ -37,7 +37,8 @@
 
     "require-dev"       : {
         "roave/security-advisories" : "dev-latest",
-        "jbzoo/toolbox-dev"         : "^7.1"
+        "jbzoo/toolbox-dev"         : "^7.1",
+        "jbzoo/markdown": "^7.0"
     },
 
     "autoload"          : {
