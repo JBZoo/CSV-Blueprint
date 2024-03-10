@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Validators\Rules;
 
-final class IsEmail extends AbstarctRule
+class UsaMarketName extends AllowValues
 {
     public function validateRule(?string $cellValue): ?string
     {
@@ -24,8 +24,9 @@ final class IsEmail extends AbstarctRule
             return null;
         }
 
-        if (!\filter_var($cellValue, \FILTER_VALIDATE_EMAIL)) {
-            return "Value \"{$cellValue}\" is not a valid email";
+        if (!\preg_match('/^[A-Za-z0-9\s-]+, [A-Z]{2}$/u', $cellValue)) {
+            return 'Invalid market name format for value "' . $cellValue . '". ' .
+                'Market name must have format "New York, NY"';
         }
 
         return null;

@@ -20,6 +20,10 @@ final class IsLatitude extends IsFloat
 {
     public function validateRule(?string $cellValue): ?string
     {
+        if (!$this->getOptionAsBool()) {
+            return null;
+        }
+
         $result = parent::validateRule($cellValue);
         if ($result) {
             return $result;

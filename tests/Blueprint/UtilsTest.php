@@ -14,9 +14,12 @@
 
 declare(strict_types=1);
 
-namespace JBZoo\PHPUnit;
+namespace JBZoo\PHPUnit\Blueprint;
 
 use JBZoo\CsvBlueprint\Utils;
+use JBZoo\PHPUnit\PHPUnit;
+
+use function JBZoo\PHPUnit\isSame;
 
 final class UtilsTest extends PHPUnit
 {

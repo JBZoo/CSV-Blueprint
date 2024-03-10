@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Validators\Rules;
 
 use JBZoo\CsvBlueprint\Utils;
+use JBZoo\CsvBlueprint\Validators\Error;
 
 use function JBZoo\Data\data;
 use function JBZoo\Utils\bool;
@@ -39,12 +40,10 @@ abstract class AbstarctRule
         $this->ruleCode     = $this->getRuleCode();
     }
 
-    public function validate(?string $cellValue, int $line = 0): ?string
+    public function validate(?string $cellValue, int $line = 0): ?Error
     {
         if ($error = $this->validateRule($cellValue)) {
-            $error = \rtrim($error, '.'); // Remove last dot to make the final message nice.
-
-            return "Error \"{$this->ruleCode}\" at line {$line}, column \"{$this->columnNameId}\". {$error}.";
+            return new Error($this->ruleCode, $error, $this->columnNameId, $line);
         }
 
         return null;

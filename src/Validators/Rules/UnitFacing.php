@@ -20,6 +20,10 @@ class UnitFacing extends AllowValues
 {
     public function validateRule(?string $cellValue): ?string
     {
+        if (!$this->getOptionAsBool()) {
+            return null;
+        }
+
         return parent::validateRule((string)$cellValue);
     }
 

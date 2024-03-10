@@ -14,17 +14,20 @@
 
 declare(strict_types=1);
 
-namespace JBZoo\PHPUnit;
+namespace JBZoo\PHPUnit\Blueprint;
 
 use JBZoo\CsvBlueprint\Csv\CsvFile;
+use JBZoo\PHPUnit\PHPUnit;
+
+use function JBZoo\PHPUnit\isSame;
 
 final class CsvReaderTest extends PHPUnit
 {
-    private const CSV_SIMPLE_HEADER    = __DIR__ . '/fixtures/simple_header.csv';
-    private const CSV_SIMPLE_NO_HEADER = __DIR__ . '/fixtures/simple_no_header.csv';
+    private const CSV_SIMPLE_HEADER    = PROJECT_TESTS . '/fixtures/simple_header.csv';
+    private const CSV_SIMPLE_NO_HEADER = PROJECT_TESTS . '/fixtures/simple_no_header.csv';
 
-    private const SCHEMA_SIMPLE_HEADER    = __DIR__ . '/schemas/simple_header.yml';
-    private const SCHEMA_SIMPLE_NO_HEADER = __DIR__ . '/schemas/simple_no_header.yml';
+    private const SCHEMA_SIMPLE_HEADER    = PROJECT_TESTS . '/schemas/simple_header.yml';
+    private const SCHEMA_SIMPLE_NO_HEADER = PROJECT_TESTS . '/schemas/simple_no_header.yml';
 
     public function testReadCsvFileWithoutHeader(): void
     {

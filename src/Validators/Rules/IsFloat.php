@@ -20,6 +20,10 @@ class IsFloat extends AbstarctRule
 {
     public function validateRule(?string $cellValue): ?string
     {
+        if (!$this->getOptionAsBool()) {
+            return null;
+        }
+
         if (!\preg_match('/^-?\d+(\.\d+)?$/', $cellValue)) {
             return "Value \"{$cellValue}\" is not a float number";
         }

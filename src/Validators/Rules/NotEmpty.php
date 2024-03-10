@@ -20,6 +20,10 @@ final class NotEmpty extends AbstarctRule
 {
     public function validateRule(?string $cellValue): ?string
     {
+        if (!$this->getOptionAsBool()) {
+            return null;
+        }
+
         if ($cellValue === null || $cellValue === '') {
             return 'Value is empty';
         }

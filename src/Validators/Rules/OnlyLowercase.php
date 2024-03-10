@@ -20,6 +20,10 @@ final class OnlyLowercase extends AbstarctRule
 {
     public function validateRule(?string $cellValue): ?string
     {
+        if (!$this->getOptionAsBool()) {
+            return null;
+        }
+
         if ($cellValue !== null && $cellValue !== \mb_strtolower($cellValue)) {
             return "Value \"{$cellValue}\" should be in lowercase";
         }

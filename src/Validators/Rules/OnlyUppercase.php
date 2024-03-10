@@ -20,6 +20,10 @@ final class OnlyUppercase extends AbstarctRule
 {
     public function validateRule(?string $cellValue): ?string
     {
+        if (!$this->getOptionAsBool()) {
+            return null;
+        }
+
         if ($cellValue !== null && \mb_strtoupper($cellValue, 'UTF-8') !== $cellValue) {
             return "Value \"{$cellValue}\" is not uppercase";
         }

@@ -28,6 +28,9 @@ final class Validator
         $this->ruleset = new Ruleset($column->getRules(), $column->getHumanName());
     }
 
+    /**
+     * @return Error[]
+     */
     public function validate(?string $cellValue, int $line): array
     {
         return $this->ruleset->validate($cellValue, $line);

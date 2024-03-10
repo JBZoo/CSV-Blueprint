@@ -14,14 +14,23 @@
 
 declare(strict_types=1);
 
-namespace JBZoo\PHPUnit;
+namespace JBZoo\PHPUnit\Blueprint;
 
 use JBZoo\CsvBlueprint\Schema;
+use JBZoo\PHPUnit\PHPUnit;
+
+use function JBZoo\PHPUnit\isEmpty;
+use function JBZoo\PHPUnit\isFalse;
+use function JBZoo\PHPUnit\isNotEmpty;
+use function JBZoo\PHPUnit\isNotNull;
+use function JBZoo\PHPUnit\isNull;
+use function JBZoo\PHPUnit\isSame;
+use function JBZoo\PHPUnit\isTrue;
 
 final class SchemaTest extends PHPUnit
 {
-    private const SCHEMA_EXAMPLE_EMPTY = __DIR__ . '/schemas/example_empty.yml';
-    private const SCHEMA_EXAMPLE_FULL  = __DIR__ . '/schemas/example_full.yml';
+    private const SCHEMA_EXAMPLE_EMPTY = PROJECT_TESTS . '/schemas/example_empty.yml';
+    private const SCHEMA_EXAMPLE_FULL  = PROJECT_TESTS . '/schemas/example_full.yml';
 
     public function testFilename(): void
     {

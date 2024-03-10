@@ -20,6 +20,10 @@ final class OnlyCapitalize extends AbstarctRule
 {
     public function validateRule(?string $cellValue): ?string
     {
+        if (!$this->getOptionAsBool()) {
+            return null;
+        }
+
         if ($cellValue !== null && $cellValue !== \ucfirst($cellValue)) {
             return "Value \"{$cellValue}\" should be in capitalize";
         }
