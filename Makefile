@@ -46,7 +46,8 @@ demo-github: ##@Project Run demo invalid CSV
 	@${PHP_BIN} ./csv-blueprint validate:csv      \
        --csv=./tests/fixtures/demo.csv            \
        --schema=./tests/schemas/demo_invalid.yml  \
-       --output=$(OUTPUT)
+       --output=$(OUTPUT)                         \
+       --ansi
 
 
 demo: ##@Project Run all demo commands
