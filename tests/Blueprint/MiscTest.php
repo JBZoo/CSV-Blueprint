@@ -106,7 +106,7 @@ final class MiscTest extends PHPUnit
 
     public function testCheckPhpSchemaExampleInReadme(): void
     {
-        $this->testCheckExampleInReadme(PROJECT_ROOT . '/schema-examples/full.php', 'php', 'PHP Array as file', 14);
+        $this->testCheckExampleInReadme(PROJECT_ROOT . '/schema-examples/full.php', 'php', 'PHP Format', 14);
     }
 
     public function testCheckJsonSchemaExampleInReadme(): void

@@ -142,14 +142,14 @@ columns:
 
 
 <details>
-  <summary>Click to see: PHP Array as file</summary>
+  <summary>Click to see: PHP Format</summary>
 
 ```php
 <?php
 declare(strict_types=1);
 
 return [
-    'csv'     => [
+    'csv' => [
         'header'     => true,
         'delimiter'  => ',',
         'quote_char' => '\\',
