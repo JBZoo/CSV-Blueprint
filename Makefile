@@ -10,6 +10,7 @@
 # @see        https://github.com/JBZoo/Csv-Blueprint
 #
 
+.PHONY: build
 
 ifneq (, $(wildcard ./vendor/jbzoo/codestyle/src/init.Makefile))
     include ./vendor/jbzoo/codestyle/src/init.Makefile
@@ -17,10 +18,21 @@ endif
 
 OUTPUT ?= table
 
-update: ##@Project Install/Update all 3rd party dependencies
+build: ##@Project Install all 3rd party dependencies
 	$(call title,"Install/Update all 3rd party dependencies")
+	@composer install
+	@make build-phar
+	@make create-symlink
+
+
+update: ##@Project Install/Update all 3rd party dependencies
 	@echo "Composer flags: $(JBZOO_COMPOSER_UPDATE_FLAGS)"
 	@composer update $(JBZOO_COMPOSER_UPDATE_FLAGS)
+	@make build-phar
+
+
+create-symlink: ##@Project Create Symlink (alias for testing)
+	@ln -sfv `pwd`/ci-report-converter `pwd`/vendor/bin/ci-report-converter
 
 
 test-all: ##@Project Run all project tests at once

@@ -42,6 +42,8 @@
         "jbzoo/toolbox-dev"         : "^7.1"
     },
 
+    "bin"               : ["csv-blueprint"],
+
     "autoload"          : {
         "psr-4" : {"JBZoo\\CsvBlueprint\\" : "src"}
     },
