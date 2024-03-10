@@ -132,12 +132,26 @@ final class MiscTest extends PHPUnit
         );
 
         if ($type === 'php') {
-            $filepath = \implode("\n", ["```php", '<?php', $filepath, '```']);
+            $tmpl = \implode("\n", ["```php", '<?php', $filepath, '```']);
         } else {
             $tmpl = \implode("\n", ["```{$type}", $filepath, '```']);
         }
-        $tmpl = Markdown::spoiler("Click to see {$title}", $tmpl);
+
+        $tmpl = $this->getSpoiler("Click to see {$title}", $tmpl);
 
         isFileContains($tmpl, PROJECT_ROOT . '/README.md');
+    }
+
+    private function getSpoiler(string $title, string $body): string
+    {
+        return \implode("\n", [
+            '<details>',
+            "  <summary>{$title}</summary>",
+            '',
+            "{$body}",
+            '',
+            '</details>',
+            '',
+        ]);
     }
 }

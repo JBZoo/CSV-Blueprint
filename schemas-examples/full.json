@@ -29,7 +29,7 @@
                 "max"                : 100,
                 "min_length"         : 1,
                 "max_length"         : 10,
-                "min_date"           : '2000-01-02',
+                "min_date"           : "2000-01-02",
                 "max_date"           : "now",
                 "not_empty"          : true,
                 "only_capitalize"    : true,
