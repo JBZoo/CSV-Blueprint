@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Toolbox - Csv-Blueprint.
+
+    This file is part of the JBZoo Toolbox project.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @license    MIT
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @see        https://github.com/JBZoo/Csv-Blueprint
+-->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         bootstrap="tests/autoload.php"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         convertDeprecationsToExceptions="true"
+         executionOrder="random"
+         processIsolation="false"
+         stopOnError="false"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
+         stopOnSkipped="false"
+         stopOnRisky="false"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+>
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+        <report>
+            <clover outputFile="build/coverage_xml/main.xml"/>
+            <html outputDirectory="build/coverage_html"
+                  lowUpperBound="75"
+                  highLowerBound="95"/>
+            <php outputFile="build/coverage_cov/main.cov"/>
+            <text outputFile="php://stdout"
+                  showUncoveredFiles="true"
+                  showOnlySummary="false"/>
+        </report>
+    </coverage>
+
+    <testsuites>
+        <testsuite name="All">
+            <directory suffix="Test.php">tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <logging>
+        <junit outputFile="build/coverage_junit/main.xml"/>
+    </logging>
+</phpunit>

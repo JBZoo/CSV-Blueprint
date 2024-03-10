@@ -1,0 +1,201 @@
+#
+# JBZoo Toolbox - Csv-Blueprint.
+#
+# This file is part of the JBZoo Toolbox project.
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# @license    MIT
+# @copyright  Copyright (C) JBZoo.com, All rights reserved.
+# @see        https://github.com/JBZoo/Csv-Blueprint
+#
+
+# Name:         Example Schema
+# Description:  Example schema for CSV file
+# Version:      1.0.0
+# Author:       Denis Smetannikov
+# Created:      2023-03-09
+
+# File name pattern to match. If not set, then no pattern check
+finename_pattern: ^example\.csv$
+
+
+# Include another schemas
+includes: # Alias is always required
+  - /path/schema_1.yml   as alias_1 # Full path to another schema.
+  - ./path/schema_2.yml  as alias_2 # Relative path based on the current schema path.
+  - ../path/schema_3.yml as alias_3 # Relative path based on the current schema path. Go up one level.
+
+
+csv: # How to parse file before validation
+  inherit: alias_1                  # Inherited from another schema. Options above will overwrite inherited options.
+  bom: false                        # true - file starts with BOM, false - no BOM
+  delimiter: ,                      # delimiter char to separate cells
+  quote_char: \                     # quote char to escape special characters
+  enclosure: "\""                   # enclosure char to escape special characters
+  line_terminator: 11               # line terminator char (CR - \r, LF - \n, CRLF - \r\n)
+  encoding: utf-8                   # file encoding (utf-8, utf-16, etc.)
+  header: true                      # true - first row is header, false - no header
+  strict_column_order: true         # true - columns must be in the same order as in the schema, false - no strict
+  other_columns_possible: true      # true - other columns are allowed, false - no other columns
+
+
+columns:
+  - invalid_option: true            # Just to test super minimal configuration
+
+  - name: General available options # Can be optional if csv\header: false. If set, then header must contain this value
+    description: Some description   # Any custom description
+    type: some_type                 # Can be optional. At your own risk! If empty, then use Validator\Base
+    required: true                  # If true, then column must be present in the file
+    rules:
+      allow_empty: true             # If true, then column can be empty string
+      regex: ^[a-zA-Z0-9]+$         # If set, then value must match the regex
+    aggregate_rules:
+      unique: false
+      sorted: asc                   # asc, desc, none
+      sorted_flag: SORT_NATURAL     # See sort flags: https://www.php.net/manual/en/function.sort.php
+      count_min: 1
+      count_max: 10
+      count_empty_min: 1
+      count_empty_max: 10
+      count_filled_min: 1
+      count_filled_max: 10
+      custom_1: # Custom rule name. Format: custom_{name}
+        class: My\Aggregate\Rules1 # Full name of PHP Class (with namespace)
+        args: [ value ]   # Optional arguments to customize the rule
+      custom_2:
+        class: My\Aggregate\Rules2
+        args: [ value1, value2 ]
+      custom_my_favorite_name:
+        class: My\Aggregate\RulesXXX
+
+  - name: Some String
+    type: string                    # Inherited from Validator\Base
+    rules:
+      min_length: 1
+      max_length: 10
+      only_trimed: false
+      only_uppercase: false
+      only_lowercase: false
+      only_capitalize: false
+
+  - name: Some Integer
+    type: integer                   # Inherited from Validator\String
+    rules:
+      min: 0
+      max: 100
+    aggregate_rules:
+      std_dev_min: 1
+      std_dev_max: 10
+      percentile_min: 1
+      percentile_max: 10
+      first_value: 1
+      last_value: 10
+      average_min: 1
+      average_max: 10
+      median_min: 1
+      median_max: 10
+      mode_min: 1
+      mode_max: 10
+      sum_min: 1
+      sum_max: 10
+      moving_average_min: 1
+      moving_average_max: 10
+      geometric_mean_min: 1
+      geometric_mean_max: 10
+      harmonic_mean_min: 1
+      harmonic_mean_max: 10
+      root_mean_square_min: 1
+      root_mean_square_max: 10
+
+  - name: Some Float
+    type: float                     # Inherited from Validator\Integer
+    rules:
+      min: 0.0
+      max: 100.0
+      precision: 2                  # If set to 0, then no precision check. Default is 0
+
+  - name: Some Date
+    type: date                      # Inherited from Validator\String
+    rules:
+      min_date: 2023-06-05
+      max_date: 2025-06-05
+      date_format: YYYY-MM-DD            # PHP date format. If not set, then no format check
+
+  - name: Some Enum
+    type: enum                      # Inherited from Validator\String
+    rules:
+      multiple: true
+      multiple_separator: |         # Separator for multiple values
+      allow_values: [ value1, value2, value3 ]
+
+  - name: Some Boolean
+    type: boolean                   # Inherited from Validator\Base
+    rules:
+      true_values: [ true, 1, yes, y ]
+      false_values: [ false, 0, no, n, null ]
+
+  - name: Some Inherited
+    inherit: alias_1\Column Name    # Inherited from another schema
+    rules: # Overwrite rules from another schema
+      true_values: [ true, 1, yes ]
+
+  # Exrta rules for some types. Actually, it's just customizations of the base rules above.
+
+  - name: Some Latitude
+    type: latitude                  # Inherited from Validator\Float
+    rules:
+      min: -90.0
+      max: 90.0
+
+  - name: Some Longitude
+    type: longitude                 # Inherited from Validator\Float
+    rules:
+      min: -180.0
+      max: 180.0
+
+  # Tooooo custom rules
+
+  - name: Some URL
+    type: url                       # Inherited from Validator\String
+    rules:
+      scheme: https                 # Can be set of schemes [http, https, ftp]
+      host: example.com             # Can be regex
+      path: /some/path              # Can be regex
+      query: p1=val1&p2=val2        # Can be regex
+      fragment: some-fragment       # Can be regex
+      port: 443                     # Can be set of ports [80, 443, 8080]
+      username: user                # Can be regex
+      password: password            # Can be regex
+
+  - name: Some Email
+    type: email                     # Inherited from Validator\String
+    rules:
+      domain: example.com           # Can be regex
+      user: user                    # Can be regex
+
+  - name: Some IP
+    type: ip                        # Inherited from Validator\String
+    rules:
+      subnets: [ 192.168.1.2/24 ]   # If not set, then no subnet check
+
+  - name: Some UUID
+    type: uuid
+
+  - name: Some Custom Rule
+    type: My\Custom\Type            # Full name of PHP Class (with namespace). Must be inherited from Validator\Base
+    rules:
+      rule1: value1
+      rule2: value2
+
+
+complex_rules:
+  - handler: My\Complex\Rule        # Full name of PHP Class (with namespace)
+    handler_args:
+      - column:0
+      - column:1
+
+  - handler: My\Complex\Rule        # Full name of PHP Class (with namespace)
+    handler_args:
+      - Some String
+      - Some Integer

@@ -1,0 +1,63 @@
+{
+    "name"              : "jbzoo/csv-blueprint",
+    "type"              : "library",
+    "description"       : "CLI Utility for Validating and Generating CSV Files Based on Custom Rules. It ensures your data meets specified criteria, streamlining data management and integrity checks.",
+    "license"           : "MIT",
+    "keywords"          : [
+        "jbzoo",
+        "csv",
+        "csv-validator",
+        "csv-validation",
+        "csv-generation",
+        "csv-format",
+        "csv-rules",
+        "csv-schema"
+    ],
+
+    "authors"           : [
+        {
+            "name"  : "Denis Smetannikov",
+            "email" : "admin@jbzoo.com",
+            "role"  : "lead"
+        }
+    ],
+
+    "minimum-stability" : "dev",
+    "prefer-stable"     : true,
+
+    "require"           : {
+        "php"                       : "^8.1",
+        "ext-mbstring"              : "*",
+
+        "jbzoo/data"                : "^7.1",
+        "jbzoo/cli"                 : "^7.1",
+        "jbzoo/utils"               : "^7.1",
+        "jbzoo/ci-report-converter" : "^7.2",
+        "league/csv"                : "^9.15",
+        "fakerphp/faker"            : "^1.23"
+    },
+
+    "require-dev"       : {
+        "roave/security-advisories" : "dev-latest",
+        "jbzoo/toolbox-dev"         : "^7.1"
+    },
+
+    "autoload"          : {
+        "psr-4" : {"JBZoo\\CsvBlueprint\\" : "src"}
+    },
+
+    "autoload-dev"      : {
+        "psr-4" : {"JBZoo\\PHPUnit\\" : "tests"}
+    },
+
+    "config"            : {
+        "optimize-autoloader" : true,
+        "allow-plugins"       : {"composer/package-versions-deprecated" : true}
+    },
+
+    "extra"             : {
+        "branch-alias" : {
+            "dev-master" : "7.x-dev"
+        }
+    }
+}

@@ -1,0 +1,40 @@
+#
+# JBZoo Toolbox - Csv-Blueprint.
+#
+# This file is part of the JBZoo Toolbox project.
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# @license    MIT
+# @copyright  Copyright (C) JBZoo.com, All rights reserved.
+# @see        https://github.com/JBZoo/Csv-Blueprint
+#
+
+columns:
+  - name: Name
+    rules:
+      not_empty: true
+      min_length: 4
+      max_length: 7
+
+  - name: City
+    rules:
+      not_empty: true
+      only_capitalize: true
+
+  - name: Float
+    rules:
+      not_empty: true
+      is_float: true
+      min: -19366059128
+      max: 74606
+
+  - name: Birthday
+    rules:
+      not_empty: true
+      date_format: Y-m-d
+
+  - name: Favorite color
+    rules:
+      not_empty: true
+      allow_values: [ red, green, blue ]
