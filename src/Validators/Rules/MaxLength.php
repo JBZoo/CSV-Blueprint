@@ -21,8 +21,9 @@ final class MaxLength extends AbstarctRule
     public function validateRule(?string $cellValue): ?string
     {
         $minLength = $this->getOptionAsInt();
-        $length    = \mb_strlen($cellValue);
-        if (\mb_strlen($cellValue) > $minLength) {
+        $length    = \mb_strlen((string)$cellValue);
+
+        if ($length > $minLength) {
             return "Value \"{$cellValue}\" (legth: {$length}) is too long. Max length is {$minLength}";
         }
 

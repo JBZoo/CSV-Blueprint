@@ -20,7 +20,6 @@ use JBZoo\CsvBlueprint\Csv\Column;
 
 final class Validator
 {
-    private Column  $column;
     private Ruleset $ruleset;
 
     public function __construct(Column $column)
@@ -28,9 +27,6 @@ final class Validator
         $this->ruleset = new Ruleset($column->getRules(), $column->getHumanName());
     }
 
-    /**
-     * @return Error[]
-     */
     public function validate(?string $cellValue, int $line): ErrorSuite
     {
         return $this->ruleset->validate($cellValue, $line);

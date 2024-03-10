@@ -24,7 +24,7 @@ final class OnlyTrimed extends AbstarctRule
             return null;
         }
 
-        if (\trim($cellValue) !== $cellValue) {
+        if (\trim((string)$cellValue) !== (string)$cellValue) {
             return "Value \"{$cellValue}\" is not trimmed";
         }
 

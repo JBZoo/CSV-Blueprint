@@ -19,7 +19,6 @@ namespace JBZoo\CsvBlueprint\Csv;
 use JBZoo\CsvBlueprint\Schema;
 use JBZoo\CsvBlueprint\Validators\Error;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
-use League\Csv\ByteSequence;
 use League\Csv\Reader as LeagueReader;
 use League\Csv\Statement;
 
@@ -32,11 +31,11 @@ final class CsvFile
 
     public function __construct(string $csvFilename, null|array|string $csvSchemaFilenameOrArray = null)
     {
-        if (\realpath($csvFilename) && \file_exists($csvFilename) === false) {
+        if (\realpath($csvFilename) !== false && \file_exists($csvFilename) === false) {
             throw new \InvalidArgumentException('File not found: ' . $csvFilename);
         }
 
-        $this->csvFilename = \realpath($csvFilename);
+        $this->csvFilename = $csvFilename;
         $this->schema      = new Schema($csvSchemaFilenameOrArray);
         $this->structure   = $this->schema->getCsvStructure();
         $this->reader      = $this->prepareReader();
@@ -44,7 +43,7 @@ final class CsvFile
 
     public function getCsvFilename(): string
     {
-        return \str_replace(PROJECT_ROOT, '.', $this->csvFilename);
+        return \str_replace(PROJECT_ROOT, '.', (string)\realpath($this->csvFilename));
     }
 
     public function getCsvStructure(): ParseConfig
@@ -64,15 +63,18 @@ final class CsvFile
         return [];
     }
 
-    public function getRecords(): \League\Csv\MapIterator
+    /**
+     * @return iterable|\League\Csv\MapIterator
+     */
+    public function getRecords(): iterable
     {
         return $this->reader->getRecords($this->getHeader());
     }
 
-    public function getRecordsChunk(int $offset = 0, int $limit = -1): \League\Csv\ResultSet
-    {
-        return Statement::create(null, $offset, $limit)->process($this->reader, $this->getHeader());
-    }
+    //    public function getRecordsChunk(int $offset = 0, int $limit = -1): \League\Csv\ResultSet
+    //    {
+    //        return Statement::create(null, $offset, $limit)->process($this->reader, $this->getHeader());
+    //    }
 
     public function validate(bool $quickStop = false): ErrorSuite
     {
@@ -95,15 +97,6 @@ final class CsvFile
 
         if ($this->structure->isBom()) {
             $reader->includeInputBOM();
-
-            $encoding = $this->structure->getEncoding();
-            if ($encoding === CsvStructure::ENCODING_UTF8) {
-                $reader->setOutputBOM(ByteSequence::BOM_UTF8);
-            } elseif ($encoding === CsvStructure::ENCODING_UTF16) {
-                $reader->setOutputBOM(ByteSequence::BOM_UTF16_LE);
-            } elseif ($encoding === CsvStructure::ENCODING_UTF32) {
-                $reader->setOutputBOM(ByteSequence::BOM_UTF32_LE);
-            }
         } else {
             $reader->skipInputBOM();
         }
@@ -149,7 +142,7 @@ final class CsvFile
 
                 $errors->addErrorSuit($column->validate($record[$column->getKey()], $line + 1));
                 if ($quickStop && $errors->count() > 0) {
-                    return $errorAcc;
+                    return $errors;
                 }
             }
         }
@@ -159,6 +152,12 @@ final class CsvFile
 
     private function validateAggregateRules(bool $quickStop = false): ErrorSuite
     {
+        $errors = new ErrorSuite();
+
+        if ($quickStop && $errors->count() > 0) {
+            return $errors;
+        }
+
         return new ErrorSuite();
     }
 }

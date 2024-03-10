@@ -24,7 +24,7 @@ final class IsIp extends AbstarctRule
             return null;
         }
 
-        if (!\filter_var($cellValue, \FILTER_VALIDATE_IP)) {
+        if (\filter_var($cellValue, \FILTER_VALIDATE_IP) === false) {
             return "Value \"{$cellValue}\" is not a valid IP";
         }
 

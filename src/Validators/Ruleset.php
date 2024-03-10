@@ -36,16 +36,13 @@ final class Ruleset
 
     public function createRule(string $ruleName, null|array|bool|float|int|string $options = null): AbstarctRule
     {
-        if (\class_exists($ruleName)) {
-            return new $ruleName($this->columnNameId, $options);
-        }
-
         $classname = __NAMESPACE__ . '\\Rules\\' . Utils::kebabToCamelCase($ruleName);
         if (\class_exists($classname)) {
+            // @phpstan-ignore-next-line
             return new $classname($this->columnNameId, $options);
         }
 
-        throw new Exception("Rule \"{$ruleName}\" not found. Expected class: {$classname}");
+        throw new Exception("Rule \"{$ruleName}\" not found. Expected class: \"{$classname}\"");
     }
 
     public function validate(?string $cellValue, int $line): ErrorSuite

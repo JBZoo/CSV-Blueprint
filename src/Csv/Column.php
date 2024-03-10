@@ -70,7 +70,11 @@ final class Column
 
     public function getKey(): string
     {
-        return $this->getName() ?: (string)$this->getId();
+        if ($this->getName() !== '') {
+            return $this->getName();
+        }
+
+        return (string)$this->getId();
     }
 
     public function getType(): string
@@ -114,7 +118,7 @@ final class Column
     {
         $rules = [];
 
-        $ruleSetConfig = $this->column->getSelf($schemaKey, self::FALLBACK_VALUES[$schemaKey]);
+        $ruleSetConfig = $this->column->getSelf($schemaKey, []);
 
         foreach ($ruleSetConfig as $ruleName => $ruleValue) {
             if (\str_starts_with($ruleName, 'custom_')) {

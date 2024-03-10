@@ -21,16 +21,16 @@ final class DateFormat extends AbstarctRule
     public function validateRule(?string $cellValue): ?string
     {
         $expectedDateFormat = $this->getOptionAsString();
-        if (!$expectedDateFormat) {
+        if ($expectedDateFormat === '') {
             return 'Date format is not defined';
         }
 
-        if (!$cellValue) {
+        if ($cellValue === null || $cellValue === '') {
             return 'Date format of value "" is not valid. Expected format: "' . $expectedDateFormat . '"';
         }
 
         $date = \DateTimeImmutable::createFromFormat($expectedDateFormat, $cellValue);
-        if (!$date || $date->format($expectedDateFormat) !== $cellValue) {
+        if ($date === false || $date->format($expectedDateFormat) !== $cellValue) {
             return "Date format of value \"{$cellValue}\" is not valid. Expected format: \"{$expectedDateFormat}\"";
         }
 

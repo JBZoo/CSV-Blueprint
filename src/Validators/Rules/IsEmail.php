@@ -24,7 +24,7 @@ final class IsEmail extends AbstarctRule
             return null;
         }
 
-        if (!\filter_var($cellValue, \FILTER_VALIDATE_EMAIL)) {
+        if (\filter_var($cellValue, \FILTER_VALIDATE_EMAIL) === false) {
             return "Value \"{$cellValue}\" is not a valid email";
         }
 

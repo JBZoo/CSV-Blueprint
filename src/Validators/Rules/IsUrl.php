@@ -24,7 +24,7 @@ final class IsUrl extends AbstarctRule
             return null;
         }
 
-        if (!\filter_var($cellValue, \FILTER_VALIDATE_URL)) {
+        if (\filter_var($cellValue, \FILTER_VALIDATE_URL) === false) {
             return "Value \"{$cellValue}\" is not a valid URL";
         }
 

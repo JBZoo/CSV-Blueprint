@@ -25,7 +25,7 @@ final class IsLatitude extends IsFloat
         }
 
         $result = parent::validateRule($cellValue);
-        if ($result) {
+        if ($result !== '') {
             return $result;
         }
 

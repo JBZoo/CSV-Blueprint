@@ -26,7 +26,7 @@ final class IsDomain extends AbstarctRule
 
         $domainPattern = '/^(?!-)[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,})$/';
 
-        if (!\preg_match($domainPattern, $cellValue)) {
+        if (\preg_match($domainPattern, (string)$cellValue) === false) {
             return "Value \"{$cellValue}\" is not a valid domain";
         }
 

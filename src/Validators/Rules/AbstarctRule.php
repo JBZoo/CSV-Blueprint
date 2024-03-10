@@ -18,8 +18,10 @@ namespace JBZoo\CsvBlueprint\Validators\Rules;
 
 use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\Error;
+use JBZoo\Data\Data;
 
 use function JBZoo\Data\data;
+use function JBZoo\Data\json;
 use function JBZoo\Utils\bool;
 use function JBZoo\Utils\float;
 use function JBZoo\Utils\int;
@@ -33,7 +35,7 @@ abstract class AbstarctRule
 
     abstract public function validateRule(?string $cellValue): ?string;
 
-    public function __construct(?string $columnNameId, null|array|bool|float|int|string $options = null)
+    public function __construct(string $columnNameId, null|array|bool|float|int|string $options = null)
     {
         $this->columnNameId = $columnNameId;
         $this->options      = $options;
@@ -42,7 +44,8 @@ abstract class AbstarctRule
 
     public function validate(?string $cellValue, int $line = 0): ?Error
     {
-        if ($error = $this->validateRule($cellValue)) {
+        $error = $this->validateRule($cellValue);
+        if ($error !== null) {
             return new Error($this->ruleCode, $error, $this->columnNameId, $line);
         }
 
@@ -56,6 +59,10 @@ abstract class AbstarctRule
 
     protected function getOptionAsString(): string
     {
+        if (\is_array($this->options)) {
+            return (string)json($this->options);
+        }
+
         return (string)$this->options;
     }
 
@@ -74,7 +81,7 @@ abstract class AbstarctRule
         return (array)$this->options;
     }
 
-    protected function getOptionAsData(): array
+    protected function getOptionAsData(): Data
     {
         return data($this->options);
     }

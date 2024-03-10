@@ -93,7 +93,7 @@ final class ValidateCsv extends CliCommand
         }
 
         if ($this->isTextMode()) {
-            $this->_('<blue>CSV    :</blue> ' . \str_replace(PATH_ROOT, '.', \realpath($csvFilename)));
+            $this->_('<blue>CSV    :</blue> ' . \realpath($csvFilename));
         }
 
         return $csvFilename;
@@ -108,7 +108,7 @@ final class ValidateCsv extends CliCommand
         }
 
         if ($this->isTextMode()) {
-            $this->_('<blue>Schema :</blue> ' . \str_replace(PATH_ROOT, '.', \realpath($schemaFilename)));
+            $this->_('<blue>Schema :</blue> ' . \realpath($schemaFilename));
         }
 
         return $schemaFilename;

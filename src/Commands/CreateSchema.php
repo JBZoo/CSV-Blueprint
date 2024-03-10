@@ -20,8 +20,6 @@ use JBZoo\Cli\CliCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-use function JBZoo\Data\yml;
-
 final class CreateSchema extends CliCommand
 {
     protected function configure(): void
@@ -53,9 +51,6 @@ final class CreateSchema extends CliCommand
 
     protected function executeAction(): int
     {
-        $yml = '/Users/smetdenis/Work/projects/jbzoo-csv-validator/tests/rules/example.yml';
-        dump(yml($yml));
-
-        return self::SUCCESS;
+        throw new \RuntimeException('Not implemented yet');
     }
 }

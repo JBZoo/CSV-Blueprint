@@ -21,7 +21,7 @@ final class MinDate extends AbstarctRule
     public function validateRule(?string $cellValue): ?string
     {
         $minDate  = $this->getOptionAsDate();
-        $cellDate = new \DateTimeImmutable($cellValue);
+        $cellDate = new \DateTimeImmutable((string)$cellValue);
 
         if ($cellDate < $minDate) {
             return "Value \"{$cellValue}\" is less than the minimum " .

@@ -94,7 +94,7 @@ final class ParseConfig
         ];
 
         $result = \in_array($encoding, $availableOptions, true) ? $encoding : null;
-        if ($result) {
+        if ($result !== null) {
             return $result;
         }
 

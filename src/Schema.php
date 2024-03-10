@@ -38,7 +38,11 @@ final class Schema
         if (\is_array($csvSchemaFilenameOrArray)) {
             $this->filename = '_custom_array_';
             $this->data     = new Data($csvSchemaFilenameOrArray);
-        } elseif (\file_exists($csvSchemaFilenameOrArray)) {
+        } elseif (
+            \is_string($csvSchemaFilenameOrArray)
+            && $csvSchemaFilenameOrArray !== ''
+            && \file_exists($csvSchemaFilenameOrArray)
+        ) {
             $this->filename = $csvSchemaFilenameOrArray;
             $fileExtension  = \pathinfo($csvSchemaFilenameOrArray, \PATHINFO_EXTENSION);
             if ($fileExtension === 'yml' || $fileExtension === 'yaml') {
@@ -55,7 +59,7 @@ final class Schema
         $this->columns = $this->prepareColumns();
     }
 
-    public function getFilename(): string
+    public function getFilename(): ?string
     {
         return $this->filename;
     }
@@ -74,7 +78,7 @@ final class Schema
     }
 
     /**
-     * @return Column[]
+     * @return Column[]|null[]
      */
     public function getColumnsMappedByHeader(array $header): array
     {
@@ -88,7 +92,7 @@ final class Schema
         return $map;
     }
 
-    public function getColumn(int|string $columNameOrId)
+    public function getColumn(int|string $columNameOrId): ?Column
     {
         if (\is_int($columNameOrId)) {
             $column = \array_values($this->getColumns())[$columNameOrId] ?? null;
@@ -96,7 +100,7 @@ final class Schema
             $column = $this->getColumns()[$columNameOrId] ?? null;
         }
 
-        if (!$column) {
+        if ($column === null) {
             throw new Exception("Column \"{$columNameOrId}\" not found in schema \"{$this->filename}\"");
         }
 

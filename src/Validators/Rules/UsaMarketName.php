@@ -24,7 +24,7 @@ class UsaMarketName extends AllowValues
             return null;
         }
 
-        if (!\preg_match('/^[A-Za-z0-9\s-]+, [A-Z]{2}$/u', $cellValue)) {
+        if (\preg_match('/^[A-Za-z0-9\s-]+, [A-Z]{2}$/u', (string)$cellValue) === false) {
             return 'Invalid market name format for value "' . $cellValue . '". ' .
                 'Market name must have format "New York, NY"';
         }
