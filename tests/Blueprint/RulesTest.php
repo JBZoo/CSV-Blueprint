@@ -126,6 +126,9 @@ final class RulesTest extends PHPUnit
             '"is_bool" at line 0, column "prop". Value "1" is not allowed. Allowed values: ["true", "false"].',
             (string)$rule->validate('1'),
         );
+
+        $rule = new IsBool('prop', false);
+        isSame(null, $rule->validate('1'));
     }
 
     public function testIsDomain(): void
@@ -139,12 +142,15 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate('sub-sub-example.qwerty'));
         isSame(
             '"is_domain" at line 0, column "prop". Value "example" is not a valid domain.',
-            (string)(string)$rule->validate('example'),
+            (string)$rule->validate('example'),
         );
         isSame(
             '"is_domain" at line 0, column "prop". Value "" is not a valid domain.',
             (string)$rule->validate(''),
         );
+
+        $rule = new IsDomain('prop', false);
+        isSame(null, $rule->validate('example'));
     }
 
     public function testIsEmail(): void
@@ -154,8 +160,11 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate('user@sub.example.com'));
         isSame(
             '"is_email" at line 0, column "prop". Value "user:pass@example.com" is not a valid email.',
-            (string)(string)$rule->validate('user:pass@example.com'),
+            (string)$rule->validate('user:pass@example.com'),
         );
+
+        $rule = new IsEmail('prop', false);
+        isSame(null, $rule->validate('user:pass@example.com'));
     }
 
     public function testIsFloat(): void
@@ -179,6 +188,9 @@ final class RulesTest extends PHPUnit
             '"is_float" at line 0, column "prop". Value " 1" is not a float number.',
             (string)$rule->validate(' 1'),
         );
+
+        $rule = new IsFloat('prop', false);
+        isSame(null, $rule->validate(' 1'));
     }
 
     public function testIsInt(): void
@@ -195,7 +207,7 @@ final class RulesTest extends PHPUnit
         );
         isSame(
             '"is_int" at line 0, column "prop". Value "1.1" is not an integer.',
-            (string)(string)$rule->validate('1.1'),
+            (string)$rule->validate('1.1'),
         );
         isSame(
             '"is_int" at line 0, column "prop". Value "1.0" is not an integer.',
@@ -207,12 +219,15 @@ final class RulesTest extends PHPUnit
         );
         isSame(
             '"is_int" at line 0, column "prop". Value " 1" is not an integer.',
-            (string)(string)$rule->validate(' 1'),
+            (string)$rule->validate(' 1'),
         );
         isSame(
             '"is_int" at line 0, column "prop". Value "1 " is not an integer.',
-            (string)(string)$rule->validate('1 '),
+            (string)$rule->validate('1 '),
         );
+
+        $rule = new IsInt('prop', false);
+        isSame(null, $rule->validate(' 1'));
     }
 
     public function testIsIp(): void
@@ -244,6 +259,9 @@ final class RulesTest extends PHPUnit
             '"is_latitude" at line 0, column "prop". Value "90.1.1.1.1" is not a float number.',
             (string)$rule->validate('90.1.1.1.1'),
         );
+
+        $rule = new IsLatitude('prop', false);
+        isSame(null, $rule->validate('90.1.1.1.1'));
     }
 
     public function testIsLongitude(): void
@@ -269,6 +287,9 @@ final class RulesTest extends PHPUnit
             '"is_longitude" at line 0, column "prop". Value "1.0.0.0" is not a float number.',
             (string)$rule->validate('1.0.0.0'),
         );
+
+        $rule = new IsLongitude('prop', false);
+        isSame(null, $rule->validate('1.0.0.0'));
     }
 
     public function testIsUrl(): void
@@ -285,6 +306,9 @@ final class RulesTest extends PHPUnit
             '"is_url" at line 0, column "prop". Value "//example.com" is not a valid URL.',
             (string)$rule->validate('//example.com'),
         );
+
+        $rule = new IsUrl('prop', false);
+        isSame(null, $rule->validate('//example.com'));
     }
 
     public function testMin(): void
@@ -436,6 +460,9 @@ final class RulesTest extends PHPUnit
             '"not_empty" at line 0, column "prop". Value is empty.',
             (string)$rule->validate(null),
         );
+
+        $rule = new NotEmpty('prop', false);
+        isSame(null, $rule->validate(null));
     }
 
     public function testOnlyCapitalize(): void
@@ -454,6 +481,9 @@ final class RulesTest extends PHPUnit
             '"only_capitalize" at line 0, column "prop". Value "qwe Rty" should be in capitalize.',
             (string)$rule->validate('qwe Rty'),
         );
+
+        $rule = new OnlyCapitalize('prop', false);
+        isSame(null, $rule->validate('qwerty'));
     }
 
     public function testOnlyLowercase(): void
@@ -472,6 +502,9 @@ final class RulesTest extends PHPUnit
             '"only_lowercase" at line 0, column "prop". Value "qwe Rty" should be in lowercase.',
             (string)$rule->validate('qwe Rty'),
         );
+
+        $rule = new OnlyLowercase('prop', false);
+        isSame(null, $rule->validate('Qwerty'));
     }
 
     public function testOnlyUppercase(): void
@@ -489,6 +522,9 @@ final class RulesTest extends PHPUnit
             '"only_uppercase" at line 0, column "prop". Value "qwe Rty" is not uppercase.',
             (string)$rule->validate('qwe Rty'),
         );
+
+        $rule = new OnlyUppercase('prop', false);
+        isSame(null, $rule->validate('Qwerty'));
     }
 
     public function testPrecision(): void
@@ -590,6 +626,9 @@ final class RulesTest extends PHPUnit
             'Market name must have format "New York, NY".',
             (string)$rule->validate(', ST'),
         );
+
+        $rule = new UsaMarketName('prop', false);
+        isSame(null, $rule->validate(', ST'));
     }
 
     public function testIsUuid4(): void
@@ -600,5 +639,8 @@ final class RulesTest extends PHPUnit
             '"is_uuid4" at line 0, column "prop". Value is not a valid UUID v4.',
             (string)$rule->validate('123'),
         );
+
+        $rule = new IsUuid4('prop', false);
+        isSame(null, $rule->validate('123'));
     }
 }

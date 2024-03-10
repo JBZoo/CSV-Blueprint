@@ -56,9 +56,8 @@ final class Schema
             } else {
                 throw new \InvalidArgumentException("Unsupported file extension: {$fileExtension}");
             }
-        } else {
-            $this->filename = null;
-            $this->data     = new Data();
+        } elseif (\is_string($csvSchemaFilenameOrArray)) {
+            throw new \InvalidArgumentException("Invalid schema data: {$csvSchemaFilenameOrArray}");
         }
 
         $this->columns = $this->prepareColumns();

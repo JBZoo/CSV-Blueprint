@@ -33,6 +33,9 @@ final class ValidatorTest extends PHPUnit
     private const SCHEMA_SIMPLE_HEADER    = PROJECT_TESTS . '/schemas/simple_header.yml';
     private const SCHEMA_SIMPLE_NO_HEADER = PROJECT_TESTS . '/schemas/simple_no_header.yml';
 
+    private const SCHEMA_SIMPLE_HEADER_PHP  = PROJECT_TESTS . '/schemas/simple_header.php';
+    private const SCHEMA_SIMPLE_HEADER_JSON = PROJECT_TESTS . '/schemas/simple_header.json';
+
     protected function setUp(): void
     {
         \date_default_timezone_set('UTC');
@@ -57,6 +60,30 @@ final class ValidatorTest extends PHPUnit
     {
         $csv = new CsvFile(self::CSV_SIMPLE_NO_HEADER, self::SCHEMA_SIMPLE_NO_HEADER);
         isSame('', (string)$csv->validate());
+    }
+
+    public function testInvalidSchemaFile(): void
+    {
+        $this->expectExceptionMessage('Invalid schema data: undefined_file_name.yml');
+        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, 'undefined_file_name.yml');
+    }
+
+    public function testSchemaAsPhpFile(): void
+    {
+        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, self::SCHEMA_SIMPLE_HEADER_PHP);
+        isSame(
+            '"min" at line 2, column "0:seq". Value "1" is less than "2".',
+            (string)$csv->validate(),
+        );
+    }
+
+    public function testSchemaAsJsonFile(): void
+    {
+        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, self::SCHEMA_SIMPLE_HEADER_JSON);
+        isSame(
+            '"min" at line 2, column "0:seq". Value "1" is less than "2".',
+            (string)$csv->validate(),
+        );
     }
 
     public function testNotEmptyMessage(): void
@@ -373,6 +400,17 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('yn', 'is_email', true));
         isSame(100, $csv->validate()->count());
+    }
+
+    public function testErrorToArray(): void
+    {
+        $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('yn', 'is_email', true));
+        isSame([
+            'ruleCode'   => 'is_email',
+            'message'    => 'Value "N" is not a valid email',
+            'columnName' => '0:yn',
+            'line'       => 2,
+        ], $csv->validate(true)->get(0)->toArray());
     }
 
     public function testRenderText(): void
