@@ -54,7 +54,7 @@ final class MiscTest extends PHPUnit
 
     public function testFullListOfRules(): void
     {
-        $rulesInConfig = yml(PROJECT_ROOT . '/schemas-examples/full.yml')->findArray('columns.0.rules');
+        $rulesInConfig = yml(PROJECT_ROOT . '/schema-examples/full.yml')->findArray('columns.0.rules');
         $rulesInConfig = \array_keys($rulesInConfig);
         \sort($rulesInConfig);
 
@@ -86,7 +86,7 @@ final class MiscTest extends PHPUnit
 
     public function testCsvStrutureDefaultValues(): void
     {
-        $defaultsInDoc = yml(PROJECT_ROOT . '/schemas-examples/full.yml')->findArray('csv_structure');
+        $defaultsInDoc = yml(PROJECT_ROOT . '/schema-examples/full.yml')->findArray('csv_structure');
 
         $schema = new Schema([]);
         $schema->getCsvStructure()->getArrayCopy();
@@ -97,7 +97,7 @@ final class MiscTest extends PHPUnit
     public function testCheckYmlSchemaExampleInReadme(): void
     {
         $this->testCheckExampleInReadme(
-            PROJECT_ROOT . '/schemas-examples/full.yml',
+            PROJECT_ROOT . '/schema-examples/full.yml',
             'yml',
             'YAML format (with comment)',
             12,
@@ -106,17 +106,17 @@ final class MiscTest extends PHPUnit
 
     public function testCheckPhpSchemaExampleInReadme(): void
     {
-        $this->testCheckExampleInReadme(PROJECT_ROOT . '/schemas-examples/full.php', 'php', 'PHP Array as file', 14);
+        $this->testCheckExampleInReadme(PROJECT_ROOT . '/schema-examples/full.php', 'php', 'PHP Array as file', 14);
     }
 
     public function testCheckJsonSchemaExampleInReadme(): void
     {
-        $this->testCheckExampleInReadme(PROJECT_ROOT . '/schemas-examples/full.json', 'json', 'JSON Format', 0);
+        $this->testCheckExampleInReadme(PROJECT_ROOT . '/schema-examples/full.json', 'json', 'JSON Format', 0);
     }
 
     public function testCompareExamplesWithOrig(): void
     {
-        $basepath = PROJECT_ROOT . '/schemas-examples/full';
+        $basepath = PROJECT_ROOT . '/schema-examples/full';
 
         $origYml = yml("{$basepath}.yml")->getArrayCopy();
 
