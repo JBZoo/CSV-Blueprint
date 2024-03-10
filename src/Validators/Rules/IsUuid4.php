@@ -26,7 +26,7 @@ final class IsUuid4 extends AbstarctRule
 
         $uuid4 = '/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89ABab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/';
 
-        if (\preg_match($uuid4, (string)$cellValue) === false) {
+        if (\preg_match($uuid4, (string)$cellValue) === 0) {
             return 'Value is not a valid UUID v4';
         }
 

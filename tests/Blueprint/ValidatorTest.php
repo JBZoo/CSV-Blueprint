@@ -38,7 +38,7 @@ final class ValidatorTest extends PHPUnit
     public function testUndefinedRule(): void
     {
         $this->expectExceptionMessage(
-            'Rule "undefined_rule" not found. Expected class: JBZoo\CsvBlueprint\Validators\Rules\UndefinedRule',
+            'Rule "undefined_rule" not found. Expected class: "JBZoo\CsvBlueprint\Validators\Rules\UndefinedRule"',
         );
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('seq', 'undefined_rule', true));
         $csv->validate();

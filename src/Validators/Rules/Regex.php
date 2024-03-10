@@ -23,7 +23,8 @@ final class Regex extends AbstarctRule
     public function validateRule(?string $cellValue): ?string
     {
         $regex = Utils::prepareRegex($this->getOptionAsString());
-        if (\preg_match((string)$regex, (string)$cellValue) === false) {
+
+        if (\preg_match((string)$regex, (string)$cellValue) === 0) {
             return "Value \"{$cellValue}\" does not match the pattern \"{$regex}\"";
         }
 

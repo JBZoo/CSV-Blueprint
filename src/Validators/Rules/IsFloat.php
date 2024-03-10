@@ -24,7 +24,7 @@ class IsFloat extends AbstarctRule
             return null;
         }
 
-        if (\preg_match('/^-?\d+(\.\d+)?$/', (string)$cellValue) === false) {
+        if (\preg_match('/^-?\d+(\.\d+)?$/', (string)$cellValue) === 0) {
             return "Value \"{$cellValue}\" is not a float number";
         }
 

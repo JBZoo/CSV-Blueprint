@@ -71,10 +71,10 @@ final class CsvFile
         return $this->reader->getRecords($this->getHeader());
     }
 
-    //    public function getRecordsChunk(int $offset = 0, int $limit = -1): \League\Csv\ResultSet
-    //    {
-    //        return Statement::create(null, $offset, $limit)->process($this->reader, $this->getHeader());
-    //    }
+    public function getRecordsChunk(int $offset = 0, int $limit = -1): \League\Csv\TabularDataReader
+    {
+        return Statement::create(null, $offset, $limit)->process($this->reader, $this->getHeader());
+    }
 
     public function validate(bool $quickStop = false): ErrorSuite
     {
