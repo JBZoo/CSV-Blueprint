@@ -49,24 +49,36 @@ final class ErrorSuite
         return $this->errors;
     }
 
-    public function addError(null|Error $error): self
+    public function addError(?Error $error): self
     {
         if ($error === null) {
             return $this;
         }
 
         $this->errors[] = $error;
+
         return $this;
     }
 
-    public function addErrorSuit(null|self $errorSuite): self
+    public function addErrorSuit(?self $errorSuite): self
     {
         if ($errorSuite === null) {
             return $this;
         }
 
         $this->errors = \array_merge($this->getErrors(), $errorSuite->getErrors());
+
         return $this;
+    }
+
+    public function count(): int
+    {
+        return \count($this->errors);
+    }
+
+    public function get(int $index): ?Error
+    {
+        return $this->errors[$index] ?? null;
     }
 
     private function renderPlainText(): string
@@ -78,15 +90,5 @@ final class ErrorSuite
         }
 
         return \implode("\n", $result);
-    }
-
-    public function count(): int
-    {
-        return \count($this->errors);
-    }
-
-    public function get(int $index): ?Error
-    {
-        return $this->errors[$index] ?? null;
     }
 }

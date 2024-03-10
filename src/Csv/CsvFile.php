@@ -37,9 +37,9 @@ final class CsvFile
         }
 
         $this->csvFilename = \realpath($csvFilename);
-        $this->schema = new Schema($csvSchemaFilenameOrArray);
-        $this->structure = $this->schema->getCsvStructure();
-        $this->reader = $this->prepareReader();
+        $this->schema      = new Schema($csvSchemaFilenameOrArray);
+        $this->structure   = $this->schema->getCsvStructure();
+        $this->reader      = $this->prepareReader();
     }
 
     public function getCsvFilename(): string

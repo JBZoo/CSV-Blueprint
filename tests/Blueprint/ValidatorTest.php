@@ -17,12 +17,6 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit\Blueprint;
 
 use JBZoo\CsvBlueprint\Csv\CsvFile;
-use JBZoo\CsvBlueprint\Validators\Rules\IsDomain;
-use JBZoo\CsvBlueprint\Validators\Rules\IsEmail;
-use JBZoo\CsvBlueprint\Validators\Rules\IsIp;
-use JBZoo\CsvBlueprint\Validators\Rules\IsLatitude;
-use JBZoo\CsvBlueprint\Validators\Rules\IsLongitude;
-use JBZoo\CsvBlueprint\Validators\Rules\IsUrl;
 use JBZoo\PHPUnit\PHPUnit;
 
 use function JBZoo\PHPUnit\isSame;
@@ -80,7 +74,7 @@ final class ValidatorTest extends PHPUnit
         isSame(
             'Error "csv_structure.header" at line 0, column "(0)". ' .
             'Property "name" is not defined in schema: _custom_array_.',
-            (string)$csv->validate()
+            (string)$csv->validate(),
         );
     }
 
@@ -90,8 +84,10 @@ final class ValidatorTest extends PHPUnit
         isSame('', (string)$csv->validate());
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('seq', 'min', 10));
-        isSame('Error "min" at line 1, column "seq (0)". Value "1" is less than "10".',
-            (string)$csv->validate()->get(0));
+        isSame(
+            'Error "min" at line 1, column "seq (0)". Value "1" is less than "10".',
+            (string)$csv->validate()->get(0),
+        );
     }
 
     public function testMax(): void
