@@ -25,3 +25,29 @@ update: ##@Project Install/Update all 3rd party dependencies
 test-all: ##@Project Run all project tests at once
 	@make test
 	@make codestyle
+
+
+demo-valid: ##@Project Run demo valid CSV
+	$(call title,"Demo - Valid CSV")
+	@${PHP_BIN} ./csv-blueprint validate:csv      \
+       --csv=./tests/fixtures/demo.csv            \
+       --schema=./tests/schemas/demo_valid.yml
+
+
+demo-invalid: ##@Project Run demo invalid CSV
+	$(call title,"Demo - Invalid CSV")
+	@${PHP_BIN} ./csv-blueprint validate:csv      \
+       --csv=./tests/fixtures/demo.csv            \
+       --schema=./tests/schemas/demo_invalid.yml  \
+       --output=github
+
+demo-gihub: ##@Project Run demo invalid CSV
+	@${PHP_BIN} ./csv-blueprint validate:csv      \
+       --csv=./tests/fixtures/demo.csv            \
+       --schema=./tests/schemas/demo_invalid.yml  \
+       --output=github
+
+
+demo: ##@Project Run all demo commands
+	@make demo-valid
+	@make demo-invalid

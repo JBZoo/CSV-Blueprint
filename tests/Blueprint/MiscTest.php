@@ -86,7 +86,7 @@ final class MiscTest extends PHPUnit
 
     public function testCsvStrutureDefaultValues(): void
     {
-        $defaultsInDoc = yml(PROJECT_ROOT . '/schema-examples/full.yml')->findArray('csv_structure');
+        $defaultsInDoc = yml(PROJECT_ROOT . '/schema-examples/full.yml')->findArray('csv');
 
         $schema = new Schema([]);
         $schema->getCsvStructure()->getArrayCopy();

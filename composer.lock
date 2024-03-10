@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "34ca1de55f9be82342e8922b281d6923",
+    "content-hash": "661fc4e2593d0d9598e69e2de68aca8f",
     "packages": [
         {
             "name": "bluepsyduck/symfony-process-manager",
@@ -125,6 +125,92 @@
                 "source": "https://github.com/FakerPHP/Faker/tree/v1.23.1"
             },
             "time": "2024-01-02T13:46:09+00:00"
+        },
+        {
+            "name": "jbzoo/ci-report-converter",
+            "version": "7.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JBZoo/CI-Report-Converter.git",
+                "reference": "b411b01d673f2d70cf8edf8693352c6ff831bd8c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JBZoo/CI-Report-Converter/zipball/b411b01d673f2d70cf8edf8693352c6ff831bd8c",
+                "reference": "b411b01d673f2d70cf8edf8693352c6ff831bd8c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-hash": "*",
+                "ext-simplexml": "*",
+                "jbzoo/cli": "^7.1.8",
+                "jbzoo/data": "^7.1",
+                "jbzoo/markdown": "^7.0",
+                "jbzoo/utils": "^7.1",
+                "php": "^8.1",
+                "symfony/console": ">=6.4"
+            },
+            "require-dev": {
+                "jbzoo/mermaid-php": "^7.2",
+                "jbzoo/toolbox-dev": "^7.1",
+                "roave/security-advisories": "dev-master"
+            },
+            "bin": [
+                "ci-report-converter"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "7.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "JBZoo\\CIReportConverter\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Denis Smetannikov",
+                    "email": "admin@jbzoo.com",
+                    "role": "lead"
+                }
+            ],
+            "description": "The tool converts different error reporting standards for deep integration with popular CI systems (TeamCity, IntelliJ IDEA, GitHub Actions, etc)",
+            "keywords": [
+                "Codestyle",
+                "Github Actions",
+                "IntelliJ IDEA",
+                "PHPStan",
+                "actions",
+                "checkstyle",
+                "ci",
+                "continuous integration",
+                "github",
+                "inspections",
+                "junit",
+                "phan",
+                "phpcs",
+                "phploc",
+                "phpmd",
+                "phpmnd",
+                "phpstorm",
+                "pmd",
+                "psalm",
+                "teamcity",
+                "teamcity-inspections",
+                "tests"
+            ],
+            "support": {
+                "issues": "https://github.com/JBZoo/CI-Report-Converter/issues",
+                "source": "https://github.com/JBZoo/CI-Report-Converter/tree/7.2.1"
+            },
+            "time": "2024-01-28T14:03:00+00:00"
         },
         {
             "name": "jbzoo/cli",
@@ -343,6 +429,63 @@
                 "source": "https://github.com/JBZoo/Event/tree/7.0.1"
             },
             "time": "2024-01-28T08:57:37+00:00"
+        },
+        {
+            "name": "jbzoo/markdown",
+            "version": "7.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JBZoo/Markdown.git",
+                "reference": "02e9d756ed91d33c63a7794db1279af56e4da5e9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JBZoo/Markdown/zipball/02e9d756ed91d33c63a7794db1279af56e4da5e9",
+                "reference": "02e9d756ed91d33c63a7794db1279af56e4da5e9",
+                "shasum": ""
+            },
+            "require": {
+                "jbzoo/utils": "^7.1",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "jbzoo/toolbox-dev": "^7.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "7.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "JBZoo\\Markdown\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Denis Smetannikov",
+                    "email": "admin@jbzoo.com",
+                    "role": "lead"
+                }
+            ],
+            "description": "Tools to render markdown text from PHP code",
+            "keywords": [
+                "Rendering",
+                "jbzoo",
+                "markdown",
+                "readme",
+                "text"
+            ],
+            "support": {
+                "issues": "https://github.com/JBZoo/Markdown/issues",
+                "source": "https://github.com/JBZoo/Markdown/tree/7.0.1"
+            },
+            "time": "2024-01-28T12:43:57+00:00"
         },
         {
             "name": "jbzoo/utils",
@@ -2802,63 +2945,6 @@
                 "source": "https://github.com/JBZoo/JBDump/tree/1.5.6"
             },
             "time": "2021-03-31T09:21:47+00:00"
-        },
-        {
-            "name": "jbzoo/markdown",
-            "version": "7.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/JBZoo/Markdown.git",
-                "reference": "02e9d756ed91d33c63a7794db1279af56e4da5e9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/JBZoo/Markdown/zipball/02e9d756ed91d33c63a7794db1279af56e4da5e9",
-                "reference": "02e9d756ed91d33c63a7794db1279af56e4da5e9",
-                "shasum": ""
-            },
-            "require": {
-                "jbzoo/utils": "^7.1",
-                "php": "^8.1"
-            },
-            "require-dev": {
-                "jbzoo/toolbox-dev": "^7.1"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "7.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "JBZoo\\Markdown\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Denis Smetannikov",
-                    "email": "admin@jbzoo.com",
-                    "role": "lead"
-                }
-            ],
-            "description": "Tools to render markdown text from PHP code",
-            "keywords": [
-                "Rendering",
-                "jbzoo",
-                "markdown",
-                "readme",
-                "text"
-            ],
-            "support": {
-                "issues": "https://github.com/JBZoo/Markdown/issues",
-                "source": "https://github.com/JBZoo/Markdown/tree/7.0.1"
-            },
-            "time": "2024-01-28T12:43:57+00:00"
         },
         {
             "name": "jbzoo/phpunit",
@@ -5362,7 +5448,7 @@
                 "react/http": ">=0.7,<1.9",
                 "really-simple-plugins/complianz-gdpr": "<6.4.2",
                 "redaxo/source": "<=5.15.1",
-                "remdex/livehelperchat": "<3.99",
+                "remdex/livehelperchat": "<4.29",
                 "reportico-web/reportico": "<=7.1.21",
                 "rhukster/dom-sanitizer": "<1.0.7",
                 "rmccue/requests": ">=1.6,<1.8",

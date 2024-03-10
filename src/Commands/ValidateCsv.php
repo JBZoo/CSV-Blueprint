@@ -41,6 +41,14 @@ final class ValidateCsv extends CliCommand
                 's',
                 InputOption::VALUE_REQUIRED,
                 'Schema rule filepath',
+            )
+            ->addOption(
+                'output',
+                'o',
+                InputOption::VALUE_REQUIRED,
+                'Report output format. Available options: <info>' .
+                \implode(', ', ErrorSuite::getAvaiableRenderFormats()) . '</info>',
+                ErrorSuite::RENDER_TABLE,
             );
 
         parent::configure();
@@ -54,12 +62,25 @@ final class ValidateCsv extends CliCommand
         $csvFile    = new CsvFile($csvFilename, $schemaFilename);
         $errorSuite = $csvFile->validate();
         if ($errorSuite->count() > 0) {
-            $this->_($errorSuite->render(ErrorSuite::RENDER_TEXT), OutLvl::ERROR);
+            $this->_(
+                $errorSuite->render($this->getOptString('output')),
+                $this->isTextMode() ? OutLvl::E : OutLvl::DEFAULT,
+            );
 
-            throw new Exception('CSV file is not valid! Found ' . $errorSuite->count() . ' errors.');
+            if ($this->isTextMode()) {
+                $this->_(
+                    '<yellow>CSV file is not valid!</yellow> ' .
+                    'Found <e> ' . $errorSuite->count() . ' </e> errors.',
+                    OutLvl::ERROR,
+                );
+            }
+
+            return self::FAILURE;
         }
 
-        $this->_('<green>Looks good!</green>');
+        if ($this->isTextMode()) {
+            $this->_('<green>Looks good!</green>');
+        }
 
         return self::SUCCESS;
     }
@@ -72,7 +93,9 @@ final class ValidateCsv extends CliCommand
             throw new Exception("CSV file not found: {$csvFilename}");
         }
 
-        $this->_('<blue>CSV    :</blue> ' . \str_replace(PATH_ROOT, '.', \realpath($csvFilename)));
+        if ($this->isTextMode()) {
+            $this->_('<blue>CSV    :</blue> ' . \str_replace(PATH_ROOT, '.', \realpath($csvFilename)));
+        }
 
         return $csvFilename;
     }
@@ -85,8 +108,23 @@ final class ValidateCsv extends CliCommand
             throw new Exception("Schema file not found: {$schemaFilename}");
         }
 
-        $this->_('<blue>Schema :</blue> ' . \str_replace(PATH_ROOT, '.', \realpath($schemaFilename)));
+        if ($this->isTextMode()) {
+            $this->_('<blue>Schema :</blue> ' . \str_replace(PATH_ROOT, '.', \realpath($schemaFilename)));
+        }
 
         return $schemaFilename;
+    }
+
+    private function isTextMode(): bool
+    {
+        return $this->getOutputMode() === ErrorSuite::RENDER_TEXT
+            || $this->getOutputMode() === ErrorSuite::RENDER_GITHUB
+            || $this->getOutputMode() === ErrorSuite::RENDER_TEAMCITY
+            || $this->getOutputMode() === ErrorSuite::RENDER_TABLE;
+    }
+
+    private function getOutputMode(): string
+    {
+        return $this->getOptString('output', ErrorSuite::RENDER_TABLE, ErrorSuite::getAvaiableRenderFormats());
     }
 }

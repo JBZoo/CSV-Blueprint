@@ -72,7 +72,7 @@ final class ValidatorTest extends PHPUnit
     {
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule(null, 'not_empty', true));
         isSame(
-            '"csv_structure.header" at line 1, column "(0)". ' .
+            '"csv.header" at line 1, column "(0)". ' .
             'Property "name" is not defined in schema: "_custom_array_".',
             (string)$csv->validate(),
         );

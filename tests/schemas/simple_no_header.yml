@@ -10,7 +10,7 @@
 # @see        https://github.com/JBZoo/Csv-Blueprint
 #
 
-csv_structure:
+csv:
   header: false
 
 columns:

@@ -27,7 +27,7 @@ includes: # Alias is always required
   - ../path/schema_3.yml as alias_3 # Relative path based on the current schema path. Go up one level.
 
 
-csv_structure: # How to parse file before validation
+csv: # How to parse file before validation
   inherit: alias_1                  # Inherited from another schema. Options above will overwrite inherited options.
   bom: false                        # true - file starts with BOM, false - no BOM
   delimiter: ,                      # delimiter char to separate cells
@@ -43,7 +43,7 @@ csv_structure: # How to parse file before validation
 columns:
   - invalid_option: true            # Just to test super minimal configuration
 
-  - name: General available options # Can be optional if csv_structure\header: false. If set, then header must contain this value
+  - name: General available options # Can be optional if csv\header: false. If set, then header must contain this value
     description: Some description   # Any custom description
     type: some_type                 # Can be optional. At your own risk! If empty, then use Validator\Base
     required: true                  # If true, then column must be present in the file

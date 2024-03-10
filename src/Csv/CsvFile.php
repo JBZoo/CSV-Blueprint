@@ -44,7 +44,7 @@ final class CsvFile
 
     public function getCsvFilename(): string
     {
-        return $this->csvFilename;
+        return \str_replace(PROJECT_ROOT, '.', $this->csvFilename);
     }
 
     public function getCsvStructure(): ParseConfig
@@ -76,7 +76,7 @@ final class CsvFile
 
     public function validate(bool $quickStop = false): ErrorSuite
     {
-        $errors = new ErrorSuite();
+        $errors = new ErrorSuite($this->getCsvFilename());
 
         $errors->addErrorSuit($this->validateHeader())
             ->addErrorSuit($this->validateEachCell($quickStop))
@@ -122,7 +122,7 @@ final class CsvFile
         foreach ($this->schema->getColumns() as $column) {
             if ($column->getName() === '') {
                 $error = new Error(
-                    'csv_structure.header',
+                    'csv.header',
                     "Property \"name\" is not defined in schema: \"{$this->schema->getFilename()}\"",
                     $column->getHumanName(),
                     1,

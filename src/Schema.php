@@ -62,7 +62,7 @@ final class Schema
 
     public function getCsvStructure(): ParseConfig
     {
-        return new ParseConfig($this->data->getArray('csv_structure'));
+        return new ParseConfig($this->data->getArray('csv'));
     }
 
     /**

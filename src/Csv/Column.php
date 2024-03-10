@@ -35,10 +35,10 @@ final class Column
         'aggregate_rules' => [],
     ];
 
-    private int       $id;
-    private Data      $column;
-    private array     $rules;
-    private array     $aggregateRules;
+    private int   $id;
+    private Data  $column;
+    private array $rules;
+    private array $aggregateRules;
 
     public function __construct(int $id, array $config)
     {
@@ -65,7 +65,7 @@ final class Column
 
     public function getHumanName(): string
     {
-        return \trim($this->getName() . ' (' . $this->getId() . ')');
+        return $this->getId() . ':' . \trim($this->getName());
     }
 
     public function getKey(): string

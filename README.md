@@ -24,7 +24,7 @@ composer require jbzoo/csv-blueprint
 ```yml
 # It's a full example of the CSV schema file in YAML format.
 
-csv_structure: # Here are default values. You can skip this section if you don't need to override the default values
+csv: # Here are default values. You can skip this section if you don't need to override the default values
   header: true                          # If the first row is a header. If true, name of each column is required
   delimiter: ,                          # Delimiter character in CSV file
   quote_char: \                         # Quote character in CSV file
@@ -33,7 +33,7 @@ csv_structure: # Here are default values. You can skip this section if you don't
   bom: false                            # If the file has a BOM (Byte Order Mark) at the beginning (Experimental)
 
 columns:
-  - name: "csv_header_name"             # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
+  - name: "csv_header_name"             # Any custom name of the column in the CSV file (first row). Required if "csv.header" is true.
     description: "Lorem ipsum"          # Optional. Description of the column. Not used in the validation process.
     rules:
       # You can use the rules in any combination. Or not use any of them.
@@ -88,7 +88,7 @@ columns:
 
 ```json
 {
-    "csv_structure" : {
+    "csv"     : {
         "header"     : true,
         "delimiter"  : ",",
         "quote_char" : "\\",
@@ -96,7 +96,7 @@ columns:
         "encoding"   : "utf-8",
         "bom"        : false
     },
-    "columns"       : [
+    "columns" : [
         {
             "name"        : "csv_header_name",
             "description" : "Lorem ipsum",
@@ -147,7 +147,7 @@ columns:
 declare(strict_types=1);
 
 return [
-    'csv_structure' => [
+    'csv' => [
         'header'     => true,
         'delimiter'  => ',',
         'quote_char' => '\\',

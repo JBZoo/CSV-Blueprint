@@ -28,17 +28,18 @@
     "require"           : {
         "php"            : "^8.1",
         "ext-mbstring"   : "*",
+
         "jbzoo/data"     : "^7.1",
         "jbzoo/cli"      : "^7.1",
+        "jbzoo/utils"    : "^7.1",
         "league/csv"     : "^9.15",
         "fakerphp/faker" : "^1.23",
-        "jbzoo/utils"    : "^7.1"
+        "jbzoo/ci-report-converter": "^7.2"
     },
 
     "require-dev"       : {
         "roave/security-advisories" : "dev-latest",
-        "jbzoo/toolbox-dev"         : "^7.1",
-        "jbzoo/markdown": "^7.0"
+        "jbzoo/toolbox-dev"         : "^7.1"
     },
 
     "autoload"          : {

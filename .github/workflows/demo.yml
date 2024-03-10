@@ -1,0 +1,50 @@
+#
+# JBZoo Toolbox - Csv-Blueprint.
+#
+# This file is part of the JBZoo Toolbox project.
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# @license    MIT
+# @copyright  Copyright (C) JBZoo.com, All rights reserved.
+# @see        https://github.com/JBZoo/Csv-Blueprint
+#
+
+name: Demo
+
+on:
+  pull_request:
+    branches:
+      - "*"
+  push:
+    branches:
+      - 'master'
+
+env:
+  COLUMNS: 120
+  TERM_PROGRAM: Hyper
+
+jobs:
+  pure-php:
+    name: Pure PHP
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: [ 8.1, 8.2, 8.3 ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: composer
+
+      - name: Build the Project
+        run: make update --no-print-directory
+
+      - name: 🧪 PHPUnit Tests
+        run: make demo-github
