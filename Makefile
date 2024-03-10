@@ -15,6 +15,7 @@ ifneq (, $(wildcard ./vendor/jbzoo/codestyle/src/init.Makefile))
     include ./vendor/jbzoo/codestyle/src/init.Makefile
 endif
 
+OUTPUT ?= table
 
 update: ##@Project Install/Update all 3rd party dependencies
 	$(call title,"Install/Update all 3rd party dependencies")
@@ -45,8 +46,7 @@ demo-github: ##@Project Run demo invalid CSV
 	@${PHP_BIN} ./csv-blueprint validate:csv      \
        --csv=./tests/fixtures/demo.csv            \
        --schema=./tests/schemas/demo_invalid.yml  \
-       --output=github\
-       --mute-errors
+       --output=$(OUTPUT)
 
 
 demo: ##@Project Run all demo commands

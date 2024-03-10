@@ -43,5 +43,26 @@ jobs:
       - name: Build the Project
         run: make update --no-print-directory
 
-      - name: Validate CSV
-        run: make demo-github
+      - name: Validate CSV (text)
+        run: OUTPUT=text make demo-github
+        continue-on-error: true
+
+      - name: Validate CSV (table)
+        run: OUTPUT=table make demo-github
+        continue-on-error: true
+
+      - name: Validate CSV (github)
+        run: OUTPUT=github make demo-github
+        continue-on-error: true
+
+      - name: Validate CSV (gitlab)
+        run: OUTPUT=gitlab make demo-github
+        continue-on-error: true
+
+      - name: Validate CSV (teamcity)
+        run: OUTPUT=teamcity make demo-github
+        continue-on-error: true
+
+      - name: Validate CSV (junit)
+        run: OUTPUT=junit make demo-github
+        continue-on-error: true
