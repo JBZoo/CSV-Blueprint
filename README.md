@@ -462,12 +462,12 @@ I'm not sure if I will implement all of them. But I will try to do my best.
 But... it's not a problem for most cases. And it solves the problem of validating CSV files in CI.
 
 The utility is made to just pick up and use and not think about how it works internally.
-Moreover, everything is covered as strictly as possible by tests and strict typing of variables
-(as strictly as possible in today's PHP world).
+Moreover, everything is covered as strictly as possible by tests, strict typing of variables + ~7 linters and static analyzers (max level of rules).
+So... as strictly as possible in today's PHP world.
 
 **Interesting fact, by the way**
 
-The first version was written from scratch in about 3 days (with baby breaks). I'm looking at the first commit and the very first git tag. I'd say over the weekend, in my spare time on my personal laptop. AI I only used for this Readme file. I'm not very good at English. 😅
+The first version was written from scratch in about 3 days (With frequent breaks to take care of 4 month baby). I'm looking at the first commit and the very first git tag. I'd say over the weekend, in my spare time on my personal laptop. AI I only used for this Readme file. I'm not very good at English. 😅
 
 
 ## Contributing
@@ -481,26 +481,31 @@ make build
 
 # Make your local changes
 
+# Autofix code style 
+make test-phpcsfixer-fix
+
 # Run all tests and check code style
 make test
 make codestyle
 
 # Create your pull request and check all tests in CI (Github Actions)
+# ???
+# Profit!
 ```
 
 
 ### License
 
-MIT
+[MIT License](LICENSE): It's like free pizza - enjoy it, share it, just don't sell it as your own. And remember, no warranty for stomach aches! 😅
 
 
 ## See Also
 
 - [CI-Report-Converter](https://github.com/JBZoo/CI-Report-Converter) - It converts different error reporting standards for popular CI systems.
 - [Composer-Diff](https://github.com/JBZoo/Composer-Diff) - See what packages have changed after `composer update`.
-- [Composer-Graph](https://github.com/JBZoo/Composer-Graph) - Dependency graph visualization of composer.json based on mermaid-js.
-- [Mermaid-PHP](https://github.com/JBZoo/Mermaid-PHP) - Generate diagrams and flowcharts with the help of the mermaid script language.
+- [Composer-Graph](https://github.com/JBZoo/Composer-Graph) - Dependency graph visualization of `composer.json` based on [Mermaid JS](https://mermaid.js.org/).
+- [Mermaid-PHP](https://github.com/JBZoo/Mermaid-PHP) - Generate diagrams and flowcharts with the help of the [mermaid](https://mermaid.js.org/) script language.
 - [Utils](https://github.com/JBZoo/Utils) - Collection of useful PHP functions, mini-classes, and snippets for every day.
 - [Image](https://github.com/JBZoo/Image) - Package provides object-oriented way to manipulate with images as simple as possible.
-- [Data](https://github.com/JBZoo/Data) - Extended implementation of ArrayObject. Use files as config/array.
+- [Data](https://github.com/JBZoo/Data) - Extended implementation of ArrayObject. Use Yml/PHP/JSON/INI files as config. Forget about arrays.
 - [Retry](https://github.com/JBZoo/Retry) - Tiny PHP library providing retry/backoff functionality with strategies and jitter.
