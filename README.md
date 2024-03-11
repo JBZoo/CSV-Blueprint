@@ -89,7 +89,7 @@ Ensure you have PHP installed on your machine.
 ```sh
 wget https://github.com/JBZoo/CI-Report-Converter/releases/latest/download/csv-blueprint.phar
 chmod +x ./csv-blueprint.phar
-./csv-blueprint.phar --csv=./tests/fixtures/demo.csv --schema=./tests/schemas/demo_invalid.yml
+./csv-blueprint.phar validate:csv --csv=./tests/fixtures/demo.csv --schema=./tests/schemas/demo_invalid.yml
 ```
 
 ### As PHP project
@@ -105,6 +105,9 @@ make build
 
 ### Help
 ```
+./csv-blueprint validate:csv --help
+
+
 Description:
   Validate CSV file by rule
 
