@@ -10,7 +10,10 @@
 
 
 ## Introduction
-The JBZoo/Csv-Blueprint tool is a powerful and flexible utility designed for validating CSV files against a predefined schema specified in YAML format. With the capability to run both locally and in Docker environments, JBZoo/Csv-Blueprint is an ideal choice for integrating into CI/CD pipelines, such as GitHub Actions, to ensure the integrity of CSV data in your projects.
+The JBZoo/Csv-Blueprint tool is a powerful and flexible utility designed for validating CSV files against 
+a predefined schema specified in YAML format. With the capability to run both locally and in Docker environments,
+JBZoo/Csv-Blueprint is an ideal choice for integrating into CI/CD pipelines, such as GitHub Actions,
+to ensure the integrity of CSV data in your projects.
 
 
 ## Features
@@ -23,18 +26,23 @@ The JBZoo/Csv-Blueprint tool is a powerful and flexible utility designed for val
 
 
 
-
-
-## Installing
-
-```sh
-composer require jbzoo/csv-blueprint
-```
-
-
 ## Usage
 
-As Docker container:
+Also see demo in the [GitHub Actions](.github/workflows/demo.yml) file.
+
+### As GitHub Action:
+
+```yml
+      - name: Validate CSV file
+        uses: jbzoo/csv-blueprint@master
+        with:
+          csv: path/to/demo.csv
+          schema: path/to/schema.yml
+          output: table
+```
+
+### As Docker container:
+Ensure you have Docker installed on your machine.
 
 ```sh
 # Pull the Docker image
@@ -48,6 +56,27 @@ docker run --rm                                  \
     validate:csv                                 \
     --csv=./tests/fixtures/demo.csv              \
     --schema=./tests/schemas/demo_invalid.yml
+```
+
+
+### As PHP binary:
+Ensure you have PHP installed on your machine.
+
+```sh
+wget https://github.com/JBZoo/CI-Report-Converter/releases/latest/download/csv-blueprint.phar
+chmod +x ./csv-blueprint.phar
+./csv-blueprint.phar --csv=./tests/fixtures/demo.csv --schema=./tests/schemas/demo_invalid.yml
+```
+
+### As PHP project:
+Ensure you have PHP installed on your machine.
+Then, you can use the following commands to build from source and run the tool.
+
+```sh
+git clone git@github.com:jbzoo/csv-blueprint.git csv-blueprint
+cd csv-blueprint 
+make build
+./csv-blueprint validate:csv --csv=./tests/fixtures/demo.csv --schema=./tests/schemas/demo_invalid.yml
 ```
 
 ### Schema Definition
