@@ -220,7 +220,7 @@ columns:
 In the [example Yml file](schema-examples/full.yml) you can find a detailed description of all features.
 
 **Important notes**
-* I have deliberately refused typing of columns and replaced them with rules,
+* I have deliberately refused typing of columns (like `type: integer`) and replaced them with rules,
 which can be combined in any sequence and completely at your discretion.
 This gives you great flexibility when validating CSV files.
 
@@ -405,19 +405,19 @@ return [
 
 ## Coming soon
 
-* [ ] Filename pattern validation with regex (like "all files in the folder should be in the format 'YYYY-MM-DD.csv'").
-* [ ] CSV/Schema file discovery in the folder with regex pattern (glob).
+* [ ] Filename pattern validation with regex (like "all files in the folder should be in the format `YYYY-MM-DD.csv`").
+* [ ] CSV/Schema file discovery in the folder with regex pattern (like `glob(./**/dir/*.csv)`).
 * [ ] Agregate rules (like "at least one of the fields should be not empty" or "all fields should be unique").
-* [ ] Create CSV files based on the schema (like "create 1000 rows with random data").
-* [ ] Multiple CSV files in one schema.
-* [ ] Multiple schemas in one validation process.
-* [ ] Parallel validation of really-really large files (1GB+ ?). I know you have them and less memory is better.
-* [ ] Parallel validation of multiple files.
-* [ ] Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas.
-* [ ] More output formats (like JSON, XML, etc).
-* [ ] Complex rules (like "if field A is not empty, then field B should be not empty too").
-* [ ] Input encoding detection + BOM (right now it's experimental).
-* [ ] Extending with custom rules and custom output formats.
+* [ ] Create CSV files based on the schema (like "create 1000 rows with random data based on rules").
+* [ ] Checking multiple CSV files in one schema.
+* [ ] Using multiple schemas for one csv file.
+* [ ] Parallel validation of really-really large files (1GB+ ?). I know you have them and not so much memory.
+* [ ] Parallel validation of multiple files at once.
+* [ ] Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas. Make it DRY and easy to maintain.
+* [ ] More output formats (like JSON, XML, etc). Any ideas?
+* [ ] Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
+* [ ] Input encoding detection + `BOM` (right now it's experimental). It works but not so accurate... UTF-8/16/32 is the best choice for now.
+* [ ] Extending with custom rules and custom output formats. Plugins?
 * [ ] More examples and documentation.
 
 
