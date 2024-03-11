@@ -67,6 +67,104 @@ jobs:
         run: OUTPUT=junit make demo-github --no-print-directory
         continue-on-error: true
 
+
+  github-actions:
+    name: GitHub Actions
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: 👍 Valid CSV file
+        uses: jbzoo/csv-blueprint@master
+        with:
+          csv: tests/fixtures/demo.csv
+          schema: tests/schemas/demo_valid.yml
+
+      - name: 👎 Invalid CSV file - Report as GitHub Annotations
+        uses: jbzoo/csv-blueprint@master
+        with:
+          csv: tests/fixtures/demo.csv
+          schema: tests/schemas/demo_invalid.yml
+        continue-on-error: true
+
+      - name: 👎 Invalid CSV file - Report as Table
+        uses: jbzoo/csv-blueprint@master
+        with:
+          csv: tests/fixtures/demo.csv
+          schema: tests/schemas/demo_invalid.yml
+          output: table
+        continue-on-error: true
+
+
+  docker:
+    name: Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Pull Docker Image
+        run: docker pull jbzoo/csv-blueprint
+
+      - name: 👍 Valid CSV file
+        run: |
+          docker run                                           \
+          -v `pwd`:/parent-host                                \
+          --rm jbzoo/csv-blueprint                             \
+          validate:csv                                         \
+          --csv=/parent-host/tests/fixtures/demo.csv           \
+          --schema=/parent-host/tests/schemas/demo_valid.yml
+
+      - name: 👎 Invalid CSV file
+        run: |
+          docker run                                           \
+          -v `pwd`:/parent-host                                \
+          --rm jbzoo/csv-blueprint                             \
+          validate:csv                                         \
+          --csv=/parent-host/tests/fixtures/demo.csv           \
+          --schema=/parent-host/tests/schemas/demo_invalid.yml
+        continue-on-error: true
+
+
+  phar:
+    name: Phar
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          tools: composer
+
+      - name: Build the project
+        run: make build --no-print-directory
+
+      - name: 👍 Valid CSV file
+        run: |
+          ./build/csv-blueprint.phar                           \
+          validate:csv                                         \
+          --csv=./tests/fixtures/demo.csv                      \
+          --schema=./tests/schemas/demo_valid.yml
+
+      - name: 👎 Invalid CSV file
+        run: |
+          ./build/csv-blueprint.phar                           \
+          validate:csv                                         \
+          --csv=./tests/fixtures/demo.csv                      \
+          --schema=./tests/schemas/demo_invalid.yml
+        continue-on-error: true
+
+
   php:
     name: Pure PHP
     runs-on: ubuntu-latest
@@ -98,68 +196,4 @@ jobs:
           validate:csv                                         \
           --csv=./tests/fixtures/demo.csv                      \
           --schema=./tests/schemas/demo_invalid.yml
-        continue-on-error: true
-
-  phar:
-    name: Phar
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.3
-          tools: composer
-
-      - name: Build the project
-        run: make build --no-print-directory
-
-      - name: 👍 Valid CSV file
-        run: | 
-          ./build/csv-blueprint.phar                           \
-          validate:csv                                         \
-          --csv=./tests/fixtures/demo.csv                      \
-          --schema=./tests/schemas/demo_valid.yml
-
-      - name: 👎 Invalid CSV file
-        run: | 
-          ./build/csv-blueprint.phar                           \
-          validate:csv                                         \
-          --csv=./tests/fixtures/demo.csv                      \
-          --schema=./tests/schemas/demo_invalid.yml
-        continue-on-error: true
-
-  docker:
-    name: Docker Hub
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Pull Docker Image
-        run: docker pull jbzoo/csv-blueprint
-
-      - name: 👍 Valid CSV file
-        run: |
-          docker run                                           \
-          -v `pwd`:/parent-host                                \
-          --rm jbzoo/csv-blueprint                             \
-          validate:csv                                         \
-          --csv=/parent-host/tests/fixtures/demo.csv           \
-          --schema=/parent-host/tests/schemas/demo_valid.yml
-
-      - name: 👎 Invalid CSV file
-        run: |
-          docker run                                           \
-          -v `pwd`:/parent-host                                \
-          --rm jbzoo/csv-blueprint                             \
-          validate:csv                                         \
-          --csv=/parent-host/tests/fixtures/demo.csv           \
-          --schema=/parent-host/tests/schemas/demo_invalid.yml
         continue-on-error: true
