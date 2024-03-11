@@ -25,10 +25,12 @@
 
 
 ## Introduction
+
 The JBZoo/Csv-Blueprint tool is a powerful and flexible utility designed for validating CSV files against 
 a predefined schema specified in YAML format. With the capability to run both locally and in Docker environments,
 JBZoo/Csv-Blueprint is an ideal choice for integrating into CI/CD pipelines, such as GitHub Actions,
 to ensure the integrity of CSV data in your projects.
+
 
 ## Why validate CSV files in CI?
 
@@ -44,6 +46,7 @@ Integrating CSV validation into CI processes promotes higher data integrity, rel
 
 
 ## Features
+
 * **Schema-based Validation**: Define the structure and rules for your CSV files in an intuitive [YAML format](schema-examples/full.yml), enabling precise validation against your data's expected format.
 * **Flexible Configuration**: Support for custom delimiters, quote characters, enclosures, and encoding settings to handle a wide range of CSV formats.
 * **Comprehensive Rule Set**: Includes a broad set of validation rules, such as non-empty fields, exact values, regular expressions, numeric constraints, date formats, and more, catering to various data validation needs.
@@ -68,6 +71,7 @@ Integrating CSV validation into CI processes promotes higher data integrity, rel
 
 Also see demo in the [GitHub Actions](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml) file.
 
+
 ### As GitHub Action
 
 ```yml
@@ -91,6 +95,7 @@ That is, the error will be shown in a specific place in the CSV file right in di
   ![GitHub Actions - Terminal](.github/assets/github-actions-termintal.png)
 
 </details>
+
 
 ### As Docker container
 Ensure you have Docker installed on your machine.
@@ -462,9 +467,9 @@ I'm not sure if I will implement all of them. But I will try to do my best.
 ## Disadvantages?
 
 * Yeah-yeah. I know it's not the fastest tool in the world. But it's not the slowest either.
-* Yeah-yeah. It's PHP (not a Python, Go). PHP is not the best language for such tasks.
+* Yeah-yeah. I know it's PHP (not a Python, Go). PHP is not the best language for such tasks.
 * Yeah-yeah. It looks like a standalone binary.
-* Yeah-yeah. You can't use as Python SDK.
+* Yeah-yeah. I know you can't use as Python SDK as part of pipeline.
 
 But... it's not a problem for most cases. And it solves the problem of validating CSV files in CI. 👍
 
