@@ -1,0 +1,44 @@
+#
+# JBZoo Toolbox - Csv-Blueprint.
+#
+# This file is part of the JBZoo Toolbox project.
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# @license    MIT
+# @copyright  Copyright (C) JBZoo.com, All rights reserved.
+# @see        https://github.com/JBZoo/Csv-Blueprint
+#
+
+name: 'CSV Validator'
+description: 'Strict and flexible schema-based CSV file validation with the ability to report as GitHub Annotations in your PRs.'
+author: 'Denis Smetannikov <admin@jbzoo.com>'
+
+branding:
+  icon: 'file-text'
+  color: 'green'
+
+inputs:
+  csv:
+    description: 'CSV filepath to validate.'
+    required: true
+  schema:
+    description: 'Schema rule filepath. File can be a Yml or JSON. See examples in the repository.'
+    required: true
+  output:
+    description: 'Report output format. Available options: text, table, github, gitlab, teamcity, junit'
+    default: github
+    required: true
+
+runs:
+  using: 'docker'
+  image: 'docker://jbzoo/csv-blueprint'
+  args:
+    - validate:csv
+    - '--csv'
+    - ${{ inputs.csv }}
+    - '--schema'
+    - ${{ inputs.schema }}
+    - '--output'
+    - ${{ inputs.output }}
+    - '-vvv'
