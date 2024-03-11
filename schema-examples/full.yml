@@ -43,7 +43,7 @@ columns:
       only_uppercase: true              # String is only upper-case. Example: "HELLO WORLD"
       only_capitalize: true             # String is only capitalized. Example: "Hello World"
 
-      # Deciaml and integer numbers
+      # Decimal and integer numbers
       min: 10                           # Can be integer or float, negative and positive
       max: 100.50                       # Can be integer or float, negative and positive
       precision: 2                      # Strict(!) number of digits after the decimal point
