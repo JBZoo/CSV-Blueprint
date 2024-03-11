@@ -37,8 +37,6 @@ require_once JBZOO_AUTOLOAD_FILE;
 
 \date_default_timezone_set('UTC');
 
-putenv('ANSICON=1');
-
 (new CliApplication('CSV Blueprint', '@git-version@'))
     ->registerCommandsByPath(PATH_ROOT . '/src/Commands', __NAMESPACE__)
     ->setLogo(
