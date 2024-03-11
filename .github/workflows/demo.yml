@@ -86,5 +86,22 @@ jobs:
         run: make build --no-print-directory
 
       - name: Trying to use the phar file
-        run: ./build/csv-blueprint.phar validate:csv --csv=./tests/fixtures/demo.csv --schema=./tests/schemas/demo_invalid.yml
+        run: | 
+          ./build/csv-blueprint.phar validate:csv
+          --csv=./tests/fixtures/demo.csv
+          --schema=./tests/schemas/demo_invalid.yml
+        continue-on-error: true
+
+  docker:
+    name: Docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trying to use the dcoker image
+        run: |
+          docker run
+          -v `pwd`:/parent-host
+          --rm jbzoo/csv-blueprint
+          validate:csv
+          --csv=/parent-host/tests/fixtures/demo.csv
+          --schema=/parent-host/tests/schemas/demo_invalid.yml
         continue-on-error: true
