@@ -32,7 +32,7 @@ update: ##@Project Install/Update all 3rd party dependencies
 
 
 create-symlink: ##@Project Create Symlink (alias for testing)
-	@ln -sfv `pwd`/ci-report-converter `pwd`/vendor/bin/ci-report-converter
+	@ln -sfv `pwd`/csv-blueprint `pwd`/vendor/bin/csv-blueprint
 
 
 test-all: ##@Project Run all project tests at once
