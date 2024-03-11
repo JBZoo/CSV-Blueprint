@@ -5,6 +5,7 @@
 
 
 * [Introduction](#introduction)
+* [Why Validate CSV Files in CI?](#why-validate-csv-files-in-ci)
 * [Features](#features)
 * [Usage](#usage)
     * [As GitHub Action](#as-github-action)
@@ -25,6 +26,18 @@ a predefined schema specified in YAML format. With the capability to run both lo
 JBZoo/Csv-Blueprint is an ideal choice for integrating into CI/CD pipelines, such as GitHub Actions,
 to ensure the integrity of CSV data in your projects.
 
+## Why Validate CSV Files in CI?
+
+Validating CSV files at the Continuous Integration (CI) level within a repository is crucial for several reasons in data engineering:
+
+* **Data Quality Assurance**: Ensures that the data meets predefined standards and formats before it's used in applications or analytics, preventing data corruption and inconsistency issues.
+* **Early Detection of Errors**: Identifies problems with data submissions or changes early in the development process, reducing the time and effort required for troubleshooting and fixes.
+* **Automated Data Governance**: Enforces data governance policies automatically, ensuring that all data complies with regulatory and business rules.
+* **Streamlined Data Integration**: Facilitates smoother data integration processes by ensuring that the data being ingested from different sources adheres to the expected schema, minimizing integration errors.
+* **Collaboration and Transparency**: Helps teams collaborate more effectively by providing clear standards for data formats and validation rules, leading to more transparent and predictable data handling practices.
+
+Integrating CSV validation into CI processes promotes higher data integrity, reliability, and operational efficiency in data engineering projects.
+
 
 ## Features
 * **Schema-based Validation**: Define the structure and rules for your CSV files in an intuitive [YAML format](schema-examples/full.yml), enabling precise validation against your data's expected format.
@@ -32,7 +45,7 @@ to ensure the integrity of CSV data in your projects.
 * **Comprehensive Rule Set**: Includes a broad set of validation rules, such as non-empty fields, exact values, regular expressions, numeric constraints, date formats, and more, catering to various data validation needs.
 * **Docker Support**: Easily integrate into any workflow with Docker, providing a seamless experience for development, testing, and production environments.
 * **GitHub Actions Integration**: Automate CSV validation in your CI/CD pipeline, enhancing the quality control of your data in pull requests and deployments.
-* **Various ways to report** issues that can be easily integrated with GithHub, Gitlab, TeamCity, etc. The default output is a human-readable table. [See Live Demo](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml).
+* **Various ways to report:** issues that can be easily integrated with GithHub, Gitlab, TeamCity, etc. The default output is a human-readable table. [See Live Demo](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml).
 
 
 
@@ -48,18 +61,17 @@ Also see demo in the [GitHub Actions](https://github.com/JBZoo/Csv-Blueprint/act
         with:
           csv: tests/fixtures/demo.csv
           schema: tests/schemas/demo_invalid.yml
-          output: table
+          output: table                            # Optional. Default is "github"
 ```
 **Note**. Output format for GitHub Actions is `github` by default. [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message)
 
-This allows you to see bugs in the GitHub interface at the PR level. That is, the error will be shown in a specific place in the CSV file right in diff of your Pull Requests!
-
-See screenshots.
+This allows you to see bugs in the GitHub interface at the PR level.
+That is, the error will be shown in a specific place in the CSV file right in diff of your Pull Requests!
 
 ![GitHub Actions - PR](.github/assets/github-actions-pr.png)
 
 <details>
-  <summary>See also</summary>
+  <summary>Click to see example in GitHub Actions terminal</summary>
 
   ![GitHub Actions - Terminal](.github/assets/github-actions-termintal.png)
 
