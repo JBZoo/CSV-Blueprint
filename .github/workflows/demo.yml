@@ -87,8 +87,9 @@ jobs:
 
       - name: Trying to use the phar file
         run: | 
-          ./build/csv-blueprint.phar validate:csv
-          --csv=./tests/fixtures/demo.csv
+          ./build/csv-blueprint.phar                           \
+          validate:csv                                         \
+          --csv=./tests/fixtures/demo.csv                      \
           --schema=./tests/schemas/demo_invalid.yml
         continue-on-error: true
 
@@ -98,10 +99,10 @@ jobs:
     steps:
       - name: Trying to use the dcoker image
         run: |
-          docker run
-          -v `pwd`:/parent-host
-          --rm jbzoo/csv-blueprint
-          validate:csv
-          --csv=/parent-host/tests/fixtures/demo.csv
+          docker run                                           \
+          -v `pwd`:/parent-host                                \
+          --rm jbzoo/csv-blueprint                             \
+          validate:csv                                         \
+          --csv=/parent-host/tests/fixtures/demo.csv           \
           --schema=/parent-host/tests/schemas/demo_invalid.yml
         continue-on-error: true
