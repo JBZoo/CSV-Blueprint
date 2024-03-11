@@ -147,6 +147,15 @@ final class CommandsTest extends PHPUnit
 
         isSame(1, $exitCode);
         isSame($expected, $actual);
+
+        isFileContains(\implode("\n", [
+            '```',
+            './csv-blueprint validate:csv --output=table --csv=./tests/fixtures/demo.csv --schema=./tests/schemas/demo_invalid.yml',
+            '',
+            '',
+            \str_replace($rootPath, '.', $expected),
+            '```',
+        ]), PROJECT_ROOT . '/README.md');
     }
 
     public function testCreateValidateNegativeText(): void
