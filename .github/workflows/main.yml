@@ -188,16 +188,7 @@ jobs:
         run: make build-docker
 
       - name: Trying to use the Docker Image
-        run: docker run --rm csv-blueprint --ansi
+        run: docker run --rm jbzoo/csv-blueprint --ansi
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: jbzoo/csv-blueprint:${{ env.GITHUB_REF_NAME }}
+      - name: Reporting example via Docker
+        run: make demo-invalid-docker

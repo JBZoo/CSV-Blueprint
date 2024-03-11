@@ -38,7 +38,7 @@ test-all: ##@Project Run all project tests at once
 
 build-docker:
 	$(call title,"Building Docker Image")
-	@docker build -t csv-blueprint .
+	@docker build -t jbzoo/csv-blueprint .
 
 
 demo-valid: ##@Project Run demo valid CSV
@@ -46,6 +46,15 @@ demo-valid: ##@Project Run demo valid CSV
 	@${PHP_BIN} ./csv-blueprint validate:csv      \
        --csv=./tests/fixtures/demo.csv            \
        --schema=./tests/schemas/demo_valid.yml
+
+demo-invalid-docker: ##@Project Run demo valid CSV (via Docker)
+	$(call title,"Demo - Valid CSV \(via Docker\)")
+	@docker run --rm                                         \
+       -v `pwd`:/parent-host                                 \
+       jbzoo/csv-blueprint                                   \
+       validate:csv                                          \
+       --csv=/parent-host/tests/fixtures/demo.csv            \
+       --schema=/parent-host/tests/schemas/demo_invalid.yml
 
 
 demo-invalid: ##@Project Run demo invalid CSV

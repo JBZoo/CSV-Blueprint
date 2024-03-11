@@ -10,17 +10,14 @@
 # @see        https://github.com/JBZoo/Csv-Blueprint
 #
 
-FROM php:8.3-cli-alpine
+FROM php:8.1-cli-alpine
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
-ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
-RUN chmod +x /usr/local/bin/install-php-extensions      \
-    && sync                                             \
-    && install-php-extensions                           \
-        opcache                                         \
-        gd                                              \
-        @composer
+# Install PHP extensions
+ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+RUN install-php-extensions opcache gd @composer
 
+# Install application
 ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY . /app
 RUN cd /app                                                           \
@@ -28,7 +25,7 @@ RUN cd /app                                                           \
     && composer clear-cache
 RUN chmod +x app/csv-blueprint
 
-# Experimental. Forced colored output
+# Color output by default
 ENV TERM_PROGRAM=Hyper
 
 ENTRYPOINT ["/app/csv-blueprint"]
