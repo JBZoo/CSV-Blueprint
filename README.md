@@ -16,6 +16,7 @@
     * [Schema Definition](#schema-definition)
     * [Schema file examples](#schema-file-examples)
 * [Coming soon](#coming-soon)
+* [Disadvantages?](#disadvantages)
 * [Unit tests and check code style](#unit-tests-and-check-code-style)
 * [License](#license)
 * [See Also](#see-also)
@@ -413,6 +414,7 @@ return [
 * [ ] Using multiple schemas for one csv file.
 * [ ] Parallel validation of really-really large files (1GB+ ?). I know you have them and not so much memory.
 * [ ] Parallel validation of multiple files at once.
+* [ ] Benchmarks as part of the CI process and Readme. It's important to know how much time the validation process takes.
 * [ ] Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas. Make it DRY and easy to maintain.
 * [ ] More output formats (like JSON, XML, etc). Any ideas?
 * [ ] Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
@@ -421,10 +423,40 @@ return [
 * [ ] More examples and documentation.
 
 
-## Unit tests and check code style
+## Disadvantages?
+
+* Yeah-yeah-yeah. I know it's not the fastest tool in the world. But it's not the slowest either.
+* Yeah-yeah-yeah. It's PHP (not a Python, Go). PHP is not the best language for such tasks.
+* Yeah-yeah-yeah. It looks like a standalone binary.
+* Yeah-yeah-yeah. You can't use as Python SDK.
+
+But... it's not a problem for most cases. And it solves the problem of validating CSV files in CI.
+
+The utility is made to just pick up and use and not think about how it works internally.
+Moreover, everything is covered as strictly as possible by tests and strict typing of variables
+(as strictly as possible in today's PHP world).
+
+**Interesting fact, by the way**
+
+The first version was written from scratch in about 3 days (with baby breaks). I'm looking at the first commit and the very first git tag. I'd say over the weekend, in my spare time on my personal laptop. AI I only used for this Readme file. I'm not very good at English. 😅
+
+
+## Contributing
+If you have any ideas or suggestions, feel free to open an issue or create a pull request.
+
 ```sh
+# Fork the repo and build project
+git clone git@github.com:jbzoo/csv-blueprint.git ./jbzoo-csv-blueprint
+cd ./jbzoo-csv-blueprint
 make build
-make test-all
+
+# Make your local changes
+
+# Run all tests and check code style
+make test
+make codestyle
+
+# Create your pull request and check all tests in CI (Github Actions)
 ```
 
 
