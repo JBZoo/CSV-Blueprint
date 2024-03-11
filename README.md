@@ -51,9 +51,19 @@ Also see demo in the [GitHub Actions](https://github.com/JBZoo/Csv-Blueprint/act
           output: table
 ```
 **Note**. Output format for GitHub Actions is `github` by default. [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message)
-This allows you to see bugs in the GitHub interface at the PR level. That is, the error will be shown in a specific place in the CSV file.
-See screenshot.
 
+This allows you to see bugs in the GitHub interface at the PR level. That is, the error will be shown in a specific place in the CSV file right in diff of your Pull Requests!
+
+See screenshots.
+
+![GitHub Actions - PR](.github/assets/github-actions-pr.png)
+
+<details>
+  <summary>See also</summary>
+
+  ![GitHub Actions - Terminal](.github/assets/github-actions-termintal.png)
+
+</details>
 
 ### As Docker container
 Ensure you have Docker installed on your machine.
