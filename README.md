@@ -405,8 +405,8 @@ return [
 
 ## Coming soon
 
-* [ ] Filename pattern validation with regex (like "all files in the folder should be in the format `YYYY-MM-DD.csv`").
-* [ ] CSV/Schema file discovery in the folder with regex pattern (like `glob(./**/dir/*.csv)`).
+* [ ] Filename pattern validation with regex (like "all files in the folder should be in the format `/^[\d]{4}-[\d]{2}-[\d]{2}\.csv$/`").
+* [ ] CSV/Schema file discovery in the folder with regex filename pattern (like `glob(./**/dir/*.csv)`).
 * [ ] Agregate rules (like "at least one of the fields should be not empty" or "all fields should be unique").
 * [ ] Create CSV files based on the schema (like "create 1000 rows with random data based on rules").
 * [ ] Checking multiple CSV files in one schema.
