@@ -4,34 +4,90 @@
 [![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint)    [![Dependents](https://poser.pugx.org/jbzoo/csv-blueprint/dependents)](https://packagist.org/packages/jbzoo/csv-blueprint/dependents?order_by=downloads)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
 
 
+<!--ts-->
+
+<!--te-->
 
 
-### Installing
+## Introduction
+The JBZoo/Csv-Blueprint tool is a powerful and flexible utility designed for validating CSV files against a predefined schema specified in YAML format. With the capability to run both locally and in Docker environments, JBZoo/Csv-Blueprint is an ideal choice for integrating into CI/CD pipelines, such as GitHub Actions, to ensure the integrity of CSV data in your projects.
+
+
+## Features
+* **Schema-based Validation**: Define the structure and rules for your CSV files in an intuitive [YAML format](schema-examples/full.yml), enabling precise validation against your data's expected format.
+* **Flexible Configuration**: Support for custom delimiters, quote characters, enclosures, and encoding settings to handle a wide range of CSV formats.
+* **Comprehensive Rule Set**: Includes a broad set of validation rules, such as non-empty fields, exact values, regular expressions, numeric constraints, date formats, and more, catering to various data validation needs.
+* **Docker Support**: Easily integrate into any workflow with Docker, providing a seamless experience for development, testing, and production environments.
+* **GitHub Actions Integration**: Automate CSV validation in your CI/CD pipeline, enhancing the quality control of your data in pull requests and deployments.
+* **Various ways to report** issues that can be easily integrated with GithHub, Gitlab, TeamCity, etc. The default output is a human-readable table. [See Live Demo](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml).
+
+
+
+
+
+## Installing
 
 ```sh
 composer require jbzoo/csv-blueprint
 ```
 
 
-### Usage
+## Usage
 
 As Docker container:
 
 ```sh
-@docker run --rm                                         \
-   -v `pwd`:/parent-host                                 \
-   jbzoo/csv-blueprint                                   \
-   validate:csv                                          \
-   --csv=/parent-host/tests/fixtures/demo.csv            \
-   --schema=/parent-host/tests/schemas/demo_invalid.yml  \
-   --ansi
+# Pull the Docker image
+docker pull jbzoo/csv-blueprint
+
+# Run the tool inside Docker
+docker run --rm                                  \
+    --workdir=/parent-host                       \
+    -v `pwd`:/parent-host                        \
+    jbzoo/csv-blueprint                          \
+    validate:csv                                 \
+    --csv=./tests/fixtures/demo.csv              \
+    --schema=./tests/schemas/demo_invalid.yml
 ```
 
+### Schema Definition
+Define your CSV validation schema in a YAML file.
+
+This example defines a simple schema for a CSV file with a header row, specifying that the id column must not be empty and must contain integer values.
+Also it checks that the name column is not empty and has a minimum length of 3 characters.
+
+```yaml
+
+Here's an example to get you started:
+```yml
+csv:
+  delimiter: ,
+  quote_char: \
+  enclosure: "\""
+
+columns:
+  - name: id
+    rules:
+      not_empty: true
+      is_int: true
+
+  - name: name
+    rules:
+      not_empty: true
+      min_length: 3
+
+```
 
 ### Schema file examples
 
-<details>
-  <summary>Click to see: YAML format (with comment)</summary>
+In the [example Yml file](schema-examples/full.yml) you can find a detailed description of all features.
+
+**Important notes**
+* I have deliberately refused typing of columns and replaced them with rules,
+which can be combined in any sequence and completely at your discretion.
+This gives you great flexibility when validating CSV files.
+
+* All fields (unless explicitly stated otherwise) are optional and you can choose not to declare them. Up to you.
 
 ```yml
 # It's a full example of the CSV schema file in YAML format.
@@ -92,8 +148,6 @@ columns:
       usa_market_name: true             # Check if the value is a valid USA market name. Example: "New York, NY"
 
 ```
-
-</details>
 
 
 <details>

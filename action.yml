@@ -41,4 +41,5 @@ runs:
     - ${{ inputs.schema }}
     - '--output'
     - ${{ inputs.output }}
+    - '--ansi'
     - '-vvv'
