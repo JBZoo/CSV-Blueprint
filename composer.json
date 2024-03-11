@@ -34,13 +34,16 @@
         "jbzoo/utils"               : "^7.1",
         "jbzoo/ci-report-converter" : "^7.2",
         "league/csv"                : "^9.15",
-        "fakerphp/faker"            : "^1.23"
+        "fakerphp/faker"            : "^1.23",
+        "symfony/yaml"              : "^6.4"
     },
 
     "require-dev"       : {
         "roave/security-advisories" : "dev-latest",
         "jbzoo/toolbox-dev"         : "^7.1"
     },
+
+    "bin"               : ["csv-blueprint"],
 
     "autoload"          : {
         "psr-4" : {"JBZoo\\CsvBlueprint\\" : "src"}
