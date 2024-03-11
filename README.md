@@ -441,7 +441,7 @@ return [
 
 ## Coming soon
 
-It's random ideas and plans. No orderings and deadlines. But batch processing is the priority 1!
+It's random ideas and plans. No orderings and deadlines. <u>But batch processing is the priority #1</u>.
 
 * [ ] Filename pattern validation with regex (like "all files in the folder should be in the format `/^[\d]{4}-[\d]{2}-[\d]{2}\.csv$/`").
 * [ ] CSV/Schema file discovery in the folder with regex filename pattern (like `glob(./**/dir/*.csv)`).
