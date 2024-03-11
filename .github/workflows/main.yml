@@ -191,4 +191,5 @@ jobs:
         run: docker run --rm jbzoo/csv-blueprint --ansi
 
       - name: Reporting example via Docker
-        run: make demo-invalid-docker
+        run: make demo-docker --no-print-directory
+        continue-on-error: true
