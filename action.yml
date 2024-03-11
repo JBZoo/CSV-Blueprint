@@ -40,5 +40,5 @@ runs:
     - '--schema'
     - ${{ inputs.schema }}
     - '--output'
-    - ${{ inputs.mute-errors }}
+    - ${{ inputs.output }}
     - '-vvv'
