@@ -13,8 +13,10 @@
     * [As PHP project](#as-php-project)
     * [Schema Definition](#schema-definition)
     * [Schema file examples](#schema-file-examples)
+* [Coming soon](#coming-soon)
 * [Unit tests and check code style](#unit-tests-and-check-code-style)
 * [License](#license)
+* [See Also](#see-also)
 
 
 ## Introduction
@@ -36,7 +38,7 @@ to ensure the integrity of CSV data in your projects.
 
 ## Usage
 
-Also see demo in the [GitHub Actions](.github/workflows/demo.yml) file.
+Also see demo in the [GitHub Actions](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml) file.
 
 ### As GitHub Action
 
@@ -48,6 +50,10 @@ Also see demo in the [GitHub Actions](.github/workflows/demo.yml) file.
           schema: tests/schemas/demo_invalid.yml
           output: table
 ```
+**Note**. Output format for GitHub Actions is `github` by default. [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message)
+This allows you to see bugs in the GitHub interface at the PR level. That is, the error will be shown in a specific place in the CSV file.
+See screenshot.
+
 
 ### As Docker container
 Ensure you have Docker installed on your machine.
@@ -87,15 +93,84 @@ make build
 ./csv-blueprint validate:csv --csv=./tests/fixtures/demo.csv --schema=./tests/schemas/demo_invalid.yml
 ```
 
+### Help
+```
+Description:
+  Validate CSV file by rule
+
+Usage:
+  validate:csv [options]
+
+Options:
+  -c, --csv=CSV                  CSV filepath to validate. If not set or empty, then the STDIN is used.
+  -s, --schema=SCHEMA            Schema rule filepath
+  -o, --output=OUTPUT            Report output format. Available options: text, table, github, gitlab, teamcity, junit [default: "table"]
+      --no-progress              Disable progress bar animation for logs. It will be used only for text output format.
+      --mute-errors              Mute any sort of errors. So exit code will be always "0" (if it's possible).
+                                 It has major priority then --non-zero-on-error. It's on your own risk!
+      --stdout-only              For any errors messages application will use StdOut instead of StdErr. It's on your own risk!
+      --non-zero-on-error        None-zero exit code on any StdErr message.
+      --timestamp                Show timestamp at the beginning of each message.It will be used only for text output format.
+      --profile                  Display timing and memory usage information.
+      --output-mode=OUTPUT-MODE  Output format. Available options:
+                                 text - Default text output format, userfriendly and easy to read.
+                                 cron - Shortcut for crontab. It's basically focused on human-readable logs output.
+                                 It's combination of --timestamp --profile --stdout-only --no-progress -vv.
+                                 logstash - Logstash output format, for integration with ELK stack.
+                                  [default: "text"]
+      --cron                     Alias for --output-mode=cron. Deprecated!
+  -h, --help                     Display help for the given command. When no command is given display help for the list command
+  -q, --quiet                    Do not output any message
+  -V, --version                  Display this application version
+      --ansi|--no-ansi           Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction           Do not ask any interactive question
+  -v|vv|vvv, --verbose           Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+```
+
+### Output Example
+
+As a result of the validation process, you will receive a human-readable table with a list of errors found in the CSV file.
+By defualt, the output format is a table, but you can choose from a variety of formats, such as text, GitHub, GitLab, TeamCity, JUnit, and more.
+For example, the following output is generated using the "table" format.
+
+**Note**. Output format for GitHub Actions is `github` by default. [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message)
+This allows you to see bugs in the GitHub interface at the PR level. That is, the error will be shown in a specific place in the CSV file. See screenshot.
+
+```
+CSV    : ./tests/fixtures/demo.csv
+Schema : ./tests/schemas/demo_invalid.yml
++------+------------------+--------------+-- demo.csv -------------------------------------------+
+| Line | id:Column        | Rule         | Message                                               |
++------+------------------+--------------+-------------------------------------------------------+
+| 1    | 1:               | csv.header   | Property "name" is not defined in schema:             |
+|      |                  |              | "./tests/schemas/demo_invalid.yml"                    |
+| 5    | 2:Float          | max          | Value "74605.944" is greater than "74605"             |
+| 5    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red",  |
+|      |                  |              | "green", "Blue"]                                      |
+| 6    | 0:Name           | min_length   | Value "Carl" (legth: 4) is too short. Min length is 5 |
+| 6    | 3:Birthday       | min_date     | Value "1955-05-14" is less than the minimum date      |
+|      |                  |              | "1955-05-15T00:00:00.000+00:00"                       |
+| 8    | 3:Birthday       | min_date     | Value "1955-05-14" is less than the minimum date      |
+|      |                  |              | "1955-05-15T00:00:00.000+00:00"                       |
+| 9    | 3:Birthday       | max_date     | Value "2010-07-20" is more than the maximum date      |
+|      |                  |              | "2009-01-01T00:00:00.000+00:00"                       |
+| 11   | 0:Name           | min_length   | Value "Lois" (legth: 4) is too short. Min length is 5 |
+| 11   | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red",  |
+|      |                  |              | "green", "Blue"]                                      |
++------+------------------+--------------+-- demo.csv -------------------------------------------+
+
+CSV file is not valid! Found 9 errors.
+
+```
+
+
 ### Schema Definition
 Define your CSV validation schema in a YAML file.
 
-This example defines a simple schema for a CSV file with a header row, specifying that the id column must not be empty and must contain integer values.
-Also it checks that the name column is not empty and has a minimum length of 3 characters.
+This example defines a simple schema for a CSV file with a header row, specifying that the `id` column must not be empty and must contain integer values.
+Also, it checks that the `name` column has a minimum length of 3 characters.
 
-```yaml
-
-Here's an example to get you started:
 ```yml
 csv:
   delimiter: ,
@@ -110,7 +185,6 @@ columns:
 
   - name: name
     rules:
-      not_empty: true
       min_length: 3
 
 ```
@@ -303,9 +377,27 @@ return [
 </details>
 
 
+## Coming soon
+
+* [ ] Filename pattern validation with regex (like "all files in the folder should be in the format 'YYYY-MM-DD.csv'").
+* [ ] CSV/Schema file discovery in the folder with regex pattern (glob).
+* [ ] Agregate rules (like "at least one of the fields should be not empty" or "all fields should be unique").
+* [ ] Create CSV files based on the schema (like "create 1000 rows with random data").
+* [ ] Multiple CSV files in one schema.
+* [ ] Multiple schemas in one validation process.
+* [ ] Parallel validation of really-really large files (1GB+ ?). I know you have them and less memory is better.
+* [ ] Parallel validation of multiple files.
+* [ ] Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas.
+* [ ] More output formats (like JSON, XML, etc).
+* [ ] Complex rules (like "if field A is not empty, then field B should be not empty too").
+* [ ] Input encoding detection + BOM (right now it's experimental).
+* [ ] Extending with custom rules and custom output formats.
+* [ ] More examples and documentation.
+
+
 ## Unit tests and check code style
 ```sh
-make update
+make build
 make test-all
 ```
 
@@ -313,3 +405,15 @@ make test-all
 ### License
 
 MIT
+
+
+## See Also
+
+- [CI-Report-Converter](https://github.com/JBZoo/CI-Report-Converter) - It converts different error reporting standards for deep compatibility with popular CI systems.
+- [Composer-Diff](https://github.com/JBZoo/Composer-Diff) - See what packages have changed after `composer update`.
+- [Composer-Graph](https://github.com/JBZoo/Composer-Graph) - Dependency graph visualization of composer.json based on mermaid-js.
+- [Mermaid-PHP](https://github.com/JBZoo/Mermaid-PHP) - Generate diagrams and flowcharts with the help of the mermaid script language.
+- [Utils](https://github.com/JBZoo/Utils) - Collection of useful PHP functions, mini-classes, and snippets for every day.
+- [Image](https://github.com/JBZoo/Image) - Package provides object-oriented way to manipulate with images as simple as possible.
+- [Data](https://github.com/JBZoo/Data) - Extended implementation of ArrayObject. Use files as config/array.
+- [Retry](https://github.com/JBZoo/Retry) - Tiny PHP library providing retry/backoff functionality with multiple backoff strategies and jitter support.
