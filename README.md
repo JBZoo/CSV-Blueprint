@@ -54,7 +54,7 @@ Integrating CSV validation into CI processes promotes higher data integrity, rel
 
 ## Live Demo
 
-* As a live demonstration of how the tool works you can take a look at the super minimal repository - [JBZoo/Csv-Blueprint-Demo](https://github.com/JBZoo/Csv-Blueprint).
+* As a live demonstration of how the tool works you can take a look at the super minimal repository - [JBZoo/Csv-Blueprint-Demo](https://github.com/JBZoo/Csv-Blueprint). Feel free to fork it and play with the tool.
 * You can see more complex examples and different ways of reporting by looking at the [last Demo pipeline](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml?query=branch%3Amaster) (please open the logs). There you'll find the basic ways to get started. And also the `All Report Types` (left sidebar) link with the different report types.
 
 **See also**
@@ -78,7 +78,7 @@ Also see demo in the [GitHub Actions](https://github.com/JBZoo/Csv-Blueprint/act
           schema: tests/schemas/demo_invalid.yml
           output: table                            # Optional. Default is "github"
 ```
-**Note**. Output format for GitHub Actions is `github` by default. [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message)
+**Note**. Output format for GitHub Actions is `github` by default. [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message).
 
 This allows you to see bugs in the GitHub interface at the PR level.
 That is, the error will be shown in a specific place in the CSV file right in diff of your Pull Requests!
@@ -186,8 +186,7 @@ Options:
 As a result of the validation process, you will receive a human-readable table with a list of errors found in the CSV file. By defualt, the output format is a table, but you can choose from a variety of formats, such as text, GitHub, GitLab, TeamCity, JUnit, and more.  For example, the following output is generated using the "table" format.
 
 **Notes**
-* Output format for GitHub Actions is `github` by default. See [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message).
-This allows you to see bugs in the GitHub interface at the PR level. That is, the error will be shown in a specific place in the CSV file. See screenshot.
+* Output format for GitHub Actions is `github` by default.
 * Tools uses [JBZoo/CI-Report-Converter](https://github.com/JBZoo/CI-Report-Converter) as SDK to convert reports to different formats. So you can easily integrate it with any CI system.
 
 
@@ -478,7 +477,7 @@ So... as strictly as possible in today's PHP world.
 I think I've set a personal record. 
 The first version was written from scratch in about 3 days (with really frequent breaks to take care of 4 month baby).
 I'm looking at the first commit and the very first git tag. I'd say over the weekend, in my spare time on my personal laptop.
-AI I only used for this Readme file. I'm not very good at English. 🤔
+Well... AI I only used for this Readme file because I'm not very good at English. 🤔
 
 I seem to be typing fast and I had really great inspiration. I hope my wife doesn't divorce me. 😅
 
