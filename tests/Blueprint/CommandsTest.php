@@ -29,13 +29,13 @@ use function JBZoo\PHPUnit\isSame;
 
 final class CommandsTest extends PHPUnit
 {
-    public function testCreateCsvHelp()
+    public function testCreateCsvHelp(): void
     {
         $rootPath = PROJECT_ROOT;
 
         $actual = $this->realExecution('validate:csv', ['help' => null]);
 
-        $expected = implode("\n", [
+        $expected = \implode("\n", [
             'Description:',
             '  Validate CSV file by schema.',
             '',
@@ -79,7 +79,7 @@ final class CommandsTest extends PHPUnit
         ]);
 
         isSame($expected, $actual);
-        isFileContains(implode("\n", [
+        isFileContains(\implode("\n", [
             '```',
             './csv-blueprint validate:csv --help',
             '',
@@ -89,7 +89,7 @@ final class CommandsTest extends PHPUnit
         ]), PROJECT_ROOT . '/README.md');
     }
 
-    public function testCreateValidatePositive()
+    public function testCreateValidatePositive(): void
     {
         $rootPath = PROJECT_ROOT;
 
@@ -98,7 +98,7 @@ final class CommandsTest extends PHPUnit
             'schema' => "{$rootPath}/tests/schemas/demo_valid.yml",
         ]);
 
-        $expected = implode("\n", [
+        $expected = \implode("\n", [
             "CSV    : {$rootPath}/tests/fixtures/demo.csv",
             "Schema : {$rootPath}/tests/schemas/demo_valid.yml",
             'Looks good!',
@@ -109,7 +109,7 @@ final class CommandsTest extends PHPUnit
         isSame($expected, $actual);
     }
 
-    public function testCreateValidateNegative()
+    public function testCreateValidateNegative(): void
     {
         $rootPath = PROJECT_ROOT;
 
@@ -118,7 +118,7 @@ final class CommandsTest extends PHPUnit
             'schema' => "{$rootPath}/tests/schemas/demo_invalid.yml",
         ]);
 
-        $expected = implode("\n", [
+        $expected = \implode("\n", [
             "CSV    : {$rootPath}/tests/fixtures/demo.csv",
             "Schema : {$rootPath}/tests/schemas/demo_invalid.yml",
             '+------+------------------+--------------+----- demo.csv -----------------------------------------------+',
@@ -148,7 +148,7 @@ final class CommandsTest extends PHPUnit
         isSame($expected, $actual);
     }
 
-    public function testCreateValidateNegativeText()
+    public function testCreateValidateNegativeText(): void
     {
         $rootPath = PROJECT_ROOT;
 
@@ -158,32 +158,32 @@ final class CommandsTest extends PHPUnit
             'output' => 'text',
         ]);
 
-        $expected = implode("\n", [
+        $expected = \implode("\n", [
             "CSV    : {$rootPath}/tests/fixtures/demo.csv",
             "Schema : {$rootPath}/tests/schemas/demo_invalid.yml",
 
-            "\"csv.header\" at line 1, column \"1:\". Property \"name\" is not defined in schema: " .
+            '"csv.header" at line 1, column "1:". Property "name" is not defined in schema: ' .
             "\"{$rootPath}/tests/schemas/demo_invalid.yml\".",
 
-            "\"max\" at line 5, column \"2:Float\". Value \"74605.944\" is greater than \"74605\".",
+            '"max" at line 5, column "2:Float". Value "74605.944" is greater than "74605".',
 
-            "\"allow_values\" at line 5, column \"4:Favorite color\". Value \"blue\" is not allowed. " .
-            "Allowed values: [\"red\", \"green\", \"Blue\"].",
+            '"allow_values" at line 5, column "4:Favorite color". Value "blue" is not allowed. ' .
+            'Allowed values: ["red", "green", "Blue"].',
 
-            "\"min_length\" at line 6, column \"0:Name\". Value \"Carl\" (legth: 4) is too short. " .
-            "Min length is 5.",
+            '"min_length" at line 6, column "0:Name". Value "Carl" (legth: 4) is too short. ' .
+            'Min length is 5.',
 
-            "\"min_date\" at line 6, column \"3:Birthday\". Value \"1955-05-14\" is less than the " .
-            "minimum date \"1955-05-15T00:00:00.000+00:00\".",
+            '"min_date" at line 6, column "3:Birthday". Value "1955-05-14" is less than the ' .
+            'minimum date "1955-05-15T00:00:00.000+00:00".',
 
-            "\"min_date\" at line 8, column \"3:Birthday\". Value \"1955-05-14\" is less than the " .
-            "minimum date \"1955-05-15T00:00:00.000+00:00\".",
+            '"min_date" at line 8, column "3:Birthday". Value "1955-05-14" is less than the ' .
+            'minimum date "1955-05-15T00:00:00.000+00:00".',
 
-            "\"max_date\" at line 9, column \"3:Birthday\". Value \"2010-07-20\" is more than the " .
-            "maximum date \"2009-01-01T00:00:00.000+00:00\".",
+            '"max_date" at line 9, column "3:Birthday". Value "2010-07-20" is more than the ' .
+            'maximum date "2009-01-01T00:00:00.000+00:00".',
 
-            "\"min_length\" at line 11, column \"0:Name\". Value \"Lois\" (legth: 4) is too short. " .
-            "Min length is 5.",
+            '"min_length" at line 11, column "0:Name". Value "Lois" (legth: 4) is too short. ' .
+            'Min length is 5.',
 
             '',
             'CSV file is not valid! Found 8 errors.',
@@ -202,8 +202,8 @@ final class CommandsTest extends PHPUnit
         $application->add(new ValidateCsv());
         $command = $application->find($action);
 
-        $buffer = new BufferedOutput();
-        $args = new StringInput(Cli::build('', $params));
+        $buffer   = new BufferedOutput();
+        $args     = new StringInput(Cli::build('', $params));
         $exitCode = $command->run($args, $buffer);
 
         return [$buffer->fetch(), $exitCode];

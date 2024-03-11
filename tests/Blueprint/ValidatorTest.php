@@ -461,8 +461,8 @@ final class ValidatorTest extends PHPUnit
 
     public function testRenderTeamCity(): void
     {
-        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
-        $out = $csv->validate()->render(ErrorSuite::RENDER_TEAMCITY);
+        $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
+        $out  = $csv->validate()->render(ErrorSuite::RENDER_TEAMCITY);
         $path = self::CSV_SIMPLE_HEADER;
 
         isContain("##teamcity[testCount count='2' ", $out);
@@ -476,15 +476,15 @@ final class ValidatorTest extends PHPUnit
 
     public function testRenderGithub(): void
     {
-        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
+        $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
         $path = self::CSV_SIMPLE_HEADER;
         isSame(
             \implode("\n", [
                 "::error file={$path},line=2::min at column 0:seq%0A\"min\" at line 2, " .
-                "column \"0:seq\". Value \"1\" is less than \"3\".",
+                'column "0:seq". Value "1" is less than "3".',
                 '',
                 "::error file={$path},line=3::min at column 0:seq%0A\"min\" at line 3, " .
-                "column \"0:seq\". Value \"2\" is less than \"3\".",
+                'column "0:seq". Value "2" is less than "3".',
                 '',
             ]),
             $csv->validate()->render(ErrorSuite::RENDER_GITHUB),
@@ -493,7 +493,7 @@ final class ValidatorTest extends PHPUnit
 
     public function testRenderGitlab(): void
     {
-        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
+        $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
         $path = self::CSV_SIMPLE_HEADER;
 
         $cleanJson = json($csv->validate()->render(ErrorSuite::RENDER_GITLAB))->getArrayCopy();
@@ -503,20 +503,20 @@ final class ValidatorTest extends PHPUnit
             [
                 [
                     'description' => "min at column 0:seq\n\"min\" at line 2, " .
-                        "column \"0:seq\". Value \"1\" is less than \"3\".",
+                        'column "0:seq". Value "1" is less than "3".',
                     // 'fingerprint' => '...',
-                    'severity'    => 'major',
-                    'location'    => [
+                    'severity' => 'major',
+                    'location' => [
                         'path'  => $path,
                         'lines' => ['begin' => 2],
                     ],
                 ],
                 [
                     'description' => "min at column 0:seq\n\"min\" at line 3, " .
-                        "column \"0:seq\". Value \"2\" is less than \"3\".",
+                        'column "0:seq". Value "2" is less than "3".',
                     // 'fingerprint' => '..',
-                    'severity'    => 'major',
-                    'location'    => [
+                    'severity' => 'major',
+                    'location' => [
                         'path'  => $path,
                         'lines' => ['begin' => 3],
                     ],
@@ -528,7 +528,7 @@ final class ValidatorTest extends PHPUnit
 
     public function testRenderJUnit(): void
     {
-        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
+        $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
         $path = self::CSV_SIMPLE_HEADER;
         isSame(
             \implode("\n", [
