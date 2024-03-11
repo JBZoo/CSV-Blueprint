@@ -26,7 +26,7 @@ env:
 
 jobs:
   reports:
-    name: All Reports
+    name: All Report Types
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
