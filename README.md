@@ -107,7 +107,7 @@ docker pull jbzoo/csv-blueprint
 # Run the tool inside Docker
 docker run --rm                                  \
     --workdir=/parent-host                       \
-    -v `pwd`:/parent-host                        \
+    -v .:/parent-host                            \
     jbzoo/csv-blueprint                          \
     validate:csv                                 \
     --csv=./tests/fixtures/demo.csv              \
@@ -118,8 +118,10 @@ docker run --rm                                  \
 ### As PHP binary
 Ensure you have PHP installed on your machine.
 
+**Status: WIP**. It's not released yet. But you can build it from source. See manual above and `./build//csv-blueprint.phar` file.
+
 ```sh
-wget https://github.com/JBZoo/CI-Report-Converter/releases/latest/download/csv-blueprint.phar
+wget https://github.com/JBZoo/Csv-Blueprint/releases/latest/download/csv-blueprint.phar
 chmod +x ./csv-blueprint.phar
 ./csv-blueprint.phar validate:csv               \
    --csv=./tests/fixtures/demo.csv              \
