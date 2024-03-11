@@ -135,8 +135,8 @@ final class ErrorSuite
     {
         $buffer = new BufferedOutput();
         $table  = (new Table($buffer))
-            ->setHeaderTitle($this->csvFilename)
-            ->setFooterTitle($this->csvFilename)
+            ->setHeaderTitle($this->getTestcaseName())
+            ->setFooterTitle($this->getTestcaseName())
             ->setHeaders(['Line', 'id:Column', 'Rule', 'Message'])
             ->setColumnMaxWidth(0, 10)
             ->setColumnMaxWidth(1, 20)
@@ -154,7 +154,7 @@ final class ErrorSuite
 
     private function prepareSourceSuite(): SourceSuite
     {
-        $suite = new SourceSuite($this->csvFilename);
+        $suite = new SourceSuite($this->getTestcaseName());
 
         foreach ($this->errors as $error) {
             $caseName     = $error->getRuleCode() . ' at column ' . $error->getColumnName();
@@ -165,5 +165,10 @@ final class ErrorSuite
         }
 
         return $suite;
+    }
+
+    private function getTestcaseName(): string
+    {
+        return \pathinfo((string)\realpath((string)$this->csvFilename), \PATHINFO_BASENAME);
     }
 }

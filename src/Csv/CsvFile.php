@@ -43,7 +43,7 @@ final class CsvFile
 
     public function getCsvFilename(): string
     {
-        return \pathinfo((string)\realpath($this->csvFilename), \PATHINFO_BASENAME);
+        return $this->csvFilename;
     }
 
     public function getCsvStructure(): ParseConfig

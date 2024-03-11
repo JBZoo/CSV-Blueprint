@@ -461,12 +461,13 @@ final class ValidatorTest extends PHPUnit
 
     public function testRenderTeamCity(): void
     {
-        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
-        $out = $csv->validate()->render(ErrorSuite::RENDER_TEAMCITY);
+        $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
+        $out  = $csv->validate()->render(ErrorSuite::RENDER_TEAMCITY);
+        $path = self::CSV_SIMPLE_HEADER;
 
         isContain("##teamcity[testCount count='2' ", $out);
         isContain("##teamcity[testSuiteStarted name='simple_header.csv' ", $out);
-        isContain("##teamcity[testStarted name='min at column 0:seq' locationHint='php_qn://simple_header.csv'", $out);
+        isContain("##teamcity[testStarted name='min at column 0:seq' locationHint='php_qn://{$path}'", $out);
         isContain("##teamcity[testFinished name='min at column 0:seq' timestamp", $out);
         isContain('Value "1" is less than "3"', $out);
         isContain('Value "2" is less than "3"', $out);
@@ -475,12 +476,13 @@ final class ValidatorTest extends PHPUnit
 
     public function testRenderGithub(): void
     {
-        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
+        $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
+        $path = self::CSV_SIMPLE_HEADER;
         isSame(
             \implode("\n", [
-                '::error file=simple_header.csv,line=2::min at column 0:seq%0AValue "1" is less than "3"',
+                "::error file={$path},line=2::min at column 0:seq%0AValue \"1\" is less than \"3\"",
                 '',
-                '::error file=simple_header.csv,line=3::min at column 0:seq%0AValue "2" is less than "3"',
+                "::error file={$path},line=3::min at column 0:seq%0AValue \"2\" is less than \"3\"",
                 '',
             ]),
             $csv->validate()->render(ErrorSuite::RENDER_GITHUB),
@@ -489,44 +491,50 @@ final class ValidatorTest extends PHPUnit
 
     public function testRenderGitlab(): void
     {
-        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
+        $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
+        $path = self::CSV_SIMPLE_HEADER;
+
+        $cleanJson = json($csv->validate()->render(ErrorSuite::RENDER_GITLAB))->getArrayCopy();
+        unset($cleanJson[0]['fingerprint'], $cleanJson[1]['fingerprint']);
+
         isSame(
             [
                 [
                     'description' => "min at column 0:seq\nValue \"1\" is less than \"3\"",
-                    'fingerprint' => 'ec0612c9f1610d440b558fff51bbceed086a0212cdeb14d79d09c8a9bd108487',
-                    'severity'    => 'major',
-                    'location'    => [
-                        'path'  => 'simple_header.csv',
+                    // 'fingerprint' => '2c2639beb20e2e9ea13a414ce91865522f6e1885abcf1f99ada44de007cdb01f',
+                    'severity' => 'major',
+                    'location' => [
+                        'path'  => $path,
                         'lines' => ['begin' => 2],
                     ],
                 ],
                 [
                     'description' => "min at column 0:seq\nValue \"2\" is less than \"3\"",
-                    'fingerprint' => '51f82750d029c395dec5f2f5c1c4eb841e43c1ea6b8ece9ee31126a3e22620cb',
-                    'severity'    => 'major',
-                    'location'    => [
-                        'path'  => 'simple_header.csv',
+                    // 'fingerprint' => '0cda6e2df28be9033542ab504e315d070951a206446eb7005d2060d44cfa0e45',
+                    'severity' => 'major',
+                    'location' => [
+                        'path'  => $path,
                         'lines' => ['begin' => 3],
                     ],
                 ],
             ],
-            json($csv->validate()->render(ErrorSuite::RENDER_GITLAB))->getArrayCopy(),
+            $cleanJson,
         );
     }
 
     public function testRenderJUnit(): void
     {
-        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
+        $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
+        $path = self::CSV_SIMPLE_HEADER;
         isSame(
             \implode("\n", [
                 '<?xml version="1.0" encoding="UTF-8"?>',
                 '<testsuites>',
                 '  <testsuite name="simple_header.csv" tests="2">',
-                '    <testcase name="min at column 0:seq" file="simple_header.csv" line="2">',
+                "    <testcase name=\"min at column 0:seq\" file=\"{$path}\" line=\"2\">",
                 '      <system-out>Value "1" is less than "3"</system-out>',
                 '    </testcase>',
-                '    <testcase name="min at column 0:seq" file="simple_header.csv" line="3">',
+                "    <testcase name=\"min at column 0:seq\" file=\"{$path}\" line=\"3\">",
                 '      <system-out>Value "2" is less than "3"</system-out>',
                 '    </testcase>',
                 '  </testsuite>',

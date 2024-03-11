@@ -32,7 +32,7 @@ final class CsvReaderTest extends PHPUnit
     public function testReadCsvFileWithoutHeader(): void
     {
         $csv = new CsvFile(self::CSV_SIMPLE_NO_HEADER, self::SCHEMA_SIMPLE_NO_HEADER);
-        isSame('simple_no_header.csv', $csv->getCsvFilename());
+        isSame(self::CSV_SIMPLE_NO_HEADER, $csv->getCsvFilename());
 
         isSame([], $csv->getHeader());
 
@@ -50,7 +50,7 @@ final class CsvReaderTest extends PHPUnit
     public function testReadCsvFileWithHeader(): void
     {
         $csv = new CsvFile(self::CSV_SIMPLE_HEADER, self::SCHEMA_SIMPLE_HEADER);
-        isSame('simple_header.csv', $csv->getCsvFilename());
+        isSame(self::CSV_SIMPLE_HEADER, $csv->getCsvFilename());
 
         isSame(['seq', 'bool', 'exact'], $csv->getHeader());
 
