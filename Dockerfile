@@ -26,6 +26,7 @@ COPY . /app
 RUN cd /app                                                           \
     && composer install --no-dev --optimize-autoloader --no-progress  \
     && composer clear-cache
+RUN chmod +x app/csv-blueprint
 
 # Experimental. Forced colored output
 ENV TERM_PROGRAM=Hyper

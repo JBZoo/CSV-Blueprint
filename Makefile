@@ -38,7 +38,7 @@ test-all: ##@Project Run all project tests at once
 
 build-docker:
 	$(call title,"Building Docker Image")
-	@docker build -t ci-report-converter .
+	@docker build -t csv-blueprint .
 
 
 demo-valid: ##@Project Run demo valid CSV

@@ -188,4 +188,4 @@ jobs:
         run: make build-docker
 
       - name: Trying to use the Docker Image
-        run: docker run --rm csv-blueprint
+        run: docker run --rm csv-blueprint --ansi
