@@ -193,3 +193,25 @@ jobs:
       - name: Reporting example via Docker
         run: make demo-docker --no-print-directory
         continue-on-error: true
+
+  github-action:
+    name: GitHub Action
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: 👍 Valid CSV file
+        uses: ./
+        with:
+          csv: tests/fixtures/demo.csv
+          schema: tests/schemas/demo_valid.yml
+
+      - name: 👎 Invalid CSV file
+        uses: ./
+        with:
+          csv: tests/fixtures/demo.csv
+          schema: tests/schemas/demo_invalid.yml
+        continue-on-error: true
