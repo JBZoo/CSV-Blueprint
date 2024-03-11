@@ -25,7 +25,6 @@ use Symfony\Component\Console\Input\InputOption;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
- * @codeCoverageIgnore
  */
 final class ValidateCsv extends CliCommand
 {
@@ -33,18 +32,18 @@ final class ValidateCsv extends CliCommand
     {
         $this
             ->setName('validate:csv')
-            ->setDescription('Validate CSV file by rule')
+            ->setDescription('Validate CSV file by schema.')
             ->addOption(
                 'csv',
                 'c',
                 InputOption::VALUE_REQUIRED,
-                'CSV filepath to validate. If not set or empty, then the STDIN is used.',
+                'CSV filepath to validate.',
             )
             ->addOption(
                 'schema',
                 's',
                 InputOption::VALUE_REQUIRED,
-                'Schema rule filepath',
+                'Schema rule filepath. It can be a .yml/.json/.php file.',
             )
             ->addOption(
                 'output',
@@ -73,7 +72,8 @@ final class ValidateCsv extends CliCommand
 
             if ($this->isTextMode()) {
                 $this->_(
-                    '<yellow>CSV file is not valid!</yellow> Found <e>' . $errorSuite->count() . '</e> errors.',
+                    '<yellow>CSV file is not valid!</yellow> ' .
+                    'Found <yellow>' . $errorSuite->count() . '<yellow> errors.',
                     OutLvl::E,
                 );
             }

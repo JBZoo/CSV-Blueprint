@@ -128,7 +128,7 @@ final class ErrorSuite
             $result[] = (string)$error;
         }
 
-        return \implode("\n", $result);
+        return \implode("\n", $result) . "\n";
     }
 
     private function renderTable(): string
@@ -161,7 +161,7 @@ final class ErrorSuite
             $case         = $suite->addTestCase($caseName);
             $case->line   = $error->getLine();
             $case->file   = $this->csvFilename;
-            $case->errOut = $error->getMessage();
+            $case->errOut = (string)$error;
         }
 
         return $suite;

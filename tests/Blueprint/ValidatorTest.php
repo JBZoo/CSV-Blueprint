@@ -72,7 +72,7 @@ final class ValidatorTest extends PHPUnit
     {
         $csv = new CsvFile(self::CSV_SIMPLE_HEADER, self::SCHEMA_SIMPLE_HEADER_PHP);
         isSame(
-            '"min" at line 2, column "0:seq". Value "1" is less than "2".',
+            '"min" at line 2, column "0:seq". Value "1" is less than "2".' . "\n",
             (string)$csv->validate(),
         );
     }
@@ -81,7 +81,7 @@ final class ValidatorTest extends PHPUnit
     {
         $csv = new CsvFile(self::CSV_SIMPLE_HEADER, self::SCHEMA_SIMPLE_HEADER_JSON);
         isSame(
-            '"min" at line 2, column "0:seq". Value "1" is less than "2".',
+            '"min" at line 2, column "0:seq". Value "1" is less than "2".' . "\n",
             (string)$csv->validate(),
         );
     }
@@ -93,7 +93,7 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('integer', 'not_empty', true));
         isSame(
-            '"not_empty" at line 19, column "0:integer". Value is empty.',
+            '"not_empty" at line 19, column "0:integer". Value is empty.' . "\n",
             (string)$csv->validate(),
         );
     }
@@ -103,7 +103,7 @@ final class ValidatorTest extends PHPUnit
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule(null, 'not_empty', true));
         isSame(
             '"csv.header" at line 1, column "0:". ' .
-            'Property "name" is not defined in schema: "_custom_array_".',
+            'Property "name" is not defined in schema: "_custom_array_".' . "\n",
             (string)$csv->validate(),
         );
     }
@@ -417,14 +417,14 @@ final class ValidatorTest extends PHPUnit
     {
         $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
         isSame(
-            '"min" at line 2, column "0:seq". Value "1" is less than "3".',
+            '"min" at line 2, column "0:seq". Value "1" is less than "3".' . "\n",
             $csv->validate(true)->render(ErrorSuite::RENDER_TEXT),
         );
 
         isSame(
             \implode("\n", [
                 '"min" at line 2, column "0:seq". Value "1" is less than "3".',
-                '"min" at line 3, column "0:seq". Value "2" is less than "3".',
+                '"min" at line 3, column "0:seq". Value "2" is less than "3".' . "\n",
             ]),
             $csv->validate()->render(ErrorSuite::RENDER_TEXT),
         );
@@ -480,9 +480,11 @@ final class ValidatorTest extends PHPUnit
         $path = self::CSV_SIMPLE_HEADER;
         isSame(
             \implode("\n", [
-                "::error file={$path},line=2::min at column 0:seq%0AValue \"1\" is less than \"3\"",
+                "::error file={$path},line=2::min at column 0:seq%0A\"min\" at line 2, " .
+                'column "0:seq". Value "1" is less than "3".',
                 '',
-                "::error file={$path},line=3::min at column 0:seq%0AValue \"2\" is less than \"3\"",
+                "::error file={$path},line=3::min at column 0:seq%0A\"min\" at line 3, " .
+                'column "0:seq". Value "2" is less than "3".',
                 '',
             ]),
             $csv->validate()->render(ErrorSuite::RENDER_GITHUB),
@@ -500,8 +502,9 @@ final class ValidatorTest extends PHPUnit
         isSame(
             [
                 [
-                    'description' => "min at column 0:seq\nValue \"1\" is less than \"3\"",
-                    // 'fingerprint' => '2c2639beb20e2e9ea13a414ce91865522f6e1885abcf1f99ada44de007cdb01f',
+                    'description' => "min at column 0:seq\n\"min\" at line 2, " .
+                        'column "0:seq". Value "1" is less than "3".',
+                    // 'fingerprint' => '...',
                     'severity' => 'major',
                     'location' => [
                         'path'  => $path,
@@ -509,8 +512,9 @@ final class ValidatorTest extends PHPUnit
                     ],
                 ],
                 [
-                    'description' => "min at column 0:seq\nValue \"2\" is less than \"3\"",
-                    // 'fingerprint' => '0cda6e2df28be9033542ab504e315d070951a206446eb7005d2060d44cfa0e45',
+                    'description' => "min at column 0:seq\n\"min\" at line 3, " .
+                        'column "0:seq". Value "2" is less than "3".',
+                    // 'fingerprint' => '..',
                     'severity' => 'major',
                     'location' => [
                         'path'  => $path,
@@ -532,10 +536,10 @@ final class ValidatorTest extends PHPUnit
                 '<testsuites>',
                 '  <testsuite name="simple_header.csv" tests="2">',
                 "    <testcase name=\"min at column 0:seq\" file=\"{$path}\" line=\"2\">",
-                '      <system-out>Value "1" is less than "3"</system-out>',
+                '      <system-out>"min" at line 2, column "0:seq". Value "1" is less than "3".</system-out>',
                 '    </testcase>',
                 "    <testcase name=\"min at column 0:seq\" file=\"{$path}\" line=\"3\">",
-                '      <system-out>Value "2" is less than "3"</system-out>',
+                '      <system-out>"min" at line 3, column "0:seq". Value "2" is less than "3".</system-out>',
                 '    </testcase>',
                 '  </testsuite>',
                 '</testsuites>',

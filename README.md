@@ -155,14 +155,14 @@ So there are options here for all occasions.
 
 
 Description:
-  Validate CSV file by rule
+  Validate CSV file by schema.
 
 Usage:
   validate:csv [options]
 
 Options:
   -c, --csv=CSV                  CSV filepath to validate.
-  -s, --schema=SCHEMA            Schema rule filepath.
+  -s, --schema=SCHEMA            Schema rule filepath. It can be a .yml/.json/.php file.
   -o, --output=OUTPUT            Report output format. Available options: text, table, github, gitlab, teamcity, junit [default: "table"]
       --no-progress              Disable progress bar animation for logs. It will be used only for text output format.
       --mute-errors              Mute any sort of errors. So exit code will be always "0" (if it's possible).
@@ -445,6 +445,7 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
 
 * [ ] Filename pattern validation with regex (like "all files in the folder should be in the format `/^[\d]{4}-[\d]{2}-[\d]{2}\.csv$/`").
 * [ ] CSV/Schema file discovery in the folder with regex filename pattern (like `glob(./**/dir/*.csv)`).
+* [ ] Build phar file and release via GitHub Actions.
 * [ ] If option `--csv` is a folder, then validate all files in the folder.
 * [ ] If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
 * [ ] If option `--schema` is not specified, then validate only super base level things (like "is it a CSV file?").
