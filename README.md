@@ -480,6 +480,7 @@ Since I don't know under what conditions the code will be used, everything I can
 
 So... as strictly as possible in today's PHP world. I think it works as expected.
 
+
 ## Interesting fact
 
 I think I've set a personal record. 
