@@ -4,9 +4,17 @@
 [![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint)    [![Dependents](https://poser.pugx.org/jbzoo/csv-blueprint/dependents)](https://packagist.org/packages/jbzoo/csv-blueprint/dependents?order_by=downloads)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
 
 
-<!--ts-->
-
-<!--te-->
+* [Introduction](#introduction)
+* [Features](#features)
+* [Usage](#usage)
+    * [As GitHub Action](#as-github-action)
+    * [As Docker container](#as-docker-container)
+    * [As PHP binary](#as-php-binary)
+    * [As PHP project](#as-php-project)
+    * [Schema Definition](#schema-definition)
+    * [Schema file examples](#schema-file-examples)
+* [Unit tests and check code style](#unit-tests-and-check-code-style)
+* [License](#license)
 
 
 ## Introduction
@@ -30,18 +38,18 @@ to ensure the integrity of CSV data in your projects.
 
 Also see demo in the [GitHub Actions](.github/workflows/demo.yml) file.
 
-### As GitHub Action:
+### As GitHub Action
 
 ```yml
       - name: Validate CSV file
         uses: jbzoo/csv-blueprint@master
         with:
-          csv: path/to/demo.csv
-          schema: path/to/schema.yml
+          csv: tests/fixtures/demo.csv
+          schema: tests/schemas/demo_invalid.yml
           output: table
 ```
 
-### As Docker container:
+### As Docker container
 Ensure you have Docker installed on your machine.
 
 ```sh
@@ -59,7 +67,7 @@ docker run --rm                                  \
 ```
 
 
-### As PHP binary:
+### As PHP binary
 Ensure you have PHP installed on your machine.
 
 ```sh
@@ -68,7 +76,7 @@ chmod +x ./csv-blueprint.phar
 ./csv-blueprint.phar --csv=./tests/fixtures/demo.csv --schema=./tests/schemas/demo_invalid.yml
 ```
 
-### As PHP project:
+### As PHP project
 Ensure you have PHP installed on your machine.
 Then, you can use the following commands to build from source and run the tool.
 
