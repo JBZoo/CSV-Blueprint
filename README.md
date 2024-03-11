@@ -18,6 +18,7 @@
     * [Schema file examples](#schema-file-examples)
 * [Coming soon](#coming-soon)
 * [Disadvantages?](#disadvantages)
+* [Interesting fact](#interesting-fact)
 * [Unit tests and check code style](#unit-tests-and-check-code-style)
 * [License](#license)
 * [See Also](#see-also)
@@ -153,8 +154,8 @@ Usage:
   validate:csv [options]
 
 Options:
-  -c, --csv=CSV                  CSV filepath to validate. If not set or empty, then the STDIN is used.
-  -s, --schema=SCHEMA            Schema rule filepath
+  -c, --csv=CSV                  CSV filepath to validate.
+  -s, --schema=SCHEMA            Schema rule filepath.
   -o, --output=OUTPUT            Report output format. Available options: text, table, github, gitlab, teamcity, junit [default: "table"]
       --no-progress              Disable progress bar animation for logs. It will be used only for text output format.
       --mute-errors              Mute any sort of errors. So exit code will be always "0" (if it's possible).
@@ -251,7 +252,9 @@ It's also covered by tests, so it's always up-to-date.
 * I have deliberately refused typing of columns (like `type: integer`) and replaced them with rules,
 which can be combined in any sequence and completely at your discretion.
 This gives you great flexibility when validating CSV files.
-* All fields (unless explicitly stated otherwise) are optional and you can choose not to declare them. Up to you.
+* All fields (unless explicitly stated otherwise) are optional, and you can choose not to declare them. Up to you.
+* You are always free to add your option anywhere (except the `rules` list) and it will be ignored. I find it convenient for additional integrations and customization.
+
 
 ```yml
 # It's a full example of the CSV schema file in YAML format.
@@ -432,12 +435,17 @@ return [
 
 ## Coming soon
 
+It's random ideas and plans. No orderings and deadlines. But batch processing is the priority 1!
+
 * [ ] Filename pattern validation with regex (like "all files in the folder should be in the format `/^[\d]{4}-[\d]{2}-[\d]{2}\.csv$/`").
 * [ ] CSV/Schema file discovery in the folder with regex filename pattern (like `glob(./**/dir/*.csv)`).
-* [ ] Agregate rules (like "at least one of the fields should be not empty" or "all fields should be unique").
-* [ ] Create CSV files based on the schema (like "create 1000 rows with random data based on rules").
-* [ ] Checking multiple CSV files in one schema.
-* [ ] Using multiple schemas for one csv file.
+* [ ] If option `--csv` is a folder, then validate all files in the folder.
+* [ ] If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
+* [ ] If option `--schema` is not specified, then validate only super base level things (like "is it a CSV file?").
+* [ ] Agregate rules (like "at least one of the fields should be not empty" or "all values must be unique").
+* [ ] Create CSV files based on the schema (like "create 1000 rows with random data based on schema and rules").
+* [ ] Checking multiple CSV files in one schema. Batch processing.
+* [ ] Using multiple schemas for one csv file. Batch processing.
 * [ ] Parallel validation of really-really large files (1GB+ ?). I know you have them and not so much memory.
 * [ ] Parallel validation of multiple files at once.
 * [ ] Benchmarks as part of the CI process and Readme. It's important to know how much time the validation process takes.
@@ -454,20 +462,25 @@ I'm not sure if I will implement all of them. But I will try to do my best.
 
 ## Disadvantages?
 
-* Yeah-yeah-yeah. I know it's not the fastest tool in the world. But it's not the slowest either.
-* Yeah-yeah-yeah. It's PHP (not a Python, Go). PHP is not the best language for such tasks.
-* Yeah-yeah-yeah. It looks like a standalone binary.
-* Yeah-yeah-yeah. You can't use as Python SDK.
+* Yeah-yeah. I know it's not the fastest tool in the world. But it's not the slowest either.
+* Yeah-yeah. It's PHP (not a Python, Go). PHP is not the best language for such tasks.
+* Yeah-yeah. It looks like a standalone binary.
+* Yeah-yeah. You can't use as Python SDK.
 
-But... it's not a problem for most cases. And it solves the problem of validating CSV files in CI.
+But... it's not a problem for most cases. And it solves the problem of validating CSV files in CI. 👍
 
 The utility is made to just pick up and use and not think about how it works internally.
 Moreover, everything is covered as strictly as possible by tests, strict typing of variables + ~7 linters and static analyzers (max level of rules).
 So... as strictly as possible in today's PHP world.
 
-**Interesting fact, by the way**
+## Interesting fact
 
-The first version was written from scratch in about 3 days (With frequent breaks to take care of 4 month baby). I'm looking at the first commit and the very first git tag. I'd say over the weekend, in my spare time on my personal laptop. AI I only used for this Readme file. I'm not very good at English. 😅
+I think I've set a personal record. 
+The first version was written from scratch in about 3 days (with really frequent breaks to take care of 4 month baby).
+I'm looking at the first commit and the very first git tag. I'd say over the weekend, in my spare time on my personal laptop.
+AI I only used for this Readme file. I'm not very good at English. 🤔
+
+I seem to be typing fast and I had really great inspiration. I hope my wife doesn't divorce me. 😅
 
 
 ## Contributing
