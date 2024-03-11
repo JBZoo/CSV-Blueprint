@@ -142,6 +142,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Pull Docker Image
+        run: docker pull jbzoo/csv-blueprint
+
       - name: 👍 Valid CSV file
         run: |
           docker run                                           \
