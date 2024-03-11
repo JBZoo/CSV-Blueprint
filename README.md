@@ -1,37 +1,266 @@
 # JBZoo / Csv-Blueprint
 
-[![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml?query=branch%3Amaster)    [![Coverage Status](https://coveralls.io/repos/github/JBZoo/Csv-Blueprint/badge.svg?branch=master)](https://coveralls.io/github/JBZoo/Csv-Blueprint?branch=master)    [![Psalm Coverage](https://shepherd.dev/github/JBZoo/Csv-Blueprint/coverage.svg)](https://shepherd.dev/github/JBZoo/Csv-Blueprint)    [![Psalm Level](https://shepherd.dev/github/JBZoo/Csv-Blueprint/level.svg)](https://shepherd.dev/github/JBZoo/Csv-Blueprint)    [![CodeFactor](https://www.codefactor.io/repository/github/jbzoo/csv-blueprint/badge)](https://www.codefactor.io/repository/github/jbzoo/csv-blueprint/issues)    
+[![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml?query=branch%3Amaster)    [![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml/badge.svg?branch=master)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml?query=branch%3Amaster)    [![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/release-docker.yml/badge.svg?branch=master)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/release-docker.yml?query=branch%3Amaster)    [![Coverage Status](https://coveralls.io/repos/github/JBZoo/Csv-Blueprint/badge.svg?branch=master)](https://coveralls.io/github/JBZoo/Csv-Blueprint?branch=master)    [![Psalm Coverage](https://shepherd.dev/github/JBZoo/Csv-Blueprint/coverage.svg)](https://shepherd.dev/github/JBZoo/Csv-Blueprint)    [![Psalm Level](https://shepherd.dev/github/JBZoo/Csv-Blueprint/level.svg)](https://shepherd.dev/github/JBZoo/Csv-Blueprint)    [![CodeFactor](https://www.codefactor.io/repository/github/jbzoo/csv-blueprint/badge)](https://www.codefactor.io/repository/github/jbzoo/csv-blueprint/issues)    
 [![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint)    [![Dependents](https://poser.pugx.org/jbzoo/csv-blueprint/dependents)](https://packagist.org/packages/jbzoo/csv-blueprint/dependents?order_by=downloads)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
 
 
 
+* [Introduction](#introduction)
+* [Why validate CSV files in CI?](#why-validate-csv-files-in-ci)
+* [Features](#features)
+* [Live Demo](#live-demo)
+* [Usage](#usage)
+    * [As GitHub Action](#as-github-action)
+    * [As Docker container](#as-docker-container)
+    * [As PHP binary](#as-php-binary)
+    * [As PHP project](#as-php-project)
+    * [Schema Definition](#schema-definition)
+    * [Schema file examples](#schema-file-examples)
+* [Coming soon](#coming-soon)
+* [Disadvantages?](#disadvantages)
+* [Interesting fact](#interesting-fact)
+* [Unit tests and check code style](#unit-tests-and-check-code-style)
+* [License](#license)
+* [See Also](#see-also)
 
-### Installing
+
+## Introduction
+
+The JBZoo/Csv-Blueprint tool is a powerful and flexible utility designed for validating CSV files against 
+a predefined schema specified in YAML format. With the capability to run both locally and in Docker environments,
+JBZoo/Csv-Blueprint is an ideal choice for integrating into CI/CD pipelines, such as GitHub Actions,
+to ensure the integrity of CSV data in your projects.
+
+
+## Why validate CSV files in CI?
+
+Validating CSV files at the Continuous Integration (CI) level within a repository is crucial for several reasons in data engineering:
+
+* **Data Quality Assurance**: Ensures that the data meets predefined standards and formats before it's used in applications or analytics, preventing data corruption and inconsistency issues.
+* **Early Detection of Errors**: Identifies problems with data submissions or changes early in the development process, reducing the time and effort required for troubleshooting and fixes.
+* **Automated Data Governance**: Enforces data governance policies automatically, ensuring that all data complies with regulatory and business rules.
+* **Streamlined Data Integration**: Facilitates smoother data integration processes by ensuring that the data being ingested from different sources adheres to the expected schema, minimizing integration errors.
+* **Collaboration and Transparency**: Helps teams collaborate more effectively by providing clear standards for data formats and validation rules, leading to more transparent and predictable data handling practices.
+
+Integrating CSV validation into CI processes promotes higher data integrity, reliability, and operational efficiency in data engineering projects.
+
+
+## Features
+
+* **Schema-based Validation**: Define the structure and rules for your CSV files in an intuitive [YAML format](schema-examples/full.yml), enabling precise validation against your data's expected format.
+* **Flexible Configuration**: Support for custom delimiters, quote characters, enclosures, and encoding settings to handle a wide range of CSV formats.
+* **Comprehensive Rule Set**: Includes a broad set of validation rules, such as non-empty fields, exact values, regular expressions, numeric constraints, date formats, and more, catering to various data validation needs.
+* **Docker Support**: Easily integrate into any workflow with Docker, providing a seamless experience for development, testing, and production environments.
+* **GitHub Actions Integration**: Automate CSV validation in your CI/CD pipeline, enhancing the quality control of your data in pull requests and deployments.
+* **Various ways to report:** issues that can be easily integrated with GithHub, Gitlab, TeamCity, etc. The default output is a human-readable table. [See Live Demo](https://github.com/JBZoo/Csv-Blueprint).
+
+
+## Live Demo
+
+* As a live demonstration of how the tool works you can take a look at the super minimal repository - [JBZoo/Csv-Blueprint-Demo](https://github.com/JBZoo/Csv-Blueprint). Feel free to fork it and play with the tool.
+* You can see more complex examples and different ways of reporting by looking at the [last Demo pipeline](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml?query=branch%3Amaster) (please open the logs). There you'll find the basic ways to get started. And also the `All Report Types` (left sidebar) link with the different report types.
+
+**See also**
+* [.github/workflows/demo.yml](.github/workflows/demo.yml)
+* [demo_invalid.yml](tests/schemas/demo_invalid.yml)
+* [demo_valid.yml](tests/schemas/demo_valid.yml)
+* [demo.csv](tests/fixtures/demo.csv)
+
+
+## Usage
+
+Also see demo in the [GitHub Actions](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml) file.
+
+
+### As GitHub Action
+
+```yml
+      - name: Validate CSV file
+        uses: jbzoo/csv-blueprint@master
+        with:
+          csv: tests/fixtures/demo.csv
+          schema: tests/schemas/demo_invalid.yml
+          output: table                            # Optional. Default is "github"
+```
+**Note**. Output format for GitHub Actions is `github` by default. [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message).
+
+This allows you to see bugs in the GitHub interface at the PR level.
+That is, the error will be shown in a specific place in the CSV file right in diff of your Pull Requests!
+
+![GitHub Actions - PR](.github/assets/github-actions-pr.png)
+
+<details>
+  <summary>Click to see example in GitHub Actions terminal</summary>
+
+  ![GitHub Actions - Terminal](.github/assets/github-actions-termintal.png)
+
+</details>
+
+
+### As Docker container
+Ensure you have Docker installed on your machine.
 
 ```sh
-composer require jbzoo/csv-blueprint
+# Pull the Docker image
+docker pull jbzoo/csv-blueprint
+
+# Run the tool inside Docker
+docker run --rm                                  \
+    --workdir=/parent-host                       \
+    -v .:/parent-host                            \
+    jbzoo/csv-blueprint                          \
+    validate:csv                                 \
+    --csv=./tests/fixtures/demo.csv              \
+    --schema=./tests/schemas/demo_invalid.yml
 ```
 
 
-### Usage
+### As PHP binary
+Ensure you have PHP installed on your machine.
 
-As Docker container:
+**Status: WIP**. It's not released yet. But you can build it from source. See manual above and `./build//csv-blueprint.phar` file.
 
 ```sh
-@docker run --rm                                         \
-   -v `pwd`:/parent-host                                 \
-   jbzoo/csv-blueprint                                   \
-   validate:csv                                          \
-   --csv=/parent-host/tests/fixtures/demo.csv            \
-   --schema=/parent-host/tests/schemas/demo_invalid.yml  \
-   --ansi
+wget https://github.com/JBZoo/Csv-Blueprint/releases/latest/download/csv-blueprint.phar
+chmod +x ./csv-blueprint.phar
+./csv-blueprint.phar validate:csv               \
+   --csv=./tests/fixtures/demo.csv              \
+   --schema=./tests/schemas/demo_invalid.yml
 ```
+
+
+### As PHP project
+Ensure you have PHP installed on your machine.
+Then, you can use the following commands to build from source and run the tool.
+
+```sh
+git clone git@github.com:jbzoo/csv-blueprint.git csv-blueprint
+cd csv-blueprint 
+make build
+./csv-blueprint validate:csv                    \
+    --csv=./tests/fixtures/demo.csv             \
+    --schema=./tests/schemas/demo_invalid.yml
+```
+
+
+### CLI Help Message
+
+Here you can see all available options and commands.
+Tool uses [JBZoo/Cli](https://github.com/JBZoo/Cli) package for the CLI interface.
+So there are options here for all occasions.
+
+
+```
+./csv-blueprint validate:csv --help
+
+
+Description:
+  Validate CSV file by rule
+
+Usage:
+  validate:csv [options]
+
+Options:
+  -c, --csv=CSV                  CSV filepath to validate.
+  -s, --schema=SCHEMA            Schema rule filepath.
+  -o, --output=OUTPUT            Report output format. Available options: text, table, github, gitlab, teamcity, junit [default: "table"]
+      --no-progress              Disable progress bar animation for logs. It will be used only for text output format.
+      --mute-errors              Mute any sort of errors. So exit code will be always "0" (if it's possible).
+                                 It has major priority then --non-zero-on-error. It's on your own risk!
+      --stdout-only              For any errors messages application will use StdOut instead of StdErr. It's on your own risk!
+      --non-zero-on-error        None-zero exit code on any StdErr message.
+      --timestamp                Show timestamp at the beginning of each message.It will be used only for text output format.
+      --profile                  Display timing and memory usage information.
+      --output-mode=OUTPUT-MODE  Output format. Available options:
+                                 text - Default text output format, userfriendly and easy to read.
+                                 cron - Shortcut for crontab. It's basically focused on human-readable logs output.
+                                 It's combination of --timestamp --profile --stdout-only --no-progress -vv.
+                                 logstash - Logstash output format, for integration with ELK stack.
+                                  [default: "text"]
+      --cron                     Alias for --output-mode=cron. Deprecated!
+  -h, --help                     Display help for the given command. When no command is given display help for the list command
+  -q, --quiet                    Do not output any message
+  -V, --version                  Display this application version
+      --ansi|--no-ansi           Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction           Do not ask any interactive question
+  -v|vv|vvv, --verbose           Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+```
+
+
+### Output Example
+
+As a result of the validation process, you will receive a human-readable table with a list of errors found in the CSV file. By defualt, the output format is a table, but you can choose from a variety of formats, such as text, GitHub, GitLab, TeamCity, JUnit, and more.  For example, the following output is generated using the "table" format.
+
+**Notes**
+* Output format for GitHub Actions is `github` by default.
+* Tools uses [JBZoo/CI-Report-Converter](https://github.com/JBZoo/CI-Report-Converter) as SDK to convert reports to different formats. So you can easily integrate it with any CI system.
+
+
+Default output format is `table`:
+
+```
+CSV    : ./tests/fixtures/demo.csv
+Schema : ./tests/schemas/demo_invalid.yml
++------+------------------+--------------+-- demo.csv -------------------------------------------+
+| Line | id:Column        | Rule         | Message                                               |
++------+------------------+--------------+-------------------------------------------------------+
+| 1    | 1:               | csv.header   | Property "name" is not defined in schema:             |
+|      |                  |              | "./tests/schemas/demo_invalid.yml"                    |
+| 5    | 2:Float          | max          | Value "74605.944" is greater than "74605"             |
+| 5    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red",  |
+|      |                  |              | "green", "Blue"]                                      |
+| 6    | 0:Name           | min_length   | Value "Carl" (legth: 4) is too short. Min length is 5 |
+| 6    | 3:Birthday       | min_date     | Value "1955-05-14" is less than the minimum date      |
+|      |                  |              | "1955-05-15T00:00:00.000+00:00"                       |
+| 8    | 3:Birthday       | min_date     | Value "1955-05-14" is less than the minimum date      |
+|      |                  |              | "1955-05-15T00:00:00.000+00:00"                       |
+| 9    | 3:Birthday       | max_date     | Value "2010-07-20" is more than the maximum date      |
+|      |                  |              | "2009-01-01T00:00:00.000+00:00"                       |
+| 11   | 0:Name           | min_length   | Value "Lois" (legth: 4) is too short. Min length is 5 |
+| 11   | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red",  |
+|      |                  |              | "green", "Blue"]                                      |
++------+------------------+--------------+-- demo.csv -------------------------------------------+
+
+CSV file is not valid! Found 9 errors.
+
+```
+
+
+### Schema Definition
+Define your CSV validation schema in a YAML file.
+
+This example defines a simple schema for a CSV file with a header row, specifying that the `id` column must not be empty and must contain integer values.
+Also, it checks that the `name` column has a minimum length of 3 characters.
+
+```yml
+csv:
+  delimiter: ;
+
+columns:
+  - name: id
+    rules:
+      not_empty: true
+      is_int: true
+
+  - name: name
+    rules:
+      min_length: 3
+
+```
+
+In the [example Yml file](schema-examples/full.yml) you can find a detailed description of all features.
+It's also covered by tests, so it's always up-to-date.
+
+**Important notes**
+* I have deliberately refused typing of columns (like `type: integer`) and replaced them with rules,
+which can be combined in any sequence and completely at your discretion.
+This gives you great flexibility when validating CSV files.
+* All fields (unless explicitly stated otherwise) are optional, and you can choose not to declare them. Up to you.
+* You are always free to add your option anywhere (except the `rules` list) and it will be ignored. I find it convenient for additional integrations and customization.
 
 
 ### Schema file examples
-
-<details>
-  <summary>Click to see: YAML format (with comment)</summary>
 
 ```yml
 # It's a full example of the CSV schema file in YAML format.
@@ -92,8 +321,6 @@ columns:
       usa_market_name: true             # Check if the value is a valid USA market name. Example: "New York, NY"
 
 ```
-
-</details>
 
 
 <details>
@@ -212,13 +439,96 @@ return [
 </details>
 
 
-## Unit tests and check code style
+## Coming soon
+
+It's random ideas and plans. No orderings and deadlines. <u>But batch processing is the priority #1</u>.
+
+* [ ] Filename pattern validation with regex (like "all files in the folder should be in the format `/^[\d]{4}-[\d]{2}-[\d]{2}\.csv$/`").
+* [ ] CSV/Schema file discovery in the folder with regex filename pattern (like `glob(./**/dir/*.csv)`).
+* [ ] If option `--csv` is a folder, then validate all files in the folder.
+* [ ] If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
+* [ ] If option `--schema` is not specified, then validate only super base level things (like "is it a CSV file?").
+* [ ] Agregate rules (like "at least one of the fields should be not empty" or "all values must be unique").
+* [ ] Create CSV files based on the schema (like "create 1000 rows with random data based on schema and rules").
+* [ ] Checking multiple CSV files in one schema. Batch processing.
+* [ ] Using multiple schemas for one csv file. Batch processing.
+* [ ] Parallel validation of really-really large files (1GB+ ?). I know you have them and not so much memory.
+* [ ] Parallel validation of multiple files at once.
+* [ ] Benchmarks as part of the CI process and Readme. It's important to know how much time the validation process takes.
+* [ ] Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas. Make it DRY and easy to maintain.
+* [ ] More output formats (like JSON, XML, etc). Any ideas?
+* [ ] Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
+* [ ] Input encoding detection + `BOM` (right now it's experimental). It works but not so accurate... UTF-8/16/32 is the best choice for now.
+* [ ] Extending with custom rules and custom output formats. Plugins?
+* [ ] More examples and documentation.
+
+PS. [There is a file](tests/schemas/example_full.yml) with my ideas and imagination.
+I'm not sure if I will implement all of them. But I will try to do my best.
+
+
+## Disadvantages?
+
+* Yeah-yeah. I know it's not the fastest tool in the world. But it's not the slowest either.
+* Yeah-yeah. I know it's PHP (not a Python, Go). PHP is not the best language for such tasks.
+* Yeah-yeah. It looks like a standalone binary.
+* Yeah-yeah. I know you can't use as Python SDK as part of pipeline.
+
+But... it's not a problem for most cases. And it solves the problem of validating CSV files in CI. 👍
+
+The utility is made to just pick up and use and not think about how it works internally.
+Moreover, everything is covered as strictly as possible by tests, strict typing of variables + `~7` linters and static analyzers (max level of rules). 
+Also, if you look, you'll see that any PR goes through about `~30` different checks on GitHub Actions (matrix of PHP versions and mods).
+Since I don't know under what conditions the code will be used, everything I can think of is covered. The wonderful world of Open Source.
+
+So... as strictly as possible in today's PHP world. I think it works as expected.
+
+
+## Interesting fact
+
+I think I've set a personal record. 
+The first version was written from scratch in about 3 days (with really frequent breaks to take care of 4 month baby).
+I'm looking at the first commit and the very first git tag. I'd say over the weekend, in my spare time on my personal laptop.
+Well... AI I only used for this Readme file because I'm not very good at English. 🤔
+
+I seem to be typing fast and I had really great inspiration. I hope my wife doesn't divorce me. 😅
+
+
+## Contributing
+If you have any ideas or suggestions, feel free to open an issue or create a pull request.
+
 ```sh
-make update
-make test-all
+# Fork the repo and build project
+git clone git@github.com:jbzoo/csv-blueprint.git ./jbzoo-csv-blueprint
+cd ./jbzoo-csv-blueprint
+make build
+
+# Make your local changes
+
+# Autofix code style 
+make test-phpcsfixer-fix
+
+# Run all tests and check code style
+make test
+make codestyle
+
+# Create your pull request and check all tests in CI (Github Actions)
+# ???
+# Profit!
 ```
 
 
 ### License
 
-MIT
+[MIT License](LICENSE): It's like free pizza - enjoy it, share it, just don't sell it as your own. And remember, no warranty for stomach aches! 😅
+
+
+## See Also
+
+- [CI-Report-Converter](https://github.com/JBZoo/CI-Report-Converter) - It converts different error reporting standards for popular CI systems.
+- [Composer-Diff](https://github.com/JBZoo/Composer-Diff) - See what packages have changed after `composer update`.
+- [Composer-Graph](https://github.com/JBZoo/Composer-Graph) - Dependency graph visualization of `composer.json` based on [Mermaid JS](https://mermaid.js.org/).
+- [Mermaid-PHP](https://github.com/JBZoo/Mermaid-PHP) - Generate diagrams and flowcharts with the help of the [mermaid](https://mermaid.js.org/) script language.
+- [Utils](https://github.com/JBZoo/Utils) - Collection of useful PHP functions, mini-classes, and snippets for every day.
+- [Image](https://github.com/JBZoo/Image) - Package provides object-oriented way to manipulate with images as simple as possible.
+- [Data](https://github.com/JBZoo/Data) - Extended implementation of ArrayObject. Use Yml/PHP/JSON/INI files as config. Forget about arrays.
+- [Retry](https://github.com/JBZoo/Retry) - Tiny PHP library providing retry/backoff functionality with strategies and jitter.

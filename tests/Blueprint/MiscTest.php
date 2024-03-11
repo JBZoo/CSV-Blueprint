@@ -145,7 +145,9 @@ final class MiscTest extends PHPUnit
             $tmpl = \implode("\n", ["```{$type}", $filepath, '```']);
         }
 
-        $tmpl = $this->getSpoiler("Click to see: {$title}", $tmpl);
+        if ($type !== 'yml') {
+            $tmpl = $this->getSpoiler("Click to see: {$title}", $tmpl);
+        }
 
         isFileContains($tmpl, PROJECT_ROOT . '/README.md');
     }

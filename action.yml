@@ -10,7 +10,7 @@
 # @see        https://github.com/JBZoo/Csv-Blueprint
 #
 
-name: 'CSV Validator'
+name: 'CSV Validator by schemas'
 description: 'Strict and flexible schema-based CSV file validation with the ability to report as GitHub Annotations in your PRs.'
 author: 'Denis Smetannikov <admin@jbzoo.com>'
 
@@ -41,4 +41,5 @@ runs:
     - ${{ inputs.schema }}
     - '--output'
     - ${{ inputs.output }}
+    - '--ansi'
     - '-vvv'
