@@ -25,7 +25,7 @@ final class OnlyLowercase extends AbstarctRule
         }
 
         if ($cellValue !== null && $cellValue !== \mb_strtolower($cellValue)) {
-            return "Value \"{$cellValue}\" should be in lowercase";
+            return "Value \"<c>{$cellValue}</c>\" should be in lowercase";
         }
 
         return null;

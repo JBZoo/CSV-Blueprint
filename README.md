@@ -200,31 +200,40 @@ As a result of the validation process, you will receive a human-readable table w
 Default output format is `table`:
 
 ```
+./csv-blueprint validate:csv --output=table
+
+
 CSV    : ./tests/fixtures/demo.csv
 Schema : ./tests/schemas/demo_invalid.yml
-+------+------------------+--------------+-- demo.csv -------------------------------------------+
-| Line | id:Column        | Rule         | Message                                               |
-+------+------------------+--------------+-------------------------------------------------------+
-| 1    | 1:               | csv.header   | Property "name" is not defined in schema:             |
-|      |                  |              | "./tests/schemas/demo_invalid.yml"                    |
-| 5    | 2:Float          | max          | Value "74605.944" is greater than "74605"             |
-| 5    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red",  |
-|      |                  |              | "green", "Blue"]                                      |
-| 6    | 0:Name           | min_length   | Value "Carl" (legth: 4) is too short. Min length is 5 |
-| 6    | 3:Birthday       | min_date     | Value "1955-05-14" is less than the minimum date      |
-|      |                  |              | "1955-05-15T00:00:00.000+00:00"                       |
-| 8    | 3:Birthday       | min_date     | Value "1955-05-14" is less than the minimum date      |
-|      |                  |              | "1955-05-15T00:00:00.000+00:00"                       |
-| 9    | 3:Birthday       | max_date     | Value "2010-07-20" is more than the maximum date      |
-|      |                  |              | "2009-01-01T00:00:00.000+00:00"                       |
-| 11   | 0:Name           | min_length   | Value "Lois" (legth: 4) is too short. Min length is 5 |
-| 11   | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red",  |
-|      |                  |              | "green", "Blue"]                                      |
-+------+------------------+--------------+-- demo.csv -------------------------------------------+
 
-CSV file is not valid! Found 9 errors.
++------+------------------+--------------+-- demo.csv --------------------------------------------+
+| Line | id:Column        | Rule         | Message                                                |
++------+------------------+--------------+--------------------------------------------------------+
+| 1    | 1:               | csv.header   | Property "name" is not defined in schema:              |
+|      |                  |              | "./tests/schemas/demo_invalid.yml"                     |
+| 5    | 2:Float          | max          | Value "74605.944" is greater than "74605"              |
+| 5    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red",   |
+|      |                  |              | "green", "Blue"]                                       |
+| 6    | 0:Name           | min_length   | Value "Carl" (length: 4) is too short. Min length is 5 |
+| 6    | 3:Birthday       | min_date     | Value "1955-05-14" is less than the minimum date       |
+|      |                  |              | "1955-05-15T00:00:00.000+00:00"                        |
+| 8    | 3:Birthday       | min_date     | Value "1955-05-14" is less than the minimum date       |
+|      |                  |              | "1955-05-15T00:00:00.000+00:00"                        |
+| 9    | 3:Birthday       | max_date     | Value "2010-07-20" is more than the maximum date       |
+|      |                  |              | "2009-01-01T00:00:00.000+00:00"                        |
+| 11   | 0:Name           | min_length   | Value "Lois" (length: 4) is too short. Min length is 5 |
++------+------------------+--------------+-- demo.csv --------------------------------------------+
+
+CSV file is not valid! Found 8 errors.
 
 ```
+
+Optional output format `text`:
+```sh
+./csv-blueprint validate:csv --output=text
+```
+
+![Output - Text](.github/assets/output-text.png)
 
 
 ### Schema Definition

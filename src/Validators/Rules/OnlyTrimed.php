@@ -25,7 +25,7 @@ final class OnlyTrimed extends AbstarctRule
         }
 
         if (\trim((string)$cellValue) !== (string)$cellValue) {
-            return "Value \"{$cellValue}\" is not trimmed";
+            return "Value \"<c>{$cellValue}</c>\" is not trimmed";
         }
 
         return null;

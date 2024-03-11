@@ -26,7 +26,7 @@ final class Min extends IsFloat
         }
 
         if ($this->getOptionAsFloat() > (float)$cellValue) {
-            return "Value \"{$cellValue}\" is less than \"{$this->getOptionAsFloat()}\"";
+            return "Value \"<c>{$cellValue}</c>\" is less than \"<green>{$this->getOptionAsFloat()}</green>\"";
         }
 
         return null;

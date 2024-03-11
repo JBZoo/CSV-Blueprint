@@ -27,8 +27,8 @@ class AllowValues extends AbstarctRule
         }
 
         if (!\in_array($cellValue, $allowedValues, true)) {
-            return "Value \"{$cellValue}\" is not allowed. " .
-                'Allowed values: ["' . \implode('", "', $allowedValues) . '"]';
+            return "Value \"<c>{$cellValue}</c>\" is not allowed. " .
+                'Allowed values: <green>["' . \implode('", "', $allowedValues) . '"]</green>';
         }
 
         return null;

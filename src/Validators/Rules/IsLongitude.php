@@ -34,7 +34,8 @@ final class IsLongitude extends IsFloat
 
         $longitude = (float)$cellValue;
         if ($longitude < $this->min || $longitude > $this->max) {
-            return "Value \"{$cellValue}\" is not a valid longitude ({$this->min} <= x <= {$this->max})";
+            return "Value \"<c>{$cellValue}</c>\" is not a valid longitude " .
+                "<green>({$this->min} -> {$this->max})</green>";
         }
 
         return null;

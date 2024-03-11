@@ -23,8 +23,8 @@ final class Precision extends AbstarctRule
         $valuePrecision = self::getFloatPrecision($cellValue);
 
         if ($this->getOptionAsInt() !== $valuePrecision) {
-            return "Value \"{$cellValue}\" has a precision of {$valuePrecision} " .
-                "but should have a precision of {$this->getOptionAsInt()}";
+            return "Value \"<c>{$cellValue}</c>\" has a precision of {$valuePrecision} " .
+                "but should have a precision of <green>{$this->getOptionAsInt()}</green>";
         }
 
         return null;

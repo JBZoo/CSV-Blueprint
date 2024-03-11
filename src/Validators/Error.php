@@ -28,7 +28,7 @@ final class Error
 
     public function __toString(): string
     {
-        return "\"{$this->getRuleCode()}\" at line {$this->getLine()}, " .
+        return "\"{$this->getRuleCode()}\" at line <red>{$this->getLine()}</red>, " .
             "column \"{$this->getColumnName()}\". {$this->getMessage()}.";
     }
 
@@ -37,8 +37,12 @@ final class Error
         return $this->ruleCode;
     }
 
-    public function getMessage(): string
+    public function getMessage(bool $noTags = false): string
     {
+        if ($noTags) {
+            return \strip_tags(\rtrim($this->message));
+        }
+
         return \rtrim($this->message, '.');
     }
 
@@ -50,6 +54,11 @@ final class Error
     public function getLine(): int
     {
         return $this->line;
+    }
+
+    public function toCleanString(): string
+    {
+        return \strip_tags((string)$this);
     }
 
     public function toArray(): array

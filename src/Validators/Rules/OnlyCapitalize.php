@@ -25,7 +25,7 @@ final class OnlyCapitalize extends AbstarctRule
         }
 
         if ($cellValue !== null && $cellValue !== \ucfirst($cellValue)) {
-            return "Value \"{$cellValue}\" should be in capitalize";
+            return "Value \"<c>{$cellValue}</c>\" should be in capitalize";
         }
 
         return null;

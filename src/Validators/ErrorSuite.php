@@ -144,7 +144,12 @@ final class ErrorSuite
             ->setColumnMaxWidth(3, 60);
 
         foreach ($this->errors as $error) {
-            $table->addRow([$error->getLine(), $error->getColumnName(), $error->getRuleCode(), $error->getMessage()]);
+            $table->addRow([
+                $error->getLine(),
+                $error->getColumnName(),
+                $error->getRuleCode(),
+                $error->getMessage(true),
+            ]);
         }
 
         $table->render();
@@ -161,7 +166,7 @@ final class ErrorSuite
             $case         = $suite->addTestCase($caseName);
             $case->line   = $error->getLine();
             $case->file   = $this->csvFilename;
-            $case->errOut = (string)$error;
+            $case->errOut = $error->toCleanString();
         }
 
         return $suite;

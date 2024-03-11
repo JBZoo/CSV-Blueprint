@@ -25,7 +25,7 @@ final class IsInt extends AbstarctRule
         }
 
         if (\preg_match('/^-?\d+$/', (string)$cellValue) === 0) {
-            return "Value \"{$cellValue}\" is not an integer";
+            return "Value \"<c>{$cellValue}</c>\" is not an integer";
         }
 
         return null;
