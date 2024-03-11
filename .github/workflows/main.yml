@@ -166,7 +166,7 @@ jobs:
         run: make build-phar --no-print-directory
 
       - name: Trying to use the phar file
-        run: ./build/csv-blueprint.phar --help
+        run: ./build/csv-blueprint.phar
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
