@@ -43,27 +43,27 @@ jobs:
       - name: Build the Project
         run: make update
 
-      - name: Validate CSV (default is table)
+      - name: Report - Table (Default)
         run: make demo-github --no-print-directory
         continue-on-error: true
 
-      - name: Validate CSV (text)
+      - name: Report - Text
         run: OUTPUT=text make demo-github --no-print-directory
         continue-on-error: true
 
-      - name: Validate CSV (github)
+      - name: Report - Github Actions
         run: OUTPUT=github make demo-github --no-print-directory
         continue-on-error: true
 
-      - name: Validate CSV (gitlab)
+      - name: Report - GitLab
         run: OUTPUT=gitlab make demo-github --no-print-directory
         continue-on-error: true
 
-      - name: Validate CSV (teamcity)
+      - name: Report - TeamCity CI
         run: OUTPUT=teamcity make demo-github --no-print-directory
         continue-on-error: true
 
-      - name: Validate CSV (junit)
+      - name: Report - JUnit
         run: OUTPUT=junit make demo-github --no-print-directory
         continue-on-error: true
 
@@ -83,7 +83,7 @@ jobs:
           tools: composer
 
       - name: Build the Project
-        run: make update
+        run: make build-install --no-print-directory
 
       - name: 👍 Valid CSV file
         run: |

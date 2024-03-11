@@ -24,6 +24,10 @@ build: ##@Project Install all 3rd party dependencies
 	@make build-phar
 	@rm -f `pwd`/ci-report-converter
 
+build-install: ##@Project Install all 3rd party dependencies as prod
+	$(call title,"Install/Update all 3rd party dependencies as prod")
+	@composer install --no-dev --no-progress --no-interaction --no-suggest
+	@rm -f `pwd`/ci-report-converter
 
 update: ##@Project Install/Update all 3rd party dependencies
 	@echo "Composer flags: $(JBZOO_COMPOSER_UPDATE_FLAGS)"
