@@ -10,6 +10,8 @@
 # @see        https://github.com/JBZoo/Csv-Blueprint
 #
 
+# This schema is valid because match the CSV file (tests/fixtures/demo.csv) perfectly.
+
 columns:
   - name: Name
     rules:

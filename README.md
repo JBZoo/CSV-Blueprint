@@ -8,6 +8,7 @@
 * [Introduction](#introduction)
 * [Why Validate CSV Files in CI?](#why-validate-csv-files-in-ci)
 * [Features](#features)
+* [Live Demo](#live-demo)
 * [Usage](#usage)
     * [As GitHub Action](#as-github-action)
     * [As Docker container](#as-docker-container)
@@ -49,6 +50,17 @@ Integrating CSV validation into CI processes promotes higher data integrity, rel
 * **GitHub Actions Integration**: Automate CSV validation in your CI/CD pipeline, enhancing the quality control of your data in pull requests and deployments.
 * **Various ways to report:** issues that can be easily integrated with GithHub, Gitlab, TeamCity, etc. The default output is a human-readable table. [See Live Demo](https://github.com/JBZoo/Csv-Blueprint).
 
+
+## Live Demo
+
+* As a live demonstration of how the tool works you can take a look at the super minimal repository - [JBZoo/Csv-Blueprint-Demo](https://github.com/JBZoo/Csv-Blueprint).
+* You can see more complex examples and different ways of reporting by looking at the [last Demo pipeline](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml?query=branch%3Amaster) (please open the logs). There you'll find the basic ways to get started. And also the `All Report Types` (left sidebar) link with the different report types.
+
+**See also**
+* [.github/workflows/demo.yml](.github/workflows/demo.yml)
+* [demo_invalid.yml](tests/schemas/demo_invalid.yml)
+* [demo_valid.yml](tests/schemas/demo_valid.yml)
+* [demo.csv](tests/fixtures/demo.csv)
 
 
 ## Usage
@@ -103,8 +115,11 @@ Ensure you have PHP installed on your machine.
 ```sh
 wget https://github.com/JBZoo/CI-Report-Converter/releases/latest/download/csv-blueprint.phar
 chmod +x ./csv-blueprint.phar
-./csv-blueprint.phar validate:csv --csv=./tests/fixtures/demo.csv --schema=./tests/schemas/demo_invalid.yml
+./csv-blueprint.phar validate:csv               \
+   --csv=./tests/fixtures/demo.csv              \
+   --schema=./tests/schemas/demo_invalid.yml
 ```
+
 
 ### As PHP project
 Ensure you have PHP installed on your machine.
@@ -114,10 +129,19 @@ Then, you can use the following commands to build from source and run the tool.
 git clone git@github.com:jbzoo/csv-blueprint.git csv-blueprint
 cd csv-blueprint 
 make build
-./csv-blueprint validate:csv --csv=./tests/fixtures/demo.csv --schema=./tests/schemas/demo_invalid.yml
+./csv-blueprint validate:csv                    \
+    --csv=./tests/fixtures/demo.csv             \
+    --schema=./tests/schemas/demo_invalid.yml
 ```
 
-### Help
+
+### CLI Help Message
+
+Here you can see all available options and commands.
+Tool uses [JBZoo/Cli](https://github.com/JBZoo/Cli) package for the CLI interface.
+So there are options here for all occasions.
+
+
 ```
 ./csv-blueprint validate:csv --help
 
@@ -155,14 +179,18 @@ Options:
 
 ```
 
+
 ### Output Example
 
-As a result of the validation process, you will receive a human-readable table with a list of errors found in the CSV file.
-By defualt, the output format is a table, but you can choose from a variety of formats, such as text, GitHub, GitLab, TeamCity, JUnit, and more.
-For example, the following output is generated using the "table" format.
+As a result of the validation process, you will receive a human-readable table with a list of errors found in the CSV file. By defualt, the output format is a table, but you can choose from a variety of formats, such as text, GitHub, GitLab, TeamCity, JUnit, and more.  For example, the following output is generated using the "table" format.
 
-**Note**. Output format for GitHub Actions is `github` by default. [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message)
+**Notes**
+* Output format for GitHub Actions is `github` by default. See [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message).
 This allows you to see bugs in the GitHub interface at the PR level. That is, the error will be shown in a specific place in the CSV file. See screenshot.
+* Tools uses [JBZoo/CI-Report-Converter](https://github.com/JBZoo/CI-Report-Converter) as SDK to convert reports to different formats. So you can easily integrate it with any CI system.
+
+
+Default output format is `table`:
 
 ```
 CSV    : ./tests/fixtures/demo.csv
@@ -200,9 +228,7 @@ Also, it checks that the `name` column has a minimum length of 3 characters.
 
 ```yml
 csv:
-  delimiter: ,
-  quote_char: \
-  enclosure: "\""
+  delimiter: ;
 
 columns:
   - name: id
@@ -219,12 +245,12 @@ columns:
 ### Schema file examples
 
 In the [example Yml file](schema-examples/full.yml) you can find a detailed description of all features.
+It's also covered by tests, so it's always up-to-date.
 
 **Important notes**
 * I have deliberately refused typing of columns (like `type: integer`) and replaced them with rules,
 which can be combined in any sequence and completely at your discretion.
 This gives you great flexibility when validating CSV files.
-
 * All fields (unless explicitly stated otherwise) are optional and you can choose not to declare them. Up to you.
 
 ```yml
@@ -422,6 +448,9 @@ return [
 * [ ] Extending with custom rules and custom output formats. Plugins?
 * [ ] More examples and documentation.
 
+PS. [There is a file](tests/schemas/example_full.yml) with my ideas and imagination.
+I'm not sure if I will implement all of them. But I will try to do my best.
+
 
 ## Disadvantages?
 
@@ -467,11 +496,11 @@ MIT
 
 ## See Also
 
-- [CI-Report-Converter](https://github.com/JBZoo/CI-Report-Converter) - It converts different error reporting standards for deep compatibility with popular CI systems.
+- [CI-Report-Converter](https://github.com/JBZoo/CI-Report-Converter) - It converts different error reporting standards for popular CI systems.
 - [Composer-Diff](https://github.com/JBZoo/Composer-Diff) - See what packages have changed after `composer update`.
 - [Composer-Graph](https://github.com/JBZoo/Composer-Graph) - Dependency graph visualization of composer.json based on mermaid-js.
 - [Mermaid-PHP](https://github.com/JBZoo/Mermaid-PHP) - Generate diagrams and flowcharts with the help of the mermaid script language.
 - [Utils](https://github.com/JBZoo/Utils) - Collection of useful PHP functions, mini-classes, and snippets for every day.
 - [Image](https://github.com/JBZoo/Image) - Package provides object-oriented way to manipulate with images as simple as possible.
 - [Data](https://github.com/JBZoo/Data) - Extended implementation of ArrayObject. Use files as config/array.
-- [Retry](https://github.com/JBZoo/Retry) - Tiny PHP library providing retry/backoff functionality with multiple backoff strategies and jitter support.
+- [Retry](https://github.com/JBZoo/Retry) - Tiny PHP library providing retry/backoff functionality with strategies and jitter.
