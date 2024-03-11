@@ -98,12 +98,6 @@ jobs:
           output: table
         continue-on-error: true
 
-      - name: 👎 Invalid CSV file - Report as Table
-        uses: jbzoo/csv-blueprint@master
-        with:
-          csv: tests/fixtures/demo-test.csv
-          schema: tests/schemas/demo_invalid.yml
-
 
   docker:
     name: Docker Hub
