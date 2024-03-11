@@ -29,7 +29,7 @@ final class Regex extends AbstarctRule
         }
 
         if (\preg_match($regex, (string)$cellValue) === 0) {
-            return "Value \"{$cellValue}\" does not match the pattern \"{$regex}\"";
+            return "Value \"<c>{$cellValue}</c>\" does not match the pattern \"<green>{$regex}</green>\"";
         }
 
         return null;

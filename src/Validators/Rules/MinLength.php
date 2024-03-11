@@ -24,7 +24,8 @@ final class MinLength extends AbstarctRule
         $length    = \mb_strlen((string)$cellValue);
 
         if ($length < $minLength) {
-            return "Value \"{$cellValue}\" (legth: {$length}) is too short. Min length is {$minLength}";
+            return "Value \"<c>{$cellValue}</c>\" (length: {$length}) is too short. " .
+                "Min length is <green>{$minLength}</green>";
         }
 
         return null;

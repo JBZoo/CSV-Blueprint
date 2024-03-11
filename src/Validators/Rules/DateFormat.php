@@ -31,7 +31,8 @@ final class DateFormat extends AbstarctRule
 
         $date = \DateTimeImmutable::createFromFormat($expectedDateFormat, $cellValue);
         if ($date === false || $date->format($expectedDateFormat) !== $cellValue) {
-            return "Date format of value \"{$cellValue}\" is not valid. Expected format: \"{$expectedDateFormat}\"";
+            return "Date format of value \"<c>{$cellValue}</c>\" is not valid. " .
+                "Expected format: \"<green>{$expectedDateFormat}<green>\"";
         }
 
         return null;

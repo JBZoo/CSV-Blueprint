@@ -73,7 +73,7 @@ final class ValidateCsv extends CliCommand
             if ($this->isTextMode()) {
                 $this->_(
                     '<yellow>CSV file is not valid!</yellow> ' .
-                    'Found <yellow>' . $errorSuite->count() . '<yellow> errors.',
+                    'Found <yellow>' . $errorSuite->count() . '</yellow> errors.',
                     OutLvl::E,
                 );
             }
@@ -113,6 +113,7 @@ final class ValidateCsv extends CliCommand
 
         if ($this->isTextMode()) {
             $this->_('<blue>Schema :</blue> ' . \realpath($schemaFilename));
+            $this->_('');
         }
 
         return $schemaFilename;

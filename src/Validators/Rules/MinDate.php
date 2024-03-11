@@ -24,8 +24,8 @@ final class MinDate extends AbstarctRule
         $cellDate = new \DateTimeImmutable((string)$cellValue);
 
         if ($cellDate->getTimestamp() < $minDate->getTimestamp()) {
-            return "Value \"{$cellValue}\" is less than the minimum " .
-                "date \"{$minDate->format(\DATE_RFC3339_EXTENDED)}\"";
+            return "Value \"<c>{$cellValue}</c>\" is less than the minimum " .
+                "date \"<green>{$minDate->format(\DATE_RFC3339_EXTENDED)}</green>\"";
         }
 
         return null;

@@ -113,7 +113,7 @@ final class CsvFile
             if ($column->getName() === '') {
                 $error = new Error(
                     'csv.header',
-                    "Property \"name\" is not defined in schema: \"{$this->schema->getFilename()}\"",
+                    "Property \"<c>name</c>\" is not defined in schema: \"<c>{$this->schema->getFilename()}</c>\"",
                     $column->getHumanName(),
                     1,
                 );

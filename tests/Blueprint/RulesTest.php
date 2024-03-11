@@ -64,12 +64,12 @@ final class RulesTest extends PHPUnit
         isSame(
             '"allow_values" at line 0, column "prop". ' .
             'Value "" is not allowed. Allowed values: ["1", "2", "3"].',
-            (string)$rule->validate(''),
+            strip_tags((string)$rule->validate('')),
         );
         isSame(
             '"allow_values" at line 0, column "prop". ' .
             'Value "invalid" is not allowed. Allowed values: ["1", "2", "3"].',
-            (string)$rule->validate('invalid'),
+            strip_tags((string)$rule->validate('invalid')),
         );
 
         $rule = new AllowValues('prop', ['1', '2', '3', '']);
@@ -86,12 +86,12 @@ final class RulesTest extends PHPUnit
         isSame(
             '"date_format" at line 0, column "prop". ' .
             'Date format of value "" is not valid. Expected format: "Y-m-d".',
-            (string)$rule->validate(''),
+            strip_tags((string)$rule->validate('')),
         );
         isSame(
             '"date_format" at line 0, column "prop". ' .
             'Date format of value "2000-01-02 12:34:56" is not valid. Expected format: "Y-m-d".',
-            (string)$rule->validate('2000-01-02 12:34:56'),
+            strip_tags((string)$rule->validate('2000-01-02 12:34:56')),
         );
     }
 
@@ -101,11 +101,11 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate('123'));
         isSame(
             '"exact_value" at line 0, column "prop". Value "" is not strict equal to "123".',
-            (string)$rule->validate(''),
+            strip_tags((string)$rule->validate('')),
         );
         isSame(
             '"exact_value" at line 0, column "prop". Value "2000-01-02" is not strict equal to "123".',
-            (string)$rule->validate('2000-01-02'),
+            strip_tags((string)$rule->validate('2000-01-02')),
         );
     }
 
@@ -120,11 +120,11 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate('False'));
         isSame(
             '"is_bool" at line 0, column "prop". Value "" is not allowed. Allowed values: ["true", "false"].',
-            (string)$rule->validate(''),
+            strip_tags((string)$rule->validate('')),
         );
         isSame(
             '"is_bool" at line 0, column "prop". Value "1" is not allowed. Allowed values: ["true", "false"].',
-            (string)$rule->validate('1'),
+            strip_tags((string)$rule->validate('1')),
         );
 
         $rule = new IsBool('prop', false);
@@ -142,11 +142,11 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate('sub-sub-example.qwerty'));
         isSame(
             '"is_domain" at line 0, column "prop". Value "example" is not a valid domain.',
-            (string)$rule->validate('example'),
+            strip_tags((string)$rule->validate('example')),
         );
         isSame(
             '"is_domain" at line 0, column "prop". Value "" is not a valid domain.',
-            (string)$rule->validate(''),
+            strip_tags((string)$rule->validate('')),
         );
 
         $rule = new IsDomain('prop', false);
@@ -160,7 +160,7 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate('user@sub.example.com'));
         isSame(
             '"is_email" at line 0, column "prop". Value "user:pass@example.com" is not a valid email.',
-            (string)$rule->validate('user:pass@example.com'),
+            strip_tags((string)$rule->validate('user:pass@example.com')),
         );
 
         $rule = new IsEmail('prop', false);
@@ -178,15 +178,15 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate('-1.0'));
         isSame(
             '"is_float" at line 0, column "prop". Value "1.000.000" is not a float number.',
-            (string)$rule->validate('1.000.000'),
+            strip_tags((string)$rule->validate('1.000.000')),
         );
         isSame(
             '"is_float" at line 0, column "prop". Value "" is not a float number.',
-            (string)$rule->validate(''),
+            strip_tags((string)$rule->validate('')),
         );
         isSame(
             '"is_float" at line 0, column "prop". Value " 1" is not a float number.',
-            (string)$rule->validate(' 1'),
+            strip_tags((string)$rule->validate(' 1')),
         );
 
         $rule = new IsFloat('prop', false);
@@ -203,27 +203,27 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate('-1'));
         isSame(
             '"is_int" at line 0, column "prop". Value "1.000.000" is not an integer.',
-            (string)$rule->validate('1.000.000'),
+            strip_tags((string)$rule->validate('1.000.000')),
         );
         isSame(
             '"is_int" at line 0, column "prop". Value "1.1" is not an integer.',
-            (string)$rule->validate('1.1'),
+            strip_tags((string)$rule->validate('1.1')),
         );
         isSame(
             '"is_int" at line 0, column "prop". Value "1.0" is not an integer.',
-            (string)$rule->validate('1.0'),
+            strip_tags((string)$rule->validate('1.0')),
         );
         isSame(
             '"is_int" at line 0, column "prop". Value "" is not an integer.',
-            (string)$rule->validate(''),
+            strip_tags((string)$rule->validate('')),
         );
         isSame(
             '"is_int" at line 0, column "prop". Value " 1" is not an integer.',
-            (string)$rule->validate(' 1'),
+            strip_tags((string)$rule->validate(' 1')),
         );
         isSame(
             '"is_int" at line 0, column "prop". Value "1 " is not an integer.',
-            (string)$rule->validate('1 '),
+            strip_tags((string)$rule->validate('1 ')),
         );
 
         $rule = new IsInt('prop', false);
@@ -237,7 +237,7 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate('0.0.0.0'));
         isSame(
             '"is_ip" at line 0, column "prop". Value "1.2.3" is not a valid IP.',
-            (string)$rule->validate('1.2.3'),
+            strip_tags((string)$rule->validate('1.2.3')),
         );
     }
 
@@ -248,16 +248,16 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate('90'));
         isSame(null, $rule->validate('-90'));
         isSame(
-            '"is_latitude" at line 0, column "prop". Value "123" is not a valid latitude (-90 <= x <= 90).',
-            (string)$rule->validate('123'),
+            '"is_latitude" at line 0, column "prop". Value "123" is not a valid latitude (-90 -> 90).',
+            strip_tags((string)$rule->validate('123')),
         );
         isSame(
-            '"is_latitude" at line 0, column "prop". Value "90.1" is not a valid latitude (-90 <= x <= 90).',
-            (string)$rule->validate('90.1'),
+            '"is_latitude" at line 0, column "prop". Value "90.1" is not a valid latitude (-90 -> 90).',
+            strip_tags((string)$rule->validate('90.1')),
         );
         isSame(
             '"is_latitude" at line 0, column "prop". Value "90.1.1.1.1" is not a float number.',
-            (string)$rule->validate('90.1.1.1.1'),
+            strip_tags((string)$rule->validate('90.1.1.1.1')),
         );
 
         $rule = new IsLatitude('prop', false);
@@ -271,21 +271,21 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate('180'));
         isSame(null, $rule->validate('-180'));
         isSame(
-            '"is_longitude" at line 0, column "prop". Value "1230" is not a valid longitude (-180 <= x <= 180).',
-            (string)$rule->validate('1230'),
+            '"is_longitude" at line 0, column "prop". Value "1230" is not a valid longitude (-180 -> 180).',
+            strip_tags((string)$rule->validate('1230')),
         );
         isSame(
             '"is_longitude" at line 0, column "prop". ' .
-            'Value "180.0001" is not a valid longitude (-180 <= x <= 180).',
-            (string)$rule->validate('180.0001'),
+            'Value "180.0001" is not a valid longitude (-180 -> 180).',
+            strip_tags((string)$rule->validate('180.0001')),
         );
         isSame(
-            '"is_longitude" at line 0, column "prop". Value "-180.1" is not a valid longitude (-180 <= x <= 180).',
-            (string)$rule->validate('-180.1'),
+            '"is_longitude" at line 0, column "prop". Value "-180.1" is not a valid longitude (-180 -> 180).',
+            strip_tags((string)$rule->validate('-180.1')),
         );
         isSame(
             '"is_longitude" at line 0, column "prop". Value "1.0.0.0" is not a float number.',
-            (string)$rule->validate('1.0.0.0'),
+            strip_tags((string)$rule->validate('1.0.0.0')),
         );
 
         $rule = new IsLongitude('prop', false);
@@ -300,11 +300,11 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate('ftp://user:pass@example.com/home-page?param=value&v=asd#anchor'));
         isSame(
             '"is_url" at line 0, column "prop". Value "123" is not a valid URL.',
-            (string)$rule->validate('123'),
+            strip_tags((string)$rule->validate('123')),
         );
         isSame(
             '"is_url" at line 0, column "prop". Value "//example.com" is not a valid URL.',
-            (string)$rule->validate('//example.com'),
+            strip_tags((string)$rule->validate('//example.com')),
         );
 
         $rule = new IsUrl('prop', false);
@@ -318,11 +318,11 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate('11'));
         isSame(
             '"min" at line 0, column "prop". Value "9" is less than "10".',
-            (string)$rule->validate('9'),
+            strip_tags((string)$rule->validate('9')),
         );
         isSame(
             '"min" at line 0, column "prop". Value "example.com" is not a float number.',
-            (string)$rule->validate('example.com'),
+            strip_tags((string)$rule->validate('example.com')),
         );
 
         $rule = new Min('prop', 10.1);
@@ -330,11 +330,11 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate('11'));
         isSame(
             '"min" at line 0, column "prop". Value "9" is less than "10.1".',
-            (string)$rule->validate('9'),
+            strip_tags((string)$rule->validate('9')),
         );
         isSame(
             '"min" at line 0, column "prop". Value "example.com" is not a float number.',
-            (string)$rule->validate('example.com'),
+            strip_tags((string)$rule->validate('example.com')),
         );
     }
 
@@ -345,11 +345,11 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate('10'));
         isSame(
             '"max" at line 0, column "prop". Value "123" is greater than "10".',
-            (string)$rule->validate('123'),
+            strip_tags((string)$rule->validate('123')),
         );
         isSame(
             '"max" at line 0, column "prop". Value "example.com" is not a float number.',
-            (string)$rule->validate('example.com'),
+            strip_tags((string)$rule->validate('example.com')),
         );
 
         $rule = new Max('prop', 10.1);
@@ -358,7 +358,7 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate('10.1'));
         isSame(
             '"max" at line 0, column "prop". Value "10.2" is greater than "10.1".',
-            (string)$rule->validate('10.2'),
+            strip_tags((string)$rule->validate('10.2')),
         );
     }
 
@@ -369,7 +369,7 @@ final class RulesTest extends PHPUnit
         isSame(
             '"min_date" at line 0, column "prop". ' .
             'Value "2000-01-09" is less than the minimum date "2000-01-10T00:00:00.000+00:00".',
-            (string)$rule->validate('2000-01-09'),
+            strip_tags((string)$rule->validate('2000-01-09')),
         );
 
         $rule = new MinDate('prop', '2000-01-10 00:00:00 +01:00');
@@ -377,7 +377,7 @@ final class RulesTest extends PHPUnit
         isSame(
             '"min_date" at line 0, column "prop". ' .
             'Value "2000-01-09 23:59:59 Europe/Berlin" is less than the minimum date "2000-01-10T00:00:00.000+01:00".',
-            (string)$rule->validate('2000-01-09 23:59:59 Europe/Berlin'),
+            strip_tags((string)$rule->validate('2000-01-09 23:59:59 Europe/Berlin')),
         );
 
         $rule = new MinDate('prop', '-1000 years');
@@ -391,7 +391,7 @@ final class RulesTest extends PHPUnit
         isSame(
             '"max_date" at line 0, column "prop". ' .
             'Value "2000-01-11" is more than the maximum date "2000-01-10T00:00:00.000+00:00".',
-            (string)$rule->validate('2000-01-11'),
+            strip_tags((string)$rule->validate('2000-01-11')),
         );
 
         $rule = new MaxDate('prop', '2000-01-10 00:00:00');
@@ -399,7 +399,7 @@ final class RulesTest extends PHPUnit
         isSame(
             '"max_date" at line 0, column "prop". ' .
             'Value "2000-01-10 00:00:01" is more than the maximum date "2000-01-10T00:00:00.000+00:00".',
-            (string)$rule->validate('2000-01-10 00:00:01'),
+            strip_tags((string)$rule->validate('2000-01-10 00:00:01')),
         );
 
         $rule = new MaxDate('prop', '+1 day');
@@ -413,16 +413,16 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate('     '));
         isSame(null, $rule->validate('  1  '));
         isSame(
-            '"min_length" at line 0, column "prop". Value "1234" (legth: 4) is too short. Min length is 5.',
-            (string)$rule->validate('1234'),
+            '"min_length" at line 0, column "prop". Value "1234" (length: 4) is too short. Min length is 5.',
+            strip_tags((string)$rule->validate('1234')),
         );
         isSame(
-            '"min_length" at line 0, column "prop". Value "123 " (legth: 4) is too short. Min length is 5.',
-            (string)$rule->validate('123 '),
+            '"min_length" at line 0, column "prop". Value "123 " (length: 4) is too short. Min length is 5.',
+            strip_tags((string)$rule->validate('123 ')),
         );
         isSame(
-            '"min_length" at line 0, column "prop". Value "" (legth: 0) is too short. Min length is 5.',
-            (string)$rule->validate(''),
+            '"min_length" at line 0, column "prop". Value "" (length: 0) is too short. Min length is 5.',
+            strip_tags((string)$rule->validate('')),
         );
     }
 
@@ -435,12 +435,12 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate('     '));
         isSame(null, $rule->validate('  1  '));
         isSame(
-            '"max_length" at line 0, column "prop". Value "123456" (legth: 6) is too long. Max length is 5.',
-            (string)$rule->validate('123456'),
+            '"max_length" at line 0, column "prop". Value "123456" (length: 6) is too long. Max length is 5.',
+            strip_tags((string)$rule->validate('123456')),
         );
         isSame(
-            '"max_length" at line 0, column "prop". Value "12345 " (legth: 6) is too long. Max length is 5.',
-            (string)$rule->validate('12345 '),
+            '"max_length" at line 0, column "prop". Value "12345 " (length: 6) is too long. Max length is 5.',
+            strip_tags((string)$rule->validate('12345 ')),
         );
     }
 
@@ -454,11 +454,11 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate(' '));
         isSame(
             '"not_empty" at line 0, column "prop". Value is empty.',
-            (string)$rule->validate(''),
+            strip_tags((string)$rule->validate('')),
         );
         isSame(
             '"not_empty" at line 0, column "prop". Value is empty.',
-            (string)$rule->validate(null),
+            strip_tags((string)$rule->validate(null)),
         );
 
         $rule = new NotEmpty('prop', false);
@@ -475,11 +475,11 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate(' '));
         isSame(
             '"only_capitalize" at line 0, column "prop". Value "qwerty" should be in capitalize.',
-            (string)$rule->validate('qwerty'),
+            strip_tags((string)$rule->validate('qwerty')),
         );
         isSame(
             '"only_capitalize" at line 0, column "prop". Value "qwe Rty" should be in capitalize.',
-            (string)$rule->validate('qwe Rty'),
+            strip_tags((string)$rule->validate('qwe Rty')),
         );
 
         $rule = new OnlyCapitalize('prop', false);
@@ -496,11 +496,11 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate(' '));
         isSame(
             '"only_lowercase" at line 0, column "prop". Value "Qwerty" should be in lowercase.',
-            (string)$rule->validate('Qwerty'),
+            strip_tags((string)$rule->validate('Qwerty')),
         );
         isSame(
             '"only_lowercase" at line 0, column "prop". Value "qwe Rty" should be in lowercase.',
-            (string)$rule->validate('qwe Rty'),
+            strip_tags((string)$rule->validate('qwe Rty')),
         );
 
         $rule = new OnlyLowercase('prop', false);
@@ -516,11 +516,11 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate(' '));
         isSame(
             '"only_uppercase" at line 0, column "prop". Value "Qwerty" is not uppercase.',
-            (string)$rule->validate('Qwerty'),
+            strip_tags((string)$rule->validate('Qwerty')),
         );
         isSame(
             '"only_uppercase" at line 0, column "prop". Value "qwe Rty" is not uppercase.',
-            (string)$rule->validate('qwe Rty'),
+            strip_tags((string)$rule->validate('qwe Rty')),
         );
 
         $rule = new OnlyUppercase('prop', false);
@@ -536,12 +536,12 @@ final class RulesTest extends PHPUnit
         isSame(
             '"precision" at line 0, column "prop". ' .
             'Value "1.1" has a precision of 1 but should have a precision of 0.',
-            (string)$rule->validate('1.1'),
+            strip_tags((string)$rule->validate('1.1')),
         );
         isSame(
             '"precision" at line 0, column "prop". ' .
             'Value "1.0" has a precision of 1 but should have a precision of 0.',
-            (string)$rule->validate('1.0'),
+            strip_tags((string)$rule->validate('1.0')),
         );
 
         $rule = new Precision('prop', 1);
@@ -551,12 +551,12 @@ final class RulesTest extends PHPUnit
         isSame(
             '"precision" at line 0, column "prop". ' .
             'Value "1" has a precision of 0 but should have a precision of 1.',
-            (string)$rule->validate('1'),
+            strip_tags((string)$rule->validate('1')),
         );
         isSame(
             '"precision" at line 0, column "prop". ' .
             'Value "1.01" has a precision of 2 but should have a precision of 1.',
-            (string)$rule->validate('1.01'),
+            strip_tags((string)$rule->validate('1.01')),
         );
 
         $rule = new Precision('prop', 2);
@@ -566,12 +566,12 @@ final class RulesTest extends PHPUnit
         isSame(
             '"precision" at line 0, column "prop". ' .
             'Value "2.0" has a precision of 1 but should have a precision of 2.',
-            (string)$rule->validate('2.0'),
+            strip_tags((string)$rule->validate('2.0')),
         );
         isSame(
             '"precision" at line 0, column "prop". ' .
             'Value "1.000" has a precision of 3 but should have a precision of 2.',
-            (string)$rule->validate('1.000'),
+            strip_tags((string)$rule->validate('1.000')),
         );
     }
 
@@ -583,7 +583,7 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate('a'));
         isSame(
             '"regex" at line 0, column "prop". Value "1bc" does not match the pattern "/^a/".',
-            (string)$rule->validate('1bc'),
+            strip_tags((string)$rule->validate('1bc')),
         );
 
         $rule = new Regex('prop', '^a');
@@ -592,7 +592,7 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate('a'));
         isSame(
             '"regex" at line 0, column "prop". Value "1bc" does not match the pattern "/^a/u".',
-            (string)$rule->validate('1bc'),
+            strip_tags((string)$rule->validate('1bc')),
         );
     }
 
@@ -611,7 +611,7 @@ final class RulesTest extends PHPUnit
         isSame(
             '"cardinal_direction" at line 0, column "prop". Value "qwe" is not allowed. ' .
             'Allowed values: ["N", "S", "E", "W", "NE", "SE", "NW", "SW", "none", ""].',
-            (string)$rule->validate('qwe'),
+            strip_tags((string)$rule->validate('qwe')),
         );
     }
 
@@ -624,7 +624,7 @@ final class RulesTest extends PHPUnit
             '"usa_market_name" at line 0, column "prop". ' .
             'Invalid market name format for value ", ST". ' .
             'Market name must have format "New York, NY".',
-            (string)$rule->validate(', ST'),
+            strip_tags((string)$rule->validate(', ST')),
         );
 
         $rule = new UsaMarketName('prop', false);
@@ -637,7 +637,7 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate(Str::uuid()));
         isSame(
             '"is_uuid4" at line 0, column "prop". Value is not a valid UUID v4.',
-            (string)$rule->validate('123'),
+            strip_tags((string)$rule->validate('123')),
         );
 
         $rule = new IsUuid4('prop', false);

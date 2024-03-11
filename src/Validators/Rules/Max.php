@@ -26,7 +26,7 @@ final class Max extends IsFloat
         }
 
         if ($this->getOptionAsFloat() < (float)$cellValue) {
-            return "Value \"{$cellValue}\" is greater than \"{$this->getOptionAsFloat()}\"";
+            return "Value \"<c>{$cellValue}</c>\" is greater than \"<green>{$this->getOptionAsFloat()}</green>\"";
         }
 
         return null;

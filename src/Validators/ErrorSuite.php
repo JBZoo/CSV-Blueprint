@@ -52,13 +52,13 @@ final class ErrorSuite
         }
 
         $sourceSuite = $this->prepareSourceSuite();
-        $map         = [
-            self::RENDER_TEXT     => fn (): string => $this->renderPlainText(),
-            self::RENDER_TABLE    => fn (): string => $this->renderTable(),
-            self::RENDER_GITHUB   => static fn (): string => (new GithubCliConverter())->fromInternal($sourceSuite),
-            self::RENDER_GITLAB   => static fn (): string => (new GitLabJsonConverter())->fromInternal($sourceSuite),
-            self::RENDER_TEAMCITY => static fn (): string => (new TeamCityTestsConverter())->fromInternal($sourceSuite),
-            self::RENDER_JUNIT    => static fn (): string => (new JUnitConverter())->fromInternal($sourceSuite),
+        $map = [
+            self::RENDER_TEXT     => fn(): string => $this->renderPlainText(),
+            self::RENDER_TABLE    => fn(): string => $this->renderTable(),
+            self::RENDER_GITHUB   => static fn(): string => (new GithubCliConverter())->fromInternal($sourceSuite),
+            self::RENDER_GITLAB   => static fn(): string => (new GitLabJsonConverter())->fromInternal($sourceSuite),
+            self::RENDER_TEAMCITY => static fn(): string => (new TeamCityTestsConverter())->fromInternal($sourceSuite),
+            self::RENDER_JUNIT    => static fn(): string => (new JUnitConverter())->fromInternal($sourceSuite),
         ];
 
         if (isset($map[$mode])) {
@@ -134,7 +134,7 @@ final class ErrorSuite
     private function renderTable(): string
     {
         $buffer = new BufferedOutput();
-        $table  = (new Table($buffer))
+        $table = (new Table($buffer))
             ->setHeaderTitle($this->getTestcaseName())
             ->setFooterTitle($this->getTestcaseName())
             ->setHeaders(['Line', 'id:Column', 'Rule', 'Message'])
@@ -144,7 +144,12 @@ final class ErrorSuite
             ->setColumnMaxWidth(3, 60);
 
         foreach ($this->errors as $error) {
-            $table->addRow([$error->getLine(), $error->getColumnName(), $error->getRuleCode(), $error->getMessage()]);
+            $table->addRow([
+                $error->getLine(),
+                $error->getColumnName(),
+                $error->getRuleCode(),
+                $error->getMessage(true),
+            ]);
         }
 
         $table->render();
@@ -157,11 +162,11 @@ final class ErrorSuite
         $suite = new SourceSuite($this->getTestcaseName());
 
         foreach ($this->errors as $error) {
-            $caseName     = $error->getRuleCode() . ' at column ' . $error->getColumnName();
-            $case         = $suite->addTestCase($caseName);
-            $case->line   = $error->getLine();
-            $case->file   = $this->csvFilename;
-            $case->errOut = (string)$error;
+            $caseName = $error->getRuleCode() . ' at column ' . $error->getColumnName();
+            $case = $suite->addTestCase($caseName);
+            $case->line = $error->getLine();
+            $case->file = $this->csvFilename;
+            $case->errOut = $error->toCleanString();
         }
 
         return $suite;

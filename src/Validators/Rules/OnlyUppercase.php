@@ -25,7 +25,7 @@ final class OnlyUppercase extends AbstarctRule
         }
 
         if ($cellValue !== null && \mb_strtoupper($cellValue, 'UTF-8') !== $cellValue) {
-            return "Value \"{$cellValue}\" is not uppercase";
+            return "Value \"<c>{$cellValue}</c>\" is not uppercase";
         }
 
         return null;

@@ -21,7 +21,7 @@ final class ExactValue extends AbstarctRule
     public function validateRule(?string $cellValue): ?string
     {
         if ($this->getOptionAsString() !== (string)$cellValue) {
-            return "Value \"{$cellValue}\" is not strict equal to \"{$this->getOptionAsString()}\"";
+            return "Value \"<c>{$cellValue}</c>\" is not strict equal to \"<green>{$this->getOptionAsString()}<green>\"";
         }
 
         return null;
