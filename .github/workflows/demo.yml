@@ -85,13 +85,19 @@ jobs:
       - name: Build the Project
         run: make update
 
-      - name: Using the PHP file
+      - name: 👍 Valid CSV file
         run: |
           ./csv-blueprint                                      \
           validate:csv                                         \
           --csv=./tests/fixtures/demo.csv                      \
-          --schema=./tests/schemas/demo_invalid.yml            \
-          --ansi
+          --schema=./tests/schemas/demo_valid.yml
+
+      - name: 👎 Invalid CSV file
+        run: |
+          ./csv-blueprint                                      \
+          validate:csv                                         \
+          --csv=./tests/fixtures/demo.csv                      \
+          --schema=./tests/schemas/demo_invalid.yml
         continue-on-error: true
 
   phar:
@@ -112,26 +118,48 @@ jobs:
       - name: Build the project
         run: make build --no-print-directory
 
-      - name: Using the phar file
+      - name: 👍 Valid CSV file
         run: | 
           ./build/csv-blueprint.phar                           \
           validate:csv                                         \
           --csv=./tests/fixtures/demo.csv                      \
-          --schema=./tests/schemas/demo_invalid.yml            \
-          --ansi
+          --schema=./tests/schemas/demo_valid.yml
+
+      - name: 👎 Invalid CSV file
+        run: | 
+          ./build/csv-blueprint.phar                           \
+          validate:csv                                         \
+          --csv=./tests/fixtures/demo.csv                      \
+          --schema=./tests/schemas/demo_invalid.yml
         continue-on-error: true
 
   docker:
     name: Docker
     runs-on: ubuntu-latest
     steps:
-      - name: Using the Docker image
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: 🐳 Building Docker Image
+        run: make build-docker
+
+      - name: 👍 Valid CSV file
         run: |
           docker run                                           \
           -v `pwd`:/parent-host                                \
           --rm jbzoo/csv-blueprint                             \
           validate:csv                                         \
           --csv=/parent-host/tests/fixtures/demo.csv           \
-          --schema=/parent-host/tests/schemas/demo_invalid.yml \
-          --ansi
+          --schema=/parent-host/tests/schemas/demo_valid.yml
+
+      - name: 👎 Invalid CSV file
+        run: |
+          docker run                                           \
+          -v `pwd`:/parent-host                                \
+          --rm jbzoo/csv-blueprint                             \
+          validate:csv                                         \
+          --csv=/parent-host/tests/fixtures/demo.csv           \
+          --schema=/parent-host/tests/schemas/demo_invalid.yml
         continue-on-error: true
