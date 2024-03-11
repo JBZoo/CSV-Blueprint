@@ -103,7 +103,6 @@ jobs:
         with:
           csv: tests/fixtures/demo-test.csv
           schema: tests/schemas/demo_invalid.yml
-          output: table
 
 
   docker:
