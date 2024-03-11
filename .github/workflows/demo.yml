@@ -134,7 +134,7 @@ jobs:
         continue-on-error: true
 
   docker:
-    name: Docker
+    name: Docker Hub
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -142,8 +142,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: 🐳 Building Docker Image
-        run: make build-docker
+      - name: Pull Docker Image
+        run: docker pull jbzoo/csv-blueprint
 
       - name: 👍 Valid CSV file
         run: |
