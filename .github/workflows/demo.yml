@@ -78,20 +78,20 @@ jobs:
           fetch-depth: 0
 
       - name: 👍 Valid CSV file
-        uses: JBZoo/Csv-Blueprint@0.1
+        uses: jbzoo/csv-blueprint@master
         with:
           csv: tests/fixtures/demo.csv
           schema: tests/schemas/demo_valid.yml
 
       - name: 👎 Invalid CSV file - Report as GitHub Annotations
-        uses: JBZoo/Csv-Blueprint@0.1
+        uses: jbzoo/csv-blueprint@master
         with:
           csv: tests/fixtures/demo.csv
           schema: tests/schemas/demo_invalid.yml
         continue-on-error: true
 
       - name: 👎 Invalid CSV file - Report as Table
-        uses: JBZoo/Csv-Blueprint@latest
+        uses: jbzoo/csv-blueprint@master
         with:
           csv: tests/fixtures/demo.csv
           schema: tests/schemas/demo_invalid.yml
