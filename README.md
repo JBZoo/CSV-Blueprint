@@ -6,7 +6,7 @@
 
 
 * [Introduction](#introduction)
-* [Why Validate CSV Files in CI?](#why-validate-csv-files-in-ci)
+* [Why validate CSV files in CI?](#why-validate-csv-files-in-ci)
 * [Features](#features)
 * [Live Demo](#live-demo)
 * [Usage](#usage)
@@ -30,7 +30,7 @@ a predefined schema specified in YAML format. With the capability to run both lo
 JBZoo/Csv-Blueprint is an ideal choice for integrating into CI/CD pipelines, such as GitHub Actions,
 to ensure the integrity of CSV data in your projects.
 
-## Why Validate CSV Files in CI?
+## Why validate CSV files in CI?
 
 Validating CSV files at the Continuous Integration (CI) level within a repository is crucial for several reasons in data engineering:
 
@@ -242,8 +242,6 @@ columns:
 
 ```
 
-### Schema file examples
-
 In the [example Yml file](schema-examples/full.yml) you can find a detailed description of all features.
 It's also covered by tests, so it's always up-to-date.
 
@@ -254,6 +252,8 @@ This gives you great flexibility when validating CSV files.
 * All fields (unless explicitly stated otherwise) are optional, and you can choose not to declare them. Up to you.
 * You are always free to add your option anywhere (except the `rules` list) and it will be ignored. I find it convenient for additional integrations and customization.
 
+
+### Schema file examples
 
 ```yml
 # It's a full example of the CSV schema file in YAML format.
