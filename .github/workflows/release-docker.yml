@@ -42,4 +42,4 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: jbzoo/csv-blueprint:${{ env.GITHUB_REF_NAME }}
+          tags: jbzoo/csv-blueprint:latest
