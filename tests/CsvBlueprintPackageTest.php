@@ -109,5 +109,4 @@ final class CsvBlueprintPackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPac
             ),
         );
     }
-
 }

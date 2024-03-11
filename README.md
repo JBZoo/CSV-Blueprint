@@ -469,8 +469,11 @@ I'm not sure if I will implement all of them. But I will try to do my best.
 But... it's not a problem for most cases. And it solves the problem of validating CSV files in CI. 👍
 
 The utility is made to just pick up and use and not think about how it works internally.
-Moreover, everything is covered as strictly as possible by tests, strict typing of variables + ~7 linters and static analyzers (max level of rules).
-So... as strictly as possible in today's PHP world.
+Moreover, everything is covered as strictly as possible by tests, strict typing of variables + `~7` linters and static analyzers (max level of rules). 
+Also, if you look, you'll see that any PR goes through about `~30` different checks on GitHub Actions (matrix of PHP versions and mods).
+Since I don't know under what conditions the code will be used, everything I can think of is covered. The wonderful world of Open Source.
+
+So... as strictly as possible in today's PHP world. I think it works as expected.
 
 ## Interesting fact
 
