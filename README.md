@@ -200,7 +200,7 @@ As a result of the validation process, you will receive a human-readable table w
 Default output format is `table`:
 
 ```
-./csv-blueprint validate:csv --output=table --csv=./tests/fixtures/demo.csv --schema=./tests/schemas/demo_invalid.yml
+./csv-blueprint validate:csv --output=table
 
 
 CSV    : ./tests/fixtures/demo.csv
@@ -230,7 +230,7 @@ CSV file is not valid! Found 8 errors.
 
 Optional output format `text`:
 ```sh
-./csv-blueprint validate:csv --output=text --csv=./tests/fixtures/demo.csv --schema=./tests/schemas/demo_invalid.yml
+./csv-blueprint validate:csv --output=text
 ```
 
 ![Output - Text](.github/assets/output-text.png)
