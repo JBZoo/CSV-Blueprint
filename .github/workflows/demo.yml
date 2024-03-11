@@ -25,8 +25,8 @@ env:
   TERM_PROGRAM: Hyper
 
 jobs:
-  pure-php:
-    name: Pure PHP
+  reports:
+    name: Different type of reports
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -44,27 +44,54 @@ jobs:
         run: make update
 
       - name: Validate CSV (default is table)
-        run: make demo-github
+        run: make demo-github --no-print-directory
         continue-on-error: true
 
       - name: Validate CSV (text)
-        run: OUTPUT=text make demo-github
+        run: OUTPUT=text make demo-github --no-print-directory
         continue-on-error: true
 
       - name: Validate CSV (github)
-        run: OUTPUT=github make demo-github
+        run: OUTPUT=github make demo-github --no-print-directory
         continue-on-error: true
 
       - name: Validate CSV (gitlab)
-        run: OUTPUT=gitlab make demo-github
+        run: OUTPUT=gitlab make demo-github --no-print-directory
         continue-on-error: true
 
       - name: Validate CSV (teamcity)
-        run: OUTPUT=teamcity make demo-github
+        run: OUTPUT=teamcity make demo-github --no-print-directory
         continue-on-error: true
 
       - name: Validate CSV (junit)
-        run: OUTPUT=junit make demo-github
+        run: OUTPUT=junit make demo-github --no-print-directory
+        continue-on-error: true
+
+  php:
+    name: Pure PHP
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          tools: composer
+
+      - name: Build the Project
+        run: make update
+
+      - name: Using the PHP file
+        run: |
+          ./csv-blueprint                                      \
+          validate:csv                                         \
+          --csv=./tests/fixtures/demo.csv                      \
+          --schema=./tests/schemas/demo_invalid.yml            \
+          --ansi
         continue-on-error: true
 
   phar:
@@ -85,7 +112,7 @@ jobs:
       - name: Build the project
         run: make build --no-print-directory
 
-      - name: Trying to use the phar file
+      - name: Using the phar file
         run: | 
           ./build/csv-blueprint.phar                           \
           validate:csv                                         \
@@ -98,7 +125,7 @@ jobs:
     name: Docker
     runs-on: ubuntu-latest
     steps:
-      - name: Trying to use the Docker image
+      - name: Using the Docker image
         run: |
           docker run                                           \
           -v `pwd`:/parent-host                                \
