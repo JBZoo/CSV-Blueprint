@@ -22,7 +22,7 @@ build: ##@Project Install all 3rd party dependencies
 	$(call title,"Install/Update all 3rd party dependencies")
 	@composer install
 	@make build-phar
-	@make create-symlink
+	@rm -f `pwd`/ci-report-converter
 
 
 update: ##@Project Install/Update all 3rd party dependencies
@@ -31,13 +31,14 @@ update: ##@Project Install/Update all 3rd party dependencies
 	@make build-phar
 
 
-create-symlink: ##@Project Create Symlink (alias for testing)
-	@ln -sfv `pwd`/csv-blueprint `pwd`/vendor/bin/csv-blueprint
-
-
 test-all: ##@Project Run all project tests at once
 	@make test
 	@make codestyle
+
+
+build-docker:
+	$(call title,"Building Docker Image")
+	@docker build -t ci-report-converter .
 
 
 demo-valid: ##@Project Run demo valid CSV

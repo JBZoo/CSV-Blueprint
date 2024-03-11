@@ -174,3 +174,18 @@ jobs:
         with:
           name: Reports - ${{ matrix.php-version }}
           path: build/
+
+  docker:
+    name: Docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: 🐳 Building Docker Image
+        run: make build-docker
+
+      - name: Trying to use the Docker Image
+        run: docker run --rm csv-blueprint
