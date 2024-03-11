@@ -19,4 +19,11 @@ namespace JBZoo\PHPUnit;
 final class CsvBlueprintPackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
 {
     protected string $packageName = 'Csv-Blueprint';
+
+    protected function setUp(): void
+    {
+        $this->params['docker_pulls'] = true;
+
+        parent::setUp();
+    }
 }

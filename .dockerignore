@@ -1,0 +1,29 @@
+#
+# JBZoo Toolbox - CI-Report-Converter.
+#
+# This file is part of the JBZoo Toolbox project.
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# @license    MIT
+# @copyright  Copyright (C) JBZoo.com, All rights reserved.
+# @see        https://github.com/JBZoo/CI-Report-Converter
+#
+
+.git
+.idea
+.github
+build
+tests
+vendor
+schema-examples
+.DS_Store
+.editorconfig
+.gitattributes
+.gitignore
+.phan.php
+.phpunit.result.cache
+action.yml
+box.json.dist
+phpunit.xml.dist
+Makefile

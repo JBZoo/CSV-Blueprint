@@ -22,8 +22,12 @@ build: ##@Project Install all 3rd party dependencies
 	$(call title,"Install/Update all 3rd party dependencies")
 	@composer install
 	@make build-phar
-	@make create-symlink
+	@rm -f `pwd`/ci-report-converter
 
+build-install: ##@Project Install all 3rd party dependencies as prod
+	$(call title,"Install/Update all 3rd party dependencies as prod")
+	@composer install --no-dev --no-progress --no-interaction --no-suggest
+	@rm -f `pwd`/ci-report-converter
 
 update: ##@Project Install/Update all 3rd party dependencies
 	@echo "Composer flags: $(JBZOO_COMPOSER_UPDATE_FLAGS)"
@@ -31,13 +35,14 @@ update: ##@Project Install/Update all 3rd party dependencies
 	@make build-phar
 
 
-create-symlink: ##@Project Create Symlink (alias for testing)
-	@ln -sfv `pwd`/csv-blueprint `pwd`/vendor/bin/csv-blueprint
-
-
 test-all: ##@Project Run all project tests at once
 	@make test
 	@make codestyle
+
+
+build-docker:
+	$(call title,"Building Docker Image")
+	@docker build -t jbzoo/csv-blueprint .
 
 
 demo-valid: ##@Project Run demo valid CSV
@@ -45,6 +50,24 @@ demo-valid: ##@Project Run demo valid CSV
 	@${PHP_BIN} ./csv-blueprint validate:csv      \
        --csv=./tests/fixtures/demo.csv            \
        --schema=./tests/schemas/demo_valid.yml
+
+demo-docker: ##@Project Run demo via Docker
+	$(call title,"Demo - Valid CSV \(via Docker\)")
+	@docker run --rm                                         \
+       -v `pwd`:/parent-host                                 \
+       jbzoo/csv-blueprint                                   \
+       validate:csv                                          \
+       --csv=/parent-host/tests/fixtures/demo.csv            \
+       --schema=/parent-host/tests/schemas/demo_valid.yml    \
+       --ansi
+	$(call title,"Demo - Invalid CSV \(via Docker\)")
+	@docker run --rm                                         \
+       -v `pwd`:/parent-host                                 \
+       jbzoo/csv-blueprint                                   \
+       validate:csv                                          \
+       --csv=/parent-host/tests/fixtures/demo.csv            \
+       --schema=/parent-host/tests/schemas/demo_invalid.yml  \
+       --ansi
 
 
 demo-invalid: ##@Project Run demo invalid CSV
