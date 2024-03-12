@@ -207,11 +207,10 @@ Default report format is `table`:
 ./csv-blueprint validate:csv --csv='./tests/fixtures/batch/*.csv' --schema='./tests/schemas/demo_invalid.yml'
 
 
-CSV    : ./tests/fixtures/batch/sub/demo-3.csv
-CSV    : ./tests/fixtures/batch/demo-2.csv
-CSV    : ./tests/fixtures/batch/demo-1.csv
-Schema : ./tests/schemas/demo_invalid.yml
+Schema: ./tests/schemas/demo_invalid.yml
 
+CSV: ./tests/fixtures/batch/sub/demo-3.csv OK
+Error: CSV: ./tests/fixtures/batch/demo-2.csv
 +------+------------+------------+----- demo-2.csv ---------------------------------------+
 | Line | id:Column  | Rule       | Message                                                |
 +------+------------+------------+--------------------------------------------------------+
@@ -225,6 +224,7 @@ Schema : ./tests/schemas/demo_invalid.yml
 | 7    | 0:Name     | min_length | Value "Lois" (length: 4) is too short. Min length is 5 |
 +------+------------+------------+----- demo-2.csv ---------------------------------------+
 
+Error: CSV: ./tests/fixtures/batch/demo-1.csv
 +------+------------------+--------------+ demo-1.csv ------------------------------------------+
 | Line | id:Column        | Rule         | Message                                              |
 +------+------------------+--------------+------------------------------------------------------+

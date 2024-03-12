@@ -85,16 +85,20 @@ final class ValidateCsv extends CliCommand
             $csvFile    = new CsvFile($csvFilename->getPathname(), $schemaFilename);
             $errorSuite = $csvFile->validate();
 
-            $output = $errorSuite->render($this->getOptString('report'));
-            if ($output !== null) {
-                $this->_($output, $this->isTextMode() ? OutLvl::E : OutLvl::DEFAULT);
-            }
-
             if ($errorSuite->count() > 0) {
                 $invalidFiles++;
-            }
+                $errorCounter += $errorSuite->count();
 
-            $errorCounter += $errorSuite->count();
+                if ($this->isTextMode()) {
+                    $this->_(Utils::cutPath($csvFilename->getPathname()), OutLvl::ERROR);
+                }
+                $output = $errorSuite->render($this->getOptString('report'));
+                if ($output !== null) {
+                    $this->_($output, $this->isTextMode() ? OutLvl::E : OutLvl::DEFAULT);
+                }
+            } elseif ($this->isTextMode()) {
+                $this->_('<green>OK:</green> ' . Utils::cutPath($csvFilename->getPathname()));
+            }
         }
 
         if ($errorCounter > 0 && $this->isTextMode()) {
@@ -128,12 +132,6 @@ final class ValidateCsv extends CliCommand
             throw new Exception('CSV file(s) not found in path(s): ' . \implode("\n, ", $rawInput));
         }
 
-        if ($this->isTextMode()) {
-            foreach ($scvFilenames as $filename) {
-                $this->_('<blue>CSV    :</blue> ' . Utils::cutPath($filename->getPathname()));
-            }
-        }
-
         return $scvFilenames;
     }
 
@@ -146,7 +144,7 @@ final class ValidateCsv extends CliCommand
         }
 
         if ($this->isTextMode()) {
-            $this->_('<blue>Schema :</blue> ' . Utils::cutPath($schemaFilename));
+            $this->_('<blue>Schema:</blue> ' . Utils::cutPath($schemaFilename));
         }
 
         return $schemaFilename;

@@ -82,7 +82,7 @@ demo-invalid: ##@Project Run demo invalid CSV
 
 demo-github: ##@Project Run demo invalid CSV
 	@${PHP_BIN} ./csv-blueprint validate:csv      \
-       --csv=./tests/fixtures/demo.csv            \
+       --csv=./tests/fixtures/batch/*.csv         \
        --schema=./tests/schemas/demo_invalid.yml  \
        --report=$(REPORT)                         \
        --ansi
