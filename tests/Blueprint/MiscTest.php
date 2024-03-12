@@ -139,42 +139,42 @@ final class MiscTest extends PHPUnit
 
         $this->getFileName(Utils::findFiles(['*.qwerty']));
 
-        isSame(['demo-3.csv', 'demo-2.csv', 'demo-1.csv'], $this->getFileName(Utils::findFiles([
+        isSame(['demo-1.csv', 'demo-2.csv', 'demo-3.csv'], $this->getFileName(Utils::findFiles([
             PROJECT_ROOT . '/tests/fixtures/batch/*.csv',
         ])));
 
-        isSame(['demo-3.csv', 'demo-2.csv', 'demo-1.csv'], $this->getFileName(Utils::findFiles([
+        isSame(['demo-1.csv', 'demo-2.csv', 'demo-3.csv'], $this->getFileName(Utils::findFiles([
             'tests/fixtures/batch/*.csv',
         ])));
 
-        isSame(['demo-3.csv', 'demo-2.csv', 'demo-1.csv'], $this->getFileName(Utils::findFiles([
+        isSame(['demo-1.csv', 'demo-2.csv', 'demo-3.csv'], $this->getFileName(Utils::findFiles([
             './tests/fixtures/batch/*.csv',
         ])));
 
-        isSame(['demo-3.csv', 'demo-2.csv', 'demo-1.csv'], $this->getFileName(Utils::findFiles(['**/demo-*.csv'])));
+        isSame(['demo-1.csv', 'demo-2.csv', 'demo-3.csv'], $this->getFileName(Utils::findFiles(['**/demo-*.csv'])));
 
-        isSame(['demo-3.csv', 'demo-2.csv', 'demo-1.csv', 'demo.csv'], $this->getFileName(Utils::findFiles([
+        isSame(['demo-1.csv', 'demo-2.csv', 'demo-3.csv', 'demo.csv'], $this->getFileName(Utils::findFiles([
             PROJECT_ROOT . '/tests/fixtures/batch/*.csv',
             PROJECT_ROOT . '/tests/fixtures/demo.csv',
         ])));
 
-        isSame(['demo.csv', 'demo-3.csv', 'demo-2.csv', 'demo-1.csv'], $this->getFileName(Utils::findFiles([
+        isSame(['demo.csv', 'demo-1.csv', 'demo-2.csv', 'demo-3.csv'], $this->getFileName(Utils::findFiles([
             PROJECT_ROOT . '/tests/fixtures/demo.csv',
             PROJECT_ROOT . '/tests/fixtures/batch/*.csv',
         ])));
 
         isSame(
             [
-                'complex_header.csv',
-                'simple_no_header.csv',
-                'empty_no_header.csv',
-                'empty_header.csv',
-                'demo-3.csv',
-                'demo-2.csv',
                 'demo-1.csv',
-                'simple_header.csv',
-                'demo.csv',
+                'demo-2.csv',
+                'demo-3.csv',
+                'complex_header.csv',
                 'complex_no_header.csv',
+                'demo.csv',
+                'empty_header.csv',
+                'empty_no_header.csv',
+                'simple_header.csv',
+                'simple_no_header.csv',
             ],
             $this->getFileName(Utils::findFiles(['tests/**/*.csv'])),
         );

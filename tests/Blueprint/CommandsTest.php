@@ -76,7 +76,7 @@ final class CommandsTest extends PHPUnit
         $expected = <<<'TXT'
             Schema: ./tests/schemas/demo_invalid.yml
             
-            Error: ./tests/fixtures/demo.csv
+            Invalid file: ./tests/fixtures/demo.csv
             +------+------------------+--------------+-- demo.csv --------------------------------------------+
             | Line | id:Column        | Rule         | Message                                                |
             +------+------------------+--------------+--------------------------------------------------------+
@@ -117,8 +117,16 @@ final class CommandsTest extends PHPUnit
         $expected = <<<'TXT'
             Schema: ./tests/schemas/demo_invalid.yml
 
-            OK: ./tests/fixtures/batch/sub/demo-3.csv
-            Error: ./tests/fixtures/batch/demo-2.csv
+            Invalid file: ./tests/fixtures/batch/demo-1.csv
+            +------+------------------+--------------+ demo-1.csv ------------------------------------------+
+            | Line | id:Column        | Rule         | Message                                              |
+            +------+------------------+--------------+------------------------------------------------------+
+            | 3    | 2:Float          | max          | Value "74605.944" is greater than "74605"            |
+            | 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", |
+            |      |                  |              | "green", "Blue"]                                     |
+            +------+------------------+--------------+ demo-1.csv ------------------------------------------+
+            
+            Invalid file: ./tests/fixtures/batch/demo-2.csv
             +------+------------+------------+----- demo-2.csv ---------------------------------------+
             | Line | id:Column  | Rule       | Message                                                |
             +------+------------+------------+--------------------------------------------------------+
@@ -132,15 +140,7 @@ final class CommandsTest extends PHPUnit
             | 7    | 0:Name     | min_length | Value "Lois" (length: 4) is too short. Min length is 5 |
             +------+------------+------------+----- demo-2.csv ---------------------------------------+
             
-            Error: ./tests/fixtures/batch/demo-1.csv
-            +------+------------------+--------------+ demo-1.csv ------------------------------------------+
-            | Line | id:Column        | Rule         | Message                                              |
-            +------+------------------+--------------+------------------------------------------------------+
-            | 3    | 2:Float          | max          | Value "74605.944" is greater than "74605"            |
-            | 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", |
-            |      |                  |              | "green", "Blue"]                                     |
-            +------+------------------+--------------+ demo-1.csv ------------------------------------------+
-            
+            OK: ./tests/fixtures/batch/sub/demo-3.csv
             Found 7 issues in 2 out of 3 CSV files.
             
             TXT;
@@ -173,7 +173,7 @@ final class CommandsTest extends PHPUnit
         $expected = <<<'TXT'
             Schema: ./tests/schemas/demo_invalid.yml
             
-            Error: ./tests/fixtures/demo.csv
+            Invalid file: ./tests/fixtures/demo.csv
             "max" at line 5, column "2:Float". Value "74605.944" is greater than "74605".
             "allow_values" at line 5, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].
             "min_length" at line 6, column "0:Name". Value "Carl" (length: 4) is too short. Min length is 5.
@@ -204,9 +204,24 @@ final class CommandsTest extends PHPUnit
 
         $expected = <<<'TXT'
             Schema: ./tests/schemas/demo_invalid.yml
+
+            Invalid file: ./tests/fixtures/batch/demo-1.csv
             
-            OK: ./tests/fixtures/batch/sub/demo-3.csv
-            Error: ./tests/fixtures/batch/demo-2.csv
+            ##teamcity[testCount count='2' flowId='42']
+            
+            ##teamcity[testSuiteStarted name='demo-1.csv' flowId='42']
+            
+            ##teamcity[testStarted name='max at column 2:Float' locationHint='php_qn://./tests/fixtures/batch/demo-1.csv' flowId='42']
+            "max" at line 3, column "2:Float". Value "74605.944" is greater than "74605".
+            ##teamcity[testFinished name='max at column 2:Float' flowId='42']
+            
+            ##teamcity[testStarted name='allow_values at column 4:Favorite color' locationHint='php_qn://./tests/fixtures/batch/demo-1.csv' flowId='42']
+            "allow_values" at line 3, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].
+            ##teamcity[testFinished name='allow_values at column 4:Favorite color' flowId='42']
+            
+            ##teamcity[testSuiteFinished name='demo-1.csv' flowId='42']
+            
+            Invalid file: ./tests/fixtures/batch/demo-2.csv
             
             ##teamcity[testCount count='5' flowId='42']
             
@@ -234,22 +249,7 @@ final class CommandsTest extends PHPUnit
             
             ##teamcity[testSuiteFinished name='demo-2.csv' flowId='42']
             
-            Error: ./tests/fixtures/batch/demo-1.csv
-            
-            ##teamcity[testCount count='2' flowId='42']
-            
-            ##teamcity[testSuiteStarted name='demo-1.csv' flowId='42']
-            
-            ##teamcity[testStarted name='max at column 2:Float' locationHint='php_qn://./tests/fixtures/batch/demo-1.csv' flowId='42']
-            "max" at line 3, column "2:Float". Value "74605.944" is greater than "74605".
-            ##teamcity[testFinished name='max at column 2:Float' flowId='42']
-            
-            ##teamcity[testStarted name='allow_values at column 4:Favorite color' locationHint='php_qn://./tests/fixtures/batch/demo-1.csv' flowId='42']
-            "allow_values" at line 3, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].
-            ##teamcity[testFinished name='allow_values at column 4:Favorite color' flowId='42']
-            
-            ##teamcity[testSuiteFinished name='demo-1.csv' flowId='42']
-            
+            OK: ./tests/fixtures/batch/sub/demo-3.csv
             Found 7 issues in 2 out of 3 CSV files.
             
             TXT;

@@ -210,8 +210,16 @@ Default report format is `table`:
 
 Schema: ./tests/schemas/demo_invalid.yml
 
-OK: ./tests/fixtures/batch/sub/demo-3.csv
-Error: ./tests/fixtures/batch/demo-2.csv
+Invalid file: ./tests/fixtures/batch/demo-1.csv
++------+------------------+--------------+ demo-1.csv ------------------------------------------+
+| Line | id:Column        | Rule         | Message                                              |
++------+------------------+--------------+------------------------------------------------------+
+| 3    | 2:Float          | max          | Value "74605.944" is greater than "74605"            |
+| 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", |
+|      |                  |              | "green", "Blue"]                                     |
++------+------------------+--------------+ demo-1.csv ------------------------------------------+
+
+Invalid file: ./tests/fixtures/batch/demo-2.csv
 +------+------------+------------+----- demo-2.csv ---------------------------------------+
 | Line | id:Column  | Rule       | Message                                                |
 +------+------------+------------+--------------------------------------------------------+
@@ -225,15 +233,7 @@ Error: ./tests/fixtures/batch/demo-2.csv
 | 7    | 0:Name     | min_length | Value "Lois" (length: 4) is too short. Min length is 5 |
 +------+------------+------------+----- demo-2.csv ---------------------------------------+
 
-Error: ./tests/fixtures/batch/demo-1.csv
-+------+------------------+--------------+ demo-1.csv ------------------------------------------+
-| Line | id:Column        | Rule         | Message                                              |
-+------+------------------+--------------+------------------------------------------------------+
-| 3    | 2:Float          | max          | Value "74605.944" is greater than "74605"            |
-| 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", |
-|      |                  |              | "green", "Blue"]                                     |
-+------+------------------+--------------+ demo-1.csv ------------------------------------------+
-
+OK: ./tests/fixtures/batch/sub/demo-3.csv
 Found 7 issues in 2 out of 3 CSV files.
 
 ```
