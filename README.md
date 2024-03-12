@@ -463,17 +463,17 @@ return [
 
 It's random ideas and plans. No orderings and deadlines. <u>But batch processing is the priority #1</u>.
 
+* [x] CSV/Schema file discovery in the folder with regex filename pattern (like `glob(./**/dir/*.csv)`).
+* [x] If option `--csv` is a folder, then validate all files in the folder.
+* [x] Checking multiple CSV files in one schema. Batch processing.
 * [ ] Filename pattern validation with regex (like "all files in the folder should be in the format `/^[\d]{4}-[\d]{2}-[\d]{2}\.csv$/`").
 * [ ] Quick stop mode. If the first error is found, then stop the validation process to save time.
 * [ ] S3 Storage support. Validate files in the S3 bucket?
-* [ ] CSV/Schema file discovery in the folder with regex filename pattern (like `glob(./**/dir/*.csv)`).
 * [ ] Build phar file and release via GitHub Actions.
-* [ ] If option `--csv` is a folder, then validate all files in the folder.
 * [ ] If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
 * [ ] If option `--schema` is not specified, then validate only super base level things (like "is it a CSV file?").
 * [ ] Agregate rules (like "at least one of the fields should be not empty" or "all values must be unique").
 * [ ] Create CSV files based on the schema (like "create 1000 rows with random data based on schema and rules").
-* [ ] Checking multiple CSV files in one schema. Batch processing.
 * [ ] Using multiple schemas for one csv file. Batch processing.
 * [ ] Parallel validation of really-really large files (1GB+ ?). I know you have them and not so much memory.
 * [ ] Parallel validation of multiple files at once.
