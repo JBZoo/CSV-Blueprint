@@ -158,7 +158,7 @@ final class MiscTest extends PHPUnit
             PROJECT_ROOT . '/tests/fixtures/demo.csv',
         ])));
 
-        isSame(['demo.csv', 'demo-1.csv', 'demo-2.csv', 'demo-3.csv'], $this->getFileName(Utils::findFiles([
+        isSame(['demo-1.csv', 'demo-2.csv', 'demo-3.csv', 'demo.csv'], $this->getFileName(Utils::findFiles([
             PROJECT_ROOT . '/tests/fixtures/demo.csv',
             PROJECT_ROOT . '/tests/fixtures/batch/*.csv',
         ])));
