@@ -515,22 +515,14 @@ final class ValidatorTest extends PHPUnit
                 [
                     'description' => "min at column 0:seq\n\"min\" at line 2, " .
                         'column "0:seq". Value "1" is less than "3".',
-                    // 'fingerprint' => '...',
                     'severity' => 'major',
-                    'location' => [
-                        'path'  => $path,
-                        'lines' => ['begin' => 2],
-                    ],
+                    'location' => ['path' => $path, 'lines' => ['begin' => 2]],
                 ],
                 [
                     'description' => "min at column 0:seq\n\"min\" at line 3, " .
                         'column "0:seq". Value "2" is less than "3".',
-                    // 'fingerprint' => '..',
                     'severity' => 'major',
-                    'location' => [
-                        'path'  => $path,
-                        'lines' => ['begin' => 3],
-                    ],
+                    'location' => ['path' => $path, 'lines' => ['begin' => 3]],
                 ],
             ],
             $cleanJson,

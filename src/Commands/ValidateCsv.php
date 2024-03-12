@@ -91,7 +91,7 @@ final class ValidateCsv extends CliCommand
                 $errorCounter += $errorSuite->count();
 
                 if ($this->isTextMode()) {
-                    $this->_(Utils::cutPath($csvFilename->getPathname()), OutLvl::ERROR);
+                    $this->_('<red>Error</red>: ' . Utils::cutPath($csvFilename->getPathname()), OutLvl::E);
                 }
                 $output = $errorSuite->render($this->getOptString('report'));
                 if ($output !== null) {

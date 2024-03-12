@@ -68,7 +68,7 @@ final class Utils
             if (\strpos($path, '*') !== false) {
                 $finder = (new Finder())
                     ->in(\dirname($path))
-                    ->depth('< ' . self::MAX_DIRECTORY_DEPTH)
+                    // ->depth(self::MAX_DIRECTORY_DEPTH)
                     ->ignoreVCSIgnored(true)
                     ->ignoreDotFiles(true)
                     ->followLinks()
