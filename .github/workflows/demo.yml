@@ -26,7 +26,7 @@ env:
 
 jobs:
   reports:
-    name: All Report Types
+    name: All Report Types (via GA)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -34,68 +34,57 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.3
-          tools: composer
-
-      - name: Build the Project
-        run: make update
-
-      - name: Report - Table (Default)
-        run: make demo-github --no-print-directory
-        continue-on-error: true
-
-      - name: Report - Text
-        run: REPORT=text make demo-github --no-print-directory
-        continue-on-error: true
-
-      - name: Report - Github Actions
-        run: REPORT=github make demo-github --no-print-directory
-        continue-on-error: true
-
-      - name: Report - GitLab
-        run: REPORT=gitlab make demo-github --no-print-directory
-        continue-on-error: true
-
-      - name: Report - TeamCity CI
-        run: REPORT=teamcity make demo-github --no-print-directory
-        continue-on-error: true
-
-      - name: Report - JUnit
-        run: REPORT=junit make demo-github --no-print-directory
-        continue-on-error: true
-
-
-  github-actions:
-    name: GitHub Actions
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: 👍 Valid CSV file
+      - name: Valid CSV file
         uses: jbzoo/csv-blueprint@master
         with:
           csv: tests/fixtures/demo.csv
           schema: tests/schemas/demo_valid.yml
 
-      - name: 👎 Invalid CSV file - Report as GitHub Annotations
+      - name: Invalid CSV file - Report as Text
         uses: jbzoo/csv-blueprint@master
         with:
-          csv: tests/fixtures/demo.csv
+          csv: /tests/fixtures/batch/*.csv
+          schema: tests/schemas/demo_invalid.yml
+          report: text
+        continue-on-error: true
+
+      - name: Invalid CSV file - Report as Table
+        uses: jbzoo/csv-blueprint@master
+        with:
+          csv: /tests/fixtures/batch/*.csv
+          schema: tests/schemas/demo_invalid.yml
+          report: table
+        continue-on-error: true
+
+      - name: Invalid CSV file - Report as GitHub Annotations
+        uses: jbzoo/csv-blueprint@master
+        with:
+          csv: /tests/fixtures/batch/*.csv
           schema: tests/schemas/demo_invalid.yml
         continue-on-error: true
 
-      - name: 👎 Invalid CSV file - Report as Table
+      - name: Invalid CSV file - TeamCity
         uses: jbzoo/csv-blueprint@master
         with:
-          csv: tests/fixtures/demo.csv
+          csv: /tests/fixtures/batch/*.csv
           schema: tests/schemas/demo_invalid.yml
-          report: table
+          report: teamcity
+        continue-on-error: true
+
+      - name: Invalid CSV file - Gitlab
+        uses: jbzoo/csv-blueprint@master
+        with:
+          csv: /tests/fixtures/batch/*.csv
+          schema: tests/schemas/demo_invalid.yml
+          report: gitlab
+        continue-on-error: true
+
+      - name: Invalid CSV file - JUnit
+        uses: jbzoo/csv-blueprint@master
+        with:
+          csv: /tests/fixtures/batch/*.csv
+          schema: tests/schemas/demo_invalid.yml
+          report: junit
         continue-on-error: true
 
 
@@ -117,7 +106,7 @@ jobs:
           -v `pwd`:/parent-host                                \
           --rm jbzoo/csv-blueprint                             \
           validate:csv                                         \
-          --csv=/parent-host/tests/fixtures/demo.csv           \
+          --csv=/parent-host/tests/fixtures/batch/*.csv        \
           --schema=/parent-host/tests/schemas/demo_valid.yml
 
       - name: 👎 Invalid CSV file
@@ -126,7 +115,7 @@ jobs:
           -v `pwd`:/parent-host                                \
           --rm jbzoo/csv-blueprint                             \
           validate:csv                                         \
-          --csv=/parent-host/tests/fixtures/demo.csv           \
+          --csv=/parent-host/tests/fixtures/batch/*.csv        \
           --schema=/parent-host/tests/schemas/demo_invalid.yml
         continue-on-error: true
 
@@ -153,14 +142,14 @@ jobs:
         run: |
           ./build/csv-blueprint.phar                           \
           validate:csv                                         \
-          --csv=./tests/fixtures/demo.csv                      \
+          --csv=./tests/fixtures/batch/*.csv                   \
           --schema=./tests/schemas/demo_valid.yml
 
       - name: 👎 Invalid CSV file
         run: |
           ./build/csv-blueprint.phar                           \
           validate:csv                                         \
-          --csv=./tests/fixtures/demo.csv                      \
+          --csv=./tests/fixtures/batch/*.csv                   \
           --schema=./tests/schemas/demo_invalid.yml
         continue-on-error: true
 
@@ -187,13 +176,13 @@ jobs:
         run: |
           ./csv-blueprint                                      \
           validate:csv                                         \
-          --csv=./tests/fixtures/demo.csv                      \
+          --csv=./tests/fixtures/batch/*.csv                   \
           --schema=./tests/schemas/demo_valid.yml
 
       - name: 👎 Invalid CSV file
         run: |
           ./csv-blueprint                                      \
           validate:csv                                         \
-          --csv=./tests/fixtures/demo.csv                      \
+          --csv=./tests/fixtures/batch/*.csv                   \
           --schema=./tests/schemas/demo_invalid.yml
         continue-on-error: true

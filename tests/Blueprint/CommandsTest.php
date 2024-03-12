@@ -162,7 +162,7 @@ final class CommandsTest extends PHPUnit
         $rootPath = PROJECT_ROOT;
 
         [$actual, $exitCode] = $this->virtualExecution('validate:csv', [
-            'csv'    => './tests/fixtures/demo.csv',
+            'csv'    => './tests/**/demo.csv',
             'schema' => './tests/schemas/demo_invalid.yml',
             'report' => 'text',
         ]);
