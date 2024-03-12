@@ -48,23 +48,23 @@ jobs:
         continue-on-error: true
 
       - name: Report - Text
-        run: OUTPUT=text make demo-github --no-print-directory
+        run: REPORT=text make demo-github --no-print-directory
         continue-on-error: true
 
       - name: Report - Github Actions
-        run: OUTPUT=github make demo-github --no-print-directory
+        run: REPORT=github make demo-github --no-print-directory
         continue-on-error: true
 
       - name: Report - GitLab
-        run: OUTPUT=gitlab make demo-github --no-print-directory
+        run: REPORT=gitlab make demo-github --no-print-directory
         continue-on-error: true
 
       - name: Report - TeamCity CI
-        run: OUTPUT=teamcity make demo-github --no-print-directory
+        run: REPORT=teamcity make demo-github --no-print-directory
         continue-on-error: true
 
       - name: Report - JUnit
-        run: OUTPUT=junit make demo-github --no-print-directory
+        run: REPORT=junit make demo-github --no-print-directory
         continue-on-error: true
 
 
@@ -95,7 +95,7 @@ jobs:
         with:
           csv: tests/fixtures/demo.csv
           schema: tests/schemas/demo_invalid.yml
-          output: table
+          report: table
         continue-on-error: true
 
 

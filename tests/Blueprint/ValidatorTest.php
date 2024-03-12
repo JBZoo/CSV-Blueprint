@@ -418,7 +418,7 @@ final class ValidatorTest extends PHPUnit
         $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
         isSame(
             '"min" at line 2, column "0:seq". Value "1" is less than "3".' . "\n",
-            \strip_tags($csv->validate(true)->render(ErrorSuite::RENDER_TEXT)),
+            \strip_tags($csv->validate(true)->render(ErrorSuite::REPORT_TEXT)),
         );
 
         isSame(
@@ -426,7 +426,7 @@ final class ValidatorTest extends PHPUnit
                 '"min" at line 2, column "0:seq". Value "1" is less than "3".',
                 '"min" at line 3, column "0:seq". Value "2" is less than "3".' . "\n",
             ]),
-            \strip_tags($csv->validate()->render(ErrorSuite::RENDER_TEXT)),
+            \strip_tags($csv->validate()->render(ErrorSuite::REPORT_TEXT)),
         );
     }
 
@@ -462,7 +462,7 @@ final class ValidatorTest extends PHPUnit
     public function testRenderTeamCity(): void
     {
         $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
-        $out  = $csv->validate()->render(ErrorSuite::RENDER_TEAMCITY);
+        $out  = $csv->validate()->render(ErrorSuite::REPORT_TEAMCITY);
         $path = self::CSV_SIMPLE_HEADER;
 
         isContain("##teamcity[testCount count='2' ", $out);
@@ -487,7 +487,7 @@ final class ValidatorTest extends PHPUnit
                 'column "0:seq". Value "2" is less than "3".',
                 '',
             ]),
-            $csv->validate()->render(ErrorSuite::RENDER_GITHUB),
+            $csv->validate()->render(ErrorSuite::REPORT_GITHUB),
         );
     }
 
@@ -496,7 +496,7 @@ final class ValidatorTest extends PHPUnit
         $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
         $path = self::CSV_SIMPLE_HEADER;
 
-        $cleanJson = json($csv->validate()->render(ErrorSuite::RENDER_GITLAB))->getArrayCopy();
+        $cleanJson = json($csv->validate()->render(ErrorSuite::REPORT_GITLAB))->getArrayCopy();
         unset($cleanJson[0]['fingerprint'], $cleanJson[1]['fingerprint']);
 
         isSame(
@@ -545,7 +545,7 @@ final class ValidatorTest extends PHPUnit
                 '</testsuites>',
                 '',
             ]),
-            $csv->validate()->render(ErrorSuite::RENDER_JUNIT),
+            $csv->validate()->render(ErrorSuite::REPORT_JUNIT),
         );
     }
 

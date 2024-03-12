@@ -30,5 +30,6 @@ return \array_merge($default, [
         'vendor/league/csv/src',
         'vendor/fakerphp/faker/src',
         'vendor/symfony/console',
+        'vendor/symfony/finder',
     ],
 ]);

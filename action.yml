@@ -20,12 +20,16 @@ branding:
 
 inputs:
   csv:
-    description: 'CSV filepath to validate.'
+    description: >
+      Path(s) to validate. You can specify path in which CSV files will be searched
+      (max depth is 10).
+      Feel free to use glob pattrens. Usage examples:
+      /full/path/file.csv, p/file.csv, p/*.csv, p/**/*.csv, p/**/name-*.csv, **/*.csv, etc.
     required: true
   schema:
-    description: 'Schema rule filepath. File can be a Yml or JSON. See examples in the repository.'
+    description: 'Schema filepath. It can be a YAML, JSON or PHP. See examples on GitHub.'
     required: true
-  output:
+  report:
     description: 'Report output format. Available options: text, table, github, gitlab, teamcity, junit'
     default: github
     required: true
@@ -39,7 +43,7 @@ runs:
     - ${{ inputs.csv }}
     - '--schema'
     - ${{ inputs.schema }}
-    - '--output'
-    - ${{ inputs.output }}
+    - '--report'
+    - ${{ inputs.report }}
     - '--ansi'
     - '-vvv'

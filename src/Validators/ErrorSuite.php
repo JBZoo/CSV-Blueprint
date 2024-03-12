@@ -26,39 +26,42 @@ use Symfony\Component\Console\Output\BufferedOutput;
 
 final class ErrorSuite
 {
-    public const RENDER_TEXT     = 'text';
+    public const REPORT_TEXT     = 'text';
     public const RENDER_TABLE    = 'table';
-    public const RENDER_TEAMCITY = 'teamcity';
-    public const RENDER_GITLAB   = 'gitlab';
-    public const RENDER_GITHUB   = 'github';
-    public const RENDER_JUNIT    = 'junit';
+    public const REPORT_TEAMCITY = 'teamcity';
+    public const REPORT_GITLAB   = 'gitlab';
+    public const REPORT_GITHUB   = 'github';
+    public const REPORT_JUNIT    = 'junit';
 
     /** @var Error[] */
     private array $errors = [];
 
-    public function __construct(private ?string $csvFilename = null)
+    private ?string $csvFilename;
+
+    public function __construct(?string $csvFilename = null)
     {
+        $this->csvFilename = $csvFilename;
     }
 
     public function __toString(): string
     {
-        return $this->render(self::RENDER_TEXT);
+        return (string)$this->render(self::REPORT_TEXT);
     }
 
-    public function render(string $mode = self::RENDER_TEXT): string
+    public function render(string $mode = self::REPORT_TEXT): ?string
     {
         if ($this->count() === 0) {
-            return '';
+            return null;
         }
 
         $sourceSuite = $this->prepareSourceSuite();
         $map         = [
-            self::RENDER_TEXT     => fn (): string => $this->renderPlainText(),
+            self::REPORT_TEXT     => fn (): string => $this->renderPlainText(),
             self::RENDER_TABLE    => fn (): string => $this->renderTable(),
-            self::RENDER_GITHUB   => static fn (): string => (new GithubCliConverter())->fromInternal($sourceSuite),
-            self::RENDER_GITLAB   => static fn (): string => (new GitLabJsonConverter())->fromInternal($sourceSuite),
-            self::RENDER_TEAMCITY => static fn (): string => (new TeamCityTestsConverter())->fromInternal($sourceSuite),
-            self::RENDER_JUNIT    => static fn (): string => (new JUnitConverter())->fromInternal($sourceSuite),
+            self::REPORT_GITHUB   => static fn (): string => (new GithubCliConverter())->fromInternal($sourceSuite),
+            self::REPORT_GITLAB   => static fn (): string => (new GitLabJsonConverter())->fromInternal($sourceSuite),
+            self::REPORT_TEAMCITY => static fn (): string => (new TeamCityTestsConverter())->fromInternal($sourceSuite),
+            self::REPORT_JUNIT    => static fn (): string => (new JUnitConverter())->fromInternal($sourceSuite),
         ];
 
         if (isset($map[$mode])) {
@@ -111,12 +114,12 @@ final class ErrorSuite
     public static function getAvaiableRenderFormats(): array
     {
         return [
-            self::RENDER_TEXT,
+            self::REPORT_TEXT,
             self::RENDER_TABLE,
-            self::RENDER_GITHUB,
-            self::RENDER_GITLAB,
-            self::RENDER_TEAMCITY,
-            self::RENDER_JUNIT,
+            self::REPORT_GITHUB,
+            self::REPORT_GITLAB,
+            self::REPORT_TEAMCITY,
+            self::REPORT_JUNIT,
         ];
     }
 
