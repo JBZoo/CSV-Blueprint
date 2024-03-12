@@ -273,6 +273,7 @@ final class CommandsTest extends PHPUnit
                 '--schema="./tests/schemas/demo_invalid.yml"',
                 '--mute-errors',
                 '--stdout-only',
+                '--no-ansi',
             ]),
             [],
             '',
