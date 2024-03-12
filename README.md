@@ -165,7 +165,8 @@ Options:
                                  You can specify path in which CSV files will be searched (max depth is 10).
                                  Feel free to use glob pattrens. Usage examples:
                                  /full/path/file.csv, p/file.csv, p/*.csv, p/**/*.csv, p/**/name-*.csv, **/*.csv, etc. (multiple values allowed)
-  -s, --schema=SCHEMA            Schema filepath. It can be a YAML, JSON or PHP. See examples on GitHub.
+  -s, --schema=SCHEMA            Schema filepath.
+                                 It can be a YAML, JSON or PHP. See examples on GitHub.
   -r, --report=REPORT            Report output format. Available options:
                                  text, table, github, gitlab, teamcity, junit [default: "table"]
       --no-progress              Disable progress bar animation for logs. It will be used only for text output format.
@@ -209,8 +210,8 @@ Default report format is `table`:
 
 Schema: ./tests/schemas/demo_invalid.yml
 
-CSV: ./tests/fixtures/batch/sub/demo-3.csv OK
-Error: CSV: ./tests/fixtures/batch/demo-2.csv
+OK: ./tests/fixtures/batch/sub/demo-3.csv
+Error: ./tests/fixtures/batch/demo-2.csv
 +------+------------+------------+----- demo-2.csv ---------------------------------------+
 | Line | id:Column  | Rule       | Message                                                |
 +------+------------+------------+--------------------------------------------------------+
@@ -224,7 +225,7 @@ Error: CSV: ./tests/fixtures/batch/demo-2.csv
 | 7    | 0:Name     | min_length | Value "Lois" (length: 4) is too short. Min length is 5 |
 +------+------------+------------+----- demo-2.csv ---------------------------------------+
 
-Error: CSV: ./tests/fixtures/batch/demo-1.csv
+Error: ./tests/fixtures/batch/demo-1.csv
 +------+------------------+--------------+ demo-1.csv ------------------------------------------+
 | Line | id:Column        | Rule         | Message                                              |
 +------+------------------+--------------+------------------------------------------------------+
@@ -480,6 +481,7 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
 * [ ] More report formats (like JSON, XML, etc). Any ideas?
 * [ ] Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
 * [ ] Input encoding detection + `BOM` (right now it's experimental). It works but not so accurate... UTF-8/16/32 is the best choice for now.
+* [ ] Gitlab and JUnit reports mus be as one structure. It's not so easy to implement. But it's a good idea.
 * [ ] Extending with custom rules and custom report formats. Plugins?
 * [ ] Optimazation on `php.ini` level to start it faster. JIT.
 * [ ] More examples and documentation.

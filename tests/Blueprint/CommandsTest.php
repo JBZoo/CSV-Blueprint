@@ -190,6 +190,74 @@ final class CommandsTest extends PHPUnit
         isSame($expected, $actual);
     }
 
+    public function testCreateValidateNegativeTeamcity(): void
+    {
+        $rootPath = PROJECT_ROOT;
+
+        [$actual, $exitCode] = $this->virtualExecution('validate:csv', [
+            'csv'    => './tests/fixtures/batch/*.csv',
+            'schema' => './tests/schemas/demo_invalid.yml',
+            'report' => 'teamcity',
+        ]);
+
+        $this->dumpText($actual);
+
+        $expected = <<<'TXT'
+            Schema: ./tests/schemas/demo_invalid.yml
+            
+            OK: ./tests/fixtures/batch/sub/demo-3.csv
+            Error: ./tests/fixtures/batch/demo-2.csv
+            
+            ##teamcity[testCount count='5' flowId='42']
+            
+            ##teamcity[testSuiteStarted name='demo-2.csv' flowId='42']
+            
+            ##teamcity[testStarted name='min_length at column 0:Name' locationHint='php_qn://./tests/fixtures/batch/demo-2.csv' flowId='42']
+            "min_length" at line 2, column "0:Name". Value "Carl" (length: 4) is too short. Min length is 5.
+            ##teamcity[testFinished name='min_length at column 0:Name' flowId='42']
+            
+            ##teamcity[testStarted name='min_date at column 3:Birthday' locationHint='php_qn://./tests/fixtures/batch/demo-2.csv' flowId='42']
+            "min_date" at line 2, column "3:Birthday". Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00".
+            ##teamcity[testFinished name='min_date at column 3:Birthday' flowId='42']
+            
+            ##teamcity[testStarted name='min_date at column 3:Birthday' locationHint='php_qn://./tests/fixtures/batch/demo-2.csv' flowId='42']
+            "min_date" at line 4, column "3:Birthday". Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00".
+            ##teamcity[testFinished name='min_date at column 3:Birthday' flowId='42']
+            
+            ##teamcity[testStarted name='max_date at column 3:Birthday' locationHint='php_qn://./tests/fixtures/batch/demo-2.csv' flowId='42']
+            "max_date" at line 5, column "3:Birthday". Value "2010-07-20" is more than the maximum date "2009-01-01T00:00:00.000+00:00".
+            ##teamcity[testFinished name='max_date at column 3:Birthday' flowId='42']
+            
+            ##teamcity[testStarted name='min_length at column 0:Name' locationHint='php_qn://./tests/fixtures/batch/demo-2.csv' flowId='42']
+            "min_length" at line 7, column "0:Name". Value "Lois" (length: 4) is too short. Min length is 5.
+            ##teamcity[testFinished name='min_length at column 0:Name' flowId='42']
+            
+            ##teamcity[testSuiteFinished name='demo-2.csv' flowId='42']
+            
+            Error: ./tests/fixtures/batch/demo-1.csv
+            
+            ##teamcity[testCount count='2' flowId='42']
+            
+            ##teamcity[testSuiteStarted name='demo-1.csv' flowId='42']
+            
+            ##teamcity[testStarted name='max at column 2:Float' locationHint='php_qn://./tests/fixtures/batch/demo-1.csv' flowId='42']
+            "max" at line 3, column "2:Float". Value "74605.944" is greater than "74605".
+            ##teamcity[testFinished name='max at column 2:Float' flowId='42']
+            
+            ##teamcity[testStarted name='allow_values at column 4:Favorite color' locationHint='php_qn://./tests/fixtures/batch/demo-1.csv' flowId='42']
+            "allow_values" at line 3, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].
+            ##teamcity[testFinished name='allow_values at column 4:Favorite color' flowId='42']
+            
+            ##teamcity[testSuiteFinished name='demo-1.csv' flowId='42']
+            
+            Found 7 issues in 2 out of 3 CSV files.
+            
+            TXT;
+
+        isSame(1, $exitCode, $actual);
+        isSame($expected, $actual);
+    }
+
     private function virtualExecution(string $action, array $params = []): array
     {
         $params['no-ansi'] = null;

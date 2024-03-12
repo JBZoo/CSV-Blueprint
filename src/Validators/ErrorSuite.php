@@ -54,14 +54,17 @@ final class ErrorSuite
             return null;
         }
 
-        $sourceSuite = $this->prepareSourceSuite();
-        $map         = [
+        $suite = $this->prepareSourceSuite();
+        $map   = [
             self::REPORT_TEXT     => fn (): string => $this->renderPlainText(),
             self::RENDER_TABLE    => fn (): string => $this->renderTable(),
-            self::REPORT_GITHUB   => static fn (): string => (new GithubCliConverter())->fromInternal($sourceSuite),
-            self::REPORT_GITLAB   => static fn (): string => (new GitLabJsonConverter())->fromInternal($sourceSuite),
-            self::REPORT_TEAMCITY => static fn (): string => (new TeamCityTestsConverter())->fromInternal($sourceSuite),
-            self::REPORT_JUNIT    => static fn (): string => (new JUnitConverter())->fromInternal($sourceSuite),
+            self::REPORT_GITHUB   => static fn (): string => (new GithubCliConverter())->fromInternal($suite),
+            self::REPORT_GITLAB   => static fn (): string => (new GitLabJsonConverter())->fromInternal($suite),
+            self::REPORT_JUNIT    => static fn (): string => (new JUnitConverter())->fromInternal($suite),
+            self::REPORT_TEAMCITY => static fn (): string => (new TeamCityTestsConverter(
+                ['show-datetime' => false],
+                42,
+            ))->fromInternal($suite),
         ];
 
         if (isset($map[$mode])) {

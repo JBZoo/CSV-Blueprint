@@ -57,7 +57,8 @@ final class ValidateCsv extends CliCommand
                 'schema',
                 's',
                 InputOption::VALUE_REQUIRED,
-                'Schema filepath. It can be a YAML, JSON or PHP. See examples on GitHub.',
+                "Schema filepath.\n" .
+                'It can be a YAML, JSON or PHP. See examples on GitHub.',
             )
             ->addOption(
                 'report',

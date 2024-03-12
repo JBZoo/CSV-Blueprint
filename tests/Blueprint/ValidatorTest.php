@@ -21,20 +21,19 @@ use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use JBZoo\PHPUnit\PHPUnit;
 
 use function JBZoo\Data\json;
-use function JBZoo\PHPUnit\isContain;
 use function JBZoo\PHPUnit\isSame;
 
 final class ValidatorTest extends PHPUnit
 {
-    private const CSV_SIMPLE_HEADER    = PROJECT_TESTS . '/fixtures/simple_header.csv';
-    private const CSV_SIMPLE_NO_HEADER = PROJECT_TESTS . '/fixtures/simple_no_header.csv';
-    private const CSV_COMPLEX          = PROJECT_TESTS . '/fixtures/complex_header.csv';
+    private const CSV_SIMPLE_HEADER    = './tests/fixtures/simple_header.csv';
+    private const CSV_SIMPLE_NO_HEADER = './tests/fixtures/simple_no_header.csv';
+    private const CSV_COMPLEX          = './tests/fixtures/complex_header.csv';
 
-    private const SCHEMA_SIMPLE_HEADER    = PROJECT_TESTS . '/schemas/simple_header.yml';
-    private const SCHEMA_SIMPLE_NO_HEADER = PROJECT_TESTS . '/schemas/simple_no_header.yml';
+    private const SCHEMA_SIMPLE_HEADER    = './tests/schemas/simple_header.yml';
+    private const SCHEMA_SIMPLE_NO_HEADER = './tests/schemas/simple_no_header.yml';
 
-    private const SCHEMA_SIMPLE_HEADER_PHP  = PROJECT_TESTS . '/schemas/simple_header.php';
-    private const SCHEMA_SIMPLE_HEADER_JSON = PROJECT_TESTS . '/schemas/simple_header.json';
+    private const SCHEMA_SIMPLE_HEADER_PHP  = './tests/schemas/simple_header.php';
+    private const SCHEMA_SIMPLE_HEADER_JSON = './tests/schemas/simple_header.json';
 
     protected function setUp(): void
     {
@@ -465,13 +464,25 @@ final class ValidatorTest extends PHPUnit
         $out  = $csv->validate()->render(ErrorSuite::REPORT_TEAMCITY);
         $path = self::CSV_SIMPLE_HEADER;
 
-        isContain("##teamcity[testCount count='2' ", $out);
-        isContain("##teamcity[testSuiteStarted name='simple_header.csv' ", $out);
-        isContain("##teamcity[testStarted name='min at column 0:seq' locationHint='php_qn://{$path}'", $out);
-        isContain("##teamcity[testFinished name='min at column 0:seq' timestamp", $out);
-        isContain('Value "1" is less than "3"', $out);
-        isContain('Value "2" is less than "3"', $out);
-        isContain("##teamcity[testSuiteFinished name='simple_header.csv'", $out);
+        $expected = <<<'TEAMCITY'
+
+            ##teamcity[testCount count='2' flowId='42']
+            
+            ##teamcity[testSuiteStarted name='simple_header.csv' flowId='42']
+            
+            ##teamcity[testStarted name='min at column 0:seq' locationHint='php_qn://./tests/fixtures/simple_header.csv' flowId='42']
+            "min" at line 2, column "0:seq". Value "1" is less than "3".
+            ##teamcity[testFinished name='min at column 0:seq' flowId='42']
+            
+            ##teamcity[testStarted name='min at column 0:seq' locationHint='php_qn://./tests/fixtures/simple_header.csv' flowId='42']
+            "min" at line 3, column "0:seq". Value "2" is less than "3".
+            ##teamcity[testFinished name='min at column 0:seq' flowId='42']
+            
+            ##teamcity[testSuiteFinished name='simple_header.csv' flowId='42']
+            
+            TEAMCITY;
+
+        isSame($expected, $out);
     }
 
     public function testRenderGithub(): void
