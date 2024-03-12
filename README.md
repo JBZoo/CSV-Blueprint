@@ -14,12 +14,13 @@
     * [As Docker container](#as-docker-container)
     * [As PHP binary](#as-php-binary)
     * [As PHP project](#as-php-project)
+    * [CLI Help Message](#cli-help-message)
+    * [Report examples](#report-examples)
     * [Schema Definition](#schema-definition)
     * [Schema file examples](#schema-file-examples)
 * [Coming soon](#coming-soon)
 * [Disadvantages?](#disadvantages)
-* [Interesting fact](#interesting-fact)
-* [Unit tests and check code style](#unit-tests-and-check-code-style)
+* [Contributing](#contributing)
 * [License](#license)
 * [See Also](#see-also)
 
@@ -80,9 +81,9 @@ Also see demo in the [GitHub Actions](https://github.com/JBZoo/Csv-Blueprint/act
         with:
           csv: tests/fixtures/demo.csv
           schema: tests/schemas/demo_invalid.yml
-          output: table                            # Optional. Default is "github"
+          report: table                            # Optional. Default is "github"
 ```
-**Note**. Output format for GitHub Actions is `github` by default. [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message).
+**Note**. Report format for GitHub Actions is `github` by default. [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message).
 
 This allows you to see bugs in the GitHub interface at the PR level.
 That is, the error will be shown in a specific place in the CSV file right in diff of your Pull Requests!
@@ -145,8 +146,7 @@ make build
 
 ### CLI Help Message
 
-Here you can see all available options and commands.
-Tool uses [JBZoo/Cli](https://github.com/JBZoo/Cli) package for the CLI interface.
+Here you can see all available options and commands.  Tool uses [JBZoo/Cli](https://github.com/JBZoo/Cli) package for the CLI interface.
 So there are options here for all occasions.
 
 
@@ -155,15 +155,20 @@ So there are options here for all occasions.
 
 
 Description:
-  Validate CSV file by schema.
+  Validate CSV file(s) by schema.
 
 Usage:
   validate:csv [options]
 
 Options:
-  -c, --csv=CSV                  CSV filepath to validate.
-  -s, --schema=SCHEMA            Schema rule filepath. It can be a .yml/.json/.php file.
-  -o, --output=OUTPUT            Report output format. Available options: text, table, github, gitlab, teamcity, junit [default: "table"]
+  -c, --csv=CSV                  Path(s) to validate.
+                                 You can specify path in which CSV files will be searched (max depth is 10).
+                                 Feel free to use glob pattrens. Usage examples:
+                                 /full/path/file.csv, p/file.csv, p/*.csv, p/**/*.csv, p/**/name-*.csv, **/*.csv, etc. (multiple values allowed)
+  -s, --schema=SCHEMA            Schema filepath.
+                                 It can be a YAML, JSON or PHP. See examples on GitHub.
+  -r, --report=REPORT            Report output format. Available options:
+                                 text, table, github, gitlab, teamcity, junit [default: "table"]
       --no-progress              Disable progress bar animation for logs. It will be used only for text output format.
       --mute-errors              Mute any sort of errors. So exit code will be always "0" (if it's possible).
                                  It has major priority then --non-zero-on-error. It's on your own risk!
@@ -188,52 +193,58 @@ Options:
 ```
 
 
-### Output Example
+### Report examples
 
 As a result of the validation process, you will receive a human-readable table with a list of errors found in the CSV file. By defualt, the output format is a table, but you can choose from a variety of formats, such as text, GitHub, GitLab, TeamCity, JUnit, and more.  For example, the following output is generated using the "table" format.
 
 **Notes**
-* Output format for GitHub Actions is `github` by default.
+* Report format for GitHub Actions is `github` by default.
 * Tools uses [JBZoo/CI-Report-Converter](https://github.com/JBZoo/CI-Report-Converter) as SDK to convert reports to different formats. So you can easily integrate it with any CI system.
 
 
-Default output format is `table`:
+Default report format is `table`:
 
 ```
-./csv-blueprint validate:csv --output=table
+./csv-blueprint validate:csv --csv='./tests/fixtures/batch/*.csv' --schema='./tests/schemas/demo_invalid.yml'
 
 
-CSV    : ./tests/fixtures/demo.csv
-Schema : ./tests/schemas/demo_invalid.yml
+Schema: ./tests/schemas/demo_invalid.yml
 
-+------+------------------+--------------+-- demo.csv --------------------------------------------+
-| Line | id:Column        | Rule         | Message                                                |
-+------+------------------+--------------+--------------------------------------------------------+
-| 1    | 1:               | csv.header   | Property "name" is not defined in schema:              |
-|      |                  |              | "./tests/schemas/demo_invalid.yml"                     |
-| 5    | 2:Float          | max          | Value "74605.944" is greater than "74605"              |
-| 5    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red",   |
-|      |                  |              | "green", "Blue"]                                       |
-| 6    | 0:Name           | min_length   | Value "Carl" (length: 4) is too short. Min length is 5 |
-| 6    | 3:Birthday       | min_date     | Value "1955-05-14" is less than the minimum date       |
-|      |                  |              | "1955-05-15T00:00:00.000+00:00"                        |
-| 8    | 3:Birthday       | min_date     | Value "1955-05-14" is less than the minimum date       |
-|      |                  |              | "1955-05-15T00:00:00.000+00:00"                        |
-| 9    | 3:Birthday       | max_date     | Value "2010-07-20" is more than the maximum date       |
-|      |                  |              | "2009-01-01T00:00:00.000+00:00"                        |
-| 11   | 0:Name           | min_length   | Value "Lois" (length: 4) is too short. Min length is 5 |
-+------+------------------+--------------+-- demo.csv --------------------------------------------+
+Invalid file: ./tests/fixtures/batch/demo-1.csv
++------+------------------+--------------+ demo-1.csv ------------------------------------------+
+| Line | id:Column        | Rule         | Message                                              |
++------+------------------+--------------+------------------------------------------------------+
+| 3    | 2:Float          | max          | Value "74605.944" is greater than "74605"            |
+| 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", |
+|      |                  |              | "green", "Blue"]                                     |
++------+------------------+--------------+ demo-1.csv ------------------------------------------+
 
-CSV file is not valid! Found 8 errors.
+Invalid file: ./tests/fixtures/batch/demo-2.csv
++------+------------+------------+----- demo-2.csv ---------------------------------------+
+| Line | id:Column  | Rule       | Message                                                |
++------+------------+------------+--------------------------------------------------------+
+| 2    | 0:Name     | min_length | Value "Carl" (length: 4) is too short. Min length is 5 |
+| 2    | 3:Birthday | min_date   | Value "1955-05-14" is less than the minimum date       |
+|      |            |            | "1955-05-15T00:00:00.000+00:00"                        |
+| 4    | 3:Birthday | min_date   | Value "1955-05-14" is less than the minimum date       |
+|      |            |            | "1955-05-15T00:00:00.000+00:00"                        |
+| 5    | 3:Birthday | max_date   | Value "2010-07-20" is more than the maximum date       |
+|      |            |            | "2009-01-01T00:00:00.000+00:00"                        |
+| 7    | 0:Name     | min_length | Value "Lois" (length: 4) is too short. Min length is 5 |
++------+------------+------------+----- demo-2.csv ---------------------------------------+
+
+OK: ./tests/fixtures/batch/sub/demo-3.csv
+Found 7 issues in 2 out of 3 CSV files.
 
 ```
 
-Optional output format `text`:
+
+Optional format `text` with highlited keywords:
 ```sh
-./csv-blueprint validate:csv --output=text
+./csv-blueprint validate:csv --report=text
 ```
 
-![Output - Text](.github/assets/output-text.png)
+![Report - Text](.github/assets/output-text.png)
 
 
 ### Schema Definition
@@ -452,24 +463,27 @@ return [
 
 It's random ideas and plans. No orderings and deadlines. <u>But batch processing is the priority #1</u>.
 
+* [x] CSV/Schema file discovery in the folder with regex filename pattern (like `glob(./**/dir/*.csv)`).
+* [x] If option `--csv` is a folder, then validate all files in the folder.
+* [x] Checking multiple CSV files in one schema. Batch processing.
 * [ ] Filename pattern validation with regex (like "all files in the folder should be in the format `/^[\d]{4}-[\d]{2}-[\d]{2}\.csv$/`").
-* [ ] CSV/Schema file discovery in the folder with regex filename pattern (like `glob(./**/dir/*.csv)`).
+* [ ] Quick stop mode. If the first error is found, then stop the validation process to save time.
+* [ ] S3 Storage support. Validate files in the S3 bucket?
 * [ ] Build phar file and release via GitHub Actions.
-* [ ] If option `--csv` is a folder, then validate all files in the folder.
 * [ ] If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
 * [ ] If option `--schema` is not specified, then validate only super base level things (like "is it a CSV file?").
 * [ ] Agregate rules (like "at least one of the fields should be not empty" or "all values must be unique").
 * [ ] Create CSV files based on the schema (like "create 1000 rows with random data based on schema and rules").
-* [ ] Checking multiple CSV files in one schema. Batch processing.
 * [ ] Using multiple schemas for one csv file. Batch processing.
 * [ ] Parallel validation of really-really large files (1GB+ ?). I know you have them and not so much memory.
 * [ ] Parallel validation of multiple files at once.
 * [ ] Benchmarks as part of the CI process and Readme. It's important to know how much time the validation process takes.
 * [ ] Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas. Make it DRY and easy to maintain.
-* [ ] More output formats (like JSON, XML, etc). Any ideas?
+* [ ] More report formats (like JSON, XML, etc). Any ideas?
 * [ ] Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
 * [ ] Input encoding detection + `BOM` (right now it's experimental). It works but not so accurate... UTF-8/16/32 is the best choice for now.
-* [ ] Extending with custom rules and custom output formats. Plugins?
+* [ ] Gitlab and JUnit reports mus be as one structure. It's not so easy to implement. But it's a good idea.
+* [ ] Extending with custom rules and custom report formats. Plugins?
 * [ ] Optimazation on `php.ini` level to start it faster. JIT.
 * [ ] More examples and documentation.
 

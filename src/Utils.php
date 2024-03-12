@@ -16,8 +16,13 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint;
 
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
+
 final class Utils
 {
+    public const MAX_DIRECTORY_DEPTH = 10;
+
     public static function kebabToCamelCase(string $input): string
     {
         return \str_replace(' ', '', \ucwords(\str_replace(['-', '_'], ' ', $input)));
@@ -43,5 +48,53 @@ final class Utils
         }
 
         return $addDelimiter . $pattern . $addDelimiter . 'u';
+    }
+
+    /**
+     * Find files from given paths.
+     * @param  string[]      $paths
+     * @return SplFileInfo[]
+     */
+    public static function findFiles(array $paths): array
+    {
+        $fileList = [];
+
+        foreach ($paths as $path) {
+            $path = \trim($path);
+            if ($path === '') {
+                continue;
+            }
+
+            if (\strpos($path, '*') !== false) {
+                $finder = (new Finder())
+                    ->in(\dirname($path))
+                    ->depth('< ' . self::MAX_DIRECTORY_DEPTH)
+                    ->ignoreVCSIgnored(true)
+                    ->ignoreDotFiles(true)
+                    ->followLinks()
+                    ->name(\basename($path));
+
+                foreach ($finder as $file) {
+                    if (!$file->isReadable()) {
+                        throw new \RuntimeException("File is not readable: {$file->getPathname()}");
+                    }
+
+                    $fileList[$file->getPathname()] = $file;
+                }
+            } elseif (\file_exists($path)) {
+                $fileList[$path] = new SplFileInfo($path, '', $path);
+            } else {
+                throw new \RuntimeException("File not found: {$path}");
+            }
+        }
+
+        \ksort($fileList, \SORT_NATURAL);
+
+        return $fileList;
+    }
+
+    public static function cutPath(string $fullpath): string
+    {
+        return \str_replace((string)\getcwd(), '.', $fullpath);
     }
 }

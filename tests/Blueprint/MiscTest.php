@@ -20,6 +20,7 @@ use JBZoo\CsvBlueprint\Schema;
 use JBZoo\CsvBlueprint\Utils;
 use JBZoo\PHPUnit\PHPUnit;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 use function JBZoo\Data\json;
 use function JBZoo\Data\phpArray;
@@ -126,6 +127,72 @@ final class MiscTest extends PHPUnit
 
         isSame($origYml, phpArray("{$basepath}.php")->getArrayCopy(), 'PHP config is invalid');
         isSame($origYml, json("{$basepath}.json")->getArrayCopy(), 'JSON config is invalid');
+    }
+
+    public function testFindFiles(): void
+    {
+        isSame(['demo.csv'], $this->getFileName(Utils::findFiles([
+            PROJECT_ROOT . '/tests/fixtures/demo.csv',
+        ])));
+
+        isSame([], $this->getFileName(Utils::findFiles([])));
+
+        $this->getFileName(Utils::findFiles(['*.qwerty']));
+
+        isSame(['demo-1.csv', 'demo-2.csv', 'demo-3.csv'], $this->getFileName(Utils::findFiles([
+            PROJECT_ROOT . '/tests/fixtures/batch/*.csv',
+        ])));
+
+        isSame(['demo-1.csv', 'demo-2.csv', 'demo-3.csv'], $this->getFileName(Utils::findFiles([
+            'tests/fixtures/batch/*.csv',
+        ])));
+
+        isSame(['demo-1.csv', 'demo-2.csv', 'demo-3.csv'], $this->getFileName(Utils::findFiles([
+            './tests/fixtures/batch/*.csv',
+        ])));
+
+        isSame(['demo-1.csv', 'demo-2.csv', 'demo-3.csv'], $this->getFileName(Utils::findFiles(['**/demo-*.csv'])));
+
+        isSame(['demo-1.csv', 'demo-2.csv', 'demo-3.csv', 'demo.csv'], $this->getFileName(Utils::findFiles([
+            PROJECT_ROOT . '/tests/fixtures/batch/*.csv',
+            PROJECT_ROOT . '/tests/fixtures/demo.csv',
+        ])));
+
+        isSame(['demo-1.csv', 'demo-2.csv', 'demo-3.csv', 'demo.csv'], $this->getFileName(Utils::findFiles([
+            PROJECT_ROOT . '/tests/fixtures/demo.csv',
+            PROJECT_ROOT . '/tests/fixtures/batch/*.csv',
+        ])));
+
+        isSame(
+            [
+                'demo-1.csv',
+                'demo-2.csv',
+                'demo-3.csv',
+                'complex_header.csv',
+                'complex_no_header.csv',
+                'demo.csv',
+                'empty_header.csv',
+                'empty_no_header.csv',
+                'simple_header.csv',
+                'simple_no_header.csv',
+            ],
+            $this->getFileName(Utils::findFiles(['tests/**/*.csv'])),
+        );
+    }
+
+    public function testFindFilesNotFound(): void
+    {
+        $this->expectExceptionMessage('File not found: demo.csv');
+        $this->getFileName(Utils::findFiles(['demo.csv']));
+    }
+
+    /**
+     * @param  SplFileInfo[] $files
+     * @return string[]
+     */
+    private function getFileName(array $files): array
+    {
+        return \array_values(\array_map(static fn (SplFileInfo $file) => $file->getFilename(), $files));
     }
 
     private function testCheckExampleInReadme(
