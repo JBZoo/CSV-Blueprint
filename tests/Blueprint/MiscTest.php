@@ -176,7 +176,7 @@ final class MiscTest extends PHPUnit
                 'demo.csv',
                 'complex_no_header.csv',
             ],
-            $this->getFileName(Utils::findFiles(['*.csv'])),
+            $this->getFileName(Utils::findFiles(['tests/**/*.csv'])),
         );
     }
 
