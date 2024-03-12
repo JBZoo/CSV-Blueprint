@@ -72,8 +72,7 @@ final class Utils
                     ->ignoreVCSIgnored(true)
                     ->ignoreDotFiles(true)
                     ->followLinks()
-                    ->name(\basename($path))
-                    ->sortByName(true);
+                    ->name(\basename($path));
 
                 foreach ($finder as $file) {
                     if (!$file->isReadable()) {
@@ -88,6 +87,8 @@ final class Utils
                 throw new \RuntimeException("File not found: {$path}");
             }
         }
+
+        \ksort($fileList, \SORT_NATURAL);
 
         return $fileList;
     }

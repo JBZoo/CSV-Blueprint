@@ -25,6 +25,7 @@ use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 use function JBZoo\PHPUnit\isFileContains;
+use function JBZoo\PHPUnit\isNotEmpty;
 use function JBZoo\PHPUnit\isSame;
 
 final class CommandsTest extends PHPUnit
@@ -103,8 +104,6 @@ final class CommandsTest extends PHPUnit
 
     public function testCreateValidateNegativeMultiple(): void
     {
-        $rootPath = PROJECT_ROOT;
-
         $options = [
             'csv'    => './tests/fixtures/batch/*.csv',
             'schema' => './tests/schemas/demo_invalid.yml',
@@ -153,7 +152,7 @@ final class CommandsTest extends PHPUnit
             "./csv-blueprint validate:csv {$optionsAsString}",
             '',
             '',
-            \str_replace($rootPath, '.', $expected),
+            $expected,
             '```',
         ]), PROJECT_ROOT . '/README.md');
     }
@@ -258,6 +257,33 @@ final class CommandsTest extends PHPUnit
         isSame($expected, $actual);
     }
 
+    public function testMultipleCsvOptions(): void
+    {
+        [$expected, $expectedCode] = $this->virtualExecution('validate:csv', [
+            'csv'    => './tests/fixtures/batch/*.csv',
+            'schema' => './tests/schemas/demo_invalid.yml',
+        ]);
+
+        $actual = $this->realExecution(
+            'validate:csv ' . \implode(' ', [
+                '--csv="./tests/fixtures/batch/sub/demo-3.csv"',
+                '--csv="./tests/fixtures/batch/demo-1.csv"',
+                '--csv="./tests/fixtures/batch/demo-2.csv"',
+                '--csv="./tests/fixtures/batch/*.csv"',
+                '--schema="./tests/schemas/demo_invalid.yml"',
+                '--mute-errors',
+                '--stdout-only',
+            ]),
+            [],
+            '',
+        );
+
+        isNotEmpty($expected);
+        isNotEmpty($actual);
+        isSame($expectedCode, 1);
+        isSame($expected, $actual);
+    }
+
     private function virtualExecution(string $action, array $params = []): array
     {
         $params['no-ansi'] = null;
@@ -273,14 +299,14 @@ final class CommandsTest extends PHPUnit
         return [$buffer->fetch(), $exitCode];
     }
 
-    private function realExecution(string $action, array $params = []): string
+    private function realExecution(string $action, array $params = [], string $extra = '--no-ansi'): string
     {
         $rootDir = PROJECT_ROOT;
 
         return Cli::exec(
             \implode(' ', [
                 Sys::getBinary(),
-                "{$rootDir}/csv-blueprint.php --no-ansi",
+                "{$rootDir}/csv-blueprint.php {$extra}",
                 $action,
                 '2>&1',
             ]),
