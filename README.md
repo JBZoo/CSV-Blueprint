@@ -52,7 +52,7 @@ Integrating CSV validation into CI processes promotes higher data integrity, rel
 * **Comprehensive Rule Set**: Includes a broad set of validation rules, such as non-empty fields, exact values, regular expressions, numeric constraints, date formats, and more, catering to various data validation needs.
 * **Docker Support**: Easily integrate into any workflow with Docker, providing a seamless experience for development, testing, and production environments.
 * **GitHub Actions Integration**: Automate CSV validation in your CI/CD pipeline, enhancing the quality control of your data in pull requests and deployments.
-* **Various ways to report:** issues that can be easily integrated with GithHub, Gitlab, TeamCity, etc. The default output is a human-readable table. [See Live Demo](https://github.com/JBZoo/Csv-Blueprint).
+* **Various ways to report:** issues that can be easily integrated with GithHub, Gitlab, TeamCity, etc. The default output is a human-readable table. [See Live Demo](https://github.com/JBZoo/Csv-Blueprint-Demo).
 
 
 ## Live Demo
@@ -470,6 +470,7 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
 * [ ] Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
 * [ ] Input encoding detection + `BOM` (right now it's experimental). It works but not so accurate... UTF-8/16/32 is the best choice for now.
 * [ ] Extending with custom rules and custom output formats. Plugins?
+* [ ] Optimazation on `php.ini` level to start it faster. JIT.
 * [ ] More examples and documentation.
 
 PS. [There is a file](tests/schemas/example_full.yml) with my ideas and imagination.
@@ -527,7 +528,7 @@ make codestyle
 ```
 
 
-### License
+## License
 
 [MIT License](LICENSE): It's like free pizza - enjoy it, share it, just don't sell it as your own. And remember, no warranty for stomach aches! 😅
 
