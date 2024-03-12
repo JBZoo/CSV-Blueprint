@@ -466,9 +466,9 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
 Batch processing
 * [x] CSV/Schema file discovery in the folder with regex filename pattern (like `glob(./**/dir/*.csv)`).
 * [x] If option `--csv` is a folder, then validate all files in the folder.
-* [x] Batch processing. Checking multiple CSV files in one schema.
-* [ ] Batch processing. Quick stop flag. If the first error is found, then stop the validation process to save time.
-* [ ] Batch processing. Using multiple schemas for one csv file.
+* [x] Checking multiple CSV files in one schema.
+* [ ] Quick stop flag. If the first error is found, then stop the validation process to save time.
+* [ ] Using multiple schemas for one csv file.
 * [ ] If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
 
 Validation
@@ -481,14 +481,14 @@ Validation
 * [ ] Input encoding detection + `BOM` (right now it's experimental). It works but not so accurate... UTF-8/16/32 is the best choice for now.
 
 Release workflow
-* [ ] Release Docker. Build and release Docker image [via GitHub Actions, tags and labels](https://docs.docker.com/build/ci/github-actions/manage-tags-labels/).
-* [ ] Release Docker. Upgrading to PHP 8.3.x
-* [ ] Release Phar. Build phar file and release via GitHub Actions.
+* [ ] Build and release Docker image [via GitHub Actions, tags and labels](https://docs.docker.com/build/ci/github-actions/manage-tags-labels/).
+* [ ] Upgrading to PHP 8.3.x
+* [ ] Build phar file and release via GitHub Actions.
 
 Performance and optimization
-* [ ] Parallel. Validation of really-really large files (1GB+ ?). I know you have them and not so much memory.
-* [ ] Parallel. Validation of multiple files at once.
-* [ ] Benchmarks as part of the CI process and Readme. It's important to know how much time the validation process takes.
+* [ ] Parallel validation of really-really large files (1GB+ ?). I know you have them and not so much memory.
+* [ ] Parallel validation of multiple files at once.
+* [ ] Benchmarks as part of the CI(?) and Readme. It's important to know how much time the validation process takes.
 * [ ] Optimazation on `php.ini` level to start it faster. JIT.
 
 Mock data generation
@@ -505,7 +505,7 @@ Misc
 * [ ] More examples and documentation.
 
  
-  PS. [There is a file](tests/schemas/example_full.yml) with my ideas and imagination.
+PS. [There is a file](tests/schemas/example_full.yml) with my ideas and imagination.
 I'm not sure if I will implement all of them. But I will try to do my best.
 
 
