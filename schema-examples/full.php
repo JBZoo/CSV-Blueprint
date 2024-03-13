@@ -66,6 +66,7 @@ return [
                 'is_uuid4'           => true,
                 'is_latitude'        => true,
                 'is_longitude'       => true,
+                'is_alias'           => true,
                 'cardinal_direction' => true,
                 'usa_market_name'    => true,
             ],

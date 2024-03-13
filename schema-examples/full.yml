@@ -55,7 +55,6 @@ columns:
       str_ends_with: " suffix"          # Case-sensitive. Example: "Hello World suffix"
       str_starts_with: "prefix "        # Case-sensitive. Example: "prefix Hello World"
 
-
       # Decimal and integer numbers
       min: 10                           # Can be integer or float, negative and positive
       max: 100.50                       # Can be integer or float, negative and positive
@@ -79,6 +78,7 @@ columns:
       is_uuid4: true                    # Only UUID4 format. Example: "550e8400-e29b-41d4-a716-446655440000"
       is_latitude: true                 # Can be integer or float. Example: 50.123456
       is_longitude: true                # Can be integer or float. Example: -89.123456
+      is_alias: true                    # Only alias format. Example: "my-alias-123"
       cardinal_direction: true          # Valid cardinal direction. Examples: "N", "S", "NE", "SE", "none", ""
       usa_market_name: true             # Check if the value is a valid USA market name. Example: "New York, NY"
 

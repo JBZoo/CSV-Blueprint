@@ -22,6 +22,7 @@ use JBZoo\CsvBlueprint\Rules\AtLeastContains;
 use JBZoo\CsvBlueprint\Rules\CardinalDirection;
 use JBZoo\CsvBlueprint\Rules\DateFormat;
 use JBZoo\CsvBlueprint\Rules\ExactValue;
+use JBZoo\CsvBlueprint\Rules\IsAlias;
 use JBZoo\CsvBlueprint\Rules\IsBool;
 use JBZoo\CsvBlueprint\Rules\IsDomain;
 use JBZoo\CsvBlueprint\Rules\IsEmail;
@@ -847,6 +848,20 @@ final class RulesTest extends PHPUnit
             '"max_word_count" at line 0, column "prop". ' .
             'Value "asd, asdasd asd 1232 asdas" has 4 words, but must have no more than 2 words.',
             \strip_tags((string)$rule->validate('asd, asdasd asd 1232 asdas')),
+        );
+    }
+
+    public function testIsAlias(): void
+    {
+        $rule = new IsAlias('prop', true);
+        isSame(null, $rule->validate(''));
+        isSame(null, $rule->validate('123'));
+
+        $rule = new IsAlias('prop', true);
+        isSame(
+            '"is_alias" at line 0, column "prop". ' .
+            'Value "Qwerty, asd 123" is not a valid alias. Expected "qwerty-asd-123".',
+            \strip_tags((string)$rule->validate('Qwerty, asd 123')),
         );
     }
 }
