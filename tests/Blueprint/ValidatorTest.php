@@ -141,7 +141,7 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('seq', 'regex', '[a-z]'));
         isSame(
-            '"regex" at line 2, column "0:seq". Value "1" does not match the pattern "/[a-z]/u".',
+            '"regex" at line 2, column "0:seq". Value "1" does not match the pattern "/[a-z]/".',
             \strip_tags((string)$csv->validate()->get(0)),
         );
 
@@ -568,7 +568,7 @@ final class ValidatorTest extends PHPUnit
     {
         $csv = new CsvFile(self::CSV_COMPLEX, ['filename_pattern' => '/demo(-\\d+)?\\.csv$/']);
         isSame(
-            '"filename_pattern" at line 0, column "./tests/fixtures/complex_header.csv". ' .
+            '"filename_pattern" at line 0, column "". ' .
             'Filename "./tests/fixtures/complex_header.csv" does not match pattern: "/demo(-\d+)?\.csv$/".',
             \strip_tags((string)$csv->validate()->get(0)),
         );

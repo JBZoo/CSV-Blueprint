@@ -15,7 +15,7 @@
 # Regular expression to match the file name. If not set, then no pattern check
 # This way you can validate the file name before the validation process.
 # Feel free to check parent directories as well.
-filename_pattern: /demo(-\d+)?\.csv$/
+filename_pattern: /demo(-\d+)?\.csv$/i
 
 csv: # Here are default values. You can skip this section if you don't need to override the default values
   header: true                          # If the first row is a header. If true, name of each column is required

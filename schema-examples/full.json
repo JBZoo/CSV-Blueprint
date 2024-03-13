@@ -1,5 +1,5 @@
 {
-    "filename_pattern" : "/demo(-\\d+)?\\.csv$/",
+    "filename_pattern" : "/demo(-\\d+)?\\.csv$/i",
     "csv"              : {
         "header"     : true,
         "delimiter"  : ",",

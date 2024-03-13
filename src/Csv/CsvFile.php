@@ -171,7 +171,7 @@ final class CsvFile
             $error = new Error(
                 'filename_pattern',
                 "Filename \"<c>{$this->csvFilename}</c>\" does not match pattern: \"<c>{$filenamePattern}</c>\"",
-                $this->csvFilename,
+                '',
                 0,
             );
 

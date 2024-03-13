@@ -47,7 +47,7 @@ final class MiscTest extends PHPUnit
     {
         isSame(null, Utils::prepareRegex(null));
         isSame(null, Utils::prepareRegex(''));
-        isSame('/.*/u', Utils::prepareRegex('.*'));
+        isSame('/.*/', Utils::prepareRegex('.*'));
         isSame('#.*#u', Utils::prepareRegex('#.*#u'));
         isSame('/.*/', Utils::prepareRegex('/.*/'));
         isSame('/.*/ius', Utils::prepareRegex('/.*/ius'));

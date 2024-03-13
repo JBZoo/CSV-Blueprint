@@ -591,7 +591,7 @@ final class RulesTest extends PHPUnit
         isSame(null, $rule->validate('aaa'));
         isSame(null, $rule->validate('a'));
         isSame(
-            '"regex" at line 0, column "prop". Value "1bc" does not match the pattern "/^a/u".',
+            '"regex" at line 0, column "prop". Value "1bc" does not match the pattern "/^a/".',
             \strip_tags((string)$rule->validate('1bc')),
         );
     }

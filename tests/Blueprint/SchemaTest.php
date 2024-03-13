@@ -47,7 +47,7 @@ final class SchemaTest extends PHPUnit
         isSame(null, $schemaEmpty->getFilenamePattern());
 
         $schemaFull = new Schema(self::SCHEMA_EXAMPLE_FULL);
-        isSame('/^example\.csv$/u', $schemaFull->getFilenamePattern());
+        isSame('/^example\.csv$/', $schemaFull->getFilenamePattern());
     }
 
     public function testScvStruture(): void

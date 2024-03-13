@@ -15,7 +15,7 @@
 declare(strict_types=1);
 
 return [
-    'filename_pattern' => '/demo(-\\d+)?\\.csv$/',
+    'filename_pattern' => '/demo(-\\d+)?\\.csv$/i',
 
     'csv' => [
         'header'     => true,
