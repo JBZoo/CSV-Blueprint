@@ -227,8 +227,25 @@ jobs:
       - name: 🐳 Building Docker Image
         run: make build-docker
 
-      - name: Trying to use the Docker Image
+      - name: Test help and logo
         run: docker run --rm jbzoo/csv-blueprint --ansi
 
-      - name: Reporting example via Docker
-        run: ! make demo-docker --no-print-directory
+      - name: 👍 Valid CSV file
+        run: |
+          docker run --rm                                       \
+          -v `pwd`:/parent-host                                 \
+          jbzoo/csv-blueprint                                   \
+          validate:csv                                          \
+          --csv=/parent-host/tests/fixtures/demo.csv            \
+          --schema=/parent-host/tests/schemas/demo_valid.yml    \
+          --ansi
+
+      - name: 👎 Invalid CSV file
+        run: |
+          ! docker run --rm                                     \
+          -v `pwd`:/parent-host                                 \
+          jbzoo/csv-blueprint                                   \
+          validate:csv                                          \
+          --csv=/parent-host/tests/fixtures/demo.csv            \
+          --schema=/parent-host/tests/schemas/demo_invalid.yml  \
+          --ansi
