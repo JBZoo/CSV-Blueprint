@@ -15,6 +15,8 @@
 declare(strict_types=1);
 
 return [
+    'filename_pattern' => '/demo(-\\d+)?\\.csv$/',
+
     'csv' => [
         'header'     => true,
         'delimiter'  => ',',
@@ -23,6 +25,7 @@ return [
         'encoding'   => 'utf-8',
         'bom'        => false,
     ],
+
     'columns' => [
         [
             'name'        => 'csv_header_name',
@@ -58,5 +61,6 @@ return [
                 'usa_market_name'    => true,
             ],
         ],
+        ['name' => 'another_column'],
     ],
 ];

@@ -307,6 +307,11 @@ This gives you great flexibility when validating CSV files.
 ```yml
 # It's a full example of the CSV schema file in YAML format.
 
+# Regular expression to match the file name. If not set, then no pattern check
+# This way you can validate the file name before the validation process.
+# Feel free to check parent directories as well.
+filename_pattern: /demo(-\d+)?\.csv$/
+
 csv: # Here are default values. You can skip this section if you don't need to override the default values
   header: true                          # If the first row is a header. If true, name of each column is required
   delimiter: ,                          # Delimiter character in CSV file
@@ -362,6 +367,8 @@ columns:
       cardinal_direction: true          # Valid cardinal direction. Examples: "N", "S", "NE", "SE", "none", ""
       usa_market_name: true             # Check if the value is a valid USA market name. Example: "New York, NY"
 
+  - name: "another_column"
+
 ```
 
 
@@ -370,7 +377,8 @@ columns:
 
 ```json
 {
-    "csv"     : {
+    "filename_pattern" : "/demo(-\\d+)?\\.csv$/",
+    "csv"              : {
         "header"     : true,
         "delimiter"  : ",",
         "quote_char" : "\\",
@@ -378,7 +386,7 @@ columns:
         "encoding"   : "utf-8",
         "bom"        : false
     },
-    "columns" : [
+    "columns"          : [
         {
             "name"        : "csv_header_name",
             "description" : "Lorem ipsum",
@@ -412,13 +420,15 @@ columns:
                 "cardinal_direction" : true,
                 "usa_market_name"    : true
             }
-        }
+        },
+        {"name" : "another_column"}
     ]
 }
 
 ```
 
 </details>
+
 
 
 
@@ -430,6 +440,8 @@ columns:
 declare(strict_types=1);
 
 return [
+    'filename_pattern' => '/demo(-\\d+)?\\.csv$/',
+
     'csv' => [
         'header'     => true,
         'delimiter'  => ',',
@@ -438,6 +450,7 @@ return [
         'encoding'   => 'utf-8',
         'bom'        => false,
     ],
+
     'columns' => [
         [
             'name'        => 'csv_header_name',
@@ -473,12 +486,14 @@ return [
                 'usa_market_name'    => true,
             ],
         ],
+        ['name' => 'another_column'],
     ],
 ];
 
 ```
 
 </details>
+
 
 
 ## Coming soon

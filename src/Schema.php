@@ -114,9 +114,9 @@ final class Schema
         return $column;
     }
 
-    public function getFinenamePattern(): ?string
+    public function getFilenamePattern(): ?string
     {
-        return $this->data->getStringNull('finename_pattern');
+        return Utils::prepareRegex($this->data->getStringNull('filename_pattern'));
     }
 
     public function getIncludes(): array

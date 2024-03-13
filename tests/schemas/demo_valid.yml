@@ -12,6 +12,8 @@
 
 # This schema is valid because match the CSV file (tests/fixtures/demo.csv) perfectly.
 
+filename_pattern: /demo(-\d+)?\.csv$/
+
 columns:
   - name: Name
     rules:

@@ -564,6 +564,25 @@ final class ValidatorTest extends PHPUnit
         ], ErrorSuite::getAvaiableRenderFormats());
     }
 
+    public function testFilenamePattern(): void
+    {
+        $csv = new CsvFile(self::CSV_COMPLEX, ['filename_pattern' => '/demo(-\\d+)?\\.csv$/']);
+        isSame(
+            '"filename_pattern" at line 0, column "./tests/fixtures/complex_header.csv". ' .
+            'Filename "./tests/fixtures/complex_header.csv" does not match pattern: "/demo(-\d+)?\.csv$/".',
+            \strip_tags((string)$csv->validate()->get(0)),
+        );
+
+        $csv = new CsvFile(self::CSV_COMPLEX, ['filename_pattern' => '']);
+        isSame('', (string)$csv->validate());
+
+        $csv = new CsvFile(self::CSV_COMPLEX, ['filename_pattern' => null]);
+        isSame('', (string)$csv->validate());
+
+        $csv = new CsvFile(self::CSV_COMPLEX, ['filename_pattern' => '/.*\.csv$/']);
+        isSame('', (string)$csv->validate());
+    }
+
     private function getRule(?string $columnName, ?string $ruleName, array|bool|float|int|string $options): array
     {
         return ['columns' => [['name' => $columnName, 'rules' => [$ruleName => $options]]]];

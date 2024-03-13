@@ -12,6 +12,11 @@
 
 # It's a full example of the CSV schema file in YAML format.
 
+# Regular expression to match the file name. If not set, then no pattern check
+# This way you can validate the file name before the validation process.
+# Feel free to check parent directories as well.
+filename_pattern: /demo(-\d+)?\.csv$/
+
 csv: # Here are default values. You can skip this section if you don't need to override the default values
   header: true                          # If the first row is a header. If true, name of each column is required
   delimiter: ,                          # Delimiter character in CSV file
@@ -66,3 +71,5 @@ columns:
       is_longitude: true                # Can be integer or float. Example: -89.123456
       cardinal_direction: true          # Valid cardinal direction. Examples: "N", "S", "NE", "SE", "none", ""
       usa_market_name: true             # Check if the value is a valid USA market name. Example: "New York, NY"
+
+  - name: "another_column"

@@ -44,10 +44,10 @@ final class SchemaTest extends PHPUnit
     public function testGetFinenamePattern(): void
     {
         $schemaEmpty = new Schema(self::SCHEMA_EXAMPLE_EMPTY);
-        isSame(null, $schemaEmpty->getFinenamePattern());
+        isSame(null, $schemaEmpty->getFilenamePattern());
 
         $schemaFull = new Schema(self::SCHEMA_EXAMPLE_FULL);
-        isSame('^example\.csv$', $schemaFull->getFinenamePattern());
+        isSame('/^example\.csv$/u', $schemaFull->getFilenamePattern());
     }
 
     public function testScvStruture(): void
