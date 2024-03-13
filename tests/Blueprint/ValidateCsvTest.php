@@ -67,9 +67,8 @@ final class ValidateCsvTest extends PHPUnit
             +------+------------------+------------------+--- demo.csv -------------------------------------------------+
             | Line | id:Column        | Rule             | Message                                                      |
             +------+------------------+------------------+--------------------------------------------------------------+
-            | 0    |                  | filename_pattern | Filename                                                     |
-            |      |                  |                  | "/Users/smetdenis/Work/projects/jbzoo-csv-validator/tests/fi |
-            |      |                  |                  | xtures/demo.csv" does not match pattern: "/demo-[12].csv$/i" |
+            | 0    |                  | filename_pattern | Filename "./tests/fixtures/demo.csv" does not match pattern: |
+            |      |                  |                  | "/demo-[12].csv$/i"                                          |
             | 5    | 2:Float          | max              | Value "74605.944" is greater than "74605"                    |
             | 5    | 4:Favorite color | allow_values     | Value "blue" is not allowed. Allowed values: ["red",         |
             |      |                  |                  | "green", "Blue"]                                             |

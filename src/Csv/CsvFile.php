@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Csv;
 
 use JBZoo\CsvBlueprint\Schema;
+use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\Error;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use League\Csv\Reader as LeagueReader;
@@ -170,7 +171,8 @@ final class CsvFile
         ) {
             $error = new Error(
                 'filename_pattern',
-                "Filename \"<c>{$this->csvFilename}</c>\" does not match pattern: \"<c>{$filenamePattern}</c>\"",
+                'Filename "<c>' . Utils::cutPath($this->csvFilename) .
+                "</c>\" does not match pattern: \"<c>{$filenamePattern}</c>\"",
                 '',
                 0,
             );
