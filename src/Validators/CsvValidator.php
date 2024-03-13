@@ -54,7 +54,8 @@ final class CsvValidator
             if ($column->getName() === '') {
                 $error = new Error(
                     'csv.header',
-                    "Property \"<c>name</c>\" is not defined in schema: \"<c>{$this->schema->getFilename()}</c>\"",
+                    'Property "<c>name</c>" is not defined in schema: ' .
+                    "\"<c>{$this->schema->getFilename()}</c>\"",
                     $column->getHumanName(),
                     1,
                 );

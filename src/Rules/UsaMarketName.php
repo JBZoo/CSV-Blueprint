@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules;
 
-class UsaMarketName extends AllowValues
+final class UsaMarketName extends AllowValues
 {
     public function validateRule(?string $cellValue): ?string
     {

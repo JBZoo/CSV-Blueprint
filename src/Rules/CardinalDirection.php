@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules;
 
-class CardinalDirection extends AllowValues
+final class CardinalDirection extends AllowValues
 {
     public function validateRule(?string $cellValue): ?string
     {
