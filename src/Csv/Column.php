@@ -17,8 +17,8 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Csv;
 
 use JBZoo\CsvBlueprint\Utils;
-use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use JBZoo\CsvBlueprint\Validators\ColumnValidator;
+use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use JBZoo\Data\Data;
 
 final class Column

@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Validators;
 
 use JBZoo\CsvBlueprint\Csv\Column;
 
-final class ColumnValidator extends AbstractValidator
+final class ColumnValidator
 {
     private Ruleset $ruleset;
 

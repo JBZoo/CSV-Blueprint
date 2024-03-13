@@ -17,8 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Csv;
 
 use JBZoo\CsvBlueprint\Schema;
-use JBZoo\CsvBlueprint\Utils;
-use JBZoo\CsvBlueprint\Validators\Error;
+use JBZoo\CsvBlueprint\Validators\CsvValidator;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use League\Csv\Reader as LeagueReader;
 use League\Csv\Statement;
@@ -81,17 +80,7 @@ final class CsvFile
 
     public function validate(bool $quickStop = false): ErrorSuite
     {
-        // $fileValidator
-
-        $errors = new ErrorSuite($this->getCsvFilename());
-
-        $errors
-            ->addErrorSuit($this->validateFile($quickStop))
-            ->addErrorSuit($this->validateHeader($quickStop))
-            ->addErrorSuit($this->validateEachCell($quickStop))
-            ->addErrorSuit(self::validateAggregateRules($quickStop));
-
-        return $errors;
+        return (new CsvValidator($this, $this->schema))->validate($quickStop);
     }
 
     private function prepareReader(): LeagueReader
@@ -109,94 +98,5 @@ final class CsvFile
         }
 
         return $reader;
-    }
-
-    private function validateHeader(bool $quickStop = false): ErrorSuite
-    {
-        $errors = new ErrorSuite();
-
-        if (!$this->getCsvStructure()->isHeader()) {
-            return $errors;
-        }
-
-        foreach ($this->schema->getColumns() as $column) {
-            if ($column->getName() === '') {
-                $error = new Error(
-                    'csv.header',
-                    "Property \"<c>name</c>\" is not defined in schema: \"<c>{$this->schema->getFilename()}</c>\"",
-                    $column->getHumanName(),
-                    1,
-                );
-
-                $errors->addError($error);
-            }
-
-            if ($quickStop && $errors->count() > 0) {
-                return $errors;
-            }
-        }
-
-        return $errors;
-    }
-
-    private function validateEachCell(bool $quickStop = false): ErrorSuite
-    {
-        $errors = new ErrorSuite();
-
-        foreach ($this->getRecords() as $line => $record) {
-            $columns = $this->schema->getColumnsMappedByHeader($this->getHeader());
-
-            foreach ($columns as $column) {
-                if ($column === null) {
-                    continue;
-                }
-
-                $errors->addErrorSuit($column->validate($record[$column->getKey()], (int)$line + 1));
-                if ($quickStop && $errors->count() > 0) {
-                    return $errors;
-                }
-            }
-        }
-
-        return $errors;
-    }
-
-    private function validateFile(bool $quickStop = false): ErrorSuite
-    {
-        $errors = new ErrorSuite();
-
-        $filenamePattern = $this->schema->getFilenamePattern();
-        if (
-            $filenamePattern !== null
-            && $filenamePattern !== ''
-            && \preg_match($filenamePattern, $this->csvFilename) === 0
-        ) {
-            $error = new Error(
-                'filename_pattern',
-                'Filename "<c>' . Utils::cutPath($this->csvFilename) .
-                "</c>\" does not match pattern: \"<c>{$filenamePattern}</c>\"",
-                '',
-                0,
-            );
-
-            $errors->addError($error);
-
-            if ($quickStop && $errors->count() > 0) {
-                return $errors;
-            }
-        }
-
-        return $errors;
-    }
-
-    private static function validateAggregateRules(bool $quickStop = false): ErrorSuite
-    {
-        $errors = new ErrorSuite();
-
-        if ($quickStop && $errors->count() > 0) {
-            return $errors;
-        }
-
-        return new ErrorSuite();
     }
 }
