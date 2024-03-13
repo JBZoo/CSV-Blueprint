@@ -95,6 +95,12 @@ final class Utils
 
     public static function cutPath(string $fullpath): string
     {
-        return \str_replace((string)\getcwd(), '.', $fullpath);
+        $pwd = (string)\getcwd();
+
+        if (\strlen($pwd) <= 1) {
+            return $fullpath;
+        }
+
+        return \str_replace($pwd, '.', $fullpath);
     }
 }

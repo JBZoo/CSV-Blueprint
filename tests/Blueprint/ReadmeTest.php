@@ -19,6 +19,7 @@ namespace JBZoo\PHPUnit\Blueprint;
 use JBZoo\PHPUnit\PHPUnit;
 use JBZoo\PHPUnit\TestTools;
 use JBZoo\Utils\Cli;
+use JBZoo\Utils\Sys;
 use Symfony\Component\Console\Input\StringInput;
 
 use function JBZoo\PHPUnit\isFileContains;
