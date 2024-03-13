@@ -18,13 +18,13 @@ namespace JBZoo\CsvBlueprint\Rules;
 
 final class IsInt extends AbstarctRule
 {
-    public function validateRule(?string $cellValue): ?string
+    public function validateRule(string $cellValue): ?string
     {
         if (!$this->getOptionAsBool()) {
             return null;
         }
 
-        if (\preg_match('/^-?\d+$/', (string)$cellValue) === 0) {
+        if (\preg_match('/^-?\d+$/', $cellValue) === 0) {
             return "Value \"<c>{$cellValue}</c>\" is not an integer";
         }
 

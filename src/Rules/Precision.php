@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Rules;
 
 class Precision extends AbstarctRule
 {
-    public function validateRule(?string $cellValue): ?string
+    public function validateRule(string $cellValue): ?string
     {
         $valuePrecision = self::getFloatPrecision($cellValue);
 
@@ -30,15 +30,13 @@ class Precision extends AbstarctRule
         return null;
     }
 
-    protected static function getFloatPrecision(?string $cellValue): int
+    protected static function getFloatPrecision(string $cellValue): int
     {
-        $floatAsString = (string)$cellValue;
-        $dotPosition   = \strpos($floatAsString, '.');
-
+        $dotPosition = \strpos($cellValue, '.');
         if ($dotPosition === false) {
             return 0;
         }
 
-        return \strlen($floatAsString) - $dotPosition - 1;
+        return \strlen($cellValue) - $dotPosition - 1;
     }
 }

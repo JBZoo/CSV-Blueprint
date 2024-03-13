@@ -50,7 +50,7 @@ final class Ruleset
         throw new Exception("Rule \"{$ruleName}\" not found. Expected class: \"{$classname}\"");
     }
 
-    public function validate(?string $cellValue, int $line): ErrorSuite
+    public function validate(string $cellValue, int $line): ErrorSuite
     {
         $errors = new ErrorSuite();
 

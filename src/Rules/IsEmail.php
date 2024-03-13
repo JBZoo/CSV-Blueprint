@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Rules;
 
 final class IsEmail extends AbstarctRule
 {
-    public function validateRule(?string $cellValue): ?string
+    public function validateRule(string $cellValue): ?string
     {
         if (!$this->getOptionAsBool()) {
             return null;

@@ -18,9 +18,9 @@ namespace JBZoo\CsvBlueprint\Rules;
 
 final class ExactValue extends AbstarctRule
 {
-    public function validateRule(?string $cellValue): ?string
+    public function validateRule(string $cellValue): ?string
     {
-        if ($this->getOptionAsString() !== (string)$cellValue) {
+        if ($this->getOptionAsString() !== $cellValue) {
             return "Value \"<c>{$cellValue}</c>\" is not strict equal to " .
                 "\"<green>{$this->getOptionAsString()}<green>\"";
         }

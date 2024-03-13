@@ -18,13 +18,13 @@ namespace JBZoo\CsvBlueprint\Rules;
 
 final class CardinalDirection extends AllowValues
 {
-    public function validateRule(?string $cellValue): ?string
+    public function validateRule(string $cellValue): ?string
     {
         if (!$this->getOptionAsBool()) {
             return null;
         }
 
-        return parent::validateRule((string)$cellValue);
+        return parent::validateRule($cellValue);
     }
 
     public function getOptionAsArray(): array

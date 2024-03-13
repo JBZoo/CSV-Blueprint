@@ -33,7 +33,7 @@ abstract class AbstarctRule
     private string $columnNameId;
     private string $ruleCode;
 
-    abstract public function validateRule(?string $cellValue): ?string;
+    abstract public function validateRule(string $cellValue): ?string;
 
     public function __construct(string $columnNameId, null|array|bool|float|int|string $options = null)
     {
@@ -42,7 +42,7 @@ abstract class AbstarctRule
         $this->ruleCode     = $this->getRuleCode();
     }
 
-    public function validate(?string $cellValue, int $line = 0): ?Error
+    public function validate(string $cellValue, int $line = 0): ?Error
     {
         $error = $this->validateRule($cellValue);
         if ($error !== null) {

@@ -18,10 +18,10 @@ namespace JBZoo\CsvBlueprint\Rules;
 
 final class MaxLength extends AbstarctRule
 {
-    public function validateRule(?string $cellValue): ?string
+    public function validateRule(string $cellValue): ?string
     {
         $minLength = $this->getOptionAsInt();
-        $length    = \mb_strlen((string)$cellValue);
+        $length    = \mb_strlen($cellValue);
 
         if ($length > $minLength) {
             return "Value \"<c>{$cellValue}</c>\" (length: {$length}) is too long. " .

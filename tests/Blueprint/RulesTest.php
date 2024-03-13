@@ -465,13 +465,9 @@ final class RulesTest extends PHPUnit
             '"not_empty" at line 0, column "prop". Value is empty.',
             \strip_tags((string)$rule->validate('')),
         );
-        isSame(
-            '"not_empty" at line 0, column "prop". Value is empty.',
-            \strip_tags((string)$rule->validate(null)),
-        );
 
         $rule = new NotEmpty('prop', false);
-        isSame(null, $rule->validate(null));
+        isSame(null, $rule->validate(''));
     }
 
     public function testOnlyCapitalize(): void

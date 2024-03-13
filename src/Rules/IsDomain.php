@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Rules;
 
 final class IsDomain extends AbstarctRule
 {
-    public function validateRule(?string $cellValue): ?string
+    public function validateRule(string $cellValue): ?string
     {
         if (!$this->getOptionAsBool()) {
             return null;
@@ -26,7 +26,7 @@ final class IsDomain extends AbstarctRule
 
         $domainPattern = '/^(?!-)[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,})$/';
 
-        if (\preg_match($domainPattern, (string)$cellValue) === 0) {
+        if (\preg_match($domainPattern, $cellValue) === 0) {
             return "Value \"<c>{$cellValue}</c>\" is not a valid domain";
         }
 

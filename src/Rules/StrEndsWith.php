@@ -18,14 +18,14 @@ namespace JBZoo\CsvBlueprint\Rules;
 
 final class StrEndsWith extends AbstarctRule
 {
-    public function validateRule(?string $cellValue): ?string
+    public function validateRule(string $cellValue): ?string
     {
         $prefix = $this->getOptionAsString();
         if ($prefix === '') {
             return null;
         }
 
-        if (!\str_ends_with((string)$cellValue, $prefix)) {
+        if (!\str_ends_with($cellValue, $prefix)) {
             return "Value \"<c>{$cellValue}</c>\" must end with \"<green>{$prefix}</green>\"";
         }
 

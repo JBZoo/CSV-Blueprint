@@ -20,7 +20,7 @@ use JBZoo\CsvBlueprint\Utils;
 
 final class Regex extends AbstarctRule
 {
-    public function validateRule(?string $cellValue): ?string
+    public function validateRule(string $cellValue): ?string
     {
         $regex = Utils::prepareRegex($this->getOptionAsString());
 
@@ -28,7 +28,7 @@ final class Regex extends AbstarctRule
             return 'Regex pattern is not defined';
         }
 
-        if (\preg_match($regex, (string)$cellValue) === 0) {
+        if (\preg_match($regex, $cellValue) === 0) {
             return "Value \"<c>{$cellValue}</c>\" does not match the pattern \"<green>{$regex}</green>\"";
         }
 

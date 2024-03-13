@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Rules;
 
 final class MaxPrecision extends Precision
 {
-    public function validateRule(?string $cellValue): ?string
+    public function validateRule(string $cellValue): ?string
     {
         $valuePrecision = self::getFloatPrecision($cellValue);
 

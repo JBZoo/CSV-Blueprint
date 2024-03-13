@@ -21,7 +21,7 @@ final class IsLatitude extends IsFloat
     private float $min = -90.0;
     private float $max = 90.0;
 
-    public function validateRule(?string $cellValue): ?string
+    public function validateRule(string $cellValue): ?string
     {
         if (!$this->getOptionAsBool()) {
             return null;

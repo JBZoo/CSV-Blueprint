@@ -18,14 +18,14 @@ namespace JBZoo\CsvBlueprint\Rules;
 
 final class StrStartsWith extends AbstarctRule
 {
-    public function validateRule(?string $cellValue): ?string
+    public function validateRule(string $cellValue): ?string
     {
         $prefix = $this->getOptionAsString();
         if ($prefix === '') {
             return null;
         }
 
-        if (!\str_starts_with((string)$cellValue, $prefix)) {
+        if (!\str_starts_with($cellValue, $prefix)) {
             return "Value \"<c>{$cellValue}</c>\" must start with \"<green>{$prefix}</green>\"";
         }
 

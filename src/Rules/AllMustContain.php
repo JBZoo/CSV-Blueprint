@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Rules;
 
 final class AllMustContain extends AbstarctRule
 {
-    public function validateRule(?string $cellValue): ?string
+    public function validateRule(string $cellValue): ?string
     {
         $inclusions = $this->getOptionAsArray();
         if (\count($inclusions) === 0) {
@@ -26,7 +26,7 @@ final class AllMustContain extends AbstarctRule
         }
 
         foreach ($inclusions as $inclusion) {
-            if (\strpos((string)$cellValue, (string)$inclusion) === false) {
+            if (\strpos($cellValue, (string)$inclusion) === false) {
                 return "Value \"<c>{$cellValue}</c>\" must contain all of the following:" .
                     ' "<green>["' . \implode('", "', $inclusions) . '"]</green>"';
             }

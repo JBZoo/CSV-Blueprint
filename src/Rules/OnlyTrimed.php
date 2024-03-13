@@ -18,13 +18,13 @@ namespace JBZoo\CsvBlueprint\Rules;
 
 final class OnlyTrimed extends AbstarctRule
 {
-    public function validateRule(?string $cellValue): ?string
+    public function validateRule(string $cellValue): ?string
     {
         if (!$this->getOptionAsBool()) {
             return null;
         }
 
-        if (\trim((string)$cellValue) !== (string)$cellValue) {
+        if (\trim($cellValue) !== $cellValue) {
             return "Value \"<c>{$cellValue}</c>\" is not trimmed";
         }
 

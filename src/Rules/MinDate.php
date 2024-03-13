@@ -18,10 +18,10 @@ namespace JBZoo\CsvBlueprint\Rules;
 
 final class MinDate extends AbstarctRule
 {
-    public function validateRule(?string $cellValue): ?string
+    public function validateRule(string $cellValue): ?string
     {
         $minDate  = $this->getOptionAsDate();
-        $cellDate = new \DateTimeImmutable((string)$cellValue);
+        $cellDate = new \DateTimeImmutable($cellValue);
 
         if ($cellDate->getTimestamp() < $minDate->getTimestamp()) {
             return "Value \"<c>{$cellValue}</c>\" is less than the minimum " .

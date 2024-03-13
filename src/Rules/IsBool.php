@@ -18,13 +18,13 @@ namespace JBZoo\CsvBlueprint\Rules;
 
 final class IsBool extends AllowValues
 {
-    public function validateRule(?string $cellValue): ?string
+    public function validateRule(string $cellValue): ?string
     {
         if (!$this->getOptionAsBool()) {
             return null;
         }
 
-        return parent::validateRule(\strtolower((string)$cellValue));
+        return parent::validateRule(\strtolower($cellValue));
     }
 
     public function getOptionAsArray(): array

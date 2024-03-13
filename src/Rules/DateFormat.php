@@ -18,14 +18,14 @@ namespace JBZoo\CsvBlueprint\Rules;
 
 final class DateFormat extends AbstarctRule
 {
-    public function validateRule(?string $cellValue): ?string
+    public function validateRule(string $cellValue): ?string
     {
         $expectedDateFormat = $this->getOptionAsString();
         if ($expectedDateFormat === '') {
             return 'Date format is not defined';
         }
 
-        if ($cellValue === null || $cellValue === '') {
+        if ($cellValue === '') {
             return 'Date format of value "" is not valid. Expected format: "' . $expectedDateFormat . '"';
         }
 

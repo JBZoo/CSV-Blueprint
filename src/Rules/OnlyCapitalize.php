@@ -18,13 +18,13 @@ namespace JBZoo\CsvBlueprint\Rules;
 
 final class OnlyCapitalize extends AbstarctRule
 {
-    public function validateRule(?string $cellValue): ?string
+    public function validateRule(string $cellValue): ?string
     {
         if (!$this->getOptionAsBool()) {
             return null;
         }
 
-        if ($cellValue !== null && $cellValue !== \ucfirst($cellValue)) {
+        if ($cellValue !== \ucfirst($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" should be in capitalize";
         }
 

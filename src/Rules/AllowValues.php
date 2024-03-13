@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Rules;
 
 class AllowValues extends AbstarctRule
 {
-    public function validateRule(?string $cellValue): ?string
+    public function validateRule(string $cellValue): ?string
     {
         $allowedValues = $this->getOptionAsArray();
 

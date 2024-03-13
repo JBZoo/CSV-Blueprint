@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Rules;
 
 final class Max extends IsFloat
 {
-    public function validateRule(?string $cellValue): ?string
+    public function validateRule(string $cellValue): ?string
     {
         $result = parent::validateRule($cellValue);
         if ($result !== null) {

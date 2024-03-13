@@ -18,10 +18,10 @@ namespace JBZoo\CsvBlueprint\Rules;
 
 final class WordCount extends AbstarctRule
 {
-    public function validateRule(?string $cellValue): ?string
+    public function validateRule(string $cellValue): ?string
     {
         $wordCount = $this->getOptionAsInt();
-        $count     = \str_word_count((string)$cellValue);
+        $count     = \str_word_count($cellValue);
 
         if ($count !== $wordCount) {
             return "Value \"<c>{$cellValue}</c>\" has {$count} words, " .

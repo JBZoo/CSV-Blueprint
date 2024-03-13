@@ -27,7 +27,7 @@ final class ColumnValidator
         $this->ruleset = new Ruleset($column->getRules(), $column->getHumanName());
     }
 
-    public function validate(?string $cellValue, int $line): ErrorSuite
+    public function validate(string $cellValue, int $line): ErrorSuite
     {
         return $this->ruleset->validate($cellValue, $line);
     }

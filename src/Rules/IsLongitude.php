@@ -21,7 +21,7 @@ final class IsLongitude extends IsFloat
     private float $min = -180.0;
     private float $max = 180.0;
 
-    public function validateRule(?string $cellValue): ?string
+    public function validateRule(string $cellValue): ?string
     {
         if (!$this->getOptionAsBool()) {
             return null;
