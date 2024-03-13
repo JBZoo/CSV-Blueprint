@@ -29,10 +29,7 @@ jobs:
     name: All Report Types (via GA)
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v3
 
       - name: Valid CSV file
         uses: jbzoo/csv-blueprint@master
@@ -43,7 +40,7 @@ jobs:
       - name: Invalid CSV file - Report as Text
         uses: jbzoo/csv-blueprint@master
         with:
-          csv: /tests/fixtures/batch/*.csv
+          csv: tests/fixtures/batch/*.csv
           schema: tests/schemas/demo_invalid.yml
           report: text
         continue-on-error: true
@@ -51,7 +48,7 @@ jobs:
       - name: Invalid CSV file - Report as Table
         uses: jbzoo/csv-blueprint@master
         with:
-          csv: /tests/fixtures/batch/*.csv
+          csv: tests/fixtures/batch/*.csv
           schema: tests/schemas/demo_invalid.yml
           report: table
         continue-on-error: true
@@ -59,14 +56,14 @@ jobs:
       - name: Invalid CSV file - Report as GitHub Annotations
         uses: jbzoo/csv-blueprint@master
         with:
-          csv: /tests/fixtures/batch/*.csv
+          csv: tests/fixtures/batch/*.csv
           schema: tests/schemas/demo_invalid.yml
         continue-on-error: true
 
       - name: Invalid CSV file - TeamCity
         uses: jbzoo/csv-blueprint@master
         with:
-          csv: /tests/fixtures/batch/*.csv
+          csv: tests/fixtures/batch/*.csv
           schema: tests/schemas/demo_invalid.yml
           report: teamcity
         continue-on-error: true
@@ -74,7 +71,7 @@ jobs:
       - name: Invalid CSV file - Gitlab
         uses: jbzoo/csv-blueprint@master
         with:
-          csv: /tests/fixtures/batch/*.csv
+          csv: tests/fixtures/batch/*.csv
           schema: tests/schemas/demo_invalid.yml
           report: gitlab
         continue-on-error: true
@@ -82,20 +79,17 @@ jobs:
       - name: Invalid CSV file - JUnit
         uses: jbzoo/csv-blueprint@master
         with:
-          csv: /tests/fixtures/batch/*.csv
+          csv: tests/fixtures/batch/*.csv
           schema: tests/schemas/demo_invalid.yml
           report: junit
         continue-on-error: true
 
 
   docker:
-    name: Docker Hub
+    name: Docker
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v3
 
       - name: Pull Docker Image
         run: docker pull jbzoo/csv-blueprint
@@ -124,10 +118,7 @@ jobs:
     name: Phar
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v3
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -158,10 +149,7 @@ jobs:
     name: Pure PHP
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v3
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
