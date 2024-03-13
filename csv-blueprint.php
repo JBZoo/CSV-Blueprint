@@ -34,10 +34,11 @@ foreach ($vendorPaths as $file) {
     }
 }
 
+require_once JBZOO_AUTOLOAD_FILE;
+
 var_dump(Cli::getNumberOfColumns());
 exit(1);
 
-require_once JBZOO_AUTOLOAD_FILE;
 
 \date_default_timezone_set('UTC');
 
