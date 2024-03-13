@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Csv;
 
 use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
-use JBZoo\CsvBlueprint\Validators\Validator;
+use JBZoo\CsvBlueprint\Validators\ColumnValidator;
 use JBZoo\Data\Data;
 
 final class Column
@@ -111,7 +111,7 @@ final class Column
 
     public function validate(string $cellValue, int $line): ErrorSuite
     {
-        return (new Validator($this))->validate($cellValue, $line);
+        return (new ColumnValidator($this))->validate($cellValue, $line);
     }
 
     private function prepareRuleSet(string $schemaKey): array

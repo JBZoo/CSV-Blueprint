@@ -81,6 +81,8 @@ final class CsvFile
 
     public function validate(bool $quickStop = false): ErrorSuite
     {
+        // $fileValidator
+
         $errors = new ErrorSuite($this->getCsvFilename());
 
         $errors

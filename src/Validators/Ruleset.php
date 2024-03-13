@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Validators;
 
+use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use JBZoo\CsvBlueprint\Utils;
-use JBZoo\CsvBlueprint\Validators\Rules\AbstarctRule;
 
 final class Ruleset
 {
@@ -41,7 +41,7 @@ final class Ruleset
      */
     public function createRule(string $ruleName, null|array|bool|float|int|string $options = null): AbstarctRule
     {
-        $classname = __NAMESPACE__ . '\\Rules\\' . Utils::kebabToCamelCase($ruleName);
+        $classname = '\\JBZoo\\CsvBlueprint\\Rules\\' . Utils::kebabToCamelCase($ruleName);
         if (\class_exists($classname)) {
             // @phpstan-ignore-next-line
             return new $classname($this->columnNameId, $options);
