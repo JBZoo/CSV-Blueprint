@@ -285,6 +285,8 @@ This gives you great flexibility when validating CSV files.
 
 ### Schema file examples
 
+Available formats: [YAML](schema-examples/full.yml), [JSON](schema-examples/full.json), [PHP](schema-examples/full.php).
+
 ```yml
 # It's a full example of the CSV schema file in YAML format.
 
@@ -323,6 +325,14 @@ columns:
       only_lowercase: true              # String is only lower-case. Example: "hello world"
       only_uppercase: true              # String is only upper-case. Example: "HELLO WORLD"
       only_capitalize: true             # String is only capitalized. Example: "Hello World"
+      word_count: 10                    # Integer only. Exact count of words in the string. Example: "Hello World, 123" - 2 words only (123 is not a word)
+      min_word_count: 1                 # Integer only. Min count of words in the string. Example: "Hello World. 123" - 2 words only (123 is not a word)
+      max_word_count: 5                 # Integer only. Max count of words in the string Example: "Hello World! 123" - 2 words only (123 is not a word)
+      at_least_contains: [ a, b ]       # At least one of the string must be in the CSV value. Case-sensitive.
+      all_must_contain: [ a, b, c ]     # All the strings must be part of a CSV value. Case-sensitive.
+      str_ends_with: " suffix"          # Case-sensitive. Example: "Hello World suffix"
+      str_starts_with: "prefix "        # Case-sensitive. Example: "prefix Hello World"
+
 
       # Decimal and integer numbers
       min: 10                           # Can be integer or float, negative and positive
@@ -355,134 +365,6 @@ columns:
 ```
 
 
-<details>
-  <summary>Click to see: JSON Format</summary>
-
-```json
-{
-    "filename_pattern" : "/demo(-\\d+)?\\.csv$/i",
-    "csv"              : {
-        "header"     : true,
-        "delimiter"  : ",",
-        "quote_char" : "\\",
-        "enclosure"  : "\"",
-        "encoding"   : "utf-8",
-        "bom"        : false
-    },
-    "columns"          : [
-        {
-            "name"        : "csv_header_name",
-            "description" : "Lorem ipsum",
-            "rules"       : {
-                "not_empty"          : true,
-                "exact_value"        : "Some string",
-                "allow_values"       : ["y", "n", ""],
-                "regex"              : "\/^[\\d]{2}$\/",
-                "min_length"         : 1,
-                "max_length"         : 10,
-                "only_trimed"        : true,
-                "only_lowercase"     : true,
-                "only_uppercase"     : true,
-                "only_capitalize"    : true,
-                "min"                : 10,
-                "max"                : 100.5,
-                "precision"          : 3,
-                "min_precision"      : 2,
-                "max_precision"      : 4,
-                "date_format"        : "Y-m-d",
-                "min_date"           : "2000-01-02",
-                "max_date"           : "+1 day",
-                "is_bool"            : true,
-                "is_int"             : true,
-                "is_float"           : true,
-                "is_ip"              : true,
-                "is_url"             : true,
-                "is_email"           : true,
-                "is_domain"          : true,
-                "is_uuid4"           : true,
-                "is_latitude"        : true,
-                "is_longitude"       : true,
-                "cardinal_direction" : true,
-                "usa_market_name"    : true
-            }
-        },
-        {"name" : "another_column"}
-    ]
-}
-
-```
-
-</details>
-
-
-
-
-<details>
-  <summary>Click to see: PHP Format</summary>
-
-```php
-<?php
-declare(strict_types=1);
-
-return [
-    'filename_pattern' => '/demo(-\\d+)?\\.csv$/i',
-
-    'csv' => [
-        'header'     => true,
-        'delimiter'  => ',',
-        'quote_char' => '\\',
-        'enclosure'  => '"',
-        'encoding'   => 'utf-8',
-        'bom'        => false,
-    ],
-
-    'columns' => [
-        [
-            'name'        => 'csv_header_name',
-            'description' => 'Lorem ipsum',
-            'rules'       => [
-                'not_empty'          => true,
-                'exact_value'        => 'Some string',
-                'allow_values'       => ['y', 'n', ''],
-                'regex'              => '/^[\\d]{2}$/',
-                'min_length'         => 1,
-                'max_length'         => 10,
-                'only_trimed'        => true,
-                'only_lowercase'     => true,
-                'only_uppercase'     => true,
-                'only_capitalize'    => true,
-                'min'                => 10,
-                'max'                => 100.5,
-                'precision'          => 3,
-                'min_precision'      => 2,
-                'max_precision'      => 4,
-                'date_format'        => 'Y-m-d',
-                'min_date'           => '2000-01-02',
-                'max_date'           => '+1 day',
-                'is_bool'            => true,
-                'is_int'             => true,
-                'is_float'           => true,
-                'is_ip'              => true,
-                'is_url'             => true,
-                'is_email'           => true,
-                'is_domain'          => true,
-                'is_uuid4'           => true,
-                'is_latitude'        => true,
-                'is_longitude'       => true,
-                'cardinal_direction' => true,
-                'usa_market_name'    => true,
-            ],
-        ],
-        ['name' => 'another_column'],
-    ],
-];
-
-```
-
-</details>
-
-
-
 ## Coming soon
 
 It's random ideas and plans. No orderings and deadlines. <u>But batch processing is the priority #1</u>.
@@ -498,6 +380,7 @@ Batch processing
 Validation
 * [x] ~~`filename_pattern` validation with regex (like "all files in the folder should be in the format `/^[\d]{4}-[\d]{2}-[\d]{2}\.csv$/`").~~
 * [ ] Flag to ignore file name pattern. It's useful when you have a lot of files and you don't want to validate the file name.
+* [ ] Keyword for null value. Configurable. By default, it's an empty string. But you can use `null`, `nil`, `none`, `empty`, etc.
 * [ ] Agregate rules (like "at least one of the fields should be not empty" or "all values must be unique").
 * [ ] Handle empty files and files with only a header row, or only with one line of data. One column wthout header is also possible.
 * [ ] Using multiple schemas for one csv file.

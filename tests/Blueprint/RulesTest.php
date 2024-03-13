@@ -16,7 +16,9 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Blueprint;
 
+use JBZoo\CsvBlueprint\Rules\AllMustContain;
 use JBZoo\CsvBlueprint\Rules\AllowValues;
+use JBZoo\CsvBlueprint\Rules\AtLeastContains;
 use JBZoo\CsvBlueprint\Rules\CardinalDirection;
 use JBZoo\CsvBlueprint\Rules\DateFormat;
 use JBZoo\CsvBlueprint\Rules\ExactValue;
@@ -34,17 +36,22 @@ use JBZoo\CsvBlueprint\Rules\Max;
 use JBZoo\CsvBlueprint\Rules\MaxDate;
 use JBZoo\CsvBlueprint\Rules\MaxLength;
 use JBZoo\CsvBlueprint\Rules\MaxPrecision;
+use JBZoo\CsvBlueprint\Rules\MaxWordCount;
 use JBZoo\CsvBlueprint\Rules\Min;
 use JBZoo\CsvBlueprint\Rules\MinDate;
 use JBZoo\CsvBlueprint\Rules\MinLength;
 use JBZoo\CsvBlueprint\Rules\MinPrecision;
+use JBZoo\CsvBlueprint\Rules\MinWordCount;
 use JBZoo\CsvBlueprint\Rules\NotEmpty;
 use JBZoo\CsvBlueprint\Rules\OnlyCapitalize;
 use JBZoo\CsvBlueprint\Rules\OnlyLowercase;
 use JBZoo\CsvBlueprint\Rules\OnlyUppercase;
 use JBZoo\CsvBlueprint\Rules\Precision;
 use JBZoo\CsvBlueprint\Rules\Regex;
+use JBZoo\CsvBlueprint\Rules\StrEndsWith;
+use JBZoo\CsvBlueprint\Rules\StrStartsWith;
 use JBZoo\CsvBlueprint\Rules\UsaMarketName;
+use JBZoo\CsvBlueprint\Rules\WordCount;
 use JBZoo\PHPUnit\PHPUnit;
 use JBZoo\Utils\Str;
 
@@ -713,5 +720,137 @@ final class RulesTest extends PHPUnit
 
         $rule = new IsUuid4('prop', false);
         isSame(null, $rule->validate('123'));
+    }
+
+    public function testMustContain(): void
+    {
+        $rule = new AtLeastContains('prop', ['a', 'b', 'c']);
+        isSame(null, $rule->validate('a'));
+        isSame(null, $rule->validate('abc'));
+        isSame(null, $rule->validate('adasdasdasdc'));
+
+        isSame(
+            '"at_least_contains" at line 0, column "prop". ' .
+            'Value "123" must contain one of the following: "["a", "b", "c"]".',
+            \strip_tags((string)$rule->validate('123')),
+        );
+    }
+
+    public function testAllMustContain(): void
+    {
+        $rule = new AllMustContain('prop', ['a', 'b', 'c']);
+        isSame(null, $rule->validate('abc'));
+        isSame(null, $rule->validate('abdasadasdasdc'));
+
+        isSame(
+            '"all_must_contain" at line 0, column "prop". ' .
+            'Value "ab" must contain all of the following: "["a", "b", "c"]".',
+            \strip_tags((string)$rule->validate('ab')),
+        );
+        isSame(
+            '"all_must_contain" at line 0, column "prop". ' .
+            'Value "ac" must contain all of the following: "["a", "b", "c"]".',
+            \strip_tags((string)$rule->validate('ac')),
+        );
+    }
+
+    public function testStrStartsWith(): void
+    {
+        $rule = new StrStartsWith('prop', 'a');
+        isSame(null, $rule->validate('a'));
+        isSame(null, $rule->validate('abc'));
+
+        isSame(
+            '"str_starts_with" at line 0, column "prop". Value "" must start with "a".',
+            \strip_tags((string)$rule->validate('')),
+        );
+
+        isSame(
+            '"str_starts_with" at line 0, column "prop". Value " a" must start with "a".',
+            \strip_tags((string)$rule->validate(' a')),
+        );
+    }
+
+    public function testStrEndsWith(): void
+    {
+        $rule = new StrEndsWith('prop', 'a');
+        isSame(null, $rule->validate('a'));
+        isSame(null, $rule->validate('cba'));
+
+        isSame(
+            '"str_ends_with" at line 0, column "prop". Value "" must end with "a".',
+            \strip_tags((string)$rule->validate('')),
+        );
+
+        isSame(
+            '"str_ends_with" at line 0, column "prop". Value "a " must end with "a".',
+            \strip_tags((string)$rule->validate('a ')),
+        );
+    }
+
+    public function testStrWordCount(): void
+    {
+        $rule = new WordCount('prop', 0);
+        isSame(null, $rule->validate(''));
+        isSame(
+            '"word_count" at line 0, column "prop". ' .
+            'Value "cba" has 1 words, but must have exactly 0 words.',
+            \strip_tags((string)$rule->validate('cba')),
+        );
+
+        $rule = new WordCount('prop', 2);
+        isSame(null, $rule->validate('asd, asdasd'));
+        isSame(
+            '"word_count" at line 0, column "prop". ' .
+            'Value "cba" has 1 words, but must have exactly 2 words.',
+            \strip_tags((string)$rule->validate('cba')),
+        );
+        isSame(
+            '"word_count" at line 0, column "prop". ' .
+            'Value "cba 123, 123123" has 1 words, but must have exactly 2 words.',
+            \strip_tags((string)$rule->validate('cba 123, 123123')),
+        );
+
+        isSame(
+            '"word_count" at line 0, column "prop". Value "a b c" has 3 words, but must have exactly 2 words.',
+            \strip_tags((string)$rule->validate('a b c')),
+        );
+    }
+
+    public function testMinWordCount(): void
+    {
+        $rule = new MinWordCount('prop', 0);
+        isSame(null, $rule->validate('cba'));
+
+        $rule = new MinWordCount('prop', 2);
+        isSame(null, $rule->validate('asd, asdasd'));
+        isSame(null, $rule->validate('asd, asdasd asd'));
+        isSame(null, $rule->validate('asd, asdasd 1232 asdas'));
+        isSame(
+            '"min_word_count" at line 0, column "prop". ' .
+            'Value "cba" has 1 words, but must have at least 2 words.',
+            \strip_tags((string)$rule->validate('cba')),
+        );
+        isSame(
+            '"min_word_count" at line 0, column "prop". ' .
+            'Value "cba 123, 123123" has 1 words, but must have at least 2 words.',
+            \strip_tags((string)$rule->validate('cba 123, 123123')),
+        );
+    }
+
+    public function testMaxWordCount(): void
+    {
+        $rule = new MaxWordCount('prop', 0);
+        isSame(null, $rule->validate(''));
+
+        $rule = new MaxWordCount('prop', 2);
+        isSame(null, $rule->validate('asd, asdasd'));
+        isSame(null, $rule->validate('asd, 1232'));
+        isSame(null, $rule->validate('asd, 1232 113234324 342 . ..'));
+        isSame(
+            '"max_word_count" at line 0, column "prop". ' .
+            'Value "asd, asdasd asd 1232 asdas" has 4 words, but must have no more than 2 words.',
+            \strip_tags((string)$rule->validate('asd, asdasd asd 1232 asdas')),
+        );
     }
 }
