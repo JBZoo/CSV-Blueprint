@@ -21,6 +21,9 @@ use JBZoo\CIReportConverter\Converters\GitLabJsonConverter;
 use JBZoo\CIReportConverter\Converters\JUnitConverter;
 use JBZoo\CIReportConverter\Converters\TeamCityTestsConverter;
 use JBZoo\CIReportConverter\Formats\Source\SourceSuite;
+use JBZoo\Utils\Cli;
+use JBZoo\Utils\Env;
+use JBZoo\Utils\Vars;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\BufferedOutput;
 
@@ -139,15 +142,17 @@ final class ErrorSuite
 
     private function renderTable(): string
     {
+        $floatingSizes = self::getTableSize();
+
         $buffer = new BufferedOutput();
         $table  = (new Table($buffer))
             ->setHeaderTitle($this->getTestcaseName())
             ->setFooterTitle($this->getTestcaseName())
             ->setHeaders(['Line', 'id:Column', 'Rule', 'Message'])
-            ->setColumnMaxWidth(0, 10)
-            ->setColumnMaxWidth(1, 20)
-            ->setColumnMaxWidth(2, 20)
-            ->setColumnMaxWidth(3, 60);
+            ->setColumnMaxWidth(0, $floatingSizes['line'])
+            ->setColumnMaxWidth(1, $floatingSizes['column'])
+            ->setColumnMaxWidth(2, $floatingSizes['rule'])
+            ->setColumnMaxWidth(3, $floatingSizes['message']);
 
         foreach ($this->errors as $error) {
             $table->addRow([
@@ -181,5 +186,38 @@ final class ErrorSuite
     private function getTestcaseName(): string
     {
         return \pathinfo((string)\realpath((string)$this->csvFilename), \PATHINFO_BASENAME);
+    }
+
+    /**
+     * Retrieves the size configuration for a table.
+     *
+     * @return int[]
+     */
+    private static function getTableSize(): array
+    {
+        $floatingSizes = [
+            'line'    => 10,
+            'column'  => 20,
+            'rule'    => 20,
+            'min'     => 90,
+            'max'     => 150,
+            'reserve' => 5, // So that the table does not rest on the very edge of the terminal. Just in case.
+        ];
+
+        // Fallback to 80 if the terminal width cannot be determined.
+        $maxAutoDetected = Env::int('COLUMNS', Cli::getNumberOfColumns());
+
+        $maxWindowWidth = Vars::limit(
+            $maxAutoDetected,
+            $floatingSizes['min'],
+            $floatingSizes['max'],
+        ) - $floatingSizes['reserve'];
+
+        $floatingSizes['message'] = $maxWindowWidth
+            - $floatingSizes['line']
+            - $floatingSizes['column']
+            - $floatingSizes['rule'];
+
+        return $floatingSizes;
     }
 }

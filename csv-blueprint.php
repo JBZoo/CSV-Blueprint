@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint;
 
 use JBZoo\Cli\CliApplication;
-use JBZoo\Utils\Cli;
 
 \define('PATH_ROOT', __DIR__);
 
@@ -35,10 +34,6 @@ foreach ($vendorPaths as $file) {
 }
 
 require_once JBZOO_AUTOLOAD_FILE;
-
-var_dump(Cli::getNumberOfColumns());
-exit(1);
-
 
 \date_default_timezone_set('UTC');
 

@@ -12,11 +12,13 @@
 
 .PHONY: build
 
+REPORT  ?= table
+COLUMNS ?= 150
+
 ifneq (, $(wildcard ./vendor/jbzoo/codestyle/src/init.Makefile))
     include ./vendor/jbzoo/codestyle/src/init.Makefile
 endif
 
-REPORT ?= table
 
 build: ##@Project Install all 3rd party dependencies
 	$(call title,"Install/Update all 3rd party dependencies")
