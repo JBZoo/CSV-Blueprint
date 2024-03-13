@@ -52,6 +52,6 @@
     </logging>
 
     <php>
-        <env name="COLUMNS" value="150"/>
+        <env name="COLUMNS_TEST" value="150"/>
     </php>
 </phpunit>

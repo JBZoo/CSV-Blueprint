@@ -205,7 +205,8 @@ final class ErrorSuite
         ];
 
         // Fallback to 80 if the terminal width cannot be determined.
-        $maxAutoDetected = Env::int('COLUMNS', Cli::getNumberOfColumns());
+        // env.COLUMNS_TEST usually not defined so we use it only for testing purposes.
+        $maxAutoDetected = Env::int('COLUMNS_TEST', Cli::getNumberOfColumns());
 
         $maxWindowWidth = Vars::limit(
             $maxAutoDetected,
