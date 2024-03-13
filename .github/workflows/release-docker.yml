@@ -17,10 +17,11 @@ on:
     types: [ published ]
   push:
     branches:
-      - "**"
+      - "*"
     tags:
       - "*.*.*"
       - "*.*"
+      - "*"
   pull_request:
     branches:
       - "master"
