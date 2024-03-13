@@ -62,6 +62,7 @@ Integrating CSV validation into CI processes promotes higher data integrity, rel
 * You can see more complex examples and different ways of reporting by looking at the [last Demo pipeline](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml?query=branch%3Amaster) (please open the logs). There you'll find the basic ways to get started. And also the `All Report Types` (left sidebar) link with the different report types.
 
 **See also**
+* [PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files)
 * [.github/workflows/demo.yml](.github/workflows/demo.yml)
 * [demo_invalid.yml](tests/schemas/demo_invalid.yml)
 * [demo_valid.yml](tests/schemas/demo_valid.yml)
@@ -79,14 +80,15 @@ Also see demo in the [GitHub Actions](https://github.com/JBZoo/Csv-Blueprint/act
       - name: Validate CSV file
         uses: jbzoo/csv-blueprint@master
         with:
-          csv: tests/fixtures/demo.csv
-          schema: tests/schemas/demo_invalid.yml
-          report: table     # Optional. Default is "github". Available options: text, table, github
+          csv: tests/**/*.csv
+          schema: tests/schema.yml
+          # Optional. Default is "github". Available options: text, table, github, etc
+          report: table
 ```
-**Note**. Report format for GitHub Actions is `github` by default. [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message).
+**Note**. Report format for GitHub Actions is `github` by default. See [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message) and [PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files). 
 
 This allows you to see bugs in the GitHub interface at the PR level.
-That is, the error will be shown in a specific place in the CSV file right in diff of your Pull Requests!
+That is, the error will be shown in a specific place in the CSV file right in diff of your Pull Requests! [See example]((https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files).
 
 ![GitHub Actions - PR](.github/assets/github-actions-pr.png)
 
@@ -464,9 +466,9 @@ return [
 It's random ideas and plans. No orderings and deadlines. <u>But batch processing is the priority #1</u>.
 
 Batch processing
-* [x] CSV/Schema file discovery in the folder with regex filename pattern (like `glob(./**/dir/*.csv)`).
-* [x] If option `--csv` is a folder, then validate all files in the folder.
-* [x] Checking multiple CSV files in one schema.
+* [x] ~~CSV/Schema file discovery in the folder with regex filename pattern (like `glob(./**/dir/*.csv)`).~~
+* [x] ~~If option `--csv` is a folder, then validate all files in the folder.~~
+* [x] ~~Checking multiple CSV files in one schema.~~
 * [ ] Quick stop flag. If the first error is found, then stop the validation process to save time.
 * [ ] Using multiple schemas for one csv file.
 * [ ] If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
@@ -481,7 +483,7 @@ Validation
 * [ ] Input encoding detection + `BOM` (right now it's experimental). It works but not so accurate... UTF-8/16/32 is the best choice for now.
 
 Release workflow
-* [ ] Build and release Docker image [via GitHub Actions, tags and labels](https://docs.docker.com/build/ci/github-actions/manage-tags-labels/).
+* [ ] Build and release Docker image [via GitHub Actions, tags and labels](https://docs.docker.com/build/ci/github-actions/manage-tags-labels/). Review it.
 * [ ] Upgrading to PHP 8.3.x
 * [ ] Build phar file and release via GitHub Actions.
 
