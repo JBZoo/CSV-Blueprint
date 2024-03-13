@@ -47,7 +47,7 @@ final class Utils
             }
         }
 
-        return $addDelimiter . $pattern . $addDelimiter . 'u';
+        return $addDelimiter . $pattern . $addDelimiter;
     }
 
     /**

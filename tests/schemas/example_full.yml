@@ -17,7 +17,7 @@
 # Created:      2023-03-09
 
 # File name pattern to match. If not set, then no pattern check
-finename_pattern: ^example\.csv$
+filename_pattern: ^example\.csv$
 
 
 # Include another schemas

@@ -64,24 +64,26 @@ final class ValidateCsvTest extends PHPUnit
             Found CSV files: 1
             
             (1/1) Invalid file: ./tests/fixtures/demo.csv
-            +------+------------------+--------------+-- demo.csv --------------------------------------------+
-            | Line | id:Column        | Rule         | Message                                                |
-            +------+------------------+--------------+--------------------------------------------------------+
-            | 5    | 2:Float          | max          | Value "74605.944" is greater than "74605"              |
-            | 5    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red",   |
-            |      |                  |              | "green", "Blue"]                                       |
-            | 6    | 0:Name           | min_length   | Value "Carl" (length: 4) is too short. Min length is 5 |
-            | 6    | 3:Birthday       | min_date     | Value "1955-05-14" is less than the minimum date       |
-            |      |                  |              | "1955-05-15T00:00:00.000+00:00"                        |
-            | 8    | 3:Birthday       | min_date     | Value "1955-05-14" is less than the minimum date       |
-            |      |                  |              | "1955-05-15T00:00:00.000+00:00"                        |
-            | 9    | 3:Birthday       | max_date     | Value "2010-07-20" is more than the maximum date       |
-            |      |                  |              | "2009-01-01T00:00:00.000+00:00"                        |
-            | 11   | 0:Name           | min_length   | Value "Lois" (length: 4) is too short. Min length is 5 |
-            +------+------------------+--------------+-- demo.csv --------------------------------------------+
+            +------+------------------+------------------+--- demo.csv -------------------------------------------------+
+            | Line | id:Column        | Rule             | Message                                                      |
+            +------+------------------+------------------+--------------------------------------------------------------+
+            | 0    |                  | filename_pattern | Filename "./tests/fixtures/demo.csv" does not match pattern: |
+            |      |                  |                  | "/demo-[12].csv$/i"                                          |
+            | 5    | 2:Float          | max              | Value "74605.944" is greater than "74605"                    |
+            | 5    | 4:Favorite color | allow_values     | Value "blue" is not allowed. Allowed values: ["red",         |
+            |      |                  |                  | "green", "Blue"]                                             |
+            | 6    | 0:Name           | min_length       | Value "Carl" (length: 4) is too short. Min length is 5       |
+            | 6    | 3:Birthday       | min_date         | Value "1955-05-14" is less than the minimum date             |
+            |      |                  |                  | "1955-05-15T00:00:00.000+00:00"                              |
+            | 8    | 3:Birthday       | min_date         | Value "1955-05-14" is less than the minimum date             |
+            |      |                  |                  | "1955-05-15T00:00:00.000+00:00"                              |
+            | 9    | 3:Birthday       | max_date         | Value "2010-07-20" is more than the maximum date             |
+            |      |                  |                  | "2009-01-01T00:00:00.000+00:00"                              |
+            | 11   | 0:Name           | min_length       | Value "Lois" (length: 4) is too short. Min length is 5       |
+            +------+------------------+------------------+--- demo.csv -------------------------------------------------+
             
             
-            Found 7 issues in CSV file.
+            Found 8 issues in CSV file.
             
             TXT;
 
@@ -103,7 +105,7 @@ final class ValidateCsvTest extends PHPUnit
         $expected = <<<'TXT'
             Schema: ./tests/schemas/demo_invalid.yml
             Found CSV files: 3
-
+            
             (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
             +------+------------------+--------------+ demo-1.csv ------------------------------------------+
             | Line | id:Column        | Rule         | Message                                              |
@@ -127,9 +129,16 @@ final class ValidateCsvTest extends PHPUnit
             | 7    | 0:Name     | min_length | Value "Lois" (length: 4) is too short. Min length is 5 |
             +------+------------+------------+----- demo-2.csv ---------------------------------------+
             
-            (3/3) OK: ./tests/fixtures/batch/sub/demo-3.csv
+            (3/3) Invalid file: ./tests/fixtures/batch/sub/demo-3.csv
+            +------+-----------+------------------+---- demo-3.csv -------------------------------------------+
+            | Line | id:Column | Rule             | Message                                                   |
+            +------+-----------+------------------+-----------------------------------------------------------+
+            | 0    |           | filename_pattern | Filename "./tests/fixtures/batch/sub/demo-3.csv" does not |
+            |      |           |                  | match pattern: "/demo-[12].csv$/i"                        |
+            +------+-----------+------------------+---- demo-3.csv -------------------------------------------+
             
-            Found 7 issues in 2 out of 3 CSV files.
+            
+            Found 8 issues in 3 out of 3 CSV files.
             
             TXT;
 
@@ -152,6 +161,7 @@ final class ValidateCsvTest extends PHPUnit
             Found CSV files: 1
             
             (1/1) Invalid file: ./tests/fixtures/demo.csv
+            "filename_pattern" at line 0, column "". Filename "./tests/fixtures/demo.csv" does not match pattern: "/demo-[12].csv$/i".
             "max" at line 5, column "2:Float". Value "74605.944" is greater than "74605".
             "allow_values" at line 5, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].
             "min_length" at line 6, column "0:Name". Value "Carl" (length: 4) is too short. Min length is 5.
@@ -161,7 +171,7 @@ final class ValidateCsvTest extends PHPUnit
             "min_length" at line 11, column "0:Name". Value "Lois" (length: 4) is too short. Min length is 5.
             
             
-            Found 7 issues in CSV file.
+            Found 8 issues in CSV file.
             
             TXT;
 
@@ -249,9 +259,11 @@ final class ValidateCsvTest extends PHPUnit
             "max_date" at line 5, column "3:Birthday". Value "2010-07-20" is more than the maximum date "2009-01-01T00:00:00.000+00:00".
             "min_length" at line 7, column "0:Name". Value "Lois" (length: 4) is too short. Min length is 5.
             
-            (3/3) OK: ./tests/fixtures/batch/sub/demo-3.csv
+            (3/3) Invalid file: ./tests/fixtures/batch/sub/demo-3.csv
+            "filename_pattern" at line 0, column "". Filename "./tests/fixtures/batch/sub/demo-3.csv" does not match pattern: "/demo-[12].csv$/i".
             
-            Found 7 issues in 2 out of 3 CSV files.
+            
+            Found 8 issues in 3 out of 3 CSV files.
             
             TXT;
 
@@ -319,9 +331,20 @@ final class ValidateCsvTest extends PHPUnit
             
             ##teamcity[testSuiteFinished name='demo-2.csv' flowId='42']
             
-            (3/3) OK: ./tests/fixtures/batch/sub/demo-3.csv
+            (3/3) Invalid file: ./tests/fixtures/batch/sub/demo-3.csv
+
+            ##teamcity[testCount count='1' flowId='42']
             
-            Found 7 issues in 2 out of 3 CSV files.
+            ##teamcity[testSuiteStarted name='demo-3.csv' flowId='42']
+            
+            ##teamcity[testStarted name='filename_pattern at column' locationHint='php_qn://./tests/fixtures/batch/sub/demo-3.csv' flowId='42']
+            "filename_pattern" at line 0, column "". Filename "./tests/fixtures/batch/sub/demo-3.csv" does not match pattern: "/demo-[12].csv$/i".
+            ##teamcity[testFinished name='filename_pattern at column' flowId='42']
+            
+            ##teamcity[testSuiteFinished name='demo-3.csv' flowId='42']
+            
+            
+            Found 8 issues in 3 out of 3 CSV files.
             
             TXT;
 

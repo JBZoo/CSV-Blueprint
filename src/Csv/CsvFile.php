@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Csv;
 
 use JBZoo\CsvBlueprint\Schema;
+use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\Error;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use League\Csv\Reader as LeagueReader;
@@ -82,7 +83,9 @@ final class CsvFile
     {
         $errors = new ErrorSuite($this->getCsvFilename());
 
-        $errors->addErrorSuit($this->validateHeader())
+        $errors
+            ->addErrorSuit($this->validateFile($quickStop))
+            ->addErrorSuit($this->validateHeader($quickStop))
             ->addErrorSuit($this->validateEachCell($quickStop))
             ->addErrorSuit(self::validateAggregateRules($quickStop));
 
@@ -106,7 +109,7 @@ final class CsvFile
         return $reader;
     }
 
-    private function validateHeader(): ErrorSuite
+    private function validateHeader(bool $quickStop = false): ErrorSuite
     {
         $errors = new ErrorSuite();
 
@@ -124,6 +127,10 @@ final class CsvFile
                 );
 
                 $errors->addError($error);
+            }
+
+            if ($quickStop && $errors->count() > 0) {
+                return $errors;
             }
         }
 
@@ -146,6 +153,34 @@ final class CsvFile
                 if ($quickStop && $errors->count() > 0) {
                     return $errors;
                 }
+            }
+        }
+
+        return $errors;
+    }
+
+    private function validateFile(bool $quickStop = false): ErrorSuite
+    {
+        $errors = new ErrorSuite();
+
+        $filenamePattern = $this->schema->getFilenamePattern();
+        if (
+            $filenamePattern !== null
+            && $filenamePattern !== ''
+            && \preg_match($filenamePattern, $this->csvFilename) === 0
+        ) {
+            $error = new Error(
+                'filename_pattern',
+                'Filename "<c>' . Utils::cutPath($this->csvFilename) .
+                "</c>\" does not match pattern: \"<c>{$filenamePattern}</c>\"",
+                '',
+                0,
+            );
+
+            $errors->addError($error);
+
+            if ($quickStop && $errors->count() > 0) {
+                return $errors;
             }
         }
 

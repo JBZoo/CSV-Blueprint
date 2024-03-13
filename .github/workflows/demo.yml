@@ -105,13 +105,12 @@ jobs:
 
       - name: 👎 Invalid CSV file
         run: |
-          docker run                                           \
+          ! docker run                                         \
           -v `pwd`:/parent-host                                \
           --rm jbzoo/csv-blueprint                             \
           validate:csv                                         \
           --csv=/parent-host/tests/fixtures/batch/*.csv        \
           --schema=/parent-host/tests/schemas/demo_invalid.yml
-        continue-on-error: true
 
 
   phar:
@@ -138,11 +137,10 @@ jobs:
 
       - name: 👎 Invalid CSV file
         run: |
-          ./build/csv-blueprint.phar                           \
+          ! ./build/csv-blueprint.phar                         \
           validate:csv                                         \
           --csv=./tests/fixtures/batch/*.csv                   \
           --schema=./tests/schemas/demo_invalid.yml
-        continue-on-error: true
 
 
   php:
@@ -169,8 +167,7 @@ jobs:
 
       - name: 👎 Invalid CSV file
         run: |
-          ./csv-blueprint                                      \
+          ! ./csv-blueprint                                    \
           validate:csv                                         \
           --csv=./tests/fixtures/batch/*.csv                   \
           --schema=./tests/schemas/demo_invalid.yml
-        continue-on-error: true

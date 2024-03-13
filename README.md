@@ -254,9 +254,16 @@ Found CSV files: 3
 | 7    | 0:Name     | min_length | Value "Lois" (length: 4) is too short. Min length is 5 |
 +------+------------+------------+----- demo-2.csv ---------------------------------------+
 
-(3/3) OK: ./tests/fixtures/batch/sub/demo-3.csv
+(3/3) Invalid file: ./tests/fixtures/batch/sub/demo-3.csv
++------+-----------+------------------+---- demo-3.csv -------------------------------------------+
+| Line | id:Column | Rule             | Message                                                   |
++------+-----------+------------------+-----------------------------------------------------------+
+| 0    |           | filename_pattern | Filename "./tests/fixtures/batch/sub/demo-3.csv" does not |
+|      |           |                  | match pattern: "/demo-[12].csv$/i"                        |
++------+-----------+------------------+---- demo-3.csv -------------------------------------------+
 
-Found 7 issues in 2 out of 3 CSV files.
+
+Found 8 issues in 3 out of 3 CSV files.
 
 ```
 
@@ -306,6 +313,11 @@ This gives you great flexibility when validating CSV files.
 
 ```yml
 # It's a full example of the CSV schema file in YAML format.
+
+# Regular expression to match the file name. If not set, then no pattern check
+# This way you can validate the file name before the validation process.
+# Feel free to check parent directories as well.
+filename_pattern: /demo(-\d+)?\.csv$/i
 
 csv: # Here are default values. You can skip this section if you don't need to override the default values
   header: true                          # If the first row is a header. If true, name of each column is required
@@ -362,6 +374,8 @@ columns:
       cardinal_direction: true          # Valid cardinal direction. Examples: "N", "S", "NE", "SE", "none", ""
       usa_market_name: true             # Check if the value is a valid USA market name. Example: "New York, NY"
 
+  - name: "another_column"
+
 ```
 
 
@@ -370,7 +384,8 @@ columns:
 
 ```json
 {
-    "csv"     : {
+    "filename_pattern" : "/demo(-\\d+)?\\.csv$/i",
+    "csv"              : {
         "header"     : true,
         "delimiter"  : ",",
         "quote_char" : "\\",
@@ -378,7 +393,7 @@ columns:
         "encoding"   : "utf-8",
         "bom"        : false
     },
-    "columns" : [
+    "columns"          : [
         {
             "name"        : "csv_header_name",
             "description" : "Lorem ipsum",
@@ -412,13 +427,15 @@ columns:
                 "cardinal_direction" : true,
                 "usa_market_name"    : true
             }
-        }
+        },
+        {"name" : "another_column"}
     ]
 }
 
 ```
 
 </details>
+
 
 
 
@@ -430,6 +447,8 @@ columns:
 declare(strict_types=1);
 
 return [
+    'filename_pattern' => '/demo(-\\d+)?\\.csv$/i',
+
     'csv' => [
         'header'     => true,
         'delimiter'  => ',',
@@ -438,6 +457,7 @@ return [
         'encoding'   => 'utf-8',
         'bom'        => false,
     ],
+
     'columns' => [
         [
             'name'        => 'csv_header_name',
@@ -473,12 +493,14 @@ return [
                 'usa_market_name'    => true,
             ],
         ],
+        ['name' => 'another_column'],
     ],
 ];
 
 ```
 
 </details>
+
 
 
 ## Coming soon
@@ -494,7 +516,7 @@ Batch processing
 * [ ] Discovering CSV files by `filename_pattern` in the schema file. In case you have a lot of schemas and a lot of CSV files and want to automate the process as one command.
 
 Validation
-* [ ] `filename_pattern` validation with regex (like "all files in the folder should be in the format `/^[\d]{4}-[\d]{2}-[\d]{2}\.csv$/`").
+* [x] ~~`filename_pattern` validation with regex (like "all files in the folder should be in the format `/^[\d]{4}-[\d]{2}-[\d]{2}\.csv$/`").~~
 * [ ] Agregate rules (like "at least one of the fields should be not empty" or "all values must be unique").
 * [ ] Handle empty files and files with only a header row, or only with one line of data. One column wthout header is also possible.
 * [ ] Using multiple schemas for one csv file.
