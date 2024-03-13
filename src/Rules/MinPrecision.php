@@ -16,29 +16,17 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules;
 
-class Precision extends AbstarctRule
+final class MinPrecision extends Precision
 {
     public function validateRule(?string $cellValue): ?string
     {
         $valuePrecision = self::getFloatPrecision($cellValue);
 
-        if ($valuePrecision !== $this->getOptionAsInt()) {
+        if ($valuePrecision < $this->getOptionAsInt()) {
             return "Value \"<c>{$cellValue}</c>\" has a precision of {$valuePrecision} " .
-                "but should have a precision of <green>{$this->getOptionAsInt()}</green>";
+                "but should have a min precision of <green>{$this->getOptionAsInt()}</green>";
         }
 
         return null;
-    }
-
-    protected static function getFloatPrecision(?string $cellValue): int
-    {
-        $floatAsString = (string)$cellValue;
-        $dotPosition   = \strpos($floatAsString, '.');
-
-        if ($dotPosition === false) {
-            return 0;
-        }
-
-        return \strlen($floatAsString) - $dotPosition - 1;
     }
 }

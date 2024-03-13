@@ -33,9 +33,11 @@ use JBZoo\CsvBlueprint\Rules\IsUuid4;
 use JBZoo\CsvBlueprint\Rules\Max;
 use JBZoo\CsvBlueprint\Rules\MaxDate;
 use JBZoo\CsvBlueprint\Rules\MaxLength;
+use JBZoo\CsvBlueprint\Rules\MaxPrecision;
 use JBZoo\CsvBlueprint\Rules\Min;
 use JBZoo\CsvBlueprint\Rules\MinDate;
 use JBZoo\CsvBlueprint\Rules\MinLength;
+use JBZoo\CsvBlueprint\Rules\MinPrecision;
 use JBZoo\CsvBlueprint\Rules\NotEmpty;
 use JBZoo\CsvBlueprint\Rules\OnlyCapitalize;
 use JBZoo\CsvBlueprint\Rules\OnlyLowercase;
@@ -572,6 +574,75 @@ final class RulesTest extends PHPUnit
             '"precision" at line 0, column "prop". ' .
             'Value "1.000" has a precision of 3 but should have a precision of 2.',
             \strip_tags((string)$rule->validate('1.000')),
+        );
+    }
+
+    public function testMinPrecision(): void
+    {
+        $rule = new MinPrecision('prop', 0);
+        isSame(null, $rule->validate('0'));
+        isSame(null, $rule->validate('0.0'));
+        isSame(null, $rule->validate('0.1'));
+        isSame(null, $rule->validate('-1.0'));
+        isSame(null, $rule->validate('10.01'));
+        isSame(null, $rule->validate('-10.0001'));
+
+        $rule = new MinPrecision('prop', 1);
+        isSame(null, $rule->validate('0.0'));
+        isSame(null, $rule->validate('10.0'));
+        isSame(null, $rule->validate('-10.0'));
+
+        isSame(
+            '"min_precision" at line 0, column "prop". ' .
+            'Value "2" has a precision of 0 but should have a min precision of 1.',
+            \strip_tags((string)$rule->validate('2')),
+        );
+
+        $rule = new MinPrecision('prop', 2);
+        isSame(null, $rule->validate('10.01'));
+        isSame(null, $rule->validate('-10.0001'));
+
+        isSame(
+            '"min_precision" at line 0, column "prop". ' .
+            'Value "2" has a precision of 0 but should have a min precision of 2.',
+            \strip_tags((string)$rule->validate('2')),
+        );
+
+        isSame(
+            '"min_precision" at line 0, column "prop". ' .
+            'Value "2.0" has a precision of 1 but should have a min precision of 2.',
+            \strip_tags((string)$rule->validate('2.0')),
+        );
+    }
+
+    public function testMaxPrecision(): void
+    {
+        $rule = new MaxPrecision('prop', 0);
+        isSame(null, $rule->validate('0'));
+        isSame(null, $rule->validate('10'));
+        isSame(null, $rule->validate('-10'));
+
+        isSame(
+            '"max_precision" at line 0, column "prop". ' .
+            'Value "2.0" has a precision of 1 but should have a max precision of 0.',
+            \strip_tags((string)$rule->validate('2.0')),
+        );
+
+        $rule = new MaxPrecision('prop', 1);
+        isSame(null, $rule->validate('0.0'));
+        isSame(null, $rule->validate('10.0'));
+        isSame(null, $rule->validate('-10.0'));
+
+        isSame(
+            '"max_precision" at line 0, column "prop". ' .
+            'Value "-2.003" has a precision of 3 but should have a max precision of 1.',
+            \strip_tags((string)$rule->validate('-2.003')),
+        );
+
+        isSame(
+            '"max_precision" at line 0, column "prop". ' .
+            'Value "2.00000" has a precision of 5 but should have a max precision of 1.',
+            \strip_tags((string)$rule->validate('2.00000')),
         );
     }
 

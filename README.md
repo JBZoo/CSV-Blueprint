@@ -327,7 +327,9 @@ columns:
       # Decimal and integer numbers
       min: 10                           # Can be integer or float, negative and positive
       max: 100.50                       # Can be integer or float, negative and positive
-      precision: 2                      # Strict(!) number of digits after the decimal point
+      precision: 3                      # Strict(!) number of digits after the decimal point
+      min_precision: 2                  # Min number of digits after the decimal point
+      max_precision: 4                  # Max number of digits after the decimal point
 
       # Dates
       date_format: Y-m-d                # See: https://www.php.net/manual/en/datetime.format.php
@@ -384,7 +386,9 @@ columns:
                 "only_capitalize"    : true,
                 "min"                : 10,
                 "max"                : 100.5,
-                "precision"          : 2,
+                "precision"          : 3,
+                "min_precision"      : 2,
+                "max_precision"      : 4,
                 "date_format"        : "Y-m-d",
                 "min_date"           : "2000-01-02",
                 "max_date"           : "+1 day",
@@ -449,7 +453,9 @@ return [
                 'only_capitalize'    => true,
                 'min'                => 10,
                 'max'                => 100.5,
-                'precision'          => 2,
+                'precision'          => 3,
+                'min_precision'      => 2,
+                'max_precision'      => 4,
                 'date_format'        => 'Y-m-d',
                 'min_date'           => '2000-01-02',
                 'max_date'           => '+1 day',

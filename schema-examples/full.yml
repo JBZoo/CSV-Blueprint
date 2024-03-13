@@ -51,7 +51,9 @@ columns:
       # Decimal and integer numbers
       min: 10                           # Can be integer or float, negative and positive
       max: 100.50                       # Can be integer or float, negative and positive
-      precision: 2                      # Strict(!) number of digits after the decimal point
+      precision: 3                      # Strict(!) number of digits after the decimal point
+      min_precision: 2                  # Min number of digits after the decimal point
+      max_precision: 4                  # Max number of digits after the decimal point
 
       # Dates
       date_format: Y-m-d                # See: https://www.php.net/manual/en/datetime.format.php
