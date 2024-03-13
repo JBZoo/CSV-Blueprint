@@ -81,7 +81,7 @@ Also see demo in the [GitHub Actions](https://github.com/JBZoo/Csv-Blueprint/act
         with:
           csv: tests/fixtures/demo.csv
           schema: tests/schemas/demo_invalid.yml
-          report: table                            # Optional. Default is "github"
+          report: table     # Optional. Default is "github". Available options: text, table, github
 ```
 **Note**. Report format for GitHub Actions is `github` by default. [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message).
 
@@ -463,30 +463,48 @@ return [
 
 It's random ideas and plans. No orderings and deadlines. <u>But batch processing is the priority #1</u>.
 
+Batch processing
 * [x] CSV/Schema file discovery in the folder with regex filename pattern (like `glob(./**/dir/*.csv)`).
 * [x] If option `--csv` is a folder, then validate all files in the folder.
-* [x] Checking multiple CSV files in one schema. Batch processing.
-* [ ] Filename pattern validation with regex (like "all files in the folder should be in the format `/^[\d]{4}-[\d]{2}-[\d]{2}\.csv$/`").
-* [ ] Quick stop mode. If the first error is found, then stop the validation process to save time.
-* [ ] S3 Storage support. Validate files in the S3 bucket?
-* [ ] Build phar file and release via GitHub Actions.
+* [x] Checking multiple CSV files in one schema.
+* [ ] Quick stop flag. If the first error is found, then stop the validation process to save time.
+* [ ] Using multiple schemas for one csv file.
 * [ ] If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
-* [ ] If option `--schema` is not specified, then validate only super base level things (like "is it a CSV file?").
+
+Validation
+* [ ] Filename pattern validation with regex (like "all files in the folder should be in the format `/^[\d]{4}-[\d]{2}-[\d]{2}\.csv$/`").
 * [ ] Agregate rules (like "at least one of the fields should be not empty" or "all values must be unique").
-* [ ] Create CSV files based on the schema (like "create 1000 rows with random data based on schema and rules").
-* [ ] Using multiple schemas for one csv file. Batch processing.
+* [ ] Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas. Make it DRY and easy to maintain.
+* [ ] If option `--schema` is not specified, then validate only super base level things (like "is it a CSV file?").
+* [ ] Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
+* [ ] Extending with custom rules and custom report formats. Plugins?
+* [ ] Input encoding detection + `BOM` (right now it's experimental). It works but not so accurate... UTF-8/16/32 is the best choice for now.
+
+Release workflow
+* [ ] Build and release Docker image [via GitHub Actions, tags and labels](https://docs.docker.com/build/ci/github-actions/manage-tags-labels/).
+* [ ] Upgrading to PHP 8.3.x
+* [ ] Build phar file and release via GitHub Actions.
+
+Performance and optimization
 * [ ] Parallel validation of really-really large files (1GB+ ?). I know you have them and not so much memory.
 * [ ] Parallel validation of multiple files at once.
-* [ ] Benchmarks as part of the CI process and Readme. It's important to know how much time the validation process takes.
-* [ ] Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas. Make it DRY and easy to maintain.
-* [ ] More report formats (like JSON, XML, etc). Any ideas?
-* [ ] Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
-* [ ] Input encoding detection + `BOM` (right now it's experimental). It works but not so accurate... UTF-8/16/32 is the best choice for now.
-* [ ] Gitlab and JUnit reports mus be as one structure. It's not so easy to implement. But it's a good idea.
-* [ ] Extending with custom rules and custom report formats. Plugins?
+* [ ] Benchmarks as part of the CI(?) and Readme. It's important to know how much time the validation process takes.
 * [ ] Optimazation on `php.ini` level to start it faster. JIT.
+
+Mock data generation
+* [ ] Create CSV files based on the schema (like "create 1000 rows with random data based on schema and rules").
+* [ ] Use [Faker](https://github.com/FakerPHP/Faker) for random data generation.
+
+Reporting
+* [ ] More report formats (like JSON, XML, etc). Any ideas?
+* [ ] Gitlab and JUnit reports must be as one structure. It's not so easy to implement. But it's a good idea.
+
+Misc
+* [ ] Use it as PHP SDK. Examples in Readme.
+* [ ] S3 Storage support. Validate files in the S3 bucket?
 * [ ] More examples and documentation.
 
+ 
 PS. [There is a file](tests/schemas/example_full.yml) with my ideas and imagination.
 I'm not sure if I will implement all of them. But I will try to do my best.
 
