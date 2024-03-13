@@ -28,4 +28,4 @@ RUN chmod +x /app/csv-blueprint
 # Color output by default
 ENV TERM_PROGRAM=Hyper
 
-ENTRYPOINT ["sh", "-c", "/app/csv-blueprint"]
+ENTRYPOINT ["/app/csv-blueprint"]
