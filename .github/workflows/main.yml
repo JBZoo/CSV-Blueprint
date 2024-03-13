@@ -139,8 +139,40 @@ jobs:
           name: Reports - ${{ matrix.php-version }}
           path: build/
 
-  phar:
-    name: Phar
+
+  test-php-binary:
+    name: Verify PHP binary
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          tools: composer
+
+      - name: Build the Project
+        run: make build-install --no-print-directory
+
+      - name: 👍 Valid CSV file
+        run: |
+          ./csv-blueprint                                      \
+          validate:csv                                         \
+          --csv=./tests/fixtures/batch/*.csv                   \
+          --schema=./tests/schemas/demo_valid.yml
+
+      - name: 👎 Invalid CSV file
+        run: |
+          ! ./csv-blueprint                                    \
+          validate:csv                                         \
+          --csv=./tests/fixtures/batch/*.csv                   \
+          --schema=./tests/schemas/demo_invalid.yml
+
+
+  test-phar:
+    name: Verify PHAR
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -148,25 +180,34 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          coverage: xdebug
           tools: composer
-          extensions: ast
 
       - name: Build the project
         run: make build --no-print-directory
 
-      - name: Building Phar binary file
-        run: make build-phar --no-print-directory
-
-      - name: Trying to use the phar file
+      - name: Test help and logo
         run: ./build/csv-blueprint.phar
+
+      - name: 👍 Valid CSV file
+        run: |
+          ./build/csv-blueprint.phar                           \
+          validate:csv                                         \
+          --csv=./tests/fixtures/batch/*.csv                   \
+          --schema=./tests/schemas/demo_valid.yml              \
+          --ansi
+
+      - name: 👎 Invalid CSV file
+        run: |
+          ! ./build/csv-blueprint.phar                         \
+          validate:csv                                         \
+          --csv=./tests/fixtures/batch/*.csv                   \
+          --schema=./tests/schemas/demo_invalid.yml            \
+          --ansi
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
@@ -177,7 +218,7 @@ jobs:
 
 
   docker:
-    name: Docker
+    name: Verify as Docker
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -190,5 +231,4 @@ jobs:
         run: docker run --rm jbzoo/csv-blueprint --ansi
 
       - name: Reporting example via Docker
-        run: make demo-docker --no-print-directory
-        continue-on-error: true
+        run: ! make demo-docker --no-print-directory

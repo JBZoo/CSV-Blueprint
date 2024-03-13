@@ -4,27 +4,6 @@
 [![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint)    [![Dependents](https://poser.pugx.org/jbzoo/csv-blueprint/dependents)](https://packagist.org/packages/jbzoo/csv-blueprint/dependents?order_by=downloads)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
 
 
-
-* [Introduction](#introduction)
-* [Why validate CSV files in CI?](#why-validate-csv-files-in-ci)
-* [Features](#features)
-* [Live Demo](#live-demo)
-* [Usage](#usage)
-    * [As GitHub Action](#as-github-action)
-    * [As Docker container](#as-docker-container)
-    * [As PHP binary](#as-php-binary)
-    * [As PHP project](#as-php-project)
-    * [CLI Help Message](#cli-help-message)
-    * [Report examples](#report-examples)
-    * [Schema Definition](#schema-definition)
-    * [Schema file examples](#schema-file-examples)
-* [Coming soon](#coming-soon)
-* [Disadvantages?](#disadvantages)
-* [Contributing](#contributing)
-* [License](#license)
-* [See Also](#see-also)
-
-
 ## Introduction
 
 The JBZoo/Csv-Blueprint tool is a powerful and flexible utility designed for validating CSV files against 
@@ -531,6 +510,8 @@ Release workflow
 * [ ] Build and release Docker image [via GitHub Actions, tags and labels](https://docs.docker.com/build/ci/github-actions/manage-tags-labels/). Review it.
 * [ ] Upgrading to PHP 8.3.x
 * [ ] Build phar file and release via GitHub Actions.
+* [ ] Auto insert tool version into the Docker image and phar file. It's important to know the version of the tool you are using.
+* [ ] Show version as part of output.
 
 Performance and optimization
 * [ ] Parallel validation of really-really large files (1GB+ ?). I know you have them and not so much memory.
