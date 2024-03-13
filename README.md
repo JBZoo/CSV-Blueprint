@@ -77,14 +77,28 @@ Also see demo in the [GitHub Actions](https://github.com/JBZoo/Csv-Blueprint/act
 ### As GitHub Action
 
 ```yml
-      - name: Validate CSV file
-        uses: jbzoo/csv-blueprint@master
-        with:
-          csv: tests/**/*.csv
-          schema: tests/schema.yml
-          # Optional. Default is "github". Available options: text, table, github, etc
-          report: table
+- uses: jbzoo/csv-blueprint # See the specific version on releases page
+  with:
+    # Path(s) to validate. You can specify path in which CSV files will be searched. Feel free to use glob pattrens. Usage examples: /full/path/file.csv, p/file.csv, p/*.csv, p/**/*.csv, p/**/name-*.csv, **/*.csv, etc.
+    # Required: true
+    csv: ./tests/**/*.csv
+
+    # Schema filepath. It can be a YAML, JSON or PHP. See examples on GitHub.
+    # Required: true
+    schema: ./tests/schema.yml
+
+    # Report format. Available options: text, table, github, gitlab, teamcity, junit
+    # Default value: github
+    # You can skip it
+    report: github
+
+    # Quick mode. It will not validate all rows. It will stop after the first error.
+    # Default value: no
+    # You can skip it
+    quick: no
+
 ```
+
 **Note**. Report format for GitHub Actions is `github` by default. See [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message) and [PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files). 
 
 This allows you to see bugs in the GitHub interface at the PR level.
@@ -171,6 +185,10 @@ Options:
                                  It can be a YAML, JSON or PHP. See examples on GitHub.
   -r, --report=REPORT            Report output format. Available options:
                                  text, table, github, gitlab, teamcity, junit [default: "table"]
+  -Q, --quick[=QUICK]            Immediately terminate the check at the first error found.
+                                 Of course it will speed up the check, but you will get only 1 message out of many.
+                                 If any error is detected, the utility will return a non-zero exit code.
+                                 Empty value or "yes" will be treated as "true". [default: "no"]
       --no-progress              Disable progress bar animation for logs. It will be used only for text output format.
       --mute-errors              Mute any sort of errors. So exit code will be always "0" (if it's possible).
                                  It has major priority then --non-zero-on-error. It's on your own risk!
@@ -211,8 +229,9 @@ Default report format is `table`:
 
 
 Schema: ./tests/schemas/demo_invalid.yml
+Found CSV files: 3
 
-Invalid file: ./tests/fixtures/batch/demo-1.csv
+(1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
 +------+------------------+--------------+ demo-1.csv ------------------------------------------+
 | Line | id:Column        | Rule         | Message                                              |
 +------+------------------+--------------+------------------------------------------------------+
@@ -221,7 +240,7 @@ Invalid file: ./tests/fixtures/batch/demo-1.csv
 |      |                  |              | "green", "Blue"]                                     |
 +------+------------------+--------------+ demo-1.csv ------------------------------------------+
 
-Invalid file: ./tests/fixtures/batch/demo-2.csv
+(2/3) Invalid file: ./tests/fixtures/batch/demo-2.csv
 +------+------------+------------+----- demo-2.csv ---------------------------------------+
 | Line | id:Column  | Rule       | Message                                                |
 +------+------------+------------+--------------------------------------------------------+
@@ -235,7 +254,8 @@ Invalid file: ./tests/fixtures/batch/demo-2.csv
 | 7    | 0:Name     | min_length | Value "Lois" (length: 4) is too short. Min length is 5 |
 +------+------------+------------+----- demo-2.csv ---------------------------------------+
 
-OK: ./tests/fixtures/batch/sub/demo-3.csv
+(3/3) OK: ./tests/fixtures/batch/sub/demo-3.csv
+
 Found 7 issues in 2 out of 3 CSV files.
 
 ```
@@ -469,14 +489,17 @@ Batch processing
 * [x] ~~CSV/Schema file discovery in the folder with regex filename pattern (like `glob(./**/dir/*.csv)`).~~
 * [x] ~~If option `--csv` is a folder, then validate all files in the folder.~~
 * [x] ~~Checking multiple CSV files in one schema.~~
-* [ ] Quick stop flag. If the first error is found, then stop the validation process to save time.
-* [ ] Using multiple schemas for one csv file.
+* [x] ~~Quick stop flag. If the first error is found, then stop the validation process to save time.~~
 * [ ] If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
+* [ ] Discovering CSV files by `filename_pattern` in the schema file. In case you have a lot of schemas and a lot of CSV files and want to automate the process as one command.
 
 Validation
-* [ ] Filename pattern validation with regex (like "all files in the folder should be in the format `/^[\d]{4}-[\d]{2}-[\d]{2}\.csv$/`").
+* [ ] `filename_pattern` validation with regex (like "all files in the folder should be in the format `/^[\d]{4}-[\d]{2}-[\d]{2}\.csv$/`").
 * [ ] Agregate rules (like "at least one of the fields should be not empty" or "all values must be unique").
+* [ ] Handle empty files and files with only a header row, or only with one line of data. One column wthout header is also possible.
+* [ ] Using multiple schemas for one csv file.
 * [ ] Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas. Make it DRY and easy to maintain.
+* [ ] Validate syntax and options in the schema file. It's important to know if the schema file is valid and can be used for validation.
 * [ ] If option `--schema` is not specified, then validate only super base level things (like "is it a CSV file?").
 * [ ] Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
 * [ ] Extending with custom rules and custom report formats. Plugins?

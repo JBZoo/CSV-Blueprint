@@ -16,45 +16,30 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Blueprint;
 
-use JBZoo\Cli\CliApplication;
-use JBZoo\CsvBlueprint\Commands\ValidateCsv;
 use JBZoo\PHPUnit\PHPUnit;
+use JBZoo\PHPUnit\TestTools;
 use JBZoo\Utils\Cli;
-use JBZoo\Utils\Sys;
 use Symfony\Component\Console\Input\StringInput;
-use Symfony\Component\Console\Output\BufferedOutput;
 
-use function JBZoo\PHPUnit\isFileContains;
 use function JBZoo\PHPUnit\isNotEmpty;
 use function JBZoo\PHPUnit\isSame;
 
-final class CommandsTest extends PHPUnit
+final class ValidateCsvTest extends PHPUnit
 {
-    public function testCreateCsvHelp(): void
-    {
-        isFileContains(\implode("\n", [
-            '```',
-            './csv-blueprint validate:csv --help',
-            '',
-            '',
-            $this->realExecution('validate:csv', ['help' => null]),
-            '```',
-        ]), PROJECT_ROOT . '/README.md');
-    }
-
-    public function testCreateValidatePositive(): void
+    public function testValidateOneFilePositive(): void
     {
         $rootPath = PROJECT_ROOT;
 
-        [$actual, $exitCode] = $this->virtualExecution('validate:csv', [
+        [$actual, $exitCode] = TestTools::virtualExecution('validate:csv', [
             'csv'    => "{$rootPath}/tests/fixtures/demo.csv",
             'schema' => "{$rootPath}/tests/schemas/demo_valid.yml",
         ]);
 
         $expected = $expected = <<<'TXT'
             Schema: ./tests/schemas/demo_valid.yml
+            Found CSV files: 1
             
-            OK: ./tests/fixtures/demo.csv
+            (1/1) OK: ./tests/fixtures/demo.csv
             Looks good!
             
             TXT;
@@ -63,21 +48,22 @@ final class CommandsTest extends PHPUnit
         isSame($expected, $actual);
     }
 
-    public function testCreateValidateNegative(): void
+    public function testValidateOneFileNegativeTable(): void
     {
         $rootPath = PROJECT_ROOT;
 
-        [$actual, $exitCode] = $this->virtualExecution('validate:csv', [
+        [$actual, $exitCode] = TestTools::virtualExecution('validate:csv', [
             'csv'    => "{$rootPath}/tests/fixtures/demo.csv", // Full path
             'schema' => './tests/schemas/demo_invalid.yml',    // Relative path
         ]);
 
-        $this->dumpText($actual);
+        TestTools::dumpText($actual);
 
         $expected = <<<'TXT'
             Schema: ./tests/schemas/demo_invalid.yml
+            Found CSV files: 1
             
-            Invalid file: ./tests/fixtures/demo.csv
+            (1/1) Invalid file: ./tests/fixtures/demo.csv
             +------+------------------+--------------+-- demo.csv --------------------------------------------+
             | Line | id:Column        | Rule         | Message                                                |
             +------+------------------+--------------+--------------------------------------------------------+
@@ -94,6 +80,7 @@ final class CommandsTest extends PHPUnit
             | 11   | 0:Name           | min_length   | Value "Lois" (length: 4) is too short. Min length is 5 |
             +------+------------------+--------------+-- demo.csv --------------------------------------------+
             
+            
             Found 7 issues in CSV file.
             
             TXT;
@@ -102,21 +89,22 @@ final class CommandsTest extends PHPUnit
         isSame($expected, $actual);
     }
 
-    public function testCreateValidateNegativeMultiple(): void
+    public function testValidateManyFileNegativeTable(): void
     {
         $options = [
             'csv'    => './tests/fixtures/batch/*.csv',
             'schema' => './tests/schemas/demo_invalid.yml',
         ];
         $optionsAsString     = new StringInput(Cli::build('', $options));
-        [$actual, $exitCode] = $this->virtualExecution('validate:csv', $options);
+        [$actual, $exitCode] = TestTools::virtualExecution('validate:csv', $options);
 
-        $this->dumpText($actual);
+        TestTools::dumpText($actual);
 
         $expected = <<<'TXT'
             Schema: ./tests/schemas/demo_invalid.yml
+            Found CSV files: 3
 
-            Invalid file: ./tests/fixtures/batch/demo-1.csv
+            (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
             +------+------------------+--------------+ demo-1.csv ------------------------------------------+
             | Line | id:Column        | Rule         | Message                                              |
             +------+------------------+--------------+------------------------------------------------------+
@@ -125,7 +113,7 @@ final class CommandsTest extends PHPUnit
             |      |                  |              | "green", "Blue"]                                     |
             +------+------------------+--------------+ demo-1.csv ------------------------------------------+
             
-            Invalid file: ./tests/fixtures/batch/demo-2.csv
+            (2/3) Invalid file: ./tests/fixtures/batch/demo-2.csv
             +------+------------+------------+----- demo-2.csv ---------------------------------------+
             | Line | id:Column  | Rule       | Message                                                |
             +------+------------+------------+--------------------------------------------------------+
@@ -139,40 +127,31 @@ final class CommandsTest extends PHPUnit
             | 7    | 0:Name     | min_length | Value "Lois" (length: 4) is too short. Min length is 5 |
             +------+------------+------------+----- demo-2.csv ---------------------------------------+
             
-            OK: ./tests/fixtures/batch/sub/demo-3.csv
+            (3/3) OK: ./tests/fixtures/batch/sub/demo-3.csv
+            
             Found 7 issues in 2 out of 3 CSV files.
             
             TXT;
 
         isSame(1, $exitCode, $actual);
         isSame($expected, $actual);
-
-        isFileContains(\implode("\n", [
-            '```',
-            "./csv-blueprint validate:csv {$optionsAsString}",
-            '',
-            '',
-            $expected,
-            '```',
-        ]), PROJECT_ROOT . '/README.md');
     }
 
-    public function testCreateValidateNegativeText(): void
+    public function testValidateOneFileNegativeText(): void
     {
-        $rootPath = PROJECT_ROOT;
-
-        [$actual, $exitCode] = $this->virtualExecution('validate:csv', [
+        [$actual, $exitCode] = TestTools::virtualExecution('validate:csv', [
             'csv'    => './tests/**/demo.csv',
             'schema' => './tests/schemas/demo_invalid.yml',
             'report' => 'text',
         ]);
 
-        $this->dumpText($actual);
+        TestTools::dumpText($actual);
 
         $expected = <<<'TXT'
             Schema: ./tests/schemas/demo_invalid.yml
+            Found CSV files: 1
             
-            Invalid file: ./tests/fixtures/demo.csv
+            (1/1) Invalid file: ./tests/fixtures/demo.csv
             "max" at line 5, column "2:Float". Value "74605.944" is greater than "74605".
             "allow_values" at line 5, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].
             "min_length" at line 6, column "0:Name". Value "Carl" (length: 4) is too short. Min length is 5.
@@ -180,6 +159,7 @@ final class CommandsTest extends PHPUnit
             "min_date" at line 8, column "3:Birthday". Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00".
             "max_date" at line 9, column "3:Birthday". Value "2010-07-20" is more than the maximum date "2009-01-01T00:00:00.000+00:00".
             "min_length" at line 11, column "0:Name". Value "Lois" (length: 4) is too short. Min length is 5.
+            
             
             Found 7 issues in CSV file.
             
@@ -189,22 +169,113 @@ final class CommandsTest extends PHPUnit
         isSame($expected, $actual);
     }
 
+    public function testValidateManyFilesNegativeTextQuick(): void
+    {
+        $expectedQuick = <<<'TXT'
+            Schema: ./tests/schemas/demo_invalid.yml
+            Found CSV files: 3
+            
+            (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
+            "max" at line 3, column "2:Float". Value "74605.944" is greater than "74605".
+            
+            (2/3) Skipped: ./tests/fixtures/batch/demo-2.csv
+            (3/3) Skipped: ./tests/fixtures/batch/sub/demo-3.csv
+            
+            Found 1 issues in 1 out of 3 CSV files.
+            
+            TXT;
+
+        // No option (default behavior)
+        [$actual, $exitCode] = TestTools::virtualExecution('validate:csv', [
+            'csv'    => './tests/fixtures/batch/*.csv',
+            'schema' => './tests/schemas/demo_invalid.yml',
+            'report' => 'text',
+            'Q'      => null,
+        ]);
+        isSame(1, $exitCode, $actual);
+        isSame($expectedQuick, $actual);
+
+        // Shortcut
+        [$actual, $exitCode] = TestTools::virtualExecution('validate:csv', [
+            'csv'    => './tests/fixtures/batch/*.csv',
+            'schema' => './tests/schemas/demo_invalid.yml',
+            'report' => 'text',
+            'Q'      => null,
+        ]);
+        isSame(1, $exitCode, $actual);
+        isSame($expectedQuick, $actual);
+
+        // Shortcut 2
+        [$actual, $exitCode] = TestTools::virtualExecution('validate:csv', [
+            'csv'    => './tests/fixtures/batch/*.csv',
+            'schema' => './tests/schemas/demo_invalid.yml',
+            'report' => 'text',
+            'quick'  => null,
+        ]);
+        isSame(1, $exitCode, $actual);
+        isSame($expectedQuick, $actual);
+
+        // Value - yes
+        [$actual, $exitCode] = TestTools::virtualExecution('validate:csv', [
+            'csv'    => './tests/fixtures/batch/*.csv',
+            'schema' => './tests/schemas/demo_invalid.yml',
+            'report' => 'text',
+            'quick'  => 'yes',
+        ]);
+
+        isSame(1, $exitCode, $actual);
+        isSame($expectedQuick, $actual);
+
+        // Value - no
+        [$actual, $exitCode] = TestTools::virtualExecution('validate:csv', [
+            'csv'    => './tests/fixtures/batch/*.csv',
+            'schema' => './tests/schemas/demo_invalid.yml',
+            'report' => 'text',
+            'quick'  => 'no',
+        ]);
+
+        $expectedFull = <<<'TXT'
+            Schema: ./tests/schemas/demo_invalid.yml
+            Found CSV files: 3
+            
+            (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
+            "max" at line 3, column "2:Float". Value "74605.944" is greater than "74605".
+            "allow_values" at line 3, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].
+            
+            (2/3) Invalid file: ./tests/fixtures/batch/demo-2.csv
+            "min_length" at line 2, column "0:Name". Value "Carl" (length: 4) is too short. Min length is 5.
+            "min_date" at line 2, column "3:Birthday". Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00".
+            "min_date" at line 4, column "3:Birthday". Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00".
+            "max_date" at line 5, column "3:Birthday". Value "2010-07-20" is more than the maximum date "2009-01-01T00:00:00.000+00:00".
+            "min_length" at line 7, column "0:Name". Value "Lois" (length: 4) is too short. Min length is 5.
+            
+            (3/3) OK: ./tests/fixtures/batch/sub/demo-3.csv
+            
+            Found 7 issues in 2 out of 3 CSV files.
+            
+            TXT;
+
+        isSame(1, $exitCode, $actual);
+        isSame($expectedFull, $actual);
+    }
+
     public function testCreateValidateNegativeTeamcity(): void
     {
         $rootPath = PROJECT_ROOT;
 
-        [$actual, $exitCode] = $this->virtualExecution('validate:csv', [
+        [$actual, $exitCode] = TestTools::virtualExecution('validate:csv', [
             'csv'    => './tests/fixtures/batch/*.csv',
             'schema' => './tests/schemas/demo_invalid.yml',
             'report' => 'teamcity',
         ]);
 
-        $this->dumpText($actual);
+        TestTools::dumpText($actual);
 
         $expected = <<<'TXT'
             Schema: ./tests/schemas/demo_invalid.yml
+            Found CSV files: 3
 
-            Invalid file: ./tests/fixtures/batch/demo-1.csv
+            (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
             
             ##teamcity[testCount count='2' flowId='42']
             
@@ -220,7 +291,7 @@ final class CommandsTest extends PHPUnit
             
             ##teamcity[testSuiteFinished name='demo-1.csv' flowId='42']
             
-            Invalid file: ./tests/fixtures/batch/demo-2.csv
+            (2/3) Invalid file: ./tests/fixtures/batch/demo-2.csv
             
             ##teamcity[testCount count='5' flowId='42']
             
@@ -248,7 +319,8 @@ final class CommandsTest extends PHPUnit
             
             ##teamcity[testSuiteFinished name='demo-2.csv' flowId='42']
             
-            OK: ./tests/fixtures/batch/sub/demo-3.csv
+            (3/3) OK: ./tests/fixtures/batch/sub/demo-3.csv
+            
             Found 7 issues in 2 out of 3 CSV files.
             
             TXT;
@@ -259,12 +331,12 @@ final class CommandsTest extends PHPUnit
 
     public function testMultipleCsvOptions(): void
     {
-        [$expected, $expectedCode] = $this->virtualExecution('validate:csv', [
+        [$expected, $expectedCode] = TestTools::virtualExecution('validate:csv', [
             'csv'    => './tests/fixtures/batch/*.csv',
             'schema' => './tests/schemas/demo_invalid.yml',
         ]);
 
-        $actual = $this->realExecution(
+        $actual = TestTools::realExecution(
             'validate:csv ' . \implode(' ', [
                 '--csv="./tests/fixtures/batch/sub/demo-3.csv"',
                 '--csv="./tests/fixtures/batch/demo-1.csv"',
@@ -283,42 +355,5 @@ final class CommandsTest extends PHPUnit
         isNotEmpty($actual);
         isSame($expectedCode, 1);
         isSame($expected, $actual);
-    }
-
-    private function virtualExecution(string $action, array $params = []): array
-    {
-        $params['no-ansi'] = null;
-
-        $application = new CliApplication();
-        $application->add(new ValidateCsv());
-        $command = $application->find($action);
-
-        $buffer   = new BufferedOutput();
-        $args     = new StringInput(Cli::build('', $params));
-        $exitCode = $command->run($args, $buffer);
-
-        return [$buffer->fetch(), $exitCode];
-    }
-
-    private function realExecution(string $action, array $params = [], string $extra = '--no-ansi'): string
-    {
-        $rootDir = PROJECT_ROOT;
-
-        return Cli::exec(
-            \implode(' ', [
-                Sys::getBinary(),
-                "{$rootDir}/csv-blueprint.php {$extra}",
-                $action,
-                '2>&1',
-            ]),
-            $params,
-            $rootDir,
-            false,
-        );
-    }
-
-    private function dumpText($text): void
-    {
-        \file_put_contents(PROJECT_ROOT . '/build/dump.txt', $text);
     }
 }
