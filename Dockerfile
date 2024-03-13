@@ -23,9 +23,9 @@ COPY . /app
 RUN cd /app                                                           \
     && composer install --no-dev --optimize-autoloader --no-progress  \
     && composer clear-cache
-RUN chmod +x app/csv-blueprint
+RUN chmod +x /app/csv-blueprint
 
 # Color output by default
 ENV TERM_PROGRAM=Hyper
 
-ENTRYPOINT ["/app/csv-blueprint"]
+ENTRYPOINT ["sh", "-c", "/app/csv-blueprint"]

@@ -21,6 +21,7 @@ use JBZoo\CsvBlueprint\Validators\Error;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use League\Csv\Reader as LeagueReader;
 use League\Csv\Statement;
+use League\Csv\TabularDataReader;
 
 final class CsvFile
 {
@@ -28,6 +29,7 @@ final class CsvFile
     private ParseConfig  $structure;
     private LeagueReader $reader;
     private Schema       $schema;
+    private bool         $isEmpty;
 
     public function __construct(string $csvFilename, null|array|string $csvSchemaFilenameOrArray = null)
     {
@@ -36,6 +38,7 @@ final class CsvFile
         }
 
         $this->csvFilename = $csvFilename;
+        $this->isEmpty     = \filesize($this->csvFilename) <= 1;
         $this->schema      = new Schema($csvSchemaFilenameOrArray);
         $this->structure   = $this->schema->getCsvStructure();
         $this->reader      = $this->prepareReader();
@@ -56,7 +59,9 @@ final class CsvFile
      */
     public function getHeader(): array
     {
-        if ($this->structure->isHeader()) {
+        if ($this->structure->isHeader() && !$this->isEmpty) {
+            // TODO: add handler for empty file
+            // League\Csv\SyntaxError : The header record does not exist or is empty at offset: `0
             return $this->reader->getHeader();
         }
 
@@ -68,7 +73,7 @@ final class CsvFile
         return $this->reader->getRecords($this->getHeader());
     }
 
-    public function getRecordsChunk(int $offset = 0, int $limit = -1): \League\Csv\TabularDataReader
+    public function getRecordsChunk(int $offset = 0, int $limit = -1): TabularDataReader
     {
         return Statement::create(null, $offset, $limit)->process($this->reader, $this->getHeader());
     }

@@ -160,7 +160,7 @@ final class ErrorSuite
 
         $table->render();
 
-        return $buffer->fetch();
+        return \trim($buffer->fetch()) . "\n";
     }
 
     private function prepareSourceSuite(): SourceSuite

@@ -25,6 +25,8 @@ use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Finder\SplFileInfo;
 
+use function JBZoo\Utils\bool;
+
 /**
  * @psalm-suppress PropertyNotSetInConstructor
  */
@@ -67,6 +69,16 @@ final class ValidateCsv extends CliCommand
                 "Report output format. Available options:\n" .
                 '<info>' . \implode(', ', ErrorSuite::getAvaiableRenderFormats()) . '</info>',
                 ErrorSuite::RENDER_TABLE,
+            )
+            ->addOption(
+                'quick',
+                'Q',
+                InputOption::VALUE_OPTIONAL,
+                "Immediately terminate the check at the first error found.\n" .
+                "Of course it will speed up the check, but you will get only 1 message out of many.\n" .
+                "If any error is detected, the utility will return a non-zero exit code.\n" .
+                'Empty value or "yes" will be treated as "true".',
+                'no',
             );
 
         parent::configure();
@@ -76,45 +88,61 @@ final class ValidateCsv extends CliCommand
     {
         $csvFilenames   = $this->getCsvFilepaths();
         $schemaFilename = $this->getSchemaFilepath();
+        $quickCheck     = $this->isQuickCheck();
+        $totalFiles     = \count($csvFilenames);
+
+        $this->_("Found CSV files: {$totalFiles}");
         $this->_('');
 
         $errorCounter = 0;
         $invalidFiles = 0;
-        $totalFiles   = \count($csvFilenames);
+        $errorSuite   = null;
 
-        foreach ($csvFilenames as $csvFilename) {
+        foreach ($csvFilenames as $index => $csvFilename) {
+            $prefix = '(' . ((int)$index + 1) . "/{$totalFiles})";
+
+            if ($quickCheck && $errorSuite !== null && $errorSuite->count() > 0) {
+                $this->_("{$prefix} <yellow>Skipped:</yellow> " . Utils::cutPath($csvFilename->getPathname()));
+                continue;
+            }
+
             $csvFile    = new CsvFile($csvFilename->getPathname(), $schemaFilename);
-            $errorSuite = $csvFile->validate();
+            $errorSuite = $csvFile->validate($quickCheck);
 
             if ($errorSuite->count() > 0) {
                 $invalidFiles++;
                 $errorCounter += $errorSuite->count();
 
-                if ($this->isTextMode()) {
-                    $this->_('<red>Invalid file:</red> ' . Utils::cutPath($csvFilename->getPathname()), OutLvl::E);
+                if ($this->isHumanReadableMode()) {
+                    $this->_(
+                        "{$prefix} <red>Invalid file:</red> " . Utils::cutPath($csvFilename->getPathname()),
+                        OutLvl::E,
+                    );
                 }
+
                 $output = $errorSuite->render($this->getOptString('report'));
                 if ($output !== null) {
-                    $this->_($output, $this->isTextMode() ? OutLvl::E : OutLvl::DEFAULT);
+                    $this->_($output, $this->isHumanReadableMode() ? OutLvl::E : OutLvl::DEFAULT);
                 }
-            } elseif ($this->isTextMode()) {
-                $this->_('<green>OK:</green> ' . Utils::cutPath($csvFilename->getPathname()));
+            } elseif ($this->isHumanReadableMode()) {
+                $this->_("{$prefix} <green>OK:</green> " . Utils::cutPath($csvFilename->getPathname()));
             }
         }
 
-        if ($errorCounter > 0 && $this->isTextMode()) {
+        if ($errorCounter > 0 && $this->isHumanReadableMode()) {
             if ($totalFiles === 1) {
                 $errMessage = "<c>Found {$errorCounter} issues in CSV file.</c>";
             } else {
                 $errMessage = "<c>Found {$errorCounter} issues in {$invalidFiles} out of {$totalFiles} CSV files.</c>";
             }
 
+            $this->_('');
             $this->_($errMessage, OutLvl::E);
 
             return self::FAILURE;
         }
 
-        if ($this->isTextMode()) {
+        if ($this->isHumanReadableMode()) {
             $this->_('<green>Looks good!</green>');
         }
 
@@ -133,7 +161,7 @@ final class ValidateCsv extends CliCommand
             throw new Exception('CSV file(s) not found in path(s): ' . \implode("\n, ", $rawInput));
         }
 
-        return $scvFilenames;
+        return \array_values($scvFilenames);
     }
 
     private function getSchemaFilepath(): string
@@ -144,23 +172,28 @@ final class ValidateCsv extends CliCommand
             throw new Exception("Schema file not found: {$schemaFilename}");
         }
 
-        if ($this->isTextMode()) {
+        if ($this->isHumanReadableMode()) {
             $this->_('<blue>Schema:</blue> ' . Utils::cutPath($schemaFilename));
         }
 
         return $schemaFilename;
     }
 
-    private function isTextMode(): bool
+    private function isHumanReadableMode(): bool
     {
-        return $this->getReportType() === ErrorSuite::REPORT_TEXT
-            || $this->getReportType() === ErrorSuite::REPORT_GITHUB
-            || $this->getReportType() === ErrorSuite::REPORT_TEAMCITY
-            || $this->getReportType() === ErrorSuite::RENDER_TABLE;
+        return $this->getReportType() !== ErrorSuite::REPORT_GITLAB
+            && $this->getReportType() !== ErrorSuite::REPORT_JUNIT;
     }
 
     private function getReportType(): string
     {
         return $this->getOptString('report', ErrorSuite::RENDER_TABLE, ErrorSuite::getAvaiableRenderFormats());
+    }
+
+    private function isQuickCheck(): bool
+    {
+        $value = $this->getOptString('quick');
+
+        return $value === '' || bool($value);
     }
 }
