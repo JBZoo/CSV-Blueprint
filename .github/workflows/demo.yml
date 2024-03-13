@@ -101,7 +101,8 @@ jobs:
           --rm jbzoo/csv-blueprint                             \
           validate:csv                                         \
           --csv=/parent-host/tests/fixtures/batch/*.csv        \
-          --schema=/parent-host/tests/schemas/demo_valid.yml
+          --schema=/parent-host/tests/schemas/demo_valid.yml   \
+          --ansi
 
       - name: 👎 Invalid CSV file
         run: |
@@ -110,4 +111,5 @@ jobs:
           --rm jbzoo/csv-blueprint                             \
           validate:csv                                         \
           --csv=/parent-host/tests/fixtures/batch/*.csv        \
-          --schema=/parent-host/tests/schemas/demo_invalid.yml
+          --schema=/parent-host/tests/schemas/demo_invalid.yml \
+          --ansi

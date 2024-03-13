@@ -496,6 +496,7 @@ Batch processing
 
 Validation
 * [x] ~~`filename_pattern` validation with regex (like "all files in the folder should be in the format `/^[\d]{4}-[\d]{2}-[\d]{2}\.csv$/`").~~
+* [ ] Flag to ignore file name pattern. It's useful when you have a lot of files and you don't want to validate the file name.
 * [ ] Agregate rules (like "at least one of the fields should be not empty" or "all values must be unique").
 * [ ] Handle empty files and files with only a header row, or only with one line of data. One column wthout header is also possible.
 * [ ] Using multiple schemas for one csv file.
@@ -526,6 +527,7 @@ Mock data generation
 Reporting
 * [ ] More report formats (like JSON, XML, etc). Any ideas?
 * [ ] Gitlab and JUnit reports must be as one structure. It's not so easy to implement. But it's a good idea.
+* [ ] Merge reports from multiple CSV files into one report. It's useful when you have a lot of files and you want to see all errors in one place. Especially for GitLab and JUnit reports.
 
 Misc
 * [ ] Use it as PHP SDK. Examples in Readme.
