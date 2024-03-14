@@ -81,7 +81,7 @@ Also see demo in the [GitHub Actions](https://github.com/JBZoo/Csv-Blueprint/act
 **Note**. Report format for GitHub Actions is `github` by default. See [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message) and [PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files). 
 
 This allows you to see bugs in the GitHub interface at the PR level.
-That is, the error will be shown in a specific place in the CSV file right in diff of your Pull Requests! [See example]((https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files).
+That is, the error will be shown in a specific place in the CSV file right in diff of your Pull Requests! [See example](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files).
 
 ![GitHub Actions - PR](.github/assets/github-actions-pr.png)
 
@@ -194,12 +194,7 @@ Options:
 
 ### Report examples
 
-As a result of the validation process, you will receive a human-readable table with a list of errors found in the CSV file. By defualt, the output format is a table, but you can choose from a variety of formats, such as text, GitHub, GitLab, TeamCity, JUnit, and more.  For example, the following output is generated using the "table" format.
-
-**Notes**
-* Report format for GitHub Actions is `github` by default.
-* Tools uses [JBZoo/CI-Report-Converter](https://github.com/JBZoo/CI-Report-Converter) as SDK to convert reports to different formats. So you can easily integrate it with any CI system.
-
+As a result of the validation process, you will receive a human-readable table with a list of errors found in the CSV file. By defualt, the output format is a table, but you can choose from a variety of formats, such as text, GitHub, GitLab, TeamCity, JUnit, and more.  For example, the following output is generated using the `table` format.
 
 Default report format is `table`:
 
@@ -248,7 +243,13 @@ Optional format `text` with highlited keywords:
 ./csv-blueprint validate:csv --report=text
 ```
 
+
 ![Report - Text](.github/assets/output-text.png)
+
+
+**Notes**
+* Report format for GitHub Actions is `github` by default.
+* Tools uses [JBZoo/CI-Report-Converter](https://github.com/JBZoo/CI-Report-Converter) as SDK to convert reports to different formats. So you can easily integrate it with any CI system.
 
 
 ### Schema Definition
