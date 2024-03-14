@@ -22,8 +22,6 @@ use JBZoo\CIReportConverter\Converters\JUnitConverter;
 use JBZoo\CIReportConverter\Converters\TeamCityTestsConverter;
 use JBZoo\CIReportConverter\Formats\Source\SourceSuite;
 use JBZoo\CsvBlueprint\Utils;
-use JBZoo\Utils\Cli;
-use JBZoo\Utils\Env;
 use JBZoo\Utils\Vars;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\BufferedOutput;
