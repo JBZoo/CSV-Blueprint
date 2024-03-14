@@ -36,7 +36,7 @@ jobs:
           csv: tests/fixtures/demo.csv
           schema: tests/schemas/demo_valid.yml
 
-      - name: Invalid CSV file - Report as Text
+      - name: Invalid CSV file - Text
         uses: jbzoo/csv-blueprint@master
         with:
           csv: tests/fixtures/batch/*.csv
@@ -44,7 +44,7 @@ jobs:
           report: text
         continue-on-error: true
 
-      - name: Invalid CSV file - Report as Table
+      - name: Invalid CSV file - Table
         uses: jbzoo/csv-blueprint@master
         with:
           csv: tests/fixtures/batch/*.csv
@@ -52,7 +52,7 @@ jobs:
           report: table
         continue-on-error: true
 
-      - name: Invalid CSV file - Report as GitHub Annotations
+      - name: Invalid CSV file - GitHub Annotations
         uses: jbzoo/csv-blueprint@master
         with:
           csv: tests/fixtures/batch/*.csv
