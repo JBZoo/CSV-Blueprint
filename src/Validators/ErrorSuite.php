@@ -204,10 +204,10 @@ final class ErrorSuite
         ];
 
         $maxWindowWidth = Vars::limit(
-            Utils::autoDetectTerminalWidth(),
+            Utils::autoDetectTerminalWidth() - $floatingSizes['reserve'],
             $floatingSizes['min'],
             $floatingSizes['max'],
-        ) - $floatingSizes['reserve'];
+        );
 
         $floatingSizes['message'] = $maxWindowWidth
             - $floatingSizes['line']
