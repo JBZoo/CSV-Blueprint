@@ -16,16 +16,16 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\CellRules;
 
-final class OnlyCapitalize extends AbstarctCellRule
+final class LengthMin extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
-        if (!$this->getOptionAsBool()) {
-            return null;
-        }
+        $minLength = $this->getOptionAsInt();
+        $length    = \mb_strlen($cellValue);
 
-        if ($cellValue !== \ucfirst($cellValue)) {
-            return "Value \"<c>{$cellValue}</c>\" should be in capitalize";
+        if ($length < $minLength) {
+            return "Value \"<c>{$cellValue}</c>\" (length: {$length}) is too short. " .
+                "Min length is <green>{$minLength}</green>";
         }
 
         return null;

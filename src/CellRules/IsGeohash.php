@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\CellRules;
 
-final class OnlyLowercase extends AbstarctCellRule
+class IsGeohash extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
@@ -24,8 +24,8 @@ final class OnlyLowercase extends AbstarctCellRule
             return null;
         }
 
-        if ($cellValue !== \mb_strtolower($cellValue)) {
-            return "Value \"<c>{$cellValue}</c>\" should be in lowercase";
+        if (\preg_match('/^[0-9b-hj-km-np-z]{1,}$/', $cellValue) === 0) {
+            return "Value \"<c>{$cellValue}</c>\" is not a valid Geohash";
         }
 
         return null;

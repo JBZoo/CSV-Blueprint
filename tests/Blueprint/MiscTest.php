@@ -81,13 +81,25 @@ final class MiscTest extends PHPUnit
         }
         \sort($rulesInCode);
 
-        $diffAsErrMessage = \array_reduce(
-            \array_diff($rulesInCode, $rulesInConfig),
-            static fn (string $carry, string $item) => $carry . "{$item}: FIXME\n",
-            '',
+        isSame(
+            $rulesInCode,
+            $rulesInConfig,
+            "New: \n" . \array_reduce(
+                \array_diff($rulesInConfig, $rulesInCode),
+                static fn (string $carry, string $item) => $carry . "{$item}: NEW\n",
+                '',
+            ),
         );
 
-        isSame($rulesInCode, $rulesInConfig, $diffAsErrMessage);
+        isSame(
+            $rulesInCode,
+            $rulesInConfig,
+            "Not exists: \n" . \array_reduce(
+                \array_diff($rulesInCode, $rulesInConfig),
+                static fn (string $carry, string $item) => $carry . "{$item}: FIXME\n",
+                '',
+            ),
+        );
     }
 
     public function testCsvStrutureDefaultValues(): void

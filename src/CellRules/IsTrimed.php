@@ -16,16 +16,16 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\CellRules;
 
-final class MinDate extends AbstarctCellRule
+final class IsTrimed extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
-        $minDate  = $this->getOptionAsDate();
-        $cellDate = new \DateTimeImmutable($cellValue);
+        if (!$this->getOptionAsBool()) {
+            return null;
+        }
 
-        if ($cellDate->getTimestamp() < $minDate->getTimestamp()) {
-            return "Value \"<c>{$cellValue}</c>\" is less than the minimum " .
-                "date \"<green>{$minDate->format(\DATE_RFC3339_EXTENDED)}</green>\"";
+        if (\trim($cellValue) !== $cellValue) {
+            return "Value \"<c>{$cellValue}</c>\" is not trimmed";
         }
 
         return null;

@@ -30,6 +30,7 @@ csv: # How to parse file before validation
   strict_column_order: true         # true - columns must be in the same order as in the schema, false - no strict
   other_columns_possible: true      # true - other columns are allowed, false - no other columns
 
+
 columns:
   - name: General available options # Can be optional if csv\header: false. If set, then header must contain this value
     required: true                  # If true, then column must be present in the file
@@ -42,15 +43,15 @@ columns:
       count_empty_max: 10
       count_filled_min: 1
       count_filled_max: 10
-      custom_1: callbak function
-      custom_1: # Custom rule name. Format: custom_{name}
-        class: My\Aggregate\Rules1 # Full name of PHP Class (with namespace)
-        args: [ value ]   # Optional arguments to customize the rule
-      custom_2:
-        class: My\Aggregate\Rules2
-        args: [ value1, value2 ]
-      custom_my_favorite_name:
-        class: My\Aggregate\RulesXXX
+      # custom_0: callbak function
+      # custom_1: # Custom rule name. Format: custom_{name}
+      #   class: My\Aggregate\Rules1 # Full name of PHP Class (with namespace)
+      #   args: [ value ]   # Optional arguments to customize the rule
+      # custom_2:
+      #   class: My\Aggregate\Rules2
+      #   args: [ value1, value2 ]
+      # custom_my_favorite_name:
+      #   class: My\Aggregate\RulesXXX
 
   - name: Some Integer
     aggregate_rules:

@@ -16,16 +16,16 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\CellRules;
 
-final class MaxWordCount extends AbstarctCellRule
+final class Date extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
-        $wordCount = $this->getOptionAsInt();
-        $count     = \str_word_count($cellValue);
+        $expDate  = $this->getOptionAsDate();
+        $cellDate = new \DateTimeImmutable($cellValue);
 
-        if ($count > $wordCount) {
-            return "Value \"<c>{$cellValue}</c>\" has {$count} words, " .
-                "but must have no more than <green>{$wordCount}</green> words";
+        if ($cellDate->getTimestamp() !== $expDate->getTimestamp()) {
+            return "Value \"<c>{$cellValue}</c>\" is not equal to the expected date " .
+                "\"<green>{$expDate->format(\DATE_RFC3339_EXTENDED)}</green>\"";
         }
 
         return null;

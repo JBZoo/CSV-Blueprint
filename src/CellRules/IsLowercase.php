@@ -16,16 +16,16 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\CellRules;
 
-final class MaxDate extends AbstarctCellRule
+final class IsLowercase extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
-        $minDate  = $this->getOptionAsDate();
-        $cellDate = new \DateTimeImmutable($cellValue);
+        if (!$this->getOptionAsBool()) {
+            return null;
+        }
 
-        if ($cellDate->getTimestamp() > $minDate->getTimestamp()) {
-            return "Value \"<c>{$cellValue}</c>\" is more than the maximum " .
-                "date \"<green>{$minDate->format(\DATE_RFC3339_EXTENDED)}</green>\"";
+        if ($cellValue !== \mb_strtolower($cellValue)) {
+            return "Value \"<c>{$cellValue}</c>\" should be in lowercase";
         }
 
         return null;

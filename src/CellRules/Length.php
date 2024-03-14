@@ -16,16 +16,15 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\CellRules;
 
-final class MinWordCount extends AbstarctCellRule
+final class Length extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
-        $wordCount = $this->getOptionAsInt();
-        $count     = \str_word_count($cellValue);
+        $expLength = $this->getOptionAsInt();
+        $length    = \mb_strlen($cellValue);
 
-        if ($count < $wordCount) {
-            return "Value \"<c>{$cellValue}</c>\" has {$count} words, " .
-                "but must have at least <green>{$wordCount}</green> words";
+        if ($length !== $expLength) {
+            return "Value \"<c>{$cellValue}</c>\" (length: {$length}) is not equal to <green>{$expLength}</green>";
         }
 
         return null;

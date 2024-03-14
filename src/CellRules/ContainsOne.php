@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\CellRules;
 
-final class AtLeastContains extends AbstarctCellRule
+final class ContainsOne extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
@@ -31,7 +31,7 @@ final class AtLeastContains extends AbstarctCellRule
             }
         }
 
-        return "Value \"<c>{$cellValue}</c>\" must contain one of the following:" .
+        return "Value \"<c>{$cellValue}</c>\" must contain at least one of the following:" .
             ' "<green>["' . \implode('", "', $inclusions) . '"]</green>"';
     }
 }

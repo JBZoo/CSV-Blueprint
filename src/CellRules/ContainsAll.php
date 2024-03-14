@@ -16,16 +16,20 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\CellRules;
 
-final class MaxLength extends AbstarctCellRule
+final class ContainsAll extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
-        $minLength = $this->getOptionAsInt();
-        $length    = \mb_strlen($cellValue);
+        $inclusions = $this->getOptionAsArray();
+        if (\count($inclusions) === 0) {
+            return 'Rule must contain at least one inclusion value in schema file.';
+        }
 
-        if ($length > $minLength) {
-            return "Value \"<c>{$cellValue}</c>\" (length: {$length}) is too long. " .
-                "Max length is <green>{$minLength}</green>";
+        foreach ($inclusions as $inclusion) {
+            if (\strpos($cellValue, (string)$inclusion) === false) {
+                return "Value \"<c>{$cellValue}</c>\" must contain all of the following:" .
+                    ' "<green>["' . \implode('", "', $inclusions) . '"]</green>"';
+            }
         }
 
         return null;

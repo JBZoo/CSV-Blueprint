@@ -18,15 +18,15 @@ columns:
   - name: Name
     rules:
       not_empty: true
-      min_length: 4
-      max_length: 7
+      length_min: 4
+      length_max: 7
     aggregate_rules:
       unique: true
 
   - name: City
     rules:
       not_empty: true
-      only_capitalize: true
+      is_capitalize: true
 
   - name: Float
     rules:

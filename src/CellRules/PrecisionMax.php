@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\CellRules;
 
-final class MaxPrecision extends Precision
+final class PrecisionMax extends Precision
 {
     public function validateRule(string $cellValue): ?string
     {
