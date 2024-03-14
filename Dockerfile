@@ -10,7 +10,7 @@
 # @see        https://github.com/JBZoo/Csv-Blueprint
 #
 
-FROM php:8.1-cli-alpine
+FROM php:8.3-cli-alpine
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 # Install PHP extensions

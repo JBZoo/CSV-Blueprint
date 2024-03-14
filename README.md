@@ -376,10 +376,10 @@ Batch processing
 * [x] ~~Quick stop flag. If the first error is found, then stop the validation process to save time.~~
 * [ ] If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
 * [ ] Discovering CSV files by `filename_pattern` in the schema file. In case you have a lot of schemas and a lot of CSV files and want to automate the process as one command.
+* [ ] Flag to ignore file name pattern. It's useful when you have a lot of files and you don't want to validate the file name.
 
 Validation
 * [x] ~~`filename_pattern` validation with regex (like "all files in the folder should be in the format `/^[\d]{4}-[\d]{2}-[\d]{2}\.csv$/`").~~
-* [ ] Flag to ignore file name pattern. It's useful when you have a lot of files and you don't want to validate the file name.
 * [ ] Keyword for null value. Configurable. By default, it's an empty string. But you can use `null`, `nil`, `none`, `empty`, etc. Overridable on the column level.
 * [ ] Agregate rules (like "at least one of the fields should be not empty" or "all values must be unique").
 * [ ] Handle empty files and files with only a header row, or only with one line of data. One column wthout header is also possible.
@@ -393,7 +393,7 @@ Validation
 
 Release workflow
 * [ ] Build and release Docker image [via GitHub Actions, tags and labels](https://docs.docker.com/build/ci/github-actions/manage-tags-labels/). Review it.
-* [ ] Upgrading to PHP 8.3.x
+* [x] ~~Upgrad Docker to PHP 8.3.x~~
 * [ ] Build phar file and release via GitHub Actions.
 * [ ] Auto insert tool version into the Docker image and phar file. It's important to know the version of the tool you are using.
 * [ ] Show version as part of output.
