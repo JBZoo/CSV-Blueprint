@@ -10,9 +10,9 @@
     },
     "columns"          : [
         {
-            "name"        : "csv_header_name",
-            "description" : "Lorem ipsum",
-            "rules"       : {
+            "name"            : "csv_header_name",
+            "description"     : "Lorem ipsum",
+            "rules"           : {
                 "not_empty"          : true,
                 "exact_value"        : "Some string",
                 "allow_values"       : ["y", "n", ""],
@@ -51,6 +51,9 @@
                 "is_alias"           : true,
                 "cardinal_direction" : true,
                 "usa_market_name"    : true
+            },
+            "aggregate_rules" : {
+                "unique" : true
             }
         },
         {"name" : "another_column"}

@@ -20,5 +20,10 @@ use JBZoo\CsvBlueprint\AbstarctRule;
 
 abstract class AbstarctCellRule extends AbstarctRule
 {
+    /**
+     * Validate the rule.
+     *
+     * This method takes a string $cellValue as input and returns a nullable string.
+     */
     abstract public function validateRule(string $cellValue): ?string;
 }

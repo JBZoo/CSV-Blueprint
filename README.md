@@ -223,10 +223,10 @@ Found CSV files: 3
 | Line | id:Column  | Rule       | Message                                                                          |
 +------+------------+------------+----------------------------------------------------------------------------------+
 | 2    | 0:Name     | min_length | Value "Carl" (length: 4) is too short. Min length is 5                           |
+| 7    | 0:Name     | min_length | Value "Lois" (length: 4) is too short. Min length is 5                           |
 | 2    | 3:Birthday | min_date   | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00" |
 | 4    | 3:Birthday | min_date   | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00" |
 | 5    | 3:Birthday | max_date   | Value "2010-07-20" is more than the maximum date "2009-01-01T00:00:00.000+00:00" |
-| 7    | 0:Name     | min_length | Value "Lois" (length: 4) is too short. Min length is 5                           |
 +------+------------+------------+------------------ demo-2.csv ----------------------------------------------------+
 
 (3/3) Invalid file: ./tests/fixtures/batch/sub/demo-3.csv
@@ -306,6 +306,8 @@ csv: # Here are default values. You can skip this section if you don't need to o
 columns:
   - name: "csv_header_name"             # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
     description: "Lorem ipsum"          # Optional. Description of the column. Not used in the validation process.
+
+    # Optional. You can use this section to validate each value in the column
     rules:
       # You can use the rules in any combination. Or not use any of them.
       # They are grouped below simply for ease of navigation and reading.
@@ -360,6 +362,11 @@ columns:
       cardinal_direction: true          # Valid cardinal direction. Examples: "N", "S", "NE", "SE", "none", ""
       usa_market_name: true             # Check if the value is a valid USA market name. Example: "New York, NY"
 
+    # Optional. You can use this section to validate the whole column
+    # Be careful, this can reduce performance noticeably depending on the combination of rules.
+    aggregate_rules:
+      unique: true                      # All values in the column are unique
+
   - name: "another_column"
 
 ```
@@ -380,8 +387,8 @@ Batch processing
 
 Validation
 * [x] ~~`filename_pattern` validation with regex (like "all files in the folder should be in the format `/^[\d]{4}-[\d]{2}-[\d]{2}\.csv$/`").~~
+* [x] ~~Agregate rules (like "at least one of the fields should be not empty" or "all values must be unique").~~
 * [ ] Configurable keyword for null/empty values. By default, it's an empty string. But you will use `null`, `nil`, `none`, `empty`, etc. Overridable on the column level.
-* [ ] Agregate rules (like "at least one of the fields should be not empty" or "all values must be unique").
 * [ ] Handle empty files and files with only a header row, or only with one line of data. One column wthout header is also possible.
 * [ ] Using multiple schemas for one csv file.
 * [ ] Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas. Make it DRY and easy to maintain.

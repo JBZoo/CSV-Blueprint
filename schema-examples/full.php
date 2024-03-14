@@ -70,6 +70,9 @@ return [
                 'cardinal_direction' => true,
                 'usa_market_name'    => true,
             ],
+            'aggregate_rules' => [
+                'unique' => true,
+            ],
         ],
         ['name' => 'another_column'],
     ],

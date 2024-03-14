@@ -28,6 +28,8 @@ csv: # Here are default values. You can skip this section if you don't need to o
 columns:
   - name: "csv_header_name"             # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
     description: "Lorem ipsum"          # Optional. Description of the column. Not used in the validation process.
+
+    # Optional. You can use this section to validate each value in the column
     rules:
       # You can use the rules in any combination. Or not use any of them.
       # They are grouped below simply for ease of navigation and reading.
@@ -81,5 +83,10 @@ columns:
       is_alias: true                    # Only alias format. Example: "my-alias-123"
       cardinal_direction: true          # Valid cardinal direction. Examples: "N", "S", "NE", "SE", "none", ""
       usa_market_name: true             # Check if the value is a valid USA market name. Example: "New York, NY"
+
+    # Optional. You can use this section to validate the whole column
+    # Be careful, this can reduce performance noticeably depending on the combination of rules.
+    aggregate_rules:
+      unique: true                      # All values in the column are unique
 
   - name: "another_column"

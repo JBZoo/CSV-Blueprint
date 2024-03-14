@@ -22,12 +22,14 @@ use JBZoo\PHPUnit\PHPUnit;
 
 use function JBZoo\Data\json;
 use function JBZoo\PHPUnit\isSame;
+use function JBZoo\PHPUnit\skip;
 
 final class ValidatorTest extends PHPUnit
 {
     private const CSV_SIMPLE_HEADER    = './tests/fixtures/simple_header.csv';
     private const CSV_SIMPLE_NO_HEADER = './tests/fixtures/simple_no_header.csv';
     private const CSV_COMPLEX          = './tests/fixtures/complex_header.csv';
+    private const CSV_DEMO             = './tests/fixtures/demo.csv';
 
     private const SCHEMA_SIMPLE_HEADER    = './tests/schemas/simple_header.yml';
     private const SCHEMA_SIMPLE_NO_HEADER = './tests/schemas/simple_no_header.yml';
@@ -583,8 +585,28 @@ final class ValidatorTest extends PHPUnit
         isSame('', (string)$csv->validate());
     }
 
+    public function testAggregateRuleUnique(): void
+    {
+        skip('TODO');
+        $csv = new CsvFile(self::CSV_DEMO, $this->getAggregateRule('City', 'unique', true));
+        isSame([
+            'ruleCode'   => 'is_email',
+            'message'    => 'Value "<c>N</c>" is not a valid email',
+            'columnName' => '0:yn',
+            'line'       => 2,
+        ], $csv->validate(true)->get(0)->toArray());
+    }
+
     private function getRule(?string $columnName, ?string $ruleName, array|bool|float|int|string $options): array
     {
         return ['columns' => [['name' => $columnName, 'rules' => [$ruleName => $options]]]];
+    }
+
+    private function getAggregateRule(
+        ?string $columnName,
+        ?string $ruleName,
+        array|bool|float|int|string $options,
+    ): array {
+        return ['columns' => [['name' => $columnName, 'aggregate_rules' => [$ruleName => $options]]]];
     }
 }

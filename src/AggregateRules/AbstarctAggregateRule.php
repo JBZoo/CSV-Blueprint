@@ -20,5 +20,12 @@ use JBZoo\CsvBlueprint\AbstarctRule;
 
 abstract class AbstarctAggregateRule extends AbstarctRule
 {
-    abstract public function validateRule(array $columnValues): ?string;
+    /**
+     * Validate the rule.
+     *
+     * This method takes an array reference &$columnValues as input and returns a nullable string.
+     * We use a reference to the array to avoid copying the array. Important memory optimization!
+     * Please DO NOT change the array in this method!
+     */
+    abstract public function validateRule(array &$columnValues): ?string;
 }
