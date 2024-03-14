@@ -7,6 +7,7 @@
         "jbzoo",
         "csv",
         "csv-validator",
+        "csv-linter",
         "csv-validation",
         "csv-generation",
         "csv-format",
