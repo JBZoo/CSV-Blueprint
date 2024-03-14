@@ -18,11 +18,6 @@ namespace JBZoo\CsvBlueprint\CellRules;
 
 final class IsCardinalDirection extends AllowValues
 {
-    public function validateRule(string $cellValue): ?string
-    {
-        return parent::validateRule($cellValue);
-    }
-
     public function getOptionAsArray(): array
     {
         return ['N', 'S', 'E', 'W', 'NE', 'SE', 'NW', 'SW', 'none', ''];
