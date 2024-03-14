@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint;
 
+use JBZoo\Utils\Env;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -102,5 +103,15 @@ final class Utils
         }
 
         return \str_replace($pwd, '.', $fullpath);
+    }
+
+    public static function isDocker(): bool
+    {
+        return \file_exists('/app/csv-blueprint');
+    }
+
+    public static function isGithubActions(): bool
+    {
+        return Env::bool('GITHUB_ACTIONS');
     }
 }

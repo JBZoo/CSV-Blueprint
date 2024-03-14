@@ -21,6 +21,7 @@ use JBZoo\CIReportConverter\Converters\GitLabJsonConverter;
 use JBZoo\CIReportConverter\Converters\JUnitConverter;
 use JBZoo\CIReportConverter\Converters\TeamCityTestsConverter;
 use JBZoo\CIReportConverter\Formats\Source\SourceSuite;
+use JBZoo\CsvBlueprint\Utils;
 use JBZoo\Utils\Cli;
 use JBZoo\Utils\Env;
 use JBZoo\Utils\Vars;
@@ -205,9 +206,9 @@ final class ErrorSuite
         ];
 
         // Fallback to 80 if the terminal width cannot be determined.
-        // env.COLUMNS_TEST usually not defined so we use it only for testing purposes.
+        // env.COLUMNS_TEST usually not defined, so we use it only for testing purposes.
         $maxAutoDetected = Env::int('COLUMNS_TEST', Cli::getNumberOfColumns());
-        if (Env::bool('GITHUB_ACTIONS')) {
+        if (Utils::isDocker() && Utils::isGithubActions()) {
             $maxAutoDetected = 150; // GitHub Actions has a wide terminal
         }
 
