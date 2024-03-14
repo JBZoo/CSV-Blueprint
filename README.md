@@ -380,7 +380,7 @@ Batch processing
 
 Validation
 * [x] ~~`filename_pattern` validation with regex (like "all files in the folder should be in the format `/^[\d]{4}-[\d]{2}-[\d]{2}\.csv$/`").~~
-* [ ] Keyword for null value. Configurable. By default, it's an empty string. But you can use `null`, `nil`, `none`, `empty`, etc. Overridable on the column level.
+* [ ] Configurable keyword for null/empty values. By default, it's an empty string. But you will use `null`, `nil`, `none`, `empty`, etc. Overridable on the column level.
 * [ ] Agregate rules (like "at least one of the fields should be not empty" or "all values must be unique").
 * [ ] Handle empty files and files with only a header row, or only with one line of data. One column wthout header is also possible.
 * [ ] Using multiple schemas for one csv file.
@@ -409,8 +409,7 @@ Mock data generation
 * [ ] Use [Faker](https://github.com/FakerPHP/Faker) for random data generation.
 
 Reporting
-* [ ] Fix auto width of tables in Githu terminal.
-* [ ] 
+* [x] ~~Fix auto width of tables in GitHub terminal.~~
 * [ ] More report formats (like JSON, XML, etc). Any ideas?
 * [ ] Gitlab and JUnit reports must be as one structure. It's not so easy to implement. But it's a good idea.
 * [ ] Merge reports from multiple CSV files into one report. It's useful when you have a lot of files and you want to see all errors in one place. Especially for GitLab and JUnit reports.
@@ -427,10 +426,14 @@ I'm not sure if I will implement all of them. But I will try to do my best.
 
 ## Disadvantages?
 
-* Yeah-yeah. I know it's not the fastest tool in the world. But it's not the slowest either.
-* Yeah-yeah. I know it's PHP (not a Python, Go). PHP is not the best language for such tasks.
-* Yeah-yeah. It looks like a standalone binary.
-* Yeah-yeah. I know you can't use as Python SDK as part of pipeline.
+There is a perception that PHP is a slow language. I don't agree with that. You just need to know how to prepare it.
+See [Processing One Billion CSV rows in PHP!](https://dev.to/realflowcontrol/processing-one-billion-rows-in-php-3eg0).
+That is, if you do everything right, you can read, aggregate and calculate data from CSV at **~15 million lines per second**!
+
+* Yeah-yeah. I know it's not the fastest tool in the world. But it's not the slowest either. See link above.
+* Yeah-yeah. I know it's PHP (not Python, Go, Pyspark...). PHP is not the best language for such tasks.
+* Yeah-yeah. It looks like a standalone binary. Right. Just use it, don't think about how it works.
+* Yeah-yeah. I know you can't use as Python SDK as part of a pipeline.
 
 But... it's not a problem for most cases. And it solves the problem of validating CSV files in CI. 👍
 
