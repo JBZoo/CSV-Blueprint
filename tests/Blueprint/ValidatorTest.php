@@ -106,7 +106,7 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_DEMO, $this->getAggregateRule('City', 'unique', true));
         isSame(
-            '"ag:unique" at line 1, column "0:City". Column has non-unique values. Total: 10, unique: 9.' . "\n",
+            '"ag:unique" at line 1, column "0:City". Column has non-unique values. Unique: 9, total: 10.' . "\n",
             \strip_tags((string)$csv->validate()),
         );
 
@@ -241,7 +241,7 @@ final class ValidatorTest extends PHPUnit
         isSame(
             \implode("\n", [
                 '::error file=./tests/fixtures/demo.csv,line=1::ag:unique at column 0:City%0A"ag:unique" ' .
-                'at line 1, column "0:City". Column has non-unique values. Total: 10, unique: 9.',
+                'at line 1, column "0:City". Column has non-unique values. Unique: 9, total: 10.',
                 '',
             ]),
             $csv->validate()->render(ErrorSuite::REPORT_GITHUB),

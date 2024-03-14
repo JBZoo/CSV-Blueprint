@@ -214,7 +214,7 @@ Found CSV files: 3
 +------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
 | Line | id:Column        | Rule         | Message                                                               |
 +------+------------------+--------------+-----------------------------------------------------------------------+
-| 1    | 1:City           | ag:unique    | Column has non-unique values. Total: 2, unique: 1                     |
+| 1    | 1:City           | ag:unique    | Column has non-unique values. Unique: 1, total: 2                     |
 | 3    | 2:Float          | max          | Value "74605.944" is greater than "74605"                             |
 | 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"] |
 +------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+

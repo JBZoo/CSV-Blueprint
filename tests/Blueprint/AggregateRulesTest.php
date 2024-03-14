@@ -35,7 +35,7 @@ final class AggregateRulesTest extends PHPUnit
         isSame(null, $rule->validate([]));
         isSame(null, $rule->validate(['1', '2', '3']));
         isSame(
-            '"ag:unique" at line 1, column "prop". Column has non-unique values. Total: 4, unique: 3.',
+            '"ag:unique" at line 1, column "prop". Column has non-unique values. Unique: 3, total: 4.',
             \strip_tags((string)$rule->validate(['1', '2', '3', '3'])),
         );
     }
