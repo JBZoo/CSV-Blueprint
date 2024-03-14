@@ -20,6 +20,9 @@ final class WordCountMin extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
+        if ($cellValue === '') {
+            return null;
+        }
         $wordCount = $this->getOptionAsInt();
         $count     = \str_word_count($cellValue);
 

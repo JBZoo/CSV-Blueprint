@@ -317,6 +317,9 @@ columns:
       # If you see the value for the rule is "true" - that's just an enable flag.
       # In other cases, these are rule parameters.
 
+      # IMPORTANT!!! All rules except "not_empty" ignored for empty strings.
+      # If you need to check the empty string, use "not_empty" rule as extra rule!
+
       # General rules
       not_empty: true                   # Value is not an empty string. Actually checks if the string length is 0.
       exact_value: Some string          # Case-sensitive. Exact value for string in the column

@@ -20,6 +20,9 @@ final class EndsWith extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
+        if ($cellValue === '') {
+            return null;
+        }
         $prefix = $this->getOptionAsString();
         if ($prefix === '') {
             return 'Rule must contain a suffix value in schema file.';

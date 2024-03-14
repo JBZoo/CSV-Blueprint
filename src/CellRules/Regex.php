@@ -22,6 +22,9 @@ final class Regex extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
+        if ($cellValue === '') {
+            return null;
+        }
         $regex = Utils::prepareRegex($this->getOptionAsString());
 
         if ($regex === null || $regex === '') {

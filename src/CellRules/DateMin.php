@@ -20,6 +20,9 @@ final class DateMin extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
+        if ($cellValue === '') {
+            return null;
+        }
         $minDate  = $this->getOptionAsDate();
         $cellDate = new \DateTimeImmutable($cellValue);
 

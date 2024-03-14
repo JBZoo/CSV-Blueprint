@@ -20,6 +20,9 @@ final class Date extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
+        if ($cellValue === '') {
+            return null;
+        }
         $expDate  = $this->getOptionAsDate();
         $cellDate = new \DateTimeImmutable($cellValue);
 

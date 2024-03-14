@@ -133,10 +133,6 @@ final class CellRulesTest extends PHPUnit
         isSame(null, $rule->validate('True'));
         isSame(null, $rule->validate('False'));
         isSame(
-            '"is_bool" at line 1, column "prop". Value "" is not allowed. Allowed values: ["true", "false"].',
-            \strip_tags((string)$rule->validate('')),
-        );
-        isSame(
             '"is_bool" at line 1, column "prop". Value "1" is not allowed. Allowed values: ["true", "false"].',
             \strip_tags((string)$rule->validate('1')),
         );
@@ -157,10 +153,6 @@ final class CellRulesTest extends PHPUnit
         isSame(
             '"is_domain" at line 1, column "prop". Value "example" is not a valid domain.',
             \strip_tags((string)$rule->validate('example')),
-        );
-        isSame(
-            '"is_domain" at line 1, column "prop". Value "" is not a valid domain.',
-            \strip_tags((string)$rule->validate('')),
         );
 
         $rule = new IsDomain('prop', false);
@@ -195,10 +187,6 @@ final class CellRulesTest extends PHPUnit
             \strip_tags((string)$rule->validate('1.000.000')),
         );
         isSame(
-            '"is_float" at line 1, column "prop". Value "" is not a float number.',
-            \strip_tags((string)$rule->validate('')),
-        );
-        isSame(
             '"is_float" at line 1, column "prop". Value " 1" is not a float number.',
             \strip_tags((string)$rule->validate(' 1')),
         );
@@ -226,10 +214,6 @@ final class CellRulesTest extends PHPUnit
         isSame(
             '"is_int" at line 1, column "prop". Value "1.0" is not an integer.',
             \strip_tags((string)$rule->validate('1.0')),
-        );
-        isSame(
-            '"is_int" at line 1, column "prop". Value "" is not an integer.',
-            \strip_tags((string)$rule->validate('')),
         );
         isSame(
             '"is_int" at line 1, column "prop". Value " 1" is not an integer.',
@@ -771,11 +755,7 @@ final class CellRulesTest extends PHPUnit
         $rule = new StartsWith('prop', 'a');
         isSame(null, $rule->validate('a'));
         isSame(null, $rule->validate('abc'));
-
-        isSame(
-            '"starts_with" at line 1, column "prop". Value "" must start with "a".',
-            \strip_tags((string)$rule->validate('')),
-        );
+        isSame(null, $rule->validate(''));
 
         isSame(
             '"starts_with" at line 1, column "prop". Value " a" must start with "a".',
@@ -794,11 +774,7 @@ final class CellRulesTest extends PHPUnit
         $rule = new EndsWith('prop', 'a');
         isSame(null, $rule->validate('a'));
         isSame(null, $rule->validate('cba'));
-
-        isSame(
-            '"ends_with" at line 1, column "prop". Value "" must end with "a".',
-            \strip_tags((string)$rule->validate('')),
-        );
+        isSame(null, $rule->validate(''));
 
         isSame(
             '"ends_with" at line 1, column "prop". Value "a " must end with "a".',

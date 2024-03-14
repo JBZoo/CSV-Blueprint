@@ -20,6 +20,10 @@ final class Contains extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
+        if ($cellValue === '') {
+            return null;
+        }
+
         $expected = $this->getOptionAsString();
 
         if ($expected === '') {

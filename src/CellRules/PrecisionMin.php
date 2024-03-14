@@ -20,6 +20,9 @@ final class PrecisionMin extends Precision
 {
     public function validateRule(string $cellValue): ?string
     {
+        if ($cellValue === '') {
+            return null;
+        }
         $valuePrecision = self::getFloatPrecision($cellValue);
 
         if ($valuePrecision < $this->getOptionAsInt()) {

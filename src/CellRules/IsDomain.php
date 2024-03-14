@@ -20,7 +20,7 @@ final class IsDomain extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
-        if (!$this->getOptionAsBool()) {
+        if (!$this->getOptionAsBool() || $cellValue === '') {
             return null;
         }
 
