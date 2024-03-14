@@ -27,6 +27,7 @@ use function JBZoo\Data\phpArray;
 use function JBZoo\Data\yml;
 use function JBZoo\PHPUnit\isFileContains;
 use function JBZoo\PHPUnit\isSame;
+use function JBZoo\PHPUnit\isTrue;
 
 final class MiscTest extends PHPUnit
 {
@@ -197,6 +198,22 @@ final class MiscTest extends PHPUnit
         $notUnique = \array_intersect($rules, $agRules);
 
         isSame([], $notUnique, 'Rules names should be unique: ' . \implode(', ', $notUnique));
+    }
+
+    public function testRuleNaming(): void
+    {
+        $yml = yml(PROJECT_ROOT . '/schema-examples/full.yml');
+
+        $rules = $yml->findArray('columns.0.rules');
+
+        foreach ($rules as $rule => $option) {
+            if ($option === true || $option === false) {
+                isTrue(
+                    \str_starts_with($rule, 'is_') || \str_starts_with($rule, 'not_'),
+                    "Rule name should start with 'is_': {$rule}",
+                );
+            }
+        }
     }
 
     /**

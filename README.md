@@ -380,8 +380,8 @@ columns:
       is_latitude: true                 # Can be integer or float. Example: 50.123456
       is_longitude: true                # Can be integer or float. Example: -89.123456
       is_geohash: true                  # Check if the value is a valid geohash. Example: "u4pruydqqvj"
-      cardinal_direction: true          # Valid cardinal direction. Examples: "N", "S", "NE", "SE", "none", ""
-      usa_market_name: true             # Check if the value is a valid USA market name. Example: "New York, NY"
+      is_cardinal_direction: true       # Valid cardinal direction. Examples: "N", "S", "NE", "SE", "none", ""
+      is_usa_market_name: true          # Check if the value is a valid USA market name. Example: "New York, NY"
 
     # Optional. You can use this section to validate the whole column
     # Be careful, this can reduce performance noticeably depending on the combination of rules.

@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit\Blueprint;
 
 use JBZoo\CsvBlueprint\CellRules\AllowValues;
-use JBZoo\CsvBlueprint\CellRules\CardinalDirection;
 use JBZoo\CsvBlueprint\CellRules\Contains;
 use JBZoo\CsvBlueprint\CellRules\ContainsAll;
 use JBZoo\CsvBlueprint\CellRules\ContainsOne;
@@ -30,6 +29,7 @@ use JBZoo\CsvBlueprint\CellRules\ExactValue;
 use JBZoo\CsvBlueprint\CellRules\IsAlias;
 use JBZoo\CsvBlueprint\CellRules\IsBool;
 use JBZoo\CsvBlueprint\CellRules\IsCapitalize;
+use JBZoo\CsvBlueprint\CellRules\IsCardinalDirection;
 use JBZoo\CsvBlueprint\CellRules\IsDomain;
 use JBZoo\CsvBlueprint\CellRules\IsEmail;
 use JBZoo\CsvBlueprint\CellRules\IsFloat;
@@ -41,6 +41,7 @@ use JBZoo\CsvBlueprint\CellRules\IsLongitude;
 use JBZoo\CsvBlueprint\CellRules\IsLowercase;
 use JBZoo\CsvBlueprint\CellRules\IsUppercase;
 use JBZoo\CsvBlueprint\CellRules\IsUrl;
+use JBZoo\CsvBlueprint\CellRules\IsUsaMarketName;
 use JBZoo\CsvBlueprint\CellRules\IsUuid4;
 use JBZoo\CsvBlueprint\CellRules\Length;
 use JBZoo\CsvBlueprint\CellRules\LengthMax;
@@ -53,7 +54,6 @@ use JBZoo\CsvBlueprint\CellRules\PrecisionMax;
 use JBZoo\CsvBlueprint\CellRules\PrecisionMin;
 use JBZoo\CsvBlueprint\CellRules\Regex;
 use JBZoo\CsvBlueprint\CellRules\StartsWith;
-use JBZoo\CsvBlueprint\CellRules\UsaMarketName;
 use JBZoo\CsvBlueprint\CellRules\WordCount;
 use JBZoo\CsvBlueprint\CellRules\WordCountMax;
 use JBZoo\CsvBlueprint\CellRules\WordCountMin;
@@ -675,9 +675,9 @@ final class CellRulesTest extends PHPUnit
         );
     }
 
-    public function testCardinalDirection(): void
+    public function testIsCardinalDirection(): void
     {
-        $rule = new CardinalDirection('prop', true);
+        $rule = new IsCardinalDirection('prop', true);
         isSame(null, $rule->validate('N'));
         isSame(null, $rule->validate('S'));
         isSame(null, $rule->validate('E'));
@@ -688,25 +688,25 @@ final class CellRulesTest extends PHPUnit
         isSame(null, $rule->validate('SW'));
         isSame(null, $rule->validate('none'));
         isSame(
-            '"cardinal_direction" at line 1, column "prop". Value "qwe" is not allowed. ' .
+            '"is_cardinal_direction" at line 1, column "prop". Value "qwe" is not allowed. ' .
             'Allowed values: ["N", "S", "E", "W", "NE", "SE", "NW", "SW", "none", ""].',
             \strip_tags((string)$rule->validate('qwe')),
         );
     }
 
-    public function testUsaMarketName(): void
+    public function testIsUsaMarketName(): void
     {
-        $rule = new UsaMarketName('prop', true);
+        $rule = new IsUsaMarketName('prop', true);
         isSame(null, $rule->validate('New York, NY'));
         isSame(null, $rule->validate('City, ST'));
         isSame(
-            '"usa_market_name" at line 1, column "prop". ' .
+            '"is_usa_market_name" at line 1, column "prop". ' .
             'Invalid market name format for value ", ST". ' .
             'Market name must have format "New York, NY".',
             \strip_tags((string)$rule->validate(', ST')),
         );
 
-        $rule = new UsaMarketName('prop', false);
+        $rule = new IsUsaMarketName('prop', false);
         isSame(null, $rule->validate(', ST'));
     }
 
