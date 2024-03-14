@@ -20,6 +20,10 @@ use JBZoo\CsvBlueprint\Csv\Column;
 
 final class ColumnValidator
 {
+    // This is a fallback line number for aggregate rules.
+    // "1" - is a first line in the CSV file. It's always exists and usefeul for CI reports.
+    public const FALLBACK_LINE = 1;
+
     private Ruleset $cellRuleset;
     private Ruleset $aggRuleset;
 
@@ -36,6 +40,6 @@ final class ColumnValidator
 
     public function validateList(array &$cellValue): ErrorSuite
     {
-        return $this->aggRuleset->validate($cellValue, -1);
+        return $this->aggRuleset->validate($cellValue, self::FALLBACK_LINE);
     }
 }

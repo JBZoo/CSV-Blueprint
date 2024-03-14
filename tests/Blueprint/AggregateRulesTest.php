@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * JBZoo Toolbox - Csv-Blueprint.
+ *
+ * This file is part of the JBZoo Toolbox project.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @see        https://github.com/JBZoo/Csv-Blueprint
+ */
+
+declare(strict_types=1);
+
+namespace JBZoo\PHPUnit\Blueprint;
+
+use JBZoo\CsvBlueprint\AggregateRules\Unique;
+use JBZoo\PHPUnit\PHPUnit;
+
+use function JBZoo\PHPUnit\isSame;
+
+final class AggregateRulesTest extends PHPUnit
+{
+    protected function setUp(): void
+    {
+        \date_default_timezone_set('UTC');
+    }
+
+    public function testUnique(): void
+    {
+        $rule = new Unique('prop', true);
+        isSame(null, $rule->validate([1]));
+        isSame(null, $rule->validate([]));
+        isSame(null, $rule->validate(['1', '2', '3']));
+        isSame(
+            '"ag:unique" at line 1, column "prop". Column has non-unique values. Total: 4, unique: 3.',
+            \strip_tags((string)$rule->validate(['1', '2', '3', '3'])),
+        );
+    }
+}

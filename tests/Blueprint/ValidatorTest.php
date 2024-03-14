@@ -106,7 +106,7 @@ final class ValidatorTest extends PHPUnit
 
         $csv = new CsvFile(self::CSV_DEMO, $this->getAggregateRule('City', 'unique', true));
         isSame(
-            '"ag:unique" at line -1, column "0:City". Column has non-unique values. Total: 10, unique: 9.' . "\n",
+            '"ag:unique" at line 1, column "0:City". Column has non-unique values. Total: 10, unique: 9.' . "\n",
             \strip_tags((string)$csv->validate()),
         );
 
@@ -222,8 +222,8 @@ final class ValidatorTest extends PHPUnit
 
     public function testRenderGithub(): void
     {
-        $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
         $path = self::CSV_SIMPLE_HEADER;
+        $csv  = new CsvFile($path, $this->getRule('seq', 'min', 3));
         isSame(
             \implode("\n", [
                 "::error file={$path},line=2::min at column 0:seq%0A\"min\" at line 2, " .
@@ -231,6 +231,17 @@ final class ValidatorTest extends PHPUnit
                 '',
                 "::error file={$path},line=3::min at column 0:seq%0A\"min\" at line 3, " .
                 'column "0:seq". Value "2" is less than "3".',
+                '',
+            ]),
+            $csv->validate()->render(ErrorSuite::REPORT_GITHUB),
+        );
+
+        $path = self::CSV_DEMO;
+        $csv  = new CsvFile($path, $this->getAggregateRule('City', 'unique', true));
+        isSame(
+            \implode("\n", [
+                '::error file=./tests/fixtures/demo.csv,line=1::ag:unique at column 0:City%0A"ag:unique" ' .
+                'at line 1, column "0:City". Column has non-unique values. Total: 10, unique: 9.',
                 '',
             ]),
             $csv->validate()->render(ErrorSuite::REPORT_GITHUB),
@@ -303,7 +314,7 @@ final class ValidatorTest extends PHPUnit
     {
         $csv = new CsvFile(self::CSV_COMPLEX, ['filename_pattern' => '/demo(-\\d+)?\\.csv$/']);
         isSame(
-            '"filename_pattern" at line 0, column "". ' .
+            '"filename_pattern" at line 1, column "". ' .
             'Filename "./tests/fixtures/complex_header.csv" does not match pattern: "/demo(-\d+)?\.csv$/".',
             \strip_tags((string)$csv->validate()->get(0)),
         );

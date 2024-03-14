@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint;
 
 use JBZoo\CsvBlueprint\AggregateRules\AbstarctAggregateRule;
+use JBZoo\CsvBlueprint\Validators\ColumnValidator;
 use JBZoo\CsvBlueprint\Validators\Error;
 use JBZoo\Data\Data;
 
@@ -40,7 +41,7 @@ abstract class AbstarctRule
         $this->ruleCode     = $this->getRuleCode();
     }
 
-    public function validate(array|string $cellValue, int $line = 0): ?Error
+    public function validate(array|string $cellValue, int $line = ColumnValidator::FALLBACK_LINE): ?Error
     {
         if (\method_exists($this, 'validateRule')) {
             /** @phan-suppress-next-line PhanUndeclaredMethod */

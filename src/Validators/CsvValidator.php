@@ -56,7 +56,7 @@ final class CsvValidator
                     'Property "<c>name</c>" is not defined in schema: ' .
                     "\"<c>{$this->schema->getFilename()}</c>\"",
                     $column->getHumanName(),
-                    1,
+                    ColumnValidator::FALLBACK_LINE,
                 );
 
                 $errors->addError($error);
@@ -110,7 +110,7 @@ final class CsvValidator
                 'Filename "<c>' . Utils::cutPath($this->csv->getCsvFilename()) .
                 "</c>\" does not match pattern: \"<c>{$filenamePattern}</c>\"",
                 '',
-                0,
+                ColumnValidator::FALLBACK_LINE,
             );
 
             $errors->addError($error);

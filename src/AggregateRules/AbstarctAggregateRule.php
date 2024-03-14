@@ -26,6 +26,8 @@ abstract class AbstarctAggregateRule extends AbstarctRule
      * This method takes an array reference &$columnValues as input and returns a nullable string.
      * We use a reference to the array to avoid copying the array. Important memory optimization!
      * Please DO NOT change the array in this method!
+     *
+     * @param string[] $columnValues
      */
     abstract public function validateRule(array &$columnValues): ?string;
 }
