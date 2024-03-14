@@ -21,6 +21,7 @@ use JBZoo\CsvBlueprint\CellRules\CardinalDirection;
 use JBZoo\CsvBlueprint\CellRules\Contains;
 use JBZoo\CsvBlueprint\CellRules\ContainsAll;
 use JBZoo\CsvBlueprint\CellRules\ContainsOne;
+use JBZoo\CsvBlueprint\CellRules\Date;
 use JBZoo\CsvBlueprint\CellRules\DateFormat;
 use JBZoo\CsvBlueprint\CellRules\DateMax;
 use JBZoo\CsvBlueprint\CellRules\DateMin;
@@ -32,6 +33,7 @@ use JBZoo\CsvBlueprint\CellRules\IsCapitalize;
 use JBZoo\CsvBlueprint\CellRules\IsDomain;
 use JBZoo\CsvBlueprint\CellRules\IsEmail;
 use JBZoo\CsvBlueprint\CellRules\IsFloat;
+use JBZoo\CsvBlueprint\CellRules\IsGeohash;
 use JBZoo\CsvBlueprint\CellRules\IsInt;
 use JBZoo\CsvBlueprint\CellRules\IsIp;
 use JBZoo\CsvBlueprint\CellRules\IsLatitude;
@@ -40,6 +42,7 @@ use JBZoo\CsvBlueprint\CellRules\IsLowercase;
 use JBZoo\CsvBlueprint\CellRules\IsUppercase;
 use JBZoo\CsvBlueprint\CellRules\IsUrl;
 use JBZoo\CsvBlueprint\CellRules\IsUuid4;
+use JBZoo\CsvBlueprint\CellRules\Length;
 use JBZoo\CsvBlueprint\CellRules\LengthMax;
 use JBZoo\CsvBlueprint\CellRules\LengthMin;
 use JBZoo\CsvBlueprint\CellRules\Max;
@@ -908,6 +911,54 @@ final class CellRulesTest extends PHPUnit
         isSame(
             '"contains" at line 1, column "prop". Rule must contain at least one char in schema file.',
             \strip_tags((string)$rule->validate('Qwerty')),
+        );
+    }
+
+    public function testDate(): void
+    {
+        $rule = new Date('prop', '2000-10-02');
+        isSame(null, $rule->validate('2000-10-02'));
+        isSame(null, $rule->validate('2000-10-02 00:00:00'));
+
+        isSame(
+            '"date" at line 1, column "prop". ' .
+            'Value "2000-10-02 00:00:01" is not equal to the expected date "2000-10-02T00:00:00.000+00:00".',
+            \strip_tags((string)$rule->validate('2000-10-02 00:00:01')),
+        );
+    }
+
+    public function testIsGeohash(): void
+    {
+        $rule = new IsGeohash('prop', true);
+        isSame(null, $rule->validate('u4pruydqqvj'));
+        isSame(null, $rule->validate('u4pruydqqv'));
+        isSame(null, $rule->validate('u4pruydqq'));
+        isSame(null, $rule->validate('u4pruydq'));
+        isSame(null, $rule->validate('u4pruyd'));
+        isSame(null, $rule->validate('u4pruy'));
+        isSame(null, $rule->validate('u4pru'));
+        isSame(null, $rule->validate('u4pr'));
+        isSame(null, $rule->validate('u4p'));
+        isSame(null, $rule->validate('u4'));
+        isSame(null, $rule->validate('u'));
+
+        isSame(
+            '"is_geohash" at line 1, column "prop". Value "Qwsad342323423erty" is not a valid Geohash.',
+            \strip_tags((string)$rule->validate('Qwsad342323423erty')),
+        );
+    }
+
+    public function testLength(): void
+    {
+        $rule = new Length('prop', 2);
+        isSame(null, $rule->validate('  '));
+        isSame(null, $rule->validate('ab'));
+        isSame(null, $rule->validate(' a'));
+        isSame(null, $rule->validate('a '));
+
+        isSame(
+            '"length" at line 1, column "prop". Value "Qwsad342323423erty" (length: 18) is not equal to 2.',
+            \strip_tags((string)$rule->validate('Qwsad342323423erty')),
         );
     }
 }
