@@ -200,17 +200,14 @@ final class ErrorSuite
             'line'    => 10,
             'column'  => 20,
             'rule'    => 20,
-            'min'     => 90,
+            'min'     => 120,
             'max'     => 150,
-            'reserve' => 5, // So that the table does not rest on the very edge of the terminal. Just in case.
+            'reserve' => 3, // So that the table does not rest on the very edge of the terminal. Just in case.
         ];
 
         // Fallback to 80 if the terminal width cannot be determined.
         // env.COLUMNS_TEST usually not defined, so we use it only for testing purposes.
-        $maxAutoDetected = Env::int('COLUMNS_TEST', Cli::getNumberOfColumns());
-        if (Utils::isDocker() && Utils::isGithubActions()) {
-            $maxAutoDetected = 150; // GitHub Actions has a wide terminal
-        }
+        $maxAutoDetected = self::autoDetectTerminalWidth();
 
         $maxWindowWidth = Vars::limit(
             $maxAutoDetected,
@@ -224,5 +221,19 @@ final class ErrorSuite
             - $floatingSizes['rule'];
 
         return $floatingSizes;
+    }
+
+    private static function autoDetectTerminalWidth(): int
+    {
+        $maxAutoDetected = Env::int('COLUMNS_TEST', Cli::getNumberOfColumns());
+        if (Utils::isDocker()) {
+            $maxAutoDetected = 120;
+        }
+
+        if (Utils::isGithubActions()) {
+            $maxAutoDetected = 200; // GitHub Actions has a wide terminal
+        }
+
+        return $maxAutoDetected;
     }
 }

@@ -112,6 +112,6 @@ final class Utils
 
     public static function isGithubActions(): bool
     {
-        return Env::bool('GITHUB_ACTIONS');
+        return self::isDocker() && Env::bool('GITHUB_ACTIONS');
     }
 }
