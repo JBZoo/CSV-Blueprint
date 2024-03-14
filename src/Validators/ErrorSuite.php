@@ -207,6 +207,9 @@ final class ErrorSuite
         // Fallback to 80 if the terminal width cannot be determined.
         // env.COLUMNS_TEST usually not defined so we use it only for testing purposes.
         $maxAutoDetected = Env::int('COLUMNS_TEST', Cli::getNumberOfColumns());
+        if (Env::bool('GITHUB_ACTIONS')) {
+            $maxAutoDetected = 150; // GitHub Actions has a wide terminal
+        }
 
         $maxWindowWidth = Vars::limit(
             $maxAutoDetected,
