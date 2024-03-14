@@ -6,9 +6,9 @@
 
 ## Introduction
 
-The JBZoo/Csv-Blueprint tool is a powerful and flexible utility designed for validating CSV files against 
+The CSV Blueprint tool is a powerful and flexible utility designed for validating CSV files against 
 a predefined schema specified in YAML format. With the capability to run both locally and in Docker environments,
-JBZoo/Csv-Blueprint is an ideal choice for integrating into CI/CD pipelines, such as GitHub Actions,
+CSV Blueprint is an ideal choice for integrating into CI/CD pipelines, such as GitHub Actions,
 to ensure the integrity of CSV data in your projects.
 
 
@@ -214,6 +214,7 @@ Found CSV files: 3
 +------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
 | Line | id:Column        | Rule         | Message                                                               |
 +------+------------------+--------------+-----------------------------------------------------------------------+
+| 1    | 1:City           | ag:unique    | Column has non-unique values. Unique: 1, total: 2                     |
 | 3    | 2:Float          | max          | Value "74605.944" is greater than "74605"                             |
 | 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"] |
 +------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
@@ -223,21 +224,21 @@ Found CSV files: 3
 | Line | id:Column  | Rule       | Message                                                                          |
 +------+------------+------------+----------------------------------------------------------------------------------+
 | 2    | 0:Name     | min_length | Value "Carl" (length: 4) is too short. Min length is 5                           |
+| 7    | 0:Name     | min_length | Value "Lois" (length: 4) is too short. Min length is 5                           |
 | 2    | 3:Birthday | min_date   | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00" |
 | 4    | 3:Birthday | min_date   | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00" |
 | 5    | 3:Birthday | max_date   | Value "2010-07-20" is more than the maximum date "2009-01-01T00:00:00.000+00:00" |
-| 7    | 0:Name     | min_length | Value "Lois" (length: 4) is too short. Min length is 5                           |
 +------+------------+------------+------------------ demo-2.csv ----------------------------------------------------+
 
 (3/3) Invalid file: ./tests/fixtures/batch/sub/demo-3.csv
 +------+-----------+------------------+---------------------- demo-3.csv ------------------------------------------------------------+
 | Line | id:Column | Rule             | Message                                                                                      |
 +------+-----------+------------------+----------------------------------------------------------------------------------------------+
-| 0    |           | filename_pattern | Filename "./tests/fixtures/batch/sub/demo-3.csv" does not match pattern: "/demo-[12].csv$/i" |
+| 1    |           | filename_pattern | Filename "./tests/fixtures/batch/sub/demo-3.csv" does not match pattern: "/demo-[12].csv$/i" |
 +------+-----------+------------------+---------------------- demo-3.csv ------------------------------------------------------------+
 
 
-Found 8 issues in 3 out of 3 CSV files.
+Found 9 issues in 3 out of 3 CSV files.
 
 ```
 
@@ -304,8 +305,10 @@ csv: # Here are default values. You can skip this section if you don't need to o
   bom: false                            # If the file has a BOM (Byte Order Mark) at the beginning (Experimental)
 
 columns:
-  - name: "csv_header_name"             # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
+  - name: "Column Name (header)"        # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
     description: "Lorem ipsum"          # Optional. Description of the column. Not used in the validation process.
+
+    # Optional. You can use this section to validate each value in the column
     rules:
       # You can use the rules in any combination. Or not use any of them.
       # They are grouped below simply for ease of navigation and reading.
@@ -360,7 +363,13 @@ columns:
       cardinal_direction: true          # Valid cardinal direction. Examples: "N", "S", "NE", "SE", "none", ""
       usa_market_name: true             # Check if the value is a valid USA market name. Example: "New York, NY"
 
+    # Optional. You can use this section to validate the whole column
+    # Be careful, this can reduce performance noticeably depending on the combination of rules.
+    aggregate_rules:
+      unique: true                      # All values in the column are unique
+
   - name: "another_column"
+  - name: "third_column"
 
 ```
 
@@ -369,58 +378,54 @@ columns:
 
 It's random ideas and plans. No orderings and deadlines. <u>But batch processing is the priority #1</u>.
 
-Batch processing
-* [x] ~~CSV/Schema file discovery in the folder with regex filename pattern (like `glob(./**/dir/*.csv)`).~~
-* [x] ~~If option `--csv` is a folder, then validate all files in the folder.~~
-* [x] ~~Checking multiple CSV files in one schema.~~
-* [x] ~~Quick stop flag. If the first error is found, then stop the validation process to save time.~~
-* [ ] If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
-* [ ] Discovering CSV files by `filename_pattern` in the schema file. In case you have a lot of schemas and a lot of CSV files and want to automate the process as one command.
-* [ ] Flag to ignore file name pattern. It's useful when you have a lot of files and you don't want to validate the file name.
+**Batch processing**
+* If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
+* Discovering CSV files by `filename_pattern` in the schema file. In case you have a lot of schemas and a lot of CSV files and want to automate the process as one command.
+* Flag to ignore file name pattern. It's useful when you have a lot of files and you don't want to validate the file name.
 
-Validation
-* [x] ~~`filename_pattern` validation with regex (like "all files in the folder should be in the format `/^[\d]{4}-[\d]{2}-[\d]{2}\.csv$/`").~~
-* [ ] Configurable keyword for null/empty values. By default, it's an empty string. But you will use `null`, `nil`, `none`, `empty`, etc. Overridable on the column level.
-* [ ] Agregate rules (like "at least one of the fields should be not empty" or "all values must be unique").
-* [ ] Handle empty files and files with only a header row, or only with one line of data. One column wthout header is also possible.
-* [ ] Using multiple schemas for one csv file.
-* [ ] Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas. Make it DRY and easy to maintain.
-* [ ] Validate syntax and options in the schema file. It's important to know if the schema file is valid and can be used for validation.
-* [ ] If option `--schema` is not specified, then validate only super base level things (like "is it a CSV file?").
-* [ ] Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
-* [ ] Extending with custom rules and custom report formats. Plugins?
-* [ ] Input encoding detection + `BOM` (right now it's experimental). It works but not so accurate... UTF-8/16/32 is the best choice for now.
+**Validation**
+* More aggregate rules.
+* Custom cell rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
+* Custom agregate rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
+* Configurable keyword for null/empty values. By default, it's an empty string. But you will use `null`, `nil`, `none`, `empty`, etc. Overridable on the column level.
+* Handle empty files and files with only a header row, or only with one line of data. One column wthout header is also possible.
+* Using multiple schemas for one csv file.
+* Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas. Make it DRY and easy to maintain.
+* Validate syntax and options in the schema file. It's important to know if the schema file is valid and can be used for validation.
+* If option `--schema` is not specified, then validate only super base level things (like "is it a CSV file?").
+* Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
+* Extending with custom rules and custom report formats. Plugins?
+* Input encoding detection + `BOM` (right now it's experimental). It works but not so accurate... UTF-8/16/32 is the best choice for now.
 
-Release workflow
-* [ ] Build and release Docker image [via GitHub Actions, tags and labels](https://docs.docker.com/build/ci/github-actions/manage-tags-labels/). Review it.
-* [x] ~~Upgrad Docker to PHP 8.3.x~~
-* [ ] Build phar file and release via GitHub Actions.
-* [ ] Auto insert tool version into the Docker image and phar file. It's important to know the version of the tool you are using.
-* [ ] Show version as part of output.
+**Release workflow**
+* Build and release Docker image [via GitHub Actions, tags and labels](https://docs.docker.com/build/ci/github-actions/manage-tags-labels/). Review it.
+* Build phar file and release via GitHub Actions.
+* Auto insert tool version into the Docker image and phar file. It's important to know the version of the tool you are using.
+* Show version as part of output.
 
-Performance and optimization
-* [ ] Parallel validation of really-really large files (1GB+ ?). I know you have them and not so much memory.
-* [ ] Parallel validation of multiple files at once.
-* [ ] Benchmarks as part of the CI(?) and Readme. It's important to know how much time the validation process takes.
-* [ ] Optimazation on `php.ini` level to start it faster. JIT.
+**Performance and optimization**
+* Benchmarks as part of the CI(?) and Readme. It's important to know how much time the validation process takes.
+* Optimazation on `php.ini` level to start it faster. JIT, opcache, preloading, etc.
+* Parallel validation of really-really large files (1GB+ ?). I know you have them and not so much memory.
+* Parallel validation of multiple files at once.
 
-Mock data generation
-* [ ] Create CSV files based on the schema (like "create 1000 rows with random data based on schema and rules").
-* [ ] Use [Faker](https://github.com/FakerPHP/Faker) for random data generation.
+**Mock data generation**
+* Create CSV files based on the schema (like "create 1000 rows with random data based on schema and rules").
+* Use [Faker](https://github.com/FakerPHP/Faker) for random data generation.
 
-Reporting
+**Reporting**
 * [x] ~~Fix auto width of tables in GitHub terminal.~~
-* [ ] More report formats (like JSON, XML, etc). Any ideas?
-* [ ] Gitlab and JUnit reports must be as one structure. It's not so easy to implement. But it's a good idea.
-* [ ] Merge reports from multiple CSV files into one report. It's useful when you have a lot of files and you want to see all errors in one place. Especially for GitLab and JUnit reports.
+* More report formats (like JSON, XML, etc). Any ideas?
+* Gitlab and JUnit reports must be as one structure. It's not so easy to implement. But it's a good idea.
+* Merge reports from multiple CSV files into one report. It's useful when you have a lot of files and you want to see all errors in one place. Especially for GitLab and JUnit reports.
 
-Misc
-* [ ] Use it as PHP SDK. Examples in Readme.
-* [ ] S3 Storage support. Validate files in the S3 bucket?
-* [ ] More examples and documentation.
+**Agregate rule**
+* Use it as PHP SDK. Examples in Readme.
+* S3 Storage support. Validate files in the S3 bucket?
+* More examples and documentation.
 
  
-PS. [There is a file](tests/schemas/example_full.yml) with my ideas and imagination.
+PS. [There is a file](tests/schemas/example_full.yml) with my ideas and imagination. It's not valid schema file, just a draft.
 I'm not sure if I will implement all of them. But I will try to do my best.
 
 

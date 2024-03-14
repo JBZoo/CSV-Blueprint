@@ -20,6 +20,8 @@ columns:
       not_empty: true
       min_length: 4
       max_length: 7
+    aggregate_rules:
+      unique: true
 
   - name: City
     rules:

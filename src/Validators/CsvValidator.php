@@ -38,8 +38,7 @@ final class CsvValidator
         return $this->errors
             ->addErrorSuit($this->validateFile($quickStop))
             ->addErrorSuit($this->validateHeader($quickStop))
-            ->addErrorSuit($this->validateEachCell($quickStop))
-            ->addErrorSuit(self::validateAggregateRules($quickStop));
+            ->addErrorSuit($this->validateLines($quickStop));
     }
 
     private function validateHeader(bool $quickStop = false): ErrorSuite
@@ -57,7 +56,7 @@ final class CsvValidator
                     'Property "<c>name</c>" is not defined in schema: ' .
                     "\"<c>{$this->schema->getFilename()}</c>\"",
                     $column->getHumanName(),
-                    1,
+                    ColumnValidator::FALLBACK_LINE,
                 );
 
                 $errors->addError($error);
@@ -71,23 +70,26 @@ final class CsvValidator
         return $errors;
     }
 
-    private function validateEachCell(bool $quickStop = false): ErrorSuite
+    private function validateLines(bool $quickStop = false): ErrorSuite
     {
-        $errors = new ErrorSuite();
+        $errors  = new ErrorSuite();
+        $columns = $this->schema->getColumnsMappedByHeader($this->csv->getHeader());
 
-        foreach ($this->csv->getRecords() as $line => $record) {
-            $columns = $this->schema->getColumnsMappedByHeader($this->csv->getHeader());
+        foreach ($columns as $column) {
+            $columValues = [];
+            if ($column === null) {
+                continue;
+            }
 
-            foreach ($columns as $column) {
-                if ($column === null) {
-                    continue;
-                }
-
-                $errors->addErrorSuit($column->validate($record[$column->getKey()], (int)$line + 1));
+            foreach ($this->csv->getRecords() as $line => $record) {
+                $columValues[] = $record[$column->getKey()];
+                $errors->addErrorSuit($column->validateCell($record[$column->getKey()], (int)$line + 1));
                 if ($quickStop && $errors->count() > 0) {
                     return $errors;
                 }
             }
+
+            $errors->addErrorSuit($column->validateList($columValues));
         }
 
         return $errors;
@@ -108,7 +110,7 @@ final class CsvValidator
                 'Filename "<c>' . Utils::cutPath($this->csv->getCsvFilename()) .
                 "</c>\" does not match pattern: \"<c>{$filenamePattern}</c>\"",
                 '',
-                0,
+                ColumnValidator::FALLBACK_LINE,
             );
 
             $errors->addError($error);
@@ -119,16 +121,5 @@ final class CsvValidator
         }
 
         return $errors;
-    }
-
-    private static function validateAggregateRules(bool $quickStop = false): ErrorSuite
-    {
-        $errors = new ErrorSuite();
-
-        if ($quickStop && $errors->count() > 0) {
-            return $errors;
-        }
-
-        return new ErrorSuite();
     }
 }

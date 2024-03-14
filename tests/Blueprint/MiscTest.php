@@ -61,7 +61,7 @@ final class MiscTest extends PHPUnit
 
         $finder = (new Finder())
             ->files()
-            ->in(PROJECT_ROOT . '/src/Rules')
+            ->in(PROJECT_ROOT . '/src/CellRules')
             ->ignoreDotFiles(false)
             ->ignoreVCS(true)
             ->name('/\\.php$/');
@@ -69,9 +69,8 @@ final class MiscTest extends PHPUnit
         foreach ($finder as $file) {
             $ruleName     = Utils::camelToKebabCase($file->getFilenameWithoutExtension());
             $excludeRules = [
-                'abstarct_rule',
+                'abstarct_cell_rule',
                 'exception',
-                'rule_exception',
             ];
 
             if (\in_array($ruleName, $excludeRules, true)) {
@@ -111,25 +110,10 @@ final class MiscTest extends PHPUnit
         );
     }
 
-    // public function testCheckPhpSchemaExampleInReadme(): void
-    // {
-    //     $this->testCheckExampleInReadme(PROJECT_ROOT . '/schema-examples/full.php', 'php', 'PHP Format', 14);
-    // }
-    //
-    // public function testCheckJsonSchemaExampleInReadme(): void
-    // {
-    //     $this->testCheckExampleInReadme(PROJECT_ROOT . '/schema-examples/full.json', 'json', 'JSON Format', 0);
-    // }
-
     public function testCompareExamplesWithOrig(): void
     {
         $basepath = PROJECT_ROOT . '/schema-examples/full';
-
-        $origYml = yml("{$basepath}.yml")->getArrayCopy();
-
-        // To update examples ONLY!!!
-        // file_put_contents("{$basepath}.php", (string)phpArray($origYml));
-        // file_put_contents("{$basepath}.json", (string)json($origYml));
+        $origYml  = yml("{$basepath}.yml")->getArrayCopy();
 
         isSame((string)phpArray($origYml), (string)phpArray("{$basepath}.php"), 'PHP config is invalid');
         isSame((string)json($origYml), (string)json("{$basepath}.json"), 'JSON config is invalid');
@@ -190,6 +174,17 @@ final class MiscTest extends PHPUnit
     {
         $this->expectExceptionMessage('File not found: demo.csv');
         $this->getFileName(Utils::findFiles(['demo.csv']));
+    }
+
+    public function testUniqueNameOfRules(): void
+    {
+        $yml = yml(PROJECT_ROOT . '/schema-examples/full.yml');
+
+        $rules     = \array_keys($yml->findArray('columns.0.rules'));
+        $agRules   = \array_keys($yml->findArray('columns.0.aggregate_rules'));
+        $notUnique = \array_intersect($rules, $agRules);
+
+        isSame([], $notUnique, 'Rules names should be unique: ' . \implode(', ', $notUnique));
     }
 
     /**

@@ -28,7 +28,7 @@ return [
 
     'columns' => [
         [
-            'name'        => 'csv_header_name',
+            'name'        => 'Column Name (header)',
             'description' => 'Lorem ipsum',
             'rules'       => [
                 'not_empty'          => true,
@@ -70,7 +70,11 @@ return [
                 'cardinal_direction' => true,
                 'usa_market_name'    => true,
             ],
+            'aggregate_rules' => [
+                'unique' => true,
+            ],
         ],
         ['name' => 'another_column'],
+        ['name' => 'third_column'],
     ],
 ];

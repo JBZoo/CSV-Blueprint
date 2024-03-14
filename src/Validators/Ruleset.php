@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Validators;
 
-use JBZoo\CsvBlueprint\Rules\AbstarctRule;
+use JBZoo\CsvBlueprint\AbstarctRule;
 use JBZoo\CsvBlueprint\Utils;
 
 final class Ruleset
@@ -41,16 +41,24 @@ final class Ruleset
      */
     public function createRule(string $ruleName, null|array|bool|float|int|string $options = null): AbstarctRule
     {
-        $classname = '\\JBZoo\\CsvBlueprint\\Rules\\' . Utils::kebabToCamelCase($ruleName);
-        if (\class_exists($classname)) {
+        $ruleClass = Utils::kebabToCamelCase($ruleName);
+
+        $classRule = "\\JBZoo\\CsvBlueprint\\CellRules\\{$ruleClass}";
+        if (\class_exists($classRule)) {
             // @phpstan-ignore-next-line
-            return new $classname($this->columnNameId, $options);
+            return new $classRule($this->columnNameId, $options);
         }
 
-        throw new Exception("Rule \"{$ruleName}\" not found. Expected class: \"{$classname}\"");
+        $classAggregateRule = "\\JBZoo\\CsvBlueprint\\AggregateRules\\{$ruleClass}";
+        if (\class_exists($classAggregateRule)) {
+            // @phpstan-ignore-next-line
+            return new $classAggregateRule($this->columnNameId, $options);
+        }
+
+        throw new Exception("Rule \"{$ruleName}\" not found. Expected classes: {$classRule} OR {$classAggregateRule}");
     }
 
-    public function validate(string $cellValue, int $line): ErrorSuite
+    public function validate(array|string $cellValue, int $line): ErrorSuite
     {
         $errors = new ErrorSuite();
 

@@ -38,14 +38,14 @@ final class Column
     private int   $id;
     private Data  $column;
     private array $rules;
-    private array $aggregateRules;
+    private array $aggRules;
 
     public function __construct(int $id, array $config)
     {
-        $this->id             = $id;
-        $this->column         = new Data($config);
-        $this->rules          = $this->prepareRuleSet('rules');
-        $this->aggregateRules = $this->prepareRuleSet('aggregate_rules');
+        $this->id       = $id;
+        $this->column   = new Data($config);
+        $this->rules    = $this->prepareRuleSet('rules');
+        $this->aggRules = $this->prepareRuleSet('aggregate_rules');
     }
 
     public function getName(): string
@@ -101,7 +101,7 @@ final class Column
 
     public function getAggregateRules(): array
     {
-        return $this->aggregateRules;
+        return $this->aggRules;
     }
 
     public function getInherit(): string
@@ -109,9 +109,14 @@ final class Column
         return $this->column->getString('inherit', self::FALLBACK_VALUES['inherit']);
     }
 
-    public function validate(string $cellValue, int $line): ErrorSuite
+    public function validateCell(string $cellValue, int $line): ErrorSuite
     {
-        return (new ColumnValidator($this))->validate($cellValue, $line);
+        return (new ColumnValidator($this))->validateCell($cellValue, $line);
+    }
+
+    public function validateList(array $cellValue): ErrorSuite
+    {
+        return (new ColumnValidator($this))->validateList($cellValue);
     }
 
     private function prepareRuleSet(string $schemaKey): array
