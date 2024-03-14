@@ -25,7 +25,4 @@ RUN cd /app                                                           \
     && composer clear-cache
 RUN chmod +x /app/csv-blueprint
 
-# Color output by default
-ENV TERM_PROGRAM=Hyper
-
 ENTRYPOINT ["/app/csv-blueprint"]

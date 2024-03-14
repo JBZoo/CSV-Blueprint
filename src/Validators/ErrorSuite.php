@@ -21,8 +21,7 @@ use JBZoo\CIReportConverter\Converters\GitLabJsonConverter;
 use JBZoo\CIReportConverter\Converters\JUnitConverter;
 use JBZoo\CIReportConverter\Converters\TeamCityTestsConverter;
 use JBZoo\CIReportConverter\Formats\Source\SourceSuite;
-use JBZoo\Utils\Cli;
-use JBZoo\Utils\Env;
+use JBZoo\CsvBlueprint\Utils;
 use JBZoo\Utils\Vars;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -199,17 +198,13 @@ final class ErrorSuite
             'line'    => 10,
             'column'  => 20,
             'rule'    => 20,
-            'min'     => 90,
+            'min'     => 120,
             'max'     => 150,
-            'reserve' => 5, // So that the table does not rest on the very edge of the terminal. Just in case.
+            'reserve' => 3, // So that the table does not rest on the very edge of the terminal. Just in case.
         ];
 
-        // Fallback to 80 if the terminal width cannot be determined.
-        // env.COLUMNS_TEST usually not defined so we use it only for testing purposes.
-        $maxAutoDetected = Env::int('COLUMNS_TEST', Cli::getNumberOfColumns());
-
         $maxWindowWidth = Vars::limit(
-            $maxAutoDetected,
+            Utils::autoDetectTerminalWidth(),
             $floatingSizes['min'],
             $floatingSizes['max'],
         ) - $floatingSizes['reserve'];

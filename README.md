@@ -56,7 +56,7 @@ Also see demo in the [GitHub Actions](https://github.com/JBZoo/Csv-Blueprint/act
 ### As GitHub Action
 
 ```yml
-- uses: jbzoo/csv-blueprint # See the specific version on releases page
+- uses: jbzoo/csv-blueprint@master # See the specific version on releases page
   with:
     # Path(s) to validate. You can specify path in which CSV files will be searched. Feel free to use glob pattrens. Usage examples: /full/path/file.csv, p/file.csv, p/*.csv, p/**/*.csv, p/**/name-*.csv, **/*.csv, etc.
     # Required: true
@@ -330,8 +330,8 @@ columns:
       max_word_count: 5                 # Integer only. Max count of words in the string Example: "Hello World! 123" - 2 words only (123 is not a word)
       at_least_contains: [ a, b ]       # At least one of the string must be in the CSV value. Case-sensitive.
       all_must_contain: [ a, b, c ]     # All the strings must be part of a CSV value. Case-sensitive.
-      str_ends_with: " suffix"          # Case-sensitive. Example: "Hello World suffix"
-      str_starts_with: "prefix "        # Case-sensitive. Example: "prefix Hello World"
+      starts_with: "prefix "            # Case-sensitive. Example: "prefix Hello World"
+      ends_with: " suffix"              # Case-sensitive. Example: "Hello World suffix"
 
       # Decimal and integer numbers
       min: 10                           # Can be integer or float, negative and positive
@@ -380,7 +380,7 @@ Batch processing
 Validation
 * [x] ~~`filename_pattern` validation with regex (like "all files in the folder should be in the format `/^[\d]{4}-[\d]{2}-[\d]{2}\.csv$/`").~~
 * [ ] Flag to ignore file name pattern. It's useful when you have a lot of files and you don't want to validate the file name.
-* [ ] Keyword for null value. Configurable. By default, it's an empty string. But you can use `null`, `nil`, `none`, `empty`, etc.
+* [ ] Keyword for null value. Configurable. By default, it's an empty string. But you can use `null`, `nil`, `none`, `empty`, etc. Overridable on the column level.
 * [ ] Agregate rules (like "at least one of the fields should be not empty" or "all values must be unique").
 * [ ] Handle empty files and files with only a header row, or only with one line of data. One column wthout header is also possible.
 * [ ] Using multiple schemas for one csv file.
@@ -409,6 +409,8 @@ Mock data generation
 * [ ] Use [Faker](https://github.com/FakerPHP/Faker) for random data generation.
 
 Reporting
+* [ ] Fix auto width of tables in Githu terminal.
+* [ ] 
 * [ ] More report formats (like JSON, XML, etc). Any ideas?
 * [ ] Gitlab and JUnit reports must be as one structure. It's not so easy to implement. But it's a good idea.
 * [ ] Merge reports from multiple CSV files into one report. It's useful when you have a lot of files and you want to see all errors in one place. Especially for GitLab and JUnit reports.

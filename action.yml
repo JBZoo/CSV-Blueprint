@@ -40,6 +40,8 @@ inputs:
 runs:
   using: 'docker'
   image: 'docker://jbzoo/csv-blueprint'
+  env:
+    GITHUB_ACTIONS: 'true'
   args:
     - validate:csv
     - '--csv'

@@ -21,6 +21,7 @@ use JBZoo\CsvBlueprint\Rules\AllowValues;
 use JBZoo\CsvBlueprint\Rules\AtLeastContains;
 use JBZoo\CsvBlueprint\Rules\CardinalDirection;
 use JBZoo\CsvBlueprint\Rules\DateFormat;
+use JBZoo\CsvBlueprint\Rules\EndsWith;
 use JBZoo\CsvBlueprint\Rules\ExactValue;
 use JBZoo\CsvBlueprint\Rules\IsAlias;
 use JBZoo\CsvBlueprint\Rules\IsBool;
@@ -49,8 +50,7 @@ use JBZoo\CsvBlueprint\Rules\OnlyLowercase;
 use JBZoo\CsvBlueprint\Rules\OnlyUppercase;
 use JBZoo\CsvBlueprint\Rules\Precision;
 use JBZoo\CsvBlueprint\Rules\Regex;
-use JBZoo\CsvBlueprint\Rules\StrEndsWith;
-use JBZoo\CsvBlueprint\Rules\StrStartsWith;
+use JBZoo\CsvBlueprint\Rules\StartsWith;
 use JBZoo\CsvBlueprint\Rules\UsaMarketName;
 use JBZoo\CsvBlueprint\Rules\WordCount;
 use JBZoo\PHPUnit\PHPUnit;
@@ -767,46 +767,46 @@ final class RulesTest extends PHPUnit
 
     public function testStrStartsWith(): void
     {
-        $rule = new StrStartsWith('prop', 'a');
+        $rule = new StartsWith('prop', 'a');
         isSame(null, $rule->validate('a'));
         isSame(null, $rule->validate('abc'));
 
         isSame(
-            '"str_starts_with" at line 0, column "prop". Value "" must start with "a".',
+            '"starts_with" at line 0, column "prop". Value "" must start with "a".',
             \strip_tags((string)$rule->validate('')),
         );
 
         isSame(
-            '"str_starts_with" at line 0, column "prop". Value " a" must start with "a".',
+            '"starts_with" at line 0, column "prop". Value " a" must start with "a".',
             \strip_tags((string)$rule->validate(' a')),
         );
 
-        $rule = new StrStartsWith('prop', '');
+        $rule = new StartsWith('prop', '');
         isSame(
-            '"str_starts_with" at line 0, column "prop". Rule must contain a prefix value in schema file.',
+            '"starts_with" at line 0, column "prop". Rule must contain a prefix value in schema file.',
             \strip_tags((string)$rule->validate('a ')),
         );
     }
 
     public function testStrEndsWith(): void
     {
-        $rule = new StrEndsWith('prop', 'a');
+        $rule = new EndsWith('prop', 'a');
         isSame(null, $rule->validate('a'));
         isSame(null, $rule->validate('cba'));
 
         isSame(
-            '"str_ends_with" at line 0, column "prop". Value "" must end with "a".',
+            '"ends_with" at line 0, column "prop". Value "" must end with "a".',
             \strip_tags((string)$rule->validate('')),
         );
 
         isSame(
-            '"str_ends_with" at line 0, column "prop". Value "a " must end with "a".',
+            '"ends_with" at line 0, column "prop". Value "a " must end with "a".',
             \strip_tags((string)$rule->validate('a ')),
         );
 
-        $rule = new StrEndsWith('prop', '');
+        $rule = new EndsWith('prop', '');
         isSame(
-            '"str_ends_with" at line 0, column "prop". Rule must contain a suffix value in schema file.',
+            '"ends_with" at line 0, column "prop". Rule must contain a suffix value in schema file.',
             \strip_tags((string)$rule->validate('a ')),
         );
     }

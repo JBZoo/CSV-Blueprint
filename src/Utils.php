@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint;
 
+use JBZoo\Utils\Cli;
+use JBZoo\Utils\Env;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -102,5 +104,37 @@ final class Utils
         }
 
         return \str_replace($pwd, '.', $fullpath);
+    }
+
+    public static function isDocker(): bool
+    {
+        return \file_exists('/app/csv-blueprint');
+    }
+
+    public static function isGithubActions(): bool
+    {
+        return self::isDocker() && Env::bool('GITHUB_ACTIONS');
+    }
+
+    /**
+     * Autodetect the width of the terminal.
+     */
+    public static function autoDetectTerminalWidth(): int
+    {
+        static $maxAutoDetected; // Execution optimization
+
+        if ($maxAutoDetected === null) {
+            if (self::isGithubActions()) {
+                $maxAutoDetected = 200; // GitHub Actions has a wide terminal
+            } elseif (self::isDocker()) {
+                $maxAutoDetected = 140;
+            } else {
+                // Fallback to 80 if the terminal width cannot be determined.
+                // env.COLUMNS_TEST usually not defined, so we use it only for testing purposes.
+                $maxAutoDetected = Env::int('COLUMNS_TEST', Cli::getNumberOfColumns());
+            }
+        }
+
+        return $maxAutoDetected;
     }
 }
