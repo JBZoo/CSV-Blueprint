@@ -428,7 +428,7 @@ I'm not sure if I will implement all of them. But I will try to do my best.
 
 There is a perception that PHP is a slow language. I don't agree with that. You just need to know how to prepare it.
 See [Processing One Billion CSV rows in PHP!](https://dev.to/realflowcontrol/processing-one-billion-rows-in-php-3eg0).
-That is, if you do everything right, you can read and aggregate and calculate data from CSV at ~15 million lines per second.
+That is, if you do everything right, you can read, aggregate and calculate data from CSV at **~15 million lines per second**!
 
 * Yeah-yeah. I know it's not the fastest tool in the world. But it's not the slowest either. See link above.
 * Yeah-yeah. I know it's PHP (not Python, Go, Pyspark...). PHP is not the best language for such tasks.
