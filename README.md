@@ -56,7 +56,7 @@ Also see demo in the [GitHub Actions](https://github.com/JBZoo/Csv-Blueprint/act
 ### As GitHub Action
 
 ```yml
-- uses: jbzoo/csv-blueprint # See the specific version on releases page
+- uses: jbzoo/csv-blueprint@master # See the specific version on releases page
   with:
     # Path(s) to validate. You can specify path in which CSV files will be searched. Feel free to use glob pattrens. Usage examples: /full/path/file.csv, p/file.csv, p/*.csv, p/**/*.csv, p/**/name-*.csv, **/*.csv, etc.
     # Required: true

@@ -61,7 +61,7 @@ final class GithubActionsTest extends PHPUnit
 
         $expectedMessage = [
             '```yml',
-            '- uses: jbzoo/csv-blueprint # See the specific version on releases page',
+            '- uses: jbzoo/csv-blueprint@master # See the specific version on releases page',
             '  with:',
         ];
 
