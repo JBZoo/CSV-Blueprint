@@ -16,16 +16,16 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\AggregateRules;
 
-final class IsUnique extends AbstarctAggregateRule
+final class CountEmptyMin extends AbstarctAggregateRule
 {
     public function validateRule(array $columnValues): ?string
     {
-        $uValuesCount = \count(\array_unique($columnValues));
-        $valuesCount  = \count($columnValues);
+        $minCountEmptyLines = $this->getOptionAsInt();
+        $countEmptyLines    = \count(\array_filter($columnValues, static fn ($value) => $value === ''));
 
-        if ($uValuesCount !== $valuesCount) {
-            return "Column has non-unique values. " .
-                "Unique: <c>{$uValuesCount}</c>, total: <green>{$valuesCount}</green>";
+        if ($minCountEmptyLines > $countEmptyLines) {
+            return 'Column count of empty lines is less than expected. ' .
+                "Actual: <c>{$countEmptyLines}</c>, expected: <green>{$minCountEmptyLines}</green>";
         }
 
         return null;

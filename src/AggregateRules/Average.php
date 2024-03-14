@@ -16,16 +16,22 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\AggregateRules;
 
-final class IsUnique extends AbstarctAggregateRule
+use MathPHP\Statistics\Average as AverageMath;
+
+final class Average extends AbstarctAggregateRule
 {
     public function validateRule(array $columnValues): ?string
     {
-        $uValuesCount = \count(\array_unique($columnValues));
-        $valuesCount  = \count($columnValues);
+        if (\count($columnValues) === 0) {
+            return null; // Cannot find the average of an empty list of numbers
+        }
 
-        if ($uValuesCount !== $valuesCount) {
-            return "Column has non-unique values. " .
-                "Unique: <c>{$uValuesCount}</c>, total: <green>{$valuesCount}</green>";
+        $expAverage = $this->getOptionAsFloat();
+        $average    = AverageMath::mean($columnValues);
+
+        if ($expAverage !== $average) {
+            return 'Column average is not equal to expected. ' .
+                "Actual: <c>{$average}</c>, expected: <green>{$expAverage}</green>";
         }
 
         return null;

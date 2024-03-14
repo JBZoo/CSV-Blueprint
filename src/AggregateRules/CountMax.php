@@ -16,16 +16,16 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\AggregateRules;
 
-final class IsUnique extends AbstarctAggregateRule
+final class CountMax extends AbstarctAggregateRule
 {
     public function validateRule(array $columnValues): ?string
     {
-        $uValuesCount = \count(\array_unique($columnValues));
-        $valuesCount  = \count($columnValues);
+        $expMax = $this->getOptionAsInt();
+        $count  = \count($columnValues);
 
-        if ($uValuesCount !== $valuesCount) {
-            return "Column has non-unique values. " .
-                "Unique: <c>{$uValuesCount}</c>, total: <green>{$valuesCount}</green>";
+        if ($expMax < $count) {
+            return 'Column count is greater than expected. ' .
+                "Actual: <c>{$count}</c>, expected: <green>{$expMax}</green>";
         }
 
         return null;
