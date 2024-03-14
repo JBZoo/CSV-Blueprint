@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint;
 
+use JBZoo\Utils\Cli;
 use JBZoo\Utils\Env;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
@@ -113,5 +114,23 @@ final class Utils
     public static function isGithubActions(): bool
     {
         return self::isDocker() && Env::bool('GITHUB_ACTIONS');
+    }
+
+    public static function autoDetectTerminalWidth(): int
+    {
+        static $maxAutoDetected; // Execution optimization
+
+        if ($maxAutoDetected === null) {
+            if (self::isGithubActions()) {
+                $maxAutoDetected = 200; // GitHub Actions has a wide terminal
+            } elseif (self::isDocker()) {
+                $maxAutoDetected = 120;
+            } else {
+                // Fallback value is 80
+                $maxAutoDetected = Env::int('COLUMNS_TEST', Cli::getNumberOfColumns());
+            }
+        }
+
+        return $maxAutoDetected;
     }
 }

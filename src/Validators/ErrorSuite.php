@@ -207,7 +207,7 @@ final class ErrorSuite
 
         // Fallback to 80 if the terminal width cannot be determined.
         // env.COLUMNS_TEST usually not defined, so we use it only for testing purposes.
-        $maxAutoDetected = self::autoDetectTerminalWidth();
+        $maxAutoDetected = Utils::autoDetectTerminalWidth();
 
         $maxWindowWidth = Vars::limit(
             $maxAutoDetected,
@@ -221,19 +221,5 @@ final class ErrorSuite
             - $floatingSizes['rule'];
 
         return $floatingSizes;
-    }
-
-    private static function autoDetectTerminalWidth(): int
-    {
-        $maxAutoDetected = Env::int('COLUMNS_TEST', Cli::getNumberOfColumns());
-        if (Utils::isDocker()) {
-            $maxAutoDetected = 120;
-        }
-
-        if (Utils::isGithubActions()) {
-            $maxAutoDetected = 200; // GitHub Actions has a wide terminal
-        }
-
-        return $maxAutoDetected;
     }
 }
