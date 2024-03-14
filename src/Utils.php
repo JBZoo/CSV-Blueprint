@@ -124,7 +124,7 @@ final class Utils
             if (self::isGithubActions()) {
                 $maxAutoDetected = 200; // GitHub Actions has a wide terminal
             } elseif (self::isDocker()) {
-                $maxAutoDetected = 120;
+                $maxAutoDetected = 140;
             } else {
                 // Fallback value is 80
                 $maxAutoDetected = Env::int('COLUMNS_TEST', Cli::getNumberOfColumns());
