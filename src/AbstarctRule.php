@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint;
 
-use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\Error;
 use JBZoo\Data\Data;
 
@@ -40,11 +39,16 @@ abstract class AbstarctRule
         $this->ruleCode     = $this->getRuleCode();
     }
 
-    public function validate(string $cellValue, int $line = 0): ?Error
+    public function validate(array|string $cellValue, int $line = 0): ?Error
     {
-        $error = $this->validateRule($cellValue);
-        if ($error !== null) {
-            return new Error($this->ruleCode, $error, $this->columnNameId, $line);
+        if (\method_exists($this, 'validateRule')) {
+            /** @phan-suppress-next-line PhanUndeclaredMethod */
+            $error = $this->validateRule($cellValue);
+            if ($error !== null) {
+                return new Error($this->ruleCode, $error, $this->columnNameId, $line);
+            }
+        } else {
+            throw new \RuntimeException('Method "validateRule" not found in ' . static::class);
         }
 
         return null;
