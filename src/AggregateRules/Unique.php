@@ -32,7 +32,7 @@ final class Unique extends AbstarctAggregateRule
         $valuesCount  = \count($columnValues);
 
         if ($uValuesCount !== $valuesCount) {
-            return "Column has non-unique values. Total: {$valuesCount}, unique: {$uValuesCount}";
+            return "Column has non-unique values. Total: <c>{$valuesCount}</c>, unique: <green>{$uValuesCount}</green>";
         }
 
         return null;
