@@ -70,7 +70,7 @@ final class ValidateCsvTest extends PHPUnit
             | 0    |                  | filename_pattern | Filename "./tests/fixtures/demo.csv" does not match pattern: "/demo-[12].csv$/i" |
             | 6    | 0:Name           | min_length       | Value "Carl" (length: 4) is too short. Min length is 5                           |
             | 11   | 0:Name           | min_length       | Value "Lois" (length: 4) is too short. Min length is 5                           |
-            | -1   | 1:City           | unique           | Column has non-unique values. Total: 10, unique: 9                               |
+            | -1   | 1:City           | ag:unique        | Column has non-unique values. Total: 10, unique: 9                               |
             | 5    | 2:Float          | max              | Value "74605.944" is greater than "74605"                                        |
             | 6    | 3:Birthday       | min_date         | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00" |
             | 8    | 3:Birthday       | min_date         | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00" |
@@ -155,7 +155,7 @@ final class ValidateCsvTest extends PHPUnit
             "filename_pattern" at line 0, column "". Filename "./tests/fixtures/demo.csv" does not match pattern: "/demo-[12].csv$/i".
             "min_length" at line 6, column "0:Name". Value "Carl" (length: 4) is too short. Min length is 5.
             "min_length" at line 11, column "0:Name". Value "Lois" (length: 4) is too short. Min length is 5.
-            "unique" at line -1, column "1:City". Column has non-unique values. Total: 10, unique: 9.
+            "ag:unique" at line -1, column "1:City". Column has non-unique values. Total: 10, unique: 9.
             "max" at line 5, column "2:Float". Value "74605.944" is greater than "74605".
             "min_date" at line 6, column "3:Birthday". Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00".
             "min_date" at line 8, column "3:Birthday". Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00".

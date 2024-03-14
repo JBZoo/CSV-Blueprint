@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint;
 
+use JBZoo\CsvBlueprint\AggregateRules\AbstarctAggregateRule;
 use JBZoo\CsvBlueprint\Validators\Error;
 use JBZoo\Data\Data;
 
@@ -95,6 +96,11 @@ abstract class AbstarctRule
 
     private function getRuleCode(): string
     {
-        return Utils::camelToKebabCase((new \ReflectionClass($this))->getShortName());
+        $prefix = '';
+        if ($this instanceof AbstarctAggregateRule) {
+            $prefix = 'ag:';
+        }
+
+        return $prefix . Utils::camelToKebabCase((new \ReflectionClass($this))->getShortName());
     }
 }

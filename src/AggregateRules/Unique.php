@@ -20,6 +20,14 @@ final class Unique extends AbstarctAggregateRule
 {
     public function validateRule(array &$columnValues): ?string
     {
+        if (!$this->getOptionAsBool()) {
+            return null;
+        }
+
+        if (empty($columnValues)) {
+            return null;
+        }
+
         $uValuesCount = \count(\array_unique($columnValues));
         $valuesCount  = \count($columnValues);
 
