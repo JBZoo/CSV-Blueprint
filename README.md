@@ -330,8 +330,8 @@ columns:
       max_word_count: 5                 # Integer only. Max count of words in the string Example: "Hello World! 123" - 2 words only (123 is not a word)
       at_least_contains: [ a, b ]       # At least one of the string must be in the CSV value. Case-sensitive.
       all_must_contain: [ a, b, c ]     # All the strings must be part of a CSV value. Case-sensitive.
-      str_ends_with: " suffix"          # Case-sensitive. Example: "Hello World suffix"
       str_starts_with: "prefix "        # Case-sensitive. Example: "prefix Hello World"
+      str_ends_with: " suffix"          # Case-sensitive. Example: "Hello World suffix"
 
       # Decimal and integer numbers
       min: 10                           # Can be integer or float, negative and positive
