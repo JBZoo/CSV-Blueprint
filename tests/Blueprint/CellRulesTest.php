@@ -77,11 +77,6 @@ final class CellRulesTest extends PHPUnit
         isSame(null, $rule->validate('3'));
         isSame(
             '"allow_values" at line 1, column "prop". ' .
-            'Value "" is not allowed. Allowed values: ["1", "2", "3"].',
-            \strip_tags((string)$rule->validate('')),
-        );
-        isSame(
-            '"allow_values" at line 1, column "prop". ' .
             'Value "invalid" is not allowed. Allowed values: ["1", "2", "3"].',
             \strip_tags((string)$rule->validate('invalid')),
         );
@@ -96,11 +91,12 @@ final class CellRulesTest extends PHPUnit
     public function testDateFormat(): void
     {
         $rule = new DateFormat('prop', 'Y-m-d');
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('2000-12-31'));
         isSame(
             '"date_format" at line 1, column "prop". ' .
-            'Date format of value "" is not valid. Expected format: "Y-m-d".',
-            \strip_tags((string)$rule->validate('')),
+            'Date format of value "12" is not valid. Expected format: "Y-m-d".',
+            \strip_tags((string)$rule->validate('12')),
         );
         isSame(
             '"date_format" at line 1, column "prop". ' .

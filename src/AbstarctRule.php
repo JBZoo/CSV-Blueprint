@@ -105,11 +105,25 @@ abstract class AbstarctRule
      */
     protected function isEnabled(array|string $cellValue): bool
     {
-        return !(
-            \is_string($cellValue)                              // Only for CellRules
-            && \str_starts_with($this->ruleCode, 'is_')         // It's probably predicate
-            && (!$this->getOptionAsBool() || $cellValue === '') // Check is it enabled
-        );
+        // List of rules that should be checked for empty values
+        $exclusions = [
+            'not_empty',
+            'exact_value',
+            'length_min',
+        ];
+
+        if (
+            (\str_starts_with($this->ruleCode, 'is_') || \str_starts_with($this->ruleCode, 'ag:is_'))
+            && !$this->getOptionAsBool()
+        ) {
+            return false;
+        }
+
+        if (\in_array($this->ruleCode, $exclusions, true)) {
+            return true;
+        }
+
+        return $cellValue !== '';
     }
 
     private function getRuleCode(): string
