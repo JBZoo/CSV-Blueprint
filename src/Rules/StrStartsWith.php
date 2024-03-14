@@ -22,7 +22,7 @@ final class StrStartsWith extends AbstarctRule
     {
         $prefix = $this->getOptionAsString();
         if ($prefix === '') {
-            return null;
+            return 'Rule must contain a prefix value in schema file.';
         }
 
         if (!\str_starts_with($cellValue, $prefix)) {

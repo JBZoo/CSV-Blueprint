@@ -22,7 +22,7 @@ final class AllMustContain extends AbstarctRule
     {
         $inclusions = $this->getOptionAsArray();
         if (\count($inclusions) === 0) {
-            return null;
+            return 'Rule must contain at least one inclusion value in schema file.';
         }
 
         foreach ($inclusions as $inclusion) {

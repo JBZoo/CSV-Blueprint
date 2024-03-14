@@ -22,7 +22,7 @@ final class StrEndsWith extends AbstarctRule
     {
         $prefix = $this->getOptionAsString();
         if ($prefix === '') {
-            return null;
+            return 'Rule must contain a suffix value in schema file.';
         }
 
         if (!\str_ends_with($cellValue, $prefix)) {

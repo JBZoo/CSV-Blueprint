@@ -721,6 +721,13 @@ final class RulesTest extends PHPUnit
 
     public function testMustContain(): void
     {
+        $rule = new AtLeastContains('prop', []);
+        isSame(
+            '"at_least_contains" at line 0, column "prop". ' .
+            'Rule must contain at least one inclusion value in schema file.',
+            \strip_tags((string)$rule->validate('123')),
+        );
+
         $rule = new AtLeastContains('prop', ['a', 'b', 'c']);
         isSame(null, $rule->validate('a'));
         isSame(null, $rule->validate('abc'));
@@ -735,6 +742,13 @@ final class RulesTest extends PHPUnit
 
     public function testAllMustContain(): void
     {
+        $rule = new AllMustContain('prop', []);
+        isSame(
+            '"all_must_contain" at line 0, column "prop". ' .
+            'Rule must contain at least one inclusion value in schema file.',
+            \strip_tags((string)$rule->validate('ac')),
+        );
+
         $rule = new AllMustContain('prop', ['a', 'b', 'c']);
         isSame(null, $rule->validate('abc'));
         isSame(null, $rule->validate('abdasadasdasdc'));
@@ -766,6 +780,12 @@ final class RulesTest extends PHPUnit
             '"str_starts_with" at line 0, column "prop". Value " a" must start with "a".',
             \strip_tags((string)$rule->validate(' a')),
         );
+
+        $rule = new StrStartsWith('prop', '');
+        isSame(
+            '"str_starts_with" at line 0, column "prop". Rule must contain a prefix value in schema file.',
+            \strip_tags((string)$rule->validate('a ')),
+        );
     }
 
     public function testStrEndsWith(): void
@@ -781,6 +801,12 @@ final class RulesTest extends PHPUnit
 
         isSame(
             '"str_ends_with" at line 0, column "prop". Value "a " must end with "a".',
+            \strip_tags((string)$rule->validate('a ')),
+        );
+
+        $rule = new StrEndsWith('prop', '');
+        isSame(
+            '"str_ends_with" at line 0, column "prop". Rule must contain a suffix value in schema file.',
             \strip_tags((string)$rule->validate('a ')),
         );
     }
@@ -863,5 +889,8 @@ final class RulesTest extends PHPUnit
             'Value "Qwerty, asd 123" is not a valid alias. Expected "qwerty-asd-123".',
             \strip_tags((string)$rule->validate('Qwerty, asd 123')),
         );
+
+        $rule = new IsAlias('prop', false);
+        isSame(null, $rule->validate('Qwerty, asd 123'));
     }
 }
