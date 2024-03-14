@@ -21,7 +21,7 @@ columns:
       length_min: 4
       length_max: 7
     aggregate_rules:
-      unique: true
+      is_unique: true
 
   - name: City
     rules:

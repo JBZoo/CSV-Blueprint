@@ -22,10 +22,6 @@ final class IsAlias extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
-        if (!$this->getOptionAsBool() || $cellValue === '') {
-            return null;
-        }
-
         $alias = Filter::alias($cellValue);
         if ($cellValue !== $alias) {
             return "Value \"<c>{$cellValue}</c>\" is not a valid alias. Expected \"<green>{$alias}</green>\".";

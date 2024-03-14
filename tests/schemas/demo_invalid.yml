@@ -26,7 +26,7 @@ columns:
       not_empty: true
       is_capitalize: true
     aggregate_rules:
-      unique: true
+      is_unique: true
 
   - name: Float
     rules:

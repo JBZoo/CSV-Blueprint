@@ -209,7 +209,7 @@ Found CSV files: 3
 +------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
 | Line | id:Column        | Rule         | Message                                                               |
 +------+------------------+--------------+-----------------------------------------------------------------------+
-| 1    | 1:City           | ag:unique    | Column has non-unique values. Unique: 1, total: 2                     |
+| 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 1, total: 2                     |
 | 3    | 2:Float          | max          | Value "74605.944" is greater than "74605"                             |
 | 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"] |
 +------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
@@ -389,7 +389,7 @@ columns:
     # Optional. You can use this section to validate the whole column
     # Be careful, this can reduce performance noticeably depending on the combination of rules.
     aggregate_rules:
-      unique: true                      # All values in the column are unique
+      is_unique: true                   # All values in the column are unique
 
   - name: "another_column"
 

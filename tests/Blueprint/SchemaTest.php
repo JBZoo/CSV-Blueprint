@@ -231,7 +231,7 @@ final class SchemaTest extends PHPUnit
         $column     = $schemaFull->getColumn(0);
 
         isSame([
-            'unique' => true,
+            'is_unique' => true,
         ], $column->getAggregateRules());
     }
 }

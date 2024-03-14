@@ -20,10 +20,6 @@ final class IsUuid4 extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
-        if (!$this->getOptionAsBool() || $cellValue === '') {
-            return null;
-        }
-
         $uuid4 = '/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89ABab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/';
 
         if (\preg_match($uuid4, $cellValue) === 0) {

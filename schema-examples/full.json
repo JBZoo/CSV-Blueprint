@@ -57,7 +57,7 @@
                 "is_usa_market_name"    : true
             },
             "aggregate_rules" : {
-                "unique" : true
+                "is_unique" : true
             }
         },
         {"name" : "another_column"},

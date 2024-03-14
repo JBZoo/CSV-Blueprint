@@ -20,10 +20,6 @@ final class IsCapitalize extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
-        if (!$this->getOptionAsBool() || $cellValue === '') {
-            return null;
-        }
-
         if ($cellValue !== \ucfirst($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" should be in capitalize";
         }

@@ -20,10 +20,6 @@ final class IsTrimed extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
-        if (!$this->getOptionAsBool() || $cellValue === '') {
-            return null;
-        }
-
         if (\trim($cellValue) !== $cellValue) {
             return "Value \"<c>{$cellValue}</c>\" is not trimmed";
         }

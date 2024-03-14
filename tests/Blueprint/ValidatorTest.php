@@ -101,16 +101,16 @@ final class ValidatorTest extends PHPUnit
 
     public function testAggregateRule(): void
     {
-        $csv = new CsvFile(self::CSV_DEMO, $this->getAggregateRule('Name', 'unique', true));
+        $csv = new CsvFile(self::CSV_DEMO, $this->getAggregateRule('Name', 'is_unique', true));
         isSame('', \strip_tags((string)$csv->validate()));
 
-        $csv = new CsvFile(self::CSV_DEMO, $this->getAggregateRule('City', 'unique', true));
+        $csv = new CsvFile(self::CSV_DEMO, $this->getAggregateRule('City', 'is_unique', true));
         isSame(
-            '"ag:unique" at line 1, column "0:City". Column has non-unique values. Unique: 9, total: 10.' . "\n",
+            '"ag:is_unique" at line 1, column "0:City". Column has non-unique values. Unique: 9, total: 10.' . "\n",
             \strip_tags((string)$csv->validate()),
         );
 
-        $csv = new CsvFile(self::CSV_DEMO, $this->getAggregateRule('City', 'unique', false));
+        $csv = new CsvFile(self::CSV_DEMO, $this->getAggregateRule('City', 'is_unique', false));
         isSame('', \strip_tags((string)$csv->validate()));
     }
 
@@ -237,10 +237,10 @@ final class ValidatorTest extends PHPUnit
         );
 
         $path = self::CSV_DEMO;
-        $csv  = new CsvFile($path, $this->getAggregateRule('City', 'unique', true));
+        $csv  = new CsvFile($path, $this->getAggregateRule('City', 'is_unique', true));
         isSame(
             \implode("\n", [
-                '::error file=./tests/fixtures/demo.csv,line=1::ag:unique at column 0:City%0A"ag:unique" ' .
+                '::error file=./tests/fixtures/demo.csv,line=1::ag:is_unique at column 0:City%0A"ag:is_unique" ' .
                 'at line 1, column "0:City". Column has non-unique values. Unique: 9, total: 10.',
                 '',
             ]),

@@ -20,10 +20,6 @@ final class IsIp extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
-        if (!$this->getOptionAsBool() || $cellValue === '') {
-            return null;
-        }
-
         if (\filter_var($cellValue, \FILTER_VALIDATE_IP) === false) {
             return "Value \"<c>{$cellValue}</c>\" is not a valid IP";
         }

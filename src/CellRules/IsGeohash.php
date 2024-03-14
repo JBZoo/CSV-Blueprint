@@ -20,10 +20,6 @@ class IsGeohash extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
-        if (!$this->getOptionAsBool() || $cellValue === '') {
-            return null;
-        }
-
         if (\preg_match('/^[0-9b-hj-km-np-z]{1,}$/', $cellValue) === 0) {
             return "Value \"<c>{$cellValue}</c>\" is not a valid Geohash";
         }

@@ -43,6 +43,10 @@ abstract class AbstarctRule
 
     public function validate(array|string $cellValue, int $line = ColumnValidator::FALLBACK_LINE): ?Error
     {
+        if ($this->isEnabled($cellValue) === false) {
+            return null;
+        }
+
         if (\method_exists($this, 'validateRule')) {
             /** @phan-suppress-next-line PhanUndeclaredMethod */
             $error = $this->validateRule($cellValue);
@@ -93,6 +97,19 @@ abstract class AbstarctRule
     protected function getOptionAsDate(): \DateTimeImmutable
     {
         return new \DateTimeImmutable($this->getOptionAsString(), new \DateTimeZone('UTC'));
+    }
+
+    /**
+     * Optimize performance
+     * There is no need to validate empty values for predicates or if it's disabled.
+     */
+    protected function isEnabled(array|string $cellValue): bool
+    {
+        return !(
+            \is_string($cellValue)                              // Only for CellRules
+            && \str_starts_with($this->ruleCode, 'is_')         // It's probably predicate
+            && (!$this->getOptionAsBool() || $cellValue === '') // Check is it enabled
+        );
     }
 
     private function getRuleCode(): string

@@ -16,14 +16,10 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\AggregateRules;
 
-final class Unique extends AbstarctAggregateRule
+final class IsUnique extends AbstarctAggregateRule
 {
     public function validateRule(array &$columnValues): ?string
     {
-        if (!$this->getOptionAsBool()) {
-            return null;
-        }
-
         if (\count($columnValues) === 0) {
             return null;
         }

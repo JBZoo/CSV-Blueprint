@@ -20,10 +20,6 @@ final class IsCardinalDirection extends AllowValues
 {
     public function validateRule(string $cellValue): ?string
     {
-        if (!$this->getOptionAsBool() || $cellValue === '') {
-            return null;
-        }
-
         return parent::validateRule($cellValue);
     }
 

@@ -76,11 +76,14 @@ return [
             ],
 
             'aggregate_rules' => [
-                'unique' => true,
+                'is_unique' => true,
             ],
         ],
-        ['name'        => 'another_column'],
-        ['name'        => 'third_column'],
+
+        ['name' => 'another_column'],
+
+        ['name' => 'third_column'],
+
         ['description' => 'Column with description only. Undefined header name.'],
     ],
 ];
