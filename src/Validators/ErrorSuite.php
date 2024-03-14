@@ -203,12 +203,8 @@ final class ErrorSuite
             'reserve' => 3, // So that the table does not rest on the very edge of the terminal. Just in case.
         ];
 
-        // Fallback to 80 if the terminal width cannot be determined.
-        // env.COLUMNS_TEST usually not defined, so we use it only for testing purposes.
-        $maxAutoDetected = Utils::autoDetectTerminalWidth();
-
         $maxWindowWidth = Vars::limit(
-            $maxAutoDetected,
+            Utils::autoDetectTerminalWidth(),
             $floatingSizes['min'],
             $floatingSizes['max'],
         ) - $floatingSizes['reserve'];

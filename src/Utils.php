@@ -116,6 +116,9 @@ final class Utils
         return self::isDocker() && Env::bool('GITHUB_ACTIONS');
     }
 
+    /**
+     * Autodetect the width of the terminal.
+     */
     public static function autoDetectTerminalWidth(): int
     {
         static $maxAutoDetected; // Execution optimization
@@ -126,7 +129,8 @@ final class Utils
             } elseif (self::isDocker()) {
                 $maxAutoDetected = 140;
             } else {
-                // Fallback value is 80
+                // Fallback to 80 if the terminal width cannot be determined.
+                // env.COLUMNS_TEST usually not defined, so we use it only for testing purposes.
                 $maxAutoDetected = Env::int('COLUMNS_TEST', Cli::getNumberOfColumns());
             }
         }
