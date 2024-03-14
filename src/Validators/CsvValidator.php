@@ -76,16 +76,20 @@ final class CsvValidator
         $columns = $this->schema->getColumnsMappedByHeader($this->csv->getHeader());
 
         foreach ($columns as $column) {
-            foreach ($this->csv->getRecords() as $line => $record) {
-                if ($column === null) {
-                    continue;
-                }
+            $columValues = [];
+            if ($column === null) {
+                continue;
+            }
 
-                $errors->addErrorSuit($column->validate($record[$column->getKey()], (int)$line + 1));
+            foreach ($this->csv->getRecords() as $line => $record) {
+                $columValues[] = $record[$column->getKey()];
+                $errors->addErrorSuit($column->validateCell($record[$column->getKey()], (int)$line + 1));
                 if ($quickStop && $errors->count() > 0) {
                     return $errors;
                 }
             }
+
+            $errors->addErrorSuit($column->validateList($columValues));
         }
 
         return $errors;

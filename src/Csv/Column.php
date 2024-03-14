@@ -109,9 +109,14 @@ final class Column
         return $this->column->getString('inherit', self::FALLBACK_VALUES['inherit']);
     }
 
-    public function validate(string $cellValue, int $line): ErrorSuite
+    public function validateCell(string $cellValue, int $line): ErrorSuite
     {
-        return (new ColumnValidator($this))->validate($cellValue, $line);
+        return (new ColumnValidator($this))->validateCell($cellValue, $line);
+    }
+
+    public function validateList(array $cellValue): ErrorSuite
+    {
+        return (new ColumnValidator($this))->validateList($cellValue);
     }
 
     private function prepareRuleSet(string $schemaKey): array

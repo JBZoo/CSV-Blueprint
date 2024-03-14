@@ -20,13 +20,13 @@ columns:
       not_empty: true
       min_length: 4
       max_length: 7
+    aggregate_rules:
+      unique: true
 
   - name: City
     rules:
       not_empty: true
       only_capitalize: true
-    aggregate_rules:
-      unique: true
 
   - name: Float
     rules:

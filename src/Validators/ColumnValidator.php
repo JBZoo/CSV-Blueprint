@@ -20,15 +20,22 @@ use JBZoo\CsvBlueprint\Csv\Column;
 
 final class ColumnValidator
 {
-    private Ruleset $ruleset;
+    private Ruleset $cellRuleset;
+    private Ruleset $aggRuleset;
 
     public function __construct(Column $column)
     {
-        $this->ruleset = new Ruleset($column->getRules(), $column->getHumanName());
+        $this->cellRuleset = new Ruleset($column->getRules(), $column->getHumanName());
+        $this->aggRuleset  = new Ruleset($column->getAggregateRules(), $column->getHumanName());
     }
 
-    public function validate(string $cellValue, int $line): ErrorSuite
+    public function validateCell(string $cellValue, int $line): ErrorSuite
     {
-        return $this->ruleset->validate($cellValue, $line);
+        return $this->cellRuleset->validate($cellValue, $line);
+    }
+
+    public function validateList(array &$cellValue): ErrorSuite
+    {
+        return $this->aggRuleset->validate($cellValue, -1);
     }
 }
