@@ -16,16 +16,19 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\CellRules;
 
-final class OnlyTrimed extends AbstarctCellRule
+final class WordCountMin extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
-        if (!$this->getOptionAsBool()) {
+        if ($cellValue === '') {
             return null;
         }
+        $wordCount = $this->getOptionAsInt();
+        $count     = \str_word_count($cellValue);
 
-        if (\trim($cellValue) !== $cellValue) {
-            return "Value \"<c>{$cellValue}</c>\" is not trimmed";
+        if ($count < $wordCount) {
+            return "Value \"<c>{$cellValue}</c>\" has {$count} words, " .
+                "but must have at least <green>{$wordCount}</green> words";
         }
 
         return null;

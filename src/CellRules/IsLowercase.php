@@ -16,15 +16,12 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\CellRules;
 
-final class MaxPrecision extends Precision
+final class IsLowercase extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
-        $valuePrecision = self::getFloatPrecision($cellValue);
-
-        if ($valuePrecision > $this->getOptionAsInt()) {
-            return "Value \"<c>{$cellValue}</c>\" has a precision of {$valuePrecision} " .
-                "but should have a max precision of <green>{$this->getOptionAsInt()}</green>";
+        if ($cellValue !== \mb_strtolower($cellValue)) {
+            return "Value \"<c>{$cellValue}</c>\" should be in lowercase";
         }
 
         return null;

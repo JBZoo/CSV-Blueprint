@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Csv;
 
-use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\ColumnValidator;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use JBZoo\Data\Data;
@@ -77,21 +76,9 @@ final class Column
         return (string)$this->getId();
     }
 
-    public function getType(): string
-    {
-        return $this->column->getString('type', self::FALLBACK_VALUES['type']);
-    }
-
     public function isRequired(): bool
     {
         return $this->column->getBool('required', self::FALLBACK_VALUES['required']);
-    }
-
-    public function getRegex(): ?string
-    {
-        $regex = $this->column->getStringNull('regex', self::FALLBACK_VALUES['regex']);
-
-        return Utils::prepareRegex($regex);
     }
 
     public function getRules(): array

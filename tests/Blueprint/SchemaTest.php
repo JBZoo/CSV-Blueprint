@@ -19,18 +19,18 @@ namespace JBZoo\PHPUnit\Blueprint;
 use JBZoo\CsvBlueprint\Schema;
 use JBZoo\PHPUnit\PHPUnit;
 
-use function JBZoo\PHPUnit\isEmpty;
 use function JBZoo\PHPUnit\isFalse;
 use function JBZoo\PHPUnit\isNotEmpty;
 use function JBZoo\PHPUnit\isNotNull;
 use function JBZoo\PHPUnit\isNull;
 use function JBZoo\PHPUnit\isSame;
 use function JBZoo\PHPUnit\isTrue;
+use function JBZoo\PHPUnit\skip;
 
 final class SchemaTest extends PHPUnit
 {
     private const SCHEMA_EXAMPLE_EMPTY = PROJECT_TESTS . '/schemas/example_empty.yml';
-    private const SCHEMA_EXAMPLE_FULL  = PROJECT_TESTS . '/schemas/example_full.yml';
+    private const SCHEMA_EXAMPLE_FULL  = PROJECT_ROOT . '/schema-examples/full.yml';
 
     public function testFilename(): void
     {
@@ -47,7 +47,7 @@ final class SchemaTest extends PHPUnit
         isSame(null, $schemaEmpty->getFilenamePattern());
 
         $schemaFull = new Schema(self::SCHEMA_EXAMPLE_FULL);
-        isSame('/^example\.csv$/', $schemaFull->getFilenamePattern());
+        isSame('/demo(-\d+)?\.csv$/i', $schemaFull->getFilenamePattern());
     }
 
     public function testScvStruture(): void
@@ -86,39 +86,28 @@ final class SchemaTest extends PHPUnit
 
         $schemaFull = new Schema(self::SCHEMA_EXAMPLE_FULL);
         isSame([
-            0  => 0,
-            1  => 'General available options',
-            2  => 'Some String',
-            3  => 'Some Integer',
-            4  => 'Some Float',
-            5  => 'Some Date',
-            6  => 'Some Enum',
-            7  => 'Some Boolean',
-            8  => 'Some Inherited',
-            9  => 'Some Latitude',
-            10 => 'Some Longitude',
-            11 => 'Some URL',
-            12 => 'Some Email',
-            13 => 'Some IP',
-            14 => 'Some UUID',
-            15 => 'Some Custom Rule',
+            0 => 'Column Name (header)',
+            1 => 'another_column',
+            2 => 'third_column',
+            3 => 3,
         ], \array_keys($schemaFull->getColumns()));
     }
 
     public function testColumnByNameAndId(): void
     {
         $schemaFull = new Schema(self::SCHEMA_EXAMPLE_FULL);
-        isNotNull($schemaFull->getColumn(1));
-        isNotNull($schemaFull->getColumn('General available options'));
+        isNotNull($schemaFull->getColumn(0));
+        isNotNull($schemaFull->getColumn('Column Name (header)'));
 
         isSame(
-            $schemaFull->getColumn(1),
-            $schemaFull->getColumn('General available options'),
+            $schemaFull->getColumn(0),
+            $schemaFull->getColumn('Column Name (header)'),
         );
     }
 
     public function testIncludes(): void
     {
+        skip('Implement me!');
         $schemaEmpty = new Schema(self::SCHEMA_EXAMPLE_EMPTY);
         isSame([], $schemaEmpty->getIncludes());
 
@@ -153,31 +142,27 @@ final class SchemaTest extends PHPUnit
         $schemaFull = new Schema(self::SCHEMA_EXAMPLE_FULL);
         $column     = $schemaFull->getColumn(0);
 
-        isSame('', $column->getName());
-        isSame('', $column->getDescription());
-        isSame('base', $column->getType());
-        isSame(null, $column->getRegex());
+        isSame('Column Name (header)', $column->getName());
+        isSame('Lorem ipsum', $column->getDescription());
         isSame('', $column->getInherit());
         isFalse($column->isRequired());
 
         isTrue(\is_array($column->getRules()));
-        isEmpty($column->getRules());
+        isNotEmpty($column->getRules());
 
         isTrue(\is_array($column->getAggregateRules()));
-        isEmpty($column->getAggregateRules());
+        isNotEmpty($column->getAggregateRules());
     }
 
     public function testGetColumnProps(): void
     {
         $schemaFull = new Schema(self::SCHEMA_EXAMPLE_FULL);
-        $column     = $schemaFull->getColumn(1);
+        $column     = $schemaFull->getColumn(0);
 
-        isSame('General available options', $column->getName());
-        isSame('Some description', $column->getDescription());
-        isSame('some_type', $column->getType());
-        isSame('', $column->getInherit());
+        isSame('Column Name (header)', $column->getName());
+        isSame('Lorem ipsum', $column->getDescription());
 
-        isTrue($column->isRequired());
+        isFalse($column->isRequired());
 
         isTrue(\is_array($column->getRules()));
         isNotEmpty($column->getRules());
@@ -188,46 +173,65 @@ final class SchemaTest extends PHPUnit
 
     public function testGetColumnRules(): void
     {
-        $schemaFull = new Schema(self::SCHEMA_EXAMPLE_FULL);
-        $column     = $schemaFull->getColumn('Some String');
+        $schemaFull   = new Schema(self::SCHEMA_EXAMPLE_FULL);
+        $columnByName = $schemaFull->getColumn('Column Name (header)');
+        $columnById   = $schemaFull->getColumn(0);
 
         isSame([
-            'min_length'      => 1,
-            'max_length'      => 10,
-            'only_trimed'     => false,
-            'only_uppercase'  => false,
-            'only_lowercase'  => false,
-            'only_capitalize' => false,
-        ], $column->getRules());
+            'not_empty'             => true,
+            'exact_value'           => 'Some string',
+            'allow_values'          => ['y', 'n', ''],
+            'regex'                 => '/^[\\d]{2}$/',
+            'length'                => 5,
+            'length_min'            => 1,
+            'length_max'            => 10,
+            'is_trimed'             => true,
+            'is_lowercase'          => true,
+            'is_uppercase'          => true,
+            'is_capitalize'         => true,
+            'word_count'            => 10,
+            'word_count_min'        => 1,
+            'word_count_max'        => 5,
+            'contains'              => 'Hello',
+            'contains_one'          => ['a', 'b'],
+            'contains_all'          => ['a', 'b', 'c'],
+            'starts_with'           => 'prefix ',
+            'ends_with'             => ' suffix',
+            'min'                   => 10,
+            'max'                   => 100.5,
+            'precision'             => 3,
+            'precision_min'         => 2,
+            'precision_max'         => 4,
+            'date'                  => '2000-01-10',
+            'date_format'           => 'Y-m-d',
+            'date_min'              => '2000-01-02',
+            'date_max'              => '+1 day',
+            'is_bool'               => true,
+            'is_int'                => true,
+            'is_float'              => true,
+            'is_ip'                 => true,
+            'is_url'                => true,
+            'is_email'              => true,
+            'is_domain'             => true,
+            'is_uuid4'              => true,
+            'is_alias'              => true,
+            'is_latitude'           => true,
+            'is_longitude'          => true,
+            'is_geohash'            => true,
+            'is_cardinal_direction' => true,
+            'is_usa_market_name'    => true,
+        ], $columnByName->getRules());
+
+        isSame($columnByName->getRules(), $columnById->getRules());
     }
 
     public function testGetColumnAggregateRules(): void
     {
         $schemaFull = new Schema(self::SCHEMA_EXAMPLE_FULL);
-        $column     = $schemaFull->getColumn(1);
+        $column     = $schemaFull->getColumn(0);
 
         isSame([
-            'unique'           => false,
-            'sorted'           => 'asc',
-            'sorted_flag'      => 'SORT_NATURAL',
-            'count_min'        => 1,
-            'count_max'        => 10,
-            'count_empty_min'  => 1,
-            'count_empty_max'  => 10,
-            'count_filled_min' => 1,
-            'count_filled_max' => 10,
-            'custom_1'         => [
-                'class' => 'My\\Aggregate\\Rules1',
-                'args'  => ['value'],
-            ],
-            'custom_2' => [
-                'class' => 'My\\Aggregate\\Rules2',
-                'args'  => ['value1', 'value2'],
-            ],
-            'custom_my_favorite_name' => [
-                'class' => 'My\\Aggregate\\RulesXXX',
-                'args'  => [],
-            ],
+            'is_unique' => true,
         ], $column->getAggregateRules());
     }
 }

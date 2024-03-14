@@ -20,10 +20,6 @@ final class IsEmail extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
-        if (!$this->getOptionAsBool()) {
-            return null;
-        }
-
         if (\filter_var($cellValue, \FILTER_VALIDATE_EMAIL) === false) {
             return "Value \"<c>{$cellValue}</c>\" is not a valid email";
         }

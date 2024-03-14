@@ -16,14 +16,19 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\CellRules;
 
-final class IsUuid4 extends AbstarctCellRule
+final class Date extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
-        $uuid4 = '/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89ABab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/';
+        if ($cellValue === '') {
+            return null;
+        }
+        $expDate  = $this->getOptionAsDate();
+        $cellDate = new \DateTimeImmutable($cellValue);
 
-        if (\preg_match($uuid4, $cellValue) === 0) {
-            return 'Value is not a valid UUID v4';
+        if ($cellDate->getTimestamp() !== $expDate->getTimestamp()) {
+            return "Value \"<c>{$cellValue}</c>\" is not equal to the expected date " .
+                "\"<green>{$expDate->format(\DATE_RFC3339_EXTENDED)}</green>\"";
         }
 
         return null;

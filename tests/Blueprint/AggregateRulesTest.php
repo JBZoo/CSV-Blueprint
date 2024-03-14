@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Blueprint;
 
-use JBZoo\CsvBlueprint\AggregateRules\Unique;
+use JBZoo\CsvBlueprint\AggregateRules\IsUnique;
 use JBZoo\PHPUnit\PHPUnit;
 
 use function JBZoo\PHPUnit\isSame;
@@ -30,12 +30,12 @@ final class AggregateRulesTest extends PHPUnit
 
     public function testUnique(): void
     {
-        $rule = new Unique('prop', true);
+        $rule = new IsUnique('prop', true);
         isSame(null, $rule->validate([1]));
         isSame(null, $rule->validate([]));
         isSame(null, $rule->validate(['1', '2', '3']));
         isSame(
-            '"ag:unique" at line 1, column "prop". Column has non-unique values. Unique: 3, total: 4.',
+            '"ag:is_unique" at line 1, column "prop". Column has non-unique values. Unique: 3, total: 4.',
             \strip_tags((string)$rule->validate(['1', '2', '3', '3'])),
         );
     }

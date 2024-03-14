@@ -20,10 +20,6 @@ final class IsInt extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
-        if (!$this->getOptionAsBool()) {
-            return null;
-        }
-
         if (\preg_match('/^-?\d+$/', $cellValue) === 0) {
             return "Value \"<c>{$cellValue}</c>\" is not an integer";
         }

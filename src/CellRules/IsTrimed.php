@@ -16,16 +16,12 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\CellRules;
 
-final class OnlyCapitalize extends AbstarctCellRule
+final class IsTrimed extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
-        if (!$this->getOptionAsBool()) {
-            return null;
-        }
-
-        if ($cellValue !== \ucfirst($cellValue)) {
-            return "Value \"<c>{$cellValue}</c>\" should be in capitalize";
+        if (\trim($cellValue) !== $cellValue) {
+            return "Value \"<c>{$cellValue}</c>\" is not trimmed";
         }
 
         return null;

@@ -16,19 +16,24 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\CellRules;
 
-final class CardinalDirection extends AllowValues
+final class Contains extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
-        if (!$this->getOptionAsBool()) {
+        if ($cellValue === '') {
             return null;
         }
 
-        return parent::validateRule($cellValue);
-    }
+        $expected = $this->getOptionAsString();
 
-    public function getOptionAsArray(): array
-    {
-        return ['N', 'S', 'E', 'W', 'NE', 'SE', 'NW', 'SW', 'none', ''];
+        if ($expected === '') {
+            return 'Rule must contain at least one char in schema file.';
+        }
+
+        if (\strpos($cellValue, $expected) === false) {
+            return "Value \"<c>{$cellValue}</c>\" must contain \"<green>{$expected}</green>\"";
+        }
+
+        return null;
     }
 }

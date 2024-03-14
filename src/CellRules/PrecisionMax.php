@@ -16,15 +16,18 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\CellRules;
 
-final class MinPrecision extends Precision
+final class PrecisionMax extends Precision
 {
     public function validateRule(string $cellValue): ?string
     {
+        if ($cellValue === '') {
+            return null;
+        }
         $valuePrecision = self::getFloatPrecision($cellValue);
 
-        if ($valuePrecision < $this->getOptionAsInt()) {
+        if ($valuePrecision > $this->getOptionAsInt()) {
             return "Value \"<c>{$cellValue}</c>\" has a precision of {$valuePrecision} " .
-                "but should have a min precision of <green>{$this->getOptionAsInt()}</green>";
+                "but should have a max precision of <green>{$this->getOptionAsInt()}</green>";
         }
 
         return null;

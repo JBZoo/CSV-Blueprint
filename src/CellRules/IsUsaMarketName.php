@@ -16,20 +16,13 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\CellRules;
 
-final class AllMustContain extends AbstarctCellRule
+final class IsUsaMarketName extends AllowValues
 {
     public function validateRule(string $cellValue): ?string
     {
-        $inclusions = $this->getOptionAsArray();
-        if (\count($inclusions) === 0) {
-            return 'Rule must contain at least one inclusion value in schema file.';
-        }
-
-        foreach ($inclusions as $inclusion) {
-            if (\strpos($cellValue, (string)$inclusion) === false) {
-                return "Value \"<c>{$cellValue}</c>\" must contain all of the following:" .
-                    ' "<green>["' . \implode('", "', $inclusions) . '"]</green>"';
-            }
+        if (\preg_match('/^[A-Za-z0-9\s-]+, [A-Z]{2}$/u', $cellValue) === 0) {
+            return "Invalid market name format for value \"<c>{$cellValue}</c>\". " .
+                'Market name must have format "<green>New York, NY</green>"';
         }
 
         return null;

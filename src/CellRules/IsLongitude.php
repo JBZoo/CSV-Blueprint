@@ -23,10 +23,6 @@ final class IsLongitude extends IsFloat
 
     public function validateRule(string $cellValue): ?string
     {
-        if (!$this->getOptionAsBool()) {
-            return null;
-        }
-
         $result = parent::validateRule($cellValue);
         if ($result !== null) {
             return $result;

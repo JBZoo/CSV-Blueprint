@@ -16,43 +16,47 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Blueprint;
 
-use JBZoo\CsvBlueprint\CellRules\AllMustContain;
 use JBZoo\CsvBlueprint\CellRules\AllowValues;
-use JBZoo\CsvBlueprint\CellRules\AtLeastContains;
-use JBZoo\CsvBlueprint\CellRules\CardinalDirection;
+use JBZoo\CsvBlueprint\CellRules\Contains;
+use JBZoo\CsvBlueprint\CellRules\ContainsAll;
+use JBZoo\CsvBlueprint\CellRules\ContainsOne;
+use JBZoo\CsvBlueprint\CellRules\Date;
 use JBZoo\CsvBlueprint\CellRules\DateFormat;
+use JBZoo\CsvBlueprint\CellRules\DateMax;
+use JBZoo\CsvBlueprint\CellRules\DateMin;
 use JBZoo\CsvBlueprint\CellRules\EndsWith;
 use JBZoo\CsvBlueprint\CellRules\ExactValue;
 use JBZoo\CsvBlueprint\CellRules\IsAlias;
 use JBZoo\CsvBlueprint\CellRules\IsBool;
+use JBZoo\CsvBlueprint\CellRules\IsCapitalize;
+use JBZoo\CsvBlueprint\CellRules\IsCardinalDirection;
 use JBZoo\CsvBlueprint\CellRules\IsDomain;
 use JBZoo\CsvBlueprint\CellRules\IsEmail;
 use JBZoo\CsvBlueprint\CellRules\IsFloat;
+use JBZoo\CsvBlueprint\CellRules\IsGeohash;
 use JBZoo\CsvBlueprint\CellRules\IsInt;
 use JBZoo\CsvBlueprint\CellRules\IsIp;
 use JBZoo\CsvBlueprint\CellRules\IsLatitude;
 use JBZoo\CsvBlueprint\CellRules\IsLongitude;
+use JBZoo\CsvBlueprint\CellRules\IsLowercase;
+use JBZoo\CsvBlueprint\CellRules\IsUppercase;
 use JBZoo\CsvBlueprint\CellRules\IsUrl;
+use JBZoo\CsvBlueprint\CellRules\IsUsaMarketName;
 use JBZoo\CsvBlueprint\CellRules\IsUuid4;
+use JBZoo\CsvBlueprint\CellRules\Length;
+use JBZoo\CsvBlueprint\CellRules\LengthMax;
+use JBZoo\CsvBlueprint\CellRules\LengthMin;
 use JBZoo\CsvBlueprint\CellRules\Max;
-use JBZoo\CsvBlueprint\CellRules\MaxDate;
-use JBZoo\CsvBlueprint\CellRules\MaxLength;
-use JBZoo\CsvBlueprint\CellRules\MaxPrecision;
-use JBZoo\CsvBlueprint\CellRules\MaxWordCount;
 use JBZoo\CsvBlueprint\CellRules\Min;
-use JBZoo\CsvBlueprint\CellRules\MinDate;
-use JBZoo\CsvBlueprint\CellRules\MinLength;
-use JBZoo\CsvBlueprint\CellRules\MinPrecision;
-use JBZoo\CsvBlueprint\CellRules\MinWordCount;
 use JBZoo\CsvBlueprint\CellRules\NotEmpty;
-use JBZoo\CsvBlueprint\CellRules\OnlyCapitalize;
-use JBZoo\CsvBlueprint\CellRules\OnlyLowercase;
-use JBZoo\CsvBlueprint\CellRules\OnlyUppercase;
 use JBZoo\CsvBlueprint\CellRules\Precision;
+use JBZoo\CsvBlueprint\CellRules\PrecisionMax;
+use JBZoo\CsvBlueprint\CellRules\PrecisionMin;
 use JBZoo\CsvBlueprint\CellRules\Regex;
 use JBZoo\CsvBlueprint\CellRules\StartsWith;
-use JBZoo\CsvBlueprint\CellRules\UsaMarketName;
 use JBZoo\CsvBlueprint\CellRules\WordCount;
+use JBZoo\CsvBlueprint\CellRules\WordCountMax;
+use JBZoo\CsvBlueprint\CellRules\WordCountMin;
 use JBZoo\PHPUnit\PHPUnit;
 use JBZoo\Utils\Str;
 
@@ -73,11 +77,6 @@ final class CellRulesTest extends PHPUnit
         isSame(null, $rule->validate('3'));
         isSame(
             '"allow_values" at line 1, column "prop". ' .
-            'Value "" is not allowed. Allowed values: ["1", "2", "3"].',
-            \strip_tags((string)$rule->validate('')),
-        );
-        isSame(
-            '"allow_values" at line 1, column "prop". ' .
             'Value "invalid" is not allowed. Allowed values: ["1", "2", "3"].',
             \strip_tags((string)$rule->validate('invalid')),
         );
@@ -92,11 +91,12 @@ final class CellRulesTest extends PHPUnit
     public function testDateFormat(): void
     {
         $rule = new DateFormat('prop', 'Y-m-d');
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('2000-12-31'));
         isSame(
             '"date_format" at line 1, column "prop". ' .
-            'Date format of value "" is not valid. Expected format: "Y-m-d".',
-            \strip_tags((string)$rule->validate('')),
+            'Date format of value "12" is not valid. Expected format: "Y-m-d".',
+            \strip_tags((string)$rule->validate('12')),
         );
         isSame(
             '"date_format" at line 1, column "prop". ' .
@@ -122,16 +122,13 @@ final class CellRulesTest extends PHPUnit
     public function testIsBool(): void
     {
         $rule = new IsBool('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('true'));
         isSame(null, $rule->validate('false'));
         isSame(null, $rule->validate('TRUE'));
         isSame(null, $rule->validate('FALSE'));
         isSame(null, $rule->validate('True'));
         isSame(null, $rule->validate('False'));
-        isSame(
-            '"is_bool" at line 1, column "prop". Value "" is not allowed. Allowed values: ["true", "false"].',
-            \strip_tags((string)$rule->validate('')),
-        );
         isSame(
             '"is_bool" at line 1, column "prop". Value "1" is not allowed. Allowed values: ["true", "false"].',
             \strip_tags((string)$rule->validate('1')),
@@ -144,6 +141,7 @@ final class CellRulesTest extends PHPUnit
     public function testIsDomain(): void
     {
         $rule = new IsDomain('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('example.com'));
         isSame(null, $rule->validate('sub.example.com'));
         isSame(null, $rule->validate('sub.sub.example.com'));
@@ -153,10 +151,6 @@ final class CellRulesTest extends PHPUnit
         isSame(
             '"is_domain" at line 1, column "prop". Value "example" is not a valid domain.',
             \strip_tags((string)$rule->validate('example')),
-        );
-        isSame(
-            '"is_domain" at line 1, column "prop". Value "" is not a valid domain.',
-            \strip_tags((string)$rule->validate('')),
         );
 
         $rule = new IsDomain('prop', false);
@@ -180,6 +174,7 @@ final class CellRulesTest extends PHPUnit
     public function testIsFloat(): void
     {
         $rule = new IsFloat('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('1'));
         isSame(null, $rule->validate('01'));
         isSame(null, $rule->validate('1.0'));
@@ -189,10 +184,6 @@ final class CellRulesTest extends PHPUnit
         isSame(
             '"is_float" at line 1, column "prop". Value "1.000.000" is not a float number.',
             \strip_tags((string)$rule->validate('1.000.000')),
-        );
-        isSame(
-            '"is_float" at line 1, column "prop". Value "" is not a float number.',
-            \strip_tags((string)$rule->validate('')),
         );
         isSame(
             '"is_float" at line 1, column "prop". Value " 1" is not a float number.',
@@ -206,6 +197,7 @@ final class CellRulesTest extends PHPUnit
     public function testIsInt(): void
     {
         $rule = new IsInt('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('1'));
         isSame(null, $rule->validate('01'));
         isSame(null, $rule->validate('0'));
@@ -224,10 +216,6 @@ final class CellRulesTest extends PHPUnit
             \strip_tags((string)$rule->validate('1.0')),
         );
         isSame(
-            '"is_int" at line 1, column "prop". Value "" is not an integer.',
-            \strip_tags((string)$rule->validate('')),
-        );
-        isSame(
             '"is_int" at line 1, column "prop". Value " 1" is not an integer.',
             \strip_tags((string)$rule->validate(' 1')),
         );
@@ -243,6 +231,7 @@ final class CellRulesTest extends PHPUnit
     public function testIsIp(): void
     {
         $rule = new IsIp('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('127.0.0.1'));
         isSame(null, $rule->validate('0.0.0.0'));
         isSame(
@@ -277,6 +266,7 @@ final class CellRulesTest extends PHPUnit
     public function testIsLongitude(): void
     {
         $rule = new IsLongitude('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('0'));
         isSame(null, $rule->validate('180'));
         isSame(null, $rule->validate('-180'));
@@ -305,6 +295,7 @@ final class CellRulesTest extends PHPUnit
     public function testIsUrl(): void
     {
         $rule = new IsUrl('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('http://example.com'));
         isSame(null, $rule->validate('http://example.com/home-page'));
         isSame(null, $rule->validate('ftp://user:pass@example.com/home-page?param=value&v=asd#anchor'));
@@ -351,6 +342,7 @@ final class CellRulesTest extends PHPUnit
     public function testMax(): void
     {
         $rule = new Max('prop', 10);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('9'));
         isSame(null, $rule->validate('10'));
         isSame(
@@ -372,84 +364,86 @@ final class CellRulesTest extends PHPUnit
         );
     }
 
-    public function testMinDate(): void
+    public function testDateMin(): void
     {
-        $rule = new MinDate('prop', '2000-01-10');
+        $rule = new DateMin('prop', '2000-01-10');
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('2000-01-10'));
         isSame(
-            '"min_date" at line 1, column "prop". ' .
+            '"date_min" at line 1, column "prop". ' .
             'Value "2000-01-09" is less than the minimum date "2000-01-10T00:00:00.000+00:00".',
             \strip_tags((string)$rule->validate('2000-01-09')),
         );
 
-        $rule = new MinDate('prop', '2000-01-10 00:00:00 +01:00');
+        $rule = new DateMin('prop', '2000-01-10 00:00:00 +01:00');
         isSame(null, $rule->validate('2000-01-10 00:00:00 +01:00'));
         isSame(
-            '"min_date" at line 1, column "prop". ' .
+            '"date_min" at line 1, column "prop". ' .
             'Value "2000-01-09 23:59:59 Europe/Berlin" is less than the minimum date "2000-01-10T00:00:00.000+01:00".',
             \strip_tags((string)$rule->validate('2000-01-09 23:59:59 Europe/Berlin')),
         );
 
-        $rule = new MinDate('prop', '-1000 years');
+        $rule = new DateMin('prop', '-1000 years');
         isSame(null, $rule->validate('2000-01-10 00:00:00 +01:00'));
     }
 
-    public function testMaxDate(): void
+    public function testDateMax(): void
     {
-        $rule = new MaxDate('prop', '2000-01-10');
+        $rule = new DateMax('prop', '2000-01-10');
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('2000-01-09'));
         isSame(
-            '"max_date" at line 1, column "prop". ' .
+            '"date_max" at line 1, column "prop". ' .
             'Value "2000-01-11" is more than the maximum date "2000-01-10T00:00:00.000+00:00".',
             \strip_tags((string)$rule->validate('2000-01-11')),
         );
 
-        $rule = new MaxDate('prop', '2000-01-10 00:00:00');
+        $rule = new DateMax('prop', '2000-01-10 00:00:00');
         isSame(null, $rule->validate('2000-01-10 00:00:00'));
         isSame(
-            '"max_date" at line 1, column "prop". ' .
+            '"date_max" at line 1, column "prop". ' .
             'Value "2000-01-10 00:00:01" is more than the maximum date "2000-01-10T00:00:00.000+00:00".',
             \strip_tags((string)$rule->validate('2000-01-10 00:00:01')),
         );
 
-        $rule = new MaxDate('prop', '+1 day');
+        $rule = new DateMax('prop', '+1 day');
         isSame(null, $rule->validate('2000-01-10 00:00:00 +01:00'));
     }
 
-    public function testMinLength(): void
+    public function testLengthMin(): void
     {
-        $rule = new MinLength('prop', 5);
+        $rule = new LengthMin('prop', 5);
         isSame(null, $rule->validate('12345'));
         isSame(null, $rule->validate('     '));
         isSame(null, $rule->validate('  1  '));
         isSame(
-            '"min_length" at line 1, column "prop". Value "1234" (length: 4) is too short. Min length is 5.',
+            '"length_min" at line 1, column "prop". Value "1234" (length: 4) is too short. Min length is 5.',
             \strip_tags((string)$rule->validate('1234')),
         );
         isSame(
-            '"min_length" at line 1, column "prop". Value "123 " (length: 4) is too short. Min length is 5.',
+            '"length_min" at line 1, column "prop". Value "123 " (length: 4) is too short. Min length is 5.',
             \strip_tags((string)$rule->validate('123 ')),
         );
         isSame(
-            '"min_length" at line 1, column "prop". Value "" (length: 0) is too short. Min length is 5.',
+            '"length_min" at line 1, column "prop". Value "" (length: 0) is too short. Min length is 5.',
             \strip_tags((string)$rule->validate('')),
         );
     }
 
-    public function testMaxLength(): void
+    public function testLengthMax(): void
     {
-        $rule = new MaxLength('prop', 5);
+        $rule = new LengthMax('prop', 5);
         isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('1234'));
         isSame(null, $rule->validate('12345'));
         isSame(null, $rule->validate('     '));
         isSame(null, $rule->validate('  1  '));
         isSame(
-            '"max_length" at line 1, column "prop". Value "123456" (length: 6) is too long. Max length is 5.',
+            '"length_max" at line 1, column "prop". Value "123456" (length: 6) is too long. Max length is 5.',
             \strip_tags((string)$rule->validate('123456')),
         );
         isSame(
-            '"max_length" at line 1, column "prop". Value "12345 " (length: 6) is too long. Max length is 5.',
+            '"length_max" at line 1, column "prop". Value "12345 " (length: 6) is too long. Max length is 5.',
             \strip_tags((string)$rule->validate('12345 ')),
         );
     }
@@ -471,71 +465,75 @@ final class CellRulesTest extends PHPUnit
         isSame(null, $rule->validate(''));
     }
 
-    public function testOnlyCapitalize(): void
+    public function testIsCapitalize(): void
     {
-        $rule = new OnlyCapitalize('prop', true);
+        $rule = new IsCapitalize('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('0'));
         isSame(null, $rule->validate('False'));
         isSame(null, $rule->validate('Qwe Rty'));
         isSame(null, $rule->validate(' Qwe Rty'));
         isSame(null, $rule->validate(' '));
         isSame(
-            '"only_capitalize" at line 1, column "prop". Value "qwerty" should be in capitalize.',
+            '"is_capitalize" at line 1, column "prop". Value "qwerty" should be in capitalize.',
             \strip_tags((string)$rule->validate('qwerty')),
         );
         isSame(
-            '"only_capitalize" at line 1, column "prop". Value "qwe Rty" should be in capitalize.',
+            '"is_capitalize" at line 1, column "prop". Value "qwe Rty" should be in capitalize.',
             \strip_tags((string)$rule->validate('qwe Rty')),
         );
 
-        $rule = new OnlyCapitalize('prop', false);
+        $rule = new IsCapitalize('prop', false);
         isSame(null, $rule->validate('qwerty'));
     }
 
-    public function testOnlyLowercase(): void
+    public function testIsLowercase(): void
     {
-        $rule = new OnlyLowercase('prop', true);
+        $rule = new IsLowercase('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('0'));
         isSame(null, $rule->validate('false'));
         isSame(null, $rule->validate('qwe rty'));
         isSame(null, $rule->validate(' qwe rty'));
         isSame(null, $rule->validate(' '));
         isSame(
-            '"only_lowercase" at line 1, column "prop". Value "Qwerty" should be in lowercase.',
+            '"is_lowercase" at line 1, column "prop". Value "Qwerty" should be in lowercase.',
             \strip_tags((string)$rule->validate('Qwerty')),
         );
         isSame(
-            '"only_lowercase" at line 1, column "prop". Value "qwe Rty" should be in lowercase.',
+            '"is_lowercase" at line 1, column "prop". Value "qwe Rty" should be in lowercase.',
             \strip_tags((string)$rule->validate('qwe Rty')),
         );
 
-        $rule = new OnlyLowercase('prop', false);
+        $rule = new IsLowercase('prop', false);
         isSame(null, $rule->validate('Qwerty'));
     }
 
-    public function testOnlyUppercase(): void
+    public function testIsUppercase(): void
     {
-        $rule = new OnlyUppercase('prop', true);
+        $rule = new IsUppercase('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('0'));
         isSame(null, $rule->validate('FALSE'));
         isSame(null, $rule->validate('QWE RTY'));
         isSame(null, $rule->validate(' '));
         isSame(
-            '"only_uppercase" at line 1, column "prop". Value "Qwerty" is not uppercase.',
+            '"is_uppercase" at line 1, column "prop". Value "Qwerty" is not uppercase.',
             \strip_tags((string)$rule->validate('Qwerty')),
         );
         isSame(
-            '"only_uppercase" at line 1, column "prop". Value "qwe Rty" is not uppercase.',
+            '"is_uppercase" at line 1, column "prop". Value "qwe Rty" is not uppercase.',
             \strip_tags((string)$rule->validate('qwe Rty')),
         );
 
-        $rule = new OnlyUppercase('prop', false);
+        $rule = new IsUppercase('prop', false);
         isSame(null, $rule->validate('Qwerty'));
     }
 
     public function testPrecision(): void
     {
         $rule = new Precision('prop', 0);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('0'));
         isSame(null, $rule->validate('10'));
         isSame(null, $rule->validate('-10'));
@@ -551,6 +549,7 @@ final class CellRulesTest extends PHPUnit
         );
 
         $rule = new Precision('prop', 1);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('0.0'));
         isSame(null, $rule->validate('10.0'));
         isSame(null, $rule->validate('-10.0'));
@@ -566,6 +565,7 @@ final class CellRulesTest extends PHPUnit
         );
 
         $rule = new Precision('prop', 2);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('0.01'));
         isSame(null, $rule->validate('10.00'));
         isSame(null, $rule->validate('-10.00'));
@@ -581,9 +581,10 @@ final class CellRulesTest extends PHPUnit
         );
     }
 
-    public function testMinPrecision(): void
+    public function testPrecisionMin(): void
     {
-        $rule = new MinPrecision('prop', 0);
+        $rule = new PrecisionMin('prop', 0);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('0'));
         isSame(null, $rule->validate('0.0'));
         isSame(null, $rule->validate('0.1'));
@@ -591,60 +592,61 @@ final class CellRulesTest extends PHPUnit
         isSame(null, $rule->validate('10.01'));
         isSame(null, $rule->validate('-10.0001'));
 
-        $rule = new MinPrecision('prop', 1);
+        $rule = new PrecisionMin('prop', 1);
         isSame(null, $rule->validate('0.0'));
         isSame(null, $rule->validate('10.0'));
         isSame(null, $rule->validate('-10.0'));
 
         isSame(
-            '"min_precision" at line 1, column "prop". ' .
+            '"precision_min" at line 1, column "prop". ' .
             'Value "2" has a precision of 0 but should have a min precision of 1.',
             \strip_tags((string)$rule->validate('2')),
         );
 
-        $rule = new MinPrecision('prop', 2);
+        $rule = new PrecisionMin('prop', 2);
         isSame(null, $rule->validate('10.01'));
         isSame(null, $rule->validate('-10.0001'));
 
         isSame(
-            '"min_precision" at line 1, column "prop". ' .
+            '"precision_min" at line 1, column "prop". ' .
             'Value "2" has a precision of 0 but should have a min precision of 2.',
             \strip_tags((string)$rule->validate('2')),
         );
 
         isSame(
-            '"min_precision" at line 1, column "prop". ' .
+            '"precision_min" at line 1, column "prop". ' .
             'Value "2.0" has a precision of 1 but should have a min precision of 2.',
             \strip_tags((string)$rule->validate('2.0')),
         );
     }
 
-    public function testMaxPrecision(): void
+    public function testPrecisionMax(): void
     {
-        $rule = new MaxPrecision('prop', 0);
+        $rule = new PrecisionMax('prop', 0);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('0'));
         isSame(null, $rule->validate('10'));
         isSame(null, $rule->validate('-10'));
 
         isSame(
-            '"max_precision" at line 1, column "prop". ' .
+            '"precision_max" at line 1, column "prop". ' .
             'Value "2.0" has a precision of 1 but should have a max precision of 0.',
             \strip_tags((string)$rule->validate('2.0')),
         );
 
-        $rule = new MaxPrecision('prop', 1);
+        $rule = new PrecisionMax('prop', 1);
         isSame(null, $rule->validate('0.0'));
         isSame(null, $rule->validate('10.0'));
         isSame(null, $rule->validate('-10.0'));
 
         isSame(
-            '"max_precision" at line 1, column "prop". ' .
+            '"precision_max" at line 1, column "prop". ' .
             'Value "-2.003" has a precision of 3 but should have a max precision of 1.',
             \strip_tags((string)$rule->validate('-2.003')),
         );
 
         isSame(
-            '"max_precision" at line 1, column "prop". ' .
+            '"precision_max" at line 1, column "prop". ' .
             'Value "2.00000" has a precision of 5 but should have a max precision of 1.',
             \strip_tags((string)$rule->validate('2.00000')),
         );
@@ -653,6 +655,7 @@ final class CellRulesTest extends PHPUnit
     public function testRegex(): void
     {
         $rule = new Regex('prop', '/^a/');
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('abc'));
         isSame(null, $rule->validate('aaa'));
         isSame(null, $rule->validate('a'));
@@ -671,9 +674,10 @@ final class CellRulesTest extends PHPUnit
         );
     }
 
-    public function testUnitFacing(): void
+    public function testIsCardinalDirection(): void
     {
-        $rule = new CardinalDirection('prop', true);
+        $rule = new IsCardinalDirection('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('N'));
         isSame(null, $rule->validate('S'));
         isSame(null, $rule->validate('E'));
@@ -684,31 +688,33 @@ final class CellRulesTest extends PHPUnit
         isSame(null, $rule->validate('SW'));
         isSame(null, $rule->validate('none'));
         isSame(
-            '"cardinal_direction" at line 1, column "prop". Value "qwe" is not allowed. ' .
+            '"is_cardinal_direction" at line 1, column "prop". Value "qwe" is not allowed. ' .
             'Allowed values: ["N", "S", "E", "W", "NE", "SE", "NW", "SW", "none", ""].',
             \strip_tags((string)$rule->validate('qwe')),
         );
     }
 
-    public function testUsaMarketName(): void
+    public function testIsUsaMarketName(): void
     {
-        $rule = new UsaMarketName('prop', true);
+        $rule = new IsUsaMarketName('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('New York, NY'));
         isSame(null, $rule->validate('City, ST'));
         isSame(
-            '"usa_market_name" at line 1, column "prop". ' .
+            '"is_usa_market_name" at line 1, column "prop". ' .
             'Invalid market name format for value ", ST". ' .
             'Market name must have format "New York, NY".',
             \strip_tags((string)$rule->validate(', ST')),
         );
 
-        $rule = new UsaMarketName('prop', false);
+        $rule = new IsUsaMarketName('prop', false);
         isSame(null, $rule->validate(', ST'));
     }
 
     public function testIsUuid4(): void
     {
         $rule = new IsUuid4('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate(Str::uuid()));
         isSame(
             '"is_uuid4" at line 1, column "prop". Value is not a valid UUID v4.',
@@ -719,62 +725,59 @@ final class CellRulesTest extends PHPUnit
         isSame(null, $rule->validate('123'));
     }
 
-    public function testMustContain(): void
+    public function testContainsOne(): void
     {
-        $rule = new AtLeastContains('prop', []);
+        $rule = new ContainsOne('prop', []);
+        isSame(null, $rule->validate(''));
         isSame(
-            '"at_least_contains" at line 1, column "prop". ' .
+            '"contains_one" at line 1, column "prop". ' .
             'Rule must contain at least one inclusion value in schema file.',
             \strip_tags((string)$rule->validate('123')),
         );
 
-        $rule = new AtLeastContains('prop', ['a', 'b', 'c']);
+        $rule = new ContainsOne('prop', ['a', 'b', 'c']);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('a'));
         isSame(null, $rule->validate('abc'));
         isSame(null, $rule->validate('adasdasdasdc'));
 
         isSame(
-            '"at_least_contains" at line 1, column "prop". ' .
-            'Value "123" must contain one of the following: "["a", "b", "c"]".',
+            '"contains_one" at line 1, column "prop". ' .
+            'Value "123" must contain at least one of the following: "["a", "b", "c"]".',
             \strip_tags((string)$rule->validate('123')),
         );
     }
 
-    public function testAllMustContain(): void
+    public function testContainsAll(): void
     {
-        $rule = new AllMustContain('prop', []);
+        $rule = new ContainsAll('prop', []);
+        isSame(null, $rule->validate(''));
         isSame(
-            '"all_must_contain" at line 1, column "prop". ' .
-            'Rule must contain at least one inclusion value in schema file.',
+            '"contains_all" at line 1, column "prop". Rule must contain at least one inclusion value in schema file.',
             \strip_tags((string)$rule->validate('ac')),
         );
 
-        $rule = new AllMustContain('prop', ['a', 'b', 'c']);
+        $rule = new ContainsAll('prop', ['a', 'b', 'c']);
         isSame(null, $rule->validate('abc'));
         isSame(null, $rule->validate('abdasadasdasdc'));
 
         isSame(
-            '"all_must_contain" at line 1, column "prop". ' .
-            'Value "ab" must contain all of the following: "["a", "b", "c"]".',
+            '"contains_all" at line 1, column "prop". Value "ab" must contain all of the following: "["a", "b", "c"]".',
             \strip_tags((string)$rule->validate('ab')),
         );
         isSame(
-            '"all_must_contain" at line 1, column "prop". ' .
-            'Value "ac" must contain all of the following: "["a", "b", "c"]".',
+            '"contains_all" at line 1, column "prop". Value "ac" must contain all of the following: "["a", "b", "c"]".',
             \strip_tags((string)$rule->validate('ac')),
         );
     }
 
-    public function testStrStartsWith(): void
+    public function testStartsWith(): void
     {
         $rule = new StartsWith('prop', 'a');
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('a'));
         isSame(null, $rule->validate('abc'));
-
-        isSame(
-            '"starts_with" at line 1, column "prop". Value "" must start with "a".',
-            \strip_tags((string)$rule->validate('')),
-        );
+        isSame(null, $rule->validate(''));
 
         isSame(
             '"starts_with" at line 1, column "prop". Value " a" must start with "a".',
@@ -788,16 +791,13 @@ final class CellRulesTest extends PHPUnit
         );
     }
 
-    public function testStrEndsWith(): void
+    public function testEndsWith(): void
     {
         $rule = new EndsWith('prop', 'a');
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('a'));
         isSame(null, $rule->validate('cba'));
-
-        isSame(
-            '"ends_with" at line 1, column "prop". Value "" must end with "a".',
-            \strip_tags((string)$rule->validate('')),
-        );
+        isSame(null, $rule->validate(''));
 
         isSame(
             '"ends_with" at line 1, column "prop". Value "a " must end with "a".',
@@ -811,9 +811,10 @@ final class CellRulesTest extends PHPUnit
         );
     }
 
-    public function testStrWordCount(): void
+    public function testWordCount(): void
     {
         $rule = new WordCount('prop', 0);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate(''));
         isSame(
             '"word_count" at line 1, column "prop". ' .
@@ -840,38 +841,40 @@ final class CellRulesTest extends PHPUnit
         );
     }
 
-    public function testMinWordCount(): void
+    public function testWordCountMin(): void
     {
-        $rule = new MinWordCount('prop', 0);
+        $rule = new WordCountMin('prop', 0);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('cba'));
 
-        $rule = new MinWordCount('prop', 2);
+        $rule = new WordCountMin('prop', 2);
         isSame(null, $rule->validate('asd, asdasd'));
         isSame(null, $rule->validate('asd, asdasd asd'));
         isSame(null, $rule->validate('asd, asdasd 1232 asdas'));
         isSame(
-            '"min_word_count" at line 1, column "prop". ' .
+            '"word_count_min" at line 1, column "prop". ' .
             'Value "cba" has 1 words, but must have at least 2 words.',
             \strip_tags((string)$rule->validate('cba')),
         );
         isSame(
-            '"min_word_count" at line 1, column "prop". ' .
+            '"word_count_min" at line 1, column "prop". ' .
             'Value "cba 123, 123123" has 1 words, but must have at least 2 words.',
             \strip_tags((string)$rule->validate('cba 123, 123123')),
         );
     }
 
-    public function testMaxWordCount(): void
+    public function testWordCountMax(): void
     {
-        $rule = new MaxWordCount('prop', 0);
+        $rule = new WordCountMax('prop', 0);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate(''));
 
-        $rule = new MaxWordCount('prop', 2);
+        $rule = new WordCountMax('prop', 2);
         isSame(null, $rule->validate('asd, asdasd'));
         isSame(null, $rule->validate('asd, 1232'));
         isSame(null, $rule->validate('asd, 1232 113234324 342 . ..'));
         isSame(
-            '"max_word_count" at line 1, column "prop". ' .
+            '"word_count_max" at line 1, column "prop". ' .
             'Value "asd, asdasd asd 1232 asdas" has 4 words, but must have no more than 2 words.',
             \strip_tags((string)$rule->validate('asd, asdasd asd 1232 asdas')),
         );
@@ -892,5 +895,83 @@ final class CellRulesTest extends PHPUnit
 
         $rule = new IsAlias('prop', false);
         isSame(null, $rule->validate('Qwerty, asd 123'));
+    }
+
+    public function testContains(): void
+    {
+        $rule = new Contains('prop', 'a');
+        isSame(null, $rule->validate(''));
+        isSame(null, $rule->validate('a'));
+        isSame(null, $rule->validate('abc'));
+        isSame(null, $rule->validate('cba'));
+        isSame(null, $rule->validate(''));
+
+        isSame(
+            '"contains" at line 1, column "prop". Value "Qwerty" must contain "a".',
+            \strip_tags((string)$rule->validate('Qwerty')),
+        );
+
+        $rule = new Contains('prop', '');
+        isSame(
+            '"contains" at line 1, column "prop". Rule must contain at least one char in schema file.',
+            \strip_tags((string)$rule->validate('Qwerty')),
+        );
+    }
+
+    public function testDate(): void
+    {
+        $rule = new Date('prop', '2000-10-02');
+        isSame(null, $rule->validate(''));
+        isSame(null, $rule->validate('2000-10-02'));
+        isSame(null, $rule->validate('2000-10-02 00:00:00'));
+
+        isSame(
+            '"date" at line 1, column "prop". ' .
+            'Value "2000-10-02 00:00:01" is not equal to the expected date "2000-10-02T00:00:00.000+00:00".',
+            \strip_tags((string)$rule->validate('2000-10-02 00:00:01')),
+        );
+    }
+
+    public function testIsGeohash(): void
+    {
+        $rule = new IsGeohash('prop', true);
+        isSame(null, $rule->validate(''));
+        isSame(null, $rule->validate('u4pruydqqvj'));
+        isSame(null, $rule->validate('u4pruydqqv'));
+        isSame(null, $rule->validate('u4pruydqq'));
+        isSame(null, $rule->validate('u4pruydq'));
+        isSame(null, $rule->validate('u4pruyd'));
+        isSame(null, $rule->validate('u4pruy'));
+        isSame(null, $rule->validate('u4pru'));
+        isSame(null, $rule->validate('u4pr'));
+        isSame(null, $rule->validate('u4p'));
+        isSame(null, $rule->validate('u4'));
+        isSame(null, $rule->validate('u'));
+
+        isSame(
+            '"is_geohash" at line 1, column "prop". Value "Qwsad342323423erty" is not a valid Geohash.',
+            \strip_tags((string)$rule->validate('Qwsad342323423erty')),
+        );
+    }
+
+    public function testLength(): void
+    {
+        $rule = new Length('prop', 2);
+        isSame(null, $rule->validate('  '));
+        isSame(null, $rule->validate('ab'));
+        isSame(null, $rule->validate(' a'));
+        isSame(null, $rule->validate('a '));
+
+        isSame(
+            '"length" at line 1, column "prop". Value "Qwsad342323423erty" (length: 18) is not equal to 2.',
+            \strip_tags((string)$rule->validate('Qwsad342323423erty')),
+        );
+
+        $rule = new Length('prop', 0);
+        isSame(null, $rule->validate(''));
+        isSame(
+            '"length" at line 1, column "prop". Value " " (length: 1) is not equal to 0.',
+            \strip_tags((string)$rule->validate(' ')),
+        );
     }
 }

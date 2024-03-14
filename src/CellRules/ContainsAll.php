@@ -16,16 +16,24 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\CellRules;
 
-final class OnlyUppercase extends AbstarctCellRule
+final class ContainsAll extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
-        if (!$this->getOptionAsBool()) {
+        if ($cellValue === '') {
             return null;
         }
 
-        if (\mb_strtoupper($cellValue, 'UTF-8') !== $cellValue) {
-            return "Value \"<c>{$cellValue}</c>\" is not uppercase";
+        $inclusions = $this->getOptionAsArray();
+        if (\count($inclusions) === 0) {
+            return 'Rule must contain at least one inclusion value in schema file.';
+        }
+
+        foreach ($inclusions as $inclusion) {
+            if (\strpos($cellValue, (string)$inclusion) === false) {
+                return "Value \"<c>{$cellValue}</c>\" must contain all of the following:" .
+                    ' "<green>["' . \implode('", "', $inclusions) . '"]</green>"';
+            }
         }
 
         return null;

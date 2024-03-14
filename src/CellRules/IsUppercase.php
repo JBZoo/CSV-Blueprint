@@ -16,16 +16,12 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\CellRules;
 
-final class MinDate extends AbstarctCellRule
+final class IsUppercase extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
-        $minDate  = $this->getOptionAsDate();
-        $cellDate = new \DateTimeImmutable($cellValue);
-
-        if ($cellDate->getTimestamp() < $minDate->getTimestamp()) {
-            return "Value \"<c>{$cellValue}</c>\" is less than the minimum " .
-                "date \"<green>{$minDate->format(\DATE_RFC3339_EXTENDED)}</green>\"";
+        if (\mb_strtoupper($cellValue, 'UTF-8') !== $cellValue) {
+            return "Value \"<c>{$cellValue}</c>\" is not uppercase";
         }
 
         return null;

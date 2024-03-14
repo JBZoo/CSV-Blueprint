@@ -16,16 +16,19 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\CellRules;
 
-final class MinLength extends AbstarctCellRule
+final class DateMax extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
-        $minLength = $this->getOptionAsInt();
-        $length    = \mb_strlen($cellValue);
+        if ($cellValue === '') {
+            return null;
+        }
+        $minDate  = $this->getOptionAsDate();
+        $cellDate = new \DateTimeImmutable($cellValue);
 
-        if ($length < $minLength) {
-            return "Value \"<c>{$cellValue}</c>\" (length: {$length}) is too short. " .
-                "Min length is <green>{$minLength}</green>";
+        if ($cellDate->getTimestamp() > $minDate->getTimestamp()) {
+            return "Value \"<c>{$cellValue}</c>\" is more than the maximum " .
+                "date \"<green>{$minDate->format(\DATE_RFC3339_EXTENDED)}</green>\"";
         }
 
         return null;

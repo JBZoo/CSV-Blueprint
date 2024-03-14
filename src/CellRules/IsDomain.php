@@ -20,10 +20,6 @@ final class IsDomain extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {
-        if (!$this->getOptionAsBool()) {
-            return null;
-        }
-
         $domainPattern = '/^(?!-)[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,})$/';
 
         if (\preg_match($domainPattern, $cellValue) === 0) {

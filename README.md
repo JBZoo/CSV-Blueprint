@@ -81,7 +81,7 @@ Also see demo in the [GitHub Actions](https://github.com/JBZoo/Csv-Blueprint/act
 **Note**. Report format for GitHub Actions is `github` by default. See [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message) and [PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files). 
 
 This allows you to see bugs in the GitHub interface at the PR level.
-That is, the error will be shown in a specific place in the CSV file right in diff of your Pull Requests! [See example]((https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files).
+That is, the error will be shown in a specific place in the CSV file right in diff of your Pull Requests! [See example](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files).
 
 ![GitHub Actions - PR](.github/assets/github-actions-pr.png)
 
@@ -114,7 +114,7 @@ docker run --rm                                  \
 ### As PHP binary
 Ensure you have PHP installed on your machine.
 
-**Status: WIP**. It's not released yet. But you can build it from source. See manual above and `./build//csv-blueprint.phar` file.
+**Status: WIP**. It's not released yet. But you can build it from source. See manual above and `./build/csv-blueprint.phar` file.
 
 ```sh
 wget https://github.com/JBZoo/Csv-Blueprint/releases/latest/download/csv-blueprint.phar
@@ -194,12 +194,7 @@ Options:
 
 ### Report examples
 
-As a result of the validation process, you will receive a human-readable table with a list of errors found in the CSV file. By defualt, the output format is a table, but you can choose from a variety of formats, such as text, GitHub, GitLab, TeamCity, JUnit, and more.  For example, the following output is generated using the "table" format.
-
-**Notes**
-* Report format for GitHub Actions is `github` by default.
-* Tools uses [JBZoo/CI-Report-Converter](https://github.com/JBZoo/CI-Report-Converter) as SDK to convert reports to different formats. So you can easily integrate it with any CI system.
-
+As a result of the validation process, you will receive a human-readable table with a list of errors found in the CSV file. By defualt, the output format is a table, but you can choose from a variety of formats, such as text, GitHub, GitLab, TeamCity, JUnit, and more.  For example, the following output is generated using the `table` format.
 
 Default report format is `table`:
 
@@ -214,7 +209,7 @@ Found CSV files: 3
 +------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
 | Line | id:Column        | Rule         | Message                                                               |
 +------+------------------+--------------+-----------------------------------------------------------------------+
-| 1    | 1:City           | ag:unique    | Column has non-unique values. Unique: 1, total: 2                     |
+| 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 1, total: 2                     |
 | 3    | 2:Float          | max          | Value "74605.944" is greater than "74605"                             |
 | 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"] |
 +------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
@@ -223,11 +218,11 @@ Found CSV files: 3
 +------+------------+------------+------------------ demo-2.csv ----------------------------------------------------+
 | Line | id:Column  | Rule       | Message                                                                          |
 +------+------------+------------+----------------------------------------------------------------------------------+
-| 2    | 0:Name     | min_length | Value "Carl" (length: 4) is too short. Min length is 5                           |
-| 7    | 0:Name     | min_length | Value "Lois" (length: 4) is too short. Min length is 5                           |
-| 2    | 3:Birthday | min_date   | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00" |
-| 4    | 3:Birthday | min_date   | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00" |
-| 5    | 3:Birthday | max_date   | Value "2010-07-20" is more than the maximum date "2009-01-01T00:00:00.000+00:00" |
+| 2    | 0:Name     | length_min | Value "Carl" (length: 4) is too short. Min length is 5                           |
+| 7    | 0:Name     | length_min | Value "Lois" (length: 4) is too short. Min length is 5                           |
+| 2    | 3:Birthday | date_min   | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00" |
+| 4    | 3:Birthday | date_min   | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00" |
+| 5    | 3:Birthday | date_max   | Value "2010-07-20" is more than the maximum date "2009-01-01T00:00:00.000+00:00" |
 +------+------------+------------+------------------ demo-2.csv ----------------------------------------------------+
 
 (3/3) Invalid file: ./tests/fixtures/batch/sub/demo-3.csv
@@ -248,7 +243,13 @@ Optional format `text` with highlited keywords:
 ./csv-blueprint validate:csv --report=text
 ```
 
+
 ![Report - Text](.github/assets/output-text.png)
+
+
+**Notes**
+* Report format for GitHub Actions is `github` by default.
+* Tools uses [JBZoo/CI-Report-Converter](https://github.com/JBZoo/CI-Report-Converter) as SDK to convert reports to different formats. So you can easily integrate it with any CI system.
 
 
 ### Schema Definition
@@ -294,6 +295,7 @@ Available formats: [YAML](schema-examples/full.yml), [JSON](schema-examples/full
 # Regular expression to match the file name. If not set, then no pattern check
 # This way you can validate the file name before the validation process.
 # Feel free to check parent directories as well.
+# See https://www.php.net/manual/en/reference.pcre.pattern.syntax.php
 filename_pattern: /demo(-\d+)?\.csv$/i
 
 csv: # Here are default values. You can skip this section if you don't need to override the default values
@@ -301,8 +303,8 @@ csv: # Here are default values. You can skip this section if you don't need to o
   delimiter: ,                          # Delimiter character in CSV file
   quote_char: \                         # Quote character in CSV file
   enclosure: "\""                       # Enclosure for each field in CSV file
-  encoding: utf-8                       # Only utf-8, utf-16, utf-32 (Experimental)
-  bom: false                            # If the file has a BOM (Byte Order Mark) at the beginning (Experimental)
+  encoding: utf-8                       # (Experimental) Only utf-8, utf-16, utf-32 
+  bom: false                            # (Experimental) If the file has a BOM (Byte Order Mark) at the beginning
 
 columns:
   - name: "Column Name (header)"        # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
@@ -315,38 +317,56 @@ columns:
       # If you see the value for the rule is "true" - that's just an enable flag.
       # In other cases, these are rule parameters.
 
+      # IMPORTANT!!! All rules except "not_empty" ignored for empty strings.
+      # If you need to check the empty string, use "not_empty" rule as extra rule!
+
       # General rules
-      not_empty: true                   # Value is not empty string. Ignore spaces.
+      not_empty: true                   # Value is not an empty string. Actually checks if the string length is 0.
       exact_value: Some string          # Case-sensitive. Exact value for string in the column
       allow_values: [ y, n, "" ]        # Strict set of values that are allowed. Case-sensitive.
 
       # Strings only
       regex: /^[\d]{2}$/                # Any valid regex pattern. See https://www.php.net/manual/en/reference.pcre.pattern.syntax.php
-      min_length: 1                     # Integer only. Min length of the string with spaces
-      max_length: 10                    # Integer only. Max length of the string with spaces
-      only_trimed: true                 # Only trimed strings. Example: "Hello World" (not " Hello World ")
-      only_lowercase: true              # String is only lower-case. Example: "hello world"
-      only_uppercase: true              # String is only upper-case. Example: "HELLO WORLD"
-      only_capitalize: true             # String is only capitalized. Example: "Hello World"
+
+      # Length of the string
+      length: 5                         # Integer only. Exact length of the string with spaces
+      length_min: 1                     # Integer only. Min length of the string with spaces
+      length_max: 10                    # Integer only. Max length of the string with spaces
+
+      # Basic string checks
+      is_trimed: true                   # Only trimed strings. Example: "Hello World" (not " Hello World ")
+      is_lowercase: true                # String is only lower-case. Example: "hello world"
+      is_uppercase: true                # String is only upper-case. Example: "HELLO WORLD"
+      is_capitalize: true               # String is only capitalized. Example: "Hello World"
+
+      # Words
       word_count: 10                    # Integer only. Exact count of words in the string. Example: "Hello World, 123" - 2 words only (123 is not a word)
-      min_word_count: 1                 # Integer only. Min count of words in the string. Example: "Hello World. 123" - 2 words only (123 is not a word)
-      max_word_count: 5                 # Integer only. Max count of words in the string Example: "Hello World! 123" - 2 words only (123 is not a word)
-      at_least_contains: [ a, b ]       # At least one of the string must be in the CSV value. Case-sensitive.
-      all_must_contain: [ a, b, c ]     # All the strings must be part of a CSV value. Case-sensitive.
+      word_count_min: 1                 # Integer only. Min count of words in the string. Example: "Hello World. 123" - 2 words only (123 is not a word)
+      word_count_max: 5                 # Integer only. Max count of words in the string Example: "Hello World! 123" - 2 words only (123 is not a word)
+
+      # Contains rules
+      contains: "Hello"                 # Case-sensitive. Example: "Hello World"
+      contains_one: [ a, b ]            # At least one of the string must be in the CSV value. Case-sensitive.
+      contains_all: [ a, b, c ]         # All the strings must be part of a CSV value. Case-sensitive.
       starts_with: "prefix "            # Case-sensitive. Example: "prefix Hello World"
       ends_with: " suffix"              # Case-sensitive. Example: "Hello World suffix"
 
       # Decimal and integer numbers
       min: 10                           # Can be integer or float, negative and positive
       max: 100.50                       # Can be integer or float, negative and positive
-      precision: 3                      # Strict(!) number of digits after the decimal point
-      min_precision: 2                  # Min number of digits after the decimal point (with zeros)
-      max_precision: 4                  # Max number of digits after the decimal point (with zeros)
 
-      # Dates
-      date_format: Y-m-d                # See: https://www.php.net/manual/en/datetime.format.php
-      min_date: "2000-01-02"            # See examples https://www.php.net/manual/en/function.strtotime.php
-      max_date: "+1 day"                # See examples https://www.php.net/manual/en/function.strtotime.php
+      # Precision
+      precision: 3                      # Strict(!) number of digits after the decimal point
+      precision_min: 2                  # Min number of digits after the decimal point (with zeros)
+      precision_max: 4                  # Max number of digits after the decimal point (with zeros)
+
+      # Dates (by default it works in UTC timezone)
+      # See https://www.php.net/manual/en/datetime.format.php
+      # See https://www.php.net/manual/en/function.strtotime.php
+      date: "2000-01-10"                # Parse(!) and compare values with the given date.
+      date_format: Y-m-d                # Check strict format of the date.
+      date_min: "2000-01-02"            # Minimal date. Can be a string or a relative date.
+      date_max: "+1 day"                # Maximal date. Can be a string or a relative date.
 
       # Specific formats
       is_bool: true                     # Allow only boolean values "true" and "false", case-insensitive
@@ -357,19 +377,25 @@ columns:
       is_email: true                    # Only email format. Example: "user@example.com"
       is_domain: true                   # Only domain name. Example: "example.com"
       is_uuid4: true                    # Only UUID4 format. Example: "550e8400-e29b-41d4-a716-446655440000"
+      is_alias: true                    # Only alias format. Example: "my-alias-123"
+
+      # Geography
       is_latitude: true                 # Can be integer or float. Example: 50.123456
       is_longitude: true                # Can be integer or float. Example: -89.123456
-      is_alias: true                    # Only alias format. Example: "my-alias-123"
-      cardinal_direction: true          # Valid cardinal direction. Examples: "N", "S", "NE", "SE", "none", ""
-      usa_market_name: true             # Check if the value is a valid USA market name. Example: "New York, NY"
+      is_geohash: true                  # Check if the value is a valid geohash. Example: "u4pruydqqvj"
+      is_cardinal_direction: true       # Valid cardinal direction. Examples: "N", "S", "NE", "SE", "none", ""
+      is_usa_market_name: true          # Check if the value is a valid USA market name. Example: "New York, NY"
 
     # Optional. You can use this section to validate the whole column
     # Be careful, this can reduce performance noticeably depending on the combination of rules.
     aggregate_rules:
-      unique: true                      # All values in the column are unique
+      is_unique: true                   # All values in the column are unique
 
   - name: "another_column"
+
   - name: "third_column"
+
+  - description: "Column with description only. Undefined header name."
 
 ```
 
@@ -414,7 +440,6 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
 * Use [Faker](https://github.com/FakerPHP/Faker) for random data generation.
 
 **Reporting**
-* [x] ~~Fix auto width of tables in GitHub terminal.~~
 * More report formats (like JSON, XML, etc). Any ideas?
 * Gitlab and JUnit reports must be as one structure. It's not so easy to implement. But it's a good idea.
 * Merge reports from multiple CSV files into one report. It's useful when you have a lot of files and you want to see all errors in one place. Especially for GitLab and JUnit reports.
@@ -491,6 +516,7 @@ make codestyle
 
 ## See Also
 
+- [Cli](https://github.com/JBZoo/Cli) - Framework helps create complex CLI apps and provides new tools for Symfony/Console.
 - [CI-Report-Converter](https://github.com/JBZoo/CI-Report-Converter) - It converts different error reporting standards for popular CI systems.
 - [Composer-Diff](https://github.com/JBZoo/Composer-Diff) - See what packages have changed after `composer update`.
 - [Composer-Graph](https://github.com/JBZoo/Composer-Graph) - Dependency graph visualization of `composer.json` based on [Mermaid JS](https://mermaid.js.org/).

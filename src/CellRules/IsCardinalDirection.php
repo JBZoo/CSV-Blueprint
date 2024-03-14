@@ -16,16 +16,10 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\CellRules;
 
-final class IsUuid4 extends AbstarctCellRule
+final class IsCardinalDirection extends AllowValues
 {
-    public function validateRule(string $cellValue): ?string
+    public function getOptionAsArray(): array
     {
-        $uuid4 = '/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89ABab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/';
-
-        if (\preg_match($uuid4, $cellValue) === 0) {
-            return 'Value is not a valid UUID v4';
-        }
-
-        return null;
+        return ['N', 'S', 'E', 'W', 'NE', 'SE', 'NW', 'SW', 'none', ''];
     }
 }

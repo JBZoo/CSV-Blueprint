@@ -16,16 +16,18 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\CellRules;
 
-final class MaxWordCount extends AbstarctCellRule
+final class PrecisionMin extends Precision
 {
     public function validateRule(string $cellValue): ?string
     {
-        $wordCount = $this->getOptionAsInt();
-        $count     = \str_word_count($cellValue);
+        if ($cellValue === '') {
+            return null;
+        }
+        $valuePrecision = self::getFloatPrecision($cellValue);
 
-        if ($count > $wordCount) {
-            return "Value \"<c>{$cellValue}</c>\" has {$count} words, " .
-                "but must have no more than <green>{$wordCount}</green> words";
+        if ($valuePrecision < $this->getOptionAsInt()) {
+            return "Value \"<c>{$cellValue}</c>\" has a precision of {$valuePrecision} " .
+                "but should have a min precision of <green>{$this->getOptionAsInt()}</green>";
         }
 
         return null;

@@ -20,10 +20,6 @@ final class IsBool extends AllowValues
 {
     public function validateRule(string $cellValue): ?string
     {
-        if (!$this->getOptionAsBool()) {
-            return null;
-        }
-
         return parent::validateRule(\strtolower($cellValue));
     }
 

@@ -20,6 +20,9 @@ final class Max extends IsFloat
 {
     public function validateRule(string $cellValue): ?string
     {
+        if ($cellValue === '') {
+            return null;
+        }
         $result = parent::validateRule($cellValue);
         if ($result !== null) {
             return $result;
