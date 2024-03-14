@@ -6,9 +6,9 @@
 
 ## Introduction
 
-The JBZoo/Csv-Blueprint tool is a powerful and flexible utility designed for validating CSV files against 
+The CSV Blueprint tool is a powerful and flexible utility designed for validating CSV files against 
 a predefined schema specified in YAML format. With the capability to run both locally and in Docker environments,
-JBZoo/Csv-Blueprint is an ideal choice for integrating into CI/CD pipelines, such as GitHub Actions,
+CSV Blueprint is an ideal choice for integrating into CI/CD pipelines, such as GitHub Actions,
 to ensure the integrity of CSV data in your projects.
 
 
