@@ -10,7 +10,7 @@
 # @see        https://github.com/JBZoo/Csv-Blueprint
 #
 
-name: 'CSV Blueprint - Validator by schemas'
+name: 'CSV Blueprint - Lint and validate by schemas'
 description: 'Strict and flexible schema-based CSV file validation with the ability to report as GitHub Annotations in your PRs.'
 author: 'Denis Smetannikov <admin@jbzoo.com>'
 

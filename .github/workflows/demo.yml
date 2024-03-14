@@ -13,12 +13,11 @@
 name: Demo
 
 on:
-  pull_request:
-    branches:
-      - "*"
   push:
     branches:
       - 'master'
+  release:
+    types: [ published ]
 
 env:
   COLUMNS: 120
