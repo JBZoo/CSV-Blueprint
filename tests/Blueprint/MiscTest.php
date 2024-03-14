@@ -61,7 +61,7 @@ final class MiscTest extends PHPUnit
 
         $finder = (new Finder())
             ->files()
-            ->in(PROJECT_ROOT . '/src/Rules')
+            ->in(PROJECT_ROOT . '/src/CellRules')
             ->ignoreDotFiles(false)
             ->ignoreVCS(true)
             ->name('/\\.php$/');
@@ -69,9 +69,8 @@ final class MiscTest extends PHPUnit
         foreach ($finder as $file) {
             $ruleName     = Utils::camelToKebabCase($file->getFilenameWithoutExtension());
             $excludeRules = [
-                'abstarct_rule',
+                'abstarct_cell_rule',
                 'exception',
-                'rule_exception',
             ];
 
             if (\in_array($ruleName, $excludeRules, true)) {

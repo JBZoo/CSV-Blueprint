@@ -16,12 +16,12 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Validators;
 
-use JBZoo\CsvBlueprint\Rules\AbstarctRule;
+use JBZoo\CsvBlueprint\CellRules\AbstarctCellRule;
 use JBZoo\CsvBlueprint\Utils;
 
 final class Ruleset
 {
-    /** @var AbstarctRule[] */
+    /** @var AbstarctCellRule[] */
     private array  $rules;
     private string $columnNameId;
 
@@ -39,9 +39,9 @@ final class Ruleset
      * @psalm-suppress MoreSpecificReturnType
      * @psalm-suppress LessSpecificReturnStatement
      */
-    public function createRule(string $ruleName, null|array|bool|float|int|string $options = null): AbstarctRule
+    public function createRule(string $ruleName, null|array|bool|float|int|string $options = null): AbstarctCellRule
     {
-        $classname = '\\JBZoo\\CsvBlueprint\\Rules\\' . Utils::kebabToCamelCase($ruleName);
+        $classname = '\\JBZoo\\CsvBlueprint\\CellRules\\' . Utils::kebabToCamelCase($ruleName);
         if (\class_exists($classname)) {
             // @phpstan-ignore-next-line
             return new $classname($this->columnNameId, $options);
