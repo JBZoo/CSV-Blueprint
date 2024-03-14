@@ -26,7 +26,7 @@ csv: # Here are default values. You can skip this section if you don't need to o
   bom: false                            # If the file has a BOM (Byte Order Mark) at the beginning (Experimental)
 
 columns:
-  - name: "csv_header_name"             # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
+  - name: "Column Name (header)"        # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
     description: "Lorem ipsum"          # Optional. Description of the column. Not used in the validation process.
 
     # Optional. You can use this section to validate each value in the column
@@ -90,3 +90,4 @@ columns:
       unique: true                      # All values in the column are unique
 
   - name: "another_column"
+  - name: "third_column"

@@ -58,7 +58,7 @@ use JBZoo\Utils\Str;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class RulesTest extends PHPUnit
+final class CellRulesTest extends PHPUnit
 {
     protected function setUp(): void
     {

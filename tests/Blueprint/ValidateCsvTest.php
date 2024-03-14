@@ -106,6 +106,7 @@ final class ValidateCsvTest extends PHPUnit
             +------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
             | Line | id:Column        | Rule         | Message                                                               |
             +------+------------------+--------------+-----------------------------------------------------------------------+
+            | -1   | 1:City           | ag:unique    | Column has non-unique values. Total: 2, unique: 1                     |
             | 3    | 2:Float          | max          | Value "74605.944" is greater than "74605"                             |
             | 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"] |
             +------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
@@ -129,7 +130,7 @@ final class ValidateCsvTest extends PHPUnit
             +------+-----------+------------------+---------------------- demo-3.csv ------------------------------------------------------------+
             
             
-            Found 8 issues in 3 out of 3 CSV files.
+            Found 9 issues in 3 out of 3 CSV files.
             
             TXT;
 
@@ -178,7 +179,7 @@ final class ValidateCsvTest extends PHPUnit
             Found CSV files: 3
             
             (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
-            "max" at line 3, column "2:Float". Value "74605.944" is greater than "74605".
+            "ag:unique" at line -1, column "1:City". Column has non-unique values. Total: 2, unique: 1.
             
             (2/3) Skipped: ./tests/fixtures/batch/demo-2.csv
             (3/3) Skipped: ./tests/fixtures/batch/sub/demo-3.csv
@@ -241,6 +242,7 @@ final class ValidateCsvTest extends PHPUnit
             Found CSV files: 3
             
             (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
+            "ag:unique" at line -1, column "1:City". Column has non-unique values. Total: 2, unique: 1.
             "max" at line 3, column "2:Float". Value "74605.944" is greater than "74605".
             "allow_values" at line 3, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].
             
@@ -255,7 +257,7 @@ final class ValidateCsvTest extends PHPUnit
             "filename_pattern" at line 0, column "". Filename "./tests/fixtures/batch/sub/demo-3.csv" does not match pattern: "/demo-[12].csv$/i".
             
             
-            Found 8 issues in 3 out of 3 CSV files.
+            Found 9 issues in 3 out of 3 CSV files.
             
             TXT;
 
@@ -281,9 +283,13 @@ final class ValidateCsvTest extends PHPUnit
             
             (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
             
-            ##teamcity[testCount count='2' flowId='42']
+            ##teamcity[testCount count='3' flowId='42']
             
             ##teamcity[testSuiteStarted name='demo-1.csv' flowId='42']
+            
+            ##teamcity[testStarted name='ag:unique at column 1:City' locationHint='php_qn://./tests/fixtures/batch/demo-1.csv' flowId='42']
+            "ag:unique" at line -1, column "1:City". Column has non-unique values. Total: 2, unique: 1.
+            ##teamcity[testFinished name='ag:unique at column 1:City' flowId='42']
             
             ##teamcity[testStarted name='max at column 2:Float' locationHint='php_qn://./tests/fixtures/batch/demo-1.csv' flowId='42']
             "max" at line 3, column "2:Float". Value "74605.944" is greater than "74605".
@@ -336,7 +342,7 @@ final class ValidateCsvTest extends PHPUnit
             ##teamcity[testSuiteFinished name='demo-3.csv' flowId='42']
             
             
-            Found 8 issues in 3 out of 3 CSV files.
+            Found 9 issues in 3 out of 3 CSV files.
             
             TXT;
 

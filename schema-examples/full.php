@@ -28,7 +28,7 @@ return [
 
     'columns' => [
         [
-            'name'        => 'csv_header_name',
+            'name'        => 'Column Name (header)',
             'description' => 'Lorem ipsum',
             'rules'       => [
                 'not_empty'          => true,
@@ -75,5 +75,6 @@ return [
             ],
         ],
         ['name' => 'another_column'],
+        ['name' => 'third_column'],
     ],
 ];

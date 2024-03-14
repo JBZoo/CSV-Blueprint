@@ -24,7 +24,7 @@ final class Unique extends AbstarctAggregateRule
             return null;
         }
 
-        if (empty($columnValues)) {
+        if (\count($columnValues) === 0) {
             return null;
         }
 
