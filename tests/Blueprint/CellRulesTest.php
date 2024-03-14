@@ -126,6 +126,7 @@ final class CellRulesTest extends PHPUnit
     public function testIsBool(): void
     {
         $rule = new IsBool('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('true'));
         isSame(null, $rule->validate('false'));
         isSame(null, $rule->validate('TRUE'));
@@ -144,6 +145,7 @@ final class CellRulesTest extends PHPUnit
     public function testIsDomain(): void
     {
         $rule = new IsDomain('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('example.com'));
         isSame(null, $rule->validate('sub.example.com'));
         isSame(null, $rule->validate('sub.sub.example.com'));
@@ -176,6 +178,7 @@ final class CellRulesTest extends PHPUnit
     public function testIsFloat(): void
     {
         $rule = new IsFloat('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('1'));
         isSame(null, $rule->validate('01'));
         isSame(null, $rule->validate('1.0'));
@@ -198,6 +201,7 @@ final class CellRulesTest extends PHPUnit
     public function testIsInt(): void
     {
         $rule = new IsInt('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('1'));
         isSame(null, $rule->validate('01'));
         isSame(null, $rule->validate('0'));
@@ -231,6 +235,7 @@ final class CellRulesTest extends PHPUnit
     public function testIsIp(): void
     {
         $rule = new IsIp('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('127.0.0.1'));
         isSame(null, $rule->validate('0.0.0.0'));
         isSame(
@@ -265,6 +270,7 @@ final class CellRulesTest extends PHPUnit
     public function testIsLongitude(): void
     {
         $rule = new IsLongitude('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('0'));
         isSame(null, $rule->validate('180'));
         isSame(null, $rule->validate('-180'));
@@ -293,6 +299,7 @@ final class CellRulesTest extends PHPUnit
     public function testIsUrl(): void
     {
         $rule = new IsUrl('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('http://example.com'));
         isSame(null, $rule->validate('http://example.com/home-page'));
         isSame(null, $rule->validate('ftp://user:pass@example.com/home-page?param=value&v=asd#anchor'));
@@ -339,6 +346,7 @@ final class CellRulesTest extends PHPUnit
     public function testMax(): void
     {
         $rule = new Max('prop', 10);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('9'));
         isSame(null, $rule->validate('10'));
         isSame(
@@ -363,6 +371,7 @@ final class CellRulesTest extends PHPUnit
     public function testDateMin(): void
     {
         $rule = new DateMin('prop', '2000-01-10');
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('2000-01-10'));
         isSame(
             '"date_min" at line 1, column "prop". ' .
@@ -385,6 +394,7 @@ final class CellRulesTest extends PHPUnit
     public function testDateMax(): void
     {
         $rule = new DateMax('prop', '2000-01-10');
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('2000-01-09'));
         isSame(
             '"date_max" at line 1, column "prop". ' .
@@ -462,6 +472,7 @@ final class CellRulesTest extends PHPUnit
     public function testIsCapitalize(): void
     {
         $rule = new IsCapitalize('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('0'));
         isSame(null, $rule->validate('False'));
         isSame(null, $rule->validate('Qwe Rty'));
@@ -483,6 +494,7 @@ final class CellRulesTest extends PHPUnit
     public function testIsLowercase(): void
     {
         $rule = new IsLowercase('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('0'));
         isSame(null, $rule->validate('false'));
         isSame(null, $rule->validate('qwe rty'));
@@ -504,6 +516,7 @@ final class CellRulesTest extends PHPUnit
     public function testIsUppercase(): void
     {
         $rule = new IsUppercase('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('0'));
         isSame(null, $rule->validate('FALSE'));
         isSame(null, $rule->validate('QWE RTY'));
@@ -524,6 +537,7 @@ final class CellRulesTest extends PHPUnit
     public function testPrecision(): void
     {
         $rule = new Precision('prop', 0);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('0'));
         isSame(null, $rule->validate('10'));
         isSame(null, $rule->validate('-10'));
@@ -539,6 +553,7 @@ final class CellRulesTest extends PHPUnit
         );
 
         $rule = new Precision('prop', 1);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('0.0'));
         isSame(null, $rule->validate('10.0'));
         isSame(null, $rule->validate('-10.0'));
@@ -554,6 +569,7 @@ final class CellRulesTest extends PHPUnit
         );
 
         $rule = new Precision('prop', 2);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('0.01'));
         isSame(null, $rule->validate('10.00'));
         isSame(null, $rule->validate('-10.00'));
@@ -572,6 +588,7 @@ final class CellRulesTest extends PHPUnit
     public function testPrecisionMin(): void
     {
         $rule = new PrecisionMin('prop', 0);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('0'));
         isSame(null, $rule->validate('0.0'));
         isSame(null, $rule->validate('0.1'));
@@ -610,6 +627,7 @@ final class CellRulesTest extends PHPUnit
     public function testPrecisionMax(): void
     {
         $rule = new PrecisionMax('prop', 0);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('0'));
         isSame(null, $rule->validate('10'));
         isSame(null, $rule->validate('-10'));
@@ -641,6 +659,7 @@ final class CellRulesTest extends PHPUnit
     public function testRegex(): void
     {
         $rule = new Regex('prop', '/^a/');
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('abc'));
         isSame(null, $rule->validate('aaa'));
         isSame(null, $rule->validate('a'));
@@ -662,6 +681,7 @@ final class CellRulesTest extends PHPUnit
     public function testIsCardinalDirection(): void
     {
         $rule = new IsCardinalDirection('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('N'));
         isSame(null, $rule->validate('S'));
         isSame(null, $rule->validate('E'));
@@ -681,6 +701,7 @@ final class CellRulesTest extends PHPUnit
     public function testIsUsaMarketName(): void
     {
         $rule = new IsUsaMarketName('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('New York, NY'));
         isSame(null, $rule->validate('City, ST'));
         isSame(
@@ -697,6 +718,7 @@ final class CellRulesTest extends PHPUnit
     public function testIsUuid4(): void
     {
         $rule = new IsUuid4('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate(Str::uuid()));
         isSame(
             '"is_uuid4" at line 1, column "prop". Value is not a valid UUID v4.',
@@ -710,6 +732,7 @@ final class CellRulesTest extends PHPUnit
     public function testContainsOne(): void
     {
         $rule = new ContainsOne('prop', []);
+        isSame(null, $rule->validate(''));
         isSame(
             '"contains_one" at line 1, column "prop". ' .
             'Rule must contain at least one inclusion value in schema file.',
@@ -717,6 +740,7 @@ final class CellRulesTest extends PHPUnit
         );
 
         $rule = new ContainsOne('prop', ['a', 'b', 'c']);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('a'));
         isSame(null, $rule->validate('abc'));
         isSame(null, $rule->validate('adasdasdasdc'));
@@ -731,6 +755,7 @@ final class CellRulesTest extends PHPUnit
     public function testContainsAll(): void
     {
         $rule = new ContainsAll('prop', []);
+        isSame(null, $rule->validate(''));
         isSame(
             '"contains_all" at line 1, column "prop". Rule must contain at least one inclusion value in schema file.',
             \strip_tags((string)$rule->validate('ac')),
@@ -753,6 +778,7 @@ final class CellRulesTest extends PHPUnit
     public function testStartsWith(): void
     {
         $rule = new StartsWith('prop', 'a');
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('a'));
         isSame(null, $rule->validate('abc'));
         isSame(null, $rule->validate(''));
@@ -772,6 +798,7 @@ final class CellRulesTest extends PHPUnit
     public function testEndsWith(): void
     {
         $rule = new EndsWith('prop', 'a');
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('a'));
         isSame(null, $rule->validate('cba'));
         isSame(null, $rule->validate(''));
@@ -791,6 +818,7 @@ final class CellRulesTest extends PHPUnit
     public function testWordCount(): void
     {
         $rule = new WordCount('prop', 0);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate(''));
         isSame(
             '"word_count" at line 1, column "prop". ' .
@@ -820,6 +848,7 @@ final class CellRulesTest extends PHPUnit
     public function testWordCountMin(): void
     {
         $rule = new WordCountMin('prop', 0);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('cba'));
 
         $rule = new WordCountMin('prop', 2);
@@ -841,6 +870,7 @@ final class CellRulesTest extends PHPUnit
     public function testWordCountMax(): void
     {
         $rule = new WordCountMax('prop', 0);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate(''));
 
         $rule = new WordCountMax('prop', 2);
@@ -874,9 +904,11 @@ final class CellRulesTest extends PHPUnit
     public function testContains(): void
     {
         $rule = new Contains('prop', 'a');
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('a'));
         isSame(null, $rule->validate('abc'));
         isSame(null, $rule->validate('cba'));
+        isSame(null, $rule->validate(''));
 
         isSame(
             '"contains" at line 1, column "prop". Value "Qwerty" must contain "a".',
@@ -893,6 +925,7 @@ final class CellRulesTest extends PHPUnit
     public function testDate(): void
     {
         $rule = new Date('prop', '2000-10-02');
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('2000-10-02'));
         isSame(null, $rule->validate('2000-10-02 00:00:00'));
 
@@ -906,6 +939,7 @@ final class CellRulesTest extends PHPUnit
     public function testIsGeohash(): void
     {
         $rule = new IsGeohash('prop', true);
+        isSame(null, $rule->validate(''));
         isSame(null, $rule->validate('u4pruydqqvj'));
         isSame(null, $rule->validate('u4pruydqqv'));
         isSame(null, $rule->validate('u4pruydqq'));
@@ -935,6 +969,13 @@ final class CellRulesTest extends PHPUnit
         isSame(
             '"length" at line 1, column "prop". Value "Qwsad342323423erty" (length: 18) is not equal to 2.',
             \strip_tags((string)$rule->validate('Qwsad342323423erty')),
+        );
+
+        $rule = new Length('prop', 0);
+        isSame(null, $rule->validate(''));
+        isSame(
+            '"length" at line 1, column "prop". Value " " (length: 1) is not equal to 0.',
+            \strip_tags((string)$rule->validate(' ')),
         );
     }
 }
