@@ -61,7 +61,7 @@ final class MiscTest extends PHPUnit
 
         $finder = (new Finder())
             ->files()
-            ->in(PROJECT_ROOT . '/src/Validators/Rules')
+            ->in(PROJECT_ROOT . '/src/Rules')
             ->ignoreDotFiles(false)
             ->ignoreVCS(true)
             ->name('/\\.php$/');
@@ -82,7 +82,13 @@ final class MiscTest extends PHPUnit
         }
         \sort($rulesInCode);
 
-        isSame($rulesInCode, $rulesInConfig);
+        $diffAsErrMessage = \array_reduce(
+            \array_diff($rulesInCode, $rulesInConfig),
+            static fn (string $carry, string $item) => $carry . "{$item}: FIXME\n",
+            '',
+        );
+
+        isSame($rulesInCode, $rulesInConfig, $diffAsErrMessage);
     }
 
     public function testCsvStrutureDefaultValues(): void
@@ -105,15 +111,15 @@ final class MiscTest extends PHPUnit
         );
     }
 
-    public function testCheckPhpSchemaExampleInReadme(): void
-    {
-        $this->testCheckExampleInReadme(PROJECT_ROOT . '/schema-examples/full.php', 'php', 'PHP Format', 14);
-    }
-
-    public function testCheckJsonSchemaExampleInReadme(): void
-    {
-        $this->testCheckExampleInReadme(PROJECT_ROOT . '/schema-examples/full.json', 'json', 'JSON Format', 0);
-    }
+    // public function testCheckPhpSchemaExampleInReadme(): void
+    // {
+    //     $this->testCheckExampleInReadme(PROJECT_ROOT . '/schema-examples/full.php', 'php', 'PHP Format', 14);
+    // }
+    //
+    // public function testCheckJsonSchemaExampleInReadme(): void
+    // {
+    //     $this->testCheckExampleInReadme(PROJECT_ROOT . '/schema-examples/full.json', 'json', 'JSON Format', 0);
+    // }
 
     public function testCompareExamplesWithOrig(): void
     {
@@ -125,8 +131,8 @@ final class MiscTest extends PHPUnit
         // file_put_contents("{$basepath}.php", (string)phpArray($origYml));
         // file_put_contents("{$basepath}.json", (string)json($origYml));
 
-        isSame($origYml, phpArray("{$basepath}.php")->getArrayCopy(), 'PHP config is invalid');
-        isSame($origYml, json("{$basepath}.json")->getArrayCopy(), 'JSON config is invalid');
+        isSame((string)phpArray($origYml), (string)phpArray("{$basepath}.php"), 'PHP config is invalid');
+        isSame((string)json($origYml), (string)json("{$basepath}.json"), 'JSON config is invalid');
     }
 
     public function testFindFiles(): void

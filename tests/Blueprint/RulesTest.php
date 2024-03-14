@@ -16,33 +16,43 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Blueprint;
 
-use JBZoo\CsvBlueprint\Validators\Rules\AllowValues;
-use JBZoo\CsvBlueprint\Validators\Rules\CardinalDirection;
-use JBZoo\CsvBlueprint\Validators\Rules\DateFormat;
-use JBZoo\CsvBlueprint\Validators\Rules\ExactValue;
-use JBZoo\CsvBlueprint\Validators\Rules\IsBool;
-use JBZoo\CsvBlueprint\Validators\Rules\IsDomain;
-use JBZoo\CsvBlueprint\Validators\Rules\IsEmail;
-use JBZoo\CsvBlueprint\Validators\Rules\IsFloat;
-use JBZoo\CsvBlueprint\Validators\Rules\IsInt;
-use JBZoo\CsvBlueprint\Validators\Rules\IsIp;
-use JBZoo\CsvBlueprint\Validators\Rules\IsLatitude;
-use JBZoo\CsvBlueprint\Validators\Rules\IsLongitude;
-use JBZoo\CsvBlueprint\Validators\Rules\IsUrl;
-use JBZoo\CsvBlueprint\Validators\Rules\IsUuid4;
-use JBZoo\CsvBlueprint\Validators\Rules\Max;
-use JBZoo\CsvBlueprint\Validators\Rules\MaxDate;
-use JBZoo\CsvBlueprint\Validators\Rules\MaxLength;
-use JBZoo\CsvBlueprint\Validators\Rules\Min;
-use JBZoo\CsvBlueprint\Validators\Rules\MinDate;
-use JBZoo\CsvBlueprint\Validators\Rules\MinLength;
-use JBZoo\CsvBlueprint\Validators\Rules\NotEmpty;
-use JBZoo\CsvBlueprint\Validators\Rules\OnlyCapitalize;
-use JBZoo\CsvBlueprint\Validators\Rules\OnlyLowercase;
-use JBZoo\CsvBlueprint\Validators\Rules\OnlyUppercase;
-use JBZoo\CsvBlueprint\Validators\Rules\Precision;
-use JBZoo\CsvBlueprint\Validators\Rules\Regex;
-use JBZoo\CsvBlueprint\Validators\Rules\UsaMarketName;
+use JBZoo\CsvBlueprint\Rules\AllMustContain;
+use JBZoo\CsvBlueprint\Rules\AllowValues;
+use JBZoo\CsvBlueprint\Rules\AtLeastContains;
+use JBZoo\CsvBlueprint\Rules\CardinalDirection;
+use JBZoo\CsvBlueprint\Rules\DateFormat;
+use JBZoo\CsvBlueprint\Rules\ExactValue;
+use JBZoo\CsvBlueprint\Rules\IsAlias;
+use JBZoo\CsvBlueprint\Rules\IsBool;
+use JBZoo\CsvBlueprint\Rules\IsDomain;
+use JBZoo\CsvBlueprint\Rules\IsEmail;
+use JBZoo\CsvBlueprint\Rules\IsFloat;
+use JBZoo\CsvBlueprint\Rules\IsInt;
+use JBZoo\CsvBlueprint\Rules\IsIp;
+use JBZoo\CsvBlueprint\Rules\IsLatitude;
+use JBZoo\CsvBlueprint\Rules\IsLongitude;
+use JBZoo\CsvBlueprint\Rules\IsUrl;
+use JBZoo\CsvBlueprint\Rules\IsUuid4;
+use JBZoo\CsvBlueprint\Rules\Max;
+use JBZoo\CsvBlueprint\Rules\MaxDate;
+use JBZoo\CsvBlueprint\Rules\MaxLength;
+use JBZoo\CsvBlueprint\Rules\MaxPrecision;
+use JBZoo\CsvBlueprint\Rules\MaxWordCount;
+use JBZoo\CsvBlueprint\Rules\Min;
+use JBZoo\CsvBlueprint\Rules\MinDate;
+use JBZoo\CsvBlueprint\Rules\MinLength;
+use JBZoo\CsvBlueprint\Rules\MinPrecision;
+use JBZoo\CsvBlueprint\Rules\MinWordCount;
+use JBZoo\CsvBlueprint\Rules\NotEmpty;
+use JBZoo\CsvBlueprint\Rules\OnlyCapitalize;
+use JBZoo\CsvBlueprint\Rules\OnlyLowercase;
+use JBZoo\CsvBlueprint\Rules\OnlyUppercase;
+use JBZoo\CsvBlueprint\Rules\Precision;
+use JBZoo\CsvBlueprint\Rules\Regex;
+use JBZoo\CsvBlueprint\Rules\StrEndsWith;
+use JBZoo\CsvBlueprint\Rules\StrStartsWith;
+use JBZoo\CsvBlueprint\Rules\UsaMarketName;
+use JBZoo\CsvBlueprint\Rules\WordCount;
 use JBZoo\PHPUnit\PHPUnit;
 use JBZoo\Utils\Str;
 
@@ -456,13 +466,9 @@ final class RulesTest extends PHPUnit
             '"not_empty" at line 0, column "prop". Value is empty.',
             \strip_tags((string)$rule->validate('')),
         );
-        isSame(
-            '"not_empty" at line 0, column "prop". Value is empty.',
-            \strip_tags((string)$rule->validate(null)),
-        );
 
         $rule = new NotEmpty('prop', false);
-        isSame(null, $rule->validate(null));
+        isSame(null, $rule->validate(''));
     }
 
     public function testOnlyCapitalize(): void
@@ -575,6 +581,75 @@ final class RulesTest extends PHPUnit
         );
     }
 
+    public function testMinPrecision(): void
+    {
+        $rule = new MinPrecision('prop', 0);
+        isSame(null, $rule->validate('0'));
+        isSame(null, $rule->validate('0.0'));
+        isSame(null, $rule->validate('0.1'));
+        isSame(null, $rule->validate('-1.0'));
+        isSame(null, $rule->validate('10.01'));
+        isSame(null, $rule->validate('-10.0001'));
+
+        $rule = new MinPrecision('prop', 1);
+        isSame(null, $rule->validate('0.0'));
+        isSame(null, $rule->validate('10.0'));
+        isSame(null, $rule->validate('-10.0'));
+
+        isSame(
+            '"min_precision" at line 0, column "prop". ' .
+            'Value "2" has a precision of 0 but should have a min precision of 1.',
+            \strip_tags((string)$rule->validate('2')),
+        );
+
+        $rule = new MinPrecision('prop', 2);
+        isSame(null, $rule->validate('10.01'));
+        isSame(null, $rule->validate('-10.0001'));
+
+        isSame(
+            '"min_precision" at line 0, column "prop". ' .
+            'Value "2" has a precision of 0 but should have a min precision of 2.',
+            \strip_tags((string)$rule->validate('2')),
+        );
+
+        isSame(
+            '"min_precision" at line 0, column "prop". ' .
+            'Value "2.0" has a precision of 1 but should have a min precision of 2.',
+            \strip_tags((string)$rule->validate('2.0')),
+        );
+    }
+
+    public function testMaxPrecision(): void
+    {
+        $rule = new MaxPrecision('prop', 0);
+        isSame(null, $rule->validate('0'));
+        isSame(null, $rule->validate('10'));
+        isSame(null, $rule->validate('-10'));
+
+        isSame(
+            '"max_precision" at line 0, column "prop". ' .
+            'Value "2.0" has a precision of 1 but should have a max precision of 0.',
+            \strip_tags((string)$rule->validate('2.0')),
+        );
+
+        $rule = new MaxPrecision('prop', 1);
+        isSame(null, $rule->validate('0.0'));
+        isSame(null, $rule->validate('10.0'));
+        isSame(null, $rule->validate('-10.0'));
+
+        isSame(
+            '"max_precision" at line 0, column "prop". ' .
+            'Value "-2.003" has a precision of 3 but should have a max precision of 1.',
+            \strip_tags((string)$rule->validate('-2.003')),
+        );
+
+        isSame(
+            '"max_precision" at line 0, column "prop". ' .
+            'Value "2.00000" has a precision of 5 but should have a max precision of 1.',
+            \strip_tags((string)$rule->validate('2.00000')),
+        );
+    }
+
     public function testRegex(): void
     {
         $rule = new Regex('prop', '/^a/');
@@ -642,5 +717,180 @@ final class RulesTest extends PHPUnit
 
         $rule = new IsUuid4('prop', false);
         isSame(null, $rule->validate('123'));
+    }
+
+    public function testMustContain(): void
+    {
+        $rule = new AtLeastContains('prop', []);
+        isSame(
+            '"at_least_contains" at line 0, column "prop". ' .
+            'Rule must contain at least one inclusion value in schema file.',
+            \strip_tags((string)$rule->validate('123')),
+        );
+
+        $rule = new AtLeastContains('prop', ['a', 'b', 'c']);
+        isSame(null, $rule->validate('a'));
+        isSame(null, $rule->validate('abc'));
+        isSame(null, $rule->validate('adasdasdasdc'));
+
+        isSame(
+            '"at_least_contains" at line 0, column "prop". ' .
+            'Value "123" must contain one of the following: "["a", "b", "c"]".',
+            \strip_tags((string)$rule->validate('123')),
+        );
+    }
+
+    public function testAllMustContain(): void
+    {
+        $rule = new AllMustContain('prop', []);
+        isSame(
+            '"all_must_contain" at line 0, column "prop". ' .
+            'Rule must contain at least one inclusion value in schema file.',
+            \strip_tags((string)$rule->validate('ac')),
+        );
+
+        $rule = new AllMustContain('prop', ['a', 'b', 'c']);
+        isSame(null, $rule->validate('abc'));
+        isSame(null, $rule->validate('abdasadasdasdc'));
+
+        isSame(
+            '"all_must_contain" at line 0, column "prop". ' .
+            'Value "ab" must contain all of the following: "["a", "b", "c"]".',
+            \strip_tags((string)$rule->validate('ab')),
+        );
+        isSame(
+            '"all_must_contain" at line 0, column "prop". ' .
+            'Value "ac" must contain all of the following: "["a", "b", "c"]".',
+            \strip_tags((string)$rule->validate('ac')),
+        );
+    }
+
+    public function testStrStartsWith(): void
+    {
+        $rule = new StrStartsWith('prop', 'a');
+        isSame(null, $rule->validate('a'));
+        isSame(null, $rule->validate('abc'));
+
+        isSame(
+            '"str_starts_with" at line 0, column "prop". Value "" must start with "a".',
+            \strip_tags((string)$rule->validate('')),
+        );
+
+        isSame(
+            '"str_starts_with" at line 0, column "prop". Value " a" must start with "a".',
+            \strip_tags((string)$rule->validate(' a')),
+        );
+
+        $rule = new StrStartsWith('prop', '');
+        isSame(
+            '"str_starts_with" at line 0, column "prop". Rule must contain a prefix value in schema file.',
+            \strip_tags((string)$rule->validate('a ')),
+        );
+    }
+
+    public function testStrEndsWith(): void
+    {
+        $rule = new StrEndsWith('prop', 'a');
+        isSame(null, $rule->validate('a'));
+        isSame(null, $rule->validate('cba'));
+
+        isSame(
+            '"str_ends_with" at line 0, column "prop". Value "" must end with "a".',
+            \strip_tags((string)$rule->validate('')),
+        );
+
+        isSame(
+            '"str_ends_with" at line 0, column "prop". Value "a " must end with "a".',
+            \strip_tags((string)$rule->validate('a ')),
+        );
+
+        $rule = new StrEndsWith('prop', '');
+        isSame(
+            '"str_ends_with" at line 0, column "prop". Rule must contain a suffix value in schema file.',
+            \strip_tags((string)$rule->validate('a ')),
+        );
+    }
+
+    public function testStrWordCount(): void
+    {
+        $rule = new WordCount('prop', 0);
+        isSame(null, $rule->validate(''));
+        isSame(
+            '"word_count" at line 0, column "prop". ' .
+            'Value "cba" has 1 words, but must have exactly 0 words.',
+            \strip_tags((string)$rule->validate('cba')),
+        );
+
+        $rule = new WordCount('prop', 2);
+        isSame(null, $rule->validate('asd, asdasd'));
+        isSame(
+            '"word_count" at line 0, column "prop". ' .
+            'Value "cba" has 1 words, but must have exactly 2 words.',
+            \strip_tags((string)$rule->validate('cba')),
+        );
+        isSame(
+            '"word_count" at line 0, column "prop". ' .
+            'Value "cba 123, 123123" has 1 words, but must have exactly 2 words.',
+            \strip_tags((string)$rule->validate('cba 123, 123123')),
+        );
+
+        isSame(
+            '"word_count" at line 0, column "prop". Value "a b c" has 3 words, but must have exactly 2 words.',
+            \strip_tags((string)$rule->validate('a b c')),
+        );
+    }
+
+    public function testMinWordCount(): void
+    {
+        $rule = new MinWordCount('prop', 0);
+        isSame(null, $rule->validate('cba'));
+
+        $rule = new MinWordCount('prop', 2);
+        isSame(null, $rule->validate('asd, asdasd'));
+        isSame(null, $rule->validate('asd, asdasd asd'));
+        isSame(null, $rule->validate('asd, asdasd 1232 asdas'));
+        isSame(
+            '"min_word_count" at line 0, column "prop". ' .
+            'Value "cba" has 1 words, but must have at least 2 words.',
+            \strip_tags((string)$rule->validate('cba')),
+        );
+        isSame(
+            '"min_word_count" at line 0, column "prop". ' .
+            'Value "cba 123, 123123" has 1 words, but must have at least 2 words.',
+            \strip_tags((string)$rule->validate('cba 123, 123123')),
+        );
+    }
+
+    public function testMaxWordCount(): void
+    {
+        $rule = new MaxWordCount('prop', 0);
+        isSame(null, $rule->validate(''));
+
+        $rule = new MaxWordCount('prop', 2);
+        isSame(null, $rule->validate('asd, asdasd'));
+        isSame(null, $rule->validate('asd, 1232'));
+        isSame(null, $rule->validate('asd, 1232 113234324 342 . ..'));
+        isSame(
+            '"max_word_count" at line 0, column "prop". ' .
+            'Value "asd, asdasd asd 1232 asdas" has 4 words, but must have no more than 2 words.',
+            \strip_tags((string)$rule->validate('asd, asdasd asd 1232 asdas')),
+        );
+    }
+
+    public function testIsAlias(): void
+    {
+        $rule = new IsAlias('prop', true);
+        isSame(null, $rule->validate(''));
+        isSame(null, $rule->validate('123'));
+
+        $rule = new IsAlias('prop', true);
+        isSame(
+            '"is_alias" at line 0, column "prop". ' .
+            'Value "Qwerty, asd 123" is not a valid alias. Expected "qwerty-asd-123".',
+            \strip_tags((string)$rule->validate('Qwerty, asd 123')),
+        );
+
+        $rule = new IsAlias('prop', false);
+        isSame(null, $rule->validate('Qwerty, asd 123'));
     }
 }

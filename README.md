@@ -4,27 +4,6 @@
 [![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint)    [![Dependents](https://poser.pugx.org/jbzoo/csv-blueprint/dependents)](https://packagist.org/packages/jbzoo/csv-blueprint/dependents?order_by=downloads)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
 
 
-
-* [Introduction](#introduction)
-* [Why validate CSV files in CI?](#why-validate-csv-files-in-ci)
-* [Features](#features)
-* [Live Demo](#live-demo)
-* [Usage](#usage)
-    * [As GitHub Action](#as-github-action)
-    * [As Docker container](#as-docker-container)
-    * [As PHP binary](#as-php-binary)
-    * [As PHP project](#as-php-project)
-    * [CLI Help Message](#cli-help-message)
-    * [Report examples](#report-examples)
-    * [Schema Definition](#schema-definition)
-    * [Schema file examples](#schema-file-examples)
-* [Coming soon](#coming-soon)
-* [Disadvantages?](#disadvantages)
-* [Contributing](#contributing)
-* [License](#license)
-* [See Also](#see-also)
-
-
 ## Introduction
 
 The JBZoo/Csv-Blueprint tool is a powerful and flexible utility designed for validating CSV files against 
@@ -232,35 +211,30 @@ Schema: ./tests/schemas/demo_invalid.yml
 Found CSV files: 3
 
 (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
-+------+------------------+--------------+ demo-1.csv ------------------------------------------+
-| Line | id:Column        | Rule         | Message                                              |
-+------+------------------+--------------+------------------------------------------------------+
-| 3    | 2:Float          | max          | Value "74605.944" is greater than "74605"            |
-| 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", |
-|      |                  |              | "green", "Blue"]                                     |
-+------+------------------+--------------+ demo-1.csv ------------------------------------------+
++------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
+| Line | id:Column        | Rule         | Message                                                               |
++------+------------------+--------------+-----------------------------------------------------------------------+
+| 3    | 2:Float          | max          | Value "74605.944" is greater than "74605"                             |
+| 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"] |
++------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
 
 (2/3) Invalid file: ./tests/fixtures/batch/demo-2.csv
-+------+------------+------------+----- demo-2.csv ---------------------------------------+
-| Line | id:Column  | Rule       | Message                                                |
-+------+------------+------------+--------------------------------------------------------+
-| 2    | 0:Name     | min_length | Value "Carl" (length: 4) is too short. Min length is 5 |
-| 2    | 3:Birthday | min_date   | Value "1955-05-14" is less than the minimum date       |
-|      |            |            | "1955-05-15T00:00:00.000+00:00"                        |
-| 4    | 3:Birthday | min_date   | Value "1955-05-14" is less than the minimum date       |
-|      |            |            | "1955-05-15T00:00:00.000+00:00"                        |
-| 5    | 3:Birthday | max_date   | Value "2010-07-20" is more than the maximum date       |
-|      |            |            | "2009-01-01T00:00:00.000+00:00"                        |
-| 7    | 0:Name     | min_length | Value "Lois" (length: 4) is too short. Min length is 5 |
-+------+------------+------------+----- demo-2.csv ---------------------------------------+
++------+------------+------------+------------------ demo-2.csv ----------------------------------------------------+
+| Line | id:Column  | Rule       | Message                                                                          |
++------+------------+------------+----------------------------------------------------------------------------------+
+| 2    | 0:Name     | min_length | Value "Carl" (length: 4) is too short. Min length is 5                           |
+| 2    | 3:Birthday | min_date   | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00" |
+| 4    | 3:Birthday | min_date   | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00" |
+| 5    | 3:Birthday | max_date   | Value "2010-07-20" is more than the maximum date "2009-01-01T00:00:00.000+00:00" |
+| 7    | 0:Name     | min_length | Value "Lois" (length: 4) is too short. Min length is 5                           |
++------+------------+------------+------------------ demo-2.csv ----------------------------------------------------+
 
 (3/3) Invalid file: ./tests/fixtures/batch/sub/demo-3.csv
-+------+-----------+------------------+---- demo-3.csv -------------------------------------------+
-| Line | id:Column | Rule             | Message                                                   |
-+------+-----------+------------------+-----------------------------------------------------------+
-| 0    |           | filename_pattern | Filename "./tests/fixtures/batch/sub/demo-3.csv" does not |
-|      |           |                  | match pattern: "/demo-[12].csv$/i"                        |
-+------+-----------+------------------+---- demo-3.csv -------------------------------------------+
++------+-----------+------------------+---------------------- demo-3.csv ------------------------------------------------------------+
+| Line | id:Column | Rule             | Message                                                                                      |
++------+-----------+------------------+----------------------------------------------------------------------------------------------+
+| 0    |           | filename_pattern | Filename "./tests/fixtures/batch/sub/demo-3.csv" does not match pattern: "/demo-[12].csv$/i" |
++------+-----------+------------------+---------------------- demo-3.csv ------------------------------------------------------------+
 
 
 Found 8 issues in 3 out of 3 CSV files.
@@ -311,6 +285,8 @@ This gives you great flexibility when validating CSV files.
 
 ### Schema file examples
 
+Available formats: [YAML](schema-examples/full.yml), [JSON](schema-examples/full.json), [PHP](schema-examples/full.php).
+
 ```yml
 # It's a full example of the CSV schema file in YAML format.
 
@@ -349,11 +325,20 @@ columns:
       only_lowercase: true              # String is only lower-case. Example: "hello world"
       only_uppercase: true              # String is only upper-case. Example: "HELLO WORLD"
       only_capitalize: true             # String is only capitalized. Example: "Hello World"
+      word_count: 10                    # Integer only. Exact count of words in the string. Example: "Hello World, 123" - 2 words only (123 is not a word)
+      min_word_count: 1                 # Integer only. Min count of words in the string. Example: "Hello World. 123" - 2 words only (123 is not a word)
+      max_word_count: 5                 # Integer only. Max count of words in the string Example: "Hello World! 123" - 2 words only (123 is not a word)
+      at_least_contains: [ a, b ]       # At least one of the string must be in the CSV value. Case-sensitive.
+      all_must_contain: [ a, b, c ]     # All the strings must be part of a CSV value. Case-sensitive.
+      str_ends_with: " suffix"          # Case-sensitive. Example: "Hello World suffix"
+      str_starts_with: "prefix "        # Case-sensitive. Example: "prefix Hello World"
 
       # Decimal and integer numbers
       min: 10                           # Can be integer or float, negative and positive
       max: 100.50                       # Can be integer or float, negative and positive
-      precision: 2                      # Strict(!) number of digits after the decimal point
+      precision: 3                      # Strict(!) number of digits after the decimal point
+      min_precision: 2                  # Min number of digits after the decimal point (with zeros)
+      max_precision: 4                  # Max number of digits after the decimal point (with zeros)
 
       # Dates
       date_format: Y-m-d                # See: https://www.php.net/manual/en/datetime.format.php
@@ -371,136 +356,13 @@ columns:
       is_uuid4: true                    # Only UUID4 format. Example: "550e8400-e29b-41d4-a716-446655440000"
       is_latitude: true                 # Can be integer or float. Example: 50.123456
       is_longitude: true                # Can be integer or float. Example: -89.123456
+      is_alias: true                    # Only alias format. Example: "my-alias-123"
       cardinal_direction: true          # Valid cardinal direction. Examples: "N", "S", "NE", "SE", "none", ""
       usa_market_name: true             # Check if the value is a valid USA market name. Example: "New York, NY"
 
   - name: "another_column"
 
 ```
-
-
-<details>
-  <summary>Click to see: JSON Format</summary>
-
-```json
-{
-    "filename_pattern" : "/demo(-\\d+)?\\.csv$/i",
-    "csv"              : {
-        "header"     : true,
-        "delimiter"  : ",",
-        "quote_char" : "\\",
-        "enclosure"  : "\"",
-        "encoding"   : "utf-8",
-        "bom"        : false
-    },
-    "columns"          : [
-        {
-            "name"        : "csv_header_name",
-            "description" : "Lorem ipsum",
-            "rules"       : {
-                "not_empty"          : true,
-                "exact_value"        : "Some string",
-                "allow_values"       : ["y", "n", ""],
-                "regex"              : "\/^[\\d]{2}$\/",
-                "min_length"         : 1,
-                "max_length"         : 10,
-                "only_trimed"        : true,
-                "only_lowercase"     : true,
-                "only_uppercase"     : true,
-                "only_capitalize"    : true,
-                "min"                : 10,
-                "max"                : 100.5,
-                "precision"          : 2,
-                "date_format"        : "Y-m-d",
-                "min_date"           : "2000-01-02",
-                "max_date"           : "+1 day",
-                "is_bool"            : true,
-                "is_int"             : true,
-                "is_float"           : true,
-                "is_ip"              : true,
-                "is_url"             : true,
-                "is_email"           : true,
-                "is_domain"          : true,
-                "is_uuid4"           : true,
-                "is_latitude"        : true,
-                "is_longitude"       : true,
-                "cardinal_direction" : true,
-                "usa_market_name"    : true
-            }
-        },
-        {"name" : "another_column"}
-    ]
-}
-
-```
-
-</details>
-
-
-
-
-<details>
-  <summary>Click to see: PHP Format</summary>
-
-```php
-<?php
-declare(strict_types=1);
-
-return [
-    'filename_pattern' => '/demo(-\\d+)?\\.csv$/i',
-
-    'csv' => [
-        'header'     => true,
-        'delimiter'  => ',',
-        'quote_char' => '\\',
-        'enclosure'  => '"',
-        'encoding'   => 'utf-8',
-        'bom'        => false,
-    ],
-
-    'columns' => [
-        [
-            'name'        => 'csv_header_name',
-            'description' => 'Lorem ipsum',
-            'rules'       => [
-                'not_empty'          => true,
-                'exact_value'        => 'Some string',
-                'allow_values'       => ['y', 'n', ''],
-                'regex'              => '/^[\\d]{2}$/',
-                'min_length'         => 1,
-                'max_length'         => 10,
-                'only_trimed'        => true,
-                'only_lowercase'     => true,
-                'only_uppercase'     => true,
-                'only_capitalize'    => true,
-                'min'                => 10,
-                'max'                => 100.5,
-                'precision'          => 2,
-                'date_format'        => 'Y-m-d',
-                'min_date'           => '2000-01-02',
-                'max_date'           => '+1 day',
-                'is_bool'            => true,
-                'is_int'             => true,
-                'is_float'           => true,
-                'is_ip'              => true,
-                'is_url'             => true,
-                'is_email'           => true,
-                'is_domain'          => true,
-                'is_uuid4'           => true,
-                'is_latitude'        => true,
-                'is_longitude'       => true,
-                'cardinal_direction' => true,
-                'usa_market_name'    => true,
-            ],
-        ],
-        ['name' => 'another_column'],
-    ],
-];
-
-```
-
-</details>
-
 
 
 ## Coming soon
@@ -517,6 +379,8 @@ Batch processing
 
 Validation
 * [x] ~~`filename_pattern` validation with regex (like "all files in the folder should be in the format `/^[\d]{4}-[\d]{2}-[\d]{2}\.csv$/`").~~
+* [ ] Flag to ignore file name pattern. It's useful when you have a lot of files and you don't want to validate the file name.
+* [ ] Keyword for null value. Configurable. By default, it's an empty string. But you can use `null`, `nil`, `none`, `empty`, etc.
 * [ ] Agregate rules (like "at least one of the fields should be not empty" or "all values must be unique").
 * [ ] Handle empty files and files with only a header row, or only with one line of data. One column wthout header is also possible.
 * [ ] Using multiple schemas for one csv file.
@@ -531,6 +395,8 @@ Release workflow
 * [ ] Build and release Docker image [via GitHub Actions, tags and labels](https://docs.docker.com/build/ci/github-actions/manage-tags-labels/). Review it.
 * [ ] Upgrading to PHP 8.3.x
 * [ ] Build phar file and release via GitHub Actions.
+* [ ] Auto insert tool version into the Docker image and phar file. It's important to know the version of the tool you are using.
+* [ ] Show version as part of output.
 
 Performance and optimization
 * [ ] Parallel validation of really-really large files (1GB+ ?). I know you have them and not so much memory.
@@ -545,6 +411,7 @@ Mock data generation
 Reporting
 * [ ] More report formats (like JSON, XML, etc). Any ideas?
 * [ ] Gitlab and JUnit reports must be as one structure. It's not so easy to implement. But it's a good idea.
+* [ ] Merge reports from multiple CSV files into one report. It's useful when you have a lot of files and you want to see all errors in one place. Especially for GitLab and JUnit reports.
 
 Misc
 * [ ] Use it as PHP SDK. Examples in Readme.

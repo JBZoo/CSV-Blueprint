@@ -47,11 +47,20 @@ columns:
       only_lowercase: true              # String is only lower-case. Example: "hello world"
       only_uppercase: true              # String is only upper-case. Example: "HELLO WORLD"
       only_capitalize: true             # String is only capitalized. Example: "Hello World"
+      word_count: 10                    # Integer only. Exact count of words in the string. Example: "Hello World, 123" - 2 words only (123 is not a word)
+      min_word_count: 1                 # Integer only. Min count of words in the string. Example: "Hello World. 123" - 2 words only (123 is not a word)
+      max_word_count: 5                 # Integer only. Max count of words in the string Example: "Hello World! 123" - 2 words only (123 is not a word)
+      at_least_contains: [ a, b ]       # At least one of the string must be in the CSV value. Case-sensitive.
+      all_must_contain: [ a, b, c ]     # All the strings must be part of a CSV value. Case-sensitive.
+      str_ends_with: " suffix"          # Case-sensitive. Example: "Hello World suffix"
+      str_starts_with: "prefix "        # Case-sensitive. Example: "prefix Hello World"
 
       # Decimal and integer numbers
       min: 10                           # Can be integer or float, negative and positive
       max: 100.50                       # Can be integer or float, negative and positive
-      precision: 2                      # Strict(!) number of digits after the decimal point
+      precision: 3                      # Strict(!) number of digits after the decimal point
+      min_precision: 2                  # Min number of digits after the decimal point (with zeros)
+      max_precision: 4                  # Max number of digits after the decimal point (with zeros)
 
       # Dates
       date_format: Y-m-d                # See: https://www.php.net/manual/en/datetime.format.php
@@ -69,6 +78,7 @@ columns:
       is_uuid4: true                    # Only UUID4 format. Example: "550e8400-e29b-41d4-a716-446655440000"
       is_latitude: true                 # Can be integer or float. Example: 50.123456
       is_longitude: true                # Can be integer or float. Example: -89.123456
+      is_alias: true                    # Only alias format. Example: "my-alias-123"
       cardinal_direction: true          # Valid cardinal direction. Examples: "N", "S", "NE", "SE", "none", ""
       usa_market_name: true             # Check if the value is a valid USA market name. Example: "New York, NY"
 

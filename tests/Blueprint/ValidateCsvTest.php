@@ -64,23 +64,18 @@ final class ValidateCsvTest extends PHPUnit
             Found CSV files: 1
             
             (1/1) Invalid file: ./tests/fixtures/demo.csv
-            +------+------------------+------------------+--- demo.csv -------------------------------------------------+
-            | Line | id:Column        | Rule             | Message                                                      |
-            +------+------------------+------------------+--------------------------------------------------------------+
-            | 0    |                  | filename_pattern | Filename "./tests/fixtures/demo.csv" does not match pattern: |
-            |      |                  |                  | "/demo-[12].csv$/i"                                          |
-            | 5    | 2:Float          | max              | Value "74605.944" is greater than "74605"                    |
-            | 5    | 4:Favorite color | allow_values     | Value "blue" is not allowed. Allowed values: ["red",         |
-            |      |                  |                  | "green", "Blue"]                                             |
-            | 6    | 0:Name           | min_length       | Value "Carl" (length: 4) is too short. Min length is 5       |
-            | 6    | 3:Birthday       | min_date         | Value "1955-05-14" is less than the minimum date             |
-            |      |                  |                  | "1955-05-15T00:00:00.000+00:00"                              |
-            | 8    | 3:Birthday       | min_date         | Value "1955-05-14" is less than the minimum date             |
-            |      |                  |                  | "1955-05-15T00:00:00.000+00:00"                              |
-            | 9    | 3:Birthday       | max_date         | Value "2010-07-20" is more than the maximum date             |
-            |      |                  |                  | "2009-01-01T00:00:00.000+00:00"                              |
-            | 11   | 0:Name           | min_length       | Value "Lois" (length: 4) is too short. Min length is 5       |
-            +------+------------------+------------------+--- demo.csv -------------------------------------------------+
+            +------+------------------+------------------+------------- demo.csv -----------------------------------------------------------+
+            | Line | id:Column        | Rule             | Message                                                                          |
+            +------+------------------+------------------+----------------------------------------------------------------------------------+
+            | 0    |                  | filename_pattern | Filename "./tests/fixtures/demo.csv" does not match pattern: "/demo-[12].csv$/i" |
+            | 5    | 2:Float          | max              | Value "74605.944" is greater than "74605"                                        |
+            | 5    | 4:Favorite color | allow_values     | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]            |
+            | 6    | 0:Name           | min_length       | Value "Carl" (length: 4) is too short. Min length is 5                           |
+            | 6    | 3:Birthday       | min_date         | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00" |
+            | 8    | 3:Birthday       | min_date         | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00" |
+            | 9    | 3:Birthday       | max_date         | Value "2010-07-20" is more than the maximum date "2009-01-01T00:00:00.000+00:00" |
+            | 11   | 0:Name           | min_length       | Value "Lois" (length: 4) is too short. Min length is 5                           |
+            +------+------------------+------------------+------------- demo.csv -----------------------------------------------------------+
             
             
             Found 8 issues in CSV file.
@@ -107,35 +102,30 @@ final class ValidateCsvTest extends PHPUnit
             Found CSV files: 3
             
             (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
-            +------+------------------+--------------+ demo-1.csv ------------------------------------------+
-            | Line | id:Column        | Rule         | Message                                              |
-            +------+------------------+--------------+------------------------------------------------------+
-            | 3    | 2:Float          | max          | Value "74605.944" is greater than "74605"            |
-            | 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", |
-            |      |                  |              | "green", "Blue"]                                     |
-            +------+------------------+--------------+ demo-1.csv ------------------------------------------+
+            +------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
+            | Line | id:Column        | Rule         | Message                                                               |
+            +------+------------------+--------------+-----------------------------------------------------------------------+
+            | 3    | 2:Float          | max          | Value "74605.944" is greater than "74605"                             |
+            | 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"] |
+            +------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
             
             (2/3) Invalid file: ./tests/fixtures/batch/demo-2.csv
-            +------+------------+------------+----- demo-2.csv ---------------------------------------+
-            | Line | id:Column  | Rule       | Message                                                |
-            +------+------------+------------+--------------------------------------------------------+
-            | 2    | 0:Name     | min_length | Value "Carl" (length: 4) is too short. Min length is 5 |
-            | 2    | 3:Birthday | min_date   | Value "1955-05-14" is less than the minimum date       |
-            |      |            |            | "1955-05-15T00:00:00.000+00:00"                        |
-            | 4    | 3:Birthday | min_date   | Value "1955-05-14" is less than the minimum date       |
-            |      |            |            | "1955-05-15T00:00:00.000+00:00"                        |
-            | 5    | 3:Birthday | max_date   | Value "2010-07-20" is more than the maximum date       |
-            |      |            |            | "2009-01-01T00:00:00.000+00:00"                        |
-            | 7    | 0:Name     | min_length | Value "Lois" (length: 4) is too short. Min length is 5 |
-            +------+------------+------------+----- demo-2.csv ---------------------------------------+
+            +------+------------+------------+------------------ demo-2.csv ----------------------------------------------------+
+            | Line | id:Column  | Rule       | Message                                                                          |
+            +------+------------+------------+----------------------------------------------------------------------------------+
+            | 2    | 0:Name     | min_length | Value "Carl" (length: 4) is too short. Min length is 5                           |
+            | 2    | 3:Birthday | min_date   | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00" |
+            | 4    | 3:Birthday | min_date   | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00" |
+            | 5    | 3:Birthday | max_date   | Value "2010-07-20" is more than the maximum date "2009-01-01T00:00:00.000+00:00" |
+            | 7    | 0:Name     | min_length | Value "Lois" (length: 4) is too short. Min length is 5                           |
+            +------+------------+------------+------------------ demo-2.csv ----------------------------------------------------+
             
             (3/3) Invalid file: ./tests/fixtures/batch/sub/demo-3.csv
-            +------+-----------+------------------+---- demo-3.csv -------------------------------------------+
-            | Line | id:Column | Rule             | Message                                                   |
-            +------+-----------+------------------+-----------------------------------------------------------+
-            | 0    |           | filename_pattern | Filename "./tests/fixtures/batch/sub/demo-3.csv" does not |
-            |      |           |                  | match pattern: "/demo-[12].csv$/i"                        |
-            +------+-----------+------------------+---- demo-3.csv -------------------------------------------+
+            +------+-----------+------------------+---------------------- demo-3.csv ------------------------------------------------------------+
+            | Line | id:Column | Rule             | Message                                                                                      |
+            +------+-----------+------------------+----------------------------------------------------------------------------------------------+
+            | 0    |           | filename_pattern | Filename "./tests/fixtures/batch/sub/demo-3.csv" does not match pattern: "/demo-[12].csv$/i" |
+            +------+-----------+------------------+---------------------- demo-3.csv ------------------------------------------------------------+
             
             
             Found 8 issues in 3 out of 3 CSV files.
