@@ -29,7 +29,7 @@ build: ##@Project Install all 3rd party dependencies
 
 build-install: ##@Project Install all 3rd party dependencies as prod
 	$(call title,"Install/Update all 3rd party dependencies as prod")
-	@composer install --no-dev --no-progress --no-interaction --no-suggest
+	@composer install --no-dev --no-progress --no-interaction --no-suggest --optimize-autoloader
 	@rm -f `pwd`/ci-report-converter
 
 

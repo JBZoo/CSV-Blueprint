@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
+use function JBZoo\Data\json;
+
 final class CsvBlueprintPackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
 {
     protected string $packageName = 'Csv-Blueprint';
@@ -108,5 +110,11 @@ final class CsvBlueprintPackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPac
                 $path . '/release-docker.yml?query=branch%3Amaster',
             ),
         );
+    }
+
+    public static function testComposerOptimizeAutoloader(): void
+    {
+        $composer = json(PROJECT_ROOT . '/composer.json');
+        isSame(false, $composer->find('config.optimize-autoloader'));
     }
 }

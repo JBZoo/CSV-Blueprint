@@ -62,7 +62,7 @@ final class MiscTest extends PHPUnit
 
         $finder = (new Finder())
             ->files()
-            ->in(PROJECT_ROOT . '/src/CellRules')
+            ->in(PROJECT_ROOT . '/src/Rules/Cell')
             ->ignoreDotFiles(false)
             ->ignoreVCS(true)
             ->name('/\\.php$/');

@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Validators;
 
-use JBZoo\CsvBlueprint\AbstarctRule;
+use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use JBZoo\CsvBlueprint\Utils;
 
 final class Ruleset
@@ -43,13 +43,13 @@ final class Ruleset
     {
         $ruleClass = Utils::kebabToCamelCase($ruleName);
 
-        $classRule = "\\JBZoo\\CsvBlueprint\\CellRules\\{$ruleClass}";
+        $classRule = "\\JBZoo\\CsvBlueprint\\Rules\\Cell\\{$ruleClass}";
         if (\class_exists($classRule)) {
             // @phpstan-ignore-next-line
             return new $classRule($this->columnNameId, $options);
         }
 
-        $classAggregateRule = "\\JBZoo\\CsvBlueprint\\AggregateRules\\{$ruleClass}";
+        $classAggregateRule = "\\JBZoo\\CsvBlueprint\\Rules\\Aggregate\\{$ruleClass}";
         if (\class_exists($classAggregateRule)) {
             // @phpstan-ignore-next-line
             return new $classAggregateRule($this->columnNameId, $options);

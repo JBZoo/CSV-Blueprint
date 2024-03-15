@@ -45,7 +45,7 @@ final class ValidatorTest extends PHPUnit
     {
         $this->expectExceptionMessage(
             'Rule "undefined_rule" not found. Expected classes: ' .
-            '\JBZoo\CsvBlueprint\CellRules\UndefinedRule OR \JBZoo\CsvBlueprint\AggregateRules\UndefinedRule',
+            '\JBZoo\CsvBlueprint\Rules\Cell\UndefinedRule OR \JBZoo\CsvBlueprint\Rules\Aggregate\UndefinedRule',
         );
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('seq', 'undefined_rule', true));
         $csv->validate();
