@@ -23,6 +23,7 @@ final class StartsWith extends AbstarctCellRule
         if ($cellValue === '') {
             return null;
         }
+
         $prefix = $this->getOptionAsString();
         if ($prefix === '') {
             return 'Rule must contain a prefix value in schema file.';

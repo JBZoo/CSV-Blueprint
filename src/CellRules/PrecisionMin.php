@@ -23,6 +23,7 @@ final class PrecisionMin extends Precision
         if ($cellValue === '') {
             return null;
         }
+
         $valuePrecision = self::getFloatPrecision($cellValue);
 
         if ($valuePrecision < $this->getOptionAsInt()) {

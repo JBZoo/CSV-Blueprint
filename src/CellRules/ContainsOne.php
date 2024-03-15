@@ -23,6 +23,7 @@ final class ContainsOne extends AbstarctCellRule
         if ($cellValue === '') {
             return null;
         }
+
         $inclusions = $this->getOptionAsArray();
         if (\count($inclusions) === 0) {
             return 'Rule must contain at least one inclusion value in schema file.';

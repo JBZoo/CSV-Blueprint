@@ -23,6 +23,7 @@ final class DateMax extends AbstarctCellRule
         if ($cellValue === '') {
             return null;
         }
+
         $minDate  = $this->getOptionAsDate();
         $cellDate = new \DateTimeImmutable($cellValue);
 

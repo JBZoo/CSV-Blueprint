@@ -23,6 +23,7 @@ final class EndsWith extends AbstarctCellRule
         if ($cellValue === '') {
             return null;
         }
+
         $prefix = $this->getOptionAsString();
         if ($prefix === '') {
             return 'Rule must contain a suffix value in schema file.';

@@ -23,6 +23,7 @@ final class WordCount extends AbstarctCellRule
         if ($cellValue === '') {
             return null;
         }
+
         $wordCount = $this->getOptionAsInt();
         $count     = \str_word_count($cellValue);
 

@@ -23,6 +23,7 @@ class Precision extends AbstarctCellRule
         if ($cellValue === '') {
             return null;
         }
+
         $valuePrecision = self::getFloatPrecision($cellValue);
 
         if ($valuePrecision !== $this->getOptionAsInt()) {

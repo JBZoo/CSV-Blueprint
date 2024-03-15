@@ -23,6 +23,7 @@ final class Date extends AbstarctCellRule
         if ($cellValue === '') {
             return null;
         }
+
         $expDate  = $this->getOptionAsDate();
         $cellDate = new \DateTimeImmutable($cellValue);
 

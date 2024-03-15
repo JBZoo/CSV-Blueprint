@@ -25,8 +25,8 @@ final class Regex extends AbstarctCellRule
         if ($cellValue === '') {
             return null;
         }
-        $regex = Utils::prepareRegex($this->getOptionAsString());
 
+        $regex = Utils::prepareRegex($this->getOptionAsString());
         if ($regex === null || $regex === '') {
             return 'Regex pattern is not defined';
         }

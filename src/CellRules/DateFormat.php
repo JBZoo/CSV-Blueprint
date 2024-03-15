@@ -25,10 +25,6 @@ final class DateFormat extends AbstarctCellRule
             return 'Date format is not defined';
         }
 
-        if ($cellValue === '') {
-            return 'Date format of value "" is not valid. Expected format: "' . $expectedDateFormat . '"';
-        }
-
         $date = \DateTimeImmutable::createFromFormat($expectedDateFormat, $cellValue);
         if ($date === false || $date->format($expectedDateFormat) !== $cellValue) {
             return "Date format of value \"<c>{$cellValue}</c>\" is not valid. " .
