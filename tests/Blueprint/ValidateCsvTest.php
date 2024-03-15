@@ -64,19 +64,19 @@ final class ValidateCsvTest extends PHPUnit
             Found CSV files: 1
             
             (1/1) Invalid file: ./tests/fixtures/demo.csv
-            +------+------------------+------------------+------------- demo.csv -----------------------------------------------------------+
-            | Line | id:Column        | Rule             | Message                                                                          |
-            +------+------------------+------------------+----------------------------------------------------------------------------------+
-            | 1    |                  | filename_pattern | Filename "./tests/fixtures/demo.csv" does not match pattern: "/demo-[12].csv$/i" |
-            | 6    | 0:Name           | length_min       | Value "Carl" (length: 4) is too short. Min length is 5                           |
-            | 11   | 0:Name           | length_min       | Value "Lois" (length: 4) is too short. Min length is 5                           |
-            | 1    | 1:City           | ag:is_unique     | Column has non-unique values. Unique: 9, total: 10                               |
-            | 5    | 2:Float          | max              | Value "74605.944" is greater than "74605"                                        |
-            | 6    | 3:Birthday       | date_min         | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00" |
-            | 8    | 3:Birthday       | date_min         | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00" |
-            | 9    | 3:Birthday       | date_max         | Value "2010-07-20" is more than the maximum date "2009-01-01T00:00:00.000+00:00" |
-            | 5    | 4:Favorite color | allow_values     | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]            |
-            +------+------------------+------------------+------------- demo.csv -----------------------------------------------------------+
+            +------+------------------+------------------+---------------- demo.csv --------------------------------------------------------------+
+            | Line | id:Column        | Rule             | Message                                                                                |
+            +------+------------------+------------------+----------------------------------------------------------------------------------------+
+            | 1    |                  | filename_pattern | Filename "./tests/fixtures/demo.csv" does not match pattern: "/demo-[12].csv$/i"       |
+            | 6    | 0:Name           | length_min       | The length of the "Carl" is 4, which is less than the expected "5"                     |
+            | 11   | 0:Name           | length_min       | The length of the "Lois" is 4, which is less than the expected "5"                     |
+            | 1    | 1:City           | ag:is_unique     | Column has non-unique values. Unique: 9, total: 10                                     |
+            | 5    | 2:Float          | num_max          | The number of the "74605.944" is 74605.944, which is greater than the expected "74605" |
+            | 6    | 3:Birthday       | date_min         | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00"       |
+            | 8    | 3:Birthday       | date_min         | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00"       |
+            | 9    | 3:Birthday       | date_max         | Value "2010-07-20" is more than the maximum date "2009-01-01T00:00:00.000+00:00"       |
+            | 5    | 4:Favorite color | allow_values     | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                  |
+            +------+------------------+------------------+---------------- demo.csv --------------------------------------------------------------+
             
             
             Found 9 issues in CSV file.
@@ -103,20 +103,20 @@ final class ValidateCsvTest extends PHPUnit
             Found CSV files: 3
             
             (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
-            +------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
-            | Line | id:Column        | Rule         | Message                                                               |
-            +------+------------------+--------------+-----------------------------------------------------------------------+
-            | 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 1, total: 2                     |
-            | 3    | 2:Float          | max          | Value "74605.944" is greater than "74605"                             |
-            | 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"] |
-            +------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
+            +------+------------------+--------------+----------------- demo-1.csv -----------------------------------------------------------+
+            | Line | id:Column        | Rule         | Message                                                                                |
+            +------+------------------+--------------+----------------------------------------------------------------------------------------+
+            | 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 1, total: 2                                      |
+            | 3    | 2:Float          | num_max      | The number of the "74605.944" is 74605.944, which is greater than the expected "74605" |
+            | 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                  |
+            +------+------------------+--------------+----------------- demo-1.csv -----------------------------------------------------------+
             
             (2/3) Invalid file: ./tests/fixtures/batch/demo-2.csv
             +------+------------+------------+------------------ demo-2.csv ----------------------------------------------------+
             | Line | id:Column  | Rule       | Message                                                                          |
             +------+------------+------------+----------------------------------------------------------------------------------+
-            | 2    | 0:Name     | length_min | Value "Carl" (length: 4) is too short. Min length is 5                           |
-            | 7    | 0:Name     | length_min | Value "Lois" (length: 4) is too short. Min length is 5                           |
+            | 2    | 0:Name     | length_min | The length of the "Carl" is 4, which is less than the expected "5"               |
+            | 7    | 0:Name     | length_min | The length of the "Lois" is 4, which is less than the expected "5"               |
             | 2    | 3:Birthday | date_min   | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00" |
             | 4    | 3:Birthday | date_min   | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00" |
             | 5    | 3:Birthday | date_max   | Value "2010-07-20" is more than the maximum date "2009-01-01T00:00:00.000+00:00" |
@@ -154,10 +154,10 @@ final class ValidateCsvTest extends PHPUnit
             
             (1/1) Invalid file: ./tests/fixtures/demo.csv
             "filename_pattern" at line 1, column "". Filename "./tests/fixtures/demo.csv" does not match pattern: "/demo-[12].csv$/i".
-            "length_min" at line 6, column "0:Name". Value "Carl" (length: 4) is too short. Min length is 5.
-            "length_min" at line 11, column "0:Name". Value "Lois" (length: 4) is too short. Min length is 5.
+            "length_min" at line 6, column "0:Name". The length of the "Carl" is 4, which is less than the expected "5".
+            "length_min" at line 11, column "0:Name". The length of the "Lois" is 4, which is less than the expected "5".
             "ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 9, total: 10.
-            "max" at line 5, column "2:Float". Value "74605.944" is greater than "74605".
+            "num_max" at line 5, column "2:Float". The number of the "74605.944" is 74605.944, which is greater than the expected "74605".
             "date_min" at line 6, column "3:Birthday". Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00".
             "date_min" at line 8, column "3:Birthday". Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00".
             "date_max" at line 9, column "3:Birthday". Value "2010-07-20" is more than the maximum date "2009-01-01T00:00:00.000+00:00".
@@ -243,12 +243,12 @@ final class ValidateCsvTest extends PHPUnit
             
             (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
             "ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 1, total: 2.
-            "max" at line 3, column "2:Float". Value "74605.944" is greater than "74605".
+            "num_max" at line 3, column "2:Float". The number of the "74605.944" is 74605.944, which is greater than the expected "74605".
             "allow_values" at line 3, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].
             
             (2/3) Invalid file: ./tests/fixtures/batch/demo-2.csv
-            "length_min" at line 2, column "0:Name". Value "Carl" (length: 4) is too short. Min length is 5.
-            "length_min" at line 7, column "0:Name". Value "Lois" (length: 4) is too short. Min length is 5.
+            "length_min" at line 2, column "0:Name". The length of the "Carl" is 4, which is less than the expected "5".
+            "length_min" at line 7, column "0:Name". The length of the "Lois" is 4, which is less than the expected "5".
             "date_min" at line 2, column "3:Birthday". Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00".
             "date_min" at line 4, column "3:Birthday". Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00".
             "date_max" at line 5, column "3:Birthday". Value "2010-07-20" is more than the maximum date "2009-01-01T00:00:00.000+00:00".
@@ -291,9 +291,9 @@ final class ValidateCsvTest extends PHPUnit
             "ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 1, total: 2.
             ##teamcity[testFinished name='ag:is_unique at column 1:City' flowId='42']
             
-            ##teamcity[testStarted name='max at column 2:Float' locationHint='php_qn://./tests/fixtures/batch/demo-1.csv' flowId='42']
-            "max" at line 3, column "2:Float". Value "74605.944" is greater than "74605".
-            ##teamcity[testFinished name='max at column 2:Float' flowId='42']
+            ##teamcity[testStarted name='num_max at column 2:Float' locationHint='php_qn://./tests/fixtures/batch/demo-1.csv' flowId='42']
+            "num_max" at line 3, column "2:Float". The number of the "74605.944" is 74605.944, which is greater than the expected "74605".
+            ##teamcity[testFinished name='num_max at column 2:Float' flowId='42']
             
             ##teamcity[testStarted name='allow_values at column 4:Favorite color' locationHint='php_qn://./tests/fixtures/batch/demo-1.csv' flowId='42']
             "allow_values" at line 3, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].
@@ -308,11 +308,11 @@ final class ValidateCsvTest extends PHPUnit
             ##teamcity[testSuiteStarted name='demo-2.csv' flowId='42']
             
             ##teamcity[testStarted name='length_min at column 0:Name' locationHint='php_qn://./tests/fixtures/batch/demo-2.csv' flowId='42']
-            "length_min" at line 2, column "0:Name". Value "Carl" (length: 4) is too short. Min length is 5.
+            "length_min" at line 2, column "0:Name". The length of the "Carl" is 4, which is less than the expected "5".
             ##teamcity[testFinished name='length_min at column 0:Name' flowId='42']
             
             ##teamcity[testStarted name='length_min at column 0:Name' locationHint='php_qn://./tests/fixtures/batch/demo-2.csv' flowId='42']
-            "length_min" at line 7, column "0:Name". Value "Lois" (length: 4) is too short. Min length is 5.
+            "length_min" at line 7, column "0:Name". The length of the "Lois" is 4, which is less than the expected "5".
             ##teamcity[testFinished name='length_min at column 0:Name' flowId='42']
             
             ##teamcity[testStarted name='date_min at column 3:Birthday' locationHint='php_qn://./tests/fixtures/batch/demo-2.csv' flowId='42']

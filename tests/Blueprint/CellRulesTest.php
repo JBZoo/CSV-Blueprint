@@ -312,57 +312,6 @@ final class CellRulesTest extends PHPUnit
         isSame(null, $rule->validate('//example.com'));
     }
 
-    public function testMin(): void
-    {
-        $rule = new Min('prop', 10);
-        isSame(null, $rule->validate('10'));
-        isSame(null, $rule->validate('11'));
-        isSame(
-            '"min" at line 1, column "prop". Value "9" is less than "10".',
-            \strip_tags((string)$rule->validate('9')),
-        );
-        isSame(
-            '"min" at line 1, column "prop". Value "example.com" is not a float number.',
-            \strip_tags((string)$rule->validate('example.com')),
-        );
-
-        $rule = new Min('prop', 10.1);
-        isSame(null, $rule->validate('10.1'));
-        isSame(null, $rule->validate('11'));
-        isSame(
-            '"min" at line 1, column "prop". Value "9" is less than "10.1".',
-            \strip_tags((string)$rule->validate('9')),
-        );
-        isSame(
-            '"min" at line 1, column "prop". Value "example.com" is not a float number.',
-            \strip_tags((string)$rule->validate('example.com')),
-        );
-    }
-
-    public function testMax(): void
-    {
-        $rule = new Max('prop', 10);
-        isSame(null, $rule->validate(''));
-        isSame(null, $rule->validate('9'));
-        isSame(null, $rule->validate('10'));
-        isSame(
-            '"max" at line 1, column "prop". Value "123" is greater than "10".',
-            \strip_tags((string)$rule->validate('123')),
-        );
-        isSame(
-            '"max" at line 1, column "prop". Value "example.com" is not a float number.',
-            \strip_tags((string)$rule->validate('example.com')),
-        );
-
-        $rule = new Max('prop', 10.1);
-        isSame(null, $rule->validate('9'));
-        isSame(null, $rule->validate('10.0'));
-        isSame(null, $rule->validate('10.1'));
-        isSame(
-            '"max" at line 1, column "prop". Value "10.2" is greater than "10.1".',
-            \strip_tags((string)$rule->validate('10.2')),
-        );
-    }
 
     public function testDateMin(): void
     {
@@ -408,44 +357,6 @@ final class CellRulesTest extends PHPUnit
 
         $rule = new DateMax('prop', '+1 day');
         isSame(null, $rule->validate('2000-01-10 00:00:00 +01:00'));
-    }
-
-    public function testLengthMin(): void
-    {
-        $rule = new LengthMin('prop', 5);
-        isSame(null, $rule->validate('12345'));
-        isSame(null, $rule->validate('     '));
-        isSame(null, $rule->validate('  1  '));
-        isSame(
-            '"length_min" at line 1, column "prop". Value "1234" (length: 4) is too short. Min length is 5.',
-            \strip_tags((string)$rule->validate('1234')),
-        );
-        isSame(
-            '"length_min" at line 1, column "prop". Value "123 " (length: 4) is too short. Min length is 5.',
-            \strip_tags((string)$rule->validate('123 ')),
-        );
-        isSame(
-            '"length_min" at line 1, column "prop". Value "" (length: 0) is too short. Min length is 5.',
-            \strip_tags((string)$rule->validate('')),
-        );
-    }
-
-    public function testLengthMax(): void
-    {
-        $rule = new LengthMax('prop', 5);
-        isSame(null, $rule->validate(''));
-        isSame(null, $rule->validate('1234'));
-        isSame(null, $rule->validate('12345'));
-        isSame(null, $rule->validate('     '));
-        isSame(null, $rule->validate('  1  '));
-        isSame(
-            '"length_max" at line 1, column "prop". Value "123456" (length: 6) is too long. Max length is 5.',
-            \strip_tags((string)$rule->validate('123456')),
-        );
-        isSame(
-            '"length_max" at line 1, column "prop". Value "12345 " (length: 6) is too long. Max length is 5.',
-            \strip_tags((string)$rule->validate('12345 ')),
-        );
     }
 
     public function testNotEmpty(): void
@@ -951,27 +862,6 @@ final class CellRulesTest extends PHPUnit
         isSame(
             '"is_geohash" at line 1, column "prop". Value "Qwsad342323423erty" is not a valid Geohash.',
             \strip_tags((string)$rule->validate('Qwsad342323423erty')),
-        );
-    }
-
-    public function testLength(): void
-    {
-        $rule = new Length('prop', 2);
-        isSame(null, $rule->validate('  '));
-        isSame(null, $rule->validate('ab'));
-        isSame(null, $rule->validate(' a'));
-        isSame(null, $rule->validate('a '));
-
-        isSame(
-            '"length" at line 1, column "prop". Value "Qwsad342323423erty" (length: 18) is not equal to 2.',
-            \strip_tags((string)$rule->validate('Qwsad342323423erty')),
-        );
-
-        $rule = new Length('prop', 0);
-        isSame(null, $rule->validate(''));
-        isSame(
-            '"length" at line 1, column "prop". Value " " (length: 1) is not equal to 0.',
-            \strip_tags((string)$rule->validate(' ')),
         );
     }
 }

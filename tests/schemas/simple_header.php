@@ -18,7 +18,7 @@ return [
     'columns' => [
         [
             'name'  => 'seq',
-            'rules' => ['not_empty' => true, 'min' => 2],
+            'rules' => ['not_empty' => true, 'num_min' => 2],
         ],
         [
             'name'  => 'bool',

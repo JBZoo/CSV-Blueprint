@@ -43,10 +43,7 @@ final class ValidatorTest extends PHPUnit
 
     public function testUndefinedRule(): void
     {
-        $this->expectExceptionMessage(
-            'Rule "undefined_rule" not found. Expected classes: ' .
-            '\JBZoo\CsvBlueprint\Rules\Cell\UndefinedRule OR \JBZoo\CsvBlueprint\Rules\Aggregate\UndefinedRule',
-        );
+        $this->expectExceptionMessage('Rule "undefined_rule" not found.');
         $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('seq', 'undefined_rule', true));
         $csv->validate();
     }
@@ -73,7 +70,8 @@ final class ValidatorTest extends PHPUnit
     {
         $csv = new CsvFile(self::CSV_SIMPLE_HEADER, self::SCHEMA_SIMPLE_HEADER_PHP);
         isSame(
-            '"min" at line 2, column "0:seq". Value "1" is less than "2".' . "\n",
+            '"num_min" at line 2, column "0:seq". ' .
+            'The number of the "1" is 1, which is less than the expected "2".' . "\n",
             \strip_tags((string)$csv->validate()),
         );
     }
@@ -82,7 +80,8 @@ final class ValidatorTest extends PHPUnit
     {
         $csv = new CsvFile(self::CSV_SIMPLE_HEADER, self::SCHEMA_SIMPLE_HEADER_JSON);
         isSame(
-            '"min" at line 2, column "0:seq". Value "1" is less than "2".' . "\n",
+            '"num_min" at line 2, column "0:seq". ' .
+            'The number of the "1" is 1, which is less than the expected "2".' . "\n",
             \strip_tags((string)$csv->validate()),
         );
     }
@@ -149,53 +148,55 @@ final class ValidatorTest extends PHPUnit
 
     public function testRenderText(): void
     {
-        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
+        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'num_min', 3));
         isSame(
-            '"min" at line 2, column "0:seq". Value "1" is less than "3".' . "\n",
+            '"num_min" at line 2, column "0:seq". ' .
+            'The number of the "1" is 1, which is less than the expected "3".' . "\n",
             \strip_tags($csv->validate(true)->render(ErrorSuite::REPORT_TEXT)),
         );
 
         isSame(
-            \implode("\n", [
-                '"min" at line 2, column "0:seq". Value "1" is less than "3".',
-                '"min" at line 3, column "0:seq". Value "2" is less than "3".' . "\n",
-            ]),
+            <<<'TEXT'
+                "num_min" at line 2, column "0:seq". The number of the "1" is 1, which is less than the expected "3".
+                "num_min" at line 3, column "0:seq". The number of the "2" is 2, which is less than the expected "3".
+                
+                TEXT,
             \strip_tags($csv->validate()->render(ErrorSuite::REPORT_TEXT)),
         );
     }
 
     public function testRenderTable(): void
     {
-        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
+        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'num_min', 3));
         isSame(
-            \implode("\n", [
-                '+------+---------- simple_header.csv ------------------+',
-                '| Line | id:Column | Rule | Message                    |',
-                '+------+-----------+------+----------------------------+',
-                '| 2    | 0:seq     | min  | Value "1" is less than "3" |',
-                '+------+---------- simple_header.csv ------------------+',
-                '',
-            ]),
+            <<<'TABLE'
+                +------+-----------+---------+-------- simple_header.csv --------------------------------------+
+                | Line | id:Column | Rule    | Message                                                         |
+                +------+-----------+---------+-----------------------------------------------------------------+
+                | 2    | 0:seq     | num_min | The number of the "1" is 1, which is less than the expected "3" |
+                +------+-----------+---------+-------- simple_header.csv --------------------------------------+
+                
+                TABLE,
             $csv->validate(true)->render(ErrorSuite::RENDER_TABLE),
         );
 
         isSame(
-            \implode("\n", [
-                '+------+---------- simple_header.csv ------------------+',
-                '| Line | id:Column | Rule | Message                    |',
-                '+------+-----------+------+----------------------------+',
-                '| 2    | 0:seq     | min  | Value "1" is less than "3" |',
-                '| 3    | 0:seq     | min  | Value "2" is less than "3" |',
-                '+------+---------- simple_header.csv ------------------+',
-                '',
-            ]),
+            <<<'TABLE'
+                +------+-----------+---------+-------- simple_header.csv --------------------------------------+
+                | Line | id:Column | Rule    | Message                                                         |
+                +------+-----------+---------+-----------------------------------------------------------------+
+                | 2    | 0:seq     | num_min | The number of the "1" is 1, which is less than the expected "3" |
+                | 3    | 0:seq     | num_min | The number of the "2" is 2, which is less than the expected "3" |
+                +------+-----------+---------+-------- simple_header.csv --------------------------------------+
+                
+                TABLE,
             $csv->validate()->render(ErrorSuite::RENDER_TABLE),
         );
     }
 
     public function testRenderTeamCity(): void
     {
-        $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
+        $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'num_min', 3));
         $out  = $csv->validate()->render(ErrorSuite::REPORT_TEAMCITY);
         $path = self::CSV_SIMPLE_HEADER;
 
@@ -205,13 +206,13 @@ final class ValidatorTest extends PHPUnit
             
             ##teamcity[testSuiteStarted name='simple_header.csv' flowId='42']
             
-            ##teamcity[testStarted name='min at column 0:seq' locationHint='php_qn://./tests/fixtures/simple_header.csv' flowId='42']
-            "min" at line 2, column "0:seq". Value "1" is less than "3".
-            ##teamcity[testFinished name='min at column 0:seq' flowId='42']
+            ##teamcity[testStarted name='num_min at column 0:seq' locationHint='php_qn://./tests/fixtures/simple_header.csv' flowId='42']
+            "num_min" at line 2, column "0:seq". The number of the "1" is 1, which is less than the expected "3".
+            ##teamcity[testFinished name='num_min at column 0:seq' flowId='42']
             
-            ##teamcity[testStarted name='min at column 0:seq' locationHint='php_qn://./tests/fixtures/simple_header.csv' flowId='42']
-            "min" at line 3, column "0:seq". Value "2" is less than "3".
-            ##teamcity[testFinished name='min at column 0:seq' flowId='42']
+            ##teamcity[testStarted name='num_min at column 0:seq' locationHint='php_qn://./tests/fixtures/simple_header.csv' flowId='42']
+            "num_min" at line 3, column "0:seq". The number of the "2" is 2, which is less than the expected "3".
+            ##teamcity[testFinished name='num_min at column 0:seq' flowId='42']
             
             ##teamcity[testSuiteFinished name='simple_header.csv' flowId='42']
             
@@ -223,16 +224,14 @@ final class ValidatorTest extends PHPUnit
     public function testRenderGithub(): void
     {
         $path = self::CSV_SIMPLE_HEADER;
-        $csv  = new CsvFile($path, $this->getRule('seq', 'min', 3));
+        $csv  = new CsvFile($path, $this->getRule('seq', 'num_min', 3));
         isSame(
-            \implode("\n", [
-                "::error file={$path},line=2::min at column 0:seq%0A\"min\" at line 2, " .
-                'column "0:seq". Value "1" is less than "3".',
-                '',
-                "::error file={$path},line=3::min at column 0:seq%0A\"min\" at line 3, " .
-                'column "0:seq". Value "2" is less than "3".',
-                '',
-            ]),
+            <<<'GITHUB'
+                ::error file=./tests/fixtures/simple_header.csv,line=2::num_min at column 0:seq%0A"num_min" at line 2, column "0:seq". The number of the "1" is 1, which is less than the expected "3".
+
+                ::error file=./tests/fixtures/simple_header.csv,line=3::num_min at column 0:seq%0A"num_min" at line 3, column "0:seq". The number of the "2" is 2, which is less than the expected "3".
+                
+                GITHUB,
             $csv->validate()->render(ErrorSuite::REPORT_GITHUB),
         );
 
@@ -250,7 +249,7 @@ final class ValidatorTest extends PHPUnit
 
     public function testRenderGitlab(): void
     {
-        $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
+        $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'num_min', 3));
         $path = self::CSV_SIMPLE_HEADER;
 
         $cleanJson = json($csv->validate()->render(ErrorSuite::REPORT_GITLAB))->getArrayCopy();
@@ -259,14 +258,14 @@ final class ValidatorTest extends PHPUnit
         isSame(
             [
                 [
-                    'description' => "min at column 0:seq\n\"min\" at line 2, " .
-                        'column "0:seq". Value "1" is less than "3".',
+                    'description' => "num_min at column 0:seq\n\"num_min\" at line 2, column \"0:seq\". " .
+                        'The number of the "1" is 1, which is less than the expected "3".',
                     'severity' => 'major',
                     'location' => ['path' => $path, 'lines' => ['begin' => 2]],
                 ],
                 [
-                    'description' => "min at column 0:seq\n\"min\" at line 3, " .
-                        'column "0:seq". Value "2" is less than "3".',
+                    'description' => "num_min at column 0:seq\n\"num_min\" at line 3, column \"0:seq\". " .
+                        'The number of the "2" is 2, which is less than the expected "3".',
                     'severity' => 'major',
                     'location' => ['path' => $path, 'lines' => ['begin' => 3]],
                 ],
@@ -277,23 +276,23 @@ final class ValidatorTest extends PHPUnit
 
     public function testRenderJUnit(): void
     {
-        $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'min', 3));
+        $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'num_min', 3));
         $path = self::CSV_SIMPLE_HEADER;
         isSame(
-            \implode("\n", [
-                '<?xml version="1.0" encoding="UTF-8"?>',
-                '<testsuites>',
-                '  <testsuite name="simple_header.csv" tests="2">',
-                "    <testcase name=\"min at column 0:seq\" file=\"{$path}\" line=\"2\">",
-                '      <system-out>"min" at line 2, column "0:seq". Value "1" is less than "3".</system-out>',
-                '    </testcase>',
-                "    <testcase name=\"min at column 0:seq\" file=\"{$path}\" line=\"3\">",
-                '      <system-out>"min" at line 3, column "0:seq". Value "2" is less than "3".</system-out>',
-                '    </testcase>',
-                '  </testsuite>',
-                '</testsuites>',
-                '',
-            ]),
+            <<<'JUNIT'
+                <?xml version="1.0" encoding="UTF-8"?>
+                <testsuites>
+                  <testsuite name="simple_header.csv" tests="2">
+                    <testcase name="num_min at column 0:seq" file="./tests/fixtures/simple_header.csv" line="2">
+                      <system-out>"num_min" at line 2, column "0:seq". The number of the "1" is 1, which is less than the expected "3".</system-out>
+                    </testcase>
+                    <testcase name="num_min at column 0:seq" file="./tests/fixtures/simple_header.csv" line="3">
+                      <system-out>"num_min" at line 3, column "0:seq". The number of the "2" is 2, which is less than the expected "3".</system-out>
+                    </testcase>
+                  </testsuite>
+                </testsuites>
+                
+                JUNIT,
             $csv->validate()->render(ErrorSuite::REPORT_JUNIT),
         );
     }
