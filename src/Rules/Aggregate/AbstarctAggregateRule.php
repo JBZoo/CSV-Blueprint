@@ -31,8 +31,8 @@ abstract class AbstarctAggregateRule extends AbstarctRule
      */
     abstract public function validateRule(array &$columnValues): ?string;
 
-    protected function getRuleCode(?string $mode = null): string
+    protected function getRuleCode(): string
     {
-        return 'ag:' . parent::getRuleCode($mode);
+        return 'ag:' . parent::getRuleCode();
     }
 }

@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Validators;
 
 use JBZoo\CsvBlueprint\Csv\Column;
+use JBZoo\CsvBlueprint\Rules\Ruleset;
 
 final class ColumnValidator
 {
@@ -35,11 +36,11 @@ final class ColumnValidator
 
     public function validateCell(string $cellValue, int $line): ErrorSuite
     {
-        return $this->cellRuleset->validate($cellValue, $line);
+        return $this->cellRuleset->validateRuleSet($cellValue, $line);
     }
 
     public function validateList(array &$cellValue): ErrorSuite
     {
-        return $this->aggRuleset->validate($cellValue, self::FALLBACK_LINE);
+        return $this->aggRuleset->validateRuleSet($cellValue, self::FALLBACK_LINE);
     }
 }

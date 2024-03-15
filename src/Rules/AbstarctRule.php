@@ -31,14 +31,19 @@ abstract class AbstarctRule
 {
     protected string $columnNameId;
     protected string $ruleCode;
+    protected string $origRuleName;
 
     private null|array|bool|float|int|string $options;
 
-    public function __construct(string $columnNameId, null|array|bool|float|int|string $options = null)
-    {
+    public function __construct(
+        string $columnNameId,
+        null|array|bool|float|int|string $options,
+        string $origRuleName = '',
+    ) {
         $this->columnNameId = $columnNameId;
-        $this->options      = $options;
+        $this->origRuleName = $origRuleName;
         $this->ruleCode     = $this->getRuleCode();
+        $this->options      = $options;
     }
 
     public function validate(array|string $cellValue, int $line = ColumnValidator::FALLBACK_LINE): ?Error
@@ -126,7 +131,7 @@ abstract class AbstarctRule
         return $cellValue !== '';
     }
 
-    protected function getRuleCode(?string $mode = null): string
+    protected function getRuleCode(): string
     {
         return Utils::camelToKebabCase((new \ReflectionClass($this))->getShortName());
     }

@@ -29,33 +29,33 @@ final class CellComboRulesTest extends PHPUnit
         $rule = new ComboLength('prop', 6);
 
         // Equal
-        isSame('', \strip_tags((string)$rule->validateComboRule('123456', Combo::EQ)));
+        isSame('', \strip_tags((string)$rule->validateRuleCombo('123456', Combo::EQ)));
         isSame(
             'The length of the "12345" is 5, which is not equal than the expected "6"',
-            \strip_tags((string)$rule->validateComboRule('12345', Combo::EQ)),
+            \strip_tags((string)$rule->validateRuleCombo('12345', Combo::EQ)),
         );
 
         // Not equal
-        isSame('', \strip_tags((string)$rule->validateComboRule('12345', Combo::NOT)));
+        isSame('', \strip_tags((string)$rule->validateRuleCombo('12345', Combo::NOT)));
         isSame(
             'The length of the "123456" is 6, which is equal than the not expected "6"',
-            \strip_tags((string)$rule->validateComboRule('123456', Combo::NOT)),
+            \strip_tags((string)$rule->validateRuleCombo('123456', Combo::NOT)),
         );
 
         // Min
-        isSame('', \strip_tags((string)$rule->validateComboRule('123456', Combo::MIN)));
-        isSame('', \strip_tags((string)$rule->validateComboRule('1234567', Combo::MIN)));
+        isSame('', \strip_tags((string)$rule->validateRuleCombo('123456', Combo::MIN)));
+        isSame('', \strip_tags((string)$rule->validateRuleCombo('1234567', Combo::MIN)));
         isSame(
             'The length of the "12345" is 5, which is less than the expected "6"',
-            \strip_tags((string)$rule->validateComboRule('12345', Combo::MIN)),
+            \strip_tags((string)$rule->validateRuleCombo('12345', Combo::MIN)),
         );
 
         // Max
-        isSame('', \strip_tags((string)$rule->validateComboRule('123456', Combo::MAX)));
-        isSame('', \strip_tags((string)$rule->validateComboRule('12345', Combo::MAX)));
+        isSame('', \strip_tags((string)$rule->validateRuleCombo('123456', Combo::MAX)));
+        isSame('', \strip_tags((string)$rule->validateRuleCombo('12345', Combo::MAX)));
         isSame(
             'The length of the "1234567" is 7, which is greater than the expected "6"',
-            \strip_tags((string)$rule->validateComboRule('1234567', Combo::MAX)),
+            \strip_tags((string)$rule->validateRuleCombo('1234567', Combo::MAX)),
         );
     }
 

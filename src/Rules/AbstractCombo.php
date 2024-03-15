@@ -17,6 +17,8 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Rules;
 
 use JBZoo\CsvBlueprint\Rules\Cell\AbstarctCellRule;
+use JBZoo\CsvBlueprint\Validators\ColumnValidator;
+use JBZoo\CsvBlueprint\Validators\Error;
 
 abstract class AbstractCombo extends AbstarctCellRule
 {
@@ -28,12 +30,28 @@ abstract class AbstractCombo extends AbstarctCellRule
     protected string $name = '';
     protected string $help = '';
 
+    private string $mode;
+
     abstract protected function getExpected(string $cellValue): float|int|string;
 
     abstract protected function getCurrent(string $cellValue): float|int|string;
 
-    public function validateComboRule(string $cellValue, string $mode): ?string
+    public function __construct(
+        string $columnNameId,
+        null|array|bool|float|int|string $options,
+        string $origRuleName = '',
+    ) {
+        $this->mode = self::parseMode($origRuleName);
+        parent::__construct($columnNameId, $options, $origRuleName);
+    }
+
+    /**
+     * TODO: It's public just for testing.
+     */
+    public function validateRuleCombo(string $cellValue, ?string $mode = null): ?string
     {
+        $mode ??= $this->mode;
+
         if ($cellValue === '') {
             return null;
         }
@@ -68,21 +86,40 @@ abstract class AbstractCombo extends AbstarctCellRule
 
     public function validateRule(string $cellValue): ?string
     {
-        $parts   = \explode('_', $this->ruleCode);
-        $postfix = \end($parts);
-
-        return $this->validateComboRule($cellValue, $this->modeMap['prefix'][$postfix] ?? self::EQ);
+        return $this->validateRuleCombo($cellValue, $this->mode);
     }
 
     public function getHelp(): array
     {
         return [
             '# ' . $this->help,
-            $this->getRuleCode() . ': 5',
-            $this->getRuleCode(self::MIN) . ': 1',
-            $this->getRuleCode(self::MAX) . ': 10',
-            $this->getRuleCode(self::NOT) . ': 42',
+            $this->getComboRuleCode(self::EQ) . ': 5',
+            $this->getComboRuleCode(self::MIN) . ': 1',
+            $this->getComboRuleCode(self::MAX) . ': 10',
+            $this->getComboRuleCode(self::NOT) . ': 42',
         ];
+    }
+
+    public function validate(array|string $cellValue, int $line = ColumnValidator::FALLBACK_LINE): ?Error
+    {
+        $error = $this->validateRule($cellValue);
+        if ($error !== null) {
+            return new Error($this->ruleCode, $error, $this->columnNameId, $line);
+        }
+
+        return null;
+    }
+
+    public static function parseMode(string $origRuleName): string
+    {
+        $postfixes = [self::MAX, self::MIN, self::NOT];
+
+        $comboPrefix = '';
+        if (\preg_match('/_(' . \implode('|', $postfixes) . ')$/', $origRuleName, $matches) === 1) {
+            return $matches[1];
+        }
+
+        return '';
     }
 
     protected function getExpectedStr(string $cellValue, string $mode): string
@@ -167,13 +204,20 @@ abstract class AbstractCombo extends AbstarctCellRule
         ];
     }
 
-    protected function getRuleCode(?string $mode = null): string
+    protected function getComboRuleCode(?string $mode = null): string
     {
         $postfix = '';
         if ($mode !== self::EQ) {
             $postfix = $mode ? "_{$mode}" : '';
         }
 
-        return \str_replace('combo_', '', parent::getRuleCode($mode)) . $postfix;
+        return \str_replace('combo_', '', parent::getRuleCode()) . $postfix;
+    }
+
+    protected function getRuleCode(): string
+    {
+        $postfix = $this->mode !== self::EQ ? "_{$this->mode}" : '';
+
+        return \str_replace('combo_', '', parent::getRuleCode()) . $postfix;
     }
 }

@@ -16,17 +16,20 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class Length extends AbstarctCellRule
+use JBZoo\CsvBlueprint\Rules\AbstractCombo;
+
+class ComboNum extends AbstractCombo
 {
-    public function validateRule(string $cellValue): ?string
+    protected string $name = 'number';
+    protected string $help = 'Validation of the value as an integer/decimal number.';
+
+    protected function getExpected(string $cellValue): float|int|string
     {
-        $expLength = $this->getOptionAsInt();
-        $length    = \mb_strlen($cellValue);
+        return $this->getOptionAsFloat();
+    }
 
-        if ($length !== $expLength) {
-            return "Value \"<c>{$cellValue}</c>\" (length: {$length}) is not equal to <green>{$expLength}</green>";
-        }
-
-        return null;
+    protected function getCurrent(string $cellValue): float|int|string
+    {
+        return (float)$cellValue;
     }
 }

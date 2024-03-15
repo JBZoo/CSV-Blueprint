@@ -206,20 +206,20 @@ Schema: ./tests/schemas/demo_invalid.yml
 Found CSV files: 3
 
 (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
-+------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
-| Line | id:Column        | Rule         | Message                                                               |
-+------+------------------+--------------+-----------------------------------------------------------------------+
-| 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 1, total: 2                     |
-| 3    | 2:Float          | max          | Value "74605.944" is greater than "74605"                             |
-| 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"] |
-+------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
++------+------------------+--------------+----------------- demo-1.csv -----------------------------------------------------------+
+| Line | id:Column        | Rule         | Message                                                                                |
++------+------------------+--------------+----------------------------------------------------------------------------------------+
+| 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 1, total: 2                                      |
+| 3    | 2:Float          | num_max      | The number of the "74605.944" is 74605.944, which is greater than the expected "74605" |
+| 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                  |
++------+------------------+--------------+----------------- demo-1.csv -----------------------------------------------------------+
 
 (2/3) Invalid file: ./tests/fixtures/batch/demo-2.csv
 +------+------------+------------+------------------ demo-2.csv ----------------------------------------------------+
 | Line | id:Column  | Rule       | Message                                                                          |
 +------+------------+------------+----------------------------------------------------------------------------------+
-| 2    | 0:Name     | length_min | Value "Carl" (length: 4) is too short. Min length is 5                           |
-| 7    | 0:Name     | length_min | Value "Lois" (length: 4) is too short. Min length is 5                           |
+| 2    | 0:Name     | length_min | The length of the "Carl" is 4, which is less than the expected "5"               |
+| 7    | 0:Name     | length_min | The length of the "Lois" is 4, which is less than the expected "5"               |
 | 2    | 3:Birthday | date_min   | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00" |
 | 4    | 3:Birthday | date_min   | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00" |
 | 5    | 3:Birthday | date_max   | Value "2010-07-20" is more than the maximum date "2009-01-01T00:00:00.000+00:00" |
