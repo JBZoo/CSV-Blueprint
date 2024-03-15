@@ -86,6 +86,12 @@ final class CsvBlueprintPackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPac
         parent::setUp();
     }
 
+    public static function testComposerOptimizeAutoloader(): void
+    {
+        $composer = json(PROJECT_ROOT . '/composer.json');
+        isSame(false, $composer->find('config.optimize-autoloader'));
+    }
+
     protected function checkBadgeGithubActionsDemo(): ?string
     {
         $path = 'https://github.com/__VENDOR_ORIG__/__PACKAGE_ORIG__/actions/workflows';
@@ -110,11 +116,5 @@ final class CsvBlueprintPackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPac
                 $path . '/release-docker.yml?query=branch%3Amaster',
             ),
         );
-    }
-
-    public static function testComposerOptimizeAutoloader(): void
-    {
-        $composer = json(PROJECT_ROOT . '/composer.json');
-        isSame(false, $composer->find('config.optimize-autoloader'));
     }
 }

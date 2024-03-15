@@ -40,17 +40,13 @@ final class Ruleset
     {
         $errors = new ErrorSuite();
 
-        foreach ($this->rules as $ruleName => $rule) {
+        foreach ($this->rules as $rule) {
             $errors->addError($rule->validate($cellValue, $line));
         }
 
         return $errors;
     }
 
-    /**
-     * @psalm-suppress MoreSpecificReturnType
-     * @psalm-suppress LessSpecificReturnStatement
-     */
     public function ruleDiscovery(
         string $origRuleName,
         null|array|bool|float|int|string $options = null,

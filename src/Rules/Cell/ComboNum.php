@@ -23,6 +23,9 @@ class ComboNum extends AbstractCombo
     protected string $name = 'number';
     protected string $help = 'Validation of the value as an integer/decimal number.';
 
+    /**
+     * @phan-suppress PhanUnusedProtectedMethodParameter
+     */
     protected function getExpected(string $cellValue): float|int|string
     {
         return $this->getOptionAsFloat();

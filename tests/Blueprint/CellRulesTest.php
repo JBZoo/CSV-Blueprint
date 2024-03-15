@@ -43,11 +43,6 @@ use JBZoo\CsvBlueprint\Rules\Cell\IsUppercase;
 use JBZoo\CsvBlueprint\Rules\Cell\IsUrl;
 use JBZoo\CsvBlueprint\Rules\Cell\IsUsaMarketName;
 use JBZoo\CsvBlueprint\Rules\Cell\IsUuid4;
-use JBZoo\CsvBlueprint\Rules\Cell\Length;
-use JBZoo\CsvBlueprint\Rules\Cell\LengthMax;
-use JBZoo\CsvBlueprint\Rules\Cell\LengthMin;
-use JBZoo\CsvBlueprint\Rules\Cell\Max;
-use JBZoo\CsvBlueprint\Rules\Cell\Min;
 use JBZoo\CsvBlueprint\Rules\Cell\NotEmpty;
 use JBZoo\CsvBlueprint\Rules\Cell\Precision;
 use JBZoo\CsvBlueprint\Rules\Cell\PrecisionMax;
@@ -311,7 +306,6 @@ final class CellRulesTest extends PHPUnit
         $rule = new IsUrl('prop', false);
         isSame(null, $rule->validate('//example.com'));
     }
-
 
     public function testDateMin(): void
     {

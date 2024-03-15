@@ -23,6 +23,9 @@ class ComboLength extends AbstractCombo
     protected string $name = 'length';
     protected string $help = 'Checks length of a string including spaces (multibyte safe)';
 
+    /**
+     * @phan-suppress PhanUnusedProtectedMethodParameter
+     */
     protected function getExpected(string $cellValue): float|int|string
     {
         return $this->getOptionAsInt();

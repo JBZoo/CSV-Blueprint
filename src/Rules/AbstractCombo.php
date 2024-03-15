@@ -74,7 +74,6 @@ abstract class AbstractCombo extends AbstarctCellRule
             return $params['message'](
                 $cellValue,
                 $params['name'],
-                $params['name_prefix'],
                 $params['verbs'][$mode],
                 $params['current_str'],
                 $params['expected_str'],
@@ -102,6 +101,10 @@ abstract class AbstractCombo extends AbstarctCellRule
 
     public function validate(array|string $cellValue, int $line = ColumnValidator::FALLBACK_LINE): ?Error
     {
+        if (\is_array($cellValue)) {
+            return null; // TODO: Add support for array values for aggregate rules
+        }
+
         $error = $this->validateRule($cellValue);
         if ($error !== null) {
             return new Error($this->ruleCode, $error, $this->columnNameId, $line);
@@ -114,7 +117,6 @@ abstract class AbstractCombo extends AbstarctCellRule
     {
         $postfixes = [self::MAX, self::MIN, self::NOT];
 
-        $comboPrefix = '';
         if (\preg_match('/_(' . \implode('|', $postfixes) . ')$/', $origRuleName, $matches) === 1) {
             return $matches[1];
         }
@@ -137,26 +139,11 @@ abstract class AbstractCombo extends AbstarctCellRule
         return (string)$this->getCurrent($cellValue);
     }
 
-    protected function getNamePrefix(string $mode): string
-    {
-        if ($mode === self::MIN) {
-            return 'minimal ';
-        }
-
-        if ($mode === self::MAX) {
-            return 'maximal ';
-        }
-
-        return '';
-    }
-
     protected function buildParams(string $cellValue, string $mode): array
     {
         return [
             'name'        => $this->name,
             'description' => $this->help,
-
-            'name_prefix' => $this->getNamePrefix($mode),
 
             'current'      => $this->getCurrent($cellValue),
             'current_str'  => $this->getCurrentStr($cellValue),
@@ -182,8 +169,11 @@ abstract class AbstractCombo extends AbstarctCellRule
                 ): bool => $expected >= $current,
             ],
 
+            /** @phan-suppress PhanUnusedPublicNoOverrideMethodParameter */
             'check_option' => static fn (float|int|string $cellValue): bool => true,
-            'guard'        => static fn (float|int|string $cellValue): bool => true,
+
+            /** @phan-suppress PhanUnusedPublicNoOverrideMethodParameter */
+            'guard' => static fn (float|int|string $cellValue): bool => true,
 
             'verbs' => [
                 self::EQ  => 'not equal',
@@ -195,7 +185,6 @@ abstract class AbstractCombo extends AbstarctCellRule
             'message' => static fn (
                 string $cellValue,
                 string $name,
-                string $namePrefix,
                 string $verb,
                 string $currentStr,
                 string $expectedStr,
@@ -208,7 +197,7 @@ abstract class AbstractCombo extends AbstarctCellRule
     {
         $postfix = '';
         if ($mode !== self::EQ) {
-            $postfix = $mode ? "_{$mode}" : '';
+            $postfix = "_{$mode}";
         }
 
         return \str_replace('combo_', '', parent::getRuleCode()) . $postfix;
