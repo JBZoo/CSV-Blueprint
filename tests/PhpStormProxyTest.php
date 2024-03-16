@@ -16,6 +16,6 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
-final class CsvBlueprintPhpStormProxyTest extends \JBZoo\Codestyle\PHPUnit\AbstractPhpStormProxyTest
+final class PhpStormProxyTest extends \JBZoo\Codestyle\PHPUnit\AbstractPhpStormProxyTest
 {
 }

@@ -61,4 +61,17 @@ final class Tools
     {
         \file_put_contents(PROJECT_ROOT . '/build/dump.txt', $text);
     }
+
+    public static function getRule(?string $columnName, ?string $ruleName, array|bool|float|int|string $options): array
+    {
+        return ['columns' => [['name' => $columnName, 'rules' => [$ruleName => $options]]]];
+    }
+
+    public static function getAggregateRule(
+        ?string $columnName,
+        ?string $ruleName,
+        array|bool|float|int|string $options,
+    ): array {
+        return ['columns' => [['name' => $columnName, 'aggregate_rules' => [$ruleName => $options]]]];
+    }
 }

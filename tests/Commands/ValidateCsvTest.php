@@ -14,9 +14,9 @@
 
 declare(strict_types=1);
 
-namespace JBZoo\PHPUnit\Blueprint;
+namespace JBZoo\PHPUnit\Commands;
 
-use JBZoo\PHPUnit\PHPUnit;
+use JBZoo\PHPUnit\TestCase;
 use JBZoo\PHPUnit\Tools;
 use JBZoo\Utils\Cli;
 use Symfony\Component\Console\Input\StringInput;
@@ -24,7 +24,7 @@ use Symfony\Component\Console\Input\StringInput;
 use function JBZoo\PHPUnit\isNotEmpty;
 use function JBZoo\PHPUnit\isSame;
 
-final class ValidateCsvTest extends PHPUnit
+final class ValidateCsvTest extends TestCase
 {
     public function testValidateOneFilePositive(): void
     {

@@ -18,7 +18,7 @@ namespace JBZoo\PHPUnit;
 
 use function JBZoo\Data\json;
 
-final class CsvBlueprintPackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
+final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
 {
     protected string $packageName = 'Csv-Blueprint';
 

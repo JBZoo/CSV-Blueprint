@@ -14,141 +14,24 @@
 
 declare(strict_types=1);
 
-namespace JBZoo\PHPUnit\Blueprint;
+namespace JBZoo\PHPUnit\Validators;
 
 use JBZoo\CsvBlueprint\Csv\CsvFile;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
-use JBZoo\PHPUnit\PHPUnit;
+use JBZoo\PHPUnit\TestCase;
+use JBZoo\PHPUnit\Tools;
 
 use function JBZoo\Data\json;
 use function JBZoo\PHPUnit\isSame;
 
-final class ValidatorTest extends PHPUnit
+final class ErrorSuiteTest extends TestCase
 {
-    private const CSV_SIMPLE_HEADER    = './tests/fixtures/simple_header.csv';
-    private const CSV_SIMPLE_NO_HEADER = './tests/fixtures/simple_no_header.csv';
-    private const CSV_COMPLEX          = './tests/fixtures/complex_header.csv';
-    private const CSV_DEMO             = './tests/fixtures/demo.csv';
-
-    private const SCHEMA_SIMPLE_HEADER    = './tests/schemas/simple_header.yml';
-    private const SCHEMA_SIMPLE_NO_HEADER = './tests/schemas/simple_no_header.yml';
-
-    private const SCHEMA_SIMPLE_HEADER_PHP  = './tests/schemas/simple_header.php';
-    private const SCHEMA_SIMPLE_HEADER_JSON = './tests/schemas/simple_header.json';
-
-    protected function setUp(): void
-    {
-        \date_default_timezone_set('UTC');
-    }
-
-    public function testUndefinedRule(): void
-    {
-        $this->expectExceptionMessage('Rule "undefined_rule" not found.');
-        $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('seq', 'undefined_rule', true));
-        $csv->validate();
-    }
-
-    public function testValidWithHeader(): void
-    {
-        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, self::SCHEMA_SIMPLE_HEADER);
-        isSame('', \strip_tags((string)$csv->validate()));
-    }
-
-    public function testValidWithoutHeader(): void
-    {
-        $csv = new CsvFile(self::CSV_SIMPLE_NO_HEADER, self::SCHEMA_SIMPLE_NO_HEADER);
-        isSame('', \strip_tags((string)$csv->validate()));
-    }
-
-    public function testInvalidSchemaFile(): void
-    {
-        $this->expectExceptionMessage('Invalid schema data: undefined_file_name.yml');
-        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, 'undefined_file_name.yml');
-    }
-
-    public function testSchemaAsPhpFile(): void
-    {
-        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, self::SCHEMA_SIMPLE_HEADER_PHP);
-        isSame(
-            '"num_min" at line 2, column "0:seq". ' .
-            'The number of the value "1", which is less than the expected "2".' . "\n",
-            \strip_tags((string)$csv->validate()),
-        );
-    }
-
-    public function testSchemaAsJsonFile(): void
-    {
-        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, self::SCHEMA_SIMPLE_HEADER_JSON);
-        isSame(
-            '"num_min" at line 2, column "0:seq". ' .
-            'The number of the value "1", which is less than the expected "2".' . "\n",
-            \strip_tags((string)$csv->validate()),
-        );
-    }
-
-    public function testCellRule(): void
-    {
-        $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('seq', 'not_empty', true));
-        isSame('', \strip_tags((string)$csv->validate()));
-
-        $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('integer', 'not_empty', true));
-        isSame(
-            '"not_empty" at line 19, column "0:integer". Value is empty.' . "\n",
-            \strip_tags((string)$csv->validate()),
-        );
-    }
-
-    public function testAggregateRule(): void
-    {
-        $csv = new CsvFile(self::CSV_DEMO, $this->getAggregateRule('Name', 'is_unique', true));
-        isSame('', \strip_tags((string)$csv->validate()));
-
-        $csv = new CsvFile(self::CSV_DEMO, $this->getAggregateRule('City', 'is_unique', true));
-        isSame(
-            '"ag:is_unique" at line 1, column "0:City". Column has non-unique values. Unique: 9, total: 10.' . "\n",
-            \strip_tags((string)$csv->validate()),
-        );
-
-        $csv = new CsvFile(self::CSV_DEMO, $this->getAggregateRule('City', 'is_unique', false));
-        isSame('', \strip_tags((string)$csv->validate()));
-    }
-
-    public function testCellRuleNoName(): void
-    {
-        $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule(null, 'not_empty', true));
-        isSame(
-            '"csv.header" at line 1, column "0:". ' .
-            'Property "name" is not defined in schema: "_custom_array_".' . "\n",
-            \strip_tags((string)$csv->validate()),
-        );
-    }
-
-    public function testQuickStop(): void
-    {
-        $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('yn', 'is_email', true));
-        isSame(1, $csv->validate(true)->count());
-
-        $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('yn', 'is_email', true));
-        isSame(100, $csv->validate(false)->count());
-
-        $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('yn', 'is_email', true));
-        isSame(100, $csv->validate()->count());
-    }
-
-    public function testErrorToArray(): void
-    {
-        $csv = new CsvFile(self::CSV_COMPLEX, $this->getRule('yn', 'is_email', true));
-        isSame([
-            'ruleCode'   => 'is_email',
-            'message'    => 'Value "<c>N</c>" is not a valid email',
-            'columnName' => '0:yn',
-            'line'       => 2,
-        ], $csv->validate(true)->get(0)->toArray());
-    }
+    private const CSV_SIMPLE_HEADER = './tests/fixtures/simple_header.csv';
+    private const CSV_DEMO          = './tests/fixtures/demo.csv';
 
     public function testRenderText(): void
     {
-        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'num_min', 3));
+        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, Tools::getRule('seq', 'num_min', 3));
         isSame(
             '"num_min" at line 2, column "0:seq". ' .
             'The number of the value "1", which is less than the expected "3".' . "\n",
@@ -167,7 +50,7 @@ final class ValidatorTest extends PHPUnit
 
     public function testRenderTable(): void
     {
-        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'num_min', 3));
+        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, Tools::getRule('seq', 'num_min', 3));
         isSame(
             <<<'TABLE'
                 +------+-----------+---------+--------- simple_header.csv --------------------------------------+
@@ -196,7 +79,7 @@ final class ValidatorTest extends PHPUnit
 
     public function testRenderTeamCity(): void
     {
-        $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'num_min', 3));
+        $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, Tools::getRule('seq', 'num_min', 3));
         $out  = $csv->validate()->render(ErrorSuite::REPORT_TEAMCITY);
         $path = self::CSV_SIMPLE_HEADER;
 
@@ -224,7 +107,7 @@ final class ValidatorTest extends PHPUnit
     public function testRenderGithub(): void
     {
         $path = self::CSV_SIMPLE_HEADER;
-        $csv  = new CsvFile($path, $this->getRule('seq', 'num_min', 3));
+        $csv  = new CsvFile($path, Tools::getRule('seq', 'num_min', 3));
         isSame(
             <<<'GITHUB'
                 ::error file=./tests/fixtures/simple_header.csv,line=2::num_min at column 0:seq%0A"num_min" at line 2, column "0:seq". The number of the value "1", which is less than the expected "3".
@@ -236,7 +119,7 @@ final class ValidatorTest extends PHPUnit
         );
 
         $path = self::CSV_DEMO;
-        $csv  = new CsvFile($path, $this->getAggregateRule('City', 'is_unique', true));
+        $csv  = new CsvFile($path, Tools::getAggregateRule('City', 'is_unique', true));
         isSame(
             \implode("\n", [
                 '::error file=./tests/fixtures/demo.csv,line=1::ag:is_unique at column 0:City%0A"ag:is_unique" ' .
@@ -249,7 +132,7 @@ final class ValidatorTest extends PHPUnit
 
     public function testRenderGitlab(): void
     {
-        $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'num_min', 3));
+        $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, Tools::getRule('seq', 'num_min', 3));
         $path = self::CSV_SIMPLE_HEADER;
 
         $cleanJson = json($csv->validate()->render(ErrorSuite::REPORT_GITLAB))->getArrayCopy();
@@ -276,7 +159,7 @@ final class ValidatorTest extends PHPUnit
 
     public function testRenderJUnit(): void
     {
-        $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'num_min', 3));
+        $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, Tools::getRule('seq', 'num_min', 3));
         $path = self::CSV_SIMPLE_HEADER;
         isSame(
             <<<'JUNIT'
@@ -307,37 +190,5 @@ final class ValidatorTest extends PHPUnit
             'teamcity',
             'junit',
         ], ErrorSuite::getAvaiableRenderFormats());
-    }
-
-    public function testFilenamePattern(): void
-    {
-        $csv = new CsvFile(self::CSV_COMPLEX, ['filename_pattern' => '/demo(-\\d+)?\\.csv$/']);
-        isSame(
-            '"filename_pattern" at line 1, column "". ' .
-            'Filename "./tests/fixtures/complex_header.csv" does not match pattern: "/demo(-\d+)?\.csv$/".',
-            \strip_tags((string)$csv->validate()->get(0)),
-        );
-
-        $csv = new CsvFile(self::CSV_COMPLEX, ['filename_pattern' => '']);
-        isSame('', (string)$csv->validate());
-
-        $csv = new CsvFile(self::CSV_COMPLEX, ['filename_pattern' => null]);
-        isSame('', (string)$csv->validate());
-
-        $csv = new CsvFile(self::CSV_COMPLEX, ['filename_pattern' => '/.*\.csv$/']);
-        isSame('', (string)$csv->validate());
-    }
-
-    private function getRule(?string $columnName, ?string $ruleName, array|bool|float|int|string $options): array
-    {
-        return ['columns' => [['name' => $columnName, 'rules' => [$ruleName => $options]]]];
-    }
-
-    private function getAggregateRule(
-        ?string $columnName,
-        ?string $ruleName,
-        array|bool|float|int|string $options,
-    ): array {
-        return ['columns' => [['name' => $columnName, 'aggregate_rules' => [$ruleName => $options]]]];
     }
 }
