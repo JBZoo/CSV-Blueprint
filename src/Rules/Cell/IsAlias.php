@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 use JBZoo\Utils\Filter;
 
-final class IsAlias extends AbstractIs
+final class IsAlias extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {

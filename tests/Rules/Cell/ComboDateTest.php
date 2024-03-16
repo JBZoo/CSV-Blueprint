@@ -1,99 +1,128 @@
 <?php
 
-declare(strict_types=1);
-
 /**
- * Item8 | JBZoo - Csv-Blueprint.
+ * JBZoo Toolbox - Csv-Blueprint.
  *
- * This file is part of the Unilead Service Package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @license     Proprietary
- * @copyright   Copyright (C) Unilead Network,  All rights reserved.
- * @see         https://www.unileadnetwork.com
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @see        https://github.com/JBZoo/Csv-Blueprint
  */
+
+declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Rules\AbstractCombo as Combo;
 use JBZoo\CsvBlueprint\Rules\Cell\ComboDate;
+use JBZoo\PHPUnit\Rules\AbstractCellRuleComboTest;
 
 use function JBZoo\PHPUnit\isFileContains;
 use function JBZoo\PHPUnit\isSame;
 
-class ComboDateTest extends AbstractComboTest
+class ComboDateTest extends AbstractCellRuleComboTest
 {
     protected string $ruleClass = ComboDate::class;
 
-    public function testGetHelp(): void
-    {
-        $rule = $this->create(6);
-
-        isFileContains($rule->getHelpCombo(), PROJECT_ROOT . '/schema-examples/full.yml');
-    }
-
     public function testEqual(): void
     {
-        $rule = $this->create('2000-10-02');
+        $rule = $this->create('2000-10-02', Combo::EQ);
 
-        isSame('', $rule->test('', Combo::EQ));
-        isSame('', $rule->test('2000-10-02', Combo::EQ));
-        isSame('', $rule->test('2000-10-02 00:00:00', Combo::EQ));
+        isSame('', $rule->test(''));
+        isSame('', $rule->test('2000-10-02'));
+        isSame('', $rule->test('2000-10-02 00:00:00'));
 
         isSame(
-            'The date of the value "2000-10-02 00:00:01" is parsed as "2000-10-02 00:00:01 +04:00", ' .
-            'which is not equal than the expected "2000-10-02 00:00:00 +04:00 (2000-10-02)"',
-            $rule->test('2000-10-02 00:00:01', Combo::EQ),
+            'The date of the value "2000-10-02 00:00:01" is parsed as "2000-10-02 00:00:01 +00:00", ' .
+            'which is not equal than the expected "2000-10-02 00:00:00 +00:00 (2000-10-02)"',
+            $rule->test('2000-10-02 00:00:01'),
         );
 
         isSame(
-            'The date of the value "<c>2000-10-02 00:00:01</c>" is parsed as "2000-10-02 00:00:01 +04:00", ' .
-            'which is not equal than the expected "<green>2000-10-02 00:00:00 +04:00 (2000-10-02)</green>"',
-            $rule->test('2000-10-02 00:00:01', Combo::EQ, true),
-        );
-    }
-
-    public function testMin(): void
-    {
-        $rule = $this->create(6);
-
-        isSame('', $rule->test('123456', Combo::MIN));
-        isSame('', $rule->test('1234567', Combo::MIN));
-        isSame(
-            'The length of the "12345" is 5, which is less than the expected "6"',
-            $rule->test('12345', Combo::MIN),
-        );
-    }
-
-    public function testMax(): void
-    {
-        $rule = $this->create(6);
-
-        isSame('', $rule->test('123456', Combo::MAX));
-        isSame('', $rule->test('12345', Combo::MAX));
-        isSame(
-            'The length of the "1234567" is 7, which is greater than the expected "6"',
-            $rule->test('1234567', Combo::MAX),
+            'The date of the value "<c>2000-10-02 00:00:01</c>" is parsed as "2000-10-02 00:00:01 +00:00", ' .
+            'which is not equal than the expected "<green>2000-10-02 00:00:00 +00:00 (2000-10-02)</green>"',
+            $rule->test('2000-10-02 00:00:01', true),
         );
     }
 
     public function testNotEqual(): void
     {
-        $rule = $this->create(6);
+        $rule = $this->create('2000-01-10', Combo::NOT);
 
-        isSame('', $rule->test('12345', Combo::NOT));
+        isSame('', $rule->test('2000-01-11'));
         isSame(
-            'The length of the "123456" is 6, which is equal than the not expected "6"',
-            $rule->test('123456', Combo::NOT),
+            'The date of the value "2000-01-10" is parsed as "2000-01-10 00:00:00 +00:00", ' .
+            'which is equal than the not expected "2000-01-10 00:00:00 +00:00 (2000-01-10)"',
+            $rule->test('2000-01-10'),
         );
+    }
+
+    public function testMin(): void
+    {
+        $rule = $this->create('2000-01-10', Combo::MIN);
+        isSame('', $rule->test(''));
+        isSame('', $rule->test('2000-01-10'));
+        isSame(
+            'The date of the value "2000-01-09" is parsed as "2000-01-09 00:00:00 +00:00", ' .
+            'which is less than the expected "2000-01-10 00:00:00 +00:00 (2000-01-10)"',
+            $rule->test('2000-01-09'),
+        );
+
+        $rule = $this->create('2000-01-10 00:00:00 +01:00', Combo::MIN);
+        isSame('', $rule->test('2000-01-10 00:00:00 +01:00'));
+        isSame(
+            'The date of the value "2000-01-09 23:59:59 Europe/Berlin" is parsed as "2000-01-09 23:59:59 +01:00", ' .
+            'which is less than the expected "2000-01-10 00:00:00 +01:00 (2000-01-10 00:00:00 +01:00)"',
+            $rule->test('2000-01-09 23:59:59 Europe/Berlin'),
+        );
+
+        $rule = $this->create('-1000 years', Combo::MIN);
+        isSame('', $rule->test('2000-01-10 00:00:00 +01:00'));
+    }
+
+    public function testMax(): void
+    {
+        $rule = $this->create('2000-01-10', Combo::MAX);
+        isSame('', $rule->test(''));
+        isSame('', $rule->test('2000-01-09'));
+        isSame(
+            'The date of the value "2000-01-11" is parsed as "2000-01-11 00:00:00 +00:00", ' .
+            'which is greater than the expected "2000-01-10 00:00:00 +00:00 (2000-01-10)"',
+            $rule->test('2000-01-11'),
+        );
+
+        $rule = $this->create('2000-01-10 00:00:00', Combo::MAX);
+        isSame('', $rule->test('2000-01-10 00:00:00'));
+        isSame(
+            'The date of the value "2000-01-10 00:00:01" is parsed as "2000-01-10 00:00:01 +00:00", ' .
+            'which is greater than the expected "2000-01-10 00:00:00 +00:00 (2000-01-10 00:00:00)"',
+            $rule->test('2000-01-10 00:00:01'),
+        );
+
+        $rule = $this->create('+1 day', Combo::MAX);
+        isSame('', $rule->test('now'));
     }
 
     public function testInvalidOption(): void
     {
+        $rule = $this->create('invalid', Combo::MAX);
+        isSame(
+            'The date of the value "2000-01-10" is parsed as "2000-01-10 00:00:00 +00:00", ' .
+            'which is greater than the expected "Can\'t parse date: invalid"',
+            $rule->test('2000-01-10'),
+        );
     }
 
     public function testInvalidParsing(): void
     {
+        $rule = $this->create('2000-01-10', Combo::MIN);
+        isSame(
+            'The date of the value "invalid" is parsed as "Can\'t parse date: invalid", ' .
+            'which is less than the expected "2000-01-10 00:00:00 +00:00 (2000-01-10)"',
+            $rule->test('invalid'),
+        );
     }
 }

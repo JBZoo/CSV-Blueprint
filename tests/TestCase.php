@@ -14,9 +14,14 @@
 
 declare(strict_types=1);
 
-namespace JBZoo\CsvBlueprint\Rules\Cell;
+namespace JBZoo\PHPUnit;
 
-abstract class AbstractIs extends AbstarctCellRule
+abstract class TestCase extends PHPUnit
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
 
+        \date_default_timezone_set('UTC');
+    }
 }

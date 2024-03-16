@@ -18,6 +18,10 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 class AllowValues extends AbstarctCellRule
 {
+    protected const HELP_OPTIONS = [
+        self::NONE => ['[ y, n, "" ]', 'Strict set of values that are allowed. Case-sensitive.'],
+    ];
+
     public function validateRule(string $cellValue): ?string
     {
         $allowedValues = $this->getOptionAsArray();

@@ -21,12 +21,13 @@ use JBZoo\CsvBlueprint\Rules\AbstractCombo;
 final class ComboLength extends AbstractCombo
 {
     protected const NAME = 'length';
-    protected const HELP = ['Checks length of a string including spaces (multibyte safe).'];
+
+    protected const HELP_TOP = ['Checks length of a string including spaces (multibyte safe).'];
 
     /**
      * @phan-suppress PhanUnusedProtectedMethodParameter
      */
-    protected function getExpected(string $expectedValue): float|int|string
+    protected function getExpected(): float|int|string
     {
         return $this->getOptionAsInt();
     }

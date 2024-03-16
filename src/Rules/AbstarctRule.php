@@ -20,28 +20,44 @@ use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\ColumnValidator;
 use JBZoo\CsvBlueprint\Validators\Error;
 
-use function JBZoo\Data\json;
 use function JBZoo\Utils\bool;
 
 abstract class AbstarctRule
 {
-    protected const HELP = [];
+    // Modes
+    public const NONE = 'none';
+    public const EQ   = '';
+    public const NOT  = 'not';
+    public const MIN  = 'min';
+    public const MAX  = 'max';
+
+    protected const HELP_LEFT_PAD = 6;
+    protected const HELP_DESC_PAD = 40;
+    protected const HELP_TOP      = [];
+    protected const HELP_OPTIONS  = [
+        self::NONE => ['FIXME', 'Add description.'],
+        self::EQ   => ['5'],
+        self::NOT  => ['4'],
+        self::MIN  => ['1'],
+        self::MAX  => ['10'],
+    ];
 
     protected string $columnNameId;
     protected string $ruleCode;
-    protected string $origRuleName;
+    protected string $mode;
 
     private null|array|bool|float|int|string $options;
 
     public function __construct(
         string $columnNameId,
         null|array|bool|float|int|string $options,
-        string $origRuleName = '',
+        string $mode = self::NONE,
     ) {
+        $this->mode         = $mode;
         $this->columnNameId = $columnNameId;
-        $this->origRuleName = $origRuleName;
         $this->ruleCode     = $this->getRuleCode();
         $this->options      = $options;
+        // TODO: Move resolving and validating expected value on this stage to make it only once (before validation).
     }
 
     public function validate(array|string $cellValue, int $line = ColumnValidator::FALLBACK_LINE): ?Error
@@ -63,12 +79,46 @@ abstract class AbstarctRule
         return null;
     }
 
+    public function getHelp(): string
+    {
+        $leftPad = \str_repeat(' ', self::HELP_LEFT_PAD);
+
+        $isCombo = $this instanceof AbstractCombo;
+
+        $renderLine = function (array|string $row, string $mode) use ($leftPad): string {
+            $ymlRuleCode = $this instanceof AbstractCombo ? $this->getComboRuleCode($mode) : $this->getRuleCode();
+            $baseKeyVal  = "{$leftPad}{$ymlRuleCode}: {$row[0]}";
+
+            if (isset($row[1])) {
+                $desc = \rtrim($row[1], '.') . '.';
+
+                return \str_pad($baseKeyVal, self::HELP_DESC_PAD, ' ', \STR_PAD_RIGHT) . "# {$desc}";
+            }
+
+            return $baseKeyVal;
+        };
+
+        if ($isCombo) {
+            return \implode("\n", [
+                "{$leftPad}# " . \implode("\n{$leftPad}# ", static::HELP_TOP ?? self::HELP_TOP),
+                $renderLine(static::HELP_OPTIONS[self::EQ] ?? self::HELP_OPTIONS[self::EQ], self::EQ),
+                $renderLine(static::HELP_OPTIONS[self::NOT] ?? self::HELP_OPTIONS[self::NOT], self::NOT),
+                $renderLine(static::HELP_OPTIONS[self::MIN] ?? self::HELP_OPTIONS[self::MIN], self::MIN),
+                $renderLine(static::HELP_OPTIONS[self::MAX] ?? self::HELP_OPTIONS[self::MAX], self::MAX),
+            ]);
+        }
+
+        return \implode("\n", [
+            $renderLine(static::HELP_OPTIONS[self::NONE] ?? self::HELP_OPTIONS[self::NONE], self::NONE),
+        ]);
+    }
+
     protected function getOptionAsBool(): bool
     {
-        if (\in_array(\strtolower($this->options), ['true', 'false'], true)) {
+        if (!\is_bool($this->options)) {
             // TODO: Replace to warning message
             throw new Exception(
-                "Invalid option \"{$this->options}\" for the \"{$origRuleName}\" rule. It should be true|false.",
+                "Invalid option \"{$this->options}\" for the \"{$this->getRuleCode()}\" rule. It should be true|false.",
             );
         }
 
@@ -77,10 +127,10 @@ abstract class AbstarctRule
 
     protected function getOptionAsString(): string
     {
-        if (\is_array($this->options)) {
+        if ($this->options === '' || \is_array($this->options)) {
             // TODO: Replace to warning message
             throw new Exception(
-                "Invalid option \"{$this->options}\" for the \"{$origRuleName}\" rule. It should be int/float/string.",
+                "Invalid option \"{$this->options}\" for the \"{$this->getRuleCode()}\" rule. It should be int/float/string.",
             );
         }
 
@@ -89,10 +139,10 @@ abstract class AbstarctRule
 
     protected function getOptionAsInt(): int
     {
-        if (!\is_numeric($this->options)) {
+        if ($this->options === '' || !\is_numeric($this->options)) {
             // TODO: Replace to warning message
             throw new Exception(
-                "Invalid option \"{$this->options}\" for the \"{$origRuleName}\" rule. It should be integer.",
+                "Invalid option \"{$this->options}\" for the \"{$this->getRuleCode()}\" rule. It should be integer.",
             );
         }
 
@@ -101,10 +151,10 @@ abstract class AbstarctRule
 
     protected function getOptionAsFloat(): float
     {
-        if (!\is_numeric($this->options)) {
+        if ($this->options === '' || !\is_numeric($this->options)) {
             // TODO: Replace to warning message
             throw new Exception(
-                "Invalid option \"{$this->options}\" for the \"{$origRuleName}\" rule. It should be integer/float.",
+                "Invalid option \"{$this->options}\" for the \"{$this->getRuleCode()}\" rule. It should be integer/float.",
             );
         }
 
@@ -119,7 +169,7 @@ abstract class AbstarctRule
         if (!\is_array($this->options)) {
             // TODO: Replace to warning message
             throw new Exception(
-                "Invalid option \"{$this->options}\" for the \"{$origRuleName}\" rule. It should be array of strings.",
+                "Invalid option \"{$this->options}\" for the \"{$this->getRuleCode()}\" rule. It should be array of strings.",
             );
         }
 

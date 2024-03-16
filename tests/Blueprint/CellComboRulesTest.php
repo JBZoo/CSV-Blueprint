@@ -63,6 +63,6 @@ final class CellComboRulesTest extends PHPUnit
     public function testGetHelp(): void
     {
         $rule = new ComboLength('prop', 6);
-        isFileContains($rule->getHelpCombo(), PROJECT_ROOT . '/schema-examples/full.yml');
+        isFileContains($rule->getHelp(), PROJECT_ROOT . '/schema-examples/full.yml');
     }
 }

@@ -66,21 +66,9 @@ final class CellRulesTest extends PHPUnit
 
     public function testAllowValues(): void
     {
-        $rule = new AllowValues('prop', ['1', '2', '3']);
-        isSame(null, $rule->validate('1'));
-        isSame(null, $rule->validate('2'));
-        isSame(null, $rule->validate('3'));
-        isSame(
-            '"allow_values" at line 1, column "prop". ' .
-            'Value "invalid" is not allowed. Allowed values: ["1", "2", "3"].',
-            \strip_tags((string)$rule->validate('invalid')),
-        );
 
-        $rule = new AllowValues('prop', ['1', '2', '3', '']);
-        isSame(null, $rule->validate(''));
 
-        $rule = new AllowValues('prop', ['1', '2', '3', ' ']);
-        isSame(null, $rule->validate(' '));
+
     }
 
     public function testDateFormat(): void
@@ -305,52 +293,6 @@ final class CellRulesTest extends PHPUnit
 
         $rule = new IsUrl('prop', false);
         isSame(null, $rule->validate('//example.com'));
-    }
-
-    public function testDateMin(): void
-    {
-        $rule = new DateMin('prop', '2000-01-10');
-        isSame(null, $rule->validate(''));
-        isSame(null, $rule->validate('2000-01-10'));
-        isSame(
-            '"date_min" at line 1, column "prop". ' .
-            'Value "2000-01-09" is less than the minimum date "2000-01-10T00:00:00.000+00:00".',
-            \strip_tags((string)$rule->validate('2000-01-09')),
-        );
-
-        $rule = new DateMin('prop', '2000-01-10 00:00:00 +01:00');
-        isSame(null, $rule->validate('2000-01-10 00:00:00 +01:00'));
-        isSame(
-            '"date_min" at line 1, column "prop". ' .
-            'Value "2000-01-09 23:59:59 Europe/Berlin" is less than the minimum date "2000-01-10T00:00:00.000+01:00".',
-            \strip_tags((string)$rule->validate('2000-01-09 23:59:59 Europe/Berlin')),
-        );
-
-        $rule = new DateMin('prop', '-1000 years');
-        isSame(null, $rule->validate('2000-01-10 00:00:00 +01:00'));
-    }
-
-    public function testDateMax(): void
-    {
-        $rule = new DateMax('prop', '2000-01-10');
-        isSame(null, $rule->validate(''));
-        isSame(null, $rule->validate('2000-01-09'));
-        isSame(
-            '"date_max" at line 1, column "prop". ' .
-            'Value "2000-01-11" is more than the maximum date "2000-01-10T00:00:00.000+00:00".',
-            \strip_tags((string)$rule->validate('2000-01-11')),
-        );
-
-        $rule = new DateMax('prop', '2000-01-10 00:00:00');
-        isSame(null, $rule->validate('2000-01-10 00:00:00'));
-        isSame(
-            '"date_max" at line 1, column "prop". ' .
-            'Value "2000-01-10 00:00:01" is more than the maximum date "2000-01-10T00:00:00.000+00:00".',
-            \strip_tags((string)$rule->validate('2000-01-10 00:00:01')),
-        );
-
-        $rule = new DateMax('prop', '+1 day');
-        isSame(null, $rule->validate('2000-01-10 00:00:00 +01:00'));
     }
 
     public function testNotEmpty(): void

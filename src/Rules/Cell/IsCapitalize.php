@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class IsCapitalize extends AbstractIs
+final class IsCapitalize extends AbstarctCellRule
 {
     public function validateRule(string $cellValue): ?string
     {

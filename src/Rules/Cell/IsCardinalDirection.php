@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class IsCardinalDirection extends AbstractIs
+final class IsCardinalDirection extends AllowValues
 {
     public function getOptionAsArray(): array
     {

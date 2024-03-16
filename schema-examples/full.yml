@@ -32,13 +32,16 @@ columns:
 
     # Optional. You can use this section to validate each value in the column.
     rules:
-      # You can use the rules in any combination. Or not use any of them.
-      # They are grouped below simply for ease of navigation and reading.
-      # If you see the value for the rule is "true" - that's just an enable flag.
-      # In other cases, these are rule parameters.
-
-      # IMPORTANT!!! All rules except "not_empty" ignored for empty strings (length 0).
-      # If the value must be non-empty, use "not_empty" as extra rule!
+      # Important notes:
+      # 1. All rules except "not_empty" ignored for empty strings (length 0).
+      #    If the value must be non-empty, use "not_empty" as extra rule!
+      # 2. All rules don't depend on each other. They are independent.
+      #    They know nothing about each other and cannot influence each other.
+      # 3. You can use the rules in any combination. Or not use any of them.
+      #    They are grouped below simply for ease of navigation and reading.
+      # 4. If you see the value for the rule is "true" - that's just an enable flag.
+      #    In other cases, these are rule parameters.
+      # 5. The order of rules execution is the same as in the scheme. But it doesn't matter.
 
       # General rules
       not_empty: true                   # Value is not an empty string. Actually checks if the string length is 0.

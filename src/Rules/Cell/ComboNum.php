@@ -22,8 +22,8 @@ use function JBZoo\Utils\float;
 
 final class ComboNum extends AbstractCombo
 {
-    protected const NAME = 'number';
-    protected const HELP = [
+    protected const NAME     = 'number';
+    protected const HELP_TOP = [
         'Under the hood it convertes and compares as float values.',
         'Comparison accuracy is ' . self::PRECISION . ' digits after a dot.',
         'Scientific number format is also supported. Example: "1.2e3"',
@@ -34,9 +34,14 @@ final class ComboNum extends AbstractCombo
     /**
      * @phan-suppress PhanUnusedProtectedMethodParameter
      */
-    protected function getExpected(string $expectedValue): float|int|string
+    protected function getExpected(): float|int|string
     {
         return float($this->getOptionAsString(), self::PRECISION);
+    }
+
+    protected function getCurrentStr(string $cellValue): string
+    {
+        return '';
     }
 
     protected function getCurrent(string $cellValue): float|int|string

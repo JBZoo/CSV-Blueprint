@@ -1,82 +1,96 @@
 <?php
 
-declare(strict_types=1);
-
 /**
- * Item8 | JBZoo - Csv-Blueprint.
+ * JBZoo Toolbox - Csv-Blueprint.
  *
- * This file is part of the Unilead Service Package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @license     Proprietary
- * @copyright   Copyright (C) Unilead Network,  All rights reserved.
- * @see         https://www.unileadnetwork.com
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @see        https://github.com/JBZoo/Csv-Blueprint
  */
+
+declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Rules\AbstractCombo as Combo;
+use JBZoo\CsvBlueprint\Rules\Cell\ComboPrecision;
+use JBZoo\PHPUnit\Rules\AbstractCellRuleComboTest;
 
 use function JBZoo\PHPUnit\isFileContains;
 use function JBZoo\PHPUnit\isSame;
 
-class ComboPrecisionTest extends AbstractComboTest
+class ComboPrecisionTest extends AbstractCellRuleComboTest
 {
-    public function testGetHelp(): void
-    {
-        $rule = $this->create('prop', 6);
-
-        isFileContains($rule->getHelpCombo(), PROJECT_ROOT . '/schema-examples/full.yml');
-    }
+    protected string $ruleClass = ComboPrecision::class;
 
     public function testEqual(): void
     {
-        $rule = $this->create('prop', 6);
+        $rule = $this->create(3, Combo::EQ);
 
         isSame('', $rule->test(''));
-        isSame('', $rule->test('123456', Combo::EQ));
+        isSame('', $rule->test('0.123'));
+        isSame('', $rule->test('0.120'));
         isSame(
-            'The length of the "12345" is 5, which is not equal than the expected "6"',
-            $rule->test('12345', Combo::EQ),
+            'The precision of the value "0.12" is 2, which is not equal than the expected "3"',
+            $rule->test('0.12'),
         );
     }
 
     public function testMin(): void
     {
-        $rule = $this->create('prop', 6);
+        $rule = $this->create(3, Combo::MIN);
 
         isSame('', $rule->test(''));
-        isSame('', $rule->test('123456', Combo::MIN));
-        isSame('', $rule->test('1234567', Combo::MIN));
+        isSame('', $rule->test('0.123'));
+        isSame('', $rule->test('0.12345'));
         isSame(
-            'The length of the "12345" is 5, which is less than the expected "6"',
-            $rule->test('12345', Combo::MIN),
+            'The precision of the value "0.12" is 2, which is less than the expected "3"',
+            $rule->test('0.12'),
         );
     }
 
     public function testMax(): void
     {
-        $rule = $this->create('prop', 6);
+        $rule = $this->create(3, Combo::MAX);
 
         isSame('', $rule->test(''));
-        isSame('', $rule->test('123456', Combo::MAX));
-        isSame('', $rule->test('12345', Combo::MAX));
+        isSame('', $rule->test('0.123'));
+        isSame('', $rule->test('0.12'));
+        isSame('', $rule->test('0.1'));
         isSame(
-            'The length of the "1234567" is 7, which is greater than the expected "6"',
-            $rule->test('1234567', Combo::MAX),
+            'The precision of the value "0.12345" is 5, which is greater than the expected "3"',
+            $rule->test('0.12345'),
         );
     }
 
     public function testNotEqual(): void
     {
-        $rule = $this->create('prop', 6);
+        $rule = $this->create(3, Combo::NOT);
 
         isSame('', $rule->test(''));
-        isSame('', $rule->test('12345', Combo::NOT));
+        isSame('', $rule->test('0.12'));
+        isSame('', $rule->test('0.1245'));
         isSame(
-            'The length of the "123456" is 6, which is equal than the not expected "6"',
-            $rule->test('123456', Combo::NOT),
+            'The precision of the value "0.123" is 3, which is equal than the not expected "3"',
+            $rule->test('0.123'),
         );
+    }
+
+    public function testInvalidOption(): void
+    {
+        $this->expectExceptionMessage('Invalid option "s.223" for the "precision_not" rule. It should be integer.');
+        $rule = $this->create('s.223', Combo::NOT);
+        isSame('', $rule->test('5'));
+    }
+
+    public function testInvalidParsing(): void
+    {
+        // TODO: This test is not working as expected. It should throw an exception.
+        $rule = $this->create(3, Combo::NOT);
+        isSame('', $rule->test('qwerty'));
     }
 }

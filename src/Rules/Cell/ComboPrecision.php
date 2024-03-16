@@ -20,13 +20,13 @@ use JBZoo\CsvBlueprint\Rules\AbstractCombo;
 
 final class ComboPrecision extends AbstractCombo
 {
-    protected const NAME = 'precision';
-    protected const HELP = ['Number of digits after the decimal point (with zeros)'];
+    protected const NAME     = 'precision';
+    protected const HELP_TOP = ['Number of digits after the decimal point (with zeros)'];
 
     /**
      * @phan-suppress PhanUnusedProtectedMethodParameter
      */
-    protected function getExpected(string $expectedValue): float|int|string
+    protected function getExpected(): float|int|string
     {
         return $this->getOptionAsInt();
     }

@@ -22,25 +22,26 @@ use JBZoo\CsvBlueprint\Validators\Error;
 
 abstract class AbstractCombo extends AbstarctCellRule
 {
-    public const EQ  = '';
-    public const NOT = 'not';
-    public const MIN = 'min';
-    public const MAX = 'max';
+    protected const HELP_TOP = [
+        [],
+        [
+            self::EQ  => ['5', ''],
+            self::NOT => ['42', ''],
+            self::MIN => ['1', ''],
+            self::MAX => ['10', ''],
+        ],
+    ];
 
-    private string $mode;
+    private const VERBS = [
+        self::EQ  => 'not equal',
+        self::NOT => 'equal',
+        self::MIN => 'less',
+        self::MAX => 'greater',
+    ];
 
     abstract protected function getCurrent(string $cellValue): float|int|string;
 
-    abstract protected function getExpected(string $expectedValue): float|int|string;
-
-    public function __construct(
-        string $columnNameId,
-        null|array|bool|float|int|string $options,
-        string $origRuleName = '',
-    ) {
-        $this->mode = self::parseMode($origRuleName);
-        parent::__construct($columnNameId, $options, $origRuleName);
-    }
+    abstract protected function getExpected(): float|int|string;
 
     public function validateRule(string $cellValue): ?string
     {
@@ -61,44 +62,9 @@ abstract class AbstractCombo extends AbstarctCellRule
         return null;
     }
 
-    /**
-     * @param string|string[] $equel
-     * @param string|string[] $min
-     * @param string|string[] $max
-     * @param string|string[] $not
-     */
-    public function getHelpCombo(
-        array $equel = ['5'],
-        array $not = ['4'],
-        array $min = ['1'],
-        array $max = ['10'],
-    ): string {
-        $leftPad = \str_repeat(' ', 6);
-        $descPad = 40;
-
-        $renderLine = function (array|string $row, string $mode) use ($leftPad, $descPad): string {
-            $keyValue = $this->getComboRuleCode($mode);
-            if (isset($row[1])) {
-                $desc = \rtrim($row[1], '.') . '.';
-
-                return \str_pad("{$leftPad}{$keyValue}: {$row[0]} ", $descPad, ' ', \STR_PAD_RIGHT) . "# {$desc}";
-            }
-
-            return "{$leftPad}{$keyValue}: {$row[0]}";
-        };
-
-        return \implode("\n", [
-            "{$leftPad}# " . \implode("\n{$leftPad}# ", static::HELP),
-            $renderLine($equel, self::EQ),
-            $renderLine($not, self::NOT),
-            $renderLine($min, self::MIN),
-            $renderLine($max, self::MAX),
-        ]);
-    }
-
-    public function test(string $cellValue, string $mode, bool $isHtml = false): string
+    public function test(string $cellValue, bool $isHtml = false): string
     {
-        $errorMessage = (string)$this->validateRuleCombo($cellValue, $mode);
+        $errorMessage = (string)$this->validateRuleCombo($cellValue, $this->mode);
 
         return $isHtml ? $errorMessage : \strip_tags($errorMessage);
     }
@@ -119,9 +85,9 @@ abstract class AbstractCombo extends AbstarctCellRule
         return (string)$this->getCurrent($cellValue);
     }
 
-    protected function getExpectedStr(string $expectedValue): string
+    protected function getExpectedStr(): string
     {
-        return $expectedValue;
+        return (string)$this->getExpected();
     }
 
     protected function getComboRuleCode(?string $mode = null): string
@@ -149,72 +115,44 @@ abstract class AbstractCombo extends AbstarctCellRule
             return null;
         }
 
-        if (static::NAME === '' || \count(static::HELP) === 0) {
+        if (static::NAME === '' || \count(static::HELP_TOP) === 0) {
             return null;
         }
 
-        $params = $this->buildParams($cellValue);
-
-        if ($params['check_option']($cellValue)) {
-            return null;
-        }
-
-        if ($params['guard']($cellValue)) {
-            return static::NAME . " rule is not applicable for the \"<c>{$cellValue}</c>\"";
-        }
-
-        if (!$params['comparator'][$mode]($params['expected'], $params['current'])) {
-            return $params['message'](
-                $cellValue,
-                $params['verbs'][$mode],
-                $params['current_str'],
-                $params['expected_str'],
-            );
+        if (!$this->compare($this->getExpected(), $this->getCurrent($cellValue), $mode)) {
+            return $this->getErrorMessage($cellValue, $mode);
         }
 
         return null;
     }
 
-    private function buildParams(string $cellValue): array
+    private function compare(float|int|string $expected, float|int|string $actual, string $mode): bool
     {
-        return [
-            'current'      => $this->getCurrent($cellValue),
-            'current_str'  => $this->getCurrentStr($cellValue),
-            'expected'     => $this->getExpected($this->getOptionAsString()),
-            'expected_str' => $this->getExpectedStr($this->getOptionAsString()),
+        return match ($mode) {
+            self::EQ  => $expected === $actual,
+            self::NOT => $expected !== $actual,
+            self::MIN => $expected <= $actual,
+            self::MAX => $expected >= $actual,
+            default   => throw new \InvalidArgumentException("Unknown mode: {$mode}"),
+        };
+    }
 
-            'comparator' => [
-                self::EQ  => static fn (float|int|string $exp, float|int|string $cur): bool => $exp === $cur,
-                self::NOT => static fn (float|int|string $exp, float|int|string $cur): bool => $exp !== $cur,
-                self::MIN => static fn (float|int|string $exp, float|int|string $cur): bool => $exp <= $cur,
-                self::MAX => static fn (float|int|string $exp, float|int|string $cur): bool => $exp >= $cur,
-            ],
+    private function getErrorMessage(
+        string $cellValue,
+        string $mode,
+    ): string {
+        $prefix = $mode === self::NOT ? 'not ' : '';
+        $verb   = self::VERBS[$mode];
+        $name   = static::NAME;
 
-            'check_option' => static fn (float|int|string $cellValue): bool => $cellValue === '',
+        $currentStr  = $this->getCurrentStr($cellValue);
+        $expectedStr = $this->getExpectedStr();
 
-            /** @phan-suppress PhanUnusedPublicNoOverrideMethodParameter */
-            'guard' => static fn (float|int|string $cellValue): bool => false,
+        if ($currentStr !== '') {
+            $currentStr = " is {$currentStr}";
+        }
 
-            'verbs' => [
-                self::EQ  => 'not equal',
-                self::NOT => 'equal',
-                self::MIN => 'less',
-                self::MAX => 'greater',
-            ],
-
-            'message' => function (
-                string $cellValue,
-                string $verb,
-                string $currentStr,
-                string $expectedStr,
-            ): string {
-                $prefix = '';
-                if ($this->mode === self::NOT) {
-                    $prefix = 'not ';
-                }
-                return 'The ' . static::NAME . " of the value \"<c>{$cellValue}</c>\" is {$currentStr}, " .
-                    "which is {$verb} than the {$prefix}expected \"<green>{$expectedStr}</green>\"";
-            },
-        ];
+        return "The {$name} of the value \"<c>{$cellValue}</c>\"{$currentStr}, " .
+            "which is {$verb} than the {$prefix}expected \"<green>{$expectedStr}</green>\"";
     }
 }
