@@ -39,13 +39,14 @@ final class ComboDate extends AbstractCombo
     ];
 
     private const OUTPUT_DATE_FORMAT = 'Y-m-d H:i:s P';
+    private const INVALID_TIMESTAMP  = -1;
 
     protected function getCurrent(string $cellValue): float|int|string
     {
         try {
             $result = (new \DateTimeImmutable($cellValue))->getTimestamp();
         } catch (\Exception) {
-            return -1;
+            return self::INVALID_TIMESTAMP;
         }
 
         return $result;
@@ -58,7 +59,7 @@ final class ComboDate extends AbstractCombo
         try {
             $result = (new \DateTimeImmutable($expectedValue))->getTimestamp();
         } catch (\Exception) {
-            return -1;
+            return self::INVALID_TIMESTAMP;
         }
 
         return $result;
