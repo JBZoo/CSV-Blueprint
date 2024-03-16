@@ -14,15 +14,10 @@
 
 declare(strict_types=1);
 
-namespace JBZoo\PHPUnit\Blueprint;
+namespace JBZoo\PHPUnit;
 
-use JBZoo\PHPUnit\PHPUnit;
-use JBZoo\PHPUnit\Tools;
 use JBZoo\Utils\Cli;
 use Symfony\Component\Console\Input\StringInput;
-
-use function JBZoo\PHPUnit\isFileContains;
-use function JBZoo\PHPUnit\isSame;
 
 final class ReadmeTest extends PHPUnit
 {

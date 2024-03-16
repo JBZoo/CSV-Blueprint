@@ -14,14 +14,11 @@
 
 declare(strict_types=1);
 
-namespace JBZoo\PHPUnit\Blueprint;
+namespace JBZoo\PHPUnit;
 
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
-use JBZoo\PHPUnit\PHPUnit;
 
 use function JBZoo\Data\yml;
-use function JBZoo\PHPUnit\isFileContains;
-use function JBZoo\PHPUnit\isSame;
 
 final class GithubActionsTest extends PHPUnit
 {

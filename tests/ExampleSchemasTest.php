@@ -14,21 +14,17 @@
 
 declare(strict_types=1);
 
-namespace JBZoo\PHPUnit\Blueprint;
+namespace JBZoo\PHPUnit;
 
 use JBZoo\CsvBlueprint\Schema;
 use JBZoo\CsvBlueprint\Utils;
-use JBZoo\PHPUnit\PHPUnit;
 use Symfony\Component\Finder\Finder;
 
 use function JBZoo\Data\json;
 use function JBZoo\Data\phpArray;
 use function JBZoo\Data\yml;
-use function JBZoo\PHPUnit\isFileContains;
-use function JBZoo\PHPUnit\isSame;
-use function JBZoo\PHPUnit\isTrue;
 
-final class MiscTest extends PHPUnit
+final class ExampleSchemasTest extends PHPUnit
 {
     public function testFullListOfRules(): void
     {

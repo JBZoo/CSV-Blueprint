@@ -21,7 +21,7 @@ use JBZoo\PHPUnit\PHPUnit;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class CsvReaderTest extends PHPUnit
+final class CsvFileTest extends PHPUnit
 {
     private const CSV_SIMPLE_HEADER    = PROJECT_TESTS . '/fixtures/simple_header.csv';
     private const CSV_SIMPLE_NO_HEADER = PROJECT_TESTS . '/fixtures/simple_no_header.csv';
