@@ -20,6 +20,7 @@ use JBZoo\CsvBlueprint\Rules\AbstractCombo as Combo;
 use JBZoo\CsvBlueprint\Rules\Cell\ComboLength;
 use JBZoo\PHPUnit\PHPUnit;
 
+use function JBZoo\PHPUnit\isFileContains;
 use function JBZoo\PHPUnit\isSame;
 
 final class CellComboRulesTest extends PHPUnit
@@ -62,12 +63,6 @@ final class CellComboRulesTest extends PHPUnit
     public function testGetHelp(): void
     {
         $rule = new ComboLength('prop', 6);
-        isSame([
-            '# Checks length of a string including spaces (multibyte safe)',
-            'length: 5',
-            'length_min: 1',
-            'length_max: 10',
-            'length_not: 42',
-        ], $rule->getHelp());
+        isFileContains($rule->getHelpCombo(), PROJECT_ROOT . '/schema-examples/full.yml');
     }
 }

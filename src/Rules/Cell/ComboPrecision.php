@@ -18,29 +18,31 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Rules\AbstractCombo;
 
-use function JBZoo\Utils\float;
-
-final class ComboNum extends AbstractCombo
+final class ComboPrecision extends AbstractCombo
 {
-    protected const NAME = 'number';
-    protected const HELP = [
-        'Under the hood it convertes and compares as float values.',
-        'Comparison accuracy is ' . self::PRECISION . ' digits after a dot.',
-        'Scientific number format is also supported. Example: "1.2e3"',
-    ];
-
-    private const PRECISION = 12;
+    protected const NAME = 'precision';
+    protected const HELP = ['Number of digits after the decimal point (with zeros)'];
 
     /**
      * @phan-suppress PhanUnusedProtectedMethodParameter
      */
     protected function getExpected(string $expectedValue): float|int|string
     {
-        return float($this->getOptionAsString(), self::PRECISION);
+        return $this->getOptionAsInt();
     }
 
     protected function getCurrent(string $cellValue): float|int|string
     {
-        return float($cellValue, self::PRECISION);
+        return self::getFloatPrecision($cellValue);
+    }
+
+    private static function getFloatPrecision(string $cellValue): int
+    {
+        $dotPosition = \strpos($cellValue, '.');
+        if ($dotPosition === false) {
+            return 0;
+        }
+
+        return \strlen($cellValue) - $dotPosition - 1;
     }
 }

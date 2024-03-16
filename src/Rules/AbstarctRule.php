@@ -19,16 +19,14 @@ namespace JBZoo\CsvBlueprint\Rules;
 use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\ColumnValidator;
 use JBZoo\CsvBlueprint\Validators\Error;
-use JBZoo\Data\Data;
 
-use function JBZoo\Data\data;
 use function JBZoo\Data\json;
 use function JBZoo\Utils\bool;
-use function JBZoo\Utils\float;
-use function JBZoo\Utils\int;
 
 abstract class AbstarctRule
 {
+    protected const HELP = [];
+
     protected string $columnNameId;
     protected string $ruleCode;
     protected string $origRuleName;
@@ -67,13 +65,23 @@ abstract class AbstarctRule
 
     protected function getOptionAsBool(): bool
     {
+        if (\in_array(\strtolower($this->options), ['true', 'false'], true)) {
+            // TODO: Replace to warning message
+            throw new Exception(
+                "Invalid option \"{$this->options}\" for the \"{$origRuleName}\" rule. It should be true|false.",
+            );
+        }
+
         return bool($this->options);
     }
 
     protected function getOptionAsString(): string
     {
         if (\is_array($this->options)) {
-            return (string)json($this->options);
+            // TODO: Replace to warning message
+            throw new Exception(
+                "Invalid option \"{$this->options}\" for the \"{$origRuleName}\" rule. It should be int/float/string.",
+            );
         }
 
         return (string)$this->options;
@@ -81,27 +89,41 @@ abstract class AbstarctRule
 
     protected function getOptionAsInt(): int
     {
-        return int($this->options);
+        if (!\is_numeric($this->options)) {
+            // TODO: Replace to warning message
+            throw new Exception(
+                "Invalid option \"{$this->options}\" for the \"{$origRuleName}\" rule. It should be integer.",
+            );
+        }
+
+        return (int)$this->options;
     }
 
     protected function getOptionAsFloat(): float
     {
-        return float($this->options);
+        if (!\is_numeric($this->options)) {
+            // TODO: Replace to warning message
+            throw new Exception(
+                "Invalid option \"{$this->options}\" for the \"{$origRuleName}\" rule. It should be integer/float.",
+            );
+        }
+
+        return (float)$this->options;
     }
 
+    /**
+     * @return string[]
+     */
     protected function getOptionAsArray(): array
     {
+        if (!\is_array($this->options)) {
+            // TODO: Replace to warning message
+            throw new Exception(
+                "Invalid option \"{$this->options}\" for the \"{$origRuleName}\" rule. It should be array of strings.",
+            );
+        }
+
         return (array)$this->options;
-    }
-
-    protected function getOptionAsData(): Data
-    {
-        return data($this->options);
-    }
-
-    protected function getOptionAsDate(): \DateTimeImmutable
-    {
-        return new \DateTimeImmutable($this->getOptionAsString(), new \DateTimeZone('UTC'));
     }
 
     /**

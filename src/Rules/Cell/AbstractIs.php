@@ -16,17 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-use JBZoo\Utils\Filter;
-
-final class IsAlias extends AbstractIs
+abstract class AbstractIs extends AbstarctCellRule
 {
-    public function validateRule(string $cellValue): ?string
-    {
-        $alias = Filter::alias($cellValue);
-        if ($cellValue !== $alias) {
-            return "Value \"<c>{$cellValue}</c>\" is not a valid alias. Expected \"<green>{$alias}</green>\".";
-        }
 
-        return null;
-    }
 }

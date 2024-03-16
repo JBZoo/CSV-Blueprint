@@ -14,12 +14,8 @@
 
 declare(strict_types=1);
 
-namespace JBZoo\CsvBlueprint\Rules\Cell;
+namespace JBZoo\CsvBlueprint\Rules;
 
-final class IsCardinalDirection extends AbstractIs
+class Exception extends \JBZoo\CsvBlueprint\Exception
 {
-    public function getOptionAsArray(): array
-    {
-        return ['N', 'S', 'E', 'W', 'NE', 'SE', 'NW', 'SW', 'none', ''];
-    }
 }

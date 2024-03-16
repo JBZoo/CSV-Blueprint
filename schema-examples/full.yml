@@ -19,26 +19,26 @@
 filename_pattern: /demo(-\d+)?\.csv$/i
 
 csv: # Here are default values. You can skip this section if you don't need to override the default values
-  header: true                          # If the first row is a header. If true, name of each column is required
-  delimiter: ,                          # Delimiter character in CSV file
-  quote_char: \                         # Quote character in CSV file
-  enclosure: "\""                       # Enclosure for each field in CSV file
-  encoding: utf-8                       # (Experimental) Only utf-8, utf-16, utf-32 
-  bom: false                            # (Experimental) If the file has a BOM (Byte Order Mark) at the beginning
+  header: true                          # If the first row is a header. If true, name of each column is required.
+  delimiter: ,                          # Delimiter character in CSV file.
+  quote_char: \                         # Quote character in CSV file.
+  enclosure: "\""                       # Enclosure for each field in CSV file.
+  encoding: utf-8                       # (Experimental) Only utf-8, utf-16, utf-32.
+  bom: false                            # (Experimental) If the file has a BOM (Byte Order Mark) at the beginning.
 
 columns:
   - name: "Column Name (header)"        # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
     description: "Lorem ipsum"          # Optional. Description of the column. Not used in the validation process.
 
-    # Optional. You can use this section to validate each value in the column
+    # Optional. You can use this section to validate each value in the column.
     rules:
       # You can use the rules in any combination. Or not use any of them.
       # They are grouped below simply for ease of navigation and reading.
       # If you see the value for the rule is "true" - that's just an enable flag.
       # In other cases, these are rule parameters.
 
-      # IMPORTANT!!! All rules except "not_empty" ignored for empty strings.
-      # If you need to check the empty string, use "not_empty" rule as extra rule!
+      # IMPORTANT!!! All rules except "not_empty" ignored for empty strings (length 0).
+      # If the value must be non-empty, use "not_empty" as extra rule!
 
       # General rules
       not_empty: true                   # Value is not an empty string. Actually checks if the string length is 0.
@@ -48,45 +48,55 @@ columns:
       # Strings only
       regex: /^[\d]{2}$/                # Any valid regex pattern. See https://www.php.net/manual/en/reference.pcre.pattern.syntax.php
 
-      # Length of the string
-      length: 5                         # Integer only. Exact length of the string with spaces
-      length_min: 1                     # Integer only. Min length of the string with spaces
-      length_max: 10                    # Integer only. Max length of the string with spaces
+      # Checks length of a string including spaces (multibyte safe).
+      length: 5
+      length_not: 4
+      length_min: 1
+      length_max: 10
 
       # Basic string checks
-      is_trimed: true                   # Only trimed strings. Example: "Hello World" (not " Hello World ")
-      is_lowercase: true                # String is only lower-case. Example: "hello world"
-      is_uppercase: true                # String is only upper-case. Example: "HELLO WORLD"
-      is_capitalize: true               # String is only capitalized. Example: "Hello World"
+      is_trimed: true                   # Only trimed strings. Example: "Hello World" (not " Hello World ").
+      is_lowercase: true                # String is only lower-case. Example: "hello world".
+      is_uppercase: true                # String is only upper-case. Example: "HELLO WORLD".
+      is_capitalize: true               # String is only capitalized. Example: "Hello World".
 
       # Words
-      word_count: 10                    # Integer only. Exact count of words in the string. Example: "Hello World, 123" - 2 words only (123 is not a word)
-      word_count_min: 1                 # Integer only. Min count of words in the string. Example: "Hello World. 123" - 2 words only (123 is not a word)
-      word_count_max: 5                 # Integer only. Max count of words in the string Example: "Hello World! 123" - 2 words only (123 is not a word)
+      word_count: 10                    # Integer only. Exact count of words in the string. Example: "Hello World, 123" - 2 words only (123 is not a word).
+      word_count_min: 1                 # Integer only. Min count of words in the string. Example: "Hello World. 123" - 2 words only (123 is not a word).
+      word_count_max: 5                 # Integer only. Max count of words in the string Example: "Hello World! 123" - 2 words only (123 is not a word).
 
       # Contains rules
-      contains: "Hello"                 # Case-sensitive. Example: "Hello World"
+      contains: "Hello"                 # Case-sensitive. Example: "Hello World".
       contains_one: [ a, b ]            # At least one of the string must be in the CSV value. Case-sensitive.
       contains_all: [ a, b, c ]         # All the strings must be part of a CSV value. Case-sensitive.
-      starts_with: "prefix "            # Case-sensitive. Example: "prefix Hello World"
-      ends_with: " suffix"              # Case-sensitive. Example: "Hello World suffix"
+      starts_with: "prefix "            # Case-sensitive. Example: "prefix Hello World".
+      ends_with: " suffix"              # Case-sensitive. Example: "Hello World suffix".
 
-      # Decimal and integer numbers
-      min: 10                           # Can be integer or float, negative and positive
-      max: 100.50                       # Can be integer or float, negative and positive
+      # Under the hood it convertes and compares as float values.
+      # Comparison accuracy is 12 digits after a dot.
+      # Scientific number format is also supported. Example: "1.2e3"
+      num: 5
+      num_not: 4
+      num_min: 1
+      num_max: 10
 
-      # Precision
-      precision: 3                      # Strict(!) number of digits after the decimal point
-      precision_min: 2                  # Min number of digits after the decimal point (with zeros)
-      precision_max: 4                  # Max number of digits after the decimal point (with zeros)
+      # Number of digits after the decimal point (with zeros)
+      precision: 5
+      precision_not: 4
+      precision_min: 1
+      precision_max: 10
 
-      # Dates (by default it works in UTC timezone)
-      # See https://www.php.net/manual/en/datetime.format.php
-      # See https://www.php.net/manual/en/function.strtotime.php
-      date: "2000-01-10"                # Parse(!) and compare values with the given date.
-      date_format: Y-m-d                # Check strict format of the date.
-      date_min: "2000-01-02"            # Minimal date. Can be a string or a relative date.
-      date_max: "+1 day"                # Maximal date. Can be a string or a relative date.
+      # Dates. Under the hood, the strings are converted to timestamp and compared.
+      # This gives you the ability to use relative dates and any formatting you want.
+      # By default, it works in UTC. But you can specify your own timezone as part of the date string.
+      # Format:    https://www.php.net/manual/en/datetime.format.php
+      # Parsing:   https://www.php.net/manual/en/function.strtotime.php
+      # Timezones: https://www.php.net/manual/en/timezones.php
+      date: 01 Jan 2000                 # You can use any string that can be parsed by the strtotime function.
+      date_not: 2006-01-02 15:04:05 -0700 Europe/Rome
+      date_min: +1 day                  # Examples of relative formats.
+      date_max: now                     # Examples of current date and time.
+      is_date: true                     # Recognizing string as date in any format. If timestamp > 0, the value is considered valid.
 
       # Specific formats
       is_bool: true                     # Allow only boolean values "true" and "false", case-insensitive
