@@ -35,6 +35,7 @@ final class ComboWordCount extends AbstractCombo
 
     protected function getCurrent(string $cellValue): float|int|string
     {
+        // @phan-suppress-next-line PhanPartialTypeMismatchReturn
         return \str_word_count($cellValue, 0);
     }
 }
