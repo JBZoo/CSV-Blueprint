@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit\Blueprint;
 
 use JBZoo\PHPUnit\PHPUnit;
-use JBZoo\PHPUnit\TestTools;
+use JBZoo\PHPUnit\Tools;
 use JBZoo\Utils\Cli;
 use Symfony\Component\Console\Input\StringInput;
 
@@ -30,7 +30,7 @@ final class ValidateCsvTest extends PHPUnit
     {
         $rootPath = PROJECT_ROOT;
 
-        [$actual, $exitCode] = TestTools::virtualExecution('validate:csv', [
+        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
             'csv'    => "{$rootPath}/tests/fixtures/demo.csv",
             'schema' => "{$rootPath}/tests/schemas/demo_valid.yml",
         ]);
@@ -52,12 +52,12 @@ final class ValidateCsvTest extends PHPUnit
     {
         $rootPath = PROJECT_ROOT;
 
-        [$actual, $exitCode] = TestTools::virtualExecution('validate:csv', [
+        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
             'csv'    => "{$rootPath}/tests/fixtures/demo.csv", // Full path
             'schema' => './tests/schemas/demo_invalid.yml',    // Relative path
         ]);
 
-        TestTools::dumpText($actual);
+        Tools::dumpText($actual);
 
         $expected = <<<'TXT'
             Schema: ./tests/schemas/demo_invalid.yml
@@ -97,9 +97,9 @@ final class ValidateCsvTest extends PHPUnit
             'schema' => './tests/schemas/demo_invalid.yml',
         ];
         $optionsAsString     = new StringInput(Cli::build('', $options));
-        [$actual, $exitCode] = TestTools::virtualExecution('validate:csv', $options);
+        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $options);
 
-        TestTools::dumpText($actual);
+        Tools::dumpText($actual);
 
         $expected = <<<'TXT'
             Schema: ./tests/schemas/demo_invalid.yml
@@ -146,13 +146,13 @@ final class ValidateCsvTest extends PHPUnit
 
     public function testValidateOneFileNegativeText(): void
     {
-        [$actual, $exitCode] = TestTools::virtualExecution('validate:csv', [
+        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
             'csv'    => './tests/**/demo.csv',
             'schema' => './tests/schemas/demo_invalid.yml',
             'report' => 'text',
         ]);
 
-        TestTools::dumpText($actual);
+        Tools::dumpText($actual);
 
         $expected = <<<'TXT'
             Schema: ./tests/schemas/demo_invalid.yml
@@ -195,7 +195,7 @@ final class ValidateCsvTest extends PHPUnit
             TXT;
 
         // No option (default behavior)
-        [$actual, $exitCode] = TestTools::virtualExecution('validate:csv', [
+        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
             'csv'    => './tests/fixtures/batch/*.csv',
             'schema' => './tests/schemas/demo_invalid.yml',
             'report' => 'text',
@@ -205,7 +205,7 @@ final class ValidateCsvTest extends PHPUnit
         isSame($expectedQuick, $actual);
 
         // Shortcut
-        [$actual, $exitCode] = TestTools::virtualExecution('validate:csv', [
+        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
             'csv'    => './tests/fixtures/batch/*.csv',
             'schema' => './tests/schemas/demo_invalid.yml',
             'report' => 'text',
@@ -215,7 +215,7 @@ final class ValidateCsvTest extends PHPUnit
         isSame($expectedQuick, $actual);
 
         // Shortcut 2
-        [$actual, $exitCode] = TestTools::virtualExecution('validate:csv', [
+        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
             'csv'    => './tests/fixtures/batch/*.csv',
             'schema' => './tests/schemas/demo_invalid.yml',
             'report' => 'text',
@@ -225,7 +225,7 @@ final class ValidateCsvTest extends PHPUnit
         isSame($expectedQuick, $actual);
 
         // Value - yes
-        [$actual, $exitCode] = TestTools::virtualExecution('validate:csv', [
+        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
             'csv'    => './tests/fixtures/batch/*.csv',
             'schema' => './tests/schemas/demo_invalid.yml',
             'report' => 'text',
@@ -236,7 +236,7 @@ final class ValidateCsvTest extends PHPUnit
         isSame($expectedQuick, $actual);
 
         // Value - no
-        [$actual, $exitCode] = TestTools::virtualExecution('validate:csv', [
+        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
             'csv'    => './tests/fixtures/batch/*.csv',
             'schema' => './tests/schemas/demo_invalid.yml',
             'report' => 'text',
@@ -275,13 +275,13 @@ final class ValidateCsvTest extends PHPUnit
     {
         $rootPath = PROJECT_ROOT;
 
-        [$actual, $exitCode] = TestTools::virtualExecution('validate:csv', [
+        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
             'csv'    => './tests/fixtures/batch/*.csv',
             'schema' => './tests/schemas/demo_invalid.yml',
             'report' => 'teamcity',
         ]);
 
-        TestTools::dumpText($actual);
+        Tools::dumpText($actual);
 
         $expected = <<<'TXT'
             Schema: ./tests/schemas/demo_invalid.yml
@@ -358,12 +358,12 @@ final class ValidateCsvTest extends PHPUnit
 
     public function testMultipleCsvOptions(): void
     {
-        [$expected, $expectedCode] = TestTools::virtualExecution('validate:csv', [
+        [$expected, $expectedCode] = Tools::virtualExecution('validate:csv', [
             'csv'    => './tests/fixtures/batch/*.csv',
             'schema' => './tests/schemas/demo_invalid.yml',
         ]);
 
-        $actual = TestTools::realExecution(
+        $actual = Tools::realExecution(
             'validate:csv ' . \implode(' ', [
                 '--csv="./tests/fixtures/batch/sub/demo-3.csv"',
                 '--csv="./tests/fixtures/batch/demo-1.csv"',

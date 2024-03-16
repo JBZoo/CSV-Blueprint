@@ -392,7 +392,7 @@ columns:
       date_min: +1 day                  # Examples of relative formats.
       date_max: now                     # Examples of current date and time.
       date_format: Y-m-d                # Check strict format of the date.
-      is_date: true                     # Recognizing string as date in any format. If timestamp > 0, the value is considered valid.
+      is_date: true                     # Accepts arbitrary date format. Is shows error if failed to convert to timestamp.
 
       # Specific formats
       is_bool: true                     # Allow only boolean values "true" and "false", case-insensitive.
