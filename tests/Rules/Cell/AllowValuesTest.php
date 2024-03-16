@@ -48,4 +48,14 @@ final class AllowValuesTest extends AbstractCellRuleTest
             $rule->test('invalid'),
         );
     }
+
+    public function testInvalidOption(): void
+    {
+        $this->expectExceptionMessage(
+            'Invalid option "qwe" for the "allow_values" rule. It should be array of strings.',
+        );
+
+        $rule = $this->create('qwe');
+        $rule->validate('true');
+    }
 }

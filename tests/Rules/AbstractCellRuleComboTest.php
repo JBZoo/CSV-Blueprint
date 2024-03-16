@@ -43,7 +43,7 @@ abstract class AbstractCellRuleComboTest extends TestCase
         isFileContains($this->create(6, Combo::MAX)->getHelp(), PROJECT_ROOT . '/schema-examples/full.yml');
     }
 
-    protected function create(float|int|string $value, string $mode): AbstractCombo
+    protected function create(array|float|int|string $value, string $mode): AbstractCombo
     {
         return new $this->ruleClass('prop', $value, $mode);
     }

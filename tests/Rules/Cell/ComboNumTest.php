@@ -88,4 +88,12 @@ class ComboNumTest extends AbstractCellRuleComboTest
         $rule = $this->create(6, Combo::NOT);
         isSame('', $rule->test('qwerty'));
     }
+
+    public function testInvalidOption2(): void
+    {
+        $this->expectExceptionMessage('Invalid option "1, 2, 3" for the "num_not" rule. It should be int/float/string.');
+
+        $rule = $this->create([1, 2, 3], Combo::NOT);
+        $rule->validate('true');
+    }
 }

@@ -165,20 +165,6 @@ abstract class AbstarctRule
         return (int)$this->options;
     }
 
-    protected function getOptionAsFloat(): float
-    {
-        // TODO: Replace to warning message
-        if ($this->options === '' || !\is_numeric($this->options)) {
-            $options = \is_array($this->options) ? \implode(', ', $this->options) : $this->options;
-            throw new Exception(
-                "Invalid option \"{$options}\" for the \"{$this->getRuleCode()}\" rule. " .
-                'It should be integer/float.',
-            );
-        }
-
-        return (float)$this->options;
-    }
-
     /**
      * @return string[]
      */
