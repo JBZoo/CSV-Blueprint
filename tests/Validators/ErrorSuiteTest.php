@@ -26,12 +26,9 @@ use function JBZoo\PHPUnit\isSame;
 
 final class ErrorSuiteTest extends TestCase
 {
-    private const CSV_SIMPLE_HEADER = './tests/fixtures/simple_header.csv';
-    private const CSV_DEMO          = './tests/fixtures/demo.csv';
-
     public function testRenderText(): void
     {
-        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, Tools::getRule('seq', 'num_min', 3));
+        $csv = new CsvFile(Tools::CSV_SIMPLE_HEADER, Tools::getRule('seq', 'num_min', 3));
         isSame(
             '"num_min" at line 2, column "0:seq". ' .
             'The number of the value "1", which is less than the expected "3".' . "\n",
@@ -50,7 +47,7 @@ final class ErrorSuiteTest extends TestCase
 
     public function testRenderTable(): void
     {
-        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, Tools::getRule('seq', 'num_min', 3));
+        $csv = new CsvFile(Tools::CSV_SIMPLE_HEADER, Tools::getRule('seq', 'num_min', 3));
         isSame(
             <<<'TABLE'
                 +------+-----------+---------+--------- simple_header.csv --------------------------------------+
@@ -79,9 +76,9 @@ final class ErrorSuiteTest extends TestCase
 
     public function testRenderTeamCity(): void
     {
-        $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, Tools::getRule('seq', 'num_min', 3));
+        $csv  = new CsvFile(Tools::CSV_SIMPLE_HEADER, Tools::getRule('seq', 'num_min', 3));
         $out  = $csv->validate()->render(ErrorSuite::REPORT_TEAMCITY);
-        $path = self::CSV_SIMPLE_HEADER;
+        $path = Tools::CSV_SIMPLE_HEADER;
 
         $expected = <<<'TEAMCITY'
 
@@ -106,7 +103,7 @@ final class ErrorSuiteTest extends TestCase
 
     public function testRenderGithub(): void
     {
-        $path = self::CSV_SIMPLE_HEADER;
+        $path = Tools::CSV_SIMPLE_HEADER;
         $csv  = new CsvFile($path, Tools::getRule('seq', 'num_min', 3));
         isSame(
             <<<'GITHUB'
@@ -118,7 +115,7 @@ final class ErrorSuiteTest extends TestCase
             $csv->validate()->render(ErrorSuite::REPORT_GITHUB),
         );
 
-        $path = self::CSV_DEMO;
+        $path = Tools::CSV_DEMO;
         $csv  = new CsvFile($path, Tools::getAggregateRule('City', 'is_unique', true));
         isSame(
             \implode("\n", [
@@ -132,8 +129,8 @@ final class ErrorSuiteTest extends TestCase
 
     public function testRenderGitlab(): void
     {
-        $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, Tools::getRule('seq', 'num_min', 3));
-        $path = self::CSV_SIMPLE_HEADER;
+        $csv  = new CsvFile(Tools::CSV_SIMPLE_HEADER, Tools::getRule('seq', 'num_min', 3));
+        $path = Tools::CSV_SIMPLE_HEADER;
 
         $cleanJson = json($csv->validate()->render(ErrorSuite::REPORT_GITLAB))->getArrayCopy();
         unset($cleanJson[0]['fingerprint'], $cleanJson[1]['fingerprint']);
@@ -159,8 +156,8 @@ final class ErrorSuiteTest extends TestCase
 
     public function testRenderJUnit(): void
     {
-        $csv  = new CsvFile(self::CSV_SIMPLE_HEADER, Tools::getRule('seq', 'num_min', 3));
-        $path = self::CSV_SIMPLE_HEADER;
+        $csv  = new CsvFile(Tools::CSV_SIMPLE_HEADER, Tools::getRule('seq', 'num_min', 3));
+        $path = Tools::CSV_SIMPLE_HEADER;
         isSame(
             <<<'JUNIT'
                 <?xml version="1.0" encoding="UTF-8"?>

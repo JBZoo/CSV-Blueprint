@@ -23,5 +23,6 @@ abstract class TestCase extends PHPUnit
         parent::setUp();
 
         \date_default_timezone_set('UTC');
+        \chdir(PROJECT_ROOT);
     }
 }

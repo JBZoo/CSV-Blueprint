@@ -17,22 +17,17 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit\Csv;
 
 use JBZoo\CsvBlueprint\Csv\CsvFile;
-use JBZoo\PHPUnit\PHPUnit;
+use JBZoo\PHPUnit\TestCase;
+use JBZoo\PHPUnit\Tools;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class CsvFileTest extends PHPUnit
+final class CsvFileTest extends TestCase
 {
-    private const CSV_SIMPLE_HEADER    = PROJECT_TESTS . '/fixtures/simple_header.csv';
-    private const CSV_SIMPLE_NO_HEADER = PROJECT_TESTS . '/fixtures/simple_no_header.csv';
-
-    private const SCHEMA_SIMPLE_HEADER    = PROJECT_TESTS . '/schemas/simple_header.yml';
-    private const SCHEMA_SIMPLE_NO_HEADER = PROJECT_TESTS . '/schemas/simple_no_header.yml';
-
     public function testReadCsvFileWithoutHeader(): void
     {
-        $csv = new CsvFile(self::CSV_SIMPLE_NO_HEADER, self::SCHEMA_SIMPLE_NO_HEADER);
-        isSame(self::CSV_SIMPLE_NO_HEADER, $csv->getCsvFilename());
+        $csv = new CsvFile(Tools::CSV_SIMPLE_NO_HEADER, Tools::SCHEMA_SIMPLE_NO_HEADER);
+        isSame(Tools::CSV_SIMPLE_NO_HEADER, $csv->getCsvFilename());
 
         isSame([], $csv->getHeader());
 
@@ -49,8 +44,8 @@ final class CsvFileTest extends PHPUnit
 
     public function testReadCsvFileWithHeader(): void
     {
-        $csv = new CsvFile(self::CSV_SIMPLE_HEADER, self::SCHEMA_SIMPLE_HEADER);
-        isSame(self::CSV_SIMPLE_HEADER, $csv->getCsvFilename());
+        $csv = new CsvFile(Tools::CSV_SIMPLE_HEADER, Tools::SCHEMA_SIMPLE_HEADER);
+        isSame(Tools::CSV_SIMPLE_HEADER, $csv->getCsvFilename());
 
         isSame(['seq', 'bool', 'exact'], $csv->getHeader());
 

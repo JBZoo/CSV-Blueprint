@@ -19,7 +19,7 @@ namespace JBZoo\PHPUnit;
 use JBZoo\Utils\Cli;
 use Symfony\Component\Console\Input\StringInput;
 
-final class ReadmeTest extends PHPUnit
+final class ReadmeTest extends TestCase
 {
     public function testCreateCsvHelp(): void
     {

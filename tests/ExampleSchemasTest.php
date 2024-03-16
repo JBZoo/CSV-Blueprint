@@ -24,7 +24,7 @@ use function JBZoo\Data\json;
 use function JBZoo\Data\phpArray;
 use function JBZoo\Data\yml;
 
-final class ExampleSchemasTest extends PHPUnit
+final class ExampleSchemasTest extends TestCase
 {
     public function testFullListOfRules(): void
     {
@@ -95,16 +95,6 @@ final class ExampleSchemasTest extends PHPUnit
         isSame($defaultsInDoc, $schema->getCsvStructure()->getArrayCopy());
     }
 
-    public function testCheckYmlSchemaExampleInReadme(): void
-    {
-        $this->testCheckExampleInReadme(
-            PROJECT_ROOT . '/schema-examples/full.yml',
-            'yml',
-            'YAML format (with comment)',
-            12,
-        );
-    }
-
     public function testCompareExamplesWithOrig(): void
     {
         $basepath = PROJECT_ROOT . '/schema-examples/full';
@@ -141,40 +131,15 @@ final class ExampleSchemasTest extends PHPUnit
         }
     }
 
-    private function testCheckExampleInReadme(
-        string $filepath,
-        string $type,
-        string $title,
-        int $skipFirstLines = 0,
-    ): void {
+    public function testCheckYmlSchemaExampleInReadme(): void
+    {
         $filepath = \implode(
             "\n",
-            \array_slice(\explode("\n", \file_get_contents($filepath)), $skipFirstLines),
+            \array_slice(\explode("\n", \file_get_contents(PROJECT_ROOT . '/schema-examples/full.yml')), 12),
         );
 
-        if ($type === 'php') {
-            $tmpl = \implode("\n", ['```php', '<?php', $filepath, '```']);
-        } else {
-            $tmpl = \implode("\n", ["```{$type}", $filepath, '```']);
-        }
-
-        if ($type !== 'yml') {
-            $tmpl = $this->getSpoiler("Click to see: {$title}", $tmpl);
-        }
+        $tmpl = \implode("\n", ['```yml', $filepath, '```']);
 
         isFileContains($tmpl, PROJECT_ROOT . '/README.md');
-    }
-
-    private function getSpoiler(string $title, string $body): string
-    {
-        return \implode("\n", [
-            '<details>',
-            "  <summary>{$title}</summary>",
-            '',
-            "{$body}",
-            '',
-            '</details>',
-            '',
-        ]);
     }
 }

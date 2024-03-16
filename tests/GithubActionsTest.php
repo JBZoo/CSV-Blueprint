@@ -20,7 +20,7 @@ use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 
 use function JBZoo\Data\yml;
 
-final class GithubActionsTest extends PHPUnit
+final class GithubActionsTest extends TestCase
 {
     public function testCreateCsvHelp(): void
     {
