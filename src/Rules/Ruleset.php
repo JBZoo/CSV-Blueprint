@@ -51,8 +51,8 @@ final class Ruleset
         string $origRuleName,
         null|array|bool|float|int|string $options = null,
     ): AbstarctRule {
-        $postfix = AbstractCombo::parseMode($origRuleName);
-        $noCombo = \preg_replace("/(_{$postfix})\$/", '', $origRuleName);
+        $mode    = AbstractCombo::parseMode($origRuleName);
+        $noCombo = \preg_replace("/(_{$mode})\$/", '', $origRuleName);
 
         $origRuleClass  = Utils::kebabToCamelCase($origRuleName);
         $comboRuleClass = Utils::kebabToCamelCase("combo_{$noCombo}");
@@ -61,7 +61,7 @@ final class Ruleset
             foreach ([$origRuleClass, $comboRuleClass] as $ruleClass) {
                 $posibleClassName = __NAMESPACE__ . "\\{$group}\\{$ruleClass}";
 
-                $rule = $this->createRuleClassAttempt($posibleClassName, $origRuleName, $options);
+                $rule = $this->createRuleClassAttempt($posibleClassName, $options, $mode);
                 if ($rule !== null) {
                     return $rule;
                 }
@@ -77,12 +77,12 @@ final class Ruleset
      */
     private function createRuleClassAttempt(
         string $posibleClassName,
-        string $ruleName,
-        null|array|bool|float|int|string $options = null,
+        null|array|bool|float|int|string $options,
+        string $mode,
     ): ?AbstarctRule {
         if (\class_exists($posibleClassName)) {
             // @phpstan-ignore-next-line
-            return new $posibleClassName($this->columnNameId, $options, $ruleName);
+            return new $posibleClassName($this->columnNameId, $options, $mode);
         }
 
         return null;

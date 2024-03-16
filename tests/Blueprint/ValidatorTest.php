@@ -71,7 +71,7 @@ final class ValidatorTest extends PHPUnit
         $csv = new CsvFile(self::CSV_SIMPLE_HEADER, self::SCHEMA_SIMPLE_HEADER_PHP);
         isSame(
             '"num_min" at line 2, column "0:seq". ' .
-            'The number of the "1" is 1, which is less than the expected "2".' . "\n",
+            'The number of the value "1", which is less than the expected "2".' . "\n",
             \strip_tags((string)$csv->validate()),
         );
     }
@@ -81,7 +81,7 @@ final class ValidatorTest extends PHPUnit
         $csv = new CsvFile(self::CSV_SIMPLE_HEADER, self::SCHEMA_SIMPLE_HEADER_JSON);
         isSame(
             '"num_min" at line 2, column "0:seq". ' .
-            'The number of the "1" is 1, which is less than the expected "2".' . "\n",
+            'The number of the value "1", which is less than the expected "2".' . "\n",
             \strip_tags((string)$csv->validate()),
         );
     }
@@ -151,14 +151,14 @@ final class ValidatorTest extends PHPUnit
         $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'num_min', 3));
         isSame(
             '"num_min" at line 2, column "0:seq". ' .
-            'The number of the "1" is 1, which is less than the expected "3".' . "\n",
+            'The number of the value "1", which is less than the expected "3".' . "\n",
             \strip_tags($csv->validate(true)->render(ErrorSuite::REPORT_TEXT)),
         );
 
         isSame(
             <<<'TEXT'
-                "num_min" at line 2, column "0:seq". The number of the "1" is 1, which is less than the expected "3".
-                "num_min" at line 3, column "0:seq". The number of the "2" is 2, which is less than the expected "3".
+                "num_min" at line 2, column "0:seq". The number of the value "1", which is less than the expected "3".
+                "num_min" at line 3, column "0:seq". The number of the value "2", which is less than the expected "3".
                 
                 TEXT,
             \strip_tags($csv->validate()->render(ErrorSuite::REPORT_TEXT)),
@@ -170,11 +170,11 @@ final class ValidatorTest extends PHPUnit
         $csv = new CsvFile(self::CSV_SIMPLE_HEADER, $this->getRule('seq', 'num_min', 3));
         isSame(
             <<<'TABLE'
-                +------+-----------+---------+-------- simple_header.csv --------------------------------------+
-                | Line | id:Column | Rule    | Message                                                         |
-                +------+-----------+---------+-----------------------------------------------------------------+
-                | 2    | 0:seq     | num_min | The number of the "1" is 1, which is less than the expected "3" |
-                +------+-----------+---------+-------- simple_header.csv --------------------------------------+
+                +------+-----------+---------+--------- simple_header.csv --------------------------------------+
+                | Line | id:Column | Rule    | Message                                                          |
+                +------+-----------+---------+------------------------------------------------------------------+
+                | 2    | 0:seq     | num_min | The number of the value "1", which is less than the expected "3" |
+                +------+-----------+---------+--------- simple_header.csv --------------------------------------+
                 
                 TABLE,
             $csv->validate(true)->render(ErrorSuite::RENDER_TABLE),
@@ -182,12 +182,12 @@ final class ValidatorTest extends PHPUnit
 
         isSame(
             <<<'TABLE'
-                +------+-----------+---------+-------- simple_header.csv --------------------------------------+
-                | Line | id:Column | Rule    | Message                                                         |
-                +------+-----------+---------+-----------------------------------------------------------------+
-                | 2    | 0:seq     | num_min | The number of the "1" is 1, which is less than the expected "3" |
-                | 3    | 0:seq     | num_min | The number of the "2" is 2, which is less than the expected "3" |
-                +------+-----------+---------+-------- simple_header.csv --------------------------------------+
+                +------+-----------+---------+--------- simple_header.csv --------------------------------------+
+                | Line | id:Column | Rule    | Message                                                          |
+                +------+-----------+---------+------------------------------------------------------------------+
+                | 2    | 0:seq     | num_min | The number of the value "1", which is less than the expected "3" |
+                | 3    | 0:seq     | num_min | The number of the value "2", which is less than the expected "3" |
+                +------+-----------+---------+--------- simple_header.csv --------------------------------------+
                 
                 TABLE,
             $csv->validate()->render(ErrorSuite::RENDER_TABLE),
@@ -203,15 +203,15 @@ final class ValidatorTest extends PHPUnit
         $expected = <<<'TEAMCITY'
 
             ##teamcity[testCount count='2' flowId='42']
-            
+
             ##teamcity[testSuiteStarted name='simple_header.csv' flowId='42']
             
             ##teamcity[testStarted name='num_min at column 0:seq' locationHint='php_qn://./tests/fixtures/simple_header.csv' flowId='42']
-            "num_min" at line 2, column "0:seq". The number of the "1" is 1, which is less than the expected "3".
+            "num_min" at line 2, column "0:seq". The number of the value "1", which is less than the expected "3".
             ##teamcity[testFinished name='num_min at column 0:seq' flowId='42']
             
             ##teamcity[testStarted name='num_min at column 0:seq' locationHint='php_qn://./tests/fixtures/simple_header.csv' flowId='42']
-            "num_min" at line 3, column "0:seq". The number of the "2" is 2, which is less than the expected "3".
+            "num_min" at line 3, column "0:seq". The number of the value "2", which is less than the expected "3".
             ##teamcity[testFinished name='num_min at column 0:seq' flowId='42']
             
             ##teamcity[testSuiteFinished name='simple_header.csv' flowId='42']
@@ -227,9 +227,9 @@ final class ValidatorTest extends PHPUnit
         $csv  = new CsvFile($path, $this->getRule('seq', 'num_min', 3));
         isSame(
             <<<'GITHUB'
-                ::error file=./tests/fixtures/simple_header.csv,line=2::num_min at column 0:seq%0A"num_min" at line 2, column "0:seq". The number of the "1" is 1, which is less than the expected "3".
+                ::error file=./tests/fixtures/simple_header.csv,line=2::num_min at column 0:seq%0A"num_min" at line 2, column "0:seq". The number of the value "1", which is less than the expected "3".
 
-                ::error file=./tests/fixtures/simple_header.csv,line=3::num_min at column 0:seq%0A"num_min" at line 3, column "0:seq". The number of the "2" is 2, which is less than the expected "3".
+                ::error file=./tests/fixtures/simple_header.csv,line=3::num_min at column 0:seq%0A"num_min" at line 3, column "0:seq". The number of the value "2", which is less than the expected "3".
                 
                 GITHUB,
             $csv->validate()->render(ErrorSuite::REPORT_GITHUB),
@@ -259,13 +259,13 @@ final class ValidatorTest extends PHPUnit
             [
                 [
                     'description' => "num_min at column 0:seq\n\"num_min\" at line 2, column \"0:seq\". " .
-                        'The number of the "1" is 1, which is less than the expected "3".',
+                        'The number of the value "1", which is less than the expected "3".',
                     'severity' => 'major',
                     'location' => ['path' => $path, 'lines' => ['begin' => 2]],
                 ],
                 [
                     'description' => "num_min at column 0:seq\n\"num_min\" at line 3, column \"0:seq\". " .
-                        'The number of the "2" is 2, which is less than the expected "3".',
+                        'The number of the value "2", which is less than the expected "3".',
                     'severity' => 'major',
                     'location' => ['path' => $path, 'lines' => ['begin' => 3]],
                 ],
@@ -284,10 +284,10 @@ final class ValidatorTest extends PHPUnit
                 <testsuites>
                   <testsuite name="simple_header.csv" tests="2">
                     <testcase name="num_min at column 0:seq" file="./tests/fixtures/simple_header.csv" line="2">
-                      <system-out>"num_min" at line 2, column "0:seq". The number of the "1" is 1, which is less than the expected "3".</system-out>
+                      <system-out>"num_min" at line 2, column "0:seq". The number of the value "1", which is less than the expected "3".</system-out>
                     </testcase>
                     <testcase name="num_min at column 0:seq" file="./tests/fixtures/simple_header.csv" line="3">
-                      <system-out>"num_min" at line 3, column "0:seq". The number of the "2" is 2, which is less than the expected "3".</system-out>
+                      <system-out>"num_min" at line 3, column "0:seq". The number of the value "2", which is less than the expected "3".</system-out>
                     </testcase>
                   </testsuite>
                 </testsuites>

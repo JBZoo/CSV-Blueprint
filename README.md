@@ -206,24 +206,27 @@ Schema: ./tests/schemas/demo_invalid.yml
 Found CSV files: 3
 
 (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
-+------+------------------+--------------+----------------- demo-1.csv -----------------------------------------------------------+
-| Line | id:Column        | Rule         | Message                                                                                |
-+------+------------------+--------------+----------------------------------------------------------------------------------------+
-| 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 1, total: 2                                      |
-| 3    | 2:Float          | num_max      | The number of the "74605.944" is 74605.944, which is greater than the expected "74605" |
-| 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                  |
-+------+------------------+--------------+----------------- demo-1.csv -----------------------------------------------------------+
++------+------------------+--------------+-------------- demo-1.csv -------------------------------------------------------+
+| Line | id:Column        | Rule         | Message                                                                         |
++------+------------------+--------------+---------------------------------------------------------------------------------+
+| 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 1, total: 2                               |
+| 3    | 2:Float          | num_max      | The number of the value "74605.944", which is greater than the expected "74605" |
+| 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]           |
++------+------------------+--------------+-------------- demo-1.csv -------------------------------------------------------+
 
 (2/3) Invalid file: ./tests/fixtures/batch/demo-2.csv
-+------+------------+------------+------------------ demo-2.csv ----------------------------------------------------+
-| Line | id:Column  | Rule       | Message                                                                          |
-+------+------------+------------+----------------------------------------------------------------------------------+
-| 2    | 0:Name     | length_min | The length of the "Carl" is 4, which is less than the expected "5"               |
-| 7    | 0:Name     | length_min | The length of the "Lois" is 4, which is less than the expected "5"               |
-| 2    | 3:Birthday | date_min   | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00" |
-| 4    | 3:Birthday | date_min   | Value "1955-05-14" is less than the minimum date "1955-05-15T00:00:00.000+00:00" |
-| 5    | 3:Birthday | date_max   | Value "2010-07-20" is more than the maximum date "2009-01-01T00:00:00.000+00:00" |
-+------+------------+------------+------------------ demo-2.csv ----------------------------------------------------+
++------+------------+------------+-------------------------- demo-2.csv ------------------------------------------------------------+
+| Line | id:Column  | Rule       | Message                                                                                          |
++------+------------+------------+--------------------------------------------------------------------------------------------------+
+| 2    | 0:Name     | length_min | The length of the value "Carl" is 4, which is less than the expected "5"                         |
+| 7    | 0:Name     | length_min | The length of the value "Lois" is 4, which is less than the expected "5"                         |
+| 2    | 3:Birthday | date_min   | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than |
+|      |            |            | the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                           |
+| 4    | 3:Birthday | date_min   | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than |
+|      |            |            | the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                           |
+| 5    | 3:Birthday | date_max   | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater   |
+|      |            |            | than the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                      |
++------+------------+------------+-------------------------- demo-2.csv ------------------------------------------------------------+
 
 (3/3) Invalid file: ./tests/fixtures/batch/sub/demo-3.csv
 +------+-----------+------------------+---------------------- demo-3.csv ------------------------------------------------------------+
