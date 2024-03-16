@@ -28,9 +28,6 @@ final class ComboWordCount extends AbstractCombo
         'Example: "Hello World, 123" - 2 words only (123 is not a word).',
     ];
 
-    /**
-     * @phan-suppress PhanUnusedProtectedMethodParameter
-     */
     protected function getExpected(): float|int|string
     {
         return $this->getOptionAsInt();
@@ -38,6 +35,6 @@ final class ComboWordCount extends AbstractCombo
 
     protected function getCurrent(string $cellValue): float|int|string
     {
-        return \str_word_count($cellValue);
+        return \str_word_count($cellValue, 0);
     }
 }

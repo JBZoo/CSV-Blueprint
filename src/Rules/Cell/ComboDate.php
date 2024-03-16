@@ -44,7 +44,7 @@ final class ComboDate extends AbstractCombo
     {
         try {
             $result = (new \DateTimeImmutable($cellValue))->getTimestamp();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return -1;
         }
 
@@ -57,7 +57,7 @@ final class ComboDate extends AbstractCombo
 
         try {
             $result = (new \DateTimeImmutable($expectedValue))->getTimestamp();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return -1;
         }
 
@@ -70,7 +70,7 @@ final class ComboDate extends AbstractCombo
 
         try {
             $formated = (new \DateTimeImmutable($expectedValue))->format(self::OUTPUT_DATE_FORMAT);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return "Can't parse date: {$expectedValue}";
         }
 
@@ -81,7 +81,7 @@ final class ComboDate extends AbstractCombo
     {
         try {
             $formated = (new \DateTimeImmutable($cellValue))->format(self::OUTPUT_DATE_FORMAT);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $formated = "Can't parse date: {$cellValue}";
         }
 

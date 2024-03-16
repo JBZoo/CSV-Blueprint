@@ -34,7 +34,7 @@ final class ContainsAll extends AbstarctCellRule
         }
 
         foreach ($inclusions as $inclusion) {
-            if (\strpos($cellValue, (string)$inclusion) === false) {
+            if (\strpos($cellValue, $inclusion) === false) {
                 return "Value \"<c>{$cellValue}</c>\" must contain all of the following:" .
                     ' "<green>["' . \implode('", "', $inclusions) . '"]</green>"';
             }

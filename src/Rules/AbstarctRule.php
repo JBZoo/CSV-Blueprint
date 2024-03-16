@@ -31,16 +31,18 @@ abstract class AbstarctRule
     public const MIN     = 'min';
     public const MAX     = 'max';
 
-    protected const HELP_LEFT_PAD = 6;
-    protected const HELP_DESC_PAD = 40;
-    protected const HELP_TOP      = [];
-    protected const HELP_OPTIONS  = [
+    protected const HELP_TOP = [];
+
+    protected const HELP_OPTIONS = [
         self::DEFAULT => ['FIXME', 'Add description.'],
-        self::EQ      => ['5'],
-        self::NOT     => ['4'],
-        self::MIN     => ['1'],
-        self::MAX     => ['10'],
+        self::EQ      => ['5', ''],
+        self::NOT     => ['4', ''],
+        self::MIN     => ['1', ''],
+        self::MAX     => ['10', ''],
     ];
+
+    private const HELP_LEFT_PAD = 6;
+    private const HELP_DESC_PAD = 40;
 
     protected string $columnNameId;
     protected string $ruleCode;
@@ -87,7 +89,7 @@ abstract class AbstarctRule
             $ymlRuleCode = $this instanceof AbstractCombo ? $this->getComboRuleCode($mode) : $this->getRuleCode();
             $baseKeyVal  = "{$leftPad}{$ymlRuleCode}: {$row[0]}";
 
-            if (isset($row[1])) {
+            if (isset($row[1]) && $row[1] !== '') {
                 $desc = \rtrim($row[1], '.') . '.';
 
                 return \str_pad($baseKeyVal, self::HELP_DESC_PAD, ' ', \STR_PAD_RIGHT) . "# {$desc}";
@@ -100,7 +102,7 @@ abstract class AbstarctRule
         if (\count(static::HELP_TOP) > 0) {
             $topComment = "{$leftPad}# " . \implode(
                 "\n{$leftPad}# ",
-                \array_map(static fn ($item) => \rtrim($item, '.') . '.', static::HELP_TOP),
+                \array_map(static fn (string $item): string => \rtrim($item, '.') . '.', static::HELP_TOP),
             );
         }
 
@@ -116,16 +118,18 @@ abstract class AbstarctRule
 
         return \implode("\n", [
             $topComment,
-            $renderLine(static::HELP_OPTIONS[self::DEFAULT] ?? self::HELP_OPTIONS[self::DEFAULT], self::DEFAULT),
+            $renderLine(static::HELP_OPTIONS[self::DEFAULT], self::DEFAULT),
         ]);
     }
 
     protected function getOptionAsBool(): bool
     {
+        // TODO: Replace to warning message
         if (!\is_bool($this->options)) {
-            // TODO: Replace to warning message
+            $options = \is_array($this->options) ? \implode(', ', $this->options) : (string)$this->options;
             throw new Exception(
-                "Invalid option \"{$this->options}\" for the \"{$this->getRuleCode()}\" rule. It should be true|false.",
+                "Invalid option \"{$options}\" for the \"{$this->getRuleCode()}\" rule. " .
+                'It should be true|false.',
             );
         }
 
@@ -134,10 +138,13 @@ abstract class AbstarctRule
 
     protected function getOptionAsString(): string
     {
+        // TODO: Replace to warning message
         if (\is_array($this->options)) {
-            // TODO: Replace to warning message
+            $options = \implode(', ', $this->options);
+
             throw new Exception(
-                "Invalid option \"{$this->options}\" for the \"{$this->getRuleCode()}\" rule. It should be int/float/string.",
+                "Invalid option \"{$options}\" for the \"{$this->getRuleCode()}\" rule. " .
+                'It should be int/float/string.',
             );
         }
 
@@ -146,10 +153,12 @@ abstract class AbstarctRule
 
     protected function getOptionAsInt(): int
     {
+        // TODO: Replace to warning message
         if ($this->options === '' || !\is_numeric($this->options)) {
-            // TODO: Replace to warning message
+            $options = \is_array($this->options) ? \implode(', ', $this->options) : $this->options;
             throw new Exception(
-                "Invalid option \"{$this->options}\" for the \"{$this->getRuleCode()}\" rule. It should be integer.",
+                "Invalid option \"{$options}\" for the \"{$this->getRuleCode()}\" rule. " .
+                'It should be integer.',
             );
         }
 
@@ -158,10 +167,12 @@ abstract class AbstarctRule
 
     protected function getOptionAsFloat(): float
     {
+        // TODO: Replace to warning message
         if ($this->options === '' || !\is_numeric($this->options)) {
-            // TODO: Replace to warning message
+            $options = \is_array($this->options) ? \implode(', ', $this->options) : $this->options;
             throw new Exception(
-                "Invalid option \"{$this->options}\" for the \"{$this->getRuleCode()}\" rule. It should be integer/float.",
+                "Invalid option \"{$options}\" for the \"{$this->getRuleCode()}\" rule. " .
+                'It should be integer/float.',
             );
         }
 
@@ -173,14 +184,15 @@ abstract class AbstarctRule
      */
     protected function getOptionAsArray(): array
     {
+        // TODO: Replace to warning message
         if (!\is_array($this->options)) {
-            // TODO: Replace to warning message
             throw new Exception(
-                "Invalid option \"{$this->options}\" for the \"{$this->getRuleCode()}\" rule. It should be array of strings.",
+                "Invalid option \"{$this->options}\" for the \"{$this->getRuleCode()}\" rule. " .
+                'It should be array of strings.',
             );
         }
 
-        return (array)$this->options;
+        return $this->options;
     }
 
     /**

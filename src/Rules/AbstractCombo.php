@@ -22,15 +22,7 @@ use JBZoo\CsvBlueprint\Validators\Error;
 
 abstract class AbstractCombo extends AbstarctCellRule
 {
-    protected const HELP_TOP = [
-        [],
-        [
-            self::EQ  => ['5', ''],
-            self::NOT => ['42', ''],
-            self::MIN => ['1', ''],
-            self::MAX => ['10', ''],
-        ],
-    ];
+    protected const NAME = 'UNDEFINED';
 
     private const VERBS = [
         self::EQ  => 'not equal',
@@ -115,32 +107,15 @@ abstract class AbstractCombo extends AbstarctCellRule
             return null;
         }
 
-        if (static::NAME === '' || \count(static::HELP_TOP) === 0) {
-            return null;
-        }
-
-        if (!$this->compare($this->getExpected(), $this->getCurrent($cellValue), $mode)) {
+        if (!self::compare($this->getExpected(), $this->getCurrent($cellValue), $mode)) {
             return $this->getErrorMessage($cellValue, $mode);
         }
 
         return null;
     }
 
-    private function compare(float|int|string $expected, float|int|string $actual, string $mode): bool
+    private function getErrorMessage(string $cellValue, string $mode): string
     {
-        return match ($mode) {
-            self::EQ  => $expected === $actual,
-            self::NOT => $expected !== $actual,
-            self::MIN => $expected <= $actual,
-            self::MAX => $expected >= $actual,
-            default   => throw new \InvalidArgumentException("Unknown mode: {$mode}"),
-        };
-    }
-
-    private function getErrorMessage(
-        string $cellValue,
-        string $mode,
-    ): string {
         $prefix = $mode === self::NOT ? 'not ' : '';
         $verb   = self::VERBS[$mode];
         $name   = static::NAME;
@@ -154,5 +129,16 @@ abstract class AbstractCombo extends AbstarctCellRule
 
         return "The {$name} of the value \"<c>{$cellValue}</c>\"{$currentStr}, " .
             "which is {$verb} than the {$prefix}expected \"<green>{$expectedStr}</green>\"";
+    }
+
+    private static function compare(float|int|string $expected, float|int|string $actual, string $mode): bool
+    {
+        return match ($mode) {
+            self::EQ  => $expected === $actual,
+            self::NOT => $expected !== $actual,
+            self::MIN => $expected <= $actual,
+            self::MAX => $expected >= $actual,
+            default   => throw new \InvalidArgumentException("Unknown mode: {$mode}"),
+        };
     }
 }

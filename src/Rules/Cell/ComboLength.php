@@ -24,9 +24,6 @@ final class ComboLength extends AbstractCombo
 
     protected const HELP_TOP = ['Checks length of a string including spaces (multibyte safe).'];
 
-    /**
-     * @phan-suppress PhanUnusedProtectedMethodParameter
-     */
     protected function getExpected(): float|int|string
     {
         return $this->getOptionAsInt();
