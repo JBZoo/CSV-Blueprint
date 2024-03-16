@@ -32,8 +32,8 @@ columns:
     rules:
       not_empty: true
       is_float: true
-      min: -19366059128
-      max: 74605
+      num_min: -19366059128
+      num_max: 74605
 
   - name: Birthday
     rules:

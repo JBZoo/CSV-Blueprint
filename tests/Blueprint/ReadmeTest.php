@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit\Blueprint;
 
 use JBZoo\PHPUnit\PHPUnit;
-use JBZoo\PHPUnit\TestTools;
+use JBZoo\PHPUnit\Tools;
 use JBZoo\Utils\Cli;
 use Symfony\Component\Console\Input\StringInput;
 
@@ -33,7 +33,7 @@ final class ReadmeTest extends PHPUnit
             './csv-blueprint validate:csv --help',
             '',
             '',
-            TestTools::realExecution('validate:csv', ['help' => null]),
+            Tools::realExecution('validate:csv', ['help' => null]),
             '```',
         ]), PROJECT_ROOT . '/README.md');
     }
@@ -45,7 +45,7 @@ final class ReadmeTest extends PHPUnit
             'schema' => './tests/schemas/demo_invalid.yml',
         ];
         $optionsAsString     = new StringInput(Cli::build('', $options));
-        [$actual, $exitCode] = TestTools::virtualExecution('validate:csv', $options);
+        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $options);
 
         isSame(1, $exitCode, $actual);
 

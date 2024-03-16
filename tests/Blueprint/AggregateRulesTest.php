@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Blueprint;
 
-use JBZoo\CsvBlueprint\AggregateRules\IsUnique;
+use JBZoo\CsvBlueprint\Rules\Aggregate\IsUnique;
 use JBZoo\PHPUnit\PHPUnit;
 
 use function JBZoo\PHPUnit\isSame;
