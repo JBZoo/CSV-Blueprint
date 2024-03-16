@@ -25,21 +25,21 @@ use function JBZoo\Utils\bool;
 abstract class AbstarctRule
 {
     // Modes
-    public const NONE = 'none';
-    public const EQ   = '';
-    public const NOT  = 'not';
-    public const MIN  = 'min';
-    public const MAX  = 'max';
+    public const DEFAULT = 'default';
+    public const EQ      = '';
+    public const NOT     = 'not';
+    public const MIN     = 'min';
+    public const MAX     = 'max';
 
     protected const HELP_LEFT_PAD = 6;
     protected const HELP_DESC_PAD = 40;
     protected const HELP_TOP      = [];
     protected const HELP_OPTIONS  = [
-        self::NONE => ['FIXME', 'Add description.'],
-        self::EQ   => ['5'],
-        self::NOT  => ['4'],
-        self::MIN  => ['1'],
-        self::MAX  => ['10'],
+        self::DEFAULT => ['FIXME', 'Add description.'],
+        self::EQ      => ['5'],
+        self::NOT     => ['4'],
+        self::MIN     => ['1'],
+        self::MAX     => ['10'],
     ];
 
     protected string $columnNameId;
@@ -51,7 +51,7 @@ abstract class AbstarctRule
     public function __construct(
         string $columnNameId,
         null|array|bool|float|int|string $options,
-        string $mode = self::NONE,
+        string $mode = self::DEFAULT,
     ) {
         $this->mode         = $mode;
         $this->columnNameId = $columnNameId;
@@ -83,8 +83,6 @@ abstract class AbstarctRule
     {
         $leftPad = \str_repeat(' ', self::HELP_LEFT_PAD);
 
-        $isCombo = $this instanceof AbstractCombo;
-
         $renderLine = function (array|string $row, string $mode) use ($leftPad): string {
             $ymlRuleCode = $this instanceof AbstractCombo ? $this->getComboRuleCode($mode) : $this->getRuleCode();
             $baseKeyVal  = "{$leftPad}{$ymlRuleCode}: {$row[0]}";
@@ -98,18 +96,24 @@ abstract class AbstarctRule
             return $baseKeyVal;
         };
 
-        if ($isCombo) {
+        $topComment = '';
+        if (\count(static::HELP_TOP) > 0) {
+            $topComment = "{$leftPad}# " . \implode("\n{$leftPad}# ", static::HELP_TOP);
+        }
+
+        if ($this instanceof AbstractCombo) {
             return \implode("\n", [
-                "{$leftPad}# " . \implode("\n{$leftPad}# ", static::HELP_TOP ?? self::HELP_TOP),
-                $renderLine(static::HELP_OPTIONS[self::EQ] ?? self::HELP_OPTIONS[self::EQ], self::EQ),
-                $renderLine(static::HELP_OPTIONS[self::NOT] ?? self::HELP_OPTIONS[self::NOT], self::NOT),
-                $renderLine(static::HELP_OPTIONS[self::MIN] ?? self::HELP_OPTIONS[self::MIN], self::MIN),
-                $renderLine(static::HELP_OPTIONS[self::MAX] ?? self::HELP_OPTIONS[self::MAX], self::MAX),
+                $topComment,
+                $renderLine(static::HELP_OPTIONS[self::EQ], self::EQ),
+                $renderLine(static::HELP_OPTIONS[self::NOT], self::NOT),
+                $renderLine(static::HELP_OPTIONS[self::MIN], self::MIN),
+                $renderLine(static::HELP_OPTIONS[self::MAX], self::MAX),
             ]);
         }
 
         return \implode("\n", [
-            $renderLine(static::HELP_OPTIONS[self::NONE] ?? self::HELP_OPTIONS[self::NONE], self::NONE),
+            $topComment,
+            $renderLine(static::HELP_OPTIONS[self::DEFAULT] ?? self::HELP_OPTIONS[self::DEFAULT], self::DEFAULT),
         ]);
     }
 
