@@ -24,14 +24,14 @@ class IsDate extends AbstarctCellRule
 
     public function validateRule(string $cellValue): ?string
     {
-        if (!$this->tryToParseDate($cellValue)) {
+        if (!self::tryToParseDate($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not a valid date.";
         }
 
         return null;
     }
 
-    protected function tryToParseDate(string $cellValue): bool
+    protected static function tryToParseDate(string $cellValue): bool
     {
         if ($cellValue === '') {
             return false;
