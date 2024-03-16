@@ -18,7 +18,6 @@ namespace JBZoo\PHPUnit\Rules;
 
 use JBZoo\CsvBlueprint\Rules\AbstarctRule as Combo;
 use JBZoo\PHPUnit\TestCase;
-
 use JBZoo\PHPUnit\Tools;
 
 use function JBZoo\PHPUnit\isFileContains;
