@@ -299,97 +299,120 @@ Available formats: [YAML](schema-examples/full.yml), [JSON](schema-examples/full
 filename_pattern: /demo(-\d+)?\.csv$/i
 
 csv: # Here are default values. You can skip this section if you don't need to override the default values
-  header: true                          # If the first row is a header. If true, name of each column is required
-  delimiter: ,                          # Delimiter character in CSV file
-  quote_char: \                         # Quote character in CSV file
-  enclosure: "\""                       # Enclosure for each field in CSV file
-  encoding: utf-8                       # (Experimental) Only utf-8, utf-16, utf-32 
-  bom: false                            # (Experimental) If the file has a BOM (Byte Order Mark) at the beginning
+  header: true                          # If the first row is a header. If true, name of each column is required.
+  delimiter: ,                          # Delimiter character in CSV file.
+  quote_char: \                         # Quote character in CSV file.
+  enclosure: "\""                       # Enclosure for each field in CSV file.
+  encoding: utf-8                       # (Experimental) Only utf-8, utf-16, utf-32.
+  bom: false                            # (Experimental) If the file has a BOM (Byte Order Mark) at the beginning.
 
 columns:
   - name: "Column Name (header)"        # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
     description: "Lorem ipsum"          # Optional. Description of the column. Not used in the validation process.
 
-    # Optional. You can use this section to validate each value in the column
+    # Optional. You can use this section to validate each value in the column.
     rules:
-      # You can use the rules in any combination. Or not use any of them.
-      # They are grouped below simply for ease of navigation and reading.
-      # If you see the value for the rule is "true" - that's just an enable flag.
-      # In other cases, these are rule parameters.
-
-      # IMPORTANT!!! All rules except "not_empty" ignored for empty strings.
-      # If you need to check the empty string, use "not_empty" rule as extra rule!
+      # Important notes:
+      # 1. All rules except "not_empty" ignored for empty strings (length 0).
+      #    If the value must be non-empty, use "not_empty" as extra rule!
+      # 2. All rules don't depend on each other. They are independent.
+      #    They know nothing about each other and cannot influence each other.
+      # 3. You can use the rules in any combination. Or not use any of them.
+      #    They are grouped below simply for ease of navigation and reading.
+      # 4. If you see the value for the rule is "true" - that's just an enable flag.
+      #    In other cases, these are rule parameters.
+      # 5. The order of rules execution is the same as in the scheme. But it doesn't matter.
+      #    The result will be the same in any order.
+      # 6. Most of the rules are case-sensitive. Unless otherwise specified.
+      # 7. As backup plan, you alsways can use the "regex" rule.
 
       # General rules
-      not_empty: true                   # Value is not an empty string. Actually checks if the string length is 0.
-      exact_value: Some string          # Case-sensitive. Exact value for string in the column
+      not_empty: true                   # Value is not an empty string. Actually checks if the string length is not 0.
+      exact_value: Some string          # Case-sensitive. Exact value for string in the column.
       allow_values: [ y, n, "" ]        # Strict set of values that are allowed. Case-sensitive.
 
-      # Strings only
-      regex: /^[\d]{2}$/                # Any valid regex pattern. See https://www.php.net/manual/en/reference.pcre.pattern.syntax.php
+      # Any valid regex pattern. See https://www.php.net/manual/en/reference.pcre.pattern.syntax.php.
+      # Of course it's an ultimatum to verify any sort of string data.
+      # Please, be careful. Regex is a powerful tool, but it can be very dangerous if used incorrectly.
+      # Remember that if you want to solve a problem with regex, you now have two problems.
+      regex: /^[\d]{2}$/
 
-      # Length of the string
-      length: 5                         # Integer only. Exact length of the string with spaces
-      length_min: 1                     # Integer only. Min length of the string with spaces
-      length_max: 10                    # Integer only. Max length of the string with spaces
+      # Checks length of a string including spaces (multibyte safe).
+      length: 5
+      length_not: 4
+      length_min: 1
+      length_max: 10
 
       # Basic string checks
-      is_trimed: true                   # Only trimed strings. Example: "Hello World" (not " Hello World ")
-      is_lowercase: true                # String is only lower-case. Example: "hello world"
-      is_uppercase: true                # String is only upper-case. Example: "HELLO WORLD"
-      is_capitalize: true               # String is only capitalized. Example: "Hello World"
+      is_trimed: true                   # Only trimed strings. Example: "Hello World" (not " Hello World ").
+      is_lowercase: true                # String is only lower-case. Example: "hello world".
+      is_uppercase: true                # String is only upper-case. Example: "HELLO WORLD".
+      is_capitalize: true               # String is only capitalized. Example: "Hello World".
 
-      # Words
-      word_count: 10                    # Integer only. Exact count of words in the string. Example: "Hello World, 123" - 2 words only (123 is not a word)
-      word_count_min: 1                 # Integer only. Min count of words in the string. Example: "Hello World. 123" - 2 words only (123 is not a word)
-      word_count_max: 5                 # Integer only. Max count of words in the string Example: "Hello World! 123" - 2 words only (123 is not a word)
+      # Count number of words used in a string.
+      # Note that multibyte locales are not supported.
+      # Example: "Hello World, 123" - 2 words only (123 is not a word).
+      word_count: 5
+      word_count_not: 4
+      word_count_min: 1
+      word_count_max: 10
 
       # Contains rules
-      contains: "Hello"                 # Case-sensitive. Example: "Hello World"
+      contains: Hello                   # Case-sensitive. Example: "Hello World".
       contains_one: [ a, b ]            # At least one of the string must be in the CSV value. Case-sensitive.
       contains_all: [ a, b, c ]         # All the strings must be part of a CSV value. Case-sensitive.
-      starts_with: "prefix "            # Case-sensitive. Example: "prefix Hello World"
-      ends_with: " suffix"              # Case-sensitive. Example: "Hello World suffix"
+      starts_with: "prefix "            # Case-sensitive. Example: "prefix Hello World".
+      ends_with: " suffix"              # Case-sensitive. Example: "Hello World suffix".
 
-      # Decimal and integer numbers
-      min: 10                           # Can be integer or float, negative and positive
-      max: 100.50                       # Can be integer or float, negative and positive
+      # Under the hood it convertes and compares as float values.
+      # Comparison accuracy is 12 digits after a dot.
+      # Scientific number format is also supported. Example: "1.2e3".
+      num: 5
+      num_not: 4
+      num_min: 1
+      num_max: 10
 
-      # Precision
-      precision: 3                      # Strict(!) number of digits after the decimal point
-      precision_min: 2                  # Min number of digits after the decimal point (with zeros)
-      precision_max: 4                  # Max number of digits after the decimal point (with zeros)
+      # Number of digits after the decimal point (with zeros).
+      precision: 5
+      precision_not: 4
+      precision_min: 1
+      precision_max: 10
 
-      # Dates (by default it works in UTC timezone)
-      # See https://www.php.net/manual/en/datetime.format.php
-      # See https://www.php.net/manual/en/function.strtotime.php
-      date: "2000-01-10"                # Parse(!) and compare values with the given date.
+      # Dates. Under the hood, the strings are converted to timestamp and compared.
+      # This gives you the ability to use relative dates and any formatting you want.
+      # By default, it works in UTC. But you can specify your own timezone as part of the date string.
+      # Format:    https://www.php.net/manual/en/datetime.format.php.
+      # Parsing:   https://www.php.net/manual/en/function.strtotime.php.
+      # Timezones: https://www.php.net/manual/en/timezones.php.
+      date: 01 Jan 2000                 # You can use any string that can be parsed by the strtotime function.
+      date_not: 2006-01-02 15:04:05 -0700 Europe/Rome
+      date_min: +1 day                  # Examples of relative formats.
+      date_max: now                     # Examples of current date and time.
       date_format: Y-m-d                # Check strict format of the date.
-      date_min: "2000-01-02"            # Minimal date. Can be a string or a relative date.
-      date_max: "+1 day"                # Maximal date. Can be a string or a relative date.
+      is_date: true                     # Recognizing string as date in any format. If timestamp > 0, the value is considered valid.
 
       # Specific formats
-      is_bool: true                     # Allow only boolean values "true" and "false", case-insensitive
-      is_int: true                      # Check format only. Can be negative and positive. Without any separators
-      is_float: true                    # Check format only. Can be negative and positive. Dot as decimal separator
-      is_ip: true                       # Only IPv4. Example: "127.0.0.1"
-      is_url: true                      # Only URL format. Example: "https://example.com/page?query=string#anchor"
-      is_email: true                    # Only email format. Example: "user@example.com"
-      is_domain: true                   # Only domain name. Example: "example.com"
-      is_uuid4: true                    # Only UUID4 format. Example: "550e8400-e29b-41d4-a716-446655440000"
-      is_alias: true                    # Only alias format. Example: "my-alias-123"
+      is_bool: true                     # Allow only boolean values "true" and "false", case-insensitive.
+      is_int: true                      # Check format only. Can be negative and positive. Without any separators.
+      is_float: true                    # Check format only. Can be negative and positive. Dot as decimal separator.
+      is_ip4: true                      # Only IPv4. Example: "127.0.0.1".
+      is_url: true                      # Only URL format. Example: "https://example.com/page?query=string#anchor".
+      is_email: true                    # Only email format. Example: "user@example.com".
+      is_domain: true                   # Only domain name. Example: "example.com".
+      is_uuid: true                     # Only UUID4 format. Example: "550e8400-e29b-41d4-a716-446655440000".
+      is_alias: true                    # Only alias format. Example: "my-alias-123". It can contain letters, numbers, and dashes.
 
       # Geography
-      is_latitude: true                 # Can be integer or float. Example: 50.123456
-      is_longitude: true                # Can be integer or float. Example: -89.123456
-      is_geohash: true                  # Check if the value is a valid geohash. Example: "u4pruydqqvj"
-      is_cardinal_direction: true       # Valid cardinal direction. Examples: "N", "S", "NE", "SE", "none", ""
-      is_usa_market_name: true          # Check if the value is a valid USA market name. Example: "New York, NY"
+      is_latitude: true                 # Can be integer or float. Example: 50.123456.
+      is_longitude: true                # Can be integer or float. Example: -89.123456.
+      is_geohash: true                  # Check if the value is a valid geohash. Example: "u4pruydqqvj".
+      is_cardinal_direction: true       # Valid cardinal direction. Examples: "N", "S", "NE", "SE", "none", "".
+      is_usa_market_name: true          # Check if the value is a valid USA market name. Example: "New York, NY".
 
     # Optional. You can use this section to validate the whole column
     # Be careful, this can reduce performance noticeably depending on the combination of rules.
     aggregate_rules:
-      is_unique: true                   # All values in the column are unique
+      is_unique: true                   # All values in the column are unique.
 
   - name: "another_column"
 
