@@ -14,7 +14,7 @@
 
 declare(strict_types=1);
 
-namespace JBZoo\PHPUnit\Blueprint;
+namespace JBZoo\PHPUnit\Csv;
 
 use JBZoo\CsvBlueprint\Csv\CsvFile;
 use JBZoo\PHPUnit\PHPUnit;
