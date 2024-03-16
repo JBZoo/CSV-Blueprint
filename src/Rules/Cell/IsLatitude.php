@@ -18,6 +18,10 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 final class IsLatitude extends IsFloat
 {
+    protected const HELP_OPTIONS = [
+        self::DEFAULT => ['__', '__'],
+    ];
+
     private float $min = -90.0;
     private float $max = 90.0;
 

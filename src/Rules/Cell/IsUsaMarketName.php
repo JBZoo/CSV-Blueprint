@@ -18,6 +18,10 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 final class IsUsaMarketName extends AllowValues
 {
+    protected const HELP_OPTIONS = [
+        self::DEFAULT => ['__', '__'],
+    ];
+
     public function validateRule(string $cellValue): ?string
     {
         if (\preg_match('/^[A-Za-z0-9\s-]+, [A-Z]{2}$/u', $cellValue) === 0) {

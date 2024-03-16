@@ -20,6 +20,10 @@ use JBZoo\Utils\Filter;
 
 final class IsAlias extends AbstarctCellRule
 {
+    protected const HELP_OPTIONS = [
+        self::DEFAULT => ['__', '__'],
+    ];
+
     public function validateRule(string $cellValue): ?string
     {
         $alias = Filter::alias($cellValue);

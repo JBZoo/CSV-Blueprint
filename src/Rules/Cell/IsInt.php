@@ -18,6 +18,10 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 final class IsInt extends AbstarctCellRule
 {
+    protected const HELP_OPTIONS = [
+        self::DEFAULT => ['__', '__'],
+    ];
+
     public function validateRule(string $cellValue): ?string
     {
         if (\preg_match('/^-?\d+$/', $cellValue) === 0) {

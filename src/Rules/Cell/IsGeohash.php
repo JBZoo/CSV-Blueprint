@@ -18,6 +18,10 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 class IsGeohash extends AbstarctCellRule
 {
+    protected const HELP_OPTIONS = [
+        self::DEFAULT => ['__', '__'],
+    ];
+
     public function validateRule(string $cellValue): ?string
     {
         if (\preg_match('/^[0-9b-hj-km-np-z]{1,}$/', $cellValue) === 0) {

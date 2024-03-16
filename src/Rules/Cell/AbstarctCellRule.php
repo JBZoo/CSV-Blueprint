@@ -25,4 +25,11 @@ abstract class AbstarctCellRule extends AbstarctRule
      * This method takes a string $cellValue as input and returns a nullable string.
      */
     abstract public function validateRule(string $cellValue): ?string;
+
+    public function test(string $cellValue, bool $isHtml = false): string
+    {
+        $errorMessage = (string)$this->validateRule($cellValue);
+
+        return $isHtml ? $errorMessage : \strip_tags($errorMessage);
+    }
 }

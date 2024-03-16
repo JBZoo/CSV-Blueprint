@@ -49,12 +49,4 @@ final class AllowValuesTest extends AbstractCellRuleTest
             \strip_tags((string)$rule->validate('invalid')),
         );
     }
-
-    public function testInvalidOption(): void
-    {
-    }
-
-    public function testInvalidParsing(): void
-    {
-    }
 }

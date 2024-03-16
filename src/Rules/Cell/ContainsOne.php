@@ -18,6 +18,10 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 final class ContainsOne extends AbstarctCellRule
 {
+    protected const HELP_OPTIONS = [
+        self::DEFAULT => ['__', '__'],
+    ];
+
     public function validateRule(string $cellValue): ?string
     {
         if ($cellValue === '') {
@@ -30,7 +34,7 @@ final class ContainsOne extends AbstarctCellRule
         }
 
         foreach ($inclusions as $inclusion) {
-            if (\strpos($cellValue, (string)$inclusion) !== false) {
+            if (\strpos($cellValue, $inclusion) !== false) {
                 return null;
             }
         }

@@ -131,7 +131,7 @@ abstract class AbstarctRule
 
     protected function getOptionAsString(): string
     {
-        if ($this->options === '' || \is_array($this->options)) {
+        if (\is_array($this->options)) {
             // TODO: Replace to warning message
             throw new Exception(
                 "Invalid option \"{$this->options}\" for the \"{$this->getRuleCode()}\" rule. It should be int/float/string.",

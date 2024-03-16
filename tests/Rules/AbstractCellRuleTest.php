@@ -29,9 +29,9 @@ abstract class AbstractCellRuleTest extends TestCase
 
     abstract public function testNegative(): void;
 
-    abstract public function testInvalidOption(): void;
+    // abstract public function testInvalidOption(): void;
 
-    abstract public function testInvalidParsing(): void;
+    // abstract public function testInvalidParsing(): void;
 
     public function testHelpMessageInExample(): void
     {

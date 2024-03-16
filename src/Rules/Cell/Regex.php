@@ -20,6 +20,10 @@ use JBZoo\CsvBlueprint\Utils;
 
 final class Regex extends AbstarctCellRule
 {
+    protected const HELP_OPTIONS = [
+        self::DEFAULT => ['__', '__'],
+    ];
+
     public function validateRule(string $cellValue): ?string
     {
         if ($cellValue === '') {
