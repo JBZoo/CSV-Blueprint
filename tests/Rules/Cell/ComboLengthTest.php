@@ -20,7 +20,6 @@ use JBZoo\CsvBlueprint\Rules\AbstractCombo as Combo;
 use JBZoo\CsvBlueprint\Rules\Cell\ComboLength;
 use JBZoo\PHPUnit\Rules\AbstractCellRuleComboTest;
 
-use function JBZoo\PHPUnit\isFileContains;
 use function JBZoo\PHPUnit\isSame;
 use function JBZoo\PHPUnit\success;
 

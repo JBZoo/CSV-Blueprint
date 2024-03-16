@@ -16,14 +16,11 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Blueprint;
 
-use JBZoo\CsvBlueprint\Rules\Cell\AllowValues;
 use JBZoo\CsvBlueprint\Rules\Cell\Contains;
 use JBZoo\CsvBlueprint\Rules\Cell\ContainsAll;
 use JBZoo\CsvBlueprint\Rules\Cell\ContainsOne;
 use JBZoo\CsvBlueprint\Rules\Cell\Date;
 use JBZoo\CsvBlueprint\Rules\Cell\DateFormat;
-use JBZoo\CsvBlueprint\Rules\Cell\DateMax;
-use JBZoo\CsvBlueprint\Rules\Cell\DateMin;
 use JBZoo\CsvBlueprint\Rules\Cell\EndsWith;
 use JBZoo\CsvBlueprint\Rules\Cell\ExactValue;
 use JBZoo\CsvBlueprint\Rules\Cell\IsAlias;
@@ -66,9 +63,6 @@ final class CellRulesTest extends PHPUnit
 
     public function testAllowValues(): void
     {
-
-
-
     }
 
     public function testDateFormat(): void
