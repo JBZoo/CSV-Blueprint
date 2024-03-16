@@ -19,7 +19,7 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 final class IsUrl extends AbstarctCellRule
 {
     protected const HELP_OPTIONS = [
-        self::DEFAULT => ['__', '__'],
+        self::DEFAULT => ['true', 'Only URL format. Example: "https://example.com/page?query=string#anchor"'],
     ];
 
     public function validateRule(string $cellValue): ?string

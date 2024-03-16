@@ -19,7 +19,7 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 final class IsLowercase extends AbstarctCellRule
 {
     protected const HELP_OPTIONS = [
-        self::DEFAULT => ['__', '__'],
+        self::DEFAULT => ['true', 'String is only lower-case. Example: "hello world".'],
     ];
 
     public function validateRule(string $cellValue): ?string

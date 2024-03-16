@@ -19,7 +19,7 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 final class ExactValue extends AbstarctCellRule
 {
     protected const HELP_OPTIONS = [
-        self::DEFAULT => ['__', '__'],
+        self::DEFAULT => ['Some string', 'Case-sensitive. Exact value for string in the column.'],
     ];
 
     public function validateRule(string $cellValue): ?string

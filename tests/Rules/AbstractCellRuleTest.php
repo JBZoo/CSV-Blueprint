@@ -38,7 +38,7 @@ abstract class AbstractCellRuleTest extends TestCase
         isFileContains($this->create(6)->getHelp(), PROJECT_ROOT . '/schema-examples/full.yml');
     }
 
-    protected function create(array|float|int|string $value): AbstarctCellRule
+    protected function create(array|bool|float|int|string $value): AbstarctCellRule
     {
         return new $this->ruleClass('prop', $value);
     }

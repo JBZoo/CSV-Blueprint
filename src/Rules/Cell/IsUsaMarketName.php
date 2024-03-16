@@ -19,12 +19,12 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 final class IsUsaMarketName extends AllowValues
 {
     protected const HELP_OPTIONS = [
-        self::DEFAULT => ['__', '__'],
+        self::DEFAULT => ['true', 'Check if the value is a valid USA market name. Example: "New York, NY"'],
     ];
 
     public function validateRule(string $cellValue): ?string
     {
-        if (\preg_match('/^[A-Za-z0-9\s-]+, [A-Z]{2}$/u', $cellValue) === 0) {
+        if (\preg_match('/^[A-Za-z\s\'\-\.,]+, [A-Z]{2}$/u', $cellValue) === 0) {
             return "Invalid market name format for value \"<c>{$cellValue}</c>\". " .
                 'Market name must have format "<green>New York, NY</green>"';
         }

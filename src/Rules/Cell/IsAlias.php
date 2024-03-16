@@ -21,7 +21,10 @@ use JBZoo\Utils\Filter;
 final class IsAlias extends AbstarctCellRule
 {
     protected const HELP_OPTIONS = [
-        self::DEFAULT => ['__', '__'],
+        self::DEFAULT => [
+            'true',
+            'Only alias format. Example: "my-alias-123". It can contain letters, numbers, and dashes.',
+        ],
     ];
 
     public function validateRule(string $cellValue): ?string

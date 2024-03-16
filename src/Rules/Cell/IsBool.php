@@ -19,7 +19,7 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 final class IsBool extends AllowValues
 {
     protected const HELP_OPTIONS = [
-        self::DEFAULT => ['__', '__'],
+        self::DEFAULT => ['true', 'Allow only boolean values "true" and "false", case-insensitive'],
     ];
 
     public function validateRule(string $cellValue): ?string

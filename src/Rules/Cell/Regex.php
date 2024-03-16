@@ -20,8 +20,15 @@ use JBZoo\CsvBlueprint\Utils;
 
 final class Regex extends AbstarctCellRule
 {
+    protected const HELP_TOP = [
+        'Any valid regex pattern. See https://www.php.net/manual/en/reference.pcre.pattern.syntax.php',
+        "Of course it's an ultimatum to verify any sort of string data.",
+        'Please, be careful. Regex is a powerful tool, but it can be very dangerous if used incorrectly.',
+        'Remember that if you want to solve a problem with regex, you now have two problems.',
+    ];
+
     protected const HELP_OPTIONS = [
-        self::DEFAULT => ['__', '__'],
+        self::DEFAULT => ['/^[\d]{2}$/'],
     ];
 
     public function validateRule(string $cellValue): ?string

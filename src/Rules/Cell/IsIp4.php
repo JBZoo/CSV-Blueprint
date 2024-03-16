@@ -16,10 +16,10 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class IsIp extends AbstarctCellRule
+final class IsIp4 extends AbstarctCellRule
 {
     protected const HELP_OPTIONS = [
-        self::DEFAULT => ['__', '__'],
+        self::DEFAULT => ['true', 'Only IPv4. Example: "127.0.0.1"'],
     ];
 
     public function validateRule(string $cellValue): ?string

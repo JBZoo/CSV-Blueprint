@@ -19,11 +19,15 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 final class DateFormat extends AbstarctCellRule
 {
     protected const HELP_OPTIONS = [
-        self::DEFAULT => ['__', '__'],
+        self::DEFAULT => ['Y-m-d', 'Check strict format of the date.'],
     ];
 
     public function validateRule(string $cellValue): ?string
     {
+        if ($cellValue === '') {
+            return null;
+        }
+
         $expectedDateFormat = $this->getOptionAsString();
         if ($expectedDateFormat === '') {
             return 'Date format is not defined';

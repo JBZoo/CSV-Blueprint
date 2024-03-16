@@ -19,7 +19,7 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 final class ContainsOne extends AbstarctCellRule
 {
     protected const HELP_OPTIONS = [
-        self::DEFAULT => ['__', '__'],
+        self::DEFAULT => ['[ a, b ]', 'At least one of the string must be in the CSV value. Case-sensitive.'],
     ];
 
     public function validateRule(string $cellValue): ?string

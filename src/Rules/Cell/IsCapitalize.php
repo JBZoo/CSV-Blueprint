@@ -19,7 +19,7 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 final class IsCapitalize extends AbstarctCellRule
 {
     protected const HELP_OPTIONS = [
-        self::DEFAULT => ['__', '__'],
+        self::DEFAULT => ['true', 'String is only capitalized. Example: "Hello World".'],
     ];
 
     public function validateRule(string $cellValue): ?string

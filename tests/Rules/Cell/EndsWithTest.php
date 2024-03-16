@@ -16,36 +16,36 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\Cell\AllowValues;
+use JBZoo\CsvBlueprint\Rules\Cell\EndsWith;
 use JBZoo\PHPUnit\Rules\AbstractCellRuleTest;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class AllowValuesTest extends AbstractCellRuleTest
+final class EndsWithTest extends AbstractCellRuleTest
 {
-    protected string $ruleClass = AllowValues::class;
+    protected string $ruleClass = EndsWith::class;
 
     public function testPositive(): void
     {
-        $rule = $this->create(['1', '2', '3']);
-        isSame('', $rule->test('1'));
-        isSame('', $rule->test('2'));
-        isSame('', $rule->test('3'));
-
-        $rule = $this->create(['1', '2', '3', '']);
+        $rule = $this->create('a');
         isSame('', $rule->test(''));
-
-        $rule = $this->create(['1', '2', '3', ' ']);
-        isSame('', $rule->test(' '));
+        isSame('', $rule->test('a'));
+        isSame('', $rule->test('cba'));
+        isSame('', $rule->test(''));
     }
 
     public function testNegative(): void
     {
-        $rule = $this->create(['1', '2', '3']);
-
+        $rule = $this->create('a');
         isSame(
-            'Value "invalid" is not allowed. Allowed values: ["1", "2", "3"]',
-            $rule->test('invalid'),
+            'Value "a " must end with "a"',
+            $rule->test('a '),
+        );
+
+        $rule = $this->create('');
+        isSame(
+            'Rule must contain a suffix value in schema file.',
+            $rule->test('a '),
         );
     }
 }

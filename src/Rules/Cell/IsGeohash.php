@@ -19,7 +19,7 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 class IsGeohash extends AbstarctCellRule
 {
     protected const HELP_OPTIONS = [
-        self::DEFAULT => ['__', '__'],
+        self::DEFAULT => ['true', 'Check if the value is a valid geohash. Example: "u4pruydqqvj"'],
     ];
 
     public function validateRule(string $cellValue): ?string

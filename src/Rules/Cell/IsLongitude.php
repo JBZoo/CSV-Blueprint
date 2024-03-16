@@ -19,7 +19,7 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 final class IsLongitude extends IsFloat
 {
     protected const HELP_OPTIONS = [
-        self::DEFAULT => ['__', '__'],
+        self::DEFAULT => ['true', 'Can be integer or float. Example: -89.123456'],
     ];
 
     private float $min = -180.0;

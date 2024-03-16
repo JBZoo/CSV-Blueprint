@@ -16,36 +16,32 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\Cell\AllowValues;
+use JBZoo\CsvBlueprint\Rules\Cell\DateFormat;
 use JBZoo\PHPUnit\Rules\AbstractCellRuleTest;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class AllowValuesTest extends AbstractCellRuleTest
+final class DateFormatTest extends AbstractCellRuleTest
 {
-    protected string $ruleClass = AllowValues::class;
+    protected string $ruleClass = DateFormat::class;
 
     public function testPositive(): void
     {
-        $rule = $this->create(['1', '2', '3']);
-        isSame('', $rule->test('1'));
-        isSame('', $rule->test('2'));
-        isSame('', $rule->test('3'));
-
-        $rule = $this->create(['1', '2', '3', '']);
+        $rule = $this->create('Y-m-d');
         isSame('', $rule->test(''));
-
-        $rule = $this->create(['1', '2', '3', ' ']);
-        isSame('', $rule->test(' '));
+        isSame('', $rule->test('2000-12-31'));
     }
 
     public function testNegative(): void
     {
-        $rule = $this->create(['1', '2', '3']);
-
+        $rule = $this->create('Y-m-d');
         isSame(
-            'Value "invalid" is not allowed. Allowed values: ["1", "2", "3"]',
-            $rule->test('invalid'),
+            'Date format of value "12" is not valid. Expected format: "Y-m-d"',
+            $rule->test('12'),
+        );
+        isSame(
+            'Date format of value "2000-01-02 12:34:56" is not valid. Expected format: "Y-m-d"',
+            $rule->test('2000-01-02 12:34:56'),
         );
     }
 }

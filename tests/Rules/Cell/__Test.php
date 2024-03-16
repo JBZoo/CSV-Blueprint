@@ -14,16 +14,19 @@
 
 declare(strict_types=1);
 
-namespace JBZoo\CsvBlueprint\Rules\Cell;
+namespace JBZoo\PHPUnit\Rules\Cell;
 
-final class IsCardinalDirection extends AllowValues
+use JBZoo\PHPUnit\Rules\AbstractCellRuleTest;
+
+final class __Test extends AbstractCellRuleTest
 {
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => ['true', 'Valid cardinal direction. Examples: "N", "S", "NE", "SE", "none", ""'],
-    ];
+    protected string $ruleClass = __::class;
 
-    public function getOptionAsArray(): array
+    public function testPositive(): void
     {
-        return ['N', 'S', 'E', 'W', 'NE', 'SE', 'NW', 'SW', 'none', ''];
+    }
+
+    public function testNegative(): void
+    {
     }
 }

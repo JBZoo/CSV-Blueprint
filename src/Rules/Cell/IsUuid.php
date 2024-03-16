@@ -16,20 +16,18 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class WordCountMin extends AbstarctCellRule
+final class IsUuid extends AbstarctCellRule
 {
+    protected const HELP_OPTIONS = [
+        self::DEFAULT => ['true', 'Only UUID4 format. Example: "550e8400-e29b-41d4-a716-446655440000"'],
+    ];
+
     public function validateRule(string $cellValue): ?string
     {
-        if ($cellValue === '') {
-            return null;
-        }
+        $uuid4 = '/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89ABab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/';
 
-        $wordCount = $this->getOptionAsInt();
-        $count     = \str_word_count($cellValue);
-
-        if ($count < $wordCount) {
-            return "Value \"<c>{$cellValue}</c>\" has {$count} words, " .
-                "but must have at least <green>{$wordCount}</green> words";
+        if (\preg_match($uuid4, $cellValue) === 0) {
+            return 'Value is not a valid UUID v4';
         }
 
         return null;

@@ -16,36 +16,38 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\Cell\AllowValues;
+use JBZoo\CsvBlueprint\Rules\Cell\IsUppercase;
 use JBZoo\PHPUnit\Rules\AbstractCellRuleTest;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class AllowValuesTest extends AbstractCellRuleTest
+final class IsUppercaseTest extends AbstractCellRuleTest
 {
-    protected string $ruleClass = AllowValues::class;
+    protected string $ruleClass = IsUppercase::class;
 
     public function testPositive(): void
     {
-        $rule = $this->create(['1', '2', '3']);
-        isSame('', $rule->test('1'));
-        isSame('', $rule->test('2'));
-        isSame('', $rule->test('3'));
-
-        $rule = $this->create(['1', '2', '3', '']);
-        isSame('', $rule->test(''));
-
-        $rule = $this->create(['1', '2', '3', ' ']);
+        $rule = $this->create(true);
+        isSame(null, $rule->validate(''));
+        isSame('', $rule->test('0'));
+        isSame('', $rule->test('FALSE'));
+        isSame('', $rule->test('QWE RTY'));
         isSame('', $rule->test(' '));
+
+        $rule = $this->create(false);
+        isSame(null, $rule->validate('Qwerty'));
     }
 
     public function testNegative(): void
     {
-        $rule = $this->create(['1', '2', '3']);
-
+        $rule = $this->create(true);
         isSame(
-            'Value "invalid" is not allowed. Allowed values: ["1", "2", "3"]',
-            $rule->test('invalid'),
+            'Value "Qwerty" is not uppercase',
+            $rule->test('Qwerty'),
+        );
+        isSame(
+            'Value "qwe Rty" is not uppercase',
+            $rule->test('qwe Rty'),
         );
     }
 }

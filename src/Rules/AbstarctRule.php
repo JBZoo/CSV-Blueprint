@@ -98,7 +98,10 @@ abstract class AbstarctRule
 
         $topComment = '';
         if (\count(static::HELP_TOP) > 0) {
-            $topComment = "{$leftPad}# " . \implode("\n{$leftPad}# ", static::HELP_TOP);
+            $topComment = "{$leftPad}# " . \implode(
+                "\n{$leftPad}# ",
+                \array_map(static fn ($item) => \rtrim($item, '.') . '.', static::HELP_TOP),
+            );
         }
 
         if ($this instanceof AbstractCombo) {
