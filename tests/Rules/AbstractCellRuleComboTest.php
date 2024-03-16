@@ -16,9 +16,10 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules;
 
-use JBZoo\CsvBlueprint\Rules\AbstractCombo;
-use JBZoo\CsvBlueprint\Rules\AbstractCombo as Combo;
+use JBZoo\CsvBlueprint\Rules\AbstarctRule as Combo;
 use JBZoo\PHPUnit\TestCase;
+
+use JBZoo\PHPUnit\Tools;
 
 use function JBZoo\PHPUnit\isFileContains;
 
@@ -40,10 +41,10 @@ abstract class AbstractCellRuleComboTest extends TestCase
 
     public function testHelpMessageInExample(): void
     {
-        isFileContains($this->create(6, Combo::MAX)->getHelp(), PROJECT_ROOT . '/schema-examples/full.yml');
+        isFileContains($this->create(6, Combo::MAX)->getHelp(), Tools::SCHEMA_FULL);
     }
 
-    protected function create(array|float|int|string $value, string $mode): AbstractCombo
+    protected function create(array|float|int|string $value, string $mode): Combo
     {
         return new $this->ruleClass('prop', $value, $mode);
     }

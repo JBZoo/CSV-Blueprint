@@ -30,7 +30,7 @@ final class ReadmeTest extends TestCase
             '',
             Tools::realExecution('validate:csv', ['help' => null]),
             '```',
-        ]), PROJECT_ROOT . '/README.md');
+        ]), Tools::README);
     }
 
     public function testTableOutputExample(): void
@@ -51,6 +51,6 @@ final class ReadmeTest extends TestCase
             '',
             $actual,
             '```',
-        ]), PROJECT_ROOT . '/README.md');
+        ]), Tools::README);
     }
 }

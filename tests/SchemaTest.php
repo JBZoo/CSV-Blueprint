@@ -25,8 +25,8 @@ final class SchemaTest extends TestCase
         $schemaEmpty = new Schema(Tools::SCHEMA_EXAMPLE_EMPTY);
         isSame(Tools::SCHEMA_EXAMPLE_EMPTY, $schemaEmpty->getFilename());
 
-        $schemaFull = new Schema(Tools::SCHEMA_EXAMPLE_FULL);
-        isSame(Tools::SCHEMA_EXAMPLE_FULL, $schemaFull->getFilename());
+        $schemaFull = new Schema(Tools::SCHEMA_FULL);
+        isSame(Tools::SCHEMA_FULL, $schemaFull->getFilename());
     }
 
     public function testGetFinenamePattern(): void
@@ -34,7 +34,7 @@ final class SchemaTest extends TestCase
         $schemaEmpty = new Schema(Tools::SCHEMA_EXAMPLE_EMPTY);
         isSame(null, $schemaEmpty->getFilenamePattern());
 
-        $schemaFull = new Schema(Tools::SCHEMA_EXAMPLE_FULL);
+        $schemaFull = new Schema(Tools::SCHEMA_FULL);
         isSame('/demo(-\d+)?\.csv$/i', $schemaFull->getFilenamePattern());
     }
 
@@ -53,7 +53,7 @@ final class SchemaTest extends TestCase
             // 'other_columns_possible' => false,
         ], $schemaEmpty->getCsvStructure()->getArrayCopy());
 
-        $schemaFull = new Schema(Tools::SCHEMA_EXAMPLE_FULL);
+        $schemaFull = new Schema(Tools::SCHEMA_FULL);
         isSame([
             // 'inherit'                => 'alias_1',
             'header'     => true,
@@ -72,7 +72,7 @@ final class SchemaTest extends TestCase
         $schemaEmpty = new Schema(Tools::SCHEMA_EXAMPLE_EMPTY);
         isSame([], $schemaEmpty->getColumns());
 
-        $schemaFull = new Schema(Tools::SCHEMA_EXAMPLE_FULL);
+        $schemaFull = new Schema(Tools::SCHEMA_FULL);
         isSame([
             0 => 'Column Name (header)',
             1 => 'another_column',
@@ -83,7 +83,7 @@ final class SchemaTest extends TestCase
 
     public function testColumnByNameAndId(): void
     {
-        $schemaFull = new Schema(Tools::SCHEMA_EXAMPLE_FULL);
+        $schemaFull = new Schema(Tools::SCHEMA_FULL);
         isNotNull($schemaFull->getColumn(0));
         isNotNull($schemaFull->getColumn('Column Name (header)'));
 
@@ -99,7 +99,7 @@ final class SchemaTest extends TestCase
         $schemaEmpty = new Schema(Tools::SCHEMA_EXAMPLE_EMPTY);
         isSame([], $schemaEmpty->getIncludes());
 
-        $schemaFull = new Schema(Tools::SCHEMA_EXAMPLE_FULL);
+        $schemaFull = new Schema(Tools::SCHEMA_FULL);
         isSame([
             'alias_1' => '/path/schema_1.yml',
             'alias_2' => './path/schema_2.yml',
@@ -127,7 +127,7 @@ final class SchemaTest extends TestCase
 
     public function testGetColumnMinimal(): void
     {
-        $schemaFull = new Schema(Tools::SCHEMA_EXAMPLE_FULL);
+        $schemaFull = new Schema(Tools::SCHEMA_FULL);
         $column     = $schemaFull->getColumn(0);
 
         isSame('Column Name (header)', $column->getName());
@@ -144,7 +144,7 @@ final class SchemaTest extends TestCase
 
     public function testGetColumnProps(): void
     {
-        $schemaFull = new Schema(Tools::SCHEMA_EXAMPLE_FULL);
+        $schemaFull = new Schema(Tools::SCHEMA_FULL);
         $column     = $schemaFull->getColumn(0);
 
         isSame('Column Name (header)', $column->getName());
@@ -161,7 +161,7 @@ final class SchemaTest extends TestCase
 
     public function testGetColumnRules(): void
     {
-        $schemaFull   = new Schema(Tools::SCHEMA_EXAMPLE_FULL);
+        $schemaFull   = new Schema(Tools::SCHEMA_FULL);
         $columnByName = $schemaFull->getColumn('Column Name (header)');
         $columnById   = $schemaFull->getColumn(0);
 
@@ -222,7 +222,7 @@ final class SchemaTest extends TestCase
 
     public function testGetColumnAggregateRules(): void
     {
-        $schemaFull = new Schema(Tools::SCHEMA_EXAMPLE_FULL);
+        $schemaFull = new Schema(Tools::SCHEMA_FULL);
         $column     = $schemaFull->getColumn(0);
 
         isSame([

@@ -19,6 +19,8 @@ namespace JBZoo\PHPUnit\Rules;
 use JBZoo\CsvBlueprint\Rules\Cell\AbstarctCellRule;
 use JBZoo\PHPUnit\TestCase;
 
+use JBZoo\PHPUnit\Tools;
+
 use function JBZoo\PHPUnit\isFileContains;
 
 abstract class AbstractCellRuleTest extends TestCase
@@ -35,7 +37,7 @@ abstract class AbstractCellRuleTest extends TestCase
 
     public function testHelpMessageInExample(): void
     {
-        isFileContains($this->create(6)->getHelp(), PROJECT_ROOT . '/schema-examples/full.yml');
+        isFileContains($this->create(6)->getHelp(), Tools::SCHEMA_FULL);
     }
 
     protected function create(array|bool|float|int|string $value): AbstarctCellRule

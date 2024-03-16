@@ -36,7 +36,11 @@ final class Tools
     public const SCHEMA_SIMPLE_HEADER_JSON = './tests/schemas/simple_header.json';
     public const SCHEMA_EXAMPLE_EMPTY      = './tests/schemas/example_empty.yml';
 
-    public const SCHEMA_EXAMPLE_FULL = './schema-examples/full.yml';
+    public const SCHEMA_FULL      = './schema-examples/full.yml';
+    public const SCHEMA_FULL_JSON = './schema-examples/full.json';
+    public const SCHEMA_FULL_PHP  = './schema-examples/full.php';
+
+    public const README = './README.md';
 
     public static function virtualExecution(string $action, array $params = []): array
     {

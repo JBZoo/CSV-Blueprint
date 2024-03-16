@@ -28,7 +28,7 @@ final class ExampleSchemasTest extends TestCase
 {
     public function testFullListOfRules(): void
     {
-        $rulesInConfig = yml(PROJECT_ROOT . '/schema-examples/full.yml')->findArray('columns.0.rules');
+        $rulesInConfig = yml(Tools::SCHEMA_FULL)->findArray('columns.0.rules');
         $rulesInConfig = \array_keys($rulesInConfig);
         \sort($rulesInConfig);
 
@@ -87,7 +87,7 @@ final class ExampleSchemasTest extends TestCase
 
     public function testCsvStrutureDefaultValues(): void
     {
-        $defaultsInDoc = yml(PROJECT_ROOT . '/schema-examples/full.yml')->findArray('csv');
+        $defaultsInDoc = yml(Tools::SCHEMA_FULL)->findArray('csv');
 
         $schema = new Schema([]);
         $schema->getCsvStructure()->getArrayCopy();
@@ -98,15 +98,15 @@ final class ExampleSchemasTest extends TestCase
     public function testCompareExamplesWithOrig(): void
     {
         $basepath = PROJECT_ROOT . '/schema-examples/full';
-        $origYml  = yml("{$basepath}.yml")->getArrayCopy();
+        $origYml  = yml(Tools::SCHEMA_FULL)->getArrayCopy();
 
-        isSame((string)phpArray($origYml), (string)phpArray("{$basepath}.php"), 'PHP config is invalid');
-        isSame((string)json($origYml), (string)json("{$basepath}.json"), 'JSON config is invalid');
+        isSame((string)phpArray(Tools::SCHEMA_FULL_PHP), (string)phpArray($origYml), 'PHP config is invalid');
+        isSame((string)json(Tools::SCHEMA_FULL_JSON), (string)json($origYml), 'JSON config is invalid');
     }
 
     public function testUniqueNameOfRules(): void
     {
-        $yml = yml(PROJECT_ROOT . '/schema-examples/full.yml');
+        $yml = yml(Tools::SCHEMA_FULL);
 
         $rules     = \array_keys($yml->findArray('columns.0.rules'));
         $agRules   = \array_keys($yml->findArray('columns.0.aggregate_rules'));
@@ -117,7 +117,7 @@ final class ExampleSchemasTest extends TestCase
 
     public function testRuleNaming(): void
     {
-        $yml = yml(PROJECT_ROOT . '/schema-examples/full.yml');
+        $yml = yml(Tools::SCHEMA_FULL);
 
         $rules = $yml->findArray('columns.0.rules');
 
@@ -135,7 +135,7 @@ final class ExampleSchemasTest extends TestCase
     {
         $filepath = \implode(
             "\n",
-            \array_slice(\explode("\n", \file_get_contents(PROJECT_ROOT . '/schema-examples/full.yml')), 12),
+            \array_slice(\explode("\n", \file_get_contents(Tools::SCHEMA_FULL)), 12),
         );
 
         $tmpl = \implode("\n", ['```yml', $filepath, '```']);
