@@ -49,7 +49,7 @@ abstract class AbstarctAggregateRuleCombo extends AbstarctRuleCombo
         $verb   = static::VERBS[$mode];
         $name   = static::NAME;
 
-        $actual   = $this->getActual(\array_map('floatval', $colValues));
+        $actual   = $this->getActual($colValues);
         $expected = $this->getExpected();
 
         if (!self::compare($expected, $actual, $mode)) {
@@ -63,5 +63,10 @@ abstract class AbstarctAggregateRuleCombo extends AbstarctRuleCombo
     protected function getRuleCode(?string $mode = null): string
     {
         return 'ag:' . parent::getRuleCode($mode);
+    }
+
+    protected function convetrArrayToFloat(array $colValues): array
+    {
+        return \array_map('floatval', $colValues);
     }
 }

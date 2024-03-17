@@ -101,6 +101,11 @@ return [
                 'average_not' => 4.123,
                 'average_min' => 1.123,
                 'average_max' => 10.123,
+
+                'count'     => 5,
+                'count_not' => 4,
+                'count_min' => 1,
+                'count_max' => 10,
             ],
         ],
         ['name'        => 'another_column'],
