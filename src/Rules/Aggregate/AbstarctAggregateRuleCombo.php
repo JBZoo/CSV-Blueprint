@@ -31,13 +31,18 @@ abstract class AbstarctAggregateRuleCombo extends AbstarctRuleCombo
         return $this->getActualAggregate($value);
     }
 
+    protected function getExpected(): float
+    {
+        return $this->getOptionAsFloat();
+    }
+
     protected function validateComboAggregate(array $colValues, string $mode): ?string
     {
         $prefix = $mode === self::NOT ? 'not ' : '';
         $verb   = static::VERBS[$mode];
         $name   = static::NAME;
 
-        $actual   = $this->getActual($colValues);
+        $actual   = $this->getActual(\array_map('floatval', $colValues));
         $expected = $this->getExpected();
 
         if (!self::compare($expected, $actual, $mode)) {
@@ -46,5 +51,10 @@ abstract class AbstarctAggregateRuleCombo extends AbstarctRuleCombo
         }
 
         return null;
+    }
+
+    protected function getRuleCode(?string $mode = null): string
+    {
+        return 'ag:' . parent::getRuleCode($mode);
     }
 }

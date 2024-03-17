@@ -179,7 +179,7 @@ final class SchemaTest extends TestCase
             'not_empty' => true,
             'is_float'  => true,
             'num_min'   => -19366059128,
-            'num_max'   => 74606,
+            'num_max'   => 4825.186,
         ], $schema->getColumn(2)->getRules());
     }
 

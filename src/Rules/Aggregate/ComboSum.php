@@ -25,11 +25,6 @@ final class ComboSum extends AbstarctAggregateRuleCombo
         'An empty string is converted to null.',
     ];
 
-    protected function getExpected(): float
-    {
-        return $this->getOptionAsFloat();
-    }
-
     protected function getActualAggregate(array $colValues): float
     {
         return \array_sum($colValues);

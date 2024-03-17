@@ -72,6 +72,17 @@ abstract class AbstarctRuleCombo extends AbstarctRule
 
     protected static function compare(float $expected, float $actual, string $mode): bool
     {
+        // Rounding numbers to 10 decimal places before strict comparison is necessary due to the inherent
+        // imprecision of floating-point arithmetic. Computers represent floating-point numbers in binary,
+        // which can lead to small rounding errors for what we expect to be precise decimal values.
+        // As a result, direct comparisons of floating-point numbers that should be equal might fail.
+        // Rounding both numbers to a fixed number of decimal places before comparison can mitigate this issue,
+        // making it a practical approach to handle the imprecision and ensure more reliable equality checks.
+        // Since PHP's default precision is 12 digits, we chose 10 digits to be more confident.
+        $precision = 10;
+        $expected  = \round($expected, $precision);
+        $actual    = \round($actual, $precision);
+
         return match ($mode) {
             self::EQ  => $expected === $actual,
             self::NOT => $expected !== $actual,

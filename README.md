@@ -383,13 +383,13 @@ Schema: ./tests/schemas/demo_invalid.yml
 Found CSV files: 3
 
 (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
-+------+------------------+--------------+-------------- demo-1.csv -------------------------------------------------------+
-| Line | id:Column        | Rule         | Message                                                                         |
-+------+------------------+--------------+---------------------------------------------------------------------------------+
-| 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 1, total: 2                               |
-| 3    | 2:Float          | num_max      | The number of the value "74605.944", which is greater than the expected "74605" |
-| 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]           |
-+------+------------------+--------------+-------------- demo-1.csv -------------------------------------------------------+
++------+------------------+--------------+--------------- demo-1.csv ---------------------------------------------------------+
+| Line | id:Column        | Rule         | Message                                                                            |
++------+------------------+--------------+------------------------------------------------------------------------------------+
+| 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 1, total: 2                                  |
+| 3    | 2:Float          | num_max      | The number of the value "74605.944", which is greater than the expected "4825.184" |
+| 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]              |
++------+------------------+--------------+--------------- demo-1.csv ---------------------------------------------------------+
 
 (2/3) Invalid file: ./tests/fixtures/batch/demo-2.csv
 +------+------------+------------+-------------------------- demo-2.csv ------------------------------------------------------------+

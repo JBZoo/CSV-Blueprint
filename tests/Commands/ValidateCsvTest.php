@@ -69,7 +69,7 @@ final class ValidateCsvTest extends TestCase
             | 6    | 0:Name           | length_min       | The length of the value "Carl" is 4, which is less than the expected "5"                         |
             | 11   | 0:Name           | length_min       | The length of the value "Lois" is 4, which is less than the expected "5"                         |
             | 1    | 1:City           | ag:is_unique     | Column has non-unique values. Unique: 9, total: 10                                               |
-            | 5    | 2:Float          | num_max          | The number of the value "74605.944", which is greater than the expected "74605"                  |
+            | 2    | 2:Float          | num_max          | The number of the value "4825.185", which is greater than the expected "4825.184"                |
             | 6    | 3:Birthday       | date_min         | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than |
             |      |                  |                  | the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                           |
             | 8    | 3:Birthday       | date_min         | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than |
@@ -102,13 +102,13 @@ final class ValidateCsvTest extends TestCase
             Found CSV files: 3
             
             (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
-            +------+------------------+--------------+-------------- demo-1.csv -------------------------------------------------------+
-            | Line | id:Column        | Rule         | Message                                                                         |
-            +------+------------------+--------------+---------------------------------------------------------------------------------+
-            | 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 1, total: 2                               |
-            | 3    | 2:Float          | num_max      | The number of the value "74605.944", which is greater than the expected "74605" |
-            | 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]           |
-            +------+------------------+--------------+-------------- demo-1.csv -------------------------------------------------------+
+            +------+------------------+--------------+--------------- demo-1.csv ---------------------------------------------------------+
+            | Line | id:Column        | Rule         | Message                                                                            |
+            +------+------------------+--------------+------------------------------------------------------------------------------------+
+            | 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 1, total: 2                                  |
+            | 3    | 2:Float          | num_max      | The number of the value "74605.944", which is greater than the expected "4825.184" |
+            | 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]              |
+            +------+------------------+--------------+--------------- demo-1.csv ---------------------------------------------------------+
             
             (2/3) Invalid file: ./tests/fixtures/batch/demo-2.csv
             +------+------------+------------+-------------------------- demo-2.csv ------------------------------------------------------------+
@@ -157,7 +157,7 @@ final class ValidateCsvTest extends TestCase
             "length_min" at line 6, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".
             "length_min" at line 11, column "0:Name". The length of the value "Lois" is 4, which is less than the expected "5".
             "ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 9, total: 10.
-            "num_max" at line 5, column "2:Float". The number of the value "74605.944", which is greater than the expected "74605".
+            "num_max" at line 2, column "2:Float". The number of the value "4825.185", which is greater than the expected "4825.184".
             "date_min" at line 6, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
             "date_min" at line 8, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
             "date_max" at line 9, column "3:Birthday". The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)".
@@ -243,7 +243,7 @@ final class ValidateCsvTest extends TestCase
             
             (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
             "ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 1, total: 2.
-            "num_max" at line 3, column "2:Float". The number of the value "74605.944", which is greater than the expected "74605".
+            "num_max" at line 3, column "2:Float". The number of the value "74605.944", which is greater than the expected "4825.184".
             "allow_values" at line 3, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].
             
             (2/3) Invalid file: ./tests/fixtures/batch/demo-2.csv
@@ -290,7 +290,7 @@ final class ValidateCsvTest extends TestCase
             ##teamcity[testFinished name='ag:is_unique at column 1:City' flowId='42']
             
             ##teamcity[testStarted name='num_max at column 2:Float' locationHint='php_qn://./tests/fixtures/batch/demo-1.csv' flowId='42']
-            "num_max" at line 3, column "2:Float". The number of the value "74605.944", which is greater than the expected "74605".
+            "num_max" at line 3, column "2:Float". The number of the value "74605.944", which is greater than the expected "4825.184".
             ##teamcity[testFinished name='num_max at column 2:Float' flowId='42']
             
             ##teamcity[testStarted name='allow_values at column 4:Favorite color' locationHint='php_qn://./tests/fixtures/batch/demo-1.csv' flowId='42']

@@ -96,6 +96,19 @@ final class CsvValidatorTest extends TestCase
         isSame('', \strip_tags((string)$csv->validate()));
     }
 
+    public function testAggregateRuleCombo(): void
+    {
+        $csv = new CsvFile(Tools::DEMO_CSV, Tools::getAggregateRule('Float', 'sum', 4691.3235));
+        isSame('', \strip_tags((string)$csv->validate()));
+
+        $csv = new CsvFile(Tools::DEMO_CSV, Tools::getAggregateRule('Float', 'sum', 20));
+        isSame(
+            '"ag:sum" at line 1, column "0:Float". The sum of the column is "4691.3235", ' .
+            'which is not equal than the expected "20".' . "\n",
+            \strip_tags((string)$csv->validate()),
+        );
+    }
+
     public function testCellRuleNoName(): void
     {
         $csv = new CsvFile(Tools::CSV_COMPLEX, Tools::getRule(null, 'not_empty', true));

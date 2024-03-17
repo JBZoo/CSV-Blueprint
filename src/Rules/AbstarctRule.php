@@ -87,7 +87,7 @@ abstract class AbstarctRule
         $leftPad = \str_repeat(' ', self::HELP_LEFT_PAD);
 
         $renderLine = function (array|string $row, string $mode) use ($leftPad): string {
-            $ymlRuleCode = $this->getRuleCode($mode);
+            $ymlRuleCode = \str_replace('ag:', '', $this->getRuleCode($mode));
             $baseKeyVal  = "{$leftPad}{$ymlRuleCode}: {$row[0]}";
 
             if (isset($row[1]) && $row[1] !== '') {
