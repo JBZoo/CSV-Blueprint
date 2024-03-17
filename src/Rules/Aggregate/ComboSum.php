@@ -22,7 +22,7 @@ final class ComboSum extends AbstarctAggregateRuleCombo
 
     protected const HELP_TOP = ['Sum of the numbers in the column. Example: [1, 2, 3] => 6.'];
 
-    protected function getActualAggregate(array $colValues): float
+    protected function getActualAggregate(array $colValues): ?float
     {
         return \array_sum(self::stringsToFloat($colValues));
     }

@@ -29,7 +29,7 @@ final class ComboCountNotEmpty extends AbstarctAggregateRuleCombo
         self::MAX => ['10', ''],
     ];
 
-    protected function getActualAggregate(array $colValues): float
+    protected function getActualAggregate(array $colValues): ?float
     {
         return \count(\array_filter($colValues, static fn ($colValue) => $colValue !== ''));
     }

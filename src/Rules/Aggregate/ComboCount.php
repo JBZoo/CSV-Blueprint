@@ -32,7 +32,7 @@ final class ComboCount extends AbstarctAggregateRuleCombo
         self::MAX => ['10', ''],
     ];
 
-    protected function getActualAggregate(array $colValues): float
+    protected function getActualAggregate(array $colValues): ?float
     {
         return \count($colValues);
     }

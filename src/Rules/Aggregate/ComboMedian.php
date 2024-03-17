@@ -24,12 +24,8 @@ final class ComboMedian extends AbstarctAggregateRuleCombo
 
     protected const HELP_TOP = ['Calculate the median average of a list of numbers.'];
 
-    protected function getActualAggregate(array $colValues): float
+    protected function getActualAggregate(array $colValues): ?float
     {
-        try {
-            return Average::median(self::stringsToFloat($colValues));
-        } catch (\Exception) {
-            return 0;
-        }
+        return Average::median(self::stringsToFloat($colValues));
     }
 }
