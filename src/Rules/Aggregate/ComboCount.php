@@ -18,11 +18,11 @@ namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
 final class ComboCount extends AbstarctAggregateRuleCombo
 {
-    protected const NAME = 'count of rows';
+    protected const NAME = 'number of rows';
 
     protected const HELP_TOP = [
-        'Total(!) count of rows in the CSV file.',
-        'Since any values are taken into account, it only makes sense to use these rules once in any column.',
+        'Total number of rows in the CSV file.',
+        'Since any(!) values are taken into account, it only makes sense to use these rules once in any column.',
     ];
 
     protected const HELP_OPTIONS = [
