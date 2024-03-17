@@ -16,6 +16,8 @@
                 "not_empty"             : true,
                 "exact_value"           : "Some string",
                 "allow_values"          : ["y", "n", ""],
+                "not_allow_values"      : ["invalid"],
+
                 "regex"                 : "\/^[\\d]{2}$\/",
 
                 "length"                : 5,

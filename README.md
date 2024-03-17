@@ -130,6 +130,7 @@ columns:
       not_empty: true                   # Value is not an empty string. Actually checks if the string length is not 0.
       exact_value: Some string          # Exact value for string in the column.
       allow_values: [ y, n, "" ]        # Strict set of values that are allowed.
+      not_allow_values: [ invalid ]     # Strict set of values that are NOT allowed.
 
       # Any valid regex pattern. See https://www.php.net/manual/en/reference.pcre.pattern.syntax.php.
       # Of course it's an ultimatum to verify any sort of string data.
@@ -480,7 +481,7 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
 * Flag to ignore file name pattern. It's useful when you have a lot of files, and you don't want to validate the file name.
 
 **Validation**
-* More aggregate rules.
+* [More aggregate rules](https://github.com/markrogoyski/math-php#statistics---descriptive).
 * More cell rules.
 * `required` flag for the column.
 * Custom cell rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
