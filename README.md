@@ -4,7 +4,7 @@
 [![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint)    [![Dependents](https://poser.pugx.org/jbzoo/csv-blueprint/dependents)](https://packagist.org/packages/jbzoo/csv-blueprint/dependents?order_by=downloads)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
 
 <!-- rules-counter -->
-![Static Badge](https://img.shields.io/badge/Total_Rules-78-green?label=Total%20Rules&color=green)    ![Static Badge](https://img.shields.io/badge/Cell_Rules-53-green?label=Cell%20Rules&color=green)    ![Static Badge](https://img.shields.io/badge/Aggregate_Rules-25-green?label=Aggregate%20Rules&color=green)
+![Static Badge](https://img.shields.io/badge/Rules-79-green?label=Total%20Number%20of%20Rules&labelColor=blue&color=gray)    ![Static Badge](https://img.shields.io/badge/Rules-54-green?label=Cell%20Rules&labelColor=blue&color=gray)    ![Static Badge](https://img.shields.io/badge/Rules-25-green?label=Aggregate%20Rules&labelColor=blue&color=gray)
 <!-- /rules-counter -->
 
 ## Introduction
@@ -207,6 +207,10 @@ columns:
       is_alias: true                    # Only alias format. Example: "my-alias-123". It can contain letters, numbers, and dashes.
       is_currency_code: true            # Validates an ISO 4217 currency code like GBP or EUR. Case-sensitive. See: https://en.wikipedia.org/wiki/ISO_4217.
       is_base64: true                   # Validate if a string is Base64-encoded. Example: "cmVzcGVjdCE=".
+
+      # Validates if the given input is a valid JSON.
+      # This is possible if you escape all special characters correctly and use a special CSV format.
+      is_json: true                     # Example: {"foo":"bar"}.
 
       # Geography
       is_latitude: true                 # Can be integer or float. Example: 50.123456.

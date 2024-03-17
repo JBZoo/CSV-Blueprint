@@ -129,6 +129,10 @@ columns:
       is_currency_code: true            # Validates an ISO 4217 currency code like GBP or EUR. Case-sensitive. See: https://en.wikipedia.org/wiki/ISO_4217.
       is_base64: true                   # Validate if a string is Base64-encoded. Example: "cmVzcGVjdCE=".
 
+      # Validates if the given input is a valid JSON.
+      # This is possible if you escape all special characters correctly and use a special CSV format.
+      is_json: true                     # Example: {"foo":"bar"}.
+
       # Geography
       is_latitude: true                 # Can be integer or float. Example: 50.123456.
       is_longitude: true                # Can be integer or float. Example: -89.123456.

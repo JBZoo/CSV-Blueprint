@@ -85,6 +85,7 @@ return [
                 'is_alias'         => true,
                 'is_currency_code' => true,
                 'is_base64'        => true,
+                'is_json'          => true,
 
                 'is_latitude'           => true,
                 'is_longitude'          => true,
