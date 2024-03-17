@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-class IsDate extends AbstarctCellRule
+class IsDate extends AbstractCellRule
 {
     protected const HELP_OPTIONS = [
         self::DEFAULT => ['true', 'Accepts arbitrary date format. Is shows error if failed to convert to timestamp.'],

@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class IsLowercase extends AbstarctCellRule
+final class IsLowercase extends AbstractCellRule
 {
     protected const HELP_OPTIONS = [
         self::DEFAULT => ['true', 'String is only lower-case. Example: "hello world".'],

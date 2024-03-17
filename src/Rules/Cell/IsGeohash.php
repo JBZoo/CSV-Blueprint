@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-class IsGeohash extends AbstarctCellRule
+class IsGeohash extends AbstractCellRule
 {
     protected const HELP_OPTIONS = [
         self::DEFAULT => ['true', 'Check if the value is a valid geohash. Example: "u4pruydqqvj"'],

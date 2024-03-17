@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 
-abstract class AbstarctCellRule extends AbstarctRule
+abstract class AbstractCellRule extends AbstarctRule
 {
     /**
      * Validate the rule.

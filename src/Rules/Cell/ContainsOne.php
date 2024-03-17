@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class ContainsOne extends AbstarctCellRule
+final class ContainsOne extends AbstractCellRule
 {
     protected const HELP_OPTIONS = [
         self::DEFAULT => ['[ a, b ]', 'At least one of the string must be in the CSV value.'],

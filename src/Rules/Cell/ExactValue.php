@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class ExactValue extends AbstarctCellRule
+final class ExactValue extends AbstractCellRule
 {
     protected const HELP_OPTIONS = [
         self::DEFAULT => ['Some string', 'Exact value for string in the column.'],

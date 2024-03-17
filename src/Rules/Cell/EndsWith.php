@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class EndsWith extends AbstarctCellRule
+final class EndsWith extends AbstractCellRule
 {
     protected const HELP_OPTIONS = [
         self::DEFAULT => ['" suffix"', 'Example: "Hello World suffix".'],

@@ -14,13 +14,12 @@
 
 declare(strict_types=1);
 
-namespace JBZoo\CsvBlueprint\Rules;
+namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\Cell\AbstarctCellRule;
 use JBZoo\CsvBlueprint\Validators\ColumnValidator;
 use JBZoo\CsvBlueprint\Validators\Error;
 
-abstract class AbstractCombo extends AbstarctCellRule
+abstract class AbstractCellCombo extends AbstractCellRule
 {
     protected const NAME = 'UNDEFINED';
 

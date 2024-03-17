@@ -16,9 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\AbstractCombo;
-
-final class ComboLength extends AbstractCombo
+final class ComboLength extends AbstractCellCombo
 {
     protected const NAME = 'length';
 

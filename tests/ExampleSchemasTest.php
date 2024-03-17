@@ -30,7 +30,7 @@ final class ExampleSchemasTest extends TestCase
     {
         $rulesInConfig = yml(Tools::SCHEMA_FULL)->findArray('columns.0.rules');
         $rulesInConfig = \array_keys($rulesInConfig);
-        \sort($rulesInConfig);
+        \sort($rulesInConfig, \SORT_NATURAL);
 
         $finder = (new Finder())
             ->files()
@@ -43,10 +43,7 @@ final class ExampleSchemasTest extends TestCase
         foreach ($finder as $file) {
             $ruleName = Utils::camelToKebabCase($file->getFilenameWithoutExtension());
 
-            $excludeRules = [
-                'abstarct_cell_rule',
-                'exception',
-            ];
+            $excludeRules = ['abstract_cell_combo', 'abstract_cell_rule'];
 
             if (\in_array($ruleName, $excludeRules, true)) {
                 continue;
@@ -62,7 +59,7 @@ final class ExampleSchemasTest extends TestCase
                 $rulesInCode[] = $ruleName;
             }
         }
-        \sort($rulesInCode);
+        \sort($rulesInCode, \SORT_NATURAL);
 
         isSame(
             $rulesInCode,

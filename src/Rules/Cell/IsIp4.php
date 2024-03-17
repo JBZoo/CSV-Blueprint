@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class IsIp4 extends AbstarctCellRule
+final class IsIp4 extends AbstractCellRule
 {
     protected const HELP_OPTIONS = [
         self::DEFAULT => ['true', 'Only IPv4. Example: "127.0.0.1"'],

@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class NotEmpty extends AbstarctCellRule
+final class NotEmpty extends AbstractCellRule
 {
     protected const HELP_OPTIONS = [
         self::DEFAULT => ['true', 'Value is not an empty string. Actually checks if the string length is not 0.'],

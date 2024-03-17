@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-class AllowValues extends AbstarctCellRule
+class AllowValues extends AbstractCellRule
 {
     protected const HELP_OPTIONS = [
         self::DEFAULT => ['[ y, n, "" ]', 'Strict set of values that are allowed.'],
