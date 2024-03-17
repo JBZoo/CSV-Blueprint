@@ -48,12 +48,8 @@ Integrating CSV validation into CI processes promotes higher data integrity, rel
 * [demo.csv](tests/fixtures/demo.csv)
 
 
-## Usage
-
-Also see demo in the [GitHub Actions](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml) file.
-
 ### Schema Definition
-Define your CSV validation schema in a YAML file.
+Define your CSV validation schema in a [YAML](schema-examples/full.yml). Other formats are also available: , [JSON](schema-examples/full.json), [PHP](schema-examples/full.php).
 
 This example defines a simple schema for a CSV file with a header row, specifying that the `id` column must not be empty and must contain integer values.
 Also, it checks that the `name` column has a minimum length of 3 characters.
@@ -74,6 +70,9 @@ columns:
 
 ```
 
+
+### Full description of the scheme
+
 In the [example Yml file](schema-examples/full.yml) you can find a detailed description of all features.
 It's also covered by tests, so it's always up-to-date.
 
@@ -84,10 +83,6 @@ It's also covered by tests, so it's always up-to-date.
 * All fields (unless explicitly stated otherwise) are optional, and you can choose not to declare them. Up to you.
 * You are always free to add your option anywhere (except the `rules` list) and it will be ignored. I find it convenient for additional integrations and customization.
 
-
-### Schema file examples
-
-Available formats: [YAML](schema-examples/full.yml), [JSON](schema-examples/full.json), [PHP](schema-examples/full.php).
 
 ```yml
 # It's a full example of the CSV schema file in YAML format.
@@ -221,6 +216,11 @@ columns:
   - description: "Column with description only. Undefined header name."
 
 ```
+
+
+## Usage
+
+You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml).
 
 
 ### As GitHub Action
@@ -436,6 +436,8 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
 
 **Validation**
 * More aggregate rules.
+* More cell rules.
+* `required` flag for the column.
 * Custom cell rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
 * Custom agregate rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
 * Configurable keyword for null/empty values. By default, it's an empty string. But you will use `null`, `nil`, `none`, `empty`, etc. Overridable on the column level.
