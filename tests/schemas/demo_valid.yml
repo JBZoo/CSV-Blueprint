@@ -35,7 +35,7 @@ columns:
       num_min: -19366059128
       num_max: 4825.186
     aggregate_rules:
-      sum: 4691.3235
+      sum_max: 4692
 
 
   - name: Birthday
