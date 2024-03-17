@@ -25,44 +25,40 @@ use function JBZoo\PHPUnit\isFileContains;
 use function JBZoo\PHPUnit\isSame;
 use function JBZoo\PHPUnit\success;
 
-abstract class AbstractAggregateRuleCombo extends TestCase
+abstract class AbstractAggregateRule extends TestCase
 {
     protected string $ruleClass = '';
 
-    abstract public function testEqual(): void;
+    abstract public function testPositive(): void;
 
-    abstract public function testNotEqual(): void;
-
-    abstract public function testMin(): void;
-
-    abstract public function testMax(): void;
+    abstract public function testNegative(): void;
 
     // abstract public function testInvalidOption(): void;
 
-    abstract public function testInvalidParsing(): void;
+    // abstract public function testInvalidParsing(): void;
 
     public function testHelpMessageInExample(): void
     {
-        isFileContains($this->create(6, Combo::MAX)->getHelp(), Tools::SCHEMA_FULL);
+        isFileContains($this->create(6)->getHelp(), Tools::SCHEMA_FULL);
     }
 
     public function testBoolenOptionFlag(): void
     {
-        if (\str_starts_with($this->create(1, Combo::MAX)->getRuleCode(), 'ag:is_')) {
+        if (\str_starts_with($this->create(true)->getRuleCode(), 'ag:is_')) {
             // Enabled and ignore empty string
             $rule = $this->create(true);
-            isSame('11', $rule->validate('', Combo::MAX));
+            isSame(null, $rule->validate(''));
 
             // Disabled and ignore ANY string
             $rule = $this->create(false);
-            isSame(null, $rule->validate(Str::random(10), Combo::MAX));
+            isSame(null, $rule->validate(Str::random(10)));
         }
 
         success();
     }
 
-    protected function create(array|float|int|string $value, string $mode): Combo
+    protected function create(array|bool|float|int|string $value): Combo
     {
-        return new $this->ruleClass('prop', $value, $mode);
+        return new $this->ruleClass('prop', $value);
     }
 }

@@ -54,6 +54,11 @@ abstract class AbstarctRuleCombo extends AbstarctRule
         return $isHtml ? $errorMessage : \strip_tags($errorMessage);
     }
 
+    public function getRuleCode(?string $mode = null): string
+    {
+        return \str_replace('combo_', '', parent::getRuleCode($mode));
+    }
+
     public static function parseMode(string $origRuleName): string
     {
         $postfixes = [self::MAX, self::MIN, self::NOT];
@@ -63,11 +68,6 @@ abstract class AbstarctRuleCombo extends AbstarctRule
         }
 
         return '';
-    }
-
-    protected function getRuleCode(?string $mode = null): string
-    {
-        return \str_replace('combo_', '', parent::getRuleCode($mode));
     }
 
     protected static function compare(float $expected, float $actual, string $mode): bool

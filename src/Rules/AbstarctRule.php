@@ -123,6 +123,14 @@ abstract class AbstarctRule
         ]);
     }
 
+    public function getRuleCode(?string $mode = null): string
+    {
+        $mode ??= $this->mode;
+        $postfix = $mode !== self::EQ && $mode !== self::DEFAULT ? "_{$mode}" : '';
+
+        return Utils::camelToKebabCase((new \ReflectionClass($this))->getShortName()) . $postfix;
+    }
+
     protected function getOptionAsBool(): bool
     {
         // TODO: Replace to warning message
@@ -221,13 +229,5 @@ abstract class AbstarctRule
         }
 
         return $cellValue !== '';
-    }
-
-    protected function getRuleCode(?string $mode = null): string
-    {
-        $mode ??= $this->mode;
-        $postfix = $mode !== self::EQ && $mode !== self::DEFAULT ? "_{$mode}" : '';
-
-        return Utils::camelToKebabCase((new \ReflectionClass($this))->getShortName()) . $postfix;
     }
 }

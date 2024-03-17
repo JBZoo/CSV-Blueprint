@@ -81,6 +81,7 @@ final class GithubActionsTest extends TestCase
 
         $expectedMessage[] = '```';
 
-        isFileContains(\implode("\n", $expectedMessage), PROJECT_ROOT . '/README.md');
+        $text = \implode("\n", $expectedMessage);
+        Tools::insertInReadme('github-actions-yml', $text);
     }
 }

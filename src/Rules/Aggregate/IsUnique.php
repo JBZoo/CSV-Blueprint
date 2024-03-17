@@ -18,6 +18,10 @@ namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
 final class IsUnique extends AbstarctAggregateRule
 {
+    protected const HELP_OPTIONS = [
+        self::DEFAULT => ['true', 'All values in the column are unique.'],
+    ];
+
     public function validateRule(array &$columnValues): ?string
     {
         if (\count($columnValues) === 0) {

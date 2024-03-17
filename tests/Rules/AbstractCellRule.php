@@ -19,8 +19,11 @@ namespace JBZoo\PHPUnit\Rules;
 use JBZoo\CsvBlueprint\Rules\Cell\AbstractCellRule as CellRule;
 use JBZoo\PHPUnit\TestCase;
 use JBZoo\PHPUnit\Tools;
+use JBZoo\Utils\Str;
 
 use function JBZoo\PHPUnit\isFileContains;
+use function JBZoo\PHPUnit\isSame;
+use function JBZoo\PHPUnit\success;
 
 abstract class AbstractCellRule extends TestCase
 {
@@ -37,6 +40,21 @@ abstract class AbstractCellRule extends TestCase
     public function testHelpMessageInExample(): void
     {
         isFileContains($this->create(6)->getHelp(), Tools::SCHEMA_FULL);
+    }
+
+    public function testBoolenOptionFlag(): void
+    {
+        if (\str_starts_with($this->create(true)->getRuleCode(''), 'is_')) {
+            // Enabled and ignore empty string
+            $rule = $this->create(true);
+            isSame(null, $rule->validate(''));
+
+            // Disabled and ignore ANY string
+            $rule = $this->create(false);
+            isSame(null, $rule->validate(Str::random(10)));
+        }
+
+        success();
     }
 
     protected function create(array|bool|float|int|string $value): CellRule
