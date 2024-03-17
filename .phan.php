@@ -23,12 +23,12 @@ return \array_merge($default, [
     'directory_list' => [
         'src',
 
-        'vendor/jbzoo/data/src',
-        'vendor/jbzoo/cli/src',
-        'vendor/jbzoo/utils/src',
         'vendor/jbzoo/ci-report-converter/src',
+        'vendor/jbzoo/cli/src',
+        'vendor/jbzoo/data/src',
+        'vendor/jbzoo/utils/src',
         'vendor/league/csv/src',
-        'vendor/fakerphp/faker/src',
+        'vendor/markrogoyski/math-php/src',
         'vendor/symfony/console',
         'vendor/symfony/finder',
     ],

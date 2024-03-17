@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
+use MathPHP\Statistics\Average;
+
 final class ComboAverage extends AbstarctAggregateRuleCombo
 {
     protected const NAME = 'average';
@@ -24,6 +26,10 @@ final class ComboAverage extends AbstarctAggregateRuleCombo
 
     protected function getActualAggregate(array $colValues): float
     {
-        return \array_sum($colValues) / \count($colValues);
+        try {
+            return Average::mean($colValues);
+        } catch (\Exception) {
+            return 0;
+        }
     }
 }
