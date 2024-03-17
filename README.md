@@ -4,7 +4,7 @@
 [![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint)    [![Dependents](https://poser.pugx.org/jbzoo/csv-blueprint/dependents)](https://packagist.org/packages/jbzoo/csv-blueprint/dependents?order_by=downloads)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
 
 <!-- rules-counter -->
-![Static Badge](https://img.shields.io/badge/Rules-79-green?label=Total%20Number%20of%20Rules&labelColor=blue&color=gray)    ![Static Badge](https://img.shields.io/badge/Rules-54-green?label=Cell%20Rules&labelColor=blue&color=gray)    ![Static Badge](https://img.shields.io/badge/Rules-25-green?label=Aggregate%20Rules&labelColor=blue&color=gray)
+![Static Badge](https://img.shields.io/badge/Rules-80-green?label=Total%20Number%20of%20Rules&labelColor=blue&color=gray)    ![Static Badge](https://img.shields.io/badge/Rules-55-green?label=Cell%20Rules&labelColor=blue&color=gray)    ![Static Badge](https://img.shields.io/badge/Rules-25-green?label=Aggregate%20Rules&labelColor=blue&color=gray)
 <!-- /rules-counter -->
 
 ## Introduction
@@ -223,6 +223,11 @@ columns:
       # Available options: "alpha-2" (Ex: "US"), "alpha-3" (Ex: "USA"), "numeric" (Ex: "840").
       # The rule uses data from iso-codes: https://salsa.debian.org/iso-codes-team/iso-codes.
       country_code: alpha-2             # Country code in ISO 3166-1 standard. Examples: "US", "USA", "840".
+
+      # Validates whether the input is language code based on ISO 639.
+      # Available options: "alpha-2" (Ex: "en"), "alpha-3" (Ex: "eng").
+      # See: https://en.wikipedia.org/wiki/ISO_639.
+      language_code: alpha-2            # Examples: "en", "eng".
 
 
     ####################################################################################################################
