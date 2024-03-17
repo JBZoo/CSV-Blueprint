@@ -16,14 +16,14 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
-final class ComboSum extends AbstarctAggregateRuleCombo
+final class ComboAverage extends AbstarctAggregateRuleCombo
 {
-    protected const NAME = 'sum';
+    protected const NAME = 'average';
 
-    protected const HELP_TOP = ['Sum of the numbers in the column. Example: [1, 2, 3] => 6.'];
+    protected const HELP_TOP = ['Regular the arithmetic mean. The sum of the numbers divided by the count.'];
 
     protected function getActualAggregate(array $colValues): float
     {
-        return \array_sum($colValues);
+        return \array_sum($colValues) / \count($colValues);
     }
 }

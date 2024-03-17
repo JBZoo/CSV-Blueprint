@@ -30,26 +30,26 @@ columns:
   - name: "Column Name (header)"        # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
     description: "Lorem ipsum"          # Optional. Description of the column. Not used in the validation process.
 
+    # Important notes about the validation rules.
+    # 1. All rules except "not_empty" ignored for empty strings (length 0).
+    #    If the value must be non-empty, use "not_empty" as extra rule!
+    # 2. All rules don't depend on each other. They are independent.
+    #    They know nothing about each other and cannot influence each other.
+    # 3. You can use the rules in any combination. Or not use any of them.
+    #    They are grouped below simply for ease of navigation and reading.
+    # 4. If you see the value for the rule is "true" - that's just an enable flag.
+    #    In other cases, these are rule parameters.
+    # 5. The order of rules execution is the same as in the scheme. But it doesn't matter.
+    #    The result will be the same in any order.
+    # 6. Most of the rules are case-sensitive. Unless otherwise specified.
+    # 7. As backup plan, you always can use the "regex" rule.
+
     ####################################################################################################################
     # Data validation for each(!) value in the column.
     # Of course, this can greatly affect the speed of checking.
     # It depends on the number of checks and CSV file size.
     # TODO: There are several ways to optimize this process, but the author needs time to test it carefully.
     rules:
-      # Important notes:
-      # 1. All rules except "not_empty" ignored for empty strings (length 0).
-      #    If the value must be non-empty, use "not_empty" as extra rule!
-      # 2. All rules don't depend on each other. They are independent.
-      #    They know nothing about each other and cannot influence each other.
-      # 3. You can use the rules in any combination. Or not use any of them.
-      #    They are grouped below simply for ease of navigation and reading.
-      # 4. If you see the value for the rule is "true" - that's just an enable flag.
-      #    In other cases, these are rule parameters.
-      # 5. The order of rules execution is the same as in the scheme. But it doesn't matter.
-      #    The result will be the same in any order.
-      # 6. Most of the rules are case-sensitive. Unless otherwise specified.
-      # 7. As backup plan, you always can use the "regex" rule.
-
       # General rules
       not_empty: true                   # Value is not an empty string. Actually checks if the string length is not 0.
       exact_value: Some string          # Exact value for string in the column.
@@ -95,6 +95,8 @@ columns:
       num_not: 4
       num_min: 1
       num_max: 10
+      is_int: true                      # Check format only. Can be negative and positive. Without any separators.
+      is_float: true                    # Check format only. Can be negative and positive. Dot as decimal separator.
 
       # Number of digits after the decimal point (with zeros).
       precision: 5
@@ -117,8 +119,6 @@ columns:
 
       # Specific formats
       is_bool: true                     # Allow only boolean values "true" and "false", case-insensitive.
-      is_int: true                      # Check format only. Can be negative and positive. Without any separators.
-      is_float: true                    # Check format only. Can be negative and positive. Dot as decimal separator.
       is_ip4: true                      # Only IPv4. Example: "127.0.0.1".
       is_url: true                      # Only URL format. Example: "https://example.com/page?query=string#anchor".
       is_email: true                    # Only email format. Example: "user@example.com".
@@ -142,12 +142,17 @@ columns:
     aggregate_rules:
       is_unique: true                   # All values in the column are unique.
 
-      # Assumes that all values in the column are int/float only.
-      # An empty string is converted to null.
+      # Sum of the numbers in the column. Example: [1, 2, 3] => 6.
       sum: 5
       sum_not: 4
       sum_min: 1
       sum_max: 10
+
+      # Regular the arithmetic mean. The sum of the numbers divided by the count.
+      average: 5
+      average_not: 4
+      average_min: 1
+      average_max: 10
 
   - name: "another_column"
 
