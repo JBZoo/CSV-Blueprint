@@ -164,12 +164,12 @@ columns:
       ends_with: " suffix"              # Example: "Hello World suffix".
 
       # Under the hood it convertes and compares as float values.
-      # Comparison accuracy is 12 digits after a dot.
+      # Comparison accuracy is 10 digits after a dot.
       # Scientific number format is also supported. Example: "1.2e3".
-      num: 5
-      num_not: 4
-      num_min: 1
-      num_max: 10
+      num: 5.1
+      num_not: 4.2
+      num_min: 1.3
+      num_max: 10.4
       is_int: true                      # Check format only. Can be negative and positive. Without any separators.
       is_float: true                    # Check format only. Can be negative and positive. Dot as decimal separator.
 
