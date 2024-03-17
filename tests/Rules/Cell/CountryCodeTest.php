@@ -59,4 +59,13 @@ final class CountryCodeTest extends AbstractCellRule
             $rule->test('101010101'),
         );
     }
+
+    public function testInvalidOption(): void
+    {
+        $rule = $this->create('qwerty');
+        isSame(
+            'Unknown country set: "qwerty". Available options: [alpha-2, alpha-3, numeric]',
+            $rule->test('US'),
+        );
+    }
 }
