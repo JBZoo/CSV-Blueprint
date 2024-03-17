@@ -72,7 +72,9 @@
                 "is_longitude"          : true,
                 "is_geohash"            : true,
                 "is_cardinal_direction" : true,
-                "is_usa_market_name"    : true
+                "is_usa_market_name"    : true,
+
+                "country_code"          : "alpha-2"
             },
 
             "aggregate_rules" : {

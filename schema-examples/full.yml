@@ -134,6 +134,11 @@ columns:
       is_cardinal_direction: true       # Valid cardinal direction. Examples: "N", "S", "NE", "SE", "none", "".
       is_usa_market_name: true          # Check if the value is a valid USA market name. Example: "New York, NY".
 
+      # Validates whether the input is a country code in ISO 3166-1 standard.
+      # Available options: "alpha-2" (Ex: "US"), "alpha-3" (Ex: "USA"), "numeric" (Ex: "840").
+      # The rule uses data from iso-codes: https://salsa.debian.org/iso-codes-team/iso-codes.
+      country_code: alpha-2             # Country code in ISO 3166-1 standard. Examples: "US", "USA", "840".
+
 
     ####################################################################################################################
     # Data validation for the entire(!) column using different data aggregation methods.

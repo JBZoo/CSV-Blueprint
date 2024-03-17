@@ -89,6 +89,8 @@ return [
                 'is_geohash'            => true,
                 'is_cardinal_direction' => true,
                 'is_usa_market_name'    => true,
+
+                'country_code' => 'alpha-2',
             ],
 
             'aggregate_rules' => [

@@ -28,8 +28,9 @@ return \array_merge($default, [
         'vendor/jbzoo/data/src',
         'vendor/jbzoo/utils/src',
         'vendor/league/csv/src',
-        'vendor/markrogoyski/math-php/src',
         'vendor/symfony/console',
         'vendor/symfony/finder',
+        'vendor/markrogoyski/math-php/src',
+        'vendor/respect/validation',
     ],
 ]);
