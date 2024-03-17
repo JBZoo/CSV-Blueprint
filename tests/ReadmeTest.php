@@ -19,6 +19,8 @@ namespace JBZoo\PHPUnit;
 use JBZoo\Utils\Cli;
 use Symfony\Component\Console\Input\StringInput;
 
+use function JBZoo\Data\yml;
+
 final class ReadmeTest extends TestCase
 {
     public function testCreateCsvHelp(): void
@@ -52,5 +54,20 @@ final class ReadmeTest extends TestCase
             $actual,
             '```',
         ]), Tools::README);
+    }
+
+    public function testBadgeOfRules(): void
+    {
+        $cellRules = \count(yml(Tools::SCHEMA_FULL)->findArray('columns.0.rules'));
+        $aggRules  = \count(yml(Tools::SCHEMA_FULL)->findArray('columns.0.aggregate_rules'));
+
+        isFileContains(
+            \implode('', [
+                "![Static Badge](https://img.shields.io/badge/Cell_Rules-{$cellRules}-green?label=Cell%20Rules&color=green)",
+                '    ',
+                "![Static Badge](https://img.shields.io/badge/Aggregate_Rules-{$aggRules}-green?label=Aggregate%20Rules&color=green)",
+            ]),
+            Tools::README,
+        );
     }
 }
