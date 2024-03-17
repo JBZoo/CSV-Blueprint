@@ -4,7 +4,7 @@
 [![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint)    [![Dependents](https://poser.pugx.org/jbzoo/csv-blueprint/dependents)](https://packagist.org/packages/jbzoo/csv-blueprint/dependents?order_by=downloads)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
 
 <!-- rules-counter -->
-![Static Badge](https://img.shields.io/badge/Rules-84-green?label=Total%20Number%20of%20Rules&labelColor=blue&color=gray)    ![Static Badge](https://img.shields.io/badge/Rules-55-green?label=Cell%20Rules&labelColor=blue&color=gray)    ![Static Badge](https://img.shields.io/badge/Rules-29-green?label=Aggregate%20Rules&labelColor=blue&color=gray)
+![Static Badge](https://img.shields.io/badge/Rules-88-green?label=Total%20Number%20of%20Rules&labelColor=blue&color=gray)    ![Static Badge](https://img.shields.io/badge/Rules-55-green?label=Cell%20Rules&labelColor=blue&color=gray)    ![Static Badge](https://img.shields.io/badge/Rules-33-green?label=Aggregate%20Rules&labelColor=blue&color=gray)
 <!-- /rules-counter -->
 
 ## Introduction
@@ -277,11 +277,18 @@ columns:
 
       # Population variance - Use when all possible observations of the system are present.
       # If used with a subset of data (sample variance), it will be a biased variance.
-      # It's n degrees of freedom.
+      # n degrees of freedom, where n is the number of observations.
       population_variance: 5.123
       population_variance_not: 4.123
       population_variance_min: 1.123
       population_variance_max: 10.123
+
+      # Unbiased sample variance Use when only a subset of all possible observations of the system are present.
+      # n - 1 degrees of freedom, where n is the number of observations.
+      sample_variance: 5.123
+      sample_variance_not: 4.123
+      sample_variance_min: 1.123
+      sample_variance_max: 10.123
 
   - name: "another_column"
 

@@ -198,11 +198,18 @@ columns:
 
       # Population variance - Use when all possible observations of the system are present.
       # If used with a subset of data (sample variance), it will be a biased variance.
-      # It's n degrees of freedom.
+      # n degrees of freedom, where n is the number of observations.
       population_variance: 5.123
       population_variance_not: 4.123
       population_variance_min: 1.123
       population_variance_max: 10.123
+
+      # Unbiased sample variance Use when only a subset of all possible observations of the system are present.
+      # n - 1 degrees of freedom, where n is the number of observations.
+      sample_variance: 5.123
+      sample_variance_not: 4.123
+      sample_variance_min: 1.123
+      sample_variance_max: 10.123
 
   - name: "another_column"
 
