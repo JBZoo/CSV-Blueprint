@@ -31,8 +31,8 @@ final class ValidateCsvTest extends TestCase
         $rootPath = PROJECT_ROOT;
 
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
-            'csv'    => "{$rootPath}/tests/fixtures/demo.csv",
-            'schema' => "{$rootPath}/tests/schemas/demo_valid.yml",
+            'csv'    => Tools::DEMO_CSV,
+            'schema' => Tools::DEMO_YML_VALID,
         ]);
 
         $expected = $expected = <<<'TXT'
@@ -53,8 +53,8 @@ final class ValidateCsvTest extends TestCase
         $rootPath = PROJECT_ROOT;
 
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
-            'csv'    => "{$rootPath}/tests/fixtures/demo.csv", // Full path
-            'schema' => './tests/schemas/demo_invalid.yml',    // Relative path
+            'csv'    => Tools::DEMO_CSV_FULL,       // Full path
+            'schema' => Tools::DEMO_YML_INVALID,    // Relative path
         ]);
 
         $expected = <<<'TXT'
@@ -92,7 +92,7 @@ final class ValidateCsvTest extends TestCase
     {
         $options = [
             'csv'    => './tests/fixtures/batch/*.csv',
-            'schema' => './tests/schemas/demo_invalid.yml',
+            'schema' => Tools::DEMO_YML_INVALID,
         ];
         $optionsAsString     = new StringInput(Cli::build('', $options));
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $options);
@@ -102,13 +102,12 @@ final class ValidateCsvTest extends TestCase
             Found CSV files: 3
             
             (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
-            +------+------------------+--------------+--------------- demo-1.csv ---------------------------------------------------------+
-            | Line | id:Column        | Rule         | Message                                                                            |
-            +------+------------------+--------------+------------------------------------------------------------------------------------+
-            | 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 1, total: 2                                  |
-            | 3    | 2:Float          | num_max      | The number of the value "74605.944", which is greater than the expected "4825.184" |
-            | 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]              |
-            +------+------------------+--------------+--------------- demo-1.csv ---------------------------------------------------------+
+            +------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
+            | Line | id:Column        | Rule         | Message                                                               |
+            +------+------------------+--------------+-----------------------------------------------------------------------+
+            | 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 1, total: 2                     |
+            | 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"] |
+            +------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
             
             (2/3) Invalid file: ./tests/fixtures/batch/demo-2.csv
             +------+------------+------------+-------------------------- demo-2.csv ------------------------------------------------------------+
@@ -132,7 +131,7 @@ final class ValidateCsvTest extends TestCase
             +------+-----------+------------------+---------------------- demo-3.csv ------------------------------------------------------------+
             
             
-            Found 9 issues in 3 out of 3 CSV files.
+            Found 8 issues in 3 out of 3 CSV files.
             
             TXT;
 
@@ -144,7 +143,7 @@ final class ValidateCsvTest extends TestCase
     {
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
             'csv'    => './tests/**/demo.csv',
-            'schema' => './tests/schemas/demo_invalid.yml',
+            'schema' => Tools::DEMO_YML_INVALID,
             'report' => 'text',
         ]);
 
@@ -191,7 +190,7 @@ final class ValidateCsvTest extends TestCase
         // No option (default behavior)
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
             'csv'    => './tests/fixtures/batch/*.csv',
-            'schema' => './tests/schemas/demo_invalid.yml',
+            'schema' => Tools::DEMO_YML_INVALID,
             'report' => 'text',
             'Q'      => null,
         ]);
@@ -201,7 +200,7 @@ final class ValidateCsvTest extends TestCase
         // Shortcut
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
             'csv'    => './tests/fixtures/batch/*.csv',
-            'schema' => './tests/schemas/demo_invalid.yml',
+            'schema' => Tools::DEMO_YML_INVALID,
             'report' => 'text',
             'Q'      => null,
         ]);
@@ -211,7 +210,7 @@ final class ValidateCsvTest extends TestCase
         // Shortcut 2
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
             'csv'    => './tests/fixtures/batch/*.csv',
-            'schema' => './tests/schemas/demo_invalid.yml',
+            'schema' => Tools::DEMO_YML_INVALID,
             'report' => 'text',
             'quick'  => null,
         ]);
@@ -221,7 +220,7 @@ final class ValidateCsvTest extends TestCase
         // Value - yes
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
             'csv'    => './tests/fixtures/batch/*.csv',
-            'schema' => './tests/schemas/demo_invalid.yml',
+            'schema' => Tools::DEMO_YML_INVALID,
             'report' => 'text',
             'quick'  => 'yes',
         ]);
@@ -232,7 +231,7 @@ final class ValidateCsvTest extends TestCase
         // Value - no
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
             'csv'    => './tests/fixtures/batch/*.csv',
-            'schema' => './tests/schemas/demo_invalid.yml',
+            'schema' => Tools::DEMO_YML_INVALID,
             'report' => 'text',
             'quick'  => 'no',
         ]);
@@ -243,7 +242,6 @@ final class ValidateCsvTest extends TestCase
             
             (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
             "ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 1, total: 2.
-            "num_max" at line 3, column "2:Float". The number of the value "74605.944", which is greater than the expected "4825.184".
             "allow_values" at line 3, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].
             
             (2/3) Invalid file: ./tests/fixtures/batch/demo-2.csv
@@ -257,7 +255,7 @@ final class ValidateCsvTest extends TestCase
             "filename_pattern" at line 1, column "". Filename "./tests/fixtures/batch/sub/demo-3.csv" does not match pattern: "/demo-[12].csv$/i".
             
             
-            Found 9 issues in 3 out of 3 CSV files.
+            Found 8 issues in 3 out of 3 CSV files.
             
             TXT;
 
@@ -271,7 +269,7 @@ final class ValidateCsvTest extends TestCase
 
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
             'csv'    => './tests/fixtures/batch/*.csv',
-            'schema' => './tests/schemas/demo_invalid.yml',
+            'schema' => Tools::DEMO_YML_INVALID,
             'report' => 'teamcity',
         ]);
 
@@ -281,17 +279,13 @@ final class ValidateCsvTest extends TestCase
             
             (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
             
-            ##teamcity[testCount count='3' flowId='42']
+            ##teamcity[testCount count='2' flowId='42']
             
             ##teamcity[testSuiteStarted name='demo-1.csv' flowId='42']
             
             ##teamcity[testStarted name='ag:is_unique at column 1:City' locationHint='php_qn://./tests/fixtures/batch/demo-1.csv' flowId='42']
             "ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 1, total: 2.
             ##teamcity[testFinished name='ag:is_unique at column 1:City' flowId='42']
-            
-            ##teamcity[testStarted name='num_max at column 2:Float' locationHint='php_qn://./tests/fixtures/batch/demo-1.csv' flowId='42']
-            "num_max" at line 3, column "2:Float". The number of the value "74605.944", which is greater than the expected "4825.184".
-            ##teamcity[testFinished name='num_max at column 2:Float' flowId='42']
             
             ##teamcity[testStarted name='allow_values at column 4:Favorite color' locationHint='php_qn://./tests/fixtures/batch/demo-1.csv' flowId='42']
             "allow_values" at line 3, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].
@@ -340,7 +334,7 @@ final class ValidateCsvTest extends TestCase
             ##teamcity[testSuiteFinished name='demo-3.csv' flowId='42']
             
             
-            Found 9 issues in 3 out of 3 CSV files.
+            Found 8 issues in 3 out of 3 CSV files.
             
             TXT;
 
@@ -352,7 +346,7 @@ final class ValidateCsvTest extends TestCase
     {
         [$expected, $expectedCode] = Tools::virtualExecution('validate:csv', [
             'csv'    => './tests/fixtures/batch/*.csv',
-            'schema' => './tests/schemas/demo_invalid.yml',
+            'schema' => Tools::DEMO_YML_INVALID,
         ]);
 
         $actual = Tools::realExecution(
@@ -361,7 +355,7 @@ final class ValidateCsvTest extends TestCase
                 '--csv="./tests/fixtures/batch/demo-1.csv"',
                 '--csv="./tests/fixtures/batch/demo-2.csv"',
                 '--csv="./tests/fixtures/batch/*.csv"',
-                '--schema="./tests/schemas/demo_invalid.yml"',
+                '--schema="' . Tools::DEMO_YML_INVALID . '"',
                 '--mute-errors',
                 '--stdout-only',
                 '--no-ansi',

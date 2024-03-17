@@ -42,6 +42,7 @@ final class Tools
     public const DEMO_YML_VALID   = './tests/schemas/demo_valid.yml';
     public const DEMO_YML_INVALID = './tests/schemas/demo_invalid.yml';
     public const DEMO_CSV         = './tests/fixtures/demo.csv';
+    public const DEMO_CSV_FULL    = PROJECT_ROOT . '/tests/fixtures/demo.csv';
 
     public const README = './README.md';
 
