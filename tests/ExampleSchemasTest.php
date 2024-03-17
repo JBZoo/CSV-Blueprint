@@ -126,6 +126,33 @@ final class ExampleSchemasTest extends TestCase
         }
     }
 
+    public function testUpdateYmlExampleInReadme(): void
+    {
+        $filepath = \implode(
+            "\n",
+            \array_slice(\explode("\n", \file_get_contents(Tools::SCHEMA_FULL)), 12),
+        );
+
+        $replacement = \implode("\n", [
+            '<!-- full.yml -->',
+            '```yml',
+            $filepath,
+            '```',
+            '<!-- /full.yml -->',
+        ]);
+
+        $result = \preg_replace(
+            '/<\!-- full\.yml -->(.*?)<\!-- \/full\.yml -->/s',
+            $replacement,
+            \file_get_contents(Tools::README),
+        );
+
+        isTrue(\file_put_contents(Tools::README, $result) > 0);
+    }
+
+    /**
+     * @depends testUpdateYmlExampleInReadme
+     */
     public function testCheckYmlSchemaExampleInReadme(): void
     {
         $filepath = \implode(

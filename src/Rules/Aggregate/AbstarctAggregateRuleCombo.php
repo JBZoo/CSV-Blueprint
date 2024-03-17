@@ -20,6 +20,13 @@ use JBZoo\CsvBlueprint\Rules\AbstarctRuleCombo;
 
 abstract class AbstarctAggregateRuleCombo extends AbstarctRuleCombo
 {
+    protected const HELP_OPTIONS = [
+        self::EQ  => ['5.123', ''],
+        self::NOT => ['4.123', ''],
+        self::MIN => ['1.123', ''],
+        self::MAX => ['10.123', ''],
+    ];
+
     abstract protected function getActualAggregate(array $colValues): float;
 
     protected function getActual(array|string $value): float

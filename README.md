@@ -84,6 +84,7 @@ It's also covered by tests, so it's always up-to-date.
 * You are always free to add your option anywhere (except the `rules` list) and it will be ignored. I find it convenient for additional integrations and customization.
 
 
+<!-- full.yml -->
 ```yml
 # It's a full example of the CSV schema file in YAML format.
 
@@ -166,10 +167,10 @@ columns:
       # Under the hood it convertes and compares as float values.
       # Comparison accuracy is 10 digits after a dot.
       # Scientific number format is also supported. Example: "1.2e3".
-      num: 5.1
-      num_not: 4.2
-      num_min: 1.3
-      num_max: 10.4
+      num: 5                            # You can use integers.
+      num_not: 4.123                    # Float numbers.
+      num_min: 1.2e3                    # And even scientific format.
+      num_max: -10.123                  # Negative and positive, zero is also supported.
       is_int: true                      # Check format only. Can be negative and positive. Without any separators.
       is_float: true                    # Check format only. Can be negative and positive. Dot as decimal separator.
 
@@ -218,16 +219,16 @@ columns:
       is_unique: true                   # All values in the column are unique.
 
       # Sum of the numbers in the column. Example: [1, 2, 3] => 6.
-      sum: 5
-      sum_not: 4
-      sum_min: 1
-      sum_max: 10
+      sum: 5.123
+      sum_not: 4.123
+      sum_min: 1.123
+      sum_max: 10.123
 
       # Regular the arithmetic mean. The sum of the numbers divided by the count.
-      average: 5
-      average_not: 4
-      average_min: 1
-      average_max: 10
+      average: 5.123
+      average_not: 4.123
+      average_min: 1.123
+      average_max: 10.123
 
   - name: "another_column"
 
@@ -236,7 +237,7 @@ columns:
   - description: "Column with description only. Undefined header name."
 
 ```
-
+<!-- /full.yml -->
 
 ## Usage
 
