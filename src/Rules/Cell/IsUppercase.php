@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class IsUppercase extends AbstarctCellRule
+final class IsUppercase extends AbstractCellRule
 {
     protected const HELP_OPTIONS = [
         self::DEFAULT => ['true', 'String is only upper-case. Example: "HELLO WORLD".'],

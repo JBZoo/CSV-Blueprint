@@ -64,6 +64,7 @@ abstract class AbstarctRule
 
     public function validate(array|string $cellValue, int $line = ColumnValidator::FALLBACK_LINE): ?Error
     {
+        // TODO: Extract to abstract boolean cell/agregate rule
         if ($this->isEnabled($cellValue) === false) {
             return null;
         }
@@ -86,7 +87,7 @@ abstract class AbstarctRule
         $leftPad = \str_repeat(' ', self::HELP_LEFT_PAD);
 
         $renderLine = function (array|string $row, string $mode) use ($leftPad): string {
-            $ymlRuleCode = $this instanceof AbstractCombo ? $this->getComboRuleCode($mode) : $this->getRuleCode();
+            $ymlRuleCode = \str_replace('ag:', '', $this->getRuleCode($mode));
             $baseKeyVal  = "{$leftPad}{$ymlRuleCode}: {$row[0]}";
 
             if (isset($row[1]) && $row[1] !== '') {
@@ -106,7 +107,7 @@ abstract class AbstarctRule
             );
         }
 
-        if ($this instanceof AbstractCombo) {
+        if ($this instanceof AbstarctRuleCombo) {
             return \implode("\n", [
                 $topComment,
                 $renderLine(static::HELP_OPTIONS[self::EQ], self::EQ),
@@ -155,7 +156,7 @@ abstract class AbstarctRule
     {
         // TODO: Replace to warning message
         if ($this->options === '' || !\is_numeric($this->options)) {
-            $options = \is_array($this->options) ? \implode(', ', $this->options) : $this->options;
+            $options = \is_array($this->options) ? '[' . \implode(', ', $this->options) . ']' : $this->options;
             throw new Exception(
                 "Invalid option \"{$options}\" for the \"{$this->getRuleCode()}\" rule. " .
                 'It should be integer.',
@@ -163,6 +164,20 @@ abstract class AbstarctRule
         }
 
         return (int)$this->options;
+    }
+
+    protected function getOptionAsFloat(): float
+    {
+        // TODO: Replace to warning message
+        if ($this->options === '' || !\is_numeric($this->options)) {
+            $options = \is_array($this->options) ? '[' . \implode(', ', $this->options) . ']' : $this->options;
+            throw new Exception(
+                "Invalid option \"{$options}\" for the \"{$this->getRuleCode()}\" rule. " .
+                'It should be integer/float.',
+            );
+        }
+
+        return (float)$this->options;
     }
 
     /**
@@ -208,8 +223,11 @@ abstract class AbstarctRule
         return $cellValue !== '';
     }
 
-    protected function getRuleCode(): string
+    protected function getRuleCode(?string $mode = null): string
     {
-        return Utils::camelToKebabCase((new \ReflectionClass($this))->getShortName());
+        $mode ??= $this->mode;
+        $postfix = $mode !== self::EQ && $mode !== self::DEFAULT ? "_{$mode}" : '';
+
+        return Utils::camelToKebabCase((new \ReflectionClass($this))->getShortName()) . $postfix;
     }
 }

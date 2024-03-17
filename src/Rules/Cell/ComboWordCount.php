@@ -16,9 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\AbstractCombo;
-
-final class ComboWordCount extends AbstractCombo
+final class ComboWordCount extends AbstractCellRuleCombo
 {
     protected const NAME = 'word count';
 
@@ -28,12 +26,12 @@ final class ComboWordCount extends AbstractCombo
         'Example: "Hello World, 123" - 2 words only (123 is not a word).',
     ];
 
-    protected function getExpected(): float|int|string
+    protected function getExpected(): float
     {
         return $this->getOptionAsInt();
     }
 
-    protected function getCurrent(string $cellValue): float|int|string
+    protected function getActualCell(string $cellValue): float
     {
         // @phan-suppress-next-line PhanPartialTypeMismatchReturn
         return \str_word_count($cellValue, 0);

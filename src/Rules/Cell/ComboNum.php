@@ -16,11 +16,9 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\AbstractCombo;
-
 use function JBZoo\Utils\float;
 
-final class ComboNum extends AbstractCombo
+final class ComboNum extends AbstractCellRuleCombo
 {
     protected const NAME = 'number';
 
@@ -32,7 +30,7 @@ final class ComboNum extends AbstractCombo
 
     private const PRECISION = 12;
 
-    protected function getExpected(): float|int|string
+    protected function getExpected(): float
     {
         return float($this->getOptionAsString(), self::PRECISION);
     }
@@ -45,7 +43,7 @@ final class ComboNum extends AbstractCombo
         return '';
     }
 
-    protected function getCurrent(string $cellValue): float|int|string
+    protected function getActualCell(string $cellValue): float
     {
         return float($cellValue, self::PRECISION);
     }

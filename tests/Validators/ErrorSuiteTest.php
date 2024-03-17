@@ -115,7 +115,7 @@ final class ErrorSuiteTest extends TestCase
             $csv->validate()->render(ErrorSuite::REPORT_GITHUB),
         );
 
-        $path = Tools::CSV_DEMO;
+        $path = Tools::DEMO_CSV;
         $csv  = new CsvFile($path, Tools::getAggregateRule('City', 'is_unique', true));
         isSame(
             \implode("\n", [

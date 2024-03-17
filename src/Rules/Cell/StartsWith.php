@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class StartsWith extends AbstarctCellRule
+final class StartsWith extends AbstractCellRule
 {
     protected const HELP_OPTIONS = [
         self::DEFAULT => ['"prefix "', 'Example: "prefix Hello World".'],

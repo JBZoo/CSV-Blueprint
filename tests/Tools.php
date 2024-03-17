@@ -28,7 +28,6 @@ final class Tools
     public const CSV_SIMPLE_HEADER    = './tests/fixtures/simple_header.csv';
     public const CSV_SIMPLE_NO_HEADER = './tests/fixtures/simple_no_header.csv';
     public const CSV_COMPLEX          = './tests/fixtures/complex_header.csv';
-    public const CSV_DEMO             = './tests/fixtures/demo.csv';
 
     public const SCHEMA_SIMPLE_HEADER      = './tests/schemas/simple_header.yml';
     public const SCHEMA_SIMPLE_NO_HEADER   = './tests/schemas/simple_no_header.yml';
@@ -39,6 +38,11 @@ final class Tools
     public const SCHEMA_FULL      = './schema-examples/full.yml';
     public const SCHEMA_FULL_JSON = './schema-examples/full.json';
     public const SCHEMA_FULL_PHP  = './schema-examples/full.php';
+
+    public const DEMO_YML_VALID   = './tests/schemas/demo_valid.yml';
+    public const DEMO_YML_INVALID = './tests/schemas/demo_invalid.yml';
+    public const DEMO_CSV         = './tests/fixtures/demo.csv';
+    public const DEMO_CSV_FULL    = PROJECT_ROOT . '/tests/fixtures/demo.csv';
 
     public const README = './README.md';
 

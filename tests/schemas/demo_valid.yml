@@ -33,7 +33,10 @@ columns:
       not_empty: true
       is_float: true
       num_min: -19366059128
-      num_max: 74606
+      num_max: 4825.186
+    aggregate_rules:
+      sum_max: 4692
+
 
   - name: Birthday
     rules:

@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules;
 
+use JBZoo\CsvBlueprint\Rules\Cell\AbstractCellRuleCombo;
 use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use JBZoo\CsvBlueprint\Validators\Exception;
@@ -51,7 +52,7 @@ final class Ruleset
         string $origRuleName,
         null|array|bool|float|int|string $options = null,
     ): AbstarctRule {
-        $mode    = AbstractCombo::parseMode($origRuleName);
+        $mode    = AbstractCellRuleCombo::parseMode($origRuleName);
         $noCombo = \preg_replace("/(_{$mode})\$/", '', $origRuleName);
 
         $origRuleClass  = Utils::kebabToCamelCase($origRuleName);

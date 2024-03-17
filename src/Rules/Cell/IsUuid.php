@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class IsUuid extends AbstarctCellRule
+final class IsUuid extends AbstractCellRule
 {
     protected const HELP_OPTIONS = [
         self::DEFAULT => ['true', 'Only UUID4 format. Example: "550e8400-e29b-41d4-a716-446655440000"'],

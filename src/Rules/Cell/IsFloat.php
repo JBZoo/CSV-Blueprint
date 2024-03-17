@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-class IsFloat extends AbstarctCellRule
+class IsFloat extends AbstractCellRule
 {
     protected const HELP_OPTIONS = [
         self::DEFAULT => ['true', 'Check format only. Can be negative and positive. Dot as decimal separator'],

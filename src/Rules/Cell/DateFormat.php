@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class DateFormat extends AbstarctCellRule
+final class DateFormat extends AbstractCellRule
 {
     protected const HELP_OPTIONS = [
         self::DEFAULT => ['Y-m-d', 'Check strict format of the date.'],

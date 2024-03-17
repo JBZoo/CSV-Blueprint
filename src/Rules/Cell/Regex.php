@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Utils;
 
-final class Regex extends AbstarctCellRule
+final class Regex extends AbstractCellRule
 {
     protected const HELP_TOP = [
         'Any valid regex pattern. See https://www.php.net/manual/en/reference.pcre.pattern.syntax.php',

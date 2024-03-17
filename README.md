@@ -105,7 +105,11 @@ columns:
   - name: "Column Name (header)"        # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
     description: "Lorem ipsum"          # Optional. Description of the column. Not used in the validation process.
 
-    # Optional. You can use this section to validate each value in the column.
+    ####################################################################################################################
+    # Data validation for each(!) value in the column.
+    # Of course, this can greatly affect the speed of checking.
+    # It depends on the number of checks and CSV file size.
+    # TODO: There are several ways to optimize this process, but the author needs time to test it carefully.
     rules:
       # Important notes:
       # 1. All rules except "not_empty" ignored for empty strings (length 0).
@@ -139,7 +143,7 @@ columns:
       length_max: 10
 
       # Basic string checks
-      is_trimed: true                   # Only trimed strings. Example: "Hello World" (not " Hello World ").
+      is_trimmed: true                  # Only trimed strings. Example: "Hello World" (not " Hello World ").
       is_lowercase: true                # String is only lower-case. Example: "hello world".
       is_uppercase: true                # String is only upper-case. Example: "HELLO WORLD".
       is_capitalize: true               # String is only capitalized. Example: "Hello World".
@@ -204,10 +208,21 @@ columns:
       is_cardinal_direction: true       # Valid cardinal direction. Examples: "N", "S", "NE", "SE", "none", "".
       is_usa_market_name: true          # Check if the value is a valid USA market name. Example: "New York, NY".
 
-    # Optional. You can use this section to validate the whole column
-    # Be careful, this can reduce performance noticeably depending on the combination of rules.
+
+    ####################################################################################################################
+    # Data validation for the entire(!) column using different data aggregation methods.
+    # Depending on the file size and the chosen aggregation method - this can use a lot of RAM time.
+    # Be careful with files that are 2-3 or more times larger than the available memory.
+    # TODO: There are several ways to optimize this process, but the author needs time to test it carefully.
     aggregate_rules:
       is_unique: true                   # All values in the column are unique.
+
+      # Assumes that all values in the column are int/float only.
+      # An empty string is converted to null.
+      sum: 5
+      sum_not: 4
+      sum_min: 1
+      sum_max: 10
 
   - name: "another_column"
 
@@ -376,13 +391,12 @@ Schema: ./tests/schemas/demo_invalid.yml
 Found CSV files: 3
 
 (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
-+------+------------------+--------------+-------------- demo-1.csv -------------------------------------------------------+
-| Line | id:Column        | Rule         | Message                                                                         |
-+------+------------------+--------------+---------------------------------------------------------------------------------+
-| 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 1, total: 2                               |
-| 3    | 2:Float          | num_max      | The number of the value "74605.944", which is greater than the expected "74605" |
-| 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]           |
-+------+------------------+--------------+-------------- demo-1.csv -------------------------------------------------------+
++------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
+| Line | id:Column        | Rule         | Message                                                               |
++------+------------------+--------------+-----------------------------------------------------------------------+
+| 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 1, total: 2                     |
+| 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"] |
++------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
 
 (2/3) Invalid file: ./tests/fixtures/batch/demo-2.csv
 +------+------------+------------+-------------------------- demo-2.csv ------------------------------------------------------------+
@@ -406,7 +420,7 @@ Found CSV files: 3
 +------+-----------+------------------+---------------------- demo-3.csv ------------------------------------------------------------+
 
 
-Found 9 issues in 3 out of 3 CSV files.
+Found 8 issues in 3 out of 3 CSV files.
 
 ```
 
@@ -471,13 +485,16 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
 * Gitlab and JUnit reports must be as one structure. It's not so easy to implement. But it's a good idea.
 * Merge reports from multiple CSV files into one report. It's useful when you have a lot of files and you want to see all errors in one place. Especially for GitLab and JUnit reports.
 
-**Agregate rule**
+**Misc**
 * Use it as PHP SDK. Examples in Readme.
+* Warnings about deprecated options and features.
+* Warnings about invalid schema files.
+* Move const:HELP to PHP annotations. Canonic way to describe the command.
 * S3 Storage support. Validate files in the S3 bucket?
 * More examples and documentation.
 
  
-PS. [There is a file](tests/schemas/example_full.yml) with my ideas and imagination. It's not valid schema file, just a draft.
+PS. [There is a file](tests/schemas/todo.yml) with my ideas and imagination. It's not valid schema file, just a draft.
 I'm not sure if I will implement all of them. But I will try to do my best.
 
 

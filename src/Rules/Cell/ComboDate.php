@@ -16,9 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\AbstractCombo;
-
-final class ComboDate extends AbstractCombo
+final class ComboDate extends AbstractCellRuleCombo
 {
     protected const NAME = 'date';
 
@@ -41,7 +39,7 @@ final class ComboDate extends AbstractCombo
     private const OUTPUT_DATE_FORMAT = 'Y-m-d H:i:s P';
     private const INVALID_TIMESTAMP  = -1;
 
-    protected function getCurrent(string $cellValue): float|int|string
+    protected function getActualCell(string $cellValue): float
     {
         try {
             $result = (new \DateTimeImmutable($cellValue))->getTimestamp();
@@ -52,7 +50,7 @@ final class ComboDate extends AbstractCombo
         return $result;
     }
 
-    protected function getExpected(): float|int|string
+    protected function getExpected(): float
     {
         $expectedValue = $this->getOptionAsString();
 

@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 use JBZoo\Utils\Filter;
 
-final class IsAlias extends AbstarctCellRule
+final class IsAlias extends AbstractCellRule
 {
     protected const HELP_OPTIONS = [
         self::DEFAULT => [

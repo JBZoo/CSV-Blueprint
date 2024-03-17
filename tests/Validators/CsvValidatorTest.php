@@ -83,17 +83,30 @@ final class CsvValidatorTest extends TestCase
 
     public function testAggregateRule(): void
     {
-        $csv = new CsvFile(Tools::CSV_DEMO, Tools::getAggregateRule('Name', 'is_unique', true));
+        $csv = new CsvFile(Tools::DEMO_CSV, Tools::getAggregateRule('Name', 'is_unique', true));
         isSame('', \strip_tags((string)$csv->validate()));
 
-        $csv = new CsvFile(Tools::CSV_DEMO, Tools::getAggregateRule('City', 'is_unique', true));
+        $csv = new CsvFile(Tools::DEMO_CSV, Tools::getAggregateRule('City', 'is_unique', true));
         isSame(
             '"ag:is_unique" at line 1, column "0:City". Column has non-unique values. Unique: 9, total: 10.' . "\n",
             \strip_tags((string)$csv->validate()),
         );
 
-        $csv = new CsvFile(Tools::CSV_DEMO, Tools::getAggregateRule('City', 'is_unique', false));
+        $csv = new CsvFile(Tools::DEMO_CSV, Tools::getAggregateRule('City', 'is_unique', false));
         isSame('', \strip_tags((string)$csv->validate()));
+    }
+
+    public function testAggregateRuleCombo(): void
+    {
+        $csv = new CsvFile(Tools::DEMO_CSV, Tools::getAggregateRule('Float', 'sum', 4691.3235));
+        isSame('', \strip_tags((string)$csv->validate()));
+
+        $csv = new CsvFile(Tools::DEMO_CSV, Tools::getAggregateRule('Float', 'sum', 20));
+        isSame(
+            '"ag:sum" at line 1, column "0:Float". The sum of the column is "4691.3235", ' .
+            'which is not equal than the expected "20".' . "\n",
+            \strip_tags((string)$csv->validate()),
+        );
     }
 
     public function testCellRuleNoName(): void

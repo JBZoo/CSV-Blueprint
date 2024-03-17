@@ -16,20 +16,18 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\AbstractCombo;
-
-final class ComboLength extends AbstractCombo
+final class ComboLength extends AbstractCellRuleCombo
 {
     protected const NAME = 'length';
 
     protected const HELP_TOP = ['Checks length of a string including spaces (multibyte safe).'];
 
-    protected function getExpected(): float|int|string
+    protected function getExpected(): float
     {
         return $this->getOptionAsInt();
     }
 
-    protected function getCurrent(string $cellValue): float|int|string
+    protected function getActualCell(string $cellValue): float
     {
         return \mb_strlen($cellValue);
     }

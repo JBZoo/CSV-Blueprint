@@ -10,13 +10,7 @@
 # @see        https://github.com/JBZoo/Csv-Blueprint
 #
 
-# Name:         Example Schema
-# Description:  Example schema for CSV file
-# Version:      1.0.0
-# Author:       Denis Smetannikov
-# Created:      2023-03-09
-
-# File contains just ideas. It's invalid
+# File contains just ideas. It's invalid!
 
 # Include another schemas
 includes: # Alias is always required
@@ -35,7 +29,7 @@ columns:
   - name: General available options # Can be optional if csv\header: false. If set, then header must contain this value
     required: true                  # If true, then column must be present in the file
     rules:
-      is_ip6: true
+      is_ip6: true                  # Check if the value is a valid IPv6 address. Example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
       dateperiod_: true
       dateinterval_: true
       bic: true
@@ -52,6 +46,7 @@ columns:
       is_time: true
       is_timezone: true
       is_timezone_offset: true
+      not_allow_values: [ ]           # Strict set of values that are not allowed
     aggregate_rules:
       sum_: true
       avg_: true
@@ -82,24 +77,26 @@ columns:
       count_empty_max: 10
       count_filled_min: 1
       count_filled_max: 10
-      # custom_0: callbak function
-      # custom_1: # Custom rule name. Format: custom_{name}
-      #   class: My\Aggregate\Rules1 # Full name of PHP Class (with namespace)
-      #   args: [ value ]   # Optional arguments to customize the rule
-      # custom_2:
-      #   class: My\Aggregate\Rules2
-      #   args: [ value1, value2 ]
-      # custom_my_favorite_name:
-      #   class: My\Aggregate\RulesXXX
+      custom_func: callbak function
+      custom_1: # Custom rule name. Format: custom_{name}
+        class: My\Aggregate\Rules1 # Full name of PHP Class (with namespace)
+        args: [ value ]   # Optional arguments to customize the rule
+      custom_2:
+        class: My\Aggregate\Rules2
+        args: [ value1, value2 ]
+      custom_my_favorite_name:
+        class: My\Aggregate\RulesXXX
 
   - name: Some Integer
     aggregate_rules:
-      std_dev_min: 1
+      first_value: 1
+      second_value: 2
+      last_value: 10
+
+      stddev_: 1
       std_dev_max: 10
       percentile_min: 1
       percentile_max: 10
-      first_value: 1
-      last_value: 10
       average_min: 1
       average_max: 10
       median_min: 1

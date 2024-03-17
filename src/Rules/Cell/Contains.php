@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class Contains extends AbstarctCellRule
+final class Contains extends AbstractCellRule
 {
     protected const HELP_OPTIONS = [
         self::DEFAULT => ['Hello', 'Example: "Hello World".'],
