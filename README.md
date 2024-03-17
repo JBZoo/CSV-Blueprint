@@ -202,7 +202,7 @@ columns:
       is_url: true                      # Only URL format. Example: "https://example.com/page?query=string#anchor".
       is_email: true                    # Only email format. Example: "user@example.com".
       is_domain: true                   # Only domain name. Example: "example.com".
-      is_uuid: true                     # Only UUID4 format. Example: "550e8400-e29b-41d4-a716-446655440000".
+      is_uuid: true                     # Validates whether the input is a valid UUID. It also supports validation of specific versions 1, 3, 4 and 5.
       is_alias: true                    # Only alias format. Example: "my-alias-123". It can contain letters, numbers, and dashes.
       is_currency_code: true            # Validates an ISO 4217 currency code like GBP or EUR. Case-sensitive. See: https://en.wikipedia.org/wiki/ISO_4217.
 
