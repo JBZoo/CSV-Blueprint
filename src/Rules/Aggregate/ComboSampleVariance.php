@@ -18,18 +18,17 @@ namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
 use MathPHP\Statistics\Descriptive;
 
-final class ComboPopulationVariance extends AbstarctAggregateRuleCombo
+final class ComboSampleVariance extends AbstarctAggregateRuleCombo
 {
     protected const NAME = 'population variance';
 
     protected const HELP_TOP = [
-        'Population variance - Use when all possible observations of the system are present.',
-        'If used with a subset of data (sample variance), it will be a biased variance.',
-        'n degrees of freedom, where n is the number of observations.',
+        'Unbiased sample variance Use when only a subset of all possible observations of the system are present.',
+        'n - 1 degrees of freedom, where n is the number of observations.',
     ];
 
     protected function getActualAggregate(array $colValues): ?float
     {
-        return Descriptive::populationVariance(self::stringsToFloat($colValues));
+        return Descriptive::sampleVariance(self::stringsToFloat($colValues));
     }
 }

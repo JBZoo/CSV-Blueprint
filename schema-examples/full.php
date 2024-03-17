@@ -134,6 +134,11 @@ return [
                 'population_variance_not' => 4.123,
                 'population_variance_min' => 1.123,
                 'population_variance_max' => 10.123,
+
+                'sample_variance'     => 5.123,
+                'sample_variance_not' => 4.123,
+                'sample_variance_min' => 1.123,
+                'sample_variance_max' => 10.123,
             ],
         ],
 
