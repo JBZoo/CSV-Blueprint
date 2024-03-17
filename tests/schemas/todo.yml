@@ -48,16 +48,11 @@ columns:
       is_timezone_offset: true
       not_allow_values: [ ]           # Strict set of values that are not allowed
     aggregate_rules:
-      sum_: true
-      avg_: true
-      median_: true
       mode_: true
-      range_: true
       variance_: true
       stddev_: true
       percentile_: true
       quantile_: true
-      count_: true
       count_distinct_: true
       count_empty_: true
       count_not_empty_: true

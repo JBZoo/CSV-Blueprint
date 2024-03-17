@@ -25,14 +25,16 @@ return [
         'bom'        => false,
     ],
     'columns' => [
-        0 => [
+        [
             'name'        => 'Column Name (header)',
             'description' => 'Lorem ipsum',
             'rules'       => [
-                'not_empty'    => true,
-                'exact_value'  => 'Some string',
-                'allow_values' => ['y', 'n', ''],
-                'regex'        => '/^[\\d]{2}$/',
+                'not_empty'        => true,
+                'exact_value'      => 'Some string',
+                'allow_values'     => ['y', 'n', ''],
+                'not_allow_values' => ['invalid'],
+
+                'regex' => '/^[\\d]{2}$/',
 
                 'length'     => 5,
                 'length_not' => 4,
@@ -123,8 +125,11 @@ return [
                 'median_max' => 10.123,
             ],
         ],
-        ['name'        => 'another_column'],
-        ['name'        => 'third_column'],
+
+        ['name' => 'another_column'],
+
+        ['name' => 'third_column'],
+
         ['description' => 'Column with description only. Undefined header name.'],
     ],
 ];
