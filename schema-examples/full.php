@@ -129,6 +129,11 @@ return [
                 'median_not' => 4.123,
                 'median_min' => 1.123,
                 'median_max' => 10.123,
+
+                'population_variance'     => 5.123,
+                'population_variance_not' => 4.123,
+                'population_variance_min' => 1.123,
+                'population_variance_max' => 10.123,
             ],
         ],
 

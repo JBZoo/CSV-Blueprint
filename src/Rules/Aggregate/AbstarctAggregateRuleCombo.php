@@ -59,7 +59,7 @@ abstract class AbstarctAggregateRuleCombo extends AbstarctRuleCombo
         try {
             $actual = $this->getActualAggregate($colValues); // Important to use the original method here!
         } catch (\Throwable) {
-            $actual = null;
+            $actual = null; // TODO: Expose the error/warning message in the report?
         }
 
         if ($actual === null) {

@@ -196,6 +196,14 @@ columns:
       median_min: 1.123
       median_max: 10.123
 
+      # Population variance - Use when all possible observations of the system are present.
+      # If used with a subset of data (sample variance), it will be a biased variance.
+      # It's n degrees of freedom.
+      population_variance: 5.123
+      population_variance_not: 4.123
+      population_variance_min: 1.123
+      population_variance_max: 10.123
+
   - name: "another_column"
 
   - name: "third_column"

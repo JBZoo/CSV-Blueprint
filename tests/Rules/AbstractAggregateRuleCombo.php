@@ -31,15 +31,13 @@ abstract class AbstractAggregateRuleCombo extends TestCase
 
     abstract public function testEqual(): void;
 
-    abstract public function testNotEqual(): void;
+    // abstract public function testNotEqual(): void;
 
-    abstract public function testMin(): void;
+    // abstract public function testMin(): void;
 
-    abstract public function testMax(): void;
+    // abstract public function testMax(): void;
 
     // abstract public function testInvalidOption(): void;
-
-    abstract public function testInvalidParsing(): void;
 
     public function testHelpMessageInExample(): void
     {
@@ -59,6 +57,12 @@ abstract class AbstractAggregateRuleCombo extends TestCase
         }
 
         success();
+    }
+
+    public function testInvalidParsing(): void
+    {
+        $rule = $this->create(0, Combo::EQ);
+        isSame('', $rule->test([]));
     }
 
     protected function create(array|float|int|string $value, string $mode): Combo
