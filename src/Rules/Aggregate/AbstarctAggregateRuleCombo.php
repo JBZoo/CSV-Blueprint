@@ -29,6 +29,11 @@ abstract class AbstarctAggregateRuleCombo extends AbstarctRuleCombo
 
     abstract protected function getActualAggregate(array $colValues): ?float;
 
+    public function getRuleCode(?string $mode = null): string
+    {
+        return 'ag:' . parent::getRuleCode($mode);
+    }
+
     protected function getActual(array|string $value): float
     {
         if (\is_string($value)) {
@@ -69,11 +74,6 @@ abstract class AbstarctAggregateRuleCombo extends AbstarctRuleCombo
         }
 
         return null;
-    }
-
-    protected function getRuleCode(?string $mode = null): string
-    {
-        return 'ag:' . parent::getRuleCode($mode);
     }
 
     protected static function stringsToFloat(array $colValues): array

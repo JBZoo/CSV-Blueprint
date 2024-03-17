@@ -31,11 +31,15 @@ abstract class AbstarctAggregateRule extends AbstarctRule
      */
     abstract public function validateRule(array &$columnValues): ?string;
 
-    /**
-     * @phan-suppress PhanUnusedProtectedMethodParameter
-     */
-    protected function getRuleCode(?string $mode = null): string
+    public function test(array $cellValue, bool $isHtml = false): string
     {
-        return 'ag:' . parent::getRuleCode();
+        $errorMessage = (string)$this->validateRule($cellValue);
+
+        return $isHtml ? $errorMessage : \strip_tags($errorMessage);
+    }
+
+    public function getRuleCode(?string $mode = null): string
+    {
+        return 'ag:' . parent::getRuleCode($mode);
     }
 }

@@ -14,31 +14,33 @@
 
 declare(strict_types=1);
 
-namespace JBZoo\PHPUnit\Rules\Aggregate;
+namespace JBZoo\PHPUnit\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\Aggregate\IsUnique;
-use JBZoo\PHPUnit\Rules\AbstractAggregateRule;
+use JBZoo\CsvBlueprint\Rules\Cell\IsBase64;
+use JBZoo\PHPUnit\Rules\AbstractCellRule;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class IsUniqueTest extends AbstractAggregateRule
+final class IsBase64Test extends AbstractCellRule
 {
-    protected string $ruleClass = IsUnique::class;
+    protected string $ruleClass = IsBase64::class;
 
     public function testPositive(): void
     {
         $rule = $this->create(true);
-        isSame(null, $rule->validate([1]));
-        isSame(null, $rule->validate([]));
-        isSame(null, $rule->validate(['1', '2', '3']));
+        isSame(null, $rule->validate(''));
+        isSame('', $rule->test('cmVzcGVjdCE='));
+
+        $rule = $this->create(false);
+        isSame(null, $rule->validate('1'));
     }
 
     public function testNegative(): void
     {
         $rule = $this->create(true);
         isSame(
-            'Column has non-unique values. Unique: 3, total: 4',
-            $rule->test(['1', '2', '3', '3']),
+            'Value is not a valid Base64',
+            $rule->test('Hello world!'),
         );
     }
 }

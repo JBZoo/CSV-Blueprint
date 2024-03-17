@@ -3,8 +3,9 @@
 [![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml?query=branch%3Amaster)    [![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml/badge.svg?branch=master)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml?query=branch%3Amaster)    [![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/release-docker.yml/badge.svg?branch=master)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/release-docker.yml?query=branch%3Amaster)    [![Coverage Status](https://coveralls.io/repos/github/JBZoo/Csv-Blueprint/badge.svg?branch=master)](https://coveralls.io/github/JBZoo/Csv-Blueprint?branch=master)    [![Psalm Coverage](https://shepherd.dev/github/JBZoo/Csv-Blueprint/coverage.svg)](https://shepherd.dev/github/JBZoo/Csv-Blueprint)    [![Psalm Level](https://shepherd.dev/github/JBZoo/Csv-Blueprint/level.svg)](https://shepherd.dev/github/JBZoo/Csv-Blueprint)    [![CodeFactor](https://www.codefactor.io/repository/github/jbzoo/csv-blueprint/badge)](https://www.codefactor.io/repository/github/jbzoo/csv-blueprint/issues)    
 [![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint)    [![Dependents](https://poser.pugx.org/jbzoo/csv-blueprint/dependents)](https://packagist.org/packages/jbzoo/csv-blueprint/dependents?order_by=downloads)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
 
-![Static Badge](https://img.shields.io/badge/Cell_Rules-52-green?label=Cell%20Rules&color=green)    ![Static Badge](https://img.shields.io/badge/Aggregate_Rules-25-green?label=Aggregate%20Rules&color=green)
-
+<!-- rules-counter -->
+![Static Badge](https://img.shields.io/badge/Total_Rules-78-green?label=Total%20Rules&color=green)    ![Static Badge](https://img.shields.io/badge/Cell_Rules-53-green?label=Cell%20Rules&color=green)    ![Static Badge](https://img.shields.io/badge/Aggregate_Rules-25-green?label=Aggregate%20Rules&color=green)
+<!-- /rules-counter -->
 
 ## Introduction
 
@@ -86,7 +87,7 @@ It's also covered by tests, so it's always up-to-date.
 * You are always free to add your option anywhere (except the `rules` list) and it will be ignored. I find it convenient for additional integrations and customization.
 
 
-<!-- full.yml -->
+<!-- full-yml -->
 ```yml
 # It's a full example of the CSV schema file in YAML format.
 
@@ -205,6 +206,7 @@ columns:
       is_uuid: true                     # Validates whether the input is a valid UUID. It also supports validation of specific versions 1, 3, 4 and 5.
       is_alias: true                    # Only alias format. Example: "my-alias-123". It can contain letters, numbers, and dashes.
       is_currency_code: true            # Validates an ISO 4217 currency code like GBP or EUR. Case-sensitive. See: https://en.wikipedia.org/wiki/ISO_4217.
+      is_base64: true                   # Validate if a string is Base64-encoded. Example: "cmVzcGVjdCE=".
 
       # Geography
       is_latitude: true                 # Can be integer or float. Example: 50.123456.
@@ -271,7 +273,7 @@ columns:
   - description: "Column with description only. Undefined header name."
 
 ```
-<!-- /full.yml -->
+<!-- /full-yml -->
 
 ## Usage
 
@@ -280,6 +282,7 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
 
 ### As GitHub Action
 
+<!-- github-actions-yml -->
 ```yml
 - uses: jbzoo/csv-blueprint@master # See the specific version on releases page
   with:
@@ -302,6 +305,7 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
     quick: no
 
 ```
+<!-- /github-actions-yml -->
 
 **Note**. Report format for GitHub Actions is `github` by default. See [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message) and [PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files). 
 
@@ -370,6 +374,7 @@ Here you can see all available options and commands.  Tool uses [JBZoo/Cli](http
 So there are options here for all occasions.
 
 
+<!-- validate-csv-help -->
 ```
 ./csv-blueprint validate:csv --help
 
@@ -415,6 +420,7 @@ Options:
   -v|vv|vvv, --verbose           Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
 ```
+<!-- /validate-csv-help -->
 
 
 ### Report examples
@@ -423,6 +429,7 @@ As a result of the validation process, you will receive a human-readable table w
 
 Default report format is `table`:
 
+<!-- output-table -->
 ```
 ./csv-blueprint validate:csv --csv='./tests/fixtures/batch/*.csv' --schema='./tests/schemas/demo_invalid.yml'
 
@@ -463,6 +470,7 @@ Found CSV files: 3
 Found 8 issues in 3 out of 3 CSV files.
 
 ```
+<!-- /output-table -->
 
 
 Optional format `text` with highlited keywords:

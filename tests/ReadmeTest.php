@@ -25,14 +25,16 @@ final class ReadmeTest extends TestCase
 {
     public function testCreateCsvHelp(): void
     {
-        isFileContains(\implode("\n", [
+        $text = \implode("\n", [
             '```',
             './csv-blueprint validate:csv --help',
             '',
             '',
             Tools::realExecution('validate:csv', ['help' => null]),
             '```',
-        ]), Tools::README);
+        ]);
+
+        Tools::insertInReadme('validate-csv-help', $text);
     }
 
     public function testTableOutputExample(): void
@@ -46,28 +48,47 @@ final class ReadmeTest extends TestCase
 
         isSame(1, $exitCode, $actual);
 
-        isFileContains(\implode("\n", [
+        $text = \implode("\n", [
             '```',
             "./csv-blueprint validate:csv {$optionsAsString}",
             '',
             '',
             $actual,
             '```',
-        ]), Tools::README);
+        ]);
+
+        Tools::insertInReadme('output-table', $text);
     }
 
     public function testBadgeOfRules(): void
     {
-        $cellRules = \count(yml(Tools::SCHEMA_FULL)->findArray('columns.0.rules'));
-        $aggRules  = \count(yml(Tools::SCHEMA_FULL)->findArray('columns.0.aggregate_rules'));
+        $cellRules  = \count(yml(Tools::SCHEMA_FULL)->findArray('columns.0.rules'));
+        $aggRules   = \count(yml(Tools::SCHEMA_FULL)->findArray('columns.0.aggregate_rules'));
+        $totalRules = $cellRules + $aggRules;
 
-        isFileContains(
-            \implode('', [
-                "![Static Badge](https://img.shields.io/badge/Cell_Rules-{$cellRules}-green?label=Cell%20Rules&color=green)",
-                '    ',
-                "![Static Badge](https://img.shields.io/badge/Aggregate_Rules-{$aggRules}-green?label=Aggregate%20Rules&color=green)",
-            ]),
-            Tools::README,
+        $text = \implode('', [
+            "![Static Badge](https://img.shields.io/badge/Total_Rules-{$totalRules}-" .
+            'green?label=Total%20Rules&color=green)',
+            '    ',
+            "![Static Badge](https://img.shields.io/badge/Cell_Rules-{$cellRules}-" .
+            'green?label=Cell%20Rules&color=green)',
+            '    ',
+            "![Static Badge](https://img.shields.io/badge/Aggregate_Rules-{$aggRules}-" .
+            'green?label=Aggregate%20Rules&color=green)',
+        ]);
+
+        Tools::insertInReadme('rules-counter', $text);
+    }
+
+    public function testCheckYmlSchemaExampleInReadme(): void
+    {
+        $ymlContent = \implode(
+            "\n",
+            \array_slice(\explode("\n", \file_get_contents(Tools::SCHEMA_FULL)), 12),
         );
+
+        $text = \implode("\n", ['```yml', $ymlContent, '```']);
+
+        Tools::insertInReadme('full-yml', $text);
     }
 }

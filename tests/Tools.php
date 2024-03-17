@@ -95,4 +95,23 @@ final class Tools
     ): array {
         return ['columns' => [['name' => $columnName, 'aggregate_rules' => [$ruleName => $options]]]];
     }
+
+    public static function insertInReadme(string $code, string $content): void
+    {
+        $replacement = \implode("\n", [
+            "<!-- {$code} -->",
+            $content,
+            "<!-- /{$code} -->",
+        ]);
+
+        $result = \preg_replace(
+            '/<\!-- ' . $code . ' -->(.*?)<\!-- \/' . $code . ' -->/s',
+            $replacement,
+            \file_get_contents(self::README),
+        );
+
+        isTrue(\file_put_contents(self::README, $result) > 0);
+
+        isFileContains($result, self::README);
+    }
 }
