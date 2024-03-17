@@ -4,7 +4,7 @@
 [![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint)    [![Dependents](https://poser.pugx.org/jbzoo/csv-blueprint/dependents)](https://packagist.org/packages/jbzoo/csv-blueprint/dependents?order_by=downloads)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
 
 <!-- rules-counter -->
-![Static Badge](https://img.shields.io/badge/Rules-88-green?label=Total%20Number%20of%20Rules&labelColor=blue&color=gray)    ![Static Badge](https://img.shields.io/badge/Rules-55-green?label=Cell%20Rules&labelColor=blue&color=gray)    ![Static Badge](https://img.shields.io/badge/Rules-33-green?label=Aggregate%20Rules&labelColor=blue&color=gray)
+![Static Badge](https://img.shields.io/badge/Rules-92-green?label=Total%20Number%20of%20Rules&labelColor=blue&color=gray)    ![Static Badge](https://img.shields.io/badge/Rules-55-green?label=Cell%20Rules&labelColor=blue&color=gray)    ![Static Badge](https://img.shields.io/badge/Rules-37-green?label=Aggregate%20Rules&labelColor=blue&color=gray)
 <!-- /rules-counter -->
 
 ## Introduction
@@ -289,6 +289,15 @@ columns:
       sample_variance_not: 4.123
       sample_variance_min: 1.123
       sample_variance_max: 10.123
+
+      # Standard deviation is a measure that is used to quantify the amount of variation or dispersion of a set of data values.
+      # A low standard deviation indicates that the data points tend to be close to the mean (also called the expected value) of the set.
+      # A high standard deviation indicates that the data points are spread out over a wider range of values.
+      # See: https://en.wikipedia.org/wiki/Standard_deviation.
+      standard_deviation: 5.123
+      standard_deviation_not: 4.123
+      standard_deviation_min: 1.123
+      standard_deviation_max: 10.123
 
   - name: "another_column"
 

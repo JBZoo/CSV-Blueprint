@@ -139,6 +139,11 @@ return [
                 'sample_variance_not' => 4.123,
                 'sample_variance_min' => 1.123,
                 'sample_variance_max' => 10.123,
+
+                'standard_deviation'     => 5.123,
+                'standard_deviation_not' => 4.123,
+                'standard_deviation_min' => 1.123,
+                'standard_deviation_max' => 10.123,
             ],
         ],
 
