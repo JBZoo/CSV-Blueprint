@@ -109,7 +109,7 @@ columns:
     # Data validation for each(!) value in the column.
     # Of course, this can greatly affect the speed of checking.
     # It depends on the number of checks and CSV file size.
-    # WIP. There are several ways to optimize this process, but author need time to test it carefully.
+    # TODO: There are several ways to optimize this process, but the author needs time to test it carefully.
     rules:
       # Important notes:
       # 1. All rules except "not_empty" ignored for empty strings (length 0).
@@ -213,7 +213,7 @@ columns:
     # Data validation for the entire(!) column using different data aggregation methods.
     # Depending on the file size and the chosen aggregation method - this can use a lot of RAM time.
     # Be careful with files that are 2-3 or more times larger than the available memory.
-    # WIP. There are several ways to optimize this process, but author need time to test it carefully.
+    # TODO: There are several ways to optimize this process, but the author needs time to test it carefully.
     aggregate_rules:
       is_unique: true                   # All values in the column are unique.
 
