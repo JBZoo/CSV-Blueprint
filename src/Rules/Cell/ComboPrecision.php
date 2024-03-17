@@ -22,12 +22,12 @@ final class ComboPrecision extends AbstractCellRuleCombo
 
     protected const HELP_TOP = ['Number of digits after the decimal point (with zeros)'];
 
-    protected function getExpected(): float|int|string
+    protected function getExpected(): float
     {
         return $this->getOptionAsInt();
     }
 
-    protected function getCurrent(string $cellValue): float|int|string
+    protected function getCurrent(string $cellValue): float
     {
         return self::getFloatPrecision($cellValue);
     }

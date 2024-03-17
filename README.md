@@ -471,8 +471,11 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
 * Gitlab and JUnit reports must be as one structure. It's not so easy to implement. But it's a good idea.
 * Merge reports from multiple CSV files into one report. It's useful when you have a lot of files and you want to see all errors in one place. Especially for GitLab and JUnit reports.
 
-**Agregate rule**
+**Misc**
 * Use it as PHP SDK. Examples in Readme.
+* Warnings about deprecated options and features.
+* Warnings about invalid schema files.
+* Move const:HELP to PHP annotations. Canonic way to describe the command.
 * S3 Storage support. Validate files in the S3 bucket?
 * More examples and documentation.
 

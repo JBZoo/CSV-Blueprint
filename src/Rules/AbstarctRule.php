@@ -87,7 +87,7 @@ abstract class AbstarctRule
         $leftPad = \str_repeat(' ', self::HELP_LEFT_PAD);
 
         $renderLine = function (array|string $row, string $mode) use ($leftPad): string {
-            $ymlRuleCode = $this instanceof AbstractCellRuleCombo ? $this->getComboRuleCode($mode) : $this->getRuleCode();
+            $ymlRuleCode = $this->getRuleCode($mode);
             $baseKeyVal  = "{$leftPad}{$ymlRuleCode}: {$row[0]}";
 
             if (isset($row[1]) && $row[1] !== '') {
@@ -209,7 +209,7 @@ abstract class AbstarctRule
         return $cellValue !== '';
     }
 
-    protected function getRuleCode(): string
+    protected function getRuleCode(?string $mode = null): string
     {
         return Utils::camelToKebabCase((new \ReflectionClass($this))->getShortName());
     }

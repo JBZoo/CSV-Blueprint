@@ -30,7 +30,7 @@ final class ComboNum extends AbstractCellRuleCombo
 
     private const PRECISION = 12;
 
-    protected function getExpected(): float|int|string
+    protected function getExpected(): float
     {
         return float($this->getOptionAsString(), self::PRECISION);
     }
@@ -43,7 +43,7 @@ final class ComboNum extends AbstractCellRuleCombo
         return '';
     }
 
-    protected function getCurrent(string $cellValue): float|int|string
+    protected function getCurrent(string $cellValue): float
     {
         return float($cellValue, self::PRECISION);
     }

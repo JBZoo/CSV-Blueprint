@@ -22,18 +22,9 @@ use JBZoo\CsvBlueprint\Validators\Error;
 
 abstract class AbstractCellRuleCombo extends AbstarctRuleCombo
 {
-    protected const NAME = 'UNDEFINED';
+    abstract protected function getCurrent(string $cellValue): float;
 
-    protected const VERBS = [
-        self::EQ  => 'not equal',
-        self::NOT => 'equal',
-        self::MIN => 'less',
-        self::MAX => 'greater',
-    ];
-
-    abstract protected function getCurrent(string $cellValue): float|int|string;
-
-    abstract protected function getExpected(): float|int|string;
+    abstract protected function getExpected(): float;
 
     public function validateRule(string $cellValue): ?string
     {
@@ -61,17 +52,6 @@ abstract class AbstractCellRuleCombo extends AbstarctRuleCombo
         return $isHtml ? $errorMessage : \strip_tags($errorMessage);
     }
 
-    public static function parseMode(string $origRuleName): string
-    {
-        $postfixes = [self::MAX, self::MIN, self::NOT];
-
-        if (\preg_match('/_(' . \implode('|', $postfixes) . ')$/', $origRuleName, $matches) === 1) {
-            return $matches[1];
-        }
-
-        return '';
-    }
-
     protected function getCurrentStr(string $cellValue): string
     {
         return (string)$this->getCurrent($cellValue);
@@ -82,19 +62,10 @@ abstract class AbstractCellRuleCombo extends AbstarctRuleCombo
         return (string)$this->getExpected();
     }
 
-    protected function getComboRuleCode(?string $mode = null): string
+    protected function getRuleCode(?string $mode = null): string
     {
-        $postfix = '';
-        if ($mode !== self::EQ) {
-            $postfix = "_{$mode}";
-        }
-
-        return \str_replace('combo_', '', parent::getRuleCode()) . $postfix;
-    }
-
-    protected function getRuleCode(): string
-    {
-        $postfix = $this->mode !== self::EQ ? "_{$this->mode}" : '';
+        $mode ??= $this->mode;
+        $postfix = $mode !== self::EQ ? "_{$mode}" : '';
 
         return \str_replace('combo_', '', parent::getRuleCode()) . $postfix;
     }
@@ -131,7 +102,7 @@ abstract class AbstractCellRuleCombo extends AbstarctRuleCombo
             "which is {$verb} than the {$prefix}expected \"<green>{$expectedStr}</green>\"";
     }
 
-    private static function compare(float|int|string $expected, float|int|string $actual, string $mode): bool
+    private static function compare(float $expected, float $actual, string $mode): bool
     {
         return match ($mode) {
             self::EQ  => $expected === $actual,

@@ -39,7 +39,7 @@ final class ComboDate extends AbstractCellRuleCombo
     private const OUTPUT_DATE_FORMAT = 'Y-m-d H:i:s P';
     private const INVALID_TIMESTAMP  = -1;
 
-    protected function getCurrent(string $cellValue): float|int|string
+    protected function getCurrent(string $cellValue): float
     {
         try {
             $result = (new \DateTimeImmutable($cellValue))->getTimestamp();
@@ -50,7 +50,7 @@ final class ComboDate extends AbstractCellRuleCombo
         return $result;
     }
 
-    protected function getExpected(): float|int|string
+    protected function getExpected(): float
     {
         $expectedValue = $this->getOptionAsString();
 
