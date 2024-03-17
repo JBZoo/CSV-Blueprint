@@ -17,74 +17,75 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit\Rules\Aggregate;
 
 use JBZoo\CsvBlueprint\Rules\AbstarctRule as Combo;
-use JBZoo\CsvBlueprint\Rules\Aggregate\ComboSum;
+use JBZoo\CsvBlueprint\Rules\Aggregate\ComboCount;
 use JBZoo\PHPUnit\Rules\AbstractAggregateRuleCombo;
 
 use function JBZoo\PHPUnit\isSame;
 
-class ComboSumTest extends AbstractAggregateRuleCombo
+class ComboCountTest extends AbstractAggregateRuleCombo
 {
-    protected string $ruleClass = ComboSum::class;
+    protected string $ruleClass = ComboCount::class;
 
     public function testEqual(): void
     {
-        $rule = $this->create(6, Combo::EQ);
+        $rule = $this->create(3, Combo::EQ);
 
         isSame('', $rule->test(['1', '2', '3']));
 
         isSame(
-            'The sum of numbers in the column is "10.5", which is not equal than the expected "6"',
+            'The count of rows in the column is "4", which is not equal than the expected "3"',
             $rule->test(['1', '2', '3', '4.5']),
         );
     }
 
     public function testNotEqual(): void
     {
-        $rule = $this->create(6, Combo::NOT);
+        $rule = $this->create(3, Combo::NOT);
 
         isSame('', $rule->test(['1', '2', '3', '4.5']));
 
         isSame(
-            'The sum of numbers in the column is "6", which is equal than the not expected "6"',
+            'The count of rows in the column is "3", which is equal than the not expected "3"',
             $rule->test(['1', '2', '3']),
         );
     }
 
     public function testMin(): void
     {
-        $rule = $this->create(6, Combo::MIN);
+        $rule = $this->create(3, Combo::MIN);
 
         isSame('', $rule->test(['1', '2', '3']));
 
         isSame(
-            'The sum of numbers in the column is "3", which is less than the expected "6"',
+            'The count of rows in the column is "2", which is less than the expected "3"',
             $rule->test(['1', '2']),
         );
     }
 
     public function testMax(): void
     {
-        $rule = $this->create(6, Combo::MAX);
+        $rule = $this->create(3, Combo::MAX);
 
         isSame('', $rule->test(['1', '2', '3']));
 
         isSame(
-            'The sum of numbers in the column is "10.5", which is greater than the expected "6"',
+            'The count of rows in the column is "4", which is greater than the expected "3"',
             $rule->test(['1', '2', '3', '4.5']),
         );
     }
 
     public function testInvalidOption(): void
     {
-        $this->expectExceptionMessage('Invalid option "[1, 2]" for the "ag:sum_max" rule. It should be integer/float.');
+        $this->expectExceptionMessage(
+            'Invalid option "[1, 2]" for the "ag:count_max" rule. It should be integer/float.',
+        );
         $rule = $this->create([1, 2], Combo::MAX);
         $rule->validate(['1', '2', '3']);
     }
 
     public function testInvalidParsing(): void
     {
-        $this->expectExceptionMessage('The value should be an array of numbers/strings');
-        $rule = $this->create(6, Combo::EQ);
-        $rule->validate('6');
+        $rule = $this->create(0, Combo::EQ);
+        isSame('', $rule->test([]));
     }
 }

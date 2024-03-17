@@ -230,6 +230,13 @@ columns:
       average_min: 1.123
       average_max: 10.123
 
+      # Total(!) count of rows in the CSV file.
+      # Since any values are taken into account, it only makes sense to use these rules once in any column.
+      count: 5
+      count_not: 4
+      count_min: 1
+      count_max: 10
+
   - name: "another_column"
 
   - name: "third_column"

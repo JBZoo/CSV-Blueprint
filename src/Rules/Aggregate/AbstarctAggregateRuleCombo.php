@@ -49,11 +49,11 @@ abstract class AbstarctAggregateRuleCombo extends AbstarctRuleCombo
         $verb   = static::VERBS[$mode];
         $name   = static::NAME;
 
-        $actual   = $this->getActual(\array_map('floatval', $colValues));
+        $actual   = $this->getActual($colValues);
         $expected = $this->getExpected();
 
         if (!self::compare($expected, $actual, $mode)) {
-            return "The {$name} of the column is \"<c>{$actual}</c>\", " .
+            return "The {$name} in the column is \"<c>{$actual}</c>\", " .
                 "which is {$verb} than the {$prefix}expected \"<green>{$expected}</green>\"";
         }
 
@@ -63,5 +63,10 @@ abstract class AbstarctAggregateRuleCombo extends AbstarctRuleCombo
     protected function getRuleCode(?string $mode = null): string
     {
         return 'ag:' . parent::getRuleCode($mode);
+    }
+
+    protected static function stringsToFloat(array $colValues): array
+    {
+        return \array_map('floatval', $colValues);
     }
 }

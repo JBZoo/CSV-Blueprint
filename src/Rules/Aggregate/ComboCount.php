@@ -16,14 +16,24 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
-final class ComboSum extends AbstarctAggregateRuleCombo
+final class ComboCount extends AbstarctAggregateRuleCombo
 {
-    protected const NAME = 'sum of numbers';
+    protected const NAME = 'count of rows';
 
-    protected const HELP_TOP = ['Sum of the numbers in the column. Example: [1, 2, 3] => 6.'];
+    protected const HELP_TOP = [
+        'Total(!) count of rows in the CSV file.',
+        'Since any values are taken into account, it only makes sense to use these rules once in any column.',
+    ];
+
+    protected const HELP_OPTIONS = [
+        self::EQ  => ['5', ''],
+        self::NOT => ['4', ''],
+        self::MIN => ['1', ''],
+        self::MAX => ['10', ''],
+    ];
 
     protected function getActualAggregate(array $colValues): float
     {
-        return \array_sum(self::stringsToFloat($colValues));
+        return \count($colValues);
     }
 }

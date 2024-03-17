@@ -27,7 +27,7 @@ final class ComboAverage extends AbstarctAggregateRuleCombo
     protected function getActualAggregate(array $colValues): float
     {
         try {
-            return Average::mean($colValues);
+            return Average::mean(self::stringsToFloat($colValues));
         } catch (\Exception) {
             return 0;
         }
