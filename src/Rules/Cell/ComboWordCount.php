@@ -31,7 +31,7 @@ final class ComboWordCount extends AbstractCellRuleCombo
         return $this->getOptionAsInt();
     }
 
-    protected function getCurrent(string $cellValue): float
+    protected function getActualCell(string $cellValue): float
     {
         // @phan-suppress-next-line PhanPartialTypeMismatchReturn
         return \str_word_count($cellValue, 0);

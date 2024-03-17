@@ -65,6 +65,7 @@ abstract class AbstarctRule
 
     public function validate(array|string $cellValue, int $line = ColumnValidator::FALLBACK_LINE): ?Error
     {
+        // TODO: Extract to abstract boolean cell/agregate rule
         if ($this->isEnabled($cellValue) === false) {
             return null;
         }
@@ -211,6 +212,9 @@ abstract class AbstarctRule
 
     protected function getRuleCode(?string $mode = null): string
     {
-        return Utils::camelToKebabCase((new \ReflectionClass($this))->getShortName());
+        $mode ??= $this->mode;
+        $postfix = $mode !== self::EQ && $mode !== self::DEFAULT ? "_{$mode}" : '';
+
+        return Utils::camelToKebabCase((new \ReflectionClass($this))->getShortName()) . $postfix;
     }
 }

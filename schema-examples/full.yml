@@ -64,7 +64,7 @@ columns:
       length_max: 10
 
       # Basic string checks
-      is_trimed: true                   # Only trimed strings. Example: "Hello World" (not " Hello World ").
+      is_trimmed: true                  # Only trimed strings. Example: "Hello World" (not " Hello World ").
       is_lowercase: true                # String is only lower-case. Example: "hello world".
       is_uppercase: true                # String is only upper-case. Example: "HELLO WORLD".
       is_capitalize: true               # String is only capitalized. Example: "Hello World".

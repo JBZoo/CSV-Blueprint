@@ -27,7 +27,7 @@ final class ComboPrecision extends AbstractCellRuleCombo
         return $this->getOptionAsInt();
     }
 
-    protected function getCurrent(string $cellValue): float
+    protected function getActualCell(string $cellValue): float
     {
         return self::getFloatPrecision($cellValue);
     }

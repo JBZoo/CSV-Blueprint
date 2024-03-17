@@ -17,44 +17,23 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Rules\AbstarctRuleCombo;
-use JBZoo\CsvBlueprint\Validators\ColumnValidator;
-use JBZoo\CsvBlueprint\Validators\Error;
 
 abstract class AbstractCellRuleCombo extends AbstarctRuleCombo
 {
-    abstract protected function getCurrent(string $cellValue): float;
+    abstract protected function getActualCell(string $cellValue): float;
 
-    abstract protected function getExpected(): float;
-
-    public function validateRule(string $cellValue): ?string
+    protected function getActual(array|string $value): float
     {
-        return $this->validateRuleCombo($cellValue, $this->mode);
-    }
-
-    public function validate(array|string $cellValue, int $line = ColumnValidator::FALLBACK_LINE): ?Error
-    {
-        if (\is_array($cellValue)) {
-            return null; // TODO: Add support for array values for aggregate rules
+        if (\is_array($value)) {
+            throw new \InvalidArgumentException('This method should not be called with an array');
         }
 
-        $error = $this->validateRule($cellValue);
-        if ($error !== null) {
-            return new Error($this->ruleCode, $error, $this->columnNameId, $line);
-        }
-
-        return null;
-    }
-
-    public function test(string $cellValue, bool $isHtml = false): string
-    {
-        $errorMessage = (string)$this->validateRuleCombo($cellValue, $this->mode);
-
-        return $isHtml ? $errorMessage : \strip_tags($errorMessage);
+        return $this->getActualCell($value);
     }
 
     protected function getCurrentStr(string $cellValue): string
     {
-        return (string)$this->getCurrent($cellValue);
+        return (string)$this->getActualCell($cellValue);
     }
 
     protected function getExpectedStr(): string
@@ -62,15 +41,7 @@ abstract class AbstractCellRuleCombo extends AbstarctRuleCombo
         return (string)$this->getExpected();
     }
 
-    protected function getRuleCode(?string $mode = null): string
-    {
-        $mode ??= $this->mode;
-        $postfix = $mode !== self::EQ ? "_{$mode}" : '';
-
-        return \str_replace('combo_', '', parent::getRuleCode()) . $postfix;
-    }
-
-    private function validateRuleCombo(string $cellValue, ?string $mode = null): ?string
+    protected function validateComboCell(string $cellValue, ?string $mode = null): ?string
     {
         $mode ??= $this->mode;
 
@@ -78,7 +49,7 @@ abstract class AbstractCellRuleCombo extends AbstarctRuleCombo
             return null;
         }
 
-        if (!self::compare($this->getExpected(), $this->getCurrent($cellValue), $mode)) {
+        if (!self::compare($this->getExpected(), $this->getActual($cellValue), $mode)) {
             return $this->getErrorMessage($cellValue, $mode);
         }
 
@@ -100,16 +71,5 @@ abstract class AbstractCellRuleCombo extends AbstarctRuleCombo
 
         return "The {$name} of the value \"<c>{$cellValue}</c>\"{$currentStr}, " .
             "which is {$verb} than the {$prefix}expected \"<green>{$expectedStr}</green>\"";
-    }
-
-    private static function compare(float $expected, float $actual, string $mode): bool
-    {
-        return match ($mode) {
-            self::EQ  => $expected === $actual,
-            self::NOT => $expected !== $actual,
-            self::MIN => $expected <= $actual,
-            self::MAX => $expected >= $actual,
-            default   => throw new \InvalidArgumentException("Unknown mode: {$mode}"),
-        };
     }
 }

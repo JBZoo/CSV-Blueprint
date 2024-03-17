@@ -16,6 +16,11 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules;
 
+use JBZoo\CsvBlueprint\Rules\Aggregate\AbstarctAggregateRuleCombo;
+use JBZoo\CsvBlueprint\Rules\Cell\AbstractCellRuleCombo;
+use JBZoo\CsvBlueprint\Validators\ColumnValidator;
+use JBZoo\CsvBlueprint\Validators\Error;
+
 abstract class AbstarctRuleCombo extends AbstarctRule
 {
     protected const NAME = 'UNDEFINED';
@@ -27,16 +32,26 @@ abstract class AbstarctRuleCombo extends AbstarctRule
         self::MAX => 'greater',
     ];
 
-    private string $comboRule;
+    abstract protected function getExpected(): float;
 
-    public function __construct(
-        string $columnNameId,
-        null|array|bool|float|int|string $options,
-        string $mode = self::DEFAULT,
-    ) {
-        parent::__construct($columnNameId, $options, $mode);
+    abstract protected function getActual(array|string $value): float;
 
-        $this->comboRule = \str_replace('_' . $this->mode, '', $this->ruleCode);
+    public function validate(array|string $cellValue, int $line = ColumnValidator::FALLBACK_LINE): ?Error
+    {
+        $error = $this->validateCombo($cellValue);
+
+        if ($error !== null) {
+            return new Error($this->ruleCode, $error, $this->columnNameId, $line);
+        }
+
+        return null;
+    }
+
+    public function test(string $cellValue, bool $isHtml = false): string
+    {
+        $errorMessage = (string)$this->validateCombo($cellValue);
+
+        return $isHtml ? $errorMessage : \strip_tags($errorMessage);
     }
 
     public static function parseMode(string $origRuleName): string
@@ -48,5 +63,34 @@ abstract class AbstarctRuleCombo extends AbstarctRule
         }
 
         return '';
+    }
+
+    protected function getRuleCode(?string $mode = null): string
+    {
+        return \str_replace('combo_', '', parent::getRuleCode($mode));
+    }
+
+    protected static function compare(float $expected, float $actual, string $mode): bool
+    {
+        return match ($mode) {
+            self::EQ  => $expected === $actual,
+            self::NOT => $expected !== $actual,
+            self::MIN => $expected <= $actual,
+            self::MAX => $expected >= $actual,
+            default   => throw new \InvalidArgumentException("Unknown mode: {$mode}"),
+        };
+    }
+
+    private function validateCombo(array|string $cellValue): ?string
+    {
+        if ($this instanceof AbstractCellRuleCombo) {
+            return $this->validateComboCell($cellValue, $this->mode);
+        }
+
+        if ($this instanceof AbstarctAggregateRuleCombo) {
+            return $this->validateComboAggregate($cellValue, $this->mode);
+        }
+
+        throw new \LogicException('Unknown rule type: ' . static::class);
     }
 }

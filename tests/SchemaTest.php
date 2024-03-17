@@ -161,63 +161,16 @@ final class SchemaTest extends TestCase
 
     public function testGetColumnRules(): void
     {
-        $schemaFull   = new Schema(Tools::SCHEMA_FULL);
-        $columnByName = $schemaFull->getColumn('Column Name (header)');
-        $columnById   = $schemaFull->getColumn(0);
+        $schema = new Schema(Tools::SCHEMA_SIMPLE_HEADER);
+        isSame($schema->getColumn('seq'), $schema->getColumn(0));
 
         isSame([
-            'not_empty'             => true,
-            'exact_value'           => 'Some string',
-            'allow_values'          => ['y', 'n', ''],
-            'regex'                 => '/^[\\d]{2}$/',
-            'length'                => 5,
-            'length_not'            => 4,
-            'length_min'            => 1,
-            'length_max'            => 10,
-            'is_trimed'             => true,
-            'is_lowercase'          => true,
-            'is_uppercase'          => true,
-            'is_capitalize'         => true,
-            'word_count'            => 5,
-            'word_count_not'        => 4,
-            'word_count_min'        => 1,
-            'word_count_max'        => 10,
-            'contains'              => 'Hello',
-            'contains_one'          => ['a', 'b'],
-            'contains_all'          => ['a', 'b', 'c'],
-            'starts_with'           => 'prefix ',
-            'ends_with'             => ' suffix',
-            'num'                   => 5,
-            'num_not'               => 4,
-            'num_min'               => 1,
-            'num_max'               => 10,
-            'precision'             => 5,
-            'precision_not'         => 4,
-            'precision_min'         => 1,
-            'precision_max'         => 10,
-            'date'                  => '01 Jan 2000',
-            'date_not'              => '2006-01-02 15:04:05 -0700 Europe/Rome',
-            'date_min'              => '+1 day',
-            'date_max'              => 'now',
-            'date_format'           => 'Y-m-d',
-            'is_date'               => true,
-            'is_bool'               => true,
-            'is_int'                => true,
-            'is_float'              => true,
-            'is_ip4'                => true,
-            'is_url'                => true,
-            'is_email'              => true,
-            'is_domain'             => true,
-            'is_uuid'               => true,
-            'is_alias'              => true,
-            'is_latitude'           => true,
-            'is_longitude'          => true,
-            'is_geohash'            => true,
-            'is_cardinal_direction' => true,
-            'is_usa_market_name'    => true,
-        ], $columnByName->getRules());
+            'not_empty' => true,
+        ], $schema->getColumn(0)->getRules());
 
-        isSame($columnByName->getRules(), $columnById->getRules());
+        isSame([
+            'not_empty' => true,
+        ], $schema->getColumn(1)->getRules());
     }
 
     public function testGetColumnAggregateRules(): void

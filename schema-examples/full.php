@@ -37,7 +37,7 @@ return [
                 'length_not'            => 4,
                 'length_min'            => 1,
                 'length_max'            => 10,
-                'is_trimed'             => true,
+                'is_trimmed'            => true,
                 'is_lowercase'          => true,
                 'is_uppercase'          => true,
                 'is_capitalize'         => true,

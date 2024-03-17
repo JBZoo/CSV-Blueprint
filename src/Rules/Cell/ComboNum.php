@@ -43,7 +43,7 @@ final class ComboNum extends AbstractCellRuleCombo
         return '';
     }
 
-    protected function getCurrent(string $cellValue): float
+    protected function getActualCell(string $cellValue): float
     {
         return float($cellValue, self::PRECISION);
     }
