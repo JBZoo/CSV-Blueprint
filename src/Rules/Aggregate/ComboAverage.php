@@ -24,12 +24,8 @@ final class ComboAverage extends AbstarctAggregateRuleCombo
 
     protected const HELP_TOP = ['Regular the arithmetic mean. The sum of the numbers divided by the count.'];
 
-    protected function getActualAggregate(array $colValues): float
+    protected function getActualAggregate(array $colValues): ?float
     {
-        try {
-            return Average::mean(self::stringsToFloat($colValues));
-        } catch (\Exception) {
-            return 0;
-        }
+        return Average::mean(self::stringsToFloat($colValues));
     }
 }

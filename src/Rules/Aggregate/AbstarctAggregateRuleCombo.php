@@ -27,7 +27,7 @@ abstract class AbstarctAggregateRuleCombo extends AbstarctRuleCombo
         self::MAX => ['10.123', ''],
     ];
 
-    abstract protected function getActualAggregate(array $colValues): float;
+    abstract protected function getActualAggregate(array $colValues): ?float;
 
     protected function getActual(array|string $value): float
     {
@@ -35,7 +35,9 @@ abstract class AbstarctAggregateRuleCombo extends AbstarctRuleCombo
             throw new \InvalidArgumentException('The value should be an array of numbers/strings');
         }
 
-        return $this->getActualAggregate($value);
+        $result = $this->getActualAggregate($value);
+
+        return $result ?? 0;
     }
 
     protected function getExpected(): float
@@ -49,7 +51,16 @@ abstract class AbstarctAggregateRuleCombo extends AbstarctRuleCombo
         $verb   = static::VERBS[$mode];
         $name   = static::NAME;
 
-        $actual   = $this->getActual($colValues);
+        try {
+            $actual = $this->getActualAggregate($colValues); // Important to use the original method here!
+        } catch (\Throwable) {
+            $actual = null;
+        }
+
+        if ($actual === null) {
+            return null; // Looks like it's impossible to calculate the aggregate value in this case. Skip.
+        }
+
         $expected = $this->getExpected();
 
         if (!self::compare($expected, $actual, $mode)) {
