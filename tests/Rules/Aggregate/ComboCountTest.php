@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit\Rules\Aggregate;
 
 use JBZoo\CsvBlueprint\Rules\AbstarctRule as Combo;
-use JBZoo\CsvBlueprint\Rules\Aggregate\ComboAverage;
 use JBZoo\CsvBlueprint\Rules\Aggregate\ComboCount;
 use JBZoo\PHPUnit\Rules\AbstractAggregateRuleCombo;
 

@@ -65,7 +65,7 @@ abstract class AbstarctAggregateRuleCombo extends AbstarctRuleCombo
         return 'ag:' . parent::getRuleCode($mode);
     }
 
-    protected function convetrArrayToFloat(array $colValues): array
+    protected static function stringsToFloat(array $colValues): array
     {
         return \array_map('floatval', $colValues);
     }
