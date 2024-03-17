@@ -41,7 +41,8 @@
         "symfony/filesystem"        : ">=6.4",
         "symfony/finder"            : ">=6.4",
 
-        "markrogoyski/math-php"     : "^2.9"
+        "markrogoyski/math-php"     : "^2.9",
+        "respect/validation": "^2.3"
     },
 
     "require-dev"       : {
