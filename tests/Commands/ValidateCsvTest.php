@@ -14,9 +14,9 @@
 
 declare(strict_types=1);
 
-namespace JBZoo\PHPUnit\Blueprint;
+namespace JBZoo\PHPUnit\Commands;
 
-use JBZoo\PHPUnit\PHPUnit;
+use JBZoo\PHPUnit\TestCase;
 use JBZoo\PHPUnit\Tools;
 use JBZoo\Utils\Cli;
 use Symfony\Component\Console\Input\StringInput;
@@ -24,7 +24,7 @@ use Symfony\Component\Console\Input\StringInput;
 use function JBZoo\PHPUnit\isNotEmpty;
 use function JBZoo\PHPUnit\isSame;
 
-final class ValidateCsvTest extends PHPUnit
+final class ValidateCsvTest extends TestCase
 {
     public function testValidateOneFilePositive(): void
     {
@@ -56,8 +56,6 @@ final class ValidateCsvTest extends PHPUnit
             'csv'    => "{$rootPath}/tests/fixtures/demo.csv", // Full path
             'schema' => './tests/schemas/demo_invalid.yml',    // Relative path
         ]);
-
-        Tools::dumpText($actual);
 
         $expected = <<<'TXT'
             Schema: ./tests/schemas/demo_invalid.yml
@@ -98,8 +96,6 @@ final class ValidateCsvTest extends PHPUnit
         ];
         $optionsAsString     = new StringInput(Cli::build('', $options));
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $options);
-
-        Tools::dumpText($actual);
 
         $expected = <<<'TXT'
             Schema: ./tests/schemas/demo_invalid.yml
@@ -151,8 +147,6 @@ final class ValidateCsvTest extends PHPUnit
             'schema' => './tests/schemas/demo_invalid.yml',
             'report' => 'text',
         ]);
-
-        Tools::dumpText($actual);
 
         $expected = <<<'TXT'
             Schema: ./tests/schemas/demo_invalid.yml
@@ -280,8 +274,6 @@ final class ValidateCsvTest extends PHPUnit
             'schema' => './tests/schemas/demo_invalid.yml',
             'report' => 'teamcity',
         ]);
-
-        Tools::dumpText($actual);
 
         $expected = <<<'TXT'
             Schema: ./tests/schemas/demo_invalid.yml

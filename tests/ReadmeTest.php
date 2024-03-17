@@ -14,17 +14,12 @@
 
 declare(strict_types=1);
 
-namespace JBZoo\PHPUnit\Blueprint;
+namespace JBZoo\PHPUnit;
 
-use JBZoo\PHPUnit\PHPUnit;
-use JBZoo\PHPUnit\Tools;
 use JBZoo\Utils\Cli;
 use Symfony\Component\Console\Input\StringInput;
 
-use function JBZoo\PHPUnit\isFileContains;
-use function JBZoo\PHPUnit\isSame;
-
-final class ReadmeTest extends PHPUnit
+final class ReadmeTest extends TestCase
 {
     public function testCreateCsvHelp(): void
     {
@@ -35,7 +30,7 @@ final class ReadmeTest extends PHPUnit
             '',
             Tools::realExecution('validate:csv', ['help' => null]),
             '```',
-        ]), PROJECT_ROOT . '/README.md');
+        ]), Tools::README);
     }
 
     public function testTableOutputExample(): void
@@ -56,6 +51,6 @@ final class ReadmeTest extends PHPUnit
             '',
             $actual,
             '```',
-        ]), PROJECT_ROOT . '/README.md');
+        ]), Tools::README);
     }
 }

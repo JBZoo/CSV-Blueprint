@@ -14,25 +14,21 @@
 
 declare(strict_types=1);
 
-namespace JBZoo\PHPUnit\Blueprint;
+namespace JBZoo\PHPUnit;
 
 use JBZoo\CsvBlueprint\Schema;
 use JBZoo\CsvBlueprint\Utils;
-use JBZoo\PHPUnit\PHPUnit;
 use Symfony\Component\Finder\Finder;
 
 use function JBZoo\Data\json;
 use function JBZoo\Data\phpArray;
 use function JBZoo\Data\yml;
-use function JBZoo\PHPUnit\isFileContains;
-use function JBZoo\PHPUnit\isSame;
-use function JBZoo\PHPUnit\isTrue;
 
-final class MiscTest extends PHPUnit
+final class ExampleSchemasTest extends TestCase
 {
     public function testFullListOfRules(): void
     {
-        $rulesInConfig = yml(PROJECT_ROOT . '/schema-examples/full.yml')->findArray('columns.0.rules');
+        $rulesInConfig = yml(Tools::SCHEMA_FULL)->findArray('columns.0.rules');
         $rulesInConfig = \array_keys($rulesInConfig);
         \sort($rulesInConfig);
 
@@ -91,7 +87,7 @@ final class MiscTest extends PHPUnit
 
     public function testCsvStrutureDefaultValues(): void
     {
-        $defaultsInDoc = yml(PROJECT_ROOT . '/schema-examples/full.yml')->findArray('csv');
+        $defaultsInDoc = yml(Tools::SCHEMA_FULL)->findArray('csv');
 
         $schema = new Schema([]);
         $schema->getCsvStructure()->getArrayCopy();
@@ -99,28 +95,18 @@ final class MiscTest extends PHPUnit
         isSame($defaultsInDoc, $schema->getCsvStructure()->getArrayCopy());
     }
 
-    public function testCheckYmlSchemaExampleInReadme(): void
-    {
-        $this->testCheckExampleInReadme(
-            PROJECT_ROOT . '/schema-examples/full.yml',
-            'yml',
-            'YAML format (with comment)',
-            12,
-        );
-    }
-
     public function testCompareExamplesWithOrig(): void
     {
         $basepath = PROJECT_ROOT . '/schema-examples/full';
-        $origYml  = yml("{$basepath}.yml")->getArrayCopy();
+        $origYml  = yml(Tools::SCHEMA_FULL)->getArrayCopy();
 
-        isSame((string)phpArray($origYml), (string)phpArray("{$basepath}.php"), 'PHP config is invalid');
-        isSame((string)json($origYml), (string)json("{$basepath}.json"), 'JSON config is invalid');
+        isSame((string)phpArray(Tools::SCHEMA_FULL_PHP), (string)phpArray($origYml), 'PHP config is invalid');
+        isSame((string)json(Tools::SCHEMA_FULL_JSON), (string)json($origYml), 'JSON config is invalid');
     }
 
     public function testUniqueNameOfRules(): void
     {
-        $yml = yml(PROJECT_ROOT . '/schema-examples/full.yml');
+        $yml = yml(Tools::SCHEMA_FULL);
 
         $rules     = \array_keys($yml->findArray('columns.0.rules'));
         $agRules   = \array_keys($yml->findArray('columns.0.aggregate_rules'));
@@ -131,7 +117,7 @@ final class MiscTest extends PHPUnit
 
     public function testRuleNaming(): void
     {
-        $yml = yml(PROJECT_ROOT . '/schema-examples/full.yml');
+        $yml = yml(Tools::SCHEMA_FULL);
 
         $rules = $yml->findArray('columns.0.rules');
 
@@ -145,40 +131,15 @@ final class MiscTest extends PHPUnit
         }
     }
 
-    private function testCheckExampleInReadme(
-        string $filepath,
-        string $type,
-        string $title,
-        int $skipFirstLines = 0,
-    ): void {
+    public function testCheckYmlSchemaExampleInReadme(): void
+    {
         $filepath = \implode(
             "\n",
-            \array_slice(\explode("\n", \file_get_contents($filepath)), $skipFirstLines),
+            \array_slice(\explode("\n", \file_get_contents(Tools::SCHEMA_FULL)), 12),
         );
 
-        if ($type === 'php') {
-            $tmpl = \implode("\n", ['```php', '<?php', $filepath, '```']);
-        } else {
-            $tmpl = \implode("\n", ["```{$type}", $filepath, '```']);
-        }
-
-        if ($type !== 'yml') {
-            $tmpl = $this->getSpoiler("Click to see: {$title}", $tmpl);
-        }
+        $tmpl = \implode("\n", ['```yml', $filepath, '```']);
 
         isFileContains($tmpl, PROJECT_ROOT . '/README.md');
-    }
-
-    private function getSpoiler(string $title, string $body): string
-    {
-        return \implode("\n", [
-            '<details>',
-            "  <summary>{$title}</summary>",
-            '',
-            "{$body}",
-            '',
-            '</details>',
-            '',
-        ]);
     }
 }

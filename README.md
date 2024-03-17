@@ -48,12 +48,8 @@ Integrating CSV validation into CI processes promotes higher data integrity, rel
 * [demo.csv](tests/fixtures/demo.csv)
 
 
-## Usage
-
-Also see demo in the [GitHub Actions](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml) file.
-
 ### Schema Definition
-Define your CSV validation schema in a YAML file.
+Define your CSV validation schema in a [YAML](schema-examples/full.yml). Other formats are also available: , [JSON](schema-examples/full.json), [PHP](schema-examples/full.php).
 
 This example defines a simple schema for a CSV file with a header row, specifying that the `id` column must not be empty and must contain integer values.
 Also, it checks that the `name` column has a minimum length of 3 characters.
@@ -74,6 +70,9 @@ columns:
 
 ```
 
+
+### Full description of the scheme
+
 In the [example Yml file](schema-examples/full.yml) you can find a detailed description of all features.
 It's also covered by tests, so it's always up-to-date.
 
@@ -84,10 +83,6 @@ It's also covered by tests, so it's always up-to-date.
 * All fields (unless explicitly stated otherwise) are optional, and you can choose not to declare them. Up to you.
 * You are always free to add your option anywhere (except the `rules` list) and it will be ignored. I find it convenient for additional integrations and customization.
 
-
-### Schema file examples
-
-Available formats: [YAML](schema-examples/full.yml), [JSON](schema-examples/full.json), [PHP](schema-examples/full.php).
 
 ```yml
 # It's a full example of the CSV schema file in YAML format.
@@ -124,12 +119,12 @@ columns:
       # 5. The order of rules execution is the same as in the scheme. But it doesn't matter.
       #    The result will be the same in any order.
       # 6. Most of the rules are case-sensitive. Unless otherwise specified.
-      # 7. As backup plan, you alsways can use the "regex" rule.
+      # 7. As backup plan, you always can use the "regex" rule.
 
       # General rules
       not_empty: true                   # Value is not an empty string. Actually checks if the string length is not 0.
-      exact_value: Some string          # Case-sensitive. Exact value for string in the column.
-      allow_values: [ y, n, "" ]        # Strict set of values that are allowed. Case-sensitive.
+      exact_value: Some string          # Exact value for string in the column.
+      allow_values: [ y, n, "" ]        # Strict set of values that are allowed.
 
       # Any valid regex pattern. See https://www.php.net/manual/en/reference.pcre.pattern.syntax.php.
       # Of course it's an ultimatum to verify any sort of string data.
@@ -158,11 +153,11 @@ columns:
       word_count_max: 10
 
       # Contains rules
-      contains: Hello                   # Case-sensitive. Example: "Hello World".
-      contains_one: [ a, b ]            # At least one of the string must be in the CSV value. Case-sensitive.
-      contains_all: [ a, b, c ]         # All the strings must be part of a CSV value. Case-sensitive.
-      starts_with: "prefix "            # Case-sensitive. Example: "prefix Hello World".
-      ends_with: " suffix"              # Case-sensitive. Example: "Hello World suffix".
+      contains: Hello                   # Example: "Hello World".
+      contains_one: [ a, b ]            # At least one of the string must be in the CSV value.
+      contains_all: [ a, b, c ]         # All the strings must be part of a CSV value.
+      starts_with: "prefix "            # Example: "prefix Hello World".
+      ends_with: " suffix"              # Example: "Hello World suffix".
 
       # Under the hood it convertes and compares as float values.
       # Comparison accuracy is 12 digits after a dot.
@@ -221,6 +216,11 @@ columns:
   - description: "Column with description only. Undefined header name."
 
 ```
+
+
+## Usage
+
+You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml).
 
 
 ### As GitHub Action
@@ -432,10 +432,12 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
 **Batch processing**
 * If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
 * Discovering CSV files by `filename_pattern` in the schema file. In case you have a lot of schemas and a lot of CSV files and want to automate the process as one command.
-* Flag to ignore file name pattern. It's useful when you have a lot of files and you don't want to validate the file name.
+* Flag to ignore file name pattern. It's useful when you have a lot of files, and you don't want to validate the file name.
 
 **Validation**
 * More aggregate rules.
+* More cell rules.
+* `required` flag for the column.
 * Custom cell rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
 * Custom agregate rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
 * Configurable keyword for null/empty values. By default, it's an empty string. But you will use `null`, `nil`, `none`, `empty`, etc. Overridable on the column level.

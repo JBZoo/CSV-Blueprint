@@ -32,6 +32,7 @@ final class RegexTest extends AbstractCellRuleTest
         isSame('', $rule->test('abc'));
         isSame('', $rule->test('aaa'));
         isSame('', $rule->test('a'));
+        isSame('', $rule->test(''));
 
         $rule = $this->create('^a');
         isSame('', $rule->test('abc'));

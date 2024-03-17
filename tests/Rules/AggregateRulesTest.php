@@ -14,14 +14,14 @@
 
 declare(strict_types=1);
 
-namespace JBZoo\PHPUnit\Blueprint;
+namespace JBZoo\PHPUnit\Rules;
 
 use JBZoo\CsvBlueprint\Rules\Aggregate\IsUnique;
-use JBZoo\PHPUnit\PHPUnit;
+use JBZoo\PHPUnit\TestCase;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class AggregateRulesTest extends PHPUnit
+final class AggregateRulesTest extends TestCase
 {
     protected function setUp(): void
     {

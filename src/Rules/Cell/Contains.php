@@ -19,7 +19,7 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 final class Contains extends AbstarctCellRule
 {
     protected const HELP_OPTIONS = [
-        self::DEFAULT => ['Hello', 'Case-sensitive. Example: "Hello World".'],
+        self::DEFAULT => ['Hello', 'Example: "Hello World".'],
     ];
 
     public function validateRule(string $cellValue): ?string

@@ -34,7 +34,46 @@ csv: # How to parse file before validation
 columns:
   - name: General available options # Can be optional if csv\header: false. If set, then header must contain this value
     required: true                  # If true, then column must be present in the file
+    rules:
+      is_ip6: true
+      dateperiod_: true
+      dateinterval_: true
+      bic: true
+      iban: true
+      card_number: true
+      country_code: true
+      currency_code: true
+      is_positive: true
+      is_negative: true
+      is_zero: true
+      is_even: true
+      is_odd: true
+      is_prime: true
+      is_time: true
+      is_timezone: true
+      is_timezone_offset: true
     aggregate_rules:
+      sum_: true
+      avg_: true
+      median_: true
+      mode_: true
+      range_: true
+      variance_: true
+      stddev_: true
+      percentile_: true
+      quantile_: true
+      count_: true
+      count_distinct_: true
+      count_empty_: true
+      count_not_empty_: true
+      count_null_: true
+      count_not_null_: true
+      count_zero_: true
+      count_positive_: true
+      count_negative_: true
+      count_even_: true
+      count_odd_: true
+      count_prime_: true
       sorted: asc                   # asc, desc, none
       sorted_flag: SORT_NATURAL     # See sort flags: https://www.php.net/manual/en/function.sort.php
       count_min: 1
