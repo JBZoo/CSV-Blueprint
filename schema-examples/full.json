@@ -40,9 +40,9 @@
                 "ends_with"             : " suffix",
 
                 "num"                   : 5,
-                "num_not"               : 4,
-                "num_min"               : 1,
-                "num_max"               : 10,
+                "num_not"               : 4.123,
+                "num_min"               : 1200,
+                "num_max"               : -10.123,
                 "is_int"                : true,
                 "is_float"              : true,
 
@@ -76,15 +76,15 @@
             "aggregate_rules" : {
                 "is_unique"   : true,
 
-                "sum"         : 5,
-                "sum_not"     : 4,
-                "sum_min"     : 1,
-                "sum_max"     : 10,
+                "sum"         : 5.123,
+                "sum_not"     : 4.123,
+                "sum_min"     : 1.123,
+                "sum_max"     : 10.123,
 
-                "average"     : 5,
-                "average_not" : 4,
-                "average_min" : 1,
-                "average_max" : 10
+                "average"     : 5.123,
+                "average_not" : 4.123,
+                "average_min" : 1.123,
+                "average_max" : 10.123
             }
         },
 

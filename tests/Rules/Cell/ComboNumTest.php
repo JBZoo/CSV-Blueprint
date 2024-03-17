@@ -36,6 +36,9 @@ class ComboNumTest extends AbstractCellRuleCombo
             'The number of the value "12345", which is not equal than the expected "6"',
             $rule->test('12345'),
         );
+
+        $rule = $this->create(1.2e3, Combo::EQ);
+        isSame('', $rule->test('1.2e3'));
     }
 
     public function testMin(): void
@@ -91,7 +94,9 @@ class ComboNumTest extends AbstractCellRuleCombo
 
     public function testInvalidOption2(): void
     {
-        $this->expectExceptionMessage('Invalid option "1, 2, 3" for the "num_not" rule. It should be int/float/string.');
+        $this->expectExceptionMessage(
+            'Invalid option "1, 2, 3" for the "num_not" rule. It should be int/float/string.',
+        );
 
         $rule = $this->create([1, 2, 3], Combo::NOT);
         $rule->validate('true');
