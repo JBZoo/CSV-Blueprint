@@ -31,6 +31,9 @@ abstract class AbstarctAggregateRule extends AbstarctRule
      */
     abstract public function validateRule(array &$columnValues): ?string;
 
+    /**
+     * @phan-suppress PhanUnusedProtectedMethodParameter
+     */
     protected function getRuleCode(?string $mode = null): string
     {
         return 'ag:' . parent::getRuleCode();

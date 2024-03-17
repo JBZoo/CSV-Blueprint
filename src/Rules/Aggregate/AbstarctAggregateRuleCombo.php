@@ -31,10 +31,10 @@ abstract class AbstarctAggregateRuleCombo extends AbstarctRuleCombo
         return $this->getActualAggregate($value);
     }
 
-    protected function validateComboAggregate(array $colValues, ?string $mode = null): ?string
+    protected function validateComboAggregate(array $colValues, string $mode): ?string
     {
         $prefix = $mode === self::NOT ? 'not ' : '';
-        $verb   = self::VERBS[$mode];
+        $verb   = static::VERBS[$mode];
         $name   = static::NAME;
 
         $actual   = $this->getActual($colValues);
