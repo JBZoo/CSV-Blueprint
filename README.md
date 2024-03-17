@@ -249,6 +249,12 @@ columns:
       count_not_empty_min: 1
       count_not_empty_max: 10
 
+      # Calculate the median average of a list of numbers.
+      median: 5.123
+      median_not: 4.123
+      median_min: 1.123
+      median_max: 10.123
+
   - name: "another_column"
 
   - name: "third_column"
