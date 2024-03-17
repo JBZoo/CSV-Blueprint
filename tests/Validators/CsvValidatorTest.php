@@ -103,9 +103,9 @@ final class CsvValidatorTest extends TestCase
 
         $csv = new CsvFile(Tools::DEMO_CSV, Tools::getAggregateRule('Float', 'sum', 20));
         isSame(
-            '"ag:sum" at line 1, column "0:Float". The sum of the column is "4691.3235", ' .
-            'which is not equal than the expected "20".' . "\n",
-            \strip_tags((string)$csv->validate()),
+            '"ag:sum" at line <red>1</red>, column "0:Float". The sum of numbers in the column is ' .
+            '"<c>4691.3235</c>", which is not equal than the expected "<green>20</green>".' . "\n",
+            (string)$csv->validate(),
         );
     }
 

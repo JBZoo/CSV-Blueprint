@@ -33,7 +33,7 @@ class ComboAverageTest extends AbstractAggregateRuleCombo
         isSame('', $rule->test(['1', '2', '3']));
 
         isSame(
-            'The average of the column is "2.625", which is not equal than the expected "2"',
+            'The average in the column is "2.625", which is not equal than the expected "2"',
             $rule->test(['1', '2', '3', '4.5']),
         );
     }
@@ -45,7 +45,7 @@ class ComboAverageTest extends AbstractAggregateRuleCombo
         isSame('', $rule->test(['1', '2', '3', '4.5']));
 
         isSame(
-            'The average of the column is "2", which is equal than the not expected "2"',
+            'The average in the column is "2", which is equal than the not expected "2"',
             $rule->test(['1', '2', '3']),
         );
     }
@@ -57,7 +57,7 @@ class ComboAverageTest extends AbstractAggregateRuleCombo
         isSame('', $rule->test(['1', '2', '3']));
 
         isSame(
-            'The average of the column is "1.5", which is less than the expected "1.999"',
+            'The average in the column is "1.5", which is less than the expected "1.999"',
             $rule->test(['1', '2']),
         );
     }
@@ -69,7 +69,7 @@ class ComboAverageTest extends AbstractAggregateRuleCombo
         isSame('', $rule->test(['1', '2', '3']));
 
         isSame(
-            'The average of the column is "2.625", which is greater than the expected "2"',
+            'The average in the column is "2.625", which is greater than the expected "2"',
             $rule->test(['1', '2', '3', '4.5']),
         );
     }

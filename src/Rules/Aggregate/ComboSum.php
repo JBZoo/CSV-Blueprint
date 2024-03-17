@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
 final class ComboSum extends AbstarctAggregateRuleCombo
 {
-    protected const NAME = 'sum';
+    protected const NAME = 'sum of numbers';
 
     protected const HELP_TOP = ['Sum of the numbers in the column. Example: [1, 2, 3] => 6.'];
 

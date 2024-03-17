@@ -53,7 +53,7 @@ abstract class AbstarctAggregateRuleCombo extends AbstarctRuleCombo
         $expected = $this->getExpected();
 
         if (!self::compare($expected, $actual, $mode)) {
-            return "The {$name} of the column is \"<c>{$actual}</c>\", " .
+            return "The {$name} in the column is \"<c>{$actual}</c>\", " .
                 "which is {$verb} than the {$prefix}expected \"<green>{$expected}</green>\"";
         }
 
