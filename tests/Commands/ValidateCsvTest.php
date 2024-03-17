@@ -57,8 +57,6 @@ final class ValidateCsvTest extends TestCase
             'schema' => './tests/schemas/demo_invalid.yml',    // Relative path
         ]);
 
-        Tools::dumpText($actual);
-
         $expected = <<<'TXT'
             Schema: ./tests/schemas/demo_invalid.yml
             Found CSV files: 1
@@ -98,8 +96,6 @@ final class ValidateCsvTest extends TestCase
         ];
         $optionsAsString     = new StringInput(Cli::build('', $options));
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $options);
-
-        Tools::dumpText($actual);
 
         $expected = <<<'TXT'
             Schema: ./tests/schemas/demo_invalid.yml
@@ -151,8 +147,6 @@ final class ValidateCsvTest extends TestCase
             'schema' => './tests/schemas/demo_invalid.yml',
             'report' => 'text',
         ]);
-
-        Tools::dumpText($actual);
 
         $expected = <<<'TXT'
             Schema: ./tests/schemas/demo_invalid.yml
@@ -280,8 +274,6 @@ final class ValidateCsvTest extends TestCase
             'schema' => './tests/schemas/demo_invalid.yml',
             'report' => 'teamcity',
         ]);
-
-        Tools::dumpText($actual);
 
         $expected = <<<'TXT'
             Schema: ./tests/schemas/demo_invalid.yml
