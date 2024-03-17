@@ -82,37 +82,42 @@
             },
 
             "aggregate_rules" : {
-                "is_unique"           : true,
+                "is_unique"               : true,
 
-                "sum"                 : 5.123,
-                "sum_not"             : 4.123,
-                "sum_min"             : 1.123,
-                "sum_max"             : 10.123,
+                "sum"                     : 5.123,
+                "sum_not"                 : 4.123,
+                "sum_min"                 : 1.123,
+                "sum_max"                 : 10.123,
 
-                "average"             : 5.123,
-                "average_not"         : 4.123,
-                "average_min"         : 1.123,
-                "average_max"         : 10.123,
+                "average"                 : 5.123,
+                "average_not"             : 4.123,
+                "average_min"             : 1.123,
+                "average_max"             : 10.123,
 
-                "count"               : 5,
-                "count_not"           : 4,
-                "count_min"           : 1,
-                "count_max"           : 10,
+                "count"                   : 5,
+                "count_not"               : 4,
+                "count_min"               : 1,
+                "count_max"               : 10,
 
-                "count_empty"         : 5,
-                "count_empty_not"     : 4,
-                "count_empty_min"     : 1,
-                "count_empty_max"     : 10,
+                "count_empty"             : 5,
+                "count_empty_not"         : 4,
+                "count_empty_min"         : 1,
+                "count_empty_max"         : 10,
 
-                "count_not_empty"     : 5,
-                "count_not_empty_not" : 4,
-                "count_not_empty_min" : 1,
-                "count_not_empty_max" : 10,
+                "count_not_empty"         : 5,
+                "count_not_empty_not"     : 4,
+                "count_not_empty_min"     : 1,
+                "count_not_empty_max"     : 10,
 
-                "median"              : 5.123,
-                "median_not"          : 4.123,
-                "median_min"          : 1.123,
-                "median_max"          : 10.123
+                "median"                  : 5.123,
+                "median_not"              : 4.123,
+                "median_min"              : 1.123,
+                "median_max"              : 10.123,
+
+                "population_variance"     : 5.123,
+                "population_variance_not" : 4.123,
+                "population_variance_min" : 1.123,
+                "population_variance_max" : 10.123
             }
         },
 
