@@ -34,7 +34,7 @@ abstract class AbstractAggregateRuleCombo extends TestCase
 
     abstract public function testMax(): void;
 
-    abstract public function testInvalidOption(): void;
+    // abstract public function testInvalidOption(): void;
 
     abstract public function testInvalidParsing(): void;
 

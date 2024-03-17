@@ -116,6 +116,11 @@ return [
                 'count_not_empty_not' => 4,
                 'count_not_empty_min' => 1,
                 'count_not_empty_max' => 10,
+
+                'median'     => 5.123,
+                'median_not' => 4.123,
+                'median_min' => 1.123,
+                'median_max' => 10.123,
             ],
         ],
         ['name'        => 'another_column'],
