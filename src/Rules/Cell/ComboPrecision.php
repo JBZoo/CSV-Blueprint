@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class ComboPrecision extends AbstractCellCombo
+final class ComboPrecision extends AbstractCellRuleCombo
 {
     protected const NAME = 'precision';
 

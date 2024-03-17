@@ -43,9 +43,7 @@ final class ExampleSchemasTest extends TestCase
         foreach ($finder as $file) {
             $ruleName = Utils::camelToKebabCase($file->getFilenameWithoutExtension());
 
-            $excludeRules = ['abstract_cell_combo', 'abstract_cell_rule'];
-
-            if (\in_array($ruleName, $excludeRules, true)) {
+            if (\str_contains($ruleName, 'abstract')) {
                 continue;
             }
 

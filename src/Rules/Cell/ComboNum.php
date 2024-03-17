@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 use function JBZoo\Utils\float;
 
-final class ComboNum extends AbstractCellCombo
+final class ComboNum extends AbstractCellRuleCombo
 {
     protected const NAME = 'number';
 

@@ -16,9 +16,9 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
-use JBZoo\CsvBlueprint\Rules\Cell\AbstractCellCombo;
+use JBZoo\CsvBlueprint\Rules\Cell\AbstractCellRuleCombo;
 
-final class CellComboSum extends AbstractCellCombo
+final class ComboSum extends AbstractCellRuleCombo
 {
     protected const NAME = 'sum';
 

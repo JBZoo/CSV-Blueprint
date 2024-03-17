@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules;
 
-use JBZoo\CsvBlueprint\Rules\Cell\AbstractCellCombo;
+use JBZoo\CsvBlueprint\Rules\Cell\AbstractCellRuleCombo;
 use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\ColumnValidator;
 use JBZoo\CsvBlueprint\Validators\Error;
@@ -87,7 +87,7 @@ abstract class AbstarctRule
         $leftPad = \str_repeat(' ', self::HELP_LEFT_PAD);
 
         $renderLine = function (array|string $row, string $mode) use ($leftPad): string {
-            $ymlRuleCode = $this instanceof AbstractCellCombo ? $this->getComboRuleCode($mode) : $this->getRuleCode();
+            $ymlRuleCode = $this instanceof AbstractCellRuleCombo ? $this->getComboRuleCode($mode) : $this->getRuleCode();
             $baseKeyVal  = "{$leftPad}{$ymlRuleCode}: {$row[0]}";
 
             if (isset($row[1]) && $row[1] !== '') {
@@ -107,7 +107,7 @@ abstract class AbstarctRule
             );
         }
 
-        if ($this instanceof AbstractCellCombo) {
+        if ($this instanceof AbstractCellRuleCombo) {
             return \implode("\n", [
                 $topComment,
                 $renderLine(static::HELP_OPTIONS[self::EQ], self::EQ),

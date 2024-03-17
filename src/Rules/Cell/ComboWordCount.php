@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class ComboWordCount extends AbstractCellCombo
+final class ComboWordCount extends AbstractCellRuleCombo
 {
     protected const NAME = 'word count';
 

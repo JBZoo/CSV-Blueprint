@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class ComboDate extends AbstractCellCombo
+final class ComboDate extends AbstractCellRuleCombo
 {
     protected const NAME = 'date';
 

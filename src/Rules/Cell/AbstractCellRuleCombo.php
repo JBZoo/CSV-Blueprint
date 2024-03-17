@@ -16,14 +16,15 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
+use JBZoo\CsvBlueprint\Rules\AbstarctRuleCombo;
 use JBZoo\CsvBlueprint\Validators\ColumnValidator;
 use JBZoo\CsvBlueprint\Validators\Error;
 
-abstract class AbstractCellCombo extends AbstractCellRule
+abstract class AbstractCellRuleCombo extends AbstarctRuleCombo
 {
     protected const NAME = 'UNDEFINED';
 
-    private const VERBS = [
+    protected const VERBS = [
         self::EQ  => 'not equal',
         self::NOT => 'equal',
         self::MIN => 'less',

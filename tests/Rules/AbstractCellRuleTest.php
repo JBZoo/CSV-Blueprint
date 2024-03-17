@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules;
 
-use JBZoo\CsvBlueprint\Rules\Cell\AbstarctCellRule;
+use JBZoo\CsvBlueprint\Rules\Cell\AbstractCellRule;
 use JBZoo\PHPUnit\TestCase;
 use JBZoo\PHPUnit\Tools;
 
@@ -39,7 +39,7 @@ abstract class AbstractCellRuleTest extends TestCase
         isFileContains($this->create(6)->getHelp(), Tools::SCHEMA_FULL);
     }
 
-    protected function create(array|bool|float|int|string $value): AbstarctCellRule
+    protected function create(array|bool|float|int|string $value): AbstractCellRule
     {
         return new $this->ruleClass('prop', $value);
     }
