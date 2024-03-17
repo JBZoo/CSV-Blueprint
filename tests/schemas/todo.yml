@@ -35,7 +35,7 @@ columns:
   - name: General available options # Can be optional if csv\header: false. If set, then header must contain this value
     required: true                  # If true, then column must be present in the file
     rules:
-      is_ip6: true
+      is_ip6: true                  # Check if the value is a valid IPv6 address. Example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
       dateperiod_: true
       dateinterval_: true
       bic: true
@@ -52,6 +52,7 @@ columns:
       is_time: true
       is_timezone: true
       is_timezone_offset: true
+      not_allow_values: []           # Strict set of values that are not allowed
     aggregate_rules:
       sum_: true
       avg_: true

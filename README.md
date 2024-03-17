@@ -477,7 +477,7 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
 * More examples and documentation.
 
  
-PS. [There is a file](tests/schemas/example_full.yml) with my ideas and imagination. It's not valid schema file, just a draft.
+PS. [There is a file](tests/schemas/todo.yml) with my ideas and imagination. It's not valid schema file, just a draft.
 I'm not sure if I will implement all of them. But I will try to do my best.
 
 
