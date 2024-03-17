@@ -20,9 +20,10 @@ use MathPHP\Statistics\Descriptive;
 
 final class ComboStandardDeviation extends AbstarctAggregateRuleCombo
 {
-    protected const NAME = 'standard deviation';
+    protected const NAME = 'standard deviation (SD)';
 
     protected const HELP_TOP = [
+        'Standard deviation (For a sample; uses sample variance)',
         'Standard deviation is a measure that is used to quantify the amount of variation or dispersion of a set of data values.',
         'A low standard deviation indicates that the data points tend to be close to the mean (also called the expected value) of the set.',
         'A high standard deviation indicates that the data points are spread out over a wider range of values.',

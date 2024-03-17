@@ -33,7 +33,7 @@ class ComboStandardDeviationTest extends AbstractAggregateRuleCombo
 
         $rule = $this->create(3, Combo::EQ);
         isSame(
-            'The standard deviation in the column is "2.5", which is not equal than the expected "3"',
+            'The standard deviation (SD) in the column is "2.5", which is not equal than the expected "3"',
             $rule->test([1, 5, 1, 1, 1, 2, 8, 1, 1]),
         );
     }
