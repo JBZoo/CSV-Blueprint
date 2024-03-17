@@ -90,12 +90,19 @@ final class ExampleSchemasTest extends TestCase
         isSame($defaultsInDoc, $schema->getCsvStructure()->getArrayCopy());
     }
 
-    public function testCompareExamplesWithOrig(): void
+    public function testCheckPhpExample(): void
     {
         $basepath = PROJECT_ROOT . '/schema-examples/full';
         $origYml  = yml(Tools::SCHEMA_FULL)->getArrayCopy();
 
         isSame((string)phpArray(Tools::SCHEMA_FULL_PHP), (string)phpArray($origYml), 'PHP config is invalid');
+    }
+
+    public function testCheckJsonExample(): void
+    {
+        $basepath = PROJECT_ROOT . '/schema-examples/full';
+        $origYml  = yml(Tools::SCHEMA_FULL)->getArrayCopy();
+
         isSame((string)json(Tools::SCHEMA_FULL_JSON), (string)json($origYml), 'JSON config is invalid');
     }
 

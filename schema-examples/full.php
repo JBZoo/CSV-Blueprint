@@ -111,6 +111,11 @@ return [
                 'count_empty_not' => 4,
                 'count_empty_min' => 1,
                 'count_empty_max' => 10,
+
+                'count_not_empty'     => 5,
+                'count_not_empty_not' => 4,
+                'count_not_empty_min' => 1,
+                'count_not_empty_max' => 10,
             ],
         ],
         ['name'        => 'another_column'],
