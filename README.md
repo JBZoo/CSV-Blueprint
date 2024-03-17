@@ -432,7 +432,7 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
 **Batch processing**
 * If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
 * Discovering CSV files by `filename_pattern` in the schema file. In case you have a lot of schemas and a lot of CSV files and want to automate the process as one command.
-* Flag to ignore file name pattern. It's useful when you have a lot of files and you don't want to validate the file name.
+* Flag to ignore file name pattern. It's useful when you have a lot of files, and you don't want to validate the file name.
 
 **Validation**
 * More aggregate rules.
