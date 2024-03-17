@@ -16,31 +16,35 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules;
 
-use JBZoo\CsvBlueprint\Rules\Cell\AbstractCellRule;
+use JBZoo\CsvBlueprint\Rules\AbstarctRule as Combo;
 use JBZoo\PHPUnit\TestCase;
 use JBZoo\PHPUnit\Tools;
 
 use function JBZoo\PHPUnit\isFileContains;
 
-abstract class AbstractCellRuleTest extends TestCase
+abstract class AbstractCellRuleCombo extends TestCase
 {
     protected string $ruleClass = '';
 
-    abstract public function testPositive(): void;
+    abstract public function testEqual(): void;
 
-    abstract public function testNegative(): void;
+    abstract public function testNotEqual(): void;
 
-    // abstract public function testInvalidOption(): void;
+    abstract public function testMin(): void;
 
-    // abstract public function testInvalidParsing(): void;
+    abstract public function testMax(): void;
+
+    abstract public function testInvalidOption(): void;
+
+    abstract public function testInvalidParsing(): void;
 
     public function testHelpMessageInExample(): void
     {
-        isFileContains($this->create(6)->getHelp(), Tools::SCHEMA_FULL);
+        isFileContains($this->create(6, Combo::MAX)->getHelp(), Tools::SCHEMA_FULL);
     }
 
-    protected function create(array|bool|float|int|string $value): AbstractCellRule
+    protected function create(array|float|int|string $value, string $mode): Combo
     {
-        return new $this->ruleClass('prop', $value);
+        return new $this->ruleClass('prop', $value, $mode);
     }
 }

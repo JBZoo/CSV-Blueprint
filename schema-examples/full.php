@@ -81,6 +81,10 @@ return [
             ],
             'aggregate_rules' => [
                 'is_unique' => true,
+                'sum'       => 5,
+                'sum_not'   => 4,
+                'sum_min'   => 1,
+                'sum_max'   => 10,
             ],
         ],
         ['name'        => 'another_column'],

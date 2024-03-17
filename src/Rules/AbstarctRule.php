@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules;
 
-use JBZoo\CsvBlueprint\Rules\Cell\AbstractCellRuleCombo;
 use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\ColumnValidator;
 use JBZoo\CsvBlueprint\Validators\Error;
@@ -108,7 +107,7 @@ abstract class AbstarctRule
             );
         }
 
-        if ($this instanceof AbstractCellRuleCombo) {
+        if ($this instanceof AbstarctRuleCombo) {
             return \implode("\n", [
                 $topComment,
                 $renderLine(static::HELP_OPTIONS[self::EQ], self::EQ),
@@ -157,7 +156,7 @@ abstract class AbstarctRule
     {
         // TODO: Replace to warning message
         if ($this->options === '' || !\is_numeric($this->options)) {
-            $options = \is_array($this->options) ? \implode(', ', $this->options) : $this->options;
+            $options = \is_array($this->options) ? '[' . \implode(', ', $this->options) . ']' : $this->options;
             throw new Exception(
                 "Invalid option \"{$options}\" for the \"{$this->getRuleCode()}\" rule. " .
                 'It should be integer.',
@@ -165,6 +164,20 @@ abstract class AbstarctRule
         }
 
         return (int)$this->options;
+    }
+
+    protected function getOptionAsFloat(): float
+    {
+        // TODO: Replace to warning message
+        if ($this->options === '' || !\is_numeric($this->options)) {
+            $options = \is_array($this->options) ? '[' . \implode(', ', $this->options) . ']' : $this->options;
+            throw new Exception(
+                "Invalid option \"{$options}\" for the \"{$this->getRuleCode()}\" rule. " .
+                'It should be integer/float.',
+            );
+        }
+
+        return (float)$this->options;
     }
 
     /**

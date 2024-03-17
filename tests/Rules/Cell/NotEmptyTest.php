@@ -17,11 +17,11 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Rules\Cell\NotEmpty;
-use JBZoo\PHPUnit\Rules\AbstractCellRuleTest;
+use JBZoo\PHPUnit\Rules\AbstractCellRule;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class NotEmptyTest extends AbstractCellRuleTest
+final class NotEmptyTest extends AbstractCellRule
 {
     protected string $ruleClass = NotEmpty::class;
 

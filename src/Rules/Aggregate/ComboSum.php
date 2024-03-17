@@ -25,13 +25,13 @@ final class ComboSum extends AbstarctAggregateRuleCombo
         'An empty string is converted to null.',
     ];
 
-    protected function getExpected(): float|int|string
+    protected function getExpected(): float
     {
         return $this->getOptionAsFloat();
     }
 
-    protected function getCurrent(array $columnValues): float|int|string
+    protected function getActualAggregate(array $colValues): float
     {
-        return \array_sum($cellValue);
+        return \array_sum($colValues);
     }
 }

@@ -17,11 +17,11 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Rules\Cell\IsAlias;
-use JBZoo\PHPUnit\Rules\AbstractCellRuleTest;
+use JBZoo\PHPUnit\Rules\AbstractCellRule;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class IsAliasTest extends AbstractCellRuleTest
+final class IsAliasTest extends AbstractCellRule
 {
     protected string $ruleClass = IsAlias::class;
 

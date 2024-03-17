@@ -18,12 +18,12 @@ namespace JBZoo\PHPUnit\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Rules\AbstarctRule as Combo;
 use JBZoo\CsvBlueprint\Rules\Cell\ComboLength;
-use JBZoo\PHPUnit\Rules\AbstractCellRuleComboTest;
+use JBZoo\PHPUnit\Rules\AbstractCellRuleCombo;
 
 use function JBZoo\PHPUnit\isSame;
 use function JBZoo\PHPUnit\success;
 
-class ComboLengthTest extends AbstractCellRuleComboTest
+class ComboLengthTest extends AbstractCellRuleCombo
 {
     protected string $ruleClass = ComboLength::class;
 

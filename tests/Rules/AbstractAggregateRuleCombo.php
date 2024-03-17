@@ -22,7 +22,7 @@ use JBZoo\PHPUnit\Tools;
 
 use function JBZoo\PHPUnit\isFileContains;
 
-abstract class AbstractCellRuleComboTest extends TestCase
+abstract class AbstractAggregateRuleCombo extends TestCase
 {
     protected string $ruleClass = '';
 

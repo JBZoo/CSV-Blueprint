@@ -20,29 +20,31 @@ use JBZoo\CsvBlueprint\Rules\AbstarctRuleCombo;
 
 abstract class AbstarctAggregateRuleCombo extends AbstarctRuleCombo
 {
-    protected function validateComboAggregate(array $columnValues, ?string $mode = null): ?string
+    abstract protected function getActualAggregate(array $colValues): float;
+
+    protected function getActual(array|string $value): float
+    {
+        if (\is_string($value)) {
+            throw new \InvalidArgumentException('The value should be an array of numbers/strings');
+        }
+
+        return $this->getActualAggregate($value);
+    }
+
+    protected function validateComboAggregate(array $colValues, ?string $mode = null): ?string
     {
         $prefix = $mode === self::NOT ? 'not ' : '';
         $verb   = self::VERBS[$mode];
         $name   = static::NAME;
 
-        $currentStr  = $this->getActuallAggregateStr($columnValues);
-        $expectedStr = $this->getExpectedStr();
+        $actual   = $this->getActual($colValues);
+        $expected = $this->getExpected();
 
-        if ($currentStr !== '') {
-            $currentStr = " is {$currentStr}";
-        }
-
-        if ($cellValue === '') {
-            return null;
-        }
-
-        if (!self::compare($this->getExpected(), $this->getActual($columnValues), $mode)) {
-            return "The {$name} of the value \"<c>{$cellValue}</c>\"{$currentStr}, " .
-                "which is {$verb} than the {$prefix}expected \"<green>{$expectedStr}</green>\"";
+        if (!self::compare($expected, $actual, $mode)) {
+            return "The {$name} of the column is \"<c>{$actual}</c>\", " .
+                "which is {$verb} than the {$prefix}expected \"<green>{$expected}</green>\"";
         }
 
         return null;
     }
-
 }

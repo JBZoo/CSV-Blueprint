@@ -209,6 +209,13 @@ columns:
     aggregate_rules:
       is_unique: true                   # All values in the column are unique.
 
+      # Assumes that all values in the column are int/float only.
+      # An empty string is converted to null.
+      sum: 5
+      sum_not: 4
+      sum_min: 1
+      sum_max: 10
+
   - name: "another_column"
 
   - name: "third_column"

@@ -17,11 +17,11 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Rules\Cell\IsLongitude;
-use JBZoo\PHPUnit\Rules\AbstractCellRuleTest;
+use JBZoo\PHPUnit\Rules\AbstractCellRule;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class IsLongitudeTest extends AbstractCellRuleTest
+final class IsLongitudeTest extends AbstractCellRule
 {
     protected string $ruleClass = IsLongitude::class;
 

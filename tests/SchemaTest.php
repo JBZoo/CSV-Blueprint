@@ -161,25 +161,36 @@ final class SchemaTest extends TestCase
 
     public function testGetColumnRules(): void
     {
-        $schema = new Schema(Tools::SCHEMA_SIMPLE_HEADER);
-        isSame($schema->getColumn('seq'), $schema->getColumn(0));
+        $schema = new Schema(Tools::DEMO_YML_VALID);
+        isSame($schema->getColumn('Name'), $schema->getColumn(0));
 
         isSame([
-            'not_empty' => true,
+            'not_empty'  => true,
+            'length_min' => 4,
+            'length_max' => 7,
         ], $schema->getColumn(0)->getRules());
 
         isSame([
-            'not_empty' => true,
+            'not_empty'     => true,
+            'is_capitalize' => true,
         ], $schema->getColumn(1)->getRules());
+
+        isSame([
+            'not_empty' => true,
+            'is_float'  => true,
+            'num_min'   => -19366059128,
+            'num_max'   => 74606,
+        ], $schema->getColumn(2)->getRules());
     }
 
     public function testGetColumnAggregateRules(): void
     {
-        $schemaFull = new Schema(Tools::SCHEMA_FULL);
-        $column     = $schemaFull->getColumn(0);
+        $schema = new Schema(Tools::DEMO_YML_VALID);
 
         isSame([
             'is_unique' => true,
-        ], $column->getAggregateRules());
+        ], $schema->getColumn(0)->getAggregateRules());
+
+        isSame([], $schema->getColumn(1)->getAggregateRules());
     }
 }

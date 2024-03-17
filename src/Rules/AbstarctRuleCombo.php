@@ -47,7 +47,7 @@ abstract class AbstarctRuleCombo extends AbstarctRule
         return null;
     }
 
-    public function test(string $cellValue, bool $isHtml = false): string
+    public function test(array|string $cellValue, bool $isHtml = false): string
     {
         $errorMessage = (string)$this->validateCombo($cellValue);
 
@@ -84,10 +84,18 @@ abstract class AbstarctRuleCombo extends AbstarctRule
     private function validateCombo(array|string $cellValue): ?string
     {
         if ($this instanceof AbstractCellRuleCombo) {
+            if (!\is_string($cellValue)) {
+                throw new \InvalidArgumentException('The value should be a string');
+            }
+
             return $this->validateComboCell($cellValue, $this->mode);
         }
 
         if ($this instanceof AbstarctAggregateRuleCombo) {
+            if (!\is_array($cellValue)) {
+                throw new \InvalidArgumentException('The value should be an array of numbers/strings');
+            }
+
             return $this->validateComboAggregate($cellValue, $this->mode);
         }
 

@@ -18,12 +18,12 @@ namespace JBZoo\PHPUnit\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Rules\AbstarctRule as Combo;
 use JBZoo\CsvBlueprint\Rules\Cell\ComboWordCount;
-use JBZoo\PHPUnit\Rules\AbstractCellRuleComboTest;
+use JBZoo\PHPUnit\Rules\AbstractCellRuleCombo;
 
 use function JBZoo\PHPUnit\isSame;
 use function JBZoo\PHPUnit\success;
 
-class ComboWordCountTest extends AbstractCellRuleComboTest
+class ComboWordCountTest extends AbstractCellRuleCombo
 {
     protected string $ruleClass = ComboWordCount::class;
 

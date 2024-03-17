@@ -17,12 +17,12 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Rules\Cell\IsUuid;
-use JBZoo\PHPUnit\Rules\AbstractCellRuleTest;
+use JBZoo\PHPUnit\Rules\AbstractCellRule;
 use JBZoo\Utils\Str;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class IsUuid4Test extends AbstractCellRuleTest
+final class IsUuid4Test extends AbstractCellRule
 {
     protected string $ruleClass = IsUuid::class;
 
