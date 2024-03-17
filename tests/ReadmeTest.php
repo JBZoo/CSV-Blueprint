@@ -66,15 +66,17 @@ final class ReadmeTest extends TestCase
         $aggRules   = \count(yml(Tools::SCHEMA_FULL)->findArray('columns.0.aggregate_rules'));
         $totalRules = $cellRules + $aggRules;
 
-        $text = \implode('', [
-            "![Static Badge](https://img.shields.io/badge/Total_Rules-{$totalRules}-" .
-            'green?label=Total%20Rules&color=green)',
-            '    ',
-            "![Static Badge](https://img.shields.io/badge/Cell_Rules-{$cellRules}-" .
-            'green?label=Cell%20Rules&color=green)',
-            '    ',
-            "![Static Badge](https://img.shields.io/badge/Aggregate_Rules-{$aggRules}-" .
-            'green?label=Aggregate%20Rules&color=green)',
+        $badge = static function (string $label, int $count): string {
+            $label = \str_replace(' ', '%20', $label);
+
+            return "![Static Badge](https://img.shields.io/badge/Rules-{$count}-green" .
+                "?label={$label}&labelColor=blue&color=gray)";
+        };
+
+        $text = \implode('    ', [
+            $badge('Total Number of Rules', $totalRules),
+            $badge('Cell Rules', $cellRules),
+            $badge('Aggregate Rules', $aggRules),
         ]);
 
         Tools::insertInReadme('rules-counter', $text);
