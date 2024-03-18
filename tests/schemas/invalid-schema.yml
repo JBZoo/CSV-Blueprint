@@ -1,0 +1,56 @@
+#
+# JBZoo Toolbox - Csv-Blueprint.
+#
+# This file is part of the JBZoo Toolbox project.
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# @license    MIT
+# @copyright  Copyright (C) JBZoo.com, All rights reserved.
+# @see        https://github.com/JBZoo/Csv-Blueprint
+#
+
+# This schema is invalid because does not match the CSV file (tests/fixtures/demo.csv).
+
+filename_pattern: /demo-[12].csv$/i
+
+undefined-param_1: true
+
+csv:
+  undefined-param_2: true
+
+columns:
+  - name: Name
+    rules:
+      not_empty: true
+      length_min: 5
+      length_max: 7
+      undefined-param_3: true
+
+  - name: City
+    undefined-param_4: true
+    rules:
+      not_empty: true
+      is_capitalize: true
+    aggregate_rules:
+      is_unique: true
+      undefined-param_5: true
+
+  - name: Float
+    rules:
+      not_empty: true
+      is_float: true
+      num_min: -19366059128
+      num_max: 4825.184
+
+  - name: Birthday
+    rules:
+      not_empty: "invalid option type"
+      date_format: "Y-m-d"
+      date_min: "1955-05-15"
+      date_max: true
+      allow_values: [ red, green, Blue ]
+
+  - rules: # Invalid column definition. No name if csv.header enabled
+      not_empty: "true"
+      allow_values: "[ red, green, Blue ]" # Invalid option type. It should be an array, not string.

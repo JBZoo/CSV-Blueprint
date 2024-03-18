@@ -28,6 +28,7 @@ return [
         [
             'name'        => 'Column Name (header)',
             'description' => 'Lorem ipsum',
+            'example'     => 'Some example',
             'rules'       => [
                 'not_empty'        => true,
                 'exact_value'      => 'Some string',
@@ -157,10 +158,14 @@ return [
             ],
         ],
 
-        ['name' => 'another_column'],
+        [
+            'name'  => 'another_column',
+            'rules' => ['not_empty' => true],
+        ],
 
-        ['name' => 'third_column'],
-
-        ['description' => 'Column with description only. Undefined header name.'],
+        [
+            'name'  => 'third_column',
+            'rules' => ['not_empty' => true],
+        ],
     ],
 ];

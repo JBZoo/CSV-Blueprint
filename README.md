@@ -107,7 +107,8 @@ csv: # Here are default values. You can skip this section if you don't need to o
 
 columns:
   - name: "Column Name (header)"        # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
-    description: "Lorem ipsum"          # Optional. Description of the column. Not used in the validation process.
+    description: "Lorem ipsum"          # Description of the column. Not used in the validation process.
+    example: "Some example"             # Example of the column value. Not used in the validation process.
 
     # Important notes about the validation rules.
     # 1. All rules except "not_empty" ignored for empty strings (length 0).
@@ -316,10 +317,12 @@ columns:
       coef_of_var_max: 10.123
 
   - name: "another_column"
+    rules:
+      not_empty: true
 
   - name: "third_column"
-
-  - description: "Column with description only. Undefined header name."
+    rules:
+      not_empty: true
 
 ```
 <!-- /full-yml -->

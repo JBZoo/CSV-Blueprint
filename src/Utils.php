@@ -137,4 +137,65 @@ final class Utils
 
         return $maxAutoDetected;
     }
+
+    public static function compareArray(
+        array $expectedSchema,
+        array $actualSchema,
+        string $columnId = '',
+        string $keyPrefix = '',
+        string $path = '',
+    ): array {
+        $differences = [];
+
+        foreach ($actualSchema as $key => $value) {
+            $curPath = $path === '' ? (string)$key : "{$path}.{$key}";
+
+            if (!\array_key_exists($key, $expectedSchema)) {
+                $differences[$columnId . '/' . $curPath] = [$columnId, "Undefined key: {$keyPrefix}.{$curPath}"];
+                continue;
+            }
+
+            if (!self::matchTypes($expectedSchema[$key], $value)) {
+                $expectedType = \gettype($expectedSchema[$key]);
+                $actualType   = \gettype($value);
+
+                $differences[$columnId . '/' . $curPath] = [
+                    $columnId,
+                    "Expected type \"<c>{$expectedType}</c>\", actual \"<green>{$actualType}</green>\" in " .
+                    "{$keyPrefix}.{$curPath}",
+                ];
+            } elseif (\is_array($value)) {
+                $differences += \array_merge(
+                    $differences,
+                    self::compareArray($expectedSchema[$key], $value, $columnId, $keyPrefix, $curPath),
+                );
+            }
+        }
+
+        return $differences;
+    }
+
+    public static function matchTypes(
+        null|array|bool|float|int|string $expected,
+        null|array|bool|float|int|string $actual,
+    ): bool {
+        $expectedType = \gettype($expected);
+        $actualType   = \gettype($actual);
+
+        $mapOfValidConvertions = [
+            'NULL'    => [],
+            'array'   => [],
+            'boolean' => [],
+            'double'  => ['string', 'integer'],
+            'integer' => ['string', 'double'],
+            'string'  => ['double', 'integer'],
+        ];
+
+        if ($expectedType === $actualType) {
+            return true;
+        }
+
+        return isset($mapOfValidConvertions[$expectedType])
+            && \in_array($actualType, $mapOfValidConvertions[$expectedType], true);
+    }
 }

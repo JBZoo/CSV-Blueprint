@@ -16,7 +16,6 @@
 build
 tests
 vendor
-schema-examples
 .DS_Store
 .editorconfig
 .gitattributes

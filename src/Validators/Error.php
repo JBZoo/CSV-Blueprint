@@ -18,16 +18,22 @@ namespace JBZoo\CsvBlueprint\Validators;
 
 final class Error
 {
+    public const UNDEFINED_LINE = 0;
+
     public function __construct(
         private string $ruleCode,
         private string $message,
         private string $columnName = '',
-        private int $line = 0,
+        private int $line = self::UNDEFINED_LINE,
     ) {
     }
 
     public function __toString(): string
     {
+        if ($this->line === self::UNDEFINED_LINE) {
+            return "\"{$this->getRuleCode()}\", column \"{$this->getColumnName()}\". {$this->getMessage()}.";
+        }
+
         return "\"{$this->getRuleCode()}\" at line <red>{$this->getLine()}</red>, " .
             "column \"{$this->getColumnName()}\". {$this->getMessage()}.";
     }
