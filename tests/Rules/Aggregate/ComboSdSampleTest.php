@@ -17,14 +17,14 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit\Rules\Aggregate;
 
 use JBZoo\CsvBlueprint\Rules\AbstarctRule as Combo;
-use JBZoo\CsvBlueprint\Rules\Aggregate\ComboStandardDeviation;
+use JBZoo\CsvBlueprint\Rules\Aggregate\ComboSdSample;
 use JBZoo\PHPUnit\Rules\AbstractAggregateRuleCombo;
 
 use function JBZoo\PHPUnit\isSame;
 
-class ComboStandardDeviationTest extends AbstractAggregateRuleCombo
+class ComboSdSampleTest extends AbstractAggregateRuleCombo
 {
-    protected string $ruleClass = ComboStandardDeviation::class;
+    protected string $ruleClass = ComboSdSample::class;
 
     public function testEqual(): void
     {

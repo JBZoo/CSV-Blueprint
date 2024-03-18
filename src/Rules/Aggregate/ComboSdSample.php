@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
 use MathPHP\Statistics\Descriptive;
 
-final class ComboStandardDeviation extends AbstarctAggregateRuleCombo
+final class ComboSdSample extends AbstarctAggregateRuleCombo
 {
     protected const NAME = 'standard deviation (SD)';
 
