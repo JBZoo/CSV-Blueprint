@@ -132,7 +132,12 @@
                 "sd_population"           : 5.123,
                 "sd_population_not"       : 4.123,
                 "sd_population_min"       : 1.123,
-                "sd_population_max"       : 10.123
+                "sd_population_max"       : 10.123,
+
+                "coef_of_var"             : 5.123,
+                "coef_of_var_not"         : 4.123,
+                "coef_of_var_min"         : 1.123,
+                "coef_of_var_max"         : 10.123
             }
         },
 

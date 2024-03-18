@@ -4,7 +4,7 @@
 [![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint)    [![Dependents](https://poser.pugx.org/jbzoo/csv-blueprint/dependents)](https://packagist.org/packages/jbzoo/csv-blueprint/dependents?order_by=downloads)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
 
 <!-- rules-counter -->
-![Static Badge](https://img.shields.io/badge/Rules-96-green?label=Total%20Number%20of%20Rules&labelColor=blue&color=gray)    ![Static Badge](https://img.shields.io/badge/Rules-55-green?label=Cell%20Rules&labelColor=blue&color=gray)    ![Static Badge](https://img.shields.io/badge/Rules-41-green?label=Aggregate%20Rules&labelColor=blue&color=gray)
+![Static Badge](https://img.shields.io/badge/Rules-100-green?label=Total%20Number%20of%20Rules&labelColor=blue&color=gray)    ![Static Badge](https://img.shields.io/badge/Rules-55-green?label=Cell%20Rules&labelColor=blue&color=gray)    ![Static Badge](https://img.shields.io/badge/Rules-45-green?label=Aggregate%20Rules&labelColor=blue&color=gray)
 <!-- /rules-counter -->
 
 ## Introduction
@@ -305,6 +305,15 @@ columns:
       sd_population_not: 4.123
       sd_population_min: 1.123
       sd_population_max: 10.123
+
+      # Coefficient of variation (cᵥ) Also known as relative standard deviation (RSD).
+      # A standardized measure of dispersion of a probability distribution or frequency distribution.
+      # It is often expressed as a percentage. The ratio of the standard deviation to the mean.
+      # See: https://en.wikipedia.org/wiki/Coefficient_of_variation.
+      coef_of_var: 5.123
+      coef_of_var_not: 4.123
+      coef_of_var_min: 1.123
+      coef_of_var_max: 10.123
 
   - name: "another_column"
 
