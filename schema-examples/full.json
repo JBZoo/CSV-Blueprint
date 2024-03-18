@@ -124,10 +124,15 @@
                 "sample_variance_min"     : 1.123,
                 "sample_variance_max"     : 10.123,
 
-                "standard_deviation"      : 5.123,
-                "standard_deviation_not"  : 4.123,
-                "standard_deviation_min"  : 1.123,
-                "standard_deviation_max"  : 10.123
+                "sd_sample"               : 5.123,
+                "sd_sample_not"           : 4.123,
+                "sd_sample_min"           : 1.123,
+                "sd_sample_max"           : 10.123,
+
+                "sd_population"           : 5.123,
+                "sd_population_not"       : 4.123,
+                "sd_population_min"       : 1.123,
+                "sd_population_max"       : 10.123
             }
         },
 
