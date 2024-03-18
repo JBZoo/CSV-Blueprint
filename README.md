@@ -547,7 +547,8 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
 
 **Validation**
 * [More aggregate rules](https://github.com/markrogoyski/math-php#statistics---descriptive).
-* More cell rules.
+* [More cell rules](https://github.com/Respect/Validation).
+* `--strict` option to show warnings if any. It's useful when you want to know about any sort of issues.
 * `required` flag for the column.
 * Custom cell rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
 * Custom agregate rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.

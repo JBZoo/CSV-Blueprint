@@ -14,143 +14,230 @@
 
 # Include another schemas
 includes: # Alias is always required
-  - /path/schema_1.yml   as alias_1 # Full path to another schema.
-  - ./path/schema_2.yml  as alias_2 # Relative path based on the current schema path.
-  - ../path/schema_3.yml as alias_3 # Relative path based on the current schema path. Go up one level.
+  - /path/schema_1.yml   as alias_1   # Full path to another schema.
+  - ./path/schema_2.yml  as alias_2   # Relative path based on the current schema path.
+  - ../path/schema_3.yml as alias_3   # Relative path based on the current schema path. Go up one level.
 
 
 csv: # How to parse file before validation
-  inherit: alias_1                  # Inherited from another schema. Options above will overwrite inherited options.
-  strict_column_order: true         # true - columns must be in the same order as in the schema, false - no strict
-  other_columns_possible: true      # true - other columns are allowed, false - no other columns
-
+  inherit: alias_1                    # Inherited from another schema. Options above will overwrite inherited options.
+  strict_column_order: true           # true - columns must be in the same order as in the schema, false - no strict
+  other_columns_possible: true        # true - other columns are allowed, false - no other columns
+  null_values: [ "none", "nil" ]      # List of values that will be treated as empty
 
 columns:
-  - name: General available options # Can be optional if csv\header: false. If set, then header must contain this value
-    required: true                  # If true, then column must be present in the file
+  - required: true                    # If true, then column must be present in the file
+    null_values: # (Override csv\empty_values) List of values that will be treated as empty
+      - ""
+      - null
+      - none
+      - empty
+      - nil
+    # Multi prop
+    multiple: true
+    multiple_separator: "|"           # Separator for multiple values
+
     rules:
-      is_ip6: true                  # Check if the value is a valid IPv6 address. Example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
-      dateperiod_: true
-      dateinterval_: true
-      bic: true
-      iban: true
-      card_number: true
-      country_code: true
-      currency_code: true
-      is_positive: true
-      is_negative: true
-      is_zero: true
-      is_even: true
-      is_odd: true
-      is_prime: true
+      # https://github.com/Respect/Validation/blob/main/docs/08-list-of-rules-by-category.md
+      is_credit_card: brands[]        # https://github.com/Respect/Validation/blob/main/docs/rules/CreditCard.md
+      is_iban: true
+      is_bool_value: true             # https://github.com/Respect/Validation/blob/main/docs/rules/BoolVal.md
+
+      # Comparisons
+      between: 1
+      between_exclusive: [ min, max ]  # https://github.com/Respect/Validation/blob/main/docs/rules/BetweenExclusive.md
+      equals: 1
+      equivalent: 1
+      greater_than: 1
+      greater_than_or_equal: 1
+      identical: 1
+      in: 1
+      less_than: 1
+      less_than_or_equal: 1
+      max: 1
+      min: 1
+
+      # Composite (deprecated current rule names)
+      all_of: [ ]
+      any_of: [ ]
+      consecutive: [ ]
+      none_of: [ ]
+      one_of: [ ]
+      
+      # Dates
+      leap_date: 29.02.2020          # Check if the date is a valid leap year
+      leap_year: true                # Check if the date is a valid leap year
+      age_: 35
+      dateperiod_: 1
+      dateinterval_: 1
       is_time: true
       is_timezone: true
       is_timezone_offset: true
-      not_allow_values: [ ]           # Strict set of values that are not allowed
+
+      # FS
+      is_dir_name: true
+      is_dir_name_full: true
+      is_file_name: true
+      is_file_name_full: true
+      is_file_size: true
+      is_file_extension: true
+      is_mimetype: true
+
+      # Codes
+      subdivision_code: [ ]           # https://github.com/Respect/Validation/blob/main/docs/rules/SubdivisionCode.md
+
+      # ids
+      postal_code: country code       # https://github.com/Respect/Validation/blob/main/docs/rules/PostalCode.md
+      is_bsn: true
+      is_cnh: true
+      is_cnpj: true
+      is_cpf: true
+      is_hetu: true
+      is_imei: true
+      is_isbn: true
+      is_luhn: true
+      is_nfe_access_key: true
+      is_nif: true
+      is_nip: true
+      is_pesel: true
+      is_pis: true
+      is_polish_id_card: true
+      is_portuguese_nif: true
+      is_bic: true
+      is_card_number: true
+
+      # Web
+      ip: 220.78.168.0/21             # https://github.com/Respect/Validation/blob/main/docs/rules/Ip.md
+      is_ip6: true                    # Check if the value is a valid IPv6 address. Example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+      is_mac_address: true
+      is_public_domain_suffix: true
+      is_email: true                  # improve
+      is_tid: true
+      is_domain: true                 # improve
+      is_video_url: true
+      is_null: true                   # see empty_values
+
+      # Math
+      is_fibonacci: true
+      is_prime_number: true
+      is_positive: true
+      is_negative: true
+      is_zero: true
+      is_digit: true
+      is_digits: true
+      is_even: true
+      is_odd: true
+      is_roman: true
+      is_perfect_square: true
+      is_alnum: true
+      is_alpha: true
+      is_charset: true
+      is_hex_rgb_color: true
+      no_whitespace: true
+      is_phone: true
+      is_punct: true
+      is_slug: true
+      is_space(s): true
+      is_regex: true
+      is_version: true
+      is_vowel: true
+      is_consonant: true
+      is_xdigit: true
+      is_angle:                       # 0.0-360.0
+
+
     aggregate_rules:
-      mode_: true
-      variance_: true
-      stddev_: true
-      percentile_: true
-      quantile_: true
-      count_distinct_: true
-      count_empty_: true
-      count_not_empty_: true
-      count_null_: true
-      count_not_null_: true
-      count_zero_: true
-      count_positive_: true
-      count_negative_: true
-      count_even_: true
-      count_odd_: true
-      count_prime_: true
-      sorted: asc                   # asc, desc, none
-      sorted_flag: SORT_NATURAL     # See sort flags: https://www.php.net/manual/en/function.sort.php
-      count_min: 1
-      count_max: 10
-      count_empty_min: 1
-      count_empty_max: 10
-      count_filled_min: 1
-      count_filled_max: 10
+      first_value: "first"
+      second_value: "second"
+      last_value: "last"
+
+      # ?? https://github.com/Respect/Validation/blob/main/docs/rules/Sorted.md
+      sorted: [ asc, SORT_NATURAL ]   # SORT_NATURAL, SORT_FLAG_CASE, SORT_FLAG_CASE|SORT_NATURAL
+
+      count_distinct_: 1
+      count_zero_: 1
+      count_positive_: 1
+      count_negative_: 1
+      count_even_: 1
+      count_odd_: 1
+      count_prime_: 1
+      count_true_: 1
+      count_false_: 1
+
+      # https://github.com/markrogoyski/math-php#statistics---descriptive
+      mean_abs_dev_: 1
+      median_abs_dev_: 1
+      quartiles_: [ 1, mode ]         # 0%, Q1, Q2, Q3, 100%, IQR
+      quartiles_exclusive_: 1
+      quartiles_inclusive_: 1
+      interquartile_range_: 1         # interquartileRange (IQR)
+      percentile_: [ 1, 95 ]          # 0-100
+      midhinge_: 1
+
+      # https://github.com/markrogoyski/math-php#statistics---averages
+      harmonic_mean_: 1
+      geometric_mean_: 1
+      contraharmonic_mean_: 1
+      quadratic_mean_: 1
+      root_mean_square_: 1
+      trimean_: 1
+      interquartile_mean_: 1 # iqm
+      cubic_mean_: 1
+      truncated_mean_: [ 1, 25 ]      # 25 percent of observations trimmed from each end of distribution
+      generalized_mean_: [ 1, 2 ]     # p-power mean
+      power_mean_: [ 1, 2 ]           # p-power mean
+      lehmer_mean_: [ 1, 3 ]          # p-power mean
+      simple_moving_average_: [ 1, n ]  # SMA
+      cumulative_moving_average_: 1   # CMA
+      weighted_moving_average_: [ 1, n, "weights[]" ]     # WMA
+      exponential_moving_average_: 1  # EPA
+
+      # customization
       custom_func: callbak function
       custom_1: # Custom rule name. Format: custom_{name}
-        class: My\Aggregate\Rules1 # Full name of PHP Class (with namespace)
-        args: [ value ]   # Optional arguments to customize the rule
+        class: My\Aggregate\Rules1    # Full name of PHP Class (with namespace)
+        args: [ value ]               # Optional arguments to customize the rule
       custom_2:
         class: My\Aggregate\Rules2
         args: [ value1, value2 ]
       custom_my_favorite_name:
         class: My\Aggregate\RulesXXX
 
-  - name: Some Integer
-    aggregate_rules:
-      first_value: 1
-      second_value: 2
-      last_value: 10
-
-      stddev_: 1
-      std_dev_max: 10
-      percentile_min: 1
-      percentile_max: 10
-      average_min: 1
-      average_max: 10
-      median_min: 1
-      median_max: 10
-      mode_min: 1
-      mode_max: 10
-      sum_min: 1
-      sum_max: 10
-      moving_average_min: 1
-      moving_average_max: 10
-      geometric_mean_min: 1
-      geometric_mean_max: 10
-      harmonic_mean_min: 1
-      harmonic_mean_max: 10
-      root_mean_square_min: 1
-      root_mean_square_max: 10
-
-
-  - name: Some Enum
-    rules:
-      multiple: true
-      multiple_separator: "|"         # Separator for multiple values
-      allow_values: [ value1, value2, value3 ]
-
   - name: Some Inherited
-    inherit: alias_1\Column Name    # Inherited from another schema
+    inherit: alias_1\Column Name      # Inherited from another schema
     rules: # Overwrite rules from another schema
       true_values: [ true, 1, yes ]
 
   - name: Some URL
-    type: url                       # Inherited from Validator\String
+    type: url                         # Inherited from Validator\String
     rules:
-      scheme: https                 # Can be set of schemes [http, https, ftp]
-      host: example.com             # Can be regex
-      path: /some/path              # Can be regex
-      query: p1=val1&p2=val2        # Can be regex
-      fragment: some-fragment       # Can be regex
-      port: 443                     # Can be set of ports [80, 443, 8080]
-      username: user                # Can be regex
-      password: password            # Can be regex
+      scheme: https                   # Can be set of schemes [http, https, ftp]
+      host: example.com               # Can be regex
+      path: /some/path                # Can be regex
+      query: p1=val1&p2=val2          # Can be regex
+      fragment: some-fragment         # Can be regex
+      port: 443                       # Can be set of ports [80, 443, 8080]
+      username: user                  # Can be regex
+      password: password              # Can be regex
 
   - name: Some Email
-    type: email                     # Inherited from Validator\String
+    type: email                       # Inherited from Validator\String
     rules:
-      domain: example.com           # Can be regex
-      user: user                    # Can be regex
+      domain: example.com             # Can be regex
+      user: user                      # Can be regex
 
   - name: Some IP
-    type: ip                        # Inherited from Validator\String
+    type: ip                          # Inherited from Validator\String
     rules:
-      subnets: [ 192.168.1.2/24 ]   # If not set, then no subnet check
+      subnets: [ 192.168.1.2/24 ]     # If not set, then no subnet check
 
 complex_rules:
-  - handler: My\Complex\Rule        # Full name of PHP Class (with namespace)
+  - handler: My\Complex\Rule          # Full name of PHP Class (with namespace)
     handler_args:
       - column:0
       - column:1
 
-  - handler: My\Complex\Rule        # Full name of PHP Class (with namespace)
+  - handler: My\Complex\Rule          # Full name of PHP Class (with namespace)
     handler_args:
       - Some String
       - Some Integer
