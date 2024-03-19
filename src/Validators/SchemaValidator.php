@@ -107,7 +107,7 @@ final class SchemaValidator
         ];
 
         if (isset($actualColumn['example']) && !\in_array($actualColumn['example'], $exclude, true)) {
-            return (new Column($columnKey, $actualColumn))->validateCell($actualColumn['example']);
+            return (new Column($columnKey, $actualColumn))->validateCell((string)$actualColumn['example']);
         }
 
         return null;

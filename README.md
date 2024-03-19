@@ -517,11 +517,12 @@ Schema: ./tests/schemas/demo_invalid.yml
 Found CSV files: 1
 
 Schema is invalid: ./tests/schemas/demo_invalid.yml
-+-------+-----------+----- demo_invalid.yml --------------------------+
-| Line  | id:Column | Rule     | Message                              |
-+-------+-----------+----------+--------------------------------------+
-| undef | 2:Float   | is_float | Value "Qwerty" is not a float number |
-+-------+-----------+----- demo_invalid.yml --------------------------+
++-------+------------------+--------------+----- demo_invalid.yml -----------------------------------------------+
+| Line  | id:Column        | Rule         | Message                                                              |
++-------+------------------+--------------+----------------------------------------------------------------------+
+| undef | 2:Float          | is_float     | Value "Qwerty" is not a float number                                 |
+| undef | 4:Favorite color | allow_values | Value "123" is not allowed. Allowed values: ["red", "green", "Blue"] |
++-------+------------------+--------------+----- demo_invalid.yml -----------------------------------------------+
 
 (1/1) Invalid file: ./tests/fixtures/demo.csv
 +------+------------------+------------------+----------------------- demo.csv ---------------------------------------------------------------------+
@@ -543,7 +544,7 @@ Schema is invalid: ./tests/schemas/demo_invalid.yml
 
 
 Found 9 issues in CSV file.
-Found 1 issues in schema.
+Found 2 issues in schema.
 
 ```
 <!-- /output-table -->
