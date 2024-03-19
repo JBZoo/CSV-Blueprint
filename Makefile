@@ -54,7 +54,7 @@ demo-valid: ##@Project Run demo valid CSV
 	@${PHP_BIN} ./csv-blueprint validate:csv      \
        --csv=./tests/fixtures/demo.csv            \
        --schema=./tests/schemas/demo_valid.yml    \
-       --skip-schema-check -v
+       --skip-schema -v
 
 demo-docker: ##@Project Run demo via Docker
 	$(call title,"Demo - Valid CSV \(via Docker\)")

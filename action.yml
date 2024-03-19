@@ -36,7 +36,7 @@ inputs:
     description: 'Quick mode. It will not validate all rows. It will stop after the first error.'
     default: no
     required: true
-  skip-schema-check:
+  skip-schema:
     description: 'Skip schema validation. If you are sure that the schema is correct, you can skip this check.'
     default: no
     required: true
@@ -56,7 +56,7 @@ runs:
     - ${{ inputs.report }}
     - '--quick'
     - ${{ inputs.quick }}
-    - '--skip-schema-check'
-    - ${{ inputs.skip-schema-check }}
+    - '--skip-schema'
+    - ${{ inputs.skip-schema }}
     - '--ansi'
     - '-vvv'

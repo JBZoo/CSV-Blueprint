@@ -82,7 +82,7 @@ final class ValidateCsv extends CliCommand
                 'no',
             )
             ->addOption(
-                'skip-schema-check',
+                'skip-schema',
                 'S',
                 InputOption::VALUE_OPTIONAL,
                 "Skip schema validation.\n" .
@@ -156,7 +156,7 @@ final class ValidateCsv extends CliCommand
 
     private function isCheckingSchema(): bool
     {
-        $value = $this->getOptString('skip-schema-check');
+        $value = $this->getOptString('skip-schema');
 
         return !($value === '' || bool($value));
     }
