@@ -139,7 +139,7 @@ final class Schema
 
     public function validate(): ErrorSuite
     {
-        $expected = yml(__DIR__ . '/../schema-examples/full.yml');
+        $expected = phpArray(__DIR__ . '/../schema-examples/full.php');
 
         $expectedColumn = $expected->find('columns.0');
         $expectedMeta   = $expected->remove('columns')->getArrayCopy();
