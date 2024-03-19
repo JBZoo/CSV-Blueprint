@@ -37,6 +37,10 @@ require_once JBZOO_AUTOLOAD_FILE;
 
 \date_default_timezone_set('UTC');
 
+\set_error_handler(static function ($severity, $message, $file, $line): void {
+    throw new \ErrorException($message, 0, $severity, $file, $line);
+});
+
 (new CliApplication('CSV Blueprint', '@git-version@'))
     ->registerCommandsByPath(PATH_ROOT . '/src/Commands', __NAMESPACE__)
     ->setLogo(

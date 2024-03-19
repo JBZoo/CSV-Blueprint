@@ -103,14 +103,14 @@ final class CsvValidator
         if (
             $filenamePattern !== null
             && $filenamePattern !== ''
-            && \preg_match($filenamePattern, $this->csv->getCsvFilename()) === 0
+            && Utils::testRegex($filenamePattern, $this->csv->getCsvFilename())
         ) {
             $error = new Error(
                 'filename_pattern',
                 'Filename "<c>' . Utils::cutPath($this->csv->getCsvFilename()) .
                 "</c>\" does not match pattern: \"<c>{$filenamePattern}</c>\"",
                 '',
-                ColumnValidator::FALLBACK_LINE,
+                Error::UNDEFINED_LINE,
             );
 
             $errors->addError($error);

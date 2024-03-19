@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
+use JBZoo\CsvBlueprint\Utils;
+
 final class IsDomain extends AbstractCellRule
 {
     protected const HELP_OPTIONS = [
@@ -26,7 +28,7 @@ final class IsDomain extends AbstractCellRule
     {
         $domainPattern = '/^(?!-)[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,})$/';
 
-        if (\preg_match($domainPattern, $cellValue) === 0) {
+        if (Utils::testRegex($domainPattern, $cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not a valid domain";
         }
 

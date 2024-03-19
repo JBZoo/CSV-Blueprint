@@ -71,22 +71,22 @@ final class ValidateCsvTest extends TestCase
             +-------+------------------+--------------+----- demo_invalid.yml -----------------------------------------------+
             
             (1/1) Invalid file: ./tests/fixtures/demo.csv
-            +------+------------------+------------------+----------------------- demo.csv ---------------------------------------------------------------------+
-            | Line | id:Column        | Rule             | Message                                                                                              |
-            +------+------------------+------------------+------------------------------------------------------------------------------------------------------+
-            | 1    |                  | filename_pattern | Filename "./tests/fixtures/demo.csv" does not match pattern: "/demo-[12].csv$/i"                     |
-            | 6    | 0:Name           | length_min       | The length of the value "Carl" is 4, which is less than the expected "5"                             |
-            | 11   | 0:Name           | length_min       | The length of the value "Lois" is 4, which is less than the expected "5"                             |
-            | 1    | 1:City           | ag:is_unique     | Column has non-unique values. Unique: 9, total: 10                                                   |
-            | 2    | 2:Float          | num_max          | The number of the value "4825.185", which is greater than the expected "4825.184"                    |
-            | 6    | 3:Birthday       | date_min         | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
-            |      |                  |                  | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
-            | 8    | 3:Birthday       | date_min         | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
-            |      |                  |                  | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
-            | 9    | 3:Birthday       | date_max         | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
-            |      |                  |                  | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
-            | 5    | 4:Favorite color | allow_values     | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
-            +------+------------------+------------------+----------------------- demo.csv ---------------------------------------------------------------------+
+            +-------+------------------+------------------+----------------------- demo.csv ---------------------------------------------------------------------+
+            | Line  | id:Column        | Rule             | Message                                                                                              |
+            +-------+------------------+------------------+------------------------------------------------------------------------------------------------------+
+            | undef |                  | filename_pattern | Filename "./tests/fixtures/demo.csv" does not match pattern: "/demo-[12].csv$/i"                     |
+            | 6     | 0:Name           | length_min       | The length of the value "Carl" is 4, which is less than the expected "5"                             |
+            | 11    | 0:Name           | length_min       | The length of the value "Lois" is 4, which is less than the expected "5"                             |
+            | 1     | 1:City           | ag:is_unique     | Column has non-unique values. Unique: 9, total: 10                                                   |
+            | 2     | 2:Float          | num_max          | The number of the value "4825.185", which is greater than the expected "4825.184"                    |
+            | 6     | 3:Birthday       | date_min         | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
+            |       |                  |                  | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
+            | 8     | 3:Birthday       | date_min         | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
+            |       |                  |                  | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
+            | 9     | 3:Birthday       | date_max         | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
+            |       |                  |                  | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
+            | 5     | 4:Favorite color | allow_values     | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
+            +-------+------------------+------------------+----------------------- demo.csv ---------------------------------------------------------------------+
             
             
             Found 9 issues in CSV file.
@@ -142,11 +142,11 @@ final class ValidateCsvTest extends TestCase
             +------+------------+------------+---------------------------- demo-2.csv --------------------------------------------------------------+
             
             (3/3) Invalid file: ./tests/fixtures/batch/sub/demo-3.csv
-            +------+-----------+------------------+---------------------- demo-3.csv ------------------------------------------------------------+
-            | Line | id:Column | Rule             | Message                                                                                      |
-            +------+-----------+------------------+----------------------------------------------------------------------------------------------+
-            | 1    |           | filename_pattern | Filename "./tests/fixtures/batch/sub/demo-3.csv" does not match pattern: "/demo-[12].csv$/i" |
-            +------+-----------+------------------+---------------------- demo-3.csv ------------------------------------------------------------+
+            +-------+-----------+------------------+--------------------- demo-3.csv -------------------------------------------------------------+
+            | Line  | id:Column | Rule             | Message                                                                                      |
+            +-------+-----------+------------------+----------------------------------------------------------------------------------------------+
+            | undef |           | filename_pattern | Filename "./tests/fixtures/batch/sub/demo-3.csv" does not match pattern: "/demo-[12].csv$/i" |
+            +-------+-----------+------------------+--------------------- demo-3.csv -------------------------------------------------------------+
             
             
             Found 8 issues in 3 out of 3 CSV files.
@@ -175,7 +175,7 @@ final class ValidateCsvTest extends TestCase
             "allow_values", column "4:Favorite color". Value "123" is not allowed. Allowed values: ["red", "green", "Blue"].
             
             (1/1) Invalid file: ./tests/fixtures/demo.csv
-            "filename_pattern" at line 1, column "". Filename "./tests/fixtures/demo.csv" does not match pattern: "/demo-[12].csv$/i".
+            "filename_pattern". Filename "./tests/fixtures/demo.csv" does not match pattern: "/demo-[12].csv$/i".
             "length_min" at line 6, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".
             "length_min" at line 11, column "0:Name". The length of the value "Lois" is 4, which is less than the expected "5".
             "ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 9, total: 10.
@@ -285,7 +285,7 @@ final class ValidateCsvTest extends TestCase
             "date_max" at line 5, column "3:Birthday". The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)".
             
             (3/3) Invalid file: ./tests/fixtures/batch/sub/demo-3.csv
-            "filename_pattern" at line 1, column "". Filename "./tests/fixtures/batch/sub/demo-3.csv" does not match pattern: "/demo-[12].csv$/i".
+            "filename_pattern". Filename "./tests/fixtures/batch/sub/demo-3.csv" does not match pattern: "/demo-[12].csv$/i".
             
             
             Found 8 issues in 3 out of 3 CSV files.
@@ -378,7 +378,7 @@ final class ValidateCsvTest extends TestCase
             ##teamcity[testSuiteStarted name='demo-3.csv' flowId='42']
             
             ##teamcity[testStarted name='filename_pattern at column' locationHint='php_qn://./tests/fixtures/batch/sub/demo-3.csv' flowId='42']
-            "filename_pattern" at line 1, column "". Filename "./tests/fixtures/batch/sub/demo-3.csv" does not match pattern: "/demo-[12].csv$/i".
+            "filename_pattern". Filename "./tests/fixtures/batch/sub/demo-3.csv" does not match pattern: "/demo-[12].csv$/i".
             ##teamcity[testFinished name='filename_pattern at column' flowId='42']
             
             ##teamcity[testSuiteFinished name='demo-3.csv' flowId='42']
@@ -449,46 +449,46 @@ final class ValidateCsvTest extends TestCase
             +-------+------------+--------+----------- invalid_schema.yml ------------------------------------------+
             
             (1/1) Invalid file: ./tests/fixtures/demo.csv
-            +------+------------+------------------+-------------------------- demo.csv ------------------------------------------------------------------+
-            | Line | id:Column  | Rule             | Message                                                                                              |
-            +------+------------+------------------+------------------------------------------------------------------------------------------------------+
-            | 1    |            | filename_pattern | Filename "./tests/fixtures/demo.csv" does not match pattern: "/demo-[12].csv$/i"                     |
-            | 1    | 4:         | csv.header       | Property "name" is not defined in schema: "./tests/schemas/invalid_schema.yml"                       |
-            | 6    | 0:Name     | length_min       | The length of the value "Carl" is 4, which is less than the expected "5"                             |
-            | 11   | 0:Name     | length_min       | The length of the value "Lois" is 4, which is less than the expected "5"                             |
-            | 1    | 1:City     | ag:is_unique     | Column has non-unique values. Unique: 9, total: 10                                                   |
-            | 2    | 2:Float    | num_max          | The number of the value "4825.185", which is greater than the expected "4825.184"                    |
-            | 2    | 3:Birthday | date_max         | The date of the value "2000-01-01" is parsed as "2000-01-01 00:00:00 +00:00", which is greater than  |
-            |      |            |                  | the expected "Can't parse date: 1"                                                                   |
-            | 2    | 3:Birthday | allow_values     | Value "2000-01-01" is not allowed. Allowed values: ["red", "green", "Blue"]                          |
-            | 3    | 3:Birthday | date_max         | The date of the value "2000-12-01" is parsed as "2000-12-01 00:00:00 +00:00", which is greater than  |
-            |      |            |                  | the expected "Can't parse date: 1"                                                                   |
-            | 3    | 3:Birthday | allow_values     | Value "2000-12-01" is not allowed. Allowed values: ["red", "green", "Blue"]                          |
-            | 4    | 3:Birthday | date_max         | The date of the value "2000-01-31" is parsed as "2000-01-31 00:00:00 +00:00", which is greater than  |
-            |      |            |                  | the expected "Can't parse date: 1"                                                                   |
-            | 4    | 3:Birthday | allow_values     | Value "2000-01-31" is not allowed. Allowed values: ["red", "green", "Blue"]                          |
-            | 5    | 3:Birthday | date_max         | The date of the value "1998-02-28" is parsed as "1998-02-28 00:00:00 +00:00", which is greater than  |
-            |      |            |                  | the expected "Can't parse date: 1"                                                                   |
-            | 5    | 3:Birthday | allow_values     | Value "1998-02-28" is not allowed. Allowed values: ["red", "green", "Blue"]                          |
-            | 6    | 3:Birthday | date_min         | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
-            |      |            |                  | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
-            | 6    | 3:Birthday | allow_values     | Value "1955-05-14" is not allowed. Allowed values: ["red", "green", "Blue"]                          |
-            | 7    | 3:Birthday | date_max         | The date of the value "1989-05-15" is parsed as "1989-05-15 00:00:00 +00:00", which is greater than  |
-            |      |            |                  | the expected "Can't parse date: 1"                                                                   |
-            | 7    | 3:Birthday | allow_values     | Value "1989-05-15" is not allowed. Allowed values: ["red", "green", "Blue"]                          |
-            | 8    | 3:Birthday | date_min         | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
-            |      |            |                  | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
-            | 8    | 3:Birthday | allow_values     | Value "1955-05-14" is not allowed. Allowed values: ["red", "green", "Blue"]                          |
-            | 9    | 3:Birthday | date_max         | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
-            |      |            |                  | the expected "Can't parse date: 1"                                                                   |
-            | 9    | 3:Birthday | allow_values     | Value "2010-07-20" is not allowed. Allowed values: ["red", "green", "Blue"]                          |
-            | 10   | 3:Birthday | date_max         | The date of the value "1990-09-10" is parsed as "1990-09-10 00:00:00 +00:00", which is greater than  |
-            |      |            |                  | the expected "Can't parse date: 1"                                                                   |
-            | 10   | 3:Birthday | allow_values     | Value "1990-09-10" is not allowed. Allowed values: ["red", "green", "Blue"]                          |
-            | 11   | 3:Birthday | date_max         | The date of the value "1988-08-24" is parsed as "1988-08-24 00:00:00 +00:00", which is greater than  |
-            |      |            |                  | the expected "Can't parse date: 1"                                                                   |
-            | 11   | 3:Birthday | allow_values     | Value "1988-08-24" is not allowed. Allowed values: ["red", "green", "Blue"]                          |
-            +------+------------+------------------+-------------------------- demo.csv ------------------------------------------------------------------+
+            +-------+------------+------------------+-------------------------- demo.csv ------------------------------------------------------------------+
+            | Line  | id:Column  | Rule             | Message                                                                                              |
+            +-------+------------+------------------+------------------------------------------------------------------------------------------------------+
+            | undef |            | filename_pattern | Filename "./tests/fixtures/demo.csv" does not match pattern: "/demo-[12].csv$/i"                     |
+            | 1     | 4:         | csv.header       | Property "name" is not defined in schema: "./tests/schemas/invalid_schema.yml"                       |
+            | 6     | 0:Name     | length_min       | The length of the value "Carl" is 4, which is less than the expected "5"                             |
+            | 11    | 0:Name     | length_min       | The length of the value "Lois" is 4, which is less than the expected "5"                             |
+            | 1     | 1:City     | ag:is_unique     | Column has non-unique values. Unique: 9, total: 10                                                   |
+            | 2     | 2:Float    | num_max          | The number of the value "4825.185", which is greater than the expected "4825.184"                    |
+            | 2     | 3:Birthday | date_max         | The date of the value "2000-01-01" is parsed as "2000-01-01 00:00:00 +00:00", which is greater than  |
+            |       |            |                  | the expected "Can't parse date: 1"                                                                   |
+            | 2     | 3:Birthday | allow_values     | Value "2000-01-01" is not allowed. Allowed values: ["red", "green", "Blue"]                          |
+            | 3     | 3:Birthday | date_max         | The date of the value "2000-12-01" is parsed as "2000-12-01 00:00:00 +00:00", which is greater than  |
+            |       |            |                  | the expected "Can't parse date: 1"                                                                   |
+            | 3     | 3:Birthday | allow_values     | Value "2000-12-01" is not allowed. Allowed values: ["red", "green", "Blue"]                          |
+            | 4     | 3:Birthday | date_max         | The date of the value "2000-01-31" is parsed as "2000-01-31 00:00:00 +00:00", which is greater than  |
+            |       |            |                  | the expected "Can't parse date: 1"                                                                   |
+            | 4     | 3:Birthday | allow_values     | Value "2000-01-31" is not allowed. Allowed values: ["red", "green", "Blue"]                          |
+            | 5     | 3:Birthday | date_max         | The date of the value "1998-02-28" is parsed as "1998-02-28 00:00:00 +00:00", which is greater than  |
+            |       |            |                  | the expected "Can't parse date: 1"                                                                   |
+            | 5     | 3:Birthday | allow_values     | Value "1998-02-28" is not allowed. Allowed values: ["red", "green", "Blue"]                          |
+            | 6     | 3:Birthday | date_min         | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
+            |       |            |                  | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
+            | 6     | 3:Birthday | allow_values     | Value "1955-05-14" is not allowed. Allowed values: ["red", "green", "Blue"]                          |
+            | 7     | 3:Birthday | date_max         | The date of the value "1989-05-15" is parsed as "1989-05-15 00:00:00 +00:00", which is greater than  |
+            |       |            |                  | the expected "Can't parse date: 1"                                                                   |
+            | 7     | 3:Birthday | allow_values     | Value "1989-05-15" is not allowed. Allowed values: ["red", "green", "Blue"]                          |
+            | 8     | 3:Birthday | date_min         | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
+            |       |            |                  | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
+            | 8     | 3:Birthday | allow_values     | Value "1955-05-14" is not allowed. Allowed values: ["red", "green", "Blue"]                          |
+            | 9     | 3:Birthday | date_max         | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
+            |       |            |                  | the expected "Can't parse date: 1"                                                                   |
+            | 9     | 3:Birthday | allow_values     | Value "2010-07-20" is not allowed. Allowed values: ["red", "green", "Blue"]                          |
+            | 10    | 3:Birthday | date_max         | The date of the value "1990-09-10" is parsed as "1990-09-10 00:00:00 +00:00", which is greater than  |
+            |       |            |                  | the expected "Can't parse date: 1"                                                                   |
+            | 10    | 3:Birthday | allow_values     | Value "1990-09-10" is not allowed. Allowed values: ["red", "green", "Blue"]                          |
+            | 11    | 3:Birthday | date_max         | The date of the value "1988-08-24" is parsed as "1988-08-24 00:00:00 +00:00", which is greater than  |
+            |       |            |                  | the expected "Can't parse date: 1"                                                                   |
+            | 11    | 3:Birthday | allow_values     | Value "1988-08-24" is not allowed. Allowed values: ["red", "green", "Blue"]                          |
+            +-------+------------+------------------+-------------------------- demo.csv ------------------------------------------------------------------+
             
             
             Found 26 issues in CSV file.

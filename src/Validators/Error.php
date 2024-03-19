@@ -30,12 +30,13 @@ final class Error
 
     public function __toString(): string
     {
+        $columnStr = $this->getColumnName() === '' ? '' : ", column \"{$this->getColumnName()}\"";
+
         if ($this->line === self::UNDEFINED_LINE) {
-            return "\"{$this->getRuleCode()}\", column \"{$this->getColumnName()}\". {$this->getMessage()}.";
+            return "\"{$this->getRuleCode()}\"{$columnStr}. {$this->getMessage()}.";
         }
 
-        return "\"{$this->getRuleCode()}\" at line <red>{$this->getLine()}</red>, " .
-            "column \"{$this->getColumnName()}\". {$this->getMessage()}.";
+        return "\"{$this->getRuleCode()}\" at line <red>{$this->getLine()}</red>{$columnStr}. {$this->getMessage()}.";
     }
 
     public function getRuleCode(): string

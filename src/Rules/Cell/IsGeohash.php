@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
+use JBZoo\CsvBlueprint\Utils;
+
 class IsGeohash extends AbstractCellRule
 {
     protected const HELP_OPTIONS = [
@@ -24,7 +26,7 @@ class IsGeohash extends AbstractCellRule
 
     public function validateRule(string $cellValue): ?string
     {
-        if (\preg_match('/^[0-9b-hj-km-np-z]{1,}$/', $cellValue) === 0) {
+        if (Utils::testRegex('/^[0-9b-hj-km-np-z]{1,}$/', $cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not a valid Geohash";
         }
 

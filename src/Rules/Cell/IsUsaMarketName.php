@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
+use JBZoo\CsvBlueprint\Utils;
+
 final class IsUsaMarketName extends AllowValues
 {
     protected const HELP_OPTIONS = [
@@ -24,7 +26,7 @@ final class IsUsaMarketName extends AllowValues
 
     public function validateRule(string $cellValue): ?string
     {
-        if (\preg_match('/^[A-Za-z\s\'\-\.,]+, [A-Z]{2}$/u', $cellValue) === 0) {
+        if (Utils::testRegex('/^[A-Za-z\s\'\-\.,\(\)]+, [A-Z-]{2,6}$/u', $cellValue)) {
             return "Invalid market name format for value \"<c>{$cellValue}</c>\". " .
                 'Market name must have format "<green>New York, NY</green>"';
         }
