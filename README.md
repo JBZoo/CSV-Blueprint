@@ -159,6 +159,7 @@ columns:
       # Of course it's an ultimatum to verify any sort of string data.
       # Please, be careful. Regex is a powerful tool, but it can be very dangerous if used incorrectly.
       # Remember that if you want to solve a problem with regex, you now have two problems.
+      # But have it your way, then happy debugging! https://regex101.com.
       regex: /^[\d]{2}$/
 
       # Checks length of a string including spaces (multibyte safe).
@@ -525,22 +526,22 @@ Schema is invalid: ./tests/schemas/demo_invalid.yml
 +-------+------------------+--------------+----- demo_invalid.yml -----------------------------------------------+
 
 (1/1) Invalid file: ./tests/fixtures/demo.csv
-+------+------------------+------------------+----------------------- demo.csv ---------------------------------------------------------------------+
-| Line | id:Column        | Rule             | Message                                                                                              |
-+------+------------------+------------------+------------------------------------------------------------------------------------------------------+
-| 1    |                  | filename_pattern | Filename "./tests/fixtures/demo.csv" does not match pattern: "/demo-[12].csv$/i"                     |
-| 6    | 0:Name           | length_min       | The length of the value "Carl" is 4, which is less than the expected "5"                             |
-| 11   | 0:Name           | length_min       | The length of the value "Lois" is 4, which is less than the expected "5"                             |
-| 1    | 1:City           | ag:is_unique     | Column has non-unique values. Unique: 9, total: 10                                                   |
-| 2    | 2:Float          | num_max          | The number of the value "4825.185", which is greater than the expected "4825.184"                    |
-| 6    | 3:Birthday       | date_min         | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
-|      |                  |                  | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
-| 8    | 3:Birthday       | date_min         | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
-|      |                  |                  | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
-| 9    | 3:Birthday       | date_max         | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
-|      |                  |                  | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
-| 5    | 4:Favorite color | allow_values     | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
-+------+------------------+------------------+----------------------- demo.csv ---------------------------------------------------------------------+
++-------+------------------+------------------+----------------------- demo.csv ---------------------------------------------------------------------+
+| Line  | id:Column        | Rule             | Message                                                                                              |
++-------+------------------+------------------+------------------------------------------------------------------------------------------------------+
+| undef |                  | filename_pattern | Filename "./tests/fixtures/demo.csv" does not match pattern: "/demo-[12].csv$/i"                     |
+| 6     | 0:Name           | length_min       | The length of the value "Carl" is 4, which is less than the expected "5"                             |
+| 11    | 0:Name           | length_min       | The length of the value "Lois" is 4, which is less than the expected "5"                             |
+| 1     | 1:City           | ag:is_unique     | Column has non-unique values. Unique: 9, total: 10                                                   |
+| 2     | 2:Float          | num_max          | The number of the value "4825.185", which is greater than the expected "4825.184"                    |
+| 6     | 3:Birthday       | date_min         | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
+|       |                  |                  | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
+| 8     | 3:Birthday       | date_min         | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
+|       |                  |                  | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
+| 9     | 3:Birthday       | date_max         | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
+|       |                  |                  | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
+| 5     | 4:Favorite color | allow_values     | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
++-------+------------------+------------------+----------------------- demo.csv ---------------------------------------------------------------------+
 
 
 Found 9 issues in CSV file.

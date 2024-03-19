@@ -34,6 +34,8 @@ final class IsUsaMarketNameTest extends AbstractCellRule
         isSame('', $rule->test('City-area, ST'));
         isSame('', $rule->test('City.area, ST'));
         isSame('', $rule->test('City.area,asdsa, ST'));
+        isSame('', $rule->test('City-City-City-City, SC-NC'));
+        isSame('', $rule->test('City-City (City City), SC-NC'));
 
         $rule = $this->create(false);
         isSame(null, $rule->validate(', ST'));

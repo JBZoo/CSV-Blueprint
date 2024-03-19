@@ -201,4 +201,21 @@ final class Utils
         return isset($mapOfValidConvertions[$expectedType])
             && \in_array($actualType, $mapOfValidConvertions[$expectedType], true);
     }
+
+    public static function testRegex(string $regex, string $cellValue): bool
+    {
+        if ($regex === '' || $cellValue === '') {
+            return false;
+        }
+
+        try {
+            if (\preg_match($regex, $cellValue) === 0) {
+                return true;
+            }
+        } catch (\Throwable) {
+            return false;
+        }
+
+        return false;
+    }
 }

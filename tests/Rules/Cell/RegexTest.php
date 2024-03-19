@@ -50,5 +50,11 @@ final class RegexTest extends AbstractCellRule
 
         $rule = $this->create('');
         isSame('Regex pattern is not defined', $rule->test('1bc'));
+
+        // $rule = $this->create('/()*#@UIE/W09');
+        // isSame('Regex pattern has invalid syntax: /()*#@UIE/W09', $rule->test('1bc'));
+
+        // $rule = $this->create('/^[a-zA-Z\s&/-]+$/');
+        // isSame('Regex pattern has invalid syntax: /^[a-zA-Z\s&/-]+$/', $rule->test('1bc'));
     }
 }
