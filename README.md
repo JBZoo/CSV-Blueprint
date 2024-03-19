@@ -351,7 +351,7 @@ columns:
 You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml).
 
 
-### As GitHub Action
+### GitHub Action
 
 <!-- github-actions-yml -->
 ```yml
@@ -398,7 +398,7 @@ That is, the error will be shown in a specific place in the CSV file right in di
 </details>
 
 
-### As Docker container
+### Docker container
 Ensure you have Docker installed on your machine.
 
 ```sh
@@ -416,7 +416,7 @@ docker run --rm                                  \
 ```
 
 
-### As PHP binary
+### PHP binary
 Ensure you have PHP installed on your machine.
 
 **Status: WIP**. It's not released yet. But you can build it from source. See manual above and `./build/csv-blueprint.phar` file.
@@ -430,7 +430,7 @@ chmod +x ./csv-blueprint.phar
 ```
 
 
-### As PHP project
+### PHP project
 Ensure you have PHP installed on your machine.
 Then, you can use the following commands to build from source and run the tool.
 
@@ -444,7 +444,7 @@ make build
 ```
 
 
-### CLI Help Message
+### Complete CLI Help Message
 
 Here you can see all available options and commands.  Tool uses [JBZoo/Cli](https://github.com/JBZoo/Cli) package for the CLI interface.
 So there are options here for all occasions.
@@ -559,54 +559,54 @@ Optional format `text` with highlited keywords:
 
 It's random ideas and plans. No orderings and deadlines. <u>But batch processing is the priority #1</u>.
 
-**Batch processing**
-* If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
-* Discovering CSV files by `filename_pattern` in the schema file. In case you have a lot of schemas and a lot of CSV files and want to automate the process as one command.
-* Flag to ignore file name pattern. It's useful when you have a lot of files, and you don't want to validate the file name.
+* **Batch processing**
+  * If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
+  * Discovering CSV files by `filename_pattern` in the schema file. In case you have a lot of schemas and a lot of CSV files and want to automate the process as one command.
+  * Flag to ignore file name pattern. It's useful when you have a lot of files, and you don't want to validate the file name.
 
-**Validation**
-* [More aggregate rules](https://github.com/markrogoyski/math-php#statistics---descriptive).
-* [More cell rules](https://github.com/Respect/Validation).
-* `required` flag for the column.
-* Custom cell rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
-* Custom agregate rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
-* Configurable keyword for null/empty values. By default, it's an empty string. But you will use `null`, `nil`, `none`, `empty`, etc. Overridable on the column level.
-* Handle empty files and files with only a header row, or only with one line of data. One column wthout header is also possible.
-* Using multiple schemas for one csv file.
-* Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas. Make it DRY and easy to maintain.
-* If option `--schema` is not specified, then validate only super base level things (like "is it a CSV file?").
-* Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
-* Extending with custom rules and custom report formats. Plugins?
-* Input encoding detection + `BOM` (right now it's experimental). It works but not so accurate... UTF-8/16/32 is the best choice for now.
+* **Validation**
+  * [More aggregate rules](https://github.com/markrogoyski/math-php#statistics---descriptive).
+  * [More cell rules](https://github.com/Respect/Validation).
+  * `required` flag for the column.
+  * Custom cell rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
+  * Custom agregate rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
+  * Configurable keyword for null/empty values. By default, it's an empty string. But you will use `null`, `nil`, `none`, `empty`, etc. Overridable on the column level.
+  * Handle empty files and files with only a header row, or only with one line of data. One column wthout header is also possible.
+  * Using multiple schemas for one csv file.
+  * Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas. Make it DRY and easy to maintain.
+  * If option `--schema` is not specified, then validate only super base level things (like "is it a CSV file?").
+  * Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
+  * Extending with custom rules and custom report formats. Plugins?
+  * Input encoding detection + `BOM` (right now it's experimental). It works but not so accurate... UTF-8/16/32 is the best choice for now.
 
-**Release workflow**
-* Build and release Docker image [via GitHub Actions, tags and labels](https://docs.docker.com/build/ci/github-actions/manage-tags-labels/). Review it.
-* Build phar file and release via GitHub Actions.
-* Auto insert tool version into the Docker image and phar file. It's important to know the version of the tool you are using.
-* Show version as part of output.
+* **Release workflow**
+  * Build and release Docker image [via GitHub Actions, tags and labels](https://docs.docker.com/build/ci/github-actions/manage-tags-labels/). Review it.
+  * Build phar file and release via GitHub Actions.
+  * Auto insert tool version into the Docker image and phar file. It's important to know the version of the tool you are using.
+  * Show version as part of output.
 
-**Performance and optimization**
-* Benchmarks as part of the CI(?) and Readme. It's important to know how much time the validation process takes.
-* Optimization on `php.ini` level to start it faster. JIT, opcache, preloading, etc.
-* Parallel validation of really-really large files (1GB+ ?). I know you have them and not so much memory.
-* Parallel validation of multiple files at once.
+* **Performance and optimization**
+  * Benchmarks as part of the CI(?) and Readme. It's important to know how much time the validation process takes.
+  * Optimization on `php.ini` level to start it faster. JIT, opcache, preloading, etc.
+  * Parallel validation of really-really large files (1GB+ ?). I know you have them and not so much memory.
+  * Parallel validation of multiple files at once.
 
-**Mock data generation**
-* Create CSV files based on the schema (like "create 1000 rows with random data based on schema and rules").
-* Use [Faker](https://github.com/FakerPHP/Faker) for random data generation.
+* **Mock data generation**
+  * Create CSV files based on the schema (like "create 1000 rows with random data based on schema and rules").
+  * Use [Faker](https://github.com/FakerPHP/Faker) for random data generation.
 
-**Reporting**
-* More report formats (like JSON, XML, etc). Any ideas?
-* Gitlab and JUnit reports must be as one structure. It's not so easy to implement. But it's a good idea.
-* Merge reports from multiple CSV files into one report. It's useful when you have a lot of files and you want to see all errors in one place. Especially for GitLab and JUnit reports.
+* **Reporting**
+  * More report formats (like JSON, XML, etc). Any ideas?
+  * Gitlab and JUnit reports must be as one structure. It's not so easy to implement. But it's a good idea.
+  * Merge reports from multiple CSV files into one report. It's useful when you have a lot of files and you want to see all errors in one place. Especially for GitLab and JUnit reports.
 
-**Misc**
-* Use it as PHP SDK. Examples in Readme.
-* Warnings about deprecated options and features.
-* Warnings about invalid schema files.
-* Move const:HELP to PHP annotations. Canonic way to describe the command.
-* S3 Storage support. Validate files in the S3 bucket?
-* More examples and documentation.
+* **Misc**
+  * Use it as PHP SDK. Examples in Readme.
+  * Warnings about deprecated options and features.
+  * Warnings about invalid schema files.
+  * Move const:HELP to PHP annotations. Canonic way to describe the command.
+  * S3 Storage support. Validate files in the S3 bucket?
+  * More examples and documentation.
 
  
 PS. [There is a file](tests/schemas/todo.yml) with my ideas and imagination. It's not valid schema file, just a draft.
