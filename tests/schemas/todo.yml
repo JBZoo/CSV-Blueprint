@@ -111,9 +111,9 @@ columns:
       is_ip6: true                    # Check if the value is a valid IPv6 address. Example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
       is_mac_address: true
       is_public_domain_suffix: true
-      is_email: true                  # improve
+      # is_email: true                  # improve
       is_tid: true
-      is_domain: true                 # improve
+      # is_domain: true                 # improve
       is_video_url: true
       is_null: true                   # see empty_values
 
@@ -203,13 +203,11 @@ columns:
       custom_my_favorite_name:
         class: My\Aggregate\RulesXXX
 
-  - name: Some Inherited
-    inherit: alias_1\Column Name      # Inherited from another schema
+  - inherit: alias_1\Column Name      # Inherited from another schema
     rules: # Overwrite rules from another schema
       true_values: [ true, 1, yes ]
 
-  - name: Some URL
-    type: url                         # Inherited from Validator\String
+  - type: url                         # Inherited from Validator\String
     rules:
       scheme: https                   # Can be set of schemes [http, https, ftp]
       host: example.com               # Can be regex
@@ -220,8 +218,7 @@ columns:
       username: user                  # Can be regex
       password: password              # Can be regex
 
-  - name: Some Email
-    type: email                       # Inherited from Validator\String
+  - type: email                       # Inherited from Validator\String
     rules:
       domain: example.com             # Can be regex
       user: user                      # Can be regex

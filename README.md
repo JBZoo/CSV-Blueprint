@@ -4,13 +4,13 @@
 [![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint)    [![Dependents](https://poser.pugx.org/jbzoo/csv-blueprint/dependents)](https://packagist.org/packages/jbzoo/csv-blueprint/dependents?order_by=downloads)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
 
 <!-- rules-counter -->
-![Static Badge](https://img.shields.io/badge/Rules-100-green?label=Total%20Number%20of%20Rules&labelColor=blue&color=gray)    ![Static Badge](https://img.shields.io/badge/Rules-55-green?label=Cell%20Rules&labelColor=blue&color=gray)    ![Static Badge](https://img.shields.io/badge/Rules-45-green?label=Aggregate%20Rules&labelColor=blue&color=gray)
+[![Static Badge](https://img.shields.io/badge/Rules-102-green?label=Total%20Number%20of%20Rules&labelColor=blue&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-55-green?label=Cell%20Rules&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-45-green?label=Aggregate%20Rules&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-2-green?label=Extra%20Checks&labelColor=blue&color=gray)](schema-examples/full.yml)
 <!-- /rules-counter -->
 
 ## Introduction
 
 The CSV Blueprint tool is a powerful and flexible utility designed for validating CSV files against 
-a predefined schema specified in YAML format. With the capability to run both locally and in Docker environments,
+a pre-defined schema specified in YAML format. With the capability to run both locally and in Docker environments,
 CSV Blueprint is an ideal choice for integrating into CI/CD pipelines, such as GitHub Actions,
 to ensure the integrity of CSV data in your projects.
 
@@ -35,7 +35,7 @@ Integrating CSV validation into CI processes promotes higher data integrity, rel
 * **Comprehensive Rule Set**: Includes a broad set of validation rules, such as non-empty fields, exact values, regular expressions, numeric constraints, date formats, and more, catering to various data validation needs.
 * **Docker Support**: Easily integrate into any workflow with Docker, providing a seamless experience for development, testing, and production environments.
 * **GitHub Actions Integration**: Automate CSV validation in your CI/CD pipeline, enhancing the quality control of your data in pull requests and deployments.
-* **Various ways to report:** issues that can be easily integrated with GithHub, Gitlab, TeamCity, etc. The default output is a human-readable table. [See Live Demo](https://github.com/JBZoo/Csv-Blueprint-Demo).
+* **Various ways to report:** issues that can be easily integrated with GitHub, Gitlab, TeamCity, etc. The default output is a human-readable table. [See Live Demo](https://github.com/JBZoo/Csv-Blueprint-Demo).
 
 
 ## Live Demo
@@ -51,8 +51,8 @@ Integrating CSV validation into CI processes promotes higher data integrity, rel
 * [demo.csv](tests/fixtures/demo.csv)
 
 
-### Schema Definition
-Define your CSV validation schema in a [YAML](schema-examples/full.yml). Other formats are also available: , [JSON](schema-examples/full.json), [PHP](schema-examples/full.php).
+### Schema definition
+Define your CSV validation schema in a [YAML](schema-examples/full.yml). Other formats are also available: [JSON](schema-examples/full.json), [PHP](schema-examples/full.php).
 
 This example defines a simple schema for a CSV file with a header row, specifying that the `id` column must not be empty and must contain integer values.
 Also, it checks that the `name` column has a minimum length of 3 characters.
@@ -74,7 +74,7 @@ columns:
 ```
 
 
-### Full description of the scheme
+### Full description of the schema
 
 In the [example Yml file](schema-examples/full.yml) you can find a detailed description of all features.
 It's also covered by tests, so it's always up-to-date.
@@ -351,7 +351,7 @@ columns:
 You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml).
 
 
-### As GitHub Action
+### GitHub Action
 
 <!-- github-actions-yml -->
 ```yml
@@ -383,7 +383,7 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
 ```
 <!-- /github-actions-yml -->
 
-**Note**. Report format for GitHub Actions is `github` by default. See [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message) and [PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files). 
+**Note**. GitHub Actions report format is `github` by default. See [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message) and [PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files). 
 
 This allows you to see bugs in the GitHub interface at the PR level.
 That is, the error will be shown in a specific place in the CSV file right in diff of your Pull Requests! [See example](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files).
@@ -398,7 +398,7 @@ That is, the error will be shown in a specific place in the CSV file right in di
 </details>
 
 
-### As Docker container
+### Docker container
 Ensure you have Docker installed on your machine.
 
 ```sh
@@ -408,7 +408,7 @@ docker pull jbzoo/csv-blueprint
 # Run the tool inside Docker
 docker run --rm                                  \
     --workdir=/parent-host                       \
-    -v .:/parent-host                            \
+    -v $(pwd):/parent-host                       \
     jbzoo/csv-blueprint                          \
     validate:csv                                 \
     --csv=./tests/fixtures/demo.csv              \
@@ -416,7 +416,7 @@ docker run --rm                                  \
 ```
 
 
-### As PHP binary
+### PHP binary
 Ensure you have PHP installed on your machine.
 
 **Status: WIP**. It's not released yet. But you can build it from source. See manual above and `./build/csv-blueprint.phar` file.
@@ -430,7 +430,7 @@ chmod +x ./csv-blueprint.phar
 ```
 
 
-### As PHP project
+### PHP project
 Ensure you have PHP installed on your machine.
 Then, you can use the following commands to build from source and run the tool.
 
@@ -444,7 +444,7 @@ make build
 ```
 
 
-### CLI Help Message
+### Complete CLI Help Message
 
 Here you can see all available options and commands.  Tool uses [JBZoo/Cli](https://github.com/JBZoo/Cli) package for the CLI interface.
 So there are options here for all occasions.
@@ -559,55 +559,54 @@ Optional format `text` with highlited keywords:
 
 It's random ideas and plans. No orderings and deadlines. <u>But batch processing is the priority #1</u>.
 
-**Batch processing**
-* If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
-* Discovering CSV files by `filename_pattern` in the schema file. In case you have a lot of schemas and a lot of CSV files and want to automate the process as one command.
-* Flag to ignore file name pattern. It's useful when you have a lot of files, and you don't want to validate the file name.
+* **Batch processing**
+  * If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
+  * Discovering CSV files by `filename_pattern` in the schema file. In case you have a lot of schemas and a lot of CSV files and want to automate the process as one command.
+  * Flag to ignore file name pattern. It's useful when you have a lot of files, and you don't want to validate the file name.
 
-**Validation**
-* [More aggregate rules](https://github.com/markrogoyski/math-php#statistics---descriptive).
-* [More cell rules](https://github.com/Respect/Validation).
-* `required` flag for the column.
-* Custom cell rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
-* Custom agregate rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
-* Configurable keyword for null/empty values. By default, it's an empty string. But you will use `null`, `nil`, `none`, `empty`, etc. Overridable on the column level.
-* Handle empty files and files with only a header row, or only with one line of data. One column wthout header is also possible.
-* Using multiple schemas for one csv file.
-* Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas. Make it DRY and easy to maintain.
-* Validate syntax and options in the schema file. It's important to know if the schema file is valid and can be used for validation.
-* If option `--schema` is not specified, then validate only super base level things (like "is it a CSV file?").
-* Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
-* Extending with custom rules and custom report formats. Plugins?
-* Input encoding detection + `BOM` (right now it's experimental). It works but not so accurate... UTF-8/16/32 is the best choice for now.
+* **Validation**
+  * [More aggregate rules](https://github.com/markrogoyski/math-php#statistics---descriptive).
+  * [More cell rules](https://github.com/Respect/Validation).
+  * `required` flag for the column.
+  * Custom cell rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
+  * Custom agregate rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
+  * Configurable keyword for null/empty values. By default, it's an empty string. But you will use `null`, `nil`, `none`, `empty`, etc. Overridable on the column level.
+  * Handle empty files and files with only a header row, or only with one line of data. One column wthout header is also possible.
+  * Using multiple schemas for one csv file.
+  * Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas. Make it DRY and easy to maintain.
+  * If option `--schema` is not specified, then validate only super base level things (like "is it a CSV file?").
+  * Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
+  * Extending with custom rules and custom report formats. Plugins?
+  * Input encoding detection + `BOM` (right now it's experimental). It works but not so accurate... UTF-8/16/32 is the best choice for now.
 
-**Release workflow**
-* Build and release Docker image [via GitHub Actions, tags and labels](https://docs.docker.com/build/ci/github-actions/manage-tags-labels/). Review it.
-* Build phar file and release via GitHub Actions.
-* Auto insert tool version into the Docker image and phar file. It's important to know the version of the tool you are using.
-* Show version as part of output.
+* **Release workflow**
+  * Build and release Docker image [via GitHub Actions, tags and labels](https://docs.docker.com/build/ci/github-actions/manage-tags-labels/). Review it.
+  * Build phar file and release via GitHub Actions.
+  * Auto insert tool version into the Docker image and phar file. It's important to know the version of the tool you are using.
+  * Show version as part of output.
 
-**Performance and optimization**
-* Benchmarks as part of the CI(?) and Readme. It's important to know how much time the validation process takes.
-* Optimazation on `php.ini` level to start it faster. JIT, opcache, preloading, etc.
-* Parallel validation of really-really large files (1GB+ ?). I know you have them and not so much memory.
-* Parallel validation of multiple files at once.
+* **Performance and optimization**
+  * Benchmarks as part of the CI(?) and Readme. It's important to know how much time the validation process takes.
+  * Optimization on `php.ini` level to start it faster. JIT, opcache, preloading, etc.
+  * Parallel validation of really-really large files (1GB+ ?). I know you have them and not so much memory.
+  * Parallel validation of multiple files at once.
 
-**Mock data generation**
-* Create CSV files based on the schema (like "create 1000 rows with random data based on schema and rules").
-* Use [Faker](https://github.com/FakerPHP/Faker) for random data generation.
+* **Mock data generation**
+  * Create CSV files based on the schema (like "create 1000 rows with random data based on schema and rules").
+  * Use [Faker](https://github.com/FakerPHP/Faker) for random data generation.
 
-**Reporting**
-* More report formats (like JSON, XML, etc). Any ideas?
-* Gitlab and JUnit reports must be as one structure. It's not so easy to implement. But it's a good idea.
-* Merge reports from multiple CSV files into one report. It's useful when you have a lot of files and you want to see all errors in one place. Especially for GitLab and JUnit reports.
+* **Reporting**
+  * More report formats (like JSON, XML, etc). Any ideas?
+  * Gitlab and JUnit reports must be as one structure. It's not so easy to implement. But it's a good idea.
+  * Merge reports from multiple CSV files into one report. It's useful when you have a lot of files and you want to see all errors in one place. Especially for GitLab and JUnit reports.
 
-**Misc**
-* Use it as PHP SDK. Examples in Readme.
-* Warnings about deprecated options and features.
-* Warnings about invalid schema files.
-* Move const:HELP to PHP annotations. Canonic way to describe the command.
-* S3 Storage support. Validate files in the S3 bucket?
-* More examples and documentation.
+* **Misc**
+  * Use it as PHP SDK. Examples in Readme.
+  * Warnings about deprecated options and features.
+  * Warnings about invalid schema files.
+  * Move const:HELP to PHP annotations. Canonic way to describe the command.
+  * S3 Storage support. Validate files in the S3 bucket?
+  * More examples and documentation.
 
  
 PS. [There is a file](tests/schemas/todo.yml) with my ideas and imagination. It's not valid schema file, just a draft.
@@ -616,12 +615,12 @@ I'm not sure if I will implement all of them. But I will try to do my best.
 
 ## Disadvantages?
 
-There is a perception that PHP is a slow language. I don't agree with that. You just need to know how to prepare it.
+It is perceived that PHP is a slow language. I don't agree with that. You just need to know how to prepare it.
 See [Processing One Billion CSV rows in PHP!](https://dev.to/realflowcontrol/processing-one-billion-rows-in-php-3eg0).
 That is, if you do everything right, you can read, aggregate and calculate data from CSV at **~15 million lines per second**!
 
 * Yeah-yeah. I know it's not the fastest tool in the world. But it's not the slowest either. See link above.
-* Yeah-yeah. I know it's PHP (not Python, Go, Pyspark...). PHP is not the best language for such tasks.
+* Yeah-yeah. I know it's PHP (not Python, Go, PySpark...). PHP is not the best language for such tasks.
 * Yeah-yeah. It looks like a standalone binary. Right. Just use it, don't think about how it works.
 * Yeah-yeah. I know you can't use as Python SDK as part of a pipeline.
 
@@ -637,10 +636,9 @@ So... as strictly as possible in today's PHP world. I think it works as expected
 
 ## Interesting fact
 
-I think I've set a personal record. 
-The first version was written from scratch in about 3 days (with really frequent breaks to take care of 4 month baby).
+I've set a personal record. The first version was written from scratch in about 3 days (with really frequent breaks to take care of 4 month baby).
 I'm looking at the first commit and the very first git tag. I'd say over the weekend, in my spare time on my personal laptop.
-Well... AI I only used for this Readme file because I'm not very good at English. 🤔
+Well... AI was only used for this Readme file because I'm not very good at English. 🤔
 
 I seem to be typing fast and I had really great inspiration. I hope my wife doesn't divorce me. 😅
 

@@ -325,4 +325,15 @@ final class SchemaTest extends TestCase
 
         isSame([], $invalidPairs);
     }
+
+    public function testTodoList(): void
+    {
+        isSame(
+            [],
+            Tools::findKeysToRemove(
+                yml(Tools::SCHEMA_FULL_YML)->getArrayCopy(),
+                yml(Tools::SCHEMA_TODO)->getArrayCopy(),
+            ),
+        );
+    }
 }
