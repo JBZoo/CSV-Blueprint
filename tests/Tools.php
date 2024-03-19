@@ -41,6 +41,8 @@ final class Tools
     public const SCHEMA_FULL_PHP       = './schema-examples/full.php';
     public const SCHEMA_INVALID        = './tests/schemas/invalid_schema.yml';
 
+    public const SCHEMA_TODO = './tests/schemas/todo.yml';
+
     public const DEMO_YML_VALID   = './tests/schemas/demo_valid.yml';
     public const DEMO_YML_INVALID = './tests/schemas/demo_invalid.yml';
     public const DEMO_CSV         = './tests/fixtures/demo.csv';
@@ -116,5 +118,27 @@ final class Tools
         isTrue(\file_put_contents(self::README, $result) > 0);
 
         isFileContains($result, self::README);
+    }
+
+    public static function findKeysToRemove(array $current, array $todo, $path = ''): array
+    {
+        $keysToRemove = [];
+
+        foreach ($todo as $key => $value) {
+            $currentPath = $path === '' ? $key : $path . '.' . $key;
+
+            if (\array_key_exists($key, $current)) {
+                if (\is_array($value) && \is_array($current[$key])) {
+                    $keysToRemove = \array_merge(
+                        $keysToRemove,
+                        self::findKeysToRemove($current[$key], $value, $currentPath),
+                    );
+                } else {
+                    $keysToRemove[] = $currentPath;
+                }
+            }
+        }
+
+        return $keysToRemove;
     }
 }

@@ -4,7 +4,7 @@
 [![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint)    [![Dependents](https://poser.pugx.org/jbzoo/csv-blueprint/dependents)](https://packagist.org/packages/jbzoo/csv-blueprint/dependents?order_by=downloads)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
 
 <!-- rules-counter -->
-![Static Badge](https://img.shields.io/badge/Rules-100-green?label=Total%20Number%20of%20Rules&labelColor=blue&color=gray)    ![Static Badge](https://img.shields.io/badge/Rules-55-green?label=Cell%20Rules&labelColor=blue&color=gray)    ![Static Badge](https://img.shields.io/badge/Rules-45-green?label=Aggregate%20Rules&labelColor=blue&color=gray)
+[![Static Badge](https://img.shields.io/badge/Rules-102-green?label=Total%20Number%20of%20Rules&labelColor=blue&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-55-green?label=Cell%20Rules&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-45-green?label=Aggregate%20Rules&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-2-green?label=Extra%20Checks&labelColor=blue&color=gray)](schema-examples/full.yml)
 <!-- /rules-counter -->
 
 ## Introduction
@@ -574,7 +574,6 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
 * Handle empty files and files with only a header row, or only with one line of data. One column wthout header is also possible.
 * Using multiple schemas for one csv file.
 * Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas. Make it DRY and easy to maintain.
-* Validate syntax and options in the schema file. It's important to know if the schema file is valid and can be used for validation.
 * If option `--schema` is not specified, then validate only super base level things (like "is it a CSV file?").
 * Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
 * Extending with custom rules and custom report formats. Plugins?
@@ -588,7 +587,7 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
 
 **Performance and optimization**
 * Benchmarks as part of the CI(?) and Readme. It's important to know how much time the validation process takes.
-* Optimazation on `php.ini` level to start it faster. JIT, opcache, preloading, etc.
+* Optimization on `php.ini` level to start it faster. JIT, opcache, preloading, etc.
 * Parallel validation of really-really large files (1GB+ ?). I know you have them and not so much memory.
 * Parallel validation of multiple files at once.
 

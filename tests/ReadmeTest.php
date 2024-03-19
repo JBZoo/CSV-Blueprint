@@ -64,19 +64,26 @@ final class ReadmeTest extends TestCase
     {
         $cellRules  = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.rules'));
         $aggRules   = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.aggregate_rules'));
-        $totalRules = $cellRules + $aggRules;
+        $extraRules = 1 + 1; // filename_pattern, schema validation
+        $totalRules = $cellRules + $aggRules + $extraRules;
 
-        $badge = static function (string $label, int $count): string {
+        $badge = static function (string $label, int $count, string $url = ''): string {
             $label = \str_replace(' ', '%20', $label);
-
-            return "![Static Badge](https://img.shields.io/badge/Rules-{$count}-green" .
+            $badge = "![Static Badge](https://img.shields.io/badge/Rules-{$count}-green" .
                 "?label={$label}&labelColor=blue&color=gray)";
+
+            if ($url) {
+                return "[{$badge}]({$url})";
+            }
+
+            return $badge;
         };
 
         $text = \implode('    ', [
-            $badge('Total Number of Rules', $totalRules),
-            $badge('Cell Rules', $cellRules),
-            $badge('Aggregate Rules', $aggRules),
+            $badge('Total Number of Rules', $totalRules, 'schema-examples/full.yml'),
+            $badge('Cell Rules', $cellRules, 'src/Rules/Cell'),
+            $badge('Aggregate Rules', $aggRules, 'src/Rules/Aggregate'),
+            $badge('Extra Checks', $extraRules, 'schema-examples/full.yml'),
         ]);
 
         Tools::insertInReadme('rules-counter', $text);
