@@ -225,10 +225,11 @@ final class SchemaTest extends TestCase
             ->notName([
                 'todo.yml',
                 'invalid_schema.yml',
+                'demo_invalid.yml',
             ])
             ->files();
 
-        isCount(7, $schemas);
+        isCount(6, $schemas);
 
         foreach ($schemas as $schemaFile) {
             $filepath = $schemaFile->getPathname();
