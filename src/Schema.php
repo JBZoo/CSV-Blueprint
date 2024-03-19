@@ -150,7 +150,7 @@ final class Schema
 
         $errors = new ErrorSuite($this->filename);
 
-        $metaErrors = Utils::compareArray($expectedMeta, $actualMeta->getArrayCopy(), 'meta',  '.');
+        $metaErrors = Utils::compareArray($expectedMeta, $actualMeta->getArrayCopy(), 'meta', '.');
 
         // Validate meta info
         foreach ($metaErrors as $metaError) {
