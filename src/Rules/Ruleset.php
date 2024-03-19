@@ -19,7 +19,6 @@ namespace JBZoo\CsvBlueprint\Rules;
 use JBZoo\CsvBlueprint\Rules\Cell\AbstractCellRuleCombo;
 use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
-use JBZoo\CsvBlueprint\Validators\Exception;
 
 final class Ruleset
 {
@@ -33,7 +32,10 @@ final class Ruleset
         $this->columnNameId = $columnNameId;
 
         foreach ($rules as $ruleName => $options) {
-            $this->rules[$ruleName] = $this->ruleDiscovery((string)$ruleName, $options);
+            $rule = $this->ruleDiscovery((string)$ruleName, $options);
+            if ($rule !== null) {
+                $this->rules[$ruleName] = $rule;
+            }
         }
     }
 
@@ -51,7 +53,7 @@ final class Ruleset
     public function ruleDiscovery(
         string $origRuleName,
         null|array|bool|float|int|string $options = null,
-    ): AbstarctRule {
+    ): ?AbstarctRule {
         $mode    = AbstractCellRuleCombo::parseMode($origRuleName);
         $noCombo = \preg_replace("/(_{$mode})\$/", '', $origRuleName);
 
@@ -69,7 +71,8 @@ final class Ruleset
             }
         }
 
-        throw new Exception("Rule \"{$origRuleName}\" not found."); // FIXME: replace to warning
+        // throw new Exception("Rule \"{$origRuleName}\" not found."); // FIXME: replace to warning
+        return null;
     }
 
     /**

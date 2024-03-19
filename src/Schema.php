@@ -18,6 +18,8 @@ namespace JBZoo\CsvBlueprint;
 
 use JBZoo\CsvBlueprint\Csv\Column;
 use JBZoo\CsvBlueprint\Csv\ParseConfig;
+use JBZoo\CsvBlueprint\Validators\Error;
+use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use JBZoo\Data\AbstractData;
 use JBZoo\Data\Data;
 
@@ -133,6 +135,60 @@ final class Schema
         }
 
         return $result;
+    }
+
+    public function validate(): ErrorSuite
+    {
+        $expected = phpArray(__DIR__ . '/../schema-examples/full.php');
+
+        $expectedColumn = $expected->find('columns.0');
+        $expectedMeta   = $expected->remove('columns')->getArrayCopy();
+
+        $actual        = clone $this->data; // We are going to modify the data. No external side effects.
+        $actualColumns = $actual->findSelf('columns');
+        $actualMeta    = $actual->remove('columns');
+
+        $errors = new ErrorSuite($this->filename);
+
+        $metaErrors = Utils::compareArray($expectedMeta, $actualMeta->getArrayCopy(), 'meta');
+
+        // Validate meta info
+        foreach ($metaErrors as $metaError) {
+            $errors->addError(new Error('schema', $metaError[1], $metaError[0]));
+        }
+
+        // Validate each columns
+        foreach ($actualColumns->getArrayCopy() as $columnKey => $actualColumn) {
+            $columnId = "{$columnKey}:" . ($actualColumn['name'] ?? '');
+
+            // Validate column names
+            if (
+                $this->getCsvStructure()->isHeader()
+                && (!isset($actualColumn['name']) || $actualColumn['name'] === '')
+            ) {
+                $errors->addError(
+                    new Error(
+                        'schema',
+                        'The key "<c>name</c>" must be non-empty because the option "<green>csv.header</green>" = true',
+                        $columnId,
+                    ),
+                );
+            }
+
+            // Validate column schema
+            $columnErrors = Utils::compareArray(
+                $expectedColumn,
+                $actualColumn,
+                $columnId,
+                "columns.{$columnKey}",
+            );
+
+            foreach ($columnErrors as $columnError) {
+                $errors->addError(new Error('schema', $columnError[1], $columnError[0]));
+            }
+        }
+
+        return $errors;
     }
 
     /**

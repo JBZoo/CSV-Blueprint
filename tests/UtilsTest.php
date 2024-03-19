@@ -97,8 +97,7 @@ final class UtilsTest extends TestCase
 
     public function testFindFilesNotFound(): void
     {
-        $this->expectExceptionMessage('File not found: demo.csv');
-        $this->getFileName(Utils::findFiles(['demo.csv']));
+        isSame([], $this->getFileName(Utils::findFiles(['demo.csv'])));
     }
 
     /**

@@ -17,6 +17,11 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit;
 
 use JBZoo\CsvBlueprint\Schema;
+use JBZoo\CsvBlueprint\Utils;
+use JBZoo\CsvBlueprint\Validators\ErrorSuite;
+use Symfony\Component\Finder\Finder;
+
+use function JBZoo\Data\yml;
 
 final class SchemaTest extends TestCase
 {
@@ -77,7 +82,6 @@ final class SchemaTest extends TestCase
             0 => 'Column Name (header)',
             1 => 'another_column',
             2 => 'third_column',
-            3 => 3,
         ], \array_keys($schemaFull->getColumns()));
     }
 
@@ -192,5 +196,125 @@ final class SchemaTest extends TestCase
         ], $schema->getColumn(0)->getAggregateRules());
 
         isSame([], $schema->getColumn(1)->getAggregateRules());
+    }
+
+    public function testValidateItself(): void
+    {
+        $expected = yml(Tools::SCHEMA_FULL)->getArrayCopy();
+        $actual   = yml(Tools::SCHEMA_FULL)->getArrayCopy();
+        isSame([], Utils::compareArray($expected, $actual));
+
+        $schema = new Schema(Tools::SCHEMA_FULL);
+        isSame('', (string)$schema->validate());
+    }
+
+    public function testValidateValidSchemaFixtures(): void
+    {
+        $schemas = (new Finder())
+            ->in(PROJECT_ROOT . '/tests/schemas')
+            ->notName([
+                'todo.yml',
+                'invalid_schema.yml',
+            ])
+            ->files();
+
+        isCount(7, $schemas);
+
+        foreach ($schemas as $schemaFile) {
+            $filepath = $schemaFile->getPathname();
+            isSame('', (string)(new Schema($filepath))->validate(), $filepath);
+        }
+    }
+
+    public function testValidateInvalidSchema(): void
+    {
+        $schema = new Schema(Tools::SCHEMA_INVALID);
+        isSame(
+            <<<'TABLE'
+                +-------+------------+--------+----------- invalid_schema.yml ------------------------------------------+
+                | Line  | id:Column  | Rule   | Message                                                                 |
+                +-------+------------+--------+-------------------------------------------------------------------------+
+                | undef | meta       | schema | Unknown key: .undefined-param_1                                         |
+                | undef | meta       | schema | Unknown key: .csv.undefined-param_2                                     |
+                | undef | 0:Name     | schema | Unknown key: columns.0.rules.undefined-param_3                          |
+                | undef | 1:City     | schema | Unknown key: columns.1.undefined-param_4                                |
+                | undef | 1:City     | schema | Unknown key: columns.1.aggregate_rules.undefined-param_5                |
+                | undef | 3:Birthday | schema | Expected type "string", actual "boolean" in columns.3.rules.date_max    |
+                | undef | 4:         | schema | The key "name" must be non-empty because the option "csv.header" = true |
+                | undef | 4:         | schema | Expected type "boolean", actual "string" in columns.4.rules.not_empty   |
+                | undef | 4:         | schema | Expected type "array", actual "string" in columns.4.rules.allow_values  |
+                +-------+------------+--------+----------- invalid_schema.yml ------------------------------------------+
+                
+                TABLE,
+            $schema->validate()->render(ErrorSuite::RENDER_TABLE),
+        );
+
+        isSame(
+            <<<'TEXT'
+                "schema", column "meta". Unknown key: .undefined-param_1.
+                "schema", column "meta". Unknown key: .csv.undefined-param_2.
+                "schema", column "0:Name". Unknown key: columns.0.rules.undefined-param_3.
+                "schema", column "1:City". Unknown key: columns.1.undefined-param_4.
+                "schema", column "1:City". Unknown key: columns.1.aggregate_rules.undefined-param_5.
+                "schema", column "3:Birthday". Expected type "<c>string</c>", actual "<green>boolean</green>" in columns.3.rules.date_max.
+                "schema", column "4:". The key "<c>name</c>" must be non-empty because the option "<green>csv.header</green>" = true.
+                "schema", column "4:". Expected type "<c>boolean</c>", actual "<green>string</green>" in columns.4.rules.not_empty.
+                "schema", column "4:". Expected type "<c>array</c>", actual "<green>string</green>" in columns.4.rules.allow_values.
+                
+                TEXT,
+            $schema->validate()->render(ErrorSuite::REPORT_TEXT),
+        );
+    }
+
+    public function testMatchTypes(): void
+    {
+        // null|array|bool|float|int|string
+        $map = [
+            'null'   => null,
+            'array'  => [],
+            'bool'   => true,
+            'float'  => 1.0,
+            'int'    => 1,
+            'string' => '',
+        ];
+
+        foreach ($map as $type => $value) {
+            isTrue(Utils::matchTypes($value, $value));
+        }
+
+        $expectedIssues = [
+            'array !== bool',
+            'array !== float',
+            'array !== int',
+            'array !== null',
+            'array !== string',
+            'bool !== float',
+            'bool !== int',
+            'bool !== null',
+            'bool !== string',
+            'float !== null',
+            'int !== null',
+            'null !== string',
+        ];
+
+        $invalidPairs = [];
+
+        foreach ($map as $k1 => $expected) {
+            foreach ($map as $k2 => $actual) {
+                $pair = [$k1, $k2];
+                \sort($pair);
+                $pair = \implode(' !== ', $pair);
+
+                if (\in_array($pair, $expectedIssues, true)) {
+                    continue;
+                }
+
+                if (!Utils::matchTypes($expected, $actual)) {
+                    $invalidPairs[] = $pair;
+                }
+            }
+        }
+
+        isSame([], $invalidPairs);
     }
 }

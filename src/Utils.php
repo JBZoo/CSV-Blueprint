@@ -85,8 +85,6 @@ final class Utils
                 }
             } elseif (\file_exists($path)) {
                 $fileList[$path] = new SplFileInfo($path, '', $path);
-            } else {
-                throw new \RuntimeException("File not found: {$path}");
             }
         }
 
@@ -127,14 +125,74 @@ final class Utils
             if (self::isGithubActions()) {
                 $maxAutoDetected = 200; // GitHub Actions has a wide terminal
             } elseif (self::isDocker()) {
-                $maxAutoDetected = 140;
+                $maxAutoDetected = 160;
             } else {
                 // Fallback to 80 if the terminal width cannot be determined.
-                // env.COLUMNS_TEST usually not defined, so we use it only for testing purposes.
-                $maxAutoDetected = Env::int('COLUMNS_TEST', Cli::getNumberOfColumns());
+                $maxAutoDetected = Env::int('COLUMNS', Cli::getNumberOfColumns());
             }
         }
 
         return $maxAutoDetected;
+    }
+
+    public static function compareArray(
+        array $expectedSchema,
+        array $actualSchema,
+        string $columnId = '',
+        string $keyPrefix = '',
+        string $path = '',
+    ): array {
+        $differences = [];
+
+        foreach ($actualSchema as $key => $value) {
+            $curPath = $path === '' ? (string)$key : "{$path}.{$key}";
+
+            if (!\array_key_exists($key, $expectedSchema)) {
+                $differences[$columnId . '/' . $curPath] = [$columnId, "Unknown key: {$keyPrefix}.{$curPath}"];
+                continue;
+            }
+
+            if (!self::matchTypes($expectedSchema[$key], $value)) {
+                $expectedType = \gettype($expectedSchema[$key]);
+                $actualType   = \gettype($value);
+
+                $differences[$columnId . '/' . $curPath] = [
+                    $columnId,
+                    "Expected type \"<c>{$expectedType}</c>\", actual \"<green>{$actualType}</green>\" in " .
+                    "{$keyPrefix}.{$curPath}",
+                ];
+            } elseif (\is_array($value)) {
+                $differences += \array_merge(
+                    $differences,
+                    self::compareArray($expectedSchema[$key], $value, $columnId, $keyPrefix, $curPath),
+                );
+            }
+        }
+
+        return $differences;
+    }
+
+    public static function matchTypes(
+        null|array|bool|float|int|string $expected,
+        null|array|bool|float|int|string $actual,
+    ): bool {
+        $expectedType = \gettype($expected);
+        $actualType   = \gettype($actual);
+
+        $mapOfValidConvertions = [
+            'NULL'    => [],
+            'array'   => [],
+            'boolean' => [],
+            'double'  => ['string', 'integer'],
+            'integer' => ['string', 'double'],
+            'string'  => ['double', 'integer'],
+        ];
+
+        if ($expectedType === $actualType) {
+            return true;
+        }
+
+        return isset($mapOfValidConvertions[$expectedType])
+            && \in_array($actualType, $mapOfValidConvertions[$expectedType], true);
     }
 }

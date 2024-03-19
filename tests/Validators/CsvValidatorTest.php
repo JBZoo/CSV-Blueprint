@@ -26,9 +26,8 @@ final class CsvValidatorTest extends TestCase
 {
     public function testUndefinedRule(): void
     {
-        $this->expectExceptionMessage('Rule "undefined_rule" not found.');
         $csv = new CsvFile(Tools::CSV_COMPLEX, Tools::getRule('seq', 'undefined_rule', true));
-        $csv->validate();
+        isSame('', (string)$csv->validate());
     }
 
     public function testValidWithHeader(): void

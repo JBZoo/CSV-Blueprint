@@ -12,8 +12,8 @@
 
 .PHONY: build
 
-REPORT       ?= table
-COLUMNS_TEST ?= 150
+REPORT  ?= table
+COLUMNS ?= 150
 
 ifneq (, $(wildcard ./vendor/jbzoo/codestyle/src/init.Makefile))
     include ./vendor/jbzoo/codestyle/src/init.Makefile
@@ -53,7 +53,8 @@ demo-valid: ##@Project Run demo valid CSV
 	$(call title,"Demo - Valid CSV")
 	@${PHP_BIN} ./csv-blueprint validate:csv      \
        --csv=./tests/fixtures/demo.csv            \
-       --schema=./tests/schemas/demo_valid.yml
+       --schema=./tests/schemas/demo_valid.yml    \
+       --skip-schema -v
 
 demo-docker: ##@Project Run demo via Docker
 	$(call title,"Demo - Valid CSV \(via Docker\)")
@@ -76,17 +77,17 @@ demo-docker: ##@Project Run demo via Docker
 
 demo-invalid: ##@Project Run demo invalid CSV
 	$(call title,"Demo - Invalid CSV")
-	@${PHP_BIN} ./csv-blueprint validate:csv      \
-       --csv=./tests/fixtures/demo.csv            \
-       --schema=./tests/schemas/demo_invalid.yml  \
-       --report=$(REPORT)
+	@${PHP_BIN} ./csv-blueprint validate:csv        \
+       --csv=./tests/fixtures/demo.csv              \
+       --schema=./tests/schemas/invalid_schema.yml  \
+       --report=$(REPORT) -v
 
 
 demo-github: ##@Project Run demo invalid CSV
-	@${PHP_BIN} ./csv-blueprint validate:csv      \
-       --csv=./tests/fixtures/batch/*.csv         \
-       --schema=./tests/schemas/demo_invalid.yml  \
-       --report=$(REPORT)                         \
+	@${PHP_BIN} ./csv-blueprint validate:csv        \
+       --csv=./tests/fixtures/batch/*.csv           \
+       --schema=./tests/schemas/demo_invalid.yml    \
+       --report=$(REPORT)                           \
        --ansi
 
 

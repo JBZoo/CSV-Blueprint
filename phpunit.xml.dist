@@ -50,8 +50,4 @@
     <logging>
         <junit outputFile="build/coverage_junit/main.xml"/>
     </logging>
-
-    <php>
-        <env name="COLUMNS_TEST" value="150"/>
-    </php>
 </phpunit>

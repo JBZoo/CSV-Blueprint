@@ -23,6 +23,7 @@ abstract class TestCase extends PHPUnit
         parent::setUp();
 
         \date_default_timezone_set('UTC');
+        \putenv('COLUMNS=200');
         \chdir(PROJECT_ROOT);
     }
 }
