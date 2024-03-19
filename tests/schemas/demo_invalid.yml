@@ -44,6 +44,7 @@ columns:
       date_max: "2009-01-01"
 
   - name: Favorite color
+    example: 123
     rules:
       not_empty: true
       allow_values: [ red, green, Blue ]
