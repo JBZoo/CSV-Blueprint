@@ -57,9 +57,9 @@ final class Error
         return $this->columnName;
     }
 
-    public function getLine(): int
+    public function getLine(): int|string
     {
-        return $this->line;
+        return $this->line === self::UNDEFINED_LINE ? 'undef' : $this->line;
     }
 
     public function toCleanString(): string

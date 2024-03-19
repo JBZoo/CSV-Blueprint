@@ -178,7 +178,7 @@ final class ErrorSuite
         foreach ($this->errors as $error) {
             $caseName     = $error->getRuleCode() . ' at column ' . $error->getColumnName();
             $case         = $suite->addTestCase($caseName);
-            $case->line   = $error->getLine();
+            $case->line   = (int)$error->getLine();
             $case->file   = $this->csvFilename;
             $case->errOut = $error->toCleanString();
         }
@@ -200,8 +200,8 @@ final class ErrorSuite
     {
         $floatingSizes = [
             'line'    => 10,
-            'column'  => 20,
-            'rule'    => 20,
+            'column'  => 30,
+            'rule'    => 30,
             'min'     => 120,
             'max'     => 150,
             'reserve' => 3, // So that the table does not rest on the very edge of the terminal. Just in case.

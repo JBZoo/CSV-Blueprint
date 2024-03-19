@@ -20,6 +20,7 @@ use JBZoo\Cli\CliCommand;
 use JBZoo\Cli\OutLvl;
 use JBZoo\CsvBlueprint\Csv\CsvFile;
 use JBZoo\CsvBlueprint\Exception;
+use JBZoo\CsvBlueprint\Schema;
 use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use Symfony\Component\Console\Input\InputOption;
@@ -79,6 +80,15 @@ final class ValidateCsv extends CliCommand
                 "If any error is detected, the utility will return a non-zero exit code.\n" .
                 'Empty value or "yes" will be treated as "true".',
                 'no',
+            )
+            ->addOption(
+                'skip-schema-check',
+                'S',
+                InputOption::VALUE_OPTIONAL,
+                "Skip schema validation.\n" .
+                "If you are sure that the schema is correct, you can skip this check.\n" .
+                'Empty value or "yes" will be treated as "true".',
+                'no',
             );
 
         parent::configure();
@@ -88,15 +98,90 @@ final class ValidateCsv extends CliCommand
     {
         $csvFilenames   = $this->getCsvFilepaths();
         $schemaFilename = $this->getSchemaFilepath();
-        $quickCheck     = $this->isQuickCheck();
-        $totalFiles     = \count($csvFilenames);
 
-        $this->_("Found CSV files: {$totalFiles}");
-        $this->_('');
+        $this->printSchemaInfo($schemaFilename);
+        $this->printCsvFilesInfo($csvFilenames);
 
-        $errorCounter = 0;
+        $schemaErrors = $this->validateSchema($schemaFilename);
+
+        [$invalidFiles, $errorCounter] = $this->validateCsvFiles($csvFilenames, $schemaFilename);
+
+        return $this->printFooter(
+            \count($csvFilenames),
+            $invalidFiles,
+            $errorCounter,
+            $schemaErrors,
+        );
+    }
+
+    /**
+     * @return SplFileInfo[]
+     */
+    private function getCsvFilepaths(): array
+    {
+        $rawInput     = $this->getOptArray('csv');
+        $scvFilenames = Utils::findFiles($rawInput);
+
+        return \array_values($scvFilenames);
+    }
+
+    private function getSchemaFilepath(): string
+    {
+        $schemaFilename = $this->getOptString('schema');
+
+        if (\file_exists($schemaFilename) === false) {
+            throw new Exception("Schema file not found: {$schemaFilename}");
+        }
+
+        return $schemaFilename;
+    }
+
+    private function isHumanReadableMode(): bool
+    {
+        return $this->getReportType() !== ErrorSuite::REPORT_GITLAB
+            && $this->getReportType() !== ErrorSuite::REPORT_JUNIT;
+    }
+
+    private function getReportType(): string
+    {
+        return $this->getOptString('report', ErrorSuite::RENDER_TABLE, ErrorSuite::getAvaiableRenderFormats());
+    }
+
+    private function isQuickCheck(): bool
+    {
+        $value = $this->getOptString('quick');
+
+        return $value === '' || bool($value);
+    }
+
+    private function isCheckingSchema(): bool
+    {
+        $value = $this->getOptString('skip-schema-check');
+
+        return !($value === '' || bool($value));
+    }
+
+    private function validateSchema(string $schemaFilename): ?ErrorSuite
+    {
+        $schemaErrors = null;
+        if ($this->isCheckingSchema()) {
+            $schemaErrors = (new Schema($schemaFilename))->validate();
+            if ($schemaErrors->count() > 0) {
+                $this->_("<red>Schema is invalid:</red> {$schemaFilename}");
+                $this->_($schemaErrors->render($this->getReportType()), OutLvl::E);
+            }
+        }
+
+        return $schemaErrors;
+    }
+
+    private function validateCsvFiles(array $csvFilenames, string $schemaFilename): array
+    {
+        $totalFiles   = \count($csvFilenames);
         $invalidFiles = 0;
+        $errorCounter = 0;
         $errorSuite   = null;
+        $quickCheck   = $this->isQuickCheck();
 
         foreach ($csvFilenames as $index => $csvFilename) {
             $prefix = '(' . ((int)$index + 1) . "/{$totalFiles})";
@@ -129,6 +214,26 @@ final class ValidateCsv extends CliCommand
             }
         }
 
+        return [$invalidFiles, $errorCounter];
+    }
+
+    private function printSchemaInfo(string $schemaFilename): void
+    {
+        if ($this->isHumanReadableMode()) {
+            $validationFlag = $this->isCheckingSchema() ? '' : ' (<c>Validation skipped</c>)';
+            $this->_('<blue>Schema:</blue> ' . Utils::cutPath($schemaFilename) . $validationFlag);
+        }
+    }
+
+    private function printFooter(
+        int $totalFiles,
+        int $invalidFiles,
+        int $errorCounter,
+        ?ErrorSuite $schemaErrors,
+    ): int {
+        $exitCode = self::SUCCESS;
+
+        $this->_('');
         if ($errorCounter > 0 && $this->isHumanReadableMode()) {
             if ($totalFiles === 1) {
                 $errMessage = "<c>Found {$errorCounter} issues in CSV file.</c>";
@@ -136,64 +241,27 @@ final class ValidateCsv extends CliCommand
                 $errMessage = "<c>Found {$errorCounter} issues in {$invalidFiles} out of {$totalFiles} CSV files.</c>";
             }
 
-            $this->_('');
             $this->_($errMessage, OutLvl::E);
 
-            return self::FAILURE;
+            $exitCode = self::FAILURE;
         }
 
-        if ($this->isHumanReadableMode()) {
+        if ($schemaErrors !== null && $schemaErrors->count() > 0) {
+            $this->_("<c>Found {$schemaErrors->count()} issues in schema.</c>");
+
+            $exitCode = self::FAILURE;
+        }
+
+        if ($exitCode === self::SUCCESS && $this->isHumanReadableMode()) {
             $this->_('<green>Looks good!</green>');
         }
 
-        return self::SUCCESS;
+        return $exitCode;
     }
 
-    /**
-     * @return SplFileInfo[]
-     */
-    private function getCsvFilepaths(): array
+    private function printCsvFilesInfo(array $totalFiles): void
     {
-        $rawInput     = $this->getOptArray('csv');
-        $scvFilenames = Utils::findFiles($rawInput);
-
-        if (\count($scvFilenames) === 0) {
-            throw new Exception('CSV file(s) not found in path(s): ' . \implode("\n, ", $rawInput));
-        }
-
-        return \array_values($scvFilenames);
-    }
-
-    private function getSchemaFilepath(): string
-    {
-        $schemaFilename = $this->getOptString('schema');
-
-        if (\file_exists($schemaFilename) === false) {
-            throw new Exception("Schema file not found: {$schemaFilename}");
-        }
-
-        if ($this->isHumanReadableMode()) {
-            $this->_('<blue>Schema:</blue> ' . Utils::cutPath($schemaFilename));
-        }
-
-        return $schemaFilename;
-    }
-
-    private function isHumanReadableMode(): bool
-    {
-        return $this->getReportType() !== ErrorSuite::REPORT_GITLAB
-            && $this->getReportType() !== ErrorSuite::REPORT_JUNIT;
-    }
-
-    private function getReportType(): string
-    {
-        return $this->getOptString('report', ErrorSuite::RENDER_TABLE, ErrorSuite::getAvaiableRenderFormats());
-    }
-
-    private function isQuickCheck(): bool
-    {
-        $value = $this->getOptString('quick');
-
-        return $value === '' || bool($value);
+        $this->_('Found CSV files: ' . \count($totalFiles));
+        $this->_('');
     }
 }

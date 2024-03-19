@@ -85,8 +85,6 @@ final class Utils
                 }
             } elseif (\file_exists($path)) {
                 $fileList[$path] = new SplFileInfo($path, '', $path);
-            } else {
-                throw new \RuntimeException("File not found: {$path}");
             }
         }
 
@@ -127,11 +125,10 @@ final class Utils
             if (self::isGithubActions()) {
                 $maxAutoDetected = 200; // GitHub Actions has a wide terminal
             } elseif (self::isDocker()) {
-                $maxAutoDetected = 140;
+                $maxAutoDetected = 160;
             } else {
                 // Fallback to 80 if the terminal width cannot be determined.
-                // env.COLUMNS_TEST usually not defined, so we use it only for testing purposes.
-                $maxAutoDetected = Env::int('COLUMNS_TEST', Cli::getNumberOfColumns());
+                $maxAutoDetected = Env::int('COLUMNS', Cli::getNumberOfColumns());
             }
         }
 
@@ -151,7 +148,7 @@ final class Utils
             $curPath = $path === '' ? (string)$key : "{$path}.{$key}";
 
             if (!\array_key_exists($key, $expectedSchema)) {
-                $differences[$columnId . '/' . $curPath] = [$columnId, "Undefined key: {$keyPrefix}.{$curPath}"];
+                $differences[$columnId . '/' . $curPath] = [$columnId, "Unknown key: {$keyPrefix}.{$curPath}"];
                 continue;
             }
 

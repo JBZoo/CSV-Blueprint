@@ -45,7 +45,6 @@ columns:
 
   - name: Birthday
     rules:
-      not_empty: "invalid option type"
       date_format: "Y-m-d"
       date_min: "1955-05-15"
       date_max: true

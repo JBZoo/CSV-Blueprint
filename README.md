@@ -356,6 +356,11 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
     # You can skip it
     quick: no
 
+    # Skip schema validation. If you are sure that the schema is correct, you can skip this check.
+    # Default value: no
+    # You can skip it
+    skip-schema-check: no
+
 ```
 <!-- /github-actions-yml -->
 
@@ -438,38 +443,41 @@ Usage:
   validate:csv [options]
 
 Options:
-  -c, --csv=CSV                  Path(s) to validate.
-                                 You can specify path in which CSV files will be searched (max depth is 10).
-                                 Feel free to use glob pattrens. Usage examples:
-                                 /full/path/file.csv, p/file.csv, p/*.csv, p/**/*.csv, p/**/name-*.csv, **/*.csv, etc. (multiple values allowed)
-  -s, --schema=SCHEMA            Schema filepath.
-                                 It can be a YAML, JSON or PHP. See examples on GitHub.
-  -r, --report=REPORT            Report output format. Available options:
-                                 text, table, github, gitlab, teamcity, junit [default: "table"]
-  -Q, --quick[=QUICK]            Immediately terminate the check at the first error found.
-                                 Of course it will speed up the check, but you will get only 1 message out of many.
-                                 If any error is detected, the utility will return a non-zero exit code.
-                                 Empty value or "yes" will be treated as "true". [default: "no"]
-      --no-progress              Disable progress bar animation for logs. It will be used only for text output format.
-      --mute-errors              Mute any sort of errors. So exit code will be always "0" (if it's possible).
-                                 It has major priority then --non-zero-on-error. It's on your own risk!
-      --stdout-only              For any errors messages application will use StdOut instead of StdErr. It's on your own risk!
-      --non-zero-on-error        None-zero exit code on any StdErr message.
-      --timestamp                Show timestamp at the beginning of each message.It will be used only for text output format.
-      --profile                  Display timing and memory usage information.
-      --output-mode=OUTPUT-MODE  Output format. Available options:
-                                 text - Default text output format, userfriendly and easy to read.
-                                 cron - Shortcut for crontab. It's basically focused on human-readable logs output.
-                                 It's combination of --timestamp --profile --stdout-only --no-progress -vv.
-                                 logstash - Logstash output format, for integration with ELK stack.
-                                  [default: "text"]
-      --cron                     Alias for --output-mode=cron. Deprecated!
-  -h, --help                     Display help for the given command. When no command is given display help for the list command
-  -q, --quiet                    Do not output any message
-  -V, --version                  Display this application version
-      --ansi|--no-ansi           Force (or disable --no-ansi) ANSI output
-  -n, --no-interaction           Do not ask any interactive question
-  -v|vv|vvv, --verbose           Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+  -c, --csv=CSV                                Path(s) to validate.
+                                               You can specify path in which CSV files will be searched (max depth is 10).
+                                               Feel free to use glob pattrens. Usage examples:
+                                               /full/path/file.csv, p/file.csv, p/*.csv, p/**/*.csv, p/**/name-*.csv, **/*.csv, etc. (multiple values allowed)
+  -s, --schema=SCHEMA                          Schema filepath.
+                                               It can be a YAML, JSON or PHP. See examples on GitHub.
+  -r, --report=REPORT                          Report output format. Available options:
+                                               text, table, github, gitlab, teamcity, junit [default: "table"]
+  -Q, --quick[=QUICK]                          Immediately terminate the check at the first error found.
+                                               Of course it will speed up the check, but you will get only 1 message out of many.
+                                               If any error is detected, the utility will return a non-zero exit code.
+                                               Empty value or "yes" will be treated as "true". [default: "no"]
+  -S, --skip-schema-check[=SKIP-SCHEMA-CHECK]  Skip schema validation.
+                                               If you are sure that the schema is correct, you can skip this check.
+                                               Empty value or "yes" will be treated as "true". [default: "no"]
+      --no-progress                            Disable progress bar animation for logs. It will be used only for text output format.
+      --mute-errors                            Mute any sort of errors. So exit code will be always "0" (if it's possible).
+                                               It has major priority then --non-zero-on-error. It's on your own risk!
+      --stdout-only                            For any errors messages application will use StdOut instead of StdErr. It's on your own risk!
+      --non-zero-on-error                      None-zero exit code on any StdErr message.
+      --timestamp                              Show timestamp at the beginning of each message.It will be used only for text output format.
+      --profile                                Display timing and memory usage information.
+      --output-mode=OUTPUT-MODE                Output format. Available options:
+                                               text - Default text output format, userfriendly and easy to read.
+                                               cron - Shortcut for crontab. It's basically focused on human-readable logs output.
+                                               It's combination of --timestamp --profile --stdout-only --no-progress -vv.
+                                               logstash - Logstash output format, for integration with ELK stack.
+                                                [default: "text"]
+      --cron                                   Alias for --output-mode=cron. Deprecated!
+  -h, --help                                   Display help for the given command. When no command is given display help for the list command
+  -q, --quiet                                  Do not output any message
+  -V, --version                                Display this application version
+      --ansi|--no-ansi                         Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction                         Do not ask any interactive question
+  -v|vv|vvv, --verbose                         Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
 ```
 <!-- /validate-csv-help -->
@@ -498,25 +506,26 @@ Found CSV files: 3
 +------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
 
 (2/3) Invalid file: ./tests/fixtures/batch/demo-2.csv
-+------+------------+------------+-------------------------- demo-2.csv ------------------------------------------------------------+
-| Line | id:Column  | Rule       | Message                                                                                          |
-+------+------------+------------+--------------------------------------------------------------------------------------------------+
-| 2    | 0:Name     | length_min | The length of the value "Carl" is 4, which is less than the expected "5"                         |
-| 7    | 0:Name     | length_min | The length of the value "Lois" is 4, which is less than the expected "5"                         |
-| 2    | 3:Birthday | date_min   | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than |
-|      |            |            | the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                           |
-| 4    | 3:Birthday | date_min   | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than |
-|      |            |            | the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                           |
-| 5    | 3:Birthday | date_max   | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater   |
-|      |            |            | than the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                      |
-+------+------------+------------+-------------------------- demo-2.csv ------------------------------------------------------------+
++------+------------+------------+----------------- demo-2.csv --------------------------------------------------+
+| Line | id:Column  | Rule       | Message                                                                       |
++------+------------+------------+-------------------------------------------------------------------------------+
+| 2    | 0:Name     | length_min | The length of the value "Carl" is 4, which is less than the expected "5"      |
+| 7    | 0:Name     | length_min | The length of the value "Lois" is 4, which is less than the expected "5"      |
+| 2    | 3:Birthday | date_min   | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", |
+|      |            |            | which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"     |
+| 4    | 3:Birthday | date_min   | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", |
+|      |            |            | which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"     |
+| 5    | 3:Birthday | date_max   | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", |
+|      |            |            | which is greater than the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"  |
++------+------------+------------+----------------- demo-2.csv --------------------------------------------------+
 
 (3/3) Invalid file: ./tests/fixtures/batch/sub/demo-3.csv
-+------+-----------+------------------+---------------------- demo-3.csv ------------------------------------------------------------+
-| Line | id:Column | Rule             | Message                                                                                      |
-+------+-----------+------------------+----------------------------------------------------------------------------------------------+
-| 1    |           | filename_pattern | Filename "./tests/fixtures/batch/sub/demo-3.csv" does not match pattern: "/demo-[12].csv$/i" |
-+------+-----------+------------------+---------------------- demo-3.csv ------------------------------------------------------------+
++------+-----------+------------------+------------ demo-3.csv --------------------------------------------------+
+| Line | id:Column | Rule             | Message                                                                  |
++------+-----------+------------------+--------------------------------------------------------------------------+
+| 1    |           | filename_pattern | Filename "./tests/fixtures/batch/sub/demo-3.csv" does not match pattern: |
+|      |           |                  | "/demo-[12].csv$/i"                                                      |
++------+-----------+------------------+------------ demo-3.csv --------------------------------------------------+
 
 
 Found 8 issues in 3 out of 3 CSV files.
@@ -551,7 +560,6 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
 **Validation**
 * [More aggregate rules](https://github.com/markrogoyski/math-php#statistics---descriptive).
 * [More cell rules](https://github.com/Respect/Validation).
-* `--strict` option to show warnings if any. It's useful when you want to know about any sort of issues.
 * `required` flag for the column.
 * Custom cell rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
 * Custom agregate rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.

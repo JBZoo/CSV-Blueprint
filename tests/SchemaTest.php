@@ -214,7 +214,7 @@ final class SchemaTest extends TestCase
             ->in(PROJECT_ROOT . '/tests/schemas')
             ->notName([
                 'todo.yml',
-                'invalid-schema.yml',
+                'invalid_schema.yml',
             ])
             ->files();
 
@@ -231,20 +231,19 @@ final class SchemaTest extends TestCase
         $schema = new Schema(Tools::SCHEMA_INVALID);
         isSame(
             <<<'TABLE'
-                +------+------------+--------+------------ invalid-schema.yml -----------------------------------------+
-                | Line | id:Column  | Rule   | Message                                                                 |
-                +------+------------+--------+-------------------------------------------------------------------------+
-                | 0    | meta       | schema | Undefined key: .undefined-param_1                                       |
-                | 0    | meta       | schema | Undefined key: .csv.undefined-param_2                                   |
-                | 0    | 0:Name     | schema | Undefined key: columns.0.rules.undefined-param_3                        |
-                | 0    | 1:City     | schema | Undefined key: columns.1.undefined-param_4                              |
-                | 0    | 1:City     | schema | Undefined key: columns.1.aggregate_rules.undefined-param_5              |
-                | 0    | 3:Birthday | schema | Expected type "boolean", actual "string" in columns.3.rules.not_empty   |
-                | 0    | 3:Birthday | schema | Expected type "string", actual "boolean" in columns.3.rules.date_max    |
-                | 0    | 4:         | schema | The key "name" must be non-empty because the option "csv.header" = true |
-                | 0    | 4:         | schema | Expected type "boolean", actual "string" in columns.4.rules.not_empty   |
-                | 0    | 4:         | schema | Expected type "array", actual "string" in columns.4.rules.allow_values  |
-                +------+------------+--------+------------ invalid-schema.yml -----------------------------------------+
+                +-------+------------+--------+----------- invalid_schema.yml ------------------------------------------+
+                | Line  | id:Column  | Rule   | Message                                                                 |
+                +-------+------------+--------+-------------------------------------------------------------------------+
+                | undef | meta       | schema | Unknown key: .undefined-param_1                                         |
+                | undef | meta       | schema | Unknown key: .csv.undefined-param_2                                     |
+                | undef | 0:Name     | schema | Unknown key: columns.0.rules.undefined-param_3                          |
+                | undef | 1:City     | schema | Unknown key: columns.1.undefined-param_4                                |
+                | undef | 1:City     | schema | Unknown key: columns.1.aggregate_rules.undefined-param_5                |
+                | undef | 3:Birthday | schema | Expected type "string", actual "boolean" in columns.3.rules.date_max    |
+                | undef | 4:         | schema | The key "name" must be non-empty because the option "csv.header" = true |
+                | undef | 4:         | schema | Expected type "boolean", actual "string" in columns.4.rules.not_empty   |
+                | undef | 4:         | schema | Expected type "array", actual "string" in columns.4.rules.allow_values  |
+                +-------+------------+--------+----------- invalid_schema.yml ------------------------------------------+
                 
                 TABLE,
             $schema->validate()->render(ErrorSuite::RENDER_TABLE),
@@ -252,12 +251,11 @@ final class SchemaTest extends TestCase
 
         isSame(
             <<<'TEXT'
-                "schema", column "meta". Undefined key: .undefined-param_1.
-                "schema", column "meta". Undefined key: .csv.undefined-param_2.
-                "schema", column "0:Name". Undefined key: columns.0.rules.undefined-param_3.
-                "schema", column "1:City". Undefined key: columns.1.undefined-param_4.
-                "schema", column "1:City". Undefined key: columns.1.aggregate_rules.undefined-param_5.
-                "schema", column "3:Birthday". Expected type "<c>boolean</c>", actual "<green>string</green>" in columns.3.rules.not_empty.
+                "schema", column "meta". Unknown key: .undefined-param_1.
+                "schema", column "meta". Unknown key: .csv.undefined-param_2.
+                "schema", column "0:Name". Unknown key: columns.0.rules.undefined-param_3.
+                "schema", column "1:City". Unknown key: columns.1.undefined-param_4.
+                "schema", column "1:City". Unknown key: columns.1.aggregate_rules.undefined-param_5.
                 "schema", column "3:Birthday". Expected type "<c>string</c>", actual "<green>boolean</green>" in columns.3.rules.date_max.
                 "schema", column "4:". The key "<c>name</c>" must be non-empty because the option "<green>csv.header</green>" = true.
                 "schema", column "4:". Expected type "<c>boolean</c>", actual "<green>string</green>" in columns.4.rules.not_empty.
