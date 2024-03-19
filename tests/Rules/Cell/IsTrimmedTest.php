@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\Cell\IsJson;
 use JBZoo\CsvBlueprint\Rules\Cell\IsTrimmed;
 use JBZoo\PHPUnit\Rules\AbstractCellRule;
 

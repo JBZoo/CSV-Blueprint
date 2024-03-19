@@ -41,7 +41,7 @@ final class StratsWithTest extends AbstractCellRule
     {
         $rule = $this->create('a');
 
-        isSame('Value " a" must start with "a"',$rule->test(' a'));
+        isSame('Value " a" must start with "a"', $rule->test(' a'));
 
         $rule = $this->create('');
         isSame('Rule must contain a prefix value in schema file.', $rule->test('a '));
