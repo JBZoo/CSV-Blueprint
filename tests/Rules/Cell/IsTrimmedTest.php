@@ -16,34 +16,28 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\Cell\StartsWith;
+use JBZoo\CsvBlueprint\Rules\Cell\IsJson;
+use JBZoo\CsvBlueprint\Rules\Cell\IsTrimmed;
 use JBZoo\PHPUnit\Rules\AbstractCellRule;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class StratsWithTest extends AbstractCellRule
+final class IsTrimmedTest extends AbstractCellRule
 {
-    protected string $ruleClass = StartsWith::class;
+    protected string $ruleClass = IsTrimmed::class;
 
     public function testPositive(): void
     {
-        $rule = $this->create('a');
-        isSame(null, $rule->validate(''));
-        isSame('', $rule->test('a'));
-        isSame('', $rule->test('abc'));
-        isSame(null, $rule->validate(''));
-
-        $rule = $this->create('a');
+        $rule = $this->create(true);
         isSame('', $rule->test(''));
+        isSame('', $rule->test('Hello world!'));
     }
 
     public function testNegative(): void
     {
-        $rule = $this->create('a');
-
-        isSame('Value " a" must start with "a"',$rule->test(' a'));
-
-        $rule = $this->create('');
-        isSame('Rule must contain a prefix value in schema file.', $rule->test('a '));
+        $rule = $this->create(true);
+        isSame('Value "Hello world! " is not trimmed', $rule->test('Hello world! '));
+        isSame('Value " Hello world!" is not trimmed', $rule->test(' Hello world!'));
+        isSame('Value " Hello world! " is not trimmed', $rule->test(' Hello world! '));
     }
 }

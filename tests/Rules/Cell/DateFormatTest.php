@@ -43,5 +43,11 @@ final class DateFormatTest extends AbstractCellRule
             'Date format of value "2000-01-02 12:34:56" is not valid. Expected format: "Y-m-d"',
             $rule->test('2000-01-02 12:34:56'),
         );
+
+        $rule = $this->create('');
+        isSame(
+            'Date format is not defined',
+            $rule->test('12'),
+        );
     }
 }
