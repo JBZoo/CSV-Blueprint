@@ -29,6 +29,7 @@ columns:
       is_unique: true
 
   - name: Float
+    example: Qwerty
     rules:
       not_empty: true
       is_float: true

@@ -62,6 +62,13 @@ final class ValidateCsvTest extends TestCase
             Schema: ./tests/schemas/demo_invalid.yml
             Found CSV files: 1
             
+            Schema is invalid: ./tests/schemas/demo_invalid.yml
+            +-------+-----------+----- demo_invalid.yml --------------------------+
+            | Line  | id:Column | Rule     | Message                              |
+            +-------+-----------+----------+--------------------------------------+
+            | undef | 2:Float   | is_float | Value "Qwerty" is not a float number |
+            +-------+-----------+----- demo_invalid.yml --------------------------+
+            
             (1/1) Invalid file: ./tests/fixtures/demo.csv
             +------+------------------+------------------+----------------------- demo.csv ---------------------------------------------------------------------+
             | Line | id:Column        | Rule             | Message                                                                                              |
@@ -82,6 +89,7 @@ final class ValidateCsvTest extends TestCase
             
             
             Found 9 issues in CSV file.
+            Found 1 issues in schema.
             
             TXT;
 
@@ -101,6 +109,13 @@ final class ValidateCsvTest extends TestCase
         $expected = <<<'TXT'
             Schema: ./tests/schemas/demo_invalid.yml
             Found CSV files: 3
+            
+            Schema is invalid: ./tests/schemas/demo_invalid.yml
+            +-------+-----------+----- demo_invalid.yml --------------------------+
+            | Line  | id:Column | Rule     | Message                              |
+            +-------+-----------+----------+--------------------------------------+
+            | undef | 2:Float   | is_float | Value "Qwerty" is not a float number |
+            +-------+-----------+----- demo_invalid.yml --------------------------+
             
             (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
             +------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
@@ -133,6 +148,7 @@ final class ValidateCsvTest extends TestCase
             
             
             Found 8 issues in 3 out of 3 CSV files.
+            Found 1 issues in schema.
             
             TXT;
 
@@ -152,6 +168,9 @@ final class ValidateCsvTest extends TestCase
             Schema: ./tests/schemas/demo_invalid.yml
             Found CSV files: 1
             
+            Schema is invalid: ./tests/schemas/demo_invalid.yml
+            "is_float", column "2:Float". Value "Qwerty" is not a float number.
+            
             (1/1) Invalid file: ./tests/fixtures/demo.csv
             "filename_pattern" at line 1, column "". Filename "./tests/fixtures/demo.csv" does not match pattern: "/demo-[12].csv$/i".
             "length_min" at line 6, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".
@@ -165,6 +184,7 @@ final class ValidateCsvTest extends TestCase
             
             
             Found 9 issues in CSV file.
+            Found 1 issues in schema.
             
             TXT;
 
@@ -178,6 +198,9 @@ final class ValidateCsvTest extends TestCase
             Schema: ./tests/schemas/demo_invalid.yml
             Found CSV files: 3
             
+            Schema is invalid: ./tests/schemas/demo_invalid.yml
+            "is_float", column "2:Float". Value "Qwerty" is not a float number.
+            
             (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
             "ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 1, total: 2.
             
@@ -185,6 +208,7 @@ final class ValidateCsvTest extends TestCase
             (3/3) Skipped: ./tests/fixtures/batch/sub/demo-3.csv
             
             Found 1 issues in 1 out of 3 CSV files.
+            Found 1 issues in schema.
             
             TXT;
 
@@ -241,6 +265,9 @@ final class ValidateCsvTest extends TestCase
             Schema: ./tests/schemas/demo_invalid.yml
             Found CSV files: 3
             
+            Schema is invalid: ./tests/schemas/demo_invalid.yml
+            "is_float", column "2:Float". Value "Qwerty" is not a float number.
+            
             (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
             "ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 1, total: 2.
             "allow_values" at line 3, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].
@@ -257,6 +284,7 @@ final class ValidateCsvTest extends TestCase
             
             
             Found 8 issues in 3 out of 3 CSV files.
+            Found 1 issues in schema.
             
             TXT;
 
@@ -277,6 +305,18 @@ final class ValidateCsvTest extends TestCase
         $expected = <<<'TXT'
             Schema: ./tests/schemas/demo_invalid.yml
             Found CSV files: 3
+            
+            Schema is invalid: ./tests/schemas/demo_invalid.yml
+            
+            ##teamcity[testCount count='1' flowId='42']
+            
+            ##teamcity[testSuiteStarted name='demo_invalid.yml' flowId='42']
+            
+            ##teamcity[testStarted name='is_float at column 2:Float' locationHint='php_qn://./tests/schemas/demo_invalid.yml' flowId='42']
+            "is_float", column "2:Float". Value "Qwerty" is not a float number.
+            ##teamcity[testFinished name='is_float at column 2:Float' flowId='42']
+            
+            ##teamcity[testSuiteFinished name='demo_invalid.yml' flowId='42']
             
             (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
             
@@ -336,6 +376,7 @@ final class ValidateCsvTest extends TestCase
             
             
             Found 8 issues in 3 out of 3 CSV files.
+            Found 1 issues in schema.
             
             TXT;
 

@@ -516,6 +516,13 @@ Default report format is `table`:
 Schema: ./tests/schemas/demo_invalid.yml
 Found CSV files: 1
 
+Schema is invalid: ./tests/schemas/demo_invalid.yml
++-------+-----------+----- demo_invalid.yml --------------------------+
+| Line  | id:Column | Rule     | Message                              |
++-------+-----------+----------+--------------------------------------+
+| undef | 2:Float   | is_float | Value "Qwerty" is not a float number |
++-------+-----------+----- demo_invalid.yml --------------------------+
+
 (1/1) Invalid file: ./tests/fixtures/demo.csv
 +------+------------------+------------------+----------------------- demo.csv ---------------------------------------------------------------------+
 | Line | id:Column        | Rule             | Message                                                                                              |
@@ -536,6 +543,7 @@ Found CSV files: 1
 
 
 Found 9 issues in CSV file.
+Found 1 issues in schema.
 
 ```
 <!-- /output-table -->
