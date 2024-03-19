@@ -35,7 +35,7 @@ Integrating CSV validation into CI processes promotes higher data integrity, rel
 * **Comprehensive Rule Set**: Includes a broad set of validation rules, such as non-empty fields, exact values, regular expressions, numeric constraints, date formats, and more, catering to various data validation needs.
 * **Docker Support**: Easily integrate into any workflow with Docker, providing a seamless experience for development, testing, and production environments.
 * **GitHub Actions Integration**: Automate CSV validation in your CI/CD pipeline, enhancing the quality control of your data in pull requests and deployments.
-* **Various ways to report:** issues that can be easily integrated with GithHub, Gitlab, TeamCity, etc. The default output is a human-readable table. [See Live Demo](https://github.com/JBZoo/Csv-Blueprint-Demo).
+* **Various ways to report:** issues that can be easily integrated with GitHub, Gitlab, TeamCity, etc. The default output is a human-readable table. [See Live Demo](https://github.com/JBZoo/Csv-Blueprint-Demo).
 
 
 ## Live Demo
@@ -51,8 +51,8 @@ Integrating CSV validation into CI processes promotes higher data integrity, rel
 * [demo.csv](tests/fixtures/demo.csv)
 
 
-### Schema Definition
-Define your CSV validation schema in a [YAML](schema-examples/full.yml). Other formats are also available: , [JSON](schema-examples/full.json), [PHP](schema-examples/full.php).
+### Schema definition
+Define your CSV validation schema in a [YAML](schema-examples/full.yml). Other formats are also available: [JSON](schema-examples/full.json), [PHP](schema-examples/full.php).
 
 This example defines a simple schema for a CSV file with a header row, specifying that the `id` column must not be empty and must contain integer values.
 Also, it checks that the `name` column has a minimum length of 3 characters.
@@ -74,7 +74,7 @@ columns:
 ```
 
 
-### Full description of the scheme
+### Full description of the schema
 
 In the [example Yml file](schema-examples/full.yml) you can find a detailed description of all features.
 It's also covered by tests, so it's always up-to-date.
@@ -408,7 +408,7 @@ docker pull jbzoo/csv-blueprint
 # Run the tool inside Docker
 docker run --rm                                  \
     --workdir=/parent-host                       \
-    -v .:/parent-host                            \
+    -v $(pwd):/parent-host                       \
     jbzoo/csv-blueprint                          \
     validate:csv                                 \
     --csv=./tests/fixtures/demo.csv              \
@@ -620,7 +620,7 @@ See [Processing One Billion CSV rows in PHP!](https://dev.to/realflowcontrol/pro
 That is, if you do everything right, you can read, aggregate and calculate data from CSV at **~15 million lines per second**!
 
 * Yeah-yeah. I know it's not the fastest tool in the world. But it's not the slowest either. See link above.
-* Yeah-yeah. I know it's PHP (not Python, Go, Pyspark...). PHP is not the best language for such tasks.
+* Yeah-yeah. I know it's PHP (not Python, Go, PySpark...). PHP is not the best language for such tasks.
 * Yeah-yeah. It looks like a standalone binary. Right. Just use it, don't think about how it works.
 * Yeah-yeah. I know you can't use as Python SDK as part of a pipeline.
 
@@ -639,7 +639,7 @@ So... as strictly as possible in today's PHP world. I think it works as expected
 I think I've set a personal record. 
 The first version was written from scratch in about 3 days (with really frequent breaks to take care of 4 month baby).
 I'm looking at the first commit and the very first git tag. I'd say over the weekend, in my spare time on my personal laptop.
-Well... AI I only used for this Readme file because I'm not very good at English. 🤔
+Well... AI was only used for this Readme file because I'm not very good at English. 🤔
 
 I seem to be typing fast and I had really great inspiration. I hope my wife doesn't divorce me. 😅
 
