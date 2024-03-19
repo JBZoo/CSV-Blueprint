@@ -35,10 +35,11 @@ final class Tools
     public const SCHEMA_SIMPLE_HEADER_JSON = './tests/schemas/simple_header.json';
     public const SCHEMA_EXAMPLE_EMPTY      = './tests/schemas/example_empty.yml';
 
-    public const SCHEMA_FULL      = './schema-examples/full.yml';
-    public const SCHEMA_FULL_JSON = './schema-examples/full.json';
-    public const SCHEMA_FULL_PHP  = './schema-examples/full.php';
-    public const SCHEMA_INVALID   = './tests/schemas/invalid_schema.yml';
+    public const SCHEMA_FULL_YML       = './schema-examples/full.yml';
+    public const SCHEMA_FULL_YML_CLEAN = './schema-examples/full_clean.yml';
+    public const SCHEMA_FULL_JSON      = './schema-examples/full.json';
+    public const SCHEMA_FULL_PHP       = './schema-examples/full.php';
+    public const SCHEMA_INVALID        = './tests/schemas/invalid_schema.yml';
 
     public const DEMO_YML_VALID   = './tests/schemas/demo_valid.yml';
     public const DEMO_YML_INVALID = './tests/schemas/demo_invalid.yml';

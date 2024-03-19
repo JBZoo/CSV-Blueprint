@@ -40,7 +40,7 @@ final class ReadmeTest extends TestCase
     public function testTableOutputExample(): void
     {
         $options = [
-            'csv'    => './tests/fixtures/batch/*.csv',
+            'csv'    => './tests/fixtures/demo.csv',
             'schema' => './tests/schemas/demo_invalid.yml',
         ];
         $optionsAsString     = new StringInput(Cli::build('', $options));
@@ -62,8 +62,8 @@ final class ReadmeTest extends TestCase
 
     public function testBadgeOfRules(): void
     {
-        $cellRules  = \count(yml(Tools::SCHEMA_FULL)->findArray('columns.0.rules'));
-        $aggRules   = \count(yml(Tools::SCHEMA_FULL)->findArray('columns.0.aggregate_rules'));
+        $cellRules  = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.rules'));
+        $aggRules   = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.aggregate_rules'));
         $totalRules = $cellRules + $aggRules;
 
         $badge = static function (string $label, int $count): string {
@@ -86,7 +86,7 @@ final class ReadmeTest extends TestCase
     {
         $ymlContent = \implode(
             "\n",
-            \array_slice(\explode("\n", \file_get_contents(Tools::SCHEMA_FULL)), 12),
+            \array_slice(\explode("\n", \file_get_contents(Tools::SCHEMA_FULL_YML)), 12),
         );
 
         $text = \implode("\n", ['```yml', $ymlContent, '```']);

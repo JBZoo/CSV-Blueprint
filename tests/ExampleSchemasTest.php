@@ -28,7 +28,7 @@ final class ExampleSchemasTest extends TestCase
 {
     public function testFullListOfRules(): void
     {
-        $rulesInConfig = yml(Tools::SCHEMA_FULL)->findArray('columns.0.rules');
+        $rulesInConfig = yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.rules');
         $rulesInConfig = \array_keys($rulesInConfig);
         \sort($rulesInConfig, \SORT_NATURAL);
 
@@ -82,7 +82,7 @@ final class ExampleSchemasTest extends TestCase
 
     public function testCsvStrutureDefaultValues(): void
     {
-        $defaultsInDoc = yml(Tools::SCHEMA_FULL)->findArray('csv');
+        $defaultsInDoc = yml(Tools::SCHEMA_FULL_YML)->findArray('csv');
 
         $schema = new Schema([]);
         $schema->getCsvStructure()->getArrayCopy();
@@ -93,22 +93,30 @@ final class ExampleSchemasTest extends TestCase
     public function testCheckPhpExample(): void
     {
         $basepath = PROJECT_ROOT . '/schema-examples/full';
-        $origYml  = yml(Tools::SCHEMA_FULL)->getArrayCopy();
+        $origYml  = yml(Tools::SCHEMA_FULL_YML)->getArrayCopy();
 
-        isSame((string)phpArray(Tools::SCHEMA_FULL_PHP), (string)phpArray($origYml), 'PHP config is invalid');
+        isSame((string)phpArray(Tools::SCHEMA_FULL_PHP), (string)phpArray($origYml), 'PHP config');
+    }
+
+    public function testCheckYmlCleanExample(): void
+    {
+        $basepath = PROJECT_ROOT . '/schema-examples/full';
+        $origYml  = yml(Tools::SCHEMA_FULL_YML)->getArrayCopy();
+
+        isSame((string)yml(Tools::SCHEMA_FULL_YML_CLEAN), (string)yml($origYml), 'Yml (clean) config');
     }
 
     public function testCheckJsonExample(): void
     {
         $basepath = PROJECT_ROOT . '/schema-examples/full';
-        $origYml  = yml(Tools::SCHEMA_FULL)->getArrayCopy();
+        $origYml  = yml(Tools::SCHEMA_FULL_YML)->getArrayCopy();
 
-        isSame((string)json(Tools::SCHEMA_FULL_JSON), (string)json($origYml), 'JSON config is invalid');
+        isSame((string)json(Tools::SCHEMA_FULL_JSON), (string)json($origYml), 'JSON config');
     }
 
     public function testUniqueNameOfRules(): void
     {
-        $yml = yml(Tools::SCHEMA_FULL);
+        $yml = yml(Tools::SCHEMA_FULL_YML);
 
         $rules     = \array_keys($yml->findArray('columns.0.rules'));
         $agRules   = \array_keys($yml->findArray('columns.0.aggregate_rules'));
@@ -119,7 +127,7 @@ final class ExampleSchemasTest extends TestCase
 
     public function testRuleNaming(): void
     {
-        $yml = yml(Tools::SCHEMA_FULL);
+        $yml = yml(Tools::SCHEMA_FULL_YML);
 
         $rules = $yml->findArray('columns.0.rules');
 

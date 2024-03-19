@@ -39,7 +39,7 @@ abstract class AbstractAggregateRule extends TestCase
 
     public function testHelpMessageInExample(): void
     {
-        isFileContains($this->create(6)->getHelp(), Tools::SCHEMA_FULL);
+        isFileContains($this->create(6)->getHelp(), Tools::SCHEMA_FULL_YML);
     }
 
     public function testBoolenOptionFlag(): void

@@ -89,7 +89,18 @@ It's also covered by tests, so it's always up-to-date.
 
 <!-- full-yml -->
 ```yml
-# It's a full example of the CSV schema file in YAML format.
+# It's a complete example of the CSV schema file in YAML format.
+# See copy of the file without comments here ./schema-examples/full_clean.yml
+
+# Just meta
+name: CSV Blueprint Schema Example      # Name of a CSV file. Not used in the validation process.
+description: |                          # Any description of the CSV file. Not used in the validation process.
+  This YAML file provides a detailed description and validation rules for CSV files
+  to be processed by JBZoo/Csv-Blueprint tool. It includes specifications for file name patterns,
+  CSV formatting options, and extensive validation criteria for individual columns and their values,
+  supporting a wide range of data validation rules from basic type checks to complex regex validations.
+  This example serves as a comprehensive guide for creating robust CSV file validations.
+
 
 # Regular expression to match the file name. If not set, then no pattern check
 # This way you can validate the file name before the validation process.
@@ -97,7 +108,10 @@ It's also covered by tests, so it's always up-to-date.
 # See https://www.php.net/manual/en/reference.pcre.pattern.syntax.php
 filename_pattern: /demo(-\d+)?\.csv$/i
 
-csv: # Here are default values. You can skip this section if you don't need to override the default values
+
+# Here are default values to parse CSV file.
+# You can skip this section if you don't need to override the default values.
+csv:
   header: true                          # If the first row is a header. If true, name of each column is required.
   delimiter: ,                          # Delimiter character in CSV file.
   quote_char: \                         # Quote character in CSV file.
@@ -105,6 +119,11 @@ csv: # Here are default values. You can skip this section if you don't need to o
   encoding: utf-8                       # (Experimental) Only utf-8, utf-16, utf-32.
   bom: false                            # (Experimental) If the file has a BOM (Byte Order Mark) at the beginning.
 
+
+# Description of each column in CSV.
+# It is recommended to present each column in the same order as presented in the CSV file.
+# This will not affect the validator, but will make it easier for you to navigate.
+# For convenience, use the first line as a header (if possible).
 columns:
   - name: "Column Name (header)"        # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
     description: "Lorem ipsum"          # Description of the column. Not used in the validation process.
@@ -491,44 +510,32 @@ Default report format is `table`:
 
 <!-- output-table -->
 ```
-./csv-blueprint validate:csv --csv='./tests/fixtures/batch/*.csv' --schema='./tests/schemas/demo_invalid.yml'
+./csv-blueprint validate:csv --csv='./tests/fixtures/demo.csv' --schema='./tests/schemas/demo_invalid.yml'
 
 
 Schema: ./tests/schemas/demo_invalid.yml
-Found CSV files: 3
+Found CSV files: 1
 
-(1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
-+------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
-| Line | id:Column        | Rule         | Message                                                               |
-+------+------------------+--------------+-----------------------------------------------------------------------+
-| 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 1, total: 2                     |
-| 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"] |
-+------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
-
-(2/3) Invalid file: ./tests/fixtures/batch/demo-2.csv
-+------+------------+------------+----------------- demo-2.csv --------------------------------------------------+
-| Line | id:Column  | Rule       | Message                                                                       |
-+------+------------+------------+-------------------------------------------------------------------------------+
-| 2    | 0:Name     | length_min | The length of the value "Carl" is 4, which is less than the expected "5"      |
-| 7    | 0:Name     | length_min | The length of the value "Lois" is 4, which is less than the expected "5"      |
-| 2    | 3:Birthday | date_min   | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", |
-|      |            |            | which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"     |
-| 4    | 3:Birthday | date_min   | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", |
-|      |            |            | which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"     |
-| 5    | 3:Birthday | date_max   | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", |
-|      |            |            | which is greater than the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"  |
-+------+------------+------------+----------------- demo-2.csv --------------------------------------------------+
-
-(3/3) Invalid file: ./tests/fixtures/batch/sub/demo-3.csv
-+------+-----------+------------------+------------ demo-3.csv --------------------------------------------------+
-| Line | id:Column | Rule             | Message                                                                  |
-+------+-----------+------------------+--------------------------------------------------------------------------+
-| 1    |           | filename_pattern | Filename "./tests/fixtures/batch/sub/demo-3.csv" does not match pattern: |
-|      |           |                  | "/demo-[12].csv$/i"                                                      |
-+------+-----------+------------------+------------ demo-3.csv --------------------------------------------------+
+(1/1) Invalid file: ./tests/fixtures/demo.csv
++------+------------------+------------------+----------------------- demo.csv ---------------------------------------------------------------------+
+| Line | id:Column        | Rule             | Message                                                                                              |
++------+------------------+------------------+------------------------------------------------------------------------------------------------------+
+| 1    |                  | filename_pattern | Filename "./tests/fixtures/demo.csv" does not match pattern: "/demo-[12].csv$/i"                     |
+| 6    | 0:Name           | length_min       | The length of the value "Carl" is 4, which is less than the expected "5"                             |
+| 11   | 0:Name           | length_min       | The length of the value "Lois" is 4, which is less than the expected "5"                             |
+| 1    | 1:City           | ag:is_unique     | Column has non-unique values. Unique: 9, total: 10                                                   |
+| 2    | 2:Float          | num_max          | The number of the value "4825.185", which is greater than the expected "4825.184"                    |
+| 6    | 3:Birthday       | date_min         | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
+|      |                  |                  | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
+| 8    | 3:Birthday       | date_min         | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
+|      |                  |                  | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
+| 9    | 3:Birthday       | date_max         | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
+|      |                  |                  | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
+| 5    | 4:Favorite color | allow_values     | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
++------+------------------+------------------+----------------------- demo.csv ---------------------------------------------------------------------+
 
 
-Found 8 issues in 3 out of 3 CSV files.
+Found 9 issues in CSV file.
 
 ```
 <!-- /output-table -->
