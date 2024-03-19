@@ -568,6 +568,7 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
   * [More aggregate rules](https://github.com/markrogoyski/math-php#statistics---descriptive).
   * [More cell rules](https://github.com/Respect/Validation).
   * `required` flag for the column.
+  * Multi values in one cell.
   * Custom cell rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
   * Custom agregate rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
   * Configurable keyword for null/empty values. By default, it's an empty string. But you will use `null`, `nil`, `none`, `empty`, etc. Overridable on the column level.
@@ -594,6 +595,7 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
 * **Mock data generation**
   * Create CSV files based on the schema (like "create 1000 rows with random data based on schema and rules").
   * Use [Faker](https://github.com/FakerPHP/Faker) for random data generation.
+  * [ReverseRegex](https://github.com/enso-media/ReverseRegex) to generate text from regex.
 
 * **Reporting**
   * More report formats (like JSON, XML, etc). Any ideas?

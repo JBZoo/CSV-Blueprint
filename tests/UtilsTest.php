@@ -51,6 +51,7 @@ final class UtilsTest extends TestCase
         ])));
 
         isSame([], $this->getFileName(Utils::findFiles([])));
+        isSame([], $this->getFileName(Utils::findFiles([''])));
 
         $this->getFileName(Utils::findFiles(['*.qwerty']));
 

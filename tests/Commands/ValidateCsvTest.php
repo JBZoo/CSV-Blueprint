@@ -485,4 +485,13 @@ final class ValidateCsvTest extends TestCase
         isSame(1, $exitCode, $actual);
         isSame($expected, $actual);
     }
+
+    public function testSchemaNotFound(): void
+    {
+        $this->expectExceptionMessage('Schema file not found: invalid_schema_path.yml');
+        Tools::virtualExecution('validate:csv', [
+            'csv'    => './tests/fixtures/no-found-file.csv',
+            'schema' => 'invalid_schema_path.yml',
+        ]);
+    }
 }

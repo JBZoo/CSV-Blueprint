@@ -40,16 +40,11 @@ final class NotAllowValuesTest extends AbstractCellRule
     public function testNegative(): void
     {
         $rule = $this->create(['invalid', ' ']);
+        isSame('Value "invalid" is not allowed', $rule->test('invalid'));
+        isSame('Value " " is not allowed', $rule->test(' '));
 
-        isSame(
-            'Value "invalid" is not allowed',
-            $rule->test('invalid'),
-        );
-
-        isSame(
-            'Value " " is not allowed',
-            $rule->test(' '),
-        );
+        $rule = $this->create([]);
+        isSame('Not allowed values are not defined', $rule->test('invalid'));
     }
 
     public function testInvalidOption(): void

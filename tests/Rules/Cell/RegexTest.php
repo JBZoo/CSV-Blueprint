@@ -43,15 +43,12 @@ final class RegexTest extends AbstractCellRule
     public function testNegative(): void
     {
         $rule = $this->create('/^a/');
-        isSame(
-            'Value "1bc" does not match the pattern "/^a/"',
-            $rule->test('1bc'),
-        );
+        isSame('Value "1bc" does not match the pattern "/^a/"', $rule->test('1bc'));
 
         $rule = $this->create('^a');
-        isSame(
-            'Value "1bc" does not match the pattern "/^a/"',
-            $rule->test('1bc'),
-        );
+        isSame('Value "1bc" does not match the pattern "/^a/"', $rule->test('1bc'));
+
+        $rule = $this->create('');
+        isSame('Regex pattern is not defined', $rule->test('1bc'));
     }
 }
