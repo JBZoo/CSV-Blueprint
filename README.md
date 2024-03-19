@@ -10,7 +10,7 @@
 ## Introduction
 
 The CSV Blueprint tool is a powerful and flexible utility designed for validating CSV files against 
-a predefined schema specified in YAML format. With the capability to run both locally and in Docker environments,
+a pre-defined schema specified in YAML format. With the capability to run both locally and in Docker environments,
 CSV Blueprint is an ideal choice for integrating into CI/CD pipelines, such as GitHub Actions,
 to ensure the integrity of CSV data in your projects.
 
@@ -383,7 +383,7 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
 ```
 <!-- /github-actions-yml -->
 
-**Note**. Report format for GitHub Actions is `github` by default. See [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message) and [PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files). 
+**Note**. GitHub Actions report format is `github` by default. See [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message) and [PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files). 
 
 This allows you to see bugs in the GitHub interface at the PR level.
 That is, the error will be shown in a specific place in the CSV file right in diff of your Pull Requests! [See example](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files).
@@ -615,7 +615,7 @@ I'm not sure if I will implement all of them. But I will try to do my best.
 
 ## Disadvantages?
 
-There is a perception that PHP is a slow language. I don't agree with that. You just need to know how to prepare it.
+It is perceived that PHP is a slow language. I don't agree with that. You just need to know how to prepare it.
 See [Processing One Billion CSV rows in PHP!](https://dev.to/realflowcontrol/processing-one-billion-rows-in-php-3eg0).
 That is, if you do everything right, you can read, aggregate and calculate data from CSV at **~15 million lines per second**!
 
@@ -636,8 +636,7 @@ So... as strictly as possible in today's PHP world. I think it works as expected
 
 ## Interesting fact
 
-I think I've set a personal record. 
-The first version was written from scratch in about 3 days (with really frequent breaks to take care of 4 month baby).
+I've set a personal record. The first version was written from scratch in about 3 days (with really frequent breaks to take care of 4 month baby).
 I'm looking at the first commit and the very first git tag. I'd say over the weekend, in my spare time on my personal laptop.
 Well... AI was only used for this Readme file because I'm not very good at English. 🤔
 
