@@ -14,7 +14,10 @@
 
     "output"      : "build/csv-blueprint.phar",
 
-    "directories" : ["src"],
+    "directories" : [
+        "schema-examples",
+        "src"
+    ],
     "files"       : ["csv-blueprint.php"],
     "git-version" : "git-version",
 
