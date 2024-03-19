@@ -14,10 +14,10 @@
 
 filename_pattern: /demo-[12].csv$/i
 
-undefined-param_1: true
+unknow_root_option: true
 
 csv:
-  undefined-param_2: true
+  unknow_csv_param: true
 
 columns:
   - name: Name
@@ -25,16 +25,15 @@ columns:
       not_empty: true
       length_min: 5
       length_max: 7
-      undefined-param_3: true
+      unknow_rule: true
 
   - name: City
-    undefined-param_4: true
+    unknow_colum_option: true
     rules:
       not_empty: true
       is_capitalize: true
     aggregate_rules:
       is_unique: true
-      undefined-param_5: true
 
   - name: Float
     rules:

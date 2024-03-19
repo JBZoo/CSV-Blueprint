@@ -203,7 +203,7 @@ final class ErrorSuite
             'column'  => 30,
             'rule'    => 30,
             'min'     => 120,
-            'max'     => 150,
+            'max'     => 170,
             'reserve' => 3, // So that the table does not rest on the very edge of the terminal. Just in case.
         ];
 

@@ -40,7 +40,7 @@ abstract class AbstractCellRuleCombo extends TestCase
 
     public function testHelpMessageInExample(): void
     {
-        isFileContains($this->create(6, Combo::MAX)->getHelp(), Tools::SCHEMA_FULL);
+        isFileContains($this->create(6, Combo::MAX)->getHelp(), Tools::SCHEMA_FULL_YML);
     }
 
     protected function create(array|float|int|string $value, string $mode): Combo

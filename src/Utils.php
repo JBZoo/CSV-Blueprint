@@ -148,7 +148,13 @@ final class Utils
             $curPath = $path === '' ? (string)$key : "{$path}.{$key}";
 
             if (!\array_key_exists($key, $expectedSchema)) {
-                $differences[$columnId . '/' . $curPath] = [$columnId, "Unknown key: {$keyPrefix}.{$curPath}"];
+                if (\strlen($keyPrefix) <= 1) {
+                    $message = "Unknown key: .{$curPath}";
+                } else {
+                    $message = "Unknown key: .{$keyPrefix}.{$curPath}";
+                }
+
+                $differences[$columnId . '/' . $curPath] = [$columnId, $message];
                 continue;
             }
 
@@ -159,7 +165,7 @@ final class Utils
                 $differences[$columnId . '/' . $curPath] = [
                     $columnId,
                     "Expected type \"<c>{$expectedType}</c>\", actual \"<green>{$actualType}</green>\" in " .
-                    "{$keyPrefix}.{$curPath}",
+                    ".{$keyPrefix}.{$curPath}",
                 ];
             } elseif (\is_array($value)) {
                 $differences += \array_merge(
