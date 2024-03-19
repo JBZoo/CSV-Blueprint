@@ -208,7 +208,7 @@ jobs:
           ! ./build/csv-blueprint.phar                         \
           validate:csv                                         \
           --csv=./tests/fixtures/batch/*.csv                   \
-          --schema=./tests/schemas/demo_invalid.yml            \
+          --schema=./tests/schemas/invalid_schema.yml          \
           --ansi
 
       - name: Upload Artifacts
@@ -234,20 +234,20 @@ jobs:
 
       - name: 👍 Valid CSV file
         run: |
-          docker run --rm                                       \
-          -v `pwd`:/parent-host                                 \
-          jbzoo/csv-blueprint                                   \
-          validate:csv                                          \
-          --csv=/parent-host/tests/fixtures/demo.csv            \
-          --schema=/parent-host/tests/schemas/demo_valid.yml    \
+          docker run --rm                                         \
+          -v `pwd`:/parent-host                                   \
+          jbzoo/csv-blueprint                                     \
+          validate:csv                                            \
+          --csv=/parent-host/tests/fixtures/demo.csv              \
+          --schema=/parent-host/tests/schemas/demo_valid.yml      \
           --ansi
 
       - name: 👎 Invalid CSV file
         run: |
-          ! docker run --rm                                     \
-          -v `pwd`:/parent-host                                 \
-          jbzoo/csv-blueprint                                   \
-          validate:csv                                          \
-          --csv=/parent-host/tests/fixtures/demo.csv            \
-          --schema=/parent-host/tests/schemas/demo_invalid.yml  \
+          ! docker run --rm                                       \
+          -v `pwd`:/parent-host                                   \
+          jbzoo/csv-blueprint                                     \
+          validate:csv                                            \
+          --csv=/parent-host/tests/fixtures/demo.csv              \
+          --schema=/parent-host/tests/schemas/invalid_schema.yml  \
           --ansi
