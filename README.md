@@ -102,8 +102,8 @@ description: |                          # Any description of the CSV file. Not u
   This example serves as a comprehensive guide for creating robust CSV file validations.
 
 
-# Regular expression to match the file name. If not set, then no pattern check
-# This way you can validate the file name before the validation process.
+# Regular expression to match the file name. If not set, then no pattern check.
+# This allows you to pre-validate the file name before processing its contents.
 # Feel free to check parent directories as well.
 # See https://www.php.net/manual/en/reference.pcre.pattern.syntax.php
 filename_pattern: /demo(-\d+)?\.csv$/i
@@ -138,7 +138,7 @@ columns:
     #    They are grouped below simply for ease of navigation and reading.
     # 4. If you see the value for the rule is "true" - that's just an enable flag.
     #    In other cases, these are rule parameters.
-    # 5. The order of rules execution is the same as in the scheme. But it doesn't matter.
+    # 5. The order of rules execution is the same as in the schema. But it doesn't matter.
     #    The result will be the same in any order.
     # 6. Most of the rules are case-sensitive. Unless otherwise specified.
     # 7. As backup plan, you always can use the "regex" rule.
@@ -168,7 +168,7 @@ columns:
       length_max: 10
 
       # Basic string checks
-      is_trimmed: true                  # Only trimed strings. Example: "Hello World" (not " Hello World ").
+      is_trimmed: true                  # Only trimmed strings. Example: "Hello World" (not " Hello World ").
       is_lowercase: true                # String is only lower-case. Example: "hello world".
       is_uppercase: true                # String is only upper-case. Example: "HELLO WORLD".
       is_capitalize: true               # String is only capitalized. Example: "Hello World".
@@ -188,7 +188,7 @@ columns:
       starts_with: "prefix "            # Example: "prefix Hello World".
       ends_with: " suffix"              # Example: "Hello World suffix".
 
-      # Under the hood it convertes and compares as float values.
+      # Under the hood it converts and compares as float values.
       # Comparison accuracy is 10 digits after a dot.
       # Scientific number format is also supported. Example: "1.2e3".
       num: 5                            # You can use integers.
