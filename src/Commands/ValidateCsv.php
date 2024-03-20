@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Commands;
 
 use JBZoo\Cli\CliCommand;
-use JBZoo\Cli\OutLvl;
 use JBZoo\CsvBlueprint\Csv\CsvFile;
 use JBZoo\CsvBlueprint\Exception;
 use JBZoo\CsvBlueprint\Schema;
@@ -168,7 +167,7 @@ final class ValidateCsv extends CliCommand
             $schemaErrors = (new Schema($schemaFilename))->validate();
             if ($schemaErrors->count() > 0) {
                 $this->_("<red>Schema is invalid:</red> {$schemaFilename}");
-                $this->_($schemaErrors->render($this->getReportType()), OutLvl::E);
+                $this->_($schemaErrors->render($this->getReportType()));
             }
         }
 
@@ -199,15 +198,12 @@ final class ValidateCsv extends CliCommand
                 $errorCounter += $errorSuite->count();
 
                 if ($this->isHumanReadableMode()) {
-                    $this->_(
-                        "{$prefix} <red>Invalid file:</red> " . Utils::cutPath($csvFilename->getPathname()),
-                        OutLvl::E,
-                    );
+                    $this->_("{$prefix} <red>Invalid file:</red> " . Utils::cutPath($csvFilename->getPathname()));
                 }
 
                 $output = $errorSuite->render($this->getOptString('report'));
                 if ($output !== null) {
-                    $this->_($output, $this->isHumanReadableMode() ? OutLvl::E : OutLvl::DEFAULT);
+                    $this->_($output);
                 }
             } elseif ($this->isHumanReadableMode()) {
                 $this->_("{$prefix} <green>OK:</green> " . Utils::cutPath($csvFilename->getPathname()));
@@ -241,7 +237,7 @@ final class ValidateCsv extends CliCommand
                 $errMessage = "<c>Found {$errorCounter} issues in {$invalidFiles} out of {$totalFiles} CSV files.</c>";
             }
 
-            $this->_($errMessage, OutLvl::E);
+            $this->_($errMessage);
 
             $exitCode = self::FAILURE;
         }
