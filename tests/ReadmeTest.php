@@ -25,7 +25,7 @@ final class ReadmeTest extends TestCase
 {
     private const EXTRA_RULES = [
         '* With `filename_pattern` rule, you can check if the file name matches the pattern.',
-        '* Property "name" is not defined in a column. If `csv.header: true`.',
+        '* Property `name` is not defined in a column. If `csv.header: true`.',
         '* Schema contains an unknown column `name` that is not found in the CSV file. If `csv.header: true`',
     ];
 
