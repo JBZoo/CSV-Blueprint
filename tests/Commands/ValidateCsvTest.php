@@ -75,6 +75,7 @@ final class ValidateCsvTest extends TestCase
             | Line  | id:Column        | Rule             | Message                                                                                              |
             +-------+------------------+------------------+------------------------------------------------------------------------------------------------------+
             | undef |                  | filename_pattern | Filename "./tests/fixtures/demo.csv" does not match pattern: "/demo-[12].csv$/i"                     |
+            | 1     |                  | csv.header       | Columns not found in CSV: "wrong_column_name"                                                        |
             | 6     | 0:Name           | length_min       | The length of the value "Carl" is 4, which is less than the expected "5"                             |
             | 11    | 0:Name           | length_min       | The length of the value "Lois" is 4, which is less than the expected "5"                             |
             | 1     | 1:City           | ag:is_unique     | Column has non-unique values. Unique: 9, total: 10                                                   |
@@ -89,7 +90,7 @@ final class ValidateCsvTest extends TestCase
             +-------+------------------+------------------+----------------------- demo.csv ---------------------------------------------------------------------+
             
             
-            Found 9 issues in CSV file.
+            Found 10 issues in CSV file.
             Found 2 issues in schema.
             
             TXT;
@@ -123,6 +124,7 @@ final class ValidateCsvTest extends TestCase
             +------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
             | Line | id:Column        | Rule         | Message                                                               |
             +------+------------------+--------------+-----------------------------------------------------------------------+
+            | 1    |                  | csv.header   | Columns not found in CSV: "wrong_column_name"                         |
             | 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 1, total: 2                     |
             | 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"] |
             +------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
@@ -131,6 +133,7 @@ final class ValidateCsvTest extends TestCase
             +------+------------+------------+---------------------------- demo-2.csv --------------------------------------------------------------+
             | Line | id:Column  | Rule       | Message                                                                                              |
             +------+------------+------------+------------------------------------------------------------------------------------------------------+
+            | 1    |            | csv.header | Columns not found in CSV: "wrong_column_name"                                                        |
             | 2    | 0:Name     | length_min | The length of the value "Carl" is 4, which is less than the expected "5"                             |
             | 7    | 0:Name     | length_min | The length of the value "Lois" is 4, which is less than the expected "5"                             |
             | 2    | 3:Birthday | date_min   | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
@@ -146,10 +149,11 @@ final class ValidateCsvTest extends TestCase
             | Line  | id:Column | Rule             | Message                                                                                      |
             +-------+-----------+------------------+----------------------------------------------------------------------------------------------+
             | undef |           | filename_pattern | Filename "./tests/fixtures/batch/sub/demo-3.csv" does not match pattern: "/demo-[12].csv$/i" |
+            | 1     |           | csv.header       | Columns not found in CSV: "wrong_column_name"                                                |
             +-------+-----------+------------------+--------------------- demo-3.csv -------------------------------------------------------------+
             
             
-            Found 8 issues in 3 out of 3 CSV files.
+            Found 11 issues in 3 out of 3 CSV files.
             Found 2 issues in schema.
             
             TXT;
@@ -176,6 +180,7 @@ final class ValidateCsvTest extends TestCase
             
             (1/1) Invalid file: ./tests/fixtures/demo.csv
             "filename_pattern". Filename "./tests/fixtures/demo.csv" does not match pattern: "/demo-[12].csv$/i".
+            "csv.header" at line 1. Columns not found in CSV: "wrong_column_name".
             "length_min" at line 6, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".
             "length_min" at line 11, column "0:Name". The length of the value "Lois" is 4, which is less than the expected "5".
             "ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 9, total: 10.
@@ -186,7 +191,7 @@ final class ValidateCsvTest extends TestCase
             "allow_values" at line 5, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].
             
             
-            Found 9 issues in CSV file.
+            Found 10 issues in CSV file.
             Found 2 issues in schema.
             
             TXT;
@@ -206,12 +211,13 @@ final class ValidateCsvTest extends TestCase
             "allow_values", column "4:Favorite color". Value "123" is not allowed. Allowed values: ["red", "green", "Blue"].
             
             (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
+            "csv.header" at line 1. Columns not found in CSV: "wrong_column_name".
             "ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 1, total: 2.
             
             (2/3) Skipped: ./tests/fixtures/batch/demo-2.csv
             (3/3) Skipped: ./tests/fixtures/batch/sub/demo-3.csv
             
-            Found 1 issues in 1 out of 3 CSV files.
+            Found 2 issues in 1 out of 3 CSV files.
             Found 2 issues in schema.
             
             TXT;
@@ -274,10 +280,12 @@ final class ValidateCsvTest extends TestCase
             "allow_values", column "4:Favorite color". Value "123" is not allowed. Allowed values: ["red", "green", "Blue"].
             
             (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
+            "csv.header" at line 1. Columns not found in CSV: "wrong_column_name".
             "ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 1, total: 2.
             "allow_values" at line 3, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].
             
             (2/3) Invalid file: ./tests/fixtures/batch/demo-2.csv
+            "csv.header" at line 1. Columns not found in CSV: "wrong_column_name".
             "length_min" at line 2, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".
             "length_min" at line 7, column "0:Name". The length of the value "Lois" is 4, which is less than the expected "5".
             "date_min" at line 2, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
@@ -286,9 +294,10 @@ final class ValidateCsvTest extends TestCase
             
             (3/3) Invalid file: ./tests/fixtures/batch/sub/demo-3.csv
             "filename_pattern". Filename "./tests/fixtures/batch/sub/demo-3.csv" does not match pattern: "/demo-[12].csv$/i".
+            "csv.header" at line 1. Columns not found in CSV: "wrong_column_name".
             
             
-            Found 8 issues in 3 out of 3 CSV files.
+            Found 11 issues in 3 out of 3 CSV files.
             Found 2 issues in schema.
             
             TXT;
@@ -329,9 +338,13 @@ final class ValidateCsvTest extends TestCase
             
             (1/3) Invalid file: ./tests/fixtures/batch/demo-1.csv
             
-            ##teamcity[testCount count='2' flowId='42']
+            ##teamcity[testCount count='3' flowId='42']
             
             ##teamcity[testSuiteStarted name='demo-1.csv' flowId='42']
+            
+            ##teamcity[testStarted name='csv.header at column' locationHint='php_qn://./tests/fixtures/batch/demo-1.csv' flowId='42']
+            "csv.header" at line 1. Columns not found in CSV: "wrong_column_name".
+            ##teamcity[testFinished name='csv.header at column' flowId='42']
             
             ##teamcity[testStarted name='ag:is_unique at column 1:City' locationHint='php_qn://./tests/fixtures/batch/demo-1.csv' flowId='42']
             "ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 1, total: 2.
@@ -345,9 +358,13 @@ final class ValidateCsvTest extends TestCase
             
             (2/3) Invalid file: ./tests/fixtures/batch/demo-2.csv
             
-            ##teamcity[testCount count='5' flowId='42']
+            ##teamcity[testCount count='6' flowId='42']
             
             ##teamcity[testSuiteStarted name='demo-2.csv' flowId='42']
+            
+            ##teamcity[testStarted name='csv.header at column' locationHint='php_qn://./tests/fixtures/batch/demo-2.csv' flowId='42']
+            "csv.header" at line 1. Columns not found in CSV: "wrong_column_name".
+            ##teamcity[testFinished name='csv.header at column' flowId='42']
             
             ##teamcity[testStarted name='length_min at column 0:Name' locationHint='php_qn://./tests/fixtures/batch/demo-2.csv' flowId='42']
             "length_min" at line 2, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".
@@ -373,7 +390,7 @@ final class ValidateCsvTest extends TestCase
             
             (3/3) Invalid file: ./tests/fixtures/batch/sub/demo-3.csv
             
-            ##teamcity[testCount count='1' flowId='42']
+            ##teamcity[testCount count='2' flowId='42']
             
             ##teamcity[testSuiteStarted name='demo-3.csv' flowId='42']
             
@@ -381,10 +398,14 @@ final class ValidateCsvTest extends TestCase
             "filename_pattern". Filename "./tests/fixtures/batch/sub/demo-3.csv" does not match pattern: "/demo-[12].csv$/i".
             ##teamcity[testFinished name='filename_pattern at column' flowId='42']
             
+            ##teamcity[testStarted name='csv.header at column' locationHint='php_qn://./tests/fixtures/batch/sub/demo-3.csv' flowId='42']
+            "csv.header" at line 1. Columns not found in CSV: "wrong_column_name".
+            ##teamcity[testFinished name='csv.header at column' flowId='42']
+            
             ##teamcity[testSuiteFinished name='demo-3.csv' flowId='42']
             
             
-            Found 8 issues in 3 out of 3 CSV files.
+            Found 11 issues in 3 out of 3 CSV files.
             Found 2 issues in schema.
             
             TXT;
@@ -454,6 +475,7 @@ final class ValidateCsvTest extends TestCase
             +-------+------------+------------------+------------------------------------------------------------------------------------------------------+
             | undef |            | filename_pattern | Filename "./tests/fixtures/demo.csv" does not match pattern: "/demo-[12].csv$/i"                     |
             | 1     | 4:         | csv.header       | Property "name" is not defined in schema: "./tests/schemas/invalid_schema.yml"                       |
+            | 1     |            | csv.header       | Columns not found in CSV: "4"                                                                        |
             | 6     | 0:Name     | length_min       | The length of the value "Carl" is 4, which is less than the expected "5"                             |
             | 11    | 0:Name     | length_min       | The length of the value "Lois" is 4, which is less than the expected "5"                             |
             | 1     | 1:City     | ag:is_unique     | Column has non-unique values. Unique: 9, total: 10                                                   |
@@ -491,7 +513,7 @@ final class ValidateCsvTest extends TestCase
             +-------+------------+------------------+-------------------------- demo.csv ------------------------------------------------------------------+
             
             
-            Found 26 issues in CSV file.
+            Found 27 issues in CSV file.
             Found 8 issues in schema.
             
             TXT;

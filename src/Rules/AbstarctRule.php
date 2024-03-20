@@ -70,10 +70,19 @@ abstract class AbstarctRule
         }
 
         if (\method_exists($this, 'validateRule')) {
-            /** @phan-suppress-next-line PhanUndeclaredMethod */
-            $error = $this->validateRule($cellValue);
-            if ($error !== null) {
-                return new Error($this->ruleCode, $error, $this->columnNameId, $line);
+            try {
+                /** @phan-suppress-next-line PhanUndeclaredMethod */
+                $error = $this->validateRule($cellValue);
+                if ($error !== null) {
+                    return new Error($this->ruleCode, $error, $this->columnNameId, $line);
+                }
+            } catch (\Exception $e) {
+                return new Error(
+                    $this->ruleCode,
+                    "Unexpected error: {$e->getMessage()}",
+                    $this->columnNameId,
+                    $line,
+                );
             }
         } else {
             throw new \RuntimeException('Method "validateRule" not found in ' . static::class);

@@ -38,6 +38,7 @@ final class CsvValidator
         return $this->errors
             ->addErrorSuit($this->validateFile($quickStop))
             ->addErrorSuit($this->validateHeader($quickStop))
+            ->addErrorSuit($this->validateColumn($quickStop))
             ->addErrorSuit($this->validateLines($quickStop));
     }
 
@@ -72,10 +73,10 @@ final class CsvValidator
 
     private function validateLines(bool $quickStop = false): ErrorSuite
     {
-        $errors  = new ErrorSuite();
-        $columns = $this->schema->getColumnsMappedByHeader($this->csv->getHeader());
+        $errors      = new ErrorSuite();
+        $realColumns = $this->schema->getColumnsMappedByHeader($this->csv->getHeader());
 
-        foreach ($columns as $column) {
+        foreach ($realColumns as $column) {
             $columValues = [];
             if ($column === null) {
                 continue;
@@ -107,8 +108,8 @@ final class CsvValidator
         ) {
             $error = new Error(
                 'filename_pattern',
-                'Filename "<c>' . Utils::cutPath($this->csv->getCsvFilename()) .
-                "</c>\" does not match pattern: \"<c>{$filenamePattern}</c>\"",
+                'Filename "<c>' . Utils::cutPath($this->csv->getCsvFilename()) . '</c>" ' .
+                "does not match pattern: \"<c>{$filenamePattern}</c>\"",
                 '',
                 Error::UNDEFINED_LINE,
             );
@@ -116,6 +117,37 @@ final class CsvValidator
             $errors->addError($error);
 
             if ($quickStop && $errors->count() > 0) {
+                return $errors;
+            }
+        }
+
+        return $errors;
+    }
+
+    private function validateColumn(bool $quickStop): ErrorSuite
+    {
+        $errors = new ErrorSuite();
+
+        if (!$this->schema->getCsvStructure()->isHeader()) {
+            return $errors;
+        }
+
+        $realColumns   = $this->schema->getColumnsMappedByHeader($this->csv->getHeader());
+        $schemaColumns = $this->schema->getColumns();
+
+        $notFoundColums = \array_diff(\array_keys($schemaColumns), \array_keys($realColumns));
+
+        if (\count($notFoundColums) > 0) {
+            $error = new Error(
+                'csv.header',
+                'Columns not found in CSV: "<c>' . \implode(', ', $notFoundColums) . '</c>"',
+                '',
+                ColumnValidator::FALLBACK_LINE,
+            );
+
+            $errors->addError($error);
+
+            if ($quickStop) {
                 return $errors;
             }
         }
