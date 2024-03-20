@@ -168,7 +168,7 @@ final class ValidateCsv extends CliCommand
             $schemaErrors = (new Schema($schemaFilename))->validate();
             if ($schemaErrors->count() > 0) {
                 $this->_("<red>Schema is invalid:</red> {$schemaFilename}");
-                $this->_($schemaErrors->render($this->getReportType()), OutLvl::E);
+                $this->_($schemaErrors->render($this->getReportType()));
             }
         }
 
@@ -241,7 +241,7 @@ final class ValidateCsv extends CliCommand
                 $errMessage = "<c>Found {$errorCounter} issues in {$invalidFiles} out of {$totalFiles} CSV files.</c>";
             }
 
-            $this->_($errMessage, OutLvl::E);
+            $this->_($errMessage);
 
             $exitCode = self::FAILURE;
         }
