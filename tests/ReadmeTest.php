@@ -110,7 +110,7 @@ final class ReadmeTest extends TestCase
             $badge('Total Number of Rules', $totalRules, 'schema-examples/full.yml', 'darkgreen'),
             $badge('Cell Value', $cellRules, 'src/Rules/Cell', 'blue'),
             $badge('Aggregate Column', $aggRules, 'src/Rules/Aggregate', 'blue'),
-            $badge('Extra Checks', $extraRules, 'schema-examples/full.yml', 'blue'),
+            $badge('Extra Checks', $extraRules, '#extra-checks', 'blue'),
             $badge('Plan to add', $planToAdd, 'tests/schemas/todo.yml', 'gray'),
         ]);
 
@@ -131,7 +131,10 @@ final class ReadmeTest extends TestCase
 
     public function testAdditionalValidationRules(): void
     {
+        $list   = self::EXTRA_RULES;
+        $list[] = '';
+
         $text = \implode("\n", self::EXTRA_RULES);
-        Tools::insertInReadme('extra-rules', $text);
+        Tools::insertInReadme('extra-rules', "\n{$text}\n");
     }
 }
