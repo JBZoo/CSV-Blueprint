@@ -68,7 +68,7 @@ final class ValidateCsv extends CliCommand
                 InputOption::VALUE_REQUIRED,
                 "Report output format. Available options:\n" .
                 '<info>' . \implode(', ', ErrorSuite::getAvaiableRenderFormats()) . '</info>',
-                ErrorSuite::RENDER_TABLE,
+                ErrorSuite::REPORT_DEFAULT,
             )
             ->addOption(
                 'quick',

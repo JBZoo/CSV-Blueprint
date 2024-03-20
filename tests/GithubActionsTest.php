@@ -42,7 +42,7 @@ final class GithubActionsTest extends TestCase
 
         isSame(
             $action->findString('inputs.report.description'),
-            'Report format. Available options: ' . \implode(', ', ErrorSuite::getAvaiableRenderFormats()),
+            'Report format. Available options: ' . \implode(', ', ErrorSuite::getAvaiableRenderFormats()) . '.',
         );
     }
 
@@ -52,7 +52,7 @@ final class GithubActionsTest extends TestCase
         $examples = [
             'csv'         => './tests/**/*.csv',
             'schema'      => './tests/schema.yml',
-            'report'      => 'github',
+            'report'      => ErrorSuite::REPORT_DEFAULT,
             'quick'       => 'no',
             'skip-schema' => 'no',
         ];

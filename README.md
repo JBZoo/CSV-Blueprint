@@ -387,10 +387,10 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
     # Required: true
     schema: ./tests/schema.yml
 
-    # Report format. Available options: text, table, github, gitlab, teamcity, junit
-    # Default value: github
+    # Report format. Available options: text, table, github, gitlab, teamcity, junit.
+    # Default value: table
     # You can skip it
-    report: github
+    report: table
 
     # Quick mode. It will not validate all rows. It will stop after the first error.
     # Default value: no
