@@ -64,13 +64,37 @@ final class ReadmeTest extends TestCase
     {
         $cellRules  = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.rules'));
         $aggRules   = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.aggregate_rules'));
-        $extraRules = 1 + 1; // filename_pattern, schema validation
+        $extraRules = \count([
+            'filename_pattern',
+            'Property "name" is not defined in schema',
+            'Columns not found',
+        ]);
         $totalRules = $cellRules + $aggRules + $extraRules;
 
-        $badge = static function (string $label, int $count, string $url = ''): string {
+        $todoYml   = yml(Tools::SCHEMA_TODO);
+        $planToAdd = \count($todoYml->findArray('columns.0.rules')) +
+            (\count($todoYml->findArray('columns.0.aggregate_rules')) * 4)
+            + \count([
+                'required',
+                'null_values',
+                'multiple + separator',
+                'strict_column_order',
+                'other_columns_possible',
+                'complex_rules. one example',
+                'inherit',
+            ])
+            - \count([
+                'first_value',
+                'second_value',
+                'last_value',
+                'sorted',
+                'custom_func',
+            ]);
+
+        $badge = static function (string $label, int $count, string $url, string $color): string {
             $label = \str_replace(' ', '%20', $label);
             $badge = "![Static Badge](https://img.shields.io/badge/Rules-{$count}-green" .
-                "?label={$label}&labelColor=blue&color=gray)";
+                "?label={$label}&labelColor={$color}&color=gray)";
 
             if ($url) {
                 return "[{$badge}]({$url})";
@@ -80,10 +104,11 @@ final class ReadmeTest extends TestCase
         };
 
         $text = \implode('    ', [
-            $badge('Total Number of Rules', $totalRules, 'schema-examples/full.yml'),
-            $badge('Cell Rules', $cellRules, 'src/Rules/Cell'),
-            $badge('Aggregate Rules', $aggRules, 'src/Rules/Aggregate'),
-            $badge('Extra Checks', $extraRules, 'schema-examples/full.yml'),
+            $badge('Total Number of Rules', $totalRules, 'schema-examples/full.yml', 'darkgreen'),
+            $badge('Cell Value', $cellRules, 'src/Rules/Cell', 'blue'),
+            $badge('Aggregate Column', $aggRules, 'src/Rules/Aggregate', 'blue'),
+            $badge('Extra Checks', $extraRules, 'schema-examples/full.yml', 'blue'),
+            $badge('Plan to add', $planToAdd, 'tests/schemas/todo.yml', 'gray'),
         ]);
 
         Tools::insertInReadme('rules-counter', $text);

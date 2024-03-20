@@ -4,7 +4,7 @@
 [![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint)    [![Dependents](https://poser.pugx.org/jbzoo/csv-blueprint/dependents)](https://packagist.org/packages/jbzoo/csv-blueprint/dependents?order_by=downloads)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
 
 <!-- rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-102-green?label=Total%20Number%20of%20Rules&labelColor=blue&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-55-green?label=Cell%20Rules&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-45-green?label=Aggregate%20Rules&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-2-green?label=Extra%20Checks&labelColor=blue&color=gray)](schema-examples/full.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-103-green?label=Total%20Number%20of%20Rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-55-green?label=Cell%20Value&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-45-green?label=Aggregate%20Column&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-3-green?label=Extra%20Checks&labelColor=blue&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-328-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- /rules-counter -->
 
 ## Introduction
@@ -15,7 +15,7 @@ CSV Blueprint is an ideal choice for integrating into CI/CD pipelines, such as G
 to ensure the integrity of CSV data in your projects.
 
 
-## Why validate CSV files in CI?
+### Why validate CSV files
 
 Validating CSV files at the Continuous Integration (CI) level within a repository is crucial for several reasons in data engineering:
 
@@ -28,7 +28,7 @@ Validating CSV files at the Continuous Integration (CI) level within a repositor
 Integrating CSV validation into CI processes promotes higher data integrity, reliability, and operational efficiency in data engineering projects.
 
 
-## Features
+### Features
 
 * **Schema-based Validation**: Define the structure and rules for your CSV files in an intuitive [YAML format](schema-examples/full.yml), enabling precise validation against your data's expected format.
 * **Flexible Configuration**: Support for custom delimiters, quote characters, enclosures, and encoding settings to handle a wide range of CSV formats.
@@ -38,7 +38,7 @@ Integrating CSV validation into CI processes promotes higher data integrity, rel
 * **Various ways to report:** issues that can be easily integrated with GitHub, Gitlab, TeamCity, etc. The default output is a human-readable table. [See Live Demo](https://github.com/JBZoo/Csv-Blueprint-Demo).
 
 
-## Live Demo
+### Live Demo
 
 * As a live demonstration of how the tool works you can take a look at the super minimal repository - [JBZoo/Csv-Blueprint-Demo](https://github.com/JBZoo/Csv-Blueprint-Demo). Feel free to fork it and play with the tool.
 * You can see more complex examples and different ways of reporting by looking at the [last Demo pipeline](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml?query=branch%3Amaster) (please open the logs). There you'll find the basic ways to get started. And also the `All Report Types` (left sidebar) link with the different report types.
@@ -51,7 +51,7 @@ Integrating CSV validation into CI processes promotes higher data integrity, rel
 * [demo.csv](tests/fixtures/demo.csv)
 
 
-### Schema definition
+## Schema definition
 Define your CSV validation schema in a [YAML](schema-examples/full.yml). Other formats are also available: [JSON](schema-examples/full.json), [PHP](schema-examples/full.php).
 
 This example defines a simple schema for a CSV file with a header row, specifying that the `id` column must not be empty and must contain integer values.
