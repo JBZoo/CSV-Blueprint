@@ -405,7 +405,7 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
 ```
 <!-- /github-actions-yml -->
 
-**Note**. GitHub Actions report format is `github` by default. See [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message) and [PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files). 
+**Note**. GitHub Actions report format is `table` by default. See [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message) and [PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files). 
 
 This allows you to see bugs in the GitHub interface at the PR level.
 That is, the error will be shown in a specific place in the CSV file right in diff of your Pull Requests! [See example](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files).
@@ -586,7 +586,7 @@ Optional format `text` with highlited keywords:
 
 
 **Notes**
-* Report format for GitHub Actions is `github` by default.
+* Report format for GitHub Actions is `table` by default.
 * Tools uses [JBZoo/CI-Report-Converter](https://github.com/JBZoo/CI-Report-Converter) as SDK to convert reports to different formats. So you can easily integrate it with any CI system.
 
 
