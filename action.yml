@@ -29,8 +29,8 @@ inputs:
     description: 'Schema filepath. It can be a YAML, JSON or PHP. See examples on GitHub.'
     required: true
   report:
-    description: 'Report format. Available options: text, table, github, gitlab, teamcity, junit'
-    default: github
+    description: 'Report format. Available options: text, table, github, gitlab, teamcity, junit.'
+    default: table
     required: true
   quick:
     description: 'Quick mode. It will not validate all rows. It will stop after the first error.'

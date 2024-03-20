@@ -34,6 +34,7 @@ final class ErrorSuite
     public const REPORT_GITLAB   = 'gitlab';
     public const REPORT_GITHUB   = 'github';
     public const REPORT_JUNIT    = 'junit';
+    public const REPORT_DEFAULT  = self::RENDER_TABLE;
 
     /** @var Error[] */
     private array $errors = [];
