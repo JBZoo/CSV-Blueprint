@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Commands;
 
 use JBZoo\Cli\CliCommand;
-use JBZoo\Cli\OutLvl;
 use JBZoo\CsvBlueprint\Csv\CsvFile;
 use JBZoo\CsvBlueprint\Exception;
 use JBZoo\CsvBlueprint\Schema;
@@ -199,15 +198,12 @@ final class ValidateCsv extends CliCommand
                 $errorCounter += $errorSuite->count();
 
                 if ($this->isHumanReadableMode()) {
-                    $this->_(
-                        "{$prefix} <red>Invalid file:</red> " . Utils::cutPath($csvFilename->getPathname()),
-                        OutLvl::E,
-                    );
+                    $this->_("{$prefix} <red>Invalid file:</red> " . Utils::cutPath($csvFilename->getPathname()));
                 }
 
                 $output = $errorSuite->render($this->getOptString('report'));
                 if ($output !== null) {
-                    $this->_($output, $this->isHumanReadableMode() ? OutLvl::E : OutLvl::DEFAULT);
+                    $this->_($output);
                 }
             } elseif ($this->isHumanReadableMode()) {
                 $this->_("{$prefix} <green>OK:</green> " . Utils::cutPath($csvFilename->getPathname()));
