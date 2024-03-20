@@ -22,7 +22,7 @@ final class Regex extends AbstractCellRule
 {
     protected const HELP_TOP = [
         'Any valid regex pattern. See https://www.php.net/manual/en/reference.pcre.pattern.syntax.php',
-        "Of course it's an ultimatum to verify any sort of string data.",
+        "Of course it's a super powerful tool to verify any sort of string data.",
         'Please, be careful. Regex is a powerful tool, but it can be very dangerous if used incorrectly.',
         'Remember that if you want to solve a problem with regex, you now have two problems.',
         'But have it your way, then happy debugging! https://regex101.com',

@@ -23,6 +23,12 @@ use function JBZoo\Data\yml;
 
 final class ReadmeTest extends TestCase
 {
+    private const EXTRA_RULES = [
+        '* With `filename_pattern` rule, you can check if the file name matches the pattern.',
+        '* Property "name" is not defined in a column. If `csv.header: true`.',
+        '* Schema contains an unknown column `name` that is not found in the CSV file. If `csv.header: true`',
+    ];
+
     public function testCreateCsvHelp(): void
     {
         $text = \implode("\n", [
@@ -64,11 +70,7 @@ final class ReadmeTest extends TestCase
     {
         $cellRules  = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.rules'));
         $aggRules   = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.aggregate_rules'));
-        $extraRules = \count([
-            'filename_pattern',
-            'Property "name" is not defined in schema',
-            'Columns not found',
-        ]);
+        $extraRules = \count(self::EXTRA_RULES);
         $totalRules = $cellRules + $aggRules + $extraRules;
 
         $todoYml   = yml(Tools::SCHEMA_TODO);
@@ -125,5 +127,11 @@ final class ReadmeTest extends TestCase
         $text = \implode("\n", ['```yml', $ymlContent, '```']);
 
         Tools::insertInReadme('full-yml', $text);
+    }
+
+    public function testAdditionalValidationRules(): void
+    {
+        $text = \implode("\n", self::EXTRA_RULES);
+        Tools::insertInReadme('extra-rules', $text);
     }
 }

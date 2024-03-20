@@ -73,6 +73,16 @@ columns:
 
 ```
 
+### Additional validation rules, behind the scenes.
+
+In addition to what is outlined in the yml below, there are additional checks that will examine your files by default.
+
+<!-- extra-rules -->
+* With `filename_pattern` rule, you can check if the file name matches the pattern.
+* Property "name" is not defined in a column. If `csv.header: true`.
+* Schema contains an unknown column `name` that is not found in the CSV file. If `csv.header: true`
+<!-- /extra-rules -->
+
 
 ### Full description of the schema
 
@@ -84,8 +94,15 @@ It's also covered by tests, so it's always up-to-date.
   which can be combined in any sequence and completely at your discretion.
   This gives you great flexibility when validating CSV files.
 * All fields (unless explicitly stated otherwise) are optional, and you can choose not to declare them. Up to you.
-* You are always free to add your option anywhere (except the `rules` list) and it will be ignored. I find it convenient for additional integrations and customization.
+* If you specify a wrong rule name, non-existent values (which are not in the example below) or a different variable 
+  type for any of the options, you will get a schema validation error. At your own risk, you can use the `skip-schema`
+  option to avoid seeing these errors and use your keys in the schema.
 
+
+Below you'll find the full list of rules and a brief commentary and example for context.
+This part of the readme is also covered by autotests, so these code are always up-to-date.
+
+In any unclear situation, look into it first.
 
 <!-- full-yml -->
 ```yml
@@ -141,13 +158,12 @@ columns:
     # 5. The order of rules execution is the same as in the schema. But it doesn't matter.
     #    The result will be the same in any order.
     # 6. Most of the rules are case-sensitive. Unless otherwise specified.
-    # 7. As backup plan, you always can use the "regex" rule.
+    # 7. As backup plan, you always can use the "regex" rule. ON YOUR OWN RISK!
 
     ####################################################################################################################
     # Data validation for each(!) value in the column.
     # Of course, this can greatly affect the speed of checking.
     # It depends on the number of checks and CSV file size.
-    # TODO: There are several ways to optimize this process, but the author needs time to test it carefully.
     rules:
       # General rules
       not_empty: true                   # Value is not an empty string. Actually checks if the string length is not 0.
@@ -156,7 +172,7 @@ columns:
       not_allow_values: [ invalid ]     # Strict set of values that are NOT allowed.
 
       # Any valid regex pattern. See https://www.php.net/manual/en/reference.pcre.pattern.syntax.php.
-      # Of course it's an ultimatum to verify any sort of string data.
+      # Of course it's a super powerful tool to verify any sort of string data.
       # Please, be careful. Regex is a powerful tool, but it can be very dangerous if used incorrectly.
       # Remember that if you want to solve a problem with regex, you now have two problems.
       # But have it your way, then happy debugging! https://regex101.com.
