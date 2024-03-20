@@ -416,6 +416,14 @@ docker run --rm                                  \
     --schema=./tests/schemas/demo_invalid.yml
 ```
 
+**Status: WIP**. Sometimes it doesn't work on some platforms. But you can build it from source.
+
+```sh
+git clone git@github.com:JBZoo/Csv-Blueprint.git csv-blueprint
+cd csv-blueprint
+make build-docker
+```
+
 
 ### PHP binary
 Ensure you have PHP installed on your machine.
@@ -430,11 +438,6 @@ chmod +x ./csv-blueprint.phar
    --schema=./tests/schemas/demo_invalid.yml
 ```
 
-
-### PHP project
-Ensure you have PHP installed on your machine.
-Then, you can use the following commands to build from source and run the tool.
-
 ```sh
 git clone git@github.com:jbzoo/csv-blueprint.git csv-blueprint
 cd csv-blueprint 
@@ -445,7 +448,7 @@ make build
 ```
 
 
-### Complete CLI Help Message
+## Complete CLI Help Message
 
 Here you can see all available options and commands.  Tool uses [JBZoo/Cli](https://github.com/JBZoo/Cli) package for the CLI interface.
 So there are options here for all occasions.
@@ -503,7 +506,7 @@ Options:
 <!-- /validate-csv-help -->
 
 
-### Report examples
+## Report examples
 
 As a result of the validation process, you will receive a human-readable table with a list of errors found in the CSV file. By defualt, the output format is a table, but you can choose from a variety of formats, such as text, GitHub, GitLab, TeamCity, JUnit, and more.  For example, the following output is generated using the `table` format.
 
