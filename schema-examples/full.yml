@@ -46,9 +46,9 @@ csv:
 # This will not affect the validator, but will make it easier for you to navigate.
 # For convenience, use the first line as a header (if possible).
 columns:
-  - name: "Column Name (header)"        # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
-    description: "Lorem ipsum"          # Description of the column. Not used in the validation process.
-    example: "Some example"             # Example of the column value. Not used in the validation process.
+  - name: Column Name (header)          # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
+    description: Lorem ipsum            # Description of the column. Not used in the validation process.
+    example: Some example               # Example of the column value. Not used in the validation process.
 
     # Important notes about the validation rules.
     # 1. All rules except "not_empty" ignored for empty strings (length 0).
@@ -62,13 +62,12 @@ columns:
     # 5. The order of rules execution is the same as in the schema. But it doesn't matter.
     #    The result will be the same in any order.
     # 6. Most of the rules are case-sensitive. Unless otherwise specified.
-    # 7. As backup plan, you always can use the "regex" rule.
+    # 7. As backup plan, you always can use the "regex" rule. ON YOUR OWN RISK!
 
     ####################################################################################################################
     # Data validation for each(!) value in the column.
     # Of course, this can greatly affect the speed of checking.
     # It depends on the number of checks and CSV file size.
-    # TODO: There are several ways to optimize this process, but the author needs time to test it carefully.
     rules:
       # General rules
       not_empty: true                   # Value is not an empty string. Actually checks if the string length is not 0.
@@ -77,7 +76,7 @@ columns:
       not_allow_values: [ invalid ]     # Strict set of values that are NOT allowed.
 
       # Any valid regex pattern. See https://www.php.net/manual/en/reference.pcre.pattern.syntax.php.
-      # Of course it's an ultimatum to verify any sort of string data.
+      # Of course it's a super powerful tool to verify any sort of string data.
       # Please, be careful. Regex is a powerful tool, but it can be very dangerous if used incorrectly.
       # Remember that if you want to solve a problem with regex, you now have two problems.
       # But have it your way, then happy debugging! https://regex101.com.
@@ -257,10 +256,10 @@ columns:
       coef_of_var_min: 1.123
       coef_of_var_max: 10.123
 
-  - name: "another_column"
+  - name: another_column
     rules:
       not_empty: true
 
-  - name: "third_column"
+  - name: third_column
     rules:
       not_empty: true

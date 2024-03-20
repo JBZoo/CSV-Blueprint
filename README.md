@@ -1,10 +1,10 @@
 # JBZoo / Csv-Blueprint
 
-[![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml?query=branch%3Amaster)    [![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml/badge.svg?branch=master)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml?query=branch%3Amaster)    [![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/release-docker.yml/badge.svg?branch=master)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/release-docker.yml?query=branch%3Amaster)    [![Coverage Status](https://coveralls.io/repos/github/JBZoo/Csv-Blueprint/badge.svg?branch=master)](https://coveralls.io/github/JBZoo/Csv-Blueprint?branch=master)    [![Psalm Coverage](https://shepherd.dev/github/JBZoo/Csv-Blueprint/coverage.svg)](https://shepherd.dev/github/JBZoo/Csv-Blueprint)    [![Psalm Level](https://shepherd.dev/github/JBZoo/Csv-Blueprint/level.svg)](https://shepherd.dev/github/JBZoo/Csv-Blueprint)    [![CodeFactor](https://www.codefactor.io/repository/github/jbzoo/csv-blueprint/badge)](https://www.codefactor.io/repository/github/jbzoo/csv-blueprint/issues)    
+[![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml?query=branch%3Amaster)    [![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml/badge.svg?branch=master)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml?query=branch%3Amaster)    [![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/release-docker.yml/badge.svg?branch=master)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/release-docker.yml?query=branch%3Amaster)    [![Coverage Status](https://coveralls.io/repos/github/JBZoo/Csv-Blueprint/badge.svg?branch=master)](https://coveralls.io/github/JBZoo/Csv-Blueprint?branch=master)    [![Psalm Coverage](https://shepherd.dev/github/JBZoo/Csv-Blueprint/coverage.svg)](https://shepherd.dev/github/JBZoo/Csv-Blueprint)    
 [![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint)    [![Dependents](https://poser.pugx.org/jbzoo/csv-blueprint/dependents)](https://packagist.org/packages/jbzoo/csv-blueprint/dependents?order_by=downloads)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
 
 <!-- rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-102-green?label=Total%20Number%20of%20Rules&labelColor=blue&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-55-green?label=Cell%20Rules&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-45-green?label=Aggregate%20Rules&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-2-green?label=Extra%20Checks&labelColor=blue&color=gray)](schema-examples/full.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-103-green?label=Total%20Number%20of%20Rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-55-green?label=Cell%20Value&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-45-green?label=Aggregate%20Column&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-3-green?label=Extra%20Checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-329-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- /rules-counter -->
 
 ## Introduction
@@ -15,7 +15,7 @@ CSV Blueprint is an ideal choice for integrating into CI/CD pipelines, such as G
 to ensure the integrity of CSV data in your projects.
 
 
-## Why validate CSV files in CI?
+### Why validate CSV files
 
 Validating CSV files at the Continuous Integration (CI) level within a repository is crucial for several reasons in data engineering:
 
@@ -28,7 +28,7 @@ Validating CSV files at the Continuous Integration (CI) level within a repositor
 Integrating CSV validation into CI processes promotes higher data integrity, reliability, and operational efficiency in data engineering projects.
 
 
-## Features
+### Features
 
 * **Schema-based Validation**: Define the structure and rules for your CSV files in an intuitive [YAML format](schema-examples/full.yml), enabling precise validation against your data's expected format.
 * **Flexible Configuration**: Support for custom delimiters, quote characters, enclosures, and encoding settings to handle a wide range of CSV formats.
@@ -38,7 +38,7 @@ Integrating CSV validation into CI processes promotes higher data integrity, rel
 * **Various ways to report:** issues that can be easily integrated with GitHub, Gitlab, TeamCity, etc. The default output is a human-readable table. [See Live Demo](https://github.com/JBZoo/Csv-Blueprint-Demo).
 
 
-## Live Demo
+### Live Demo
 
 * As a live demonstration of how the tool works you can take a look at the super minimal repository - [JBZoo/Csv-Blueprint-Demo](https://github.com/JBZoo/Csv-Blueprint-Demo). Feel free to fork it and play with the tool.
 * You can see more complex examples and different ways of reporting by looking at the [last Demo pipeline](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml?query=branch%3Amaster) (please open the logs). There you'll find the basic ways to get started. And also the `All Report Types` (left sidebar) link with the different report types.
@@ -51,7 +51,7 @@ Integrating CSV validation into CI processes promotes higher data integrity, rel
 * [demo.csv](tests/fixtures/demo.csv)
 
 
-### Schema definition
+## Schema definition
 Define your CSV validation schema in a [YAML](schema-examples/full.yml). Other formats are also available: [JSON](schema-examples/full.json), [PHP](schema-examples/full.php).
 
 This example defines a simple schema for a CSV file with a header row, specifying that the `id` column must not be empty and must contain integer values.
@@ -84,8 +84,15 @@ It's also covered by tests, so it's always up-to-date.
   which can be combined in any sequence and completely at your discretion.
   This gives you great flexibility when validating CSV files.
 * All fields (unless explicitly stated otherwise) are optional, and you can choose not to declare them. Up to you.
-* You are always free to add your option anywhere (except the `rules` list) and it will be ignored. I find it convenient for additional integrations and customization.
+* If you specify a wrong rule name, non-existent values (which are not in the example below) or a different variable 
+  type for any of the options, you will get a schema validation error. At your own risk, you can use the `skip-schema`
+  option to avoid seeing these errors and use your keys in the schema.
 
+
+Below you'll find the full list of rules and a brief commentary and example for context.
+This part of the readme is also covered by autotests, so these code are always up-to-date.
+
+In any unclear situation, look into it first.
 
 <!-- full-yml -->
 ```yml
@@ -125,9 +132,9 @@ csv:
 # This will not affect the validator, but will make it easier for you to navigate.
 # For convenience, use the first line as a header (if possible).
 columns:
-  - name: "Column Name (header)"        # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
-    description: "Lorem ipsum"          # Description of the column. Not used in the validation process.
-    example: "Some example"             # Example of the column value. Not used in the validation process.
+  - name: Column Name (header)          # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
+    description: Lorem ipsum            # Description of the column. Not used in the validation process.
+    example: Some example               # Example of the column value. Not used in the validation process.
 
     # Important notes about the validation rules.
     # 1. All rules except "not_empty" ignored for empty strings (length 0).
@@ -141,13 +148,12 @@ columns:
     # 5. The order of rules execution is the same as in the schema. But it doesn't matter.
     #    The result will be the same in any order.
     # 6. Most of the rules are case-sensitive. Unless otherwise specified.
-    # 7. As backup plan, you always can use the "regex" rule.
+    # 7. As backup plan, you always can use the "regex" rule. ON YOUR OWN RISK!
 
     ####################################################################################################################
     # Data validation for each(!) value in the column.
     # Of course, this can greatly affect the speed of checking.
     # It depends on the number of checks and CSV file size.
-    # TODO: There are several ways to optimize this process, but the author needs time to test it carefully.
     rules:
       # General rules
       not_empty: true                   # Value is not an empty string. Actually checks if the string length is not 0.
@@ -156,7 +162,7 @@ columns:
       not_allow_values: [ invalid ]     # Strict set of values that are NOT allowed.
 
       # Any valid regex pattern. See https://www.php.net/manual/en/reference.pcre.pattern.syntax.php.
-      # Of course it's an ultimatum to verify any sort of string data.
+      # Of course it's a super powerful tool to verify any sort of string data.
       # Please, be careful. Regex is a powerful tool, but it can be very dangerous if used incorrectly.
       # Remember that if you want to solve a problem with regex, you now have two problems.
       # But have it your way, then happy debugging! https://regex101.com.
@@ -336,16 +342,31 @@ columns:
       coef_of_var_min: 1.123
       coef_of_var_max: 10.123
 
-  - name: "another_column"
+  - name: another_column
     rules:
       not_empty: true
 
-  - name: "third_column"
+  - name: third_column
     rules:
       not_empty: true
 
 ```
 <!-- /full-yml -->
+
+
+### Extra checks
+
+Behind the scenes to what is outlined in the yml above, there are additional checks that will examine your files by default.
+
+<!-- extra-rules -->
+
+* With `filename_pattern` rule, you can check if the file name matches the pattern.
+* Property `name` is not defined in a column. If `csv.header: true`.
+* Schema contains an unknown column `name` that is not found in the CSV file. If `csv.header: true`
+
+<!-- /extra-rules -->
+
+
 
 ## Usage
 
@@ -416,6 +437,14 @@ docker run --rm                                  \
     --schema=./tests/schemas/demo_invalid.yml
 ```
 
+**Status: WIP**. Sometimes it doesn't work on some platforms. But you can build it from source.
+
+```sh
+git clone git@github.com:JBZoo/Csv-Blueprint.git csv-blueprint
+cd csv-blueprint
+make build-docker  # local tag is "jbzoo/csv-blueprint"
+```
+
 
 ### PHP binary
 Ensure you have PHP installed on your machine.
@@ -430,11 +459,6 @@ chmod +x ./csv-blueprint.phar
    --schema=./tests/schemas/demo_invalid.yml
 ```
 
-
-### PHP project
-Ensure you have PHP installed on your machine.
-Then, you can use the following commands to build from source and run the tool.
-
 ```sh
 git clone git@github.com:jbzoo/csv-blueprint.git csv-blueprint
 cd csv-blueprint 
@@ -445,7 +469,7 @@ make build
 ```
 
 
-### Complete CLI Help Message
+## Complete CLI Help Message
 
 Here you can see all available options and commands.  Tool uses [JBZoo/Cli](https://github.com/JBZoo/Cli) package for the CLI interface.
 So there are options here for all occasions.
@@ -503,7 +527,7 @@ Options:
 <!-- /validate-csv-help -->
 
 
-### Report examples
+## Report examples
 
 As a result of the validation process, you will receive a human-readable table with a list of errors found in the CSV file. By defualt, the output format is a table, but you can choose from a variety of formats, such as text, GitHub, GitLab, TeamCity, JUnit, and more.  For example, the following output is generated using the `table` format.
 
