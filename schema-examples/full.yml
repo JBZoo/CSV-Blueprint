@@ -46,9 +46,9 @@ csv:
 # This will not affect the validator, but will make it easier for you to navigate.
 # For convenience, use the first line as a header (if possible).
 columns:
-  - name: "Column Name (header)"        # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
-    description: "Lorem ipsum"          # Description of the column. Not used in the validation process.
-    example: "Some example"             # Example of the column value. Not used in the validation process.
+  - name: Column Name (header)          # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
+    description: Lorem ipsum            # Description of the column. Not used in the validation process.
+    example: Some example               # Example of the column value. Not used in the validation process.
 
     # Important notes about the validation rules.
     # 1. All rules except "not_empty" ignored for empty strings (length 0).
@@ -257,10 +257,10 @@ columns:
       coef_of_var_min: 1.123
       coef_of_var_max: 10.123
 
-  - name: "another_column"
+  - name: another_column
     rules:
       not_empty: true
 
-  - name: "third_column"
+  - name: third_column
     rules:
       not_empty: true

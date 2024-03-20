@@ -82,6 +82,7 @@ final class ReadmeTest extends TestCase
                 'other_columns_possible',
                 'complex_rules. one example',
                 'inherit',
+                'rule not found',
             ])
             - \count([
                 'first_value',

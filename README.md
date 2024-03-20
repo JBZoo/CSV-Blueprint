@@ -4,7 +4,7 @@
 [![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint)    [![Dependents](https://poser.pugx.org/jbzoo/csv-blueprint/dependents)](https://packagist.org/packages/jbzoo/csv-blueprint/dependents?order_by=downloads)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
 
 <!-- rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-103-green?label=Total%20Number%20of%20Rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-55-green?label=Cell%20Value&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-45-green?label=Aggregate%20Column&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-3-green?label=Extra%20Checks&labelColor=blue&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-328-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-103-green?label=Total%20Number%20of%20Rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-55-green?label=Cell%20Value&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-45-green?label=Aggregate%20Column&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-3-green?label=Extra%20Checks&labelColor=blue&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-329-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- /rules-counter -->
 
 ## Introduction
@@ -125,9 +125,9 @@ csv:
 # This will not affect the validator, but will make it easier for you to navigate.
 # For convenience, use the first line as a header (if possible).
 columns:
-  - name: "Column Name (header)"        # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
-    description: "Lorem ipsum"          # Description of the column. Not used in the validation process.
-    example: "Some example"             # Example of the column value. Not used in the validation process.
+  - name: Column Name (header)          # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
+    description: Lorem ipsum            # Description of the column. Not used in the validation process.
+    example: Some example               # Example of the column value. Not used in the validation process.
 
     # Important notes about the validation rules.
     # 1. All rules except "not_empty" ignored for empty strings (length 0).
@@ -336,11 +336,11 @@ columns:
       coef_of_var_min: 1.123
       coef_of_var_max: 10.123
 
-  - name: "another_column"
+  - name: another_column
     rules:
       not_empty: true
 
-  - name: "third_column"
+  - name: third_column
     rules:
       not_empty: true
 
@@ -421,7 +421,7 @@ docker run --rm                                  \
 ```sh
 git clone git@github.com:JBZoo/Csv-Blueprint.git csv-blueprint
 cd csv-blueprint
-make build-docker
+make build-docker  # local tag is "jbzoo/csv-blueprint"
 ```
 
 
