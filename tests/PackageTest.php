@@ -51,9 +51,9 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
         'docker_pulls' => true,
 
         'psalm_coverage' => true,
-        'psalm_level'    => true,
+        'psalm_level'    => false,
         'codacy'         => true,
-        'codefactor'     => true,
+        'codefactor'     => false,
         'sonarcloud'     => true,
         'coveralls'      => true,
         'circle_ci'      => true,
