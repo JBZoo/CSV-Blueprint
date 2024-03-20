@@ -48,3 +48,5 @@ columns:
     rules:
       not_empty: true
       allow_values: [ red, green, Blue ]
+
+  - name: wrong_column_name

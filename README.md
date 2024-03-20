@@ -530,6 +530,7 @@ Schema is invalid: ./tests/schemas/demo_invalid.yml
 | Line  | id:Column        | Rule             | Message                                                                                              |
 +-------+------------------+------------------+------------------------------------------------------------------------------------------------------+
 | undef |                  | filename_pattern | Filename "./tests/fixtures/demo.csv" does not match pattern: "/demo-[12].csv$/i"                     |
+| 1     |                  | csv.header       | Columns not found in CSV: "wrong_column_name"                                                        |
 | 6     | 0:Name           | length_min       | The length of the value "Carl" is 4, which is less than the expected "5"                             |
 | 11    | 0:Name           | length_min       | The length of the value "Lois" is 4, which is less than the expected "5"                             |
 | 1     | 1:City           | ag:is_unique     | Column has non-unique values. Unique: 9, total: 10                                                   |
@@ -544,7 +545,7 @@ Schema is invalid: ./tests/schemas/demo_invalid.yml
 +-------+------------------+------------------+----------------------- demo.csv ---------------------------------------------------------------------+
 
 
-Found 9 issues in CSV file.
+Found 10 issues in CSV file.
 Found 2 issues in schema.
 
 ```
