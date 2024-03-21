@@ -122,7 +122,7 @@ csv:
   header: true                          # If the first row is a header. If true, name of each column is required.
   delimiter: ,                          # Delimiter character in CSV file.
   quote_char: \                         # Quote character in CSV file.
-  enclosure: "\""                       # Enclosure for each field in CSV file.
+  enclosure: '"'                        # Enclosure for each field in CSV file.
   encoding: utf-8                       # (Experimental) Only utf-8, utf-16, utf-32.
   bom: false                            # (Experimental) If the file has a BOM (Byte Order Mark) at the beginning.
 
