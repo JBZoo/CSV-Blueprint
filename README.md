@@ -122,7 +122,7 @@ csv:
   header: true                          # If the first row is a header. If true, name of each column is required.
   delimiter: ,                          # Delimiter character in CSV file.
   quote_char: \                         # Quote character in CSV file.
-  enclosure: "\""                       # Enclosure for each field in CSV file.
+  enclosure: '"'                        # Enclosure for each field in CSV file.
   encoding: utf-8                       # (Experimental) Only utf-8, utf-16, utf-32.
   bom: false                            # (Experimental) If the file has a BOM (Byte Order Mark) at the beginning.
 
@@ -200,8 +200,8 @@ columns:
       # Scientific number format is also supported. Example: "1.2e3".
       num: 5                            # You can use integers.
       num_not: 4.123                    # Float numbers.
-      num_min: 1.2e3                    # And even scientific format.
-      num_max: -10.123                  # Negative and positive, zero is also supported.
+      num_min: -10.123                  # Negative and positive, zero is also supported.
+      num_max: 1.2e3                    # And even scientific format.
       is_int: true                      # Check format only. Can be negative and positive. Without any separators.
       is_float: true                    # Check format only. Can be negative and positive. Dot as decimal separator.
 
@@ -405,10 +405,11 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
 ```
 <!-- /github-actions-yml -->
 
-**Note**. GitHub Actions report format is `table` by default. See [GitHub Actions friendly](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message) and [PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files). 
+**Note**. GitHub Actions report format is `table` by default.
 
-This allows you to see bugs in the GitHub interface at the PR level.
-That is, the error will be shown in a specific place in the CSV file right in diff of your Pull Requests! [See example](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files).
+But you can specify `report: github` to see friendly error output in your PRs using [annotations](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message).
+This allows you to see bugs in the GitHub interface at the PR level. See [the PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files).
+That is, the error will be shown in a specific place in the CSV file right in diff of your Pull Requests!
 
 ![GitHub Actions - PR](.github/assets/github-actions-pr.png)
 

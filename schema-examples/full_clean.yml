@@ -60,8 +60,8 @@ columns:
       ends_with: " suffix"
       num: 5
       num_not: 4.123
-      num_min: 1.2e3
-      num_max: -10.123
+      num_min: -10.123
+      num_max: 1200.0
       is_int: true
       is_float: true
       precision: 5

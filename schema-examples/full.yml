@@ -36,7 +36,7 @@ csv:
   header: true                          # If the first row is a header. If true, name of each column is required.
   delimiter: ,                          # Delimiter character in CSV file.
   quote_char: \                         # Quote character in CSV file.
-  enclosure: "\""                       # Enclosure for each field in CSV file.
+  enclosure: '"'                        # Enclosure for each field in CSV file.
   encoding: utf-8                       # (Experimental) Only utf-8, utf-16, utf-32.
   bom: false                            # (Experimental) If the file has a BOM (Byte Order Mark) at the beginning.
 
@@ -114,8 +114,8 @@ columns:
       # Scientific number format is also supported. Example: "1.2e3".
       num: 5                            # You can use integers.
       num_not: 4.123                    # Float numbers.
-      num_min: 1.2e3                    # And even scientific format.
-      num_max: -10.123                  # Negative and positive, zero is also supported.
+      num_min: -10.123                  # Negative and positive, zero is also supported.
+      num_max: 1.2e3                    # And even scientific format.
       is_int: true                      # Check format only. Can be negative and positive. Without any separators.
       is_float: true                    # Check format only. Can be negative and positive. Dot as decimal separator.
 
