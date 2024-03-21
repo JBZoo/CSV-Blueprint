@@ -67,8 +67,8 @@ This example serves as a comprehensive guide for creating robust CSV file valida
 
                 'num'      => 5,
                 'num_not'  => 4.123,
-                'num_min'  => 1.2e3,
-                'num_max'  => -10.123,
+                'num_min'  => -10.123,
+                'num_max'  => 1.2e3,
                 'is_int'   => true,
                 'is_float' => true,
 

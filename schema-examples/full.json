@@ -46,8 +46,8 @@
 
                 "num"                   : 5,
                 "num_not"               : 4.123,
-                "num_min"               : 1200,
-                "num_max"               : -10.123,
+                "num_min"               : -10.123,
+                "num_max"               : 1.2e3,
                 "is_int"                : true,
                 "is_float"              : true,
 
