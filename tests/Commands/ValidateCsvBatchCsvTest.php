@@ -164,6 +164,7 @@ final class ValidateCsvBatchCsvTest extends TestCase
                 '--csv="./tests/fixtures/batch/*.csv"',
                 '--schema="' . Tools::DEMO_YML_INVALID . '"',
                 '--mute-errors',
+                '--no-ansi',
             ]),
             [],
             '',
