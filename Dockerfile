@@ -12,17 +12,28 @@
 
 FROM php:8.3-cli-alpine
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+COPY resources/php.ini /usr/local/etc/php/php.ini
 
 # Install PHP extensions
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
-RUN install-php-extensions opcache gd @composer
+RUN install-php-extensions opcache @composer
 
 # Install application
 ENV COMPOSER_ALLOW_SUPERUSER=1
+
 COPY . /app
-RUN cd /app                                                           \
-    && composer install --no-dev --optimize-autoloader --no-progress  \
-    && composer clear-cache
 RUN chmod +x /app/csv-blueprint
+
+RUN cd /app                                         \
+    && composer update --no-dev                     \
+                        --optimize-autoloader       \
+                        --classmap-authoritative    \
+                        --no-progress               \
+    && composer clear-cache                         \
+    && echo "$PHP_INI_DIR/php.ini-production"       \
+    && cat "$PHP_INI_DIR/php.ini-production"        \
+    && php -i                        \
+    && /app/csv-blueprint -h
+
 
 ENTRYPOINT ["/app/csv-blueprint"]

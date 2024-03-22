@@ -46,7 +46,7 @@ test-all: ##@Project Run all project tests at once
 
 build-docker:
 	$(call title,"Building Docker Image")
-	@docker build -t jbzoo/csv-blueprint .
+	@docker build -t jbzoo/csv-blueprint . 2>&1 | tee /tmp/docker-build.log
 
 
 demo-valid: ##@Project Run demo valid CSV
@@ -64,7 +64,7 @@ demo-docker: ##@Project Run demo via Docker
        validate:csv                                          \
        --csv=/parent-host/tests/fixtures/demo.csv            \
        --schema=/parent-host/tests/schemas/demo_valid.yml    \
-       --ansi
+       --ansi -vvv
 	$(call title,"Demo - Invalid CSV \(via Docker\)")
 	@docker run --rm                                         \
        -v `pwd`:/parent-host                                 \
@@ -72,7 +72,7 @@ demo-docker: ##@Project Run demo via Docker
        validate:csv                                          \
        --csv=/parent-host/tests/fixtures/demo.csv            \
        --schema=/parent-host/tests/schemas/demo_invalid.yml  \
-       --ansi
+       --ansi -vvv
 
 
 demo-invalid: ##@Project Run demo invalid CSV
