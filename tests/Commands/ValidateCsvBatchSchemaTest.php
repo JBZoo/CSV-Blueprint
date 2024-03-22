@@ -106,4 +106,54 @@ final class ValidateCsvBatchSchemaTest extends TestCase
         isSame(1, $exitCode, $actual);
         isSame($expected, $actual);
     }
+
+    public function testNoPattern(): void
+    {
+        $optionsAsString = Tools::arrayToOptionString([
+            'csv'    => './tests/fixtures/demo.csv',
+            'schema' => [
+                Tools::DEMO_YML_VALID,
+                './tests/schemas/demo_invalid_no_pattern.yml',
+            ],
+        ]);
+
+        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $optionsAsString);
+
+        $expected = <<<'TXT'
+            Found Schemas   : 2
+            Found CSV files : 1
+            Pairs by pattern: 2
+            
+            Check schema syntax: 2
+            (1/2) OK: ./tests/schemas/demo_invalid_no_pattern.yml
+            (2/2) OK: ./tests/schemas/demo_valid.yml
+            
+            CSV file validation: 2
+            (1/2) Schema: ./tests/schemas/demo_invalid_no_pattern.yml
+            (1/2) CSV   : ./tests/fixtures/demo.csv
+            (1/2) Issues: 2
+            +------+-----------+---------+---------------- demo.csv ----------------------------------------------+
+            | Line | id:Column | Rule    | Message                                                                |
+            +------+-----------+---------+------------------------------------------------------------------------+
+            | 4    | 2:Float   | num_min | The number of the value "-177.90", which is less than the expected "0" |
+            | 11   | 2:Float   | num_min | The number of the value "-200.1", which is less than the expected "0"  |
+            +------+-----------+---------+---------------- demo.csv ----------------------------------------------+
+            
+            (2/2) Schema: ./tests/schemas/demo_valid.yml
+            (2/2) CSV   : ./tests/fixtures/demo.csv
+            (2/2) OK
+            
+            Summary:
+              2 pairs (schema to csv) were found based on `filename_pattern`.
+              No issues in 2 schemas.
+              Found 2 issues in 1 out of 1 CSV files.
+              Schemas have no filename_pattern and are applied to all CSV files found:
+                - ./tests/schemas/demo_invalid_no_pattern.yml
+            
+            
+            TXT;
+
+        isSame(1, $exitCode, $actual);
+        isSame($expected, $actual);
+    }
 }
