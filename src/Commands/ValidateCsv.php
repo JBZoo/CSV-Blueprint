@@ -58,9 +58,21 @@ final class ValidateCsv extends CliCommand
             ->addOption(
                 'schema',
                 's',
-                InputOption::VALUE_REQUIRED,
-                "Schema filepath.\n" .
-                'It can be a YAML, JSON or PHP. See examples on GitHub.',
+                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+                \implode('', [
+                    "Path(s) to schema file(s).\n",
+                    'It can be a YAML, JSON or PHP. See examples on GitHub.',
+                    'Also, you can specify path in which schema files will be searched ',
+                    '(max depth is ' . Utils::MAX_DIRECTORY_DEPTH . ").\n",
+                    "Feel free to use glob pattrens. Usage examples: \n",
+                    '<info>/full/path/file.yml</info>, ',
+                    '<info>p/file.yml</info>, ',
+                    '<info>p/*.yml</info>, ',
+                    '<info>p/**/*.yml</info>, ',
+                    '<info>p/**/name-*.json</info>, ',
+                    '<info>**/*.php</info>, ',
+                    'etc.',
+                ]),
             )
             ->addOption(
                 'report',
@@ -95,21 +107,23 @@ final class ValidateCsv extends CliCommand
 
     protected function executeAction(): int
     {
-        $csvFilenames   = $this->getCsvFilepaths();
-        $schemaFilename = $this->getSchemaFilepath();
+        $csvFilenames    = $this->getCsvFilepaths();
+        $schemaFilenames = $this->getSchemaFilepaths();
+        $matchedFiles    = Utils::matchSchemaAndCsvFiles($csvFilenames, $schemaFilenames);
 
-        $this->printSchemaInfo($schemaFilename);
-        $this->printCsvFilesInfo($csvFilenames);
+        $this->printHeaderInfo($csvFilenames, $schemaFilenames, $matchedFiles);
 
-        $schemaErrors = $this->validateSchema($schemaFilename);
+        $errorInSchemaCounter = $this->validateSchemas($schemaFilenames);
 
-        [$invalidFiles, $errorCounter] = $this->validateCsvFiles($csvFilenames, $schemaFilename);
+        [$invalidFiles, $errorInCsvCounter] = $this->validateCsvFiles($matchedFiles);
 
-        return $this->printFooter(
+        return $this->printSummary(
             \count($csvFilenames),
+            \count($schemaFilenames),
             $invalidFiles,
-            $errorCounter,
-            $schemaErrors,
+            $errorInCsvCounter,
+            $errorInSchemaCounter,
+            $matchedFiles,
         );
     }
 
@@ -118,27 +132,25 @@ final class ValidateCsv extends CliCommand
      */
     private function getCsvFilepaths(): array
     {
-        $rawInput     = $this->getOptArray('csv');
-        $scvFilenames = Utils::findFiles($rawInput);
-
-        return \array_values($scvFilenames);
+        return \array_values(Utils::findFiles($this->getOptArray('csv')));
     }
 
-    private function getSchemaFilepath(): string
+    private function getSchemaFilepaths(): array
     {
-        $schemaFilename = $this->getOptString('schema');
+        $schemaFilenames = \array_values(Utils::findFiles($this->getOptArray('schema')));
 
-        if (\file_exists($schemaFilename) === false) {
-            throw new Exception("Schema file not found: {$schemaFilename}");
+        if (\count($schemaFilenames) === 0) {
+            throw new Exception('Schema file(s) not found: ' . \implode('; ', $this->getOptArray('schema')));
         }
 
-        return $schemaFilename;
+        return $schemaFilenames;
     }
 
     private function isHumanReadableMode(): bool
     {
         return $this->getReportType() !== ErrorSuite::REPORT_GITLAB
-            && $this->getReportType() !== ErrorSuite::REPORT_JUNIT;
+            && $this->getReportType() !== ErrorSuite::REPORT_JUNIT
+            && $this->getReportType() !== ErrorSuite::REPORT_TEAMCITY;
     }
 
     private function getReportType(): string
@@ -146,7 +158,7 @@ final class ValidateCsv extends CliCommand
         return $this->getOptString('report', ErrorSuite::RENDER_TABLE, ErrorSuite::getAvaiableRenderFormats());
     }
 
-    private function isQuickCheck(): bool
+    private function isQuickMode(): bool
     {
         $value = $this->getOptString('quick');
 
@@ -160,104 +172,207 @@ final class ValidateCsv extends CliCommand
         return !($value === '' || bool($value));
     }
 
-    private function validateSchema(string $schemaFilename): ?ErrorSuite
+    /**
+     * @param SplFileInfo[] $schemaFilenames
+     */
+    private function validateSchemas(array $schemaFilenames): int
     {
+        $totalSchemaErrors = new ErrorSuite();
+
         $schemaErrors = null;
+        $quickCheck   = $this->isQuickMode();
+
         if ($this->isCheckingSchema()) {
-            $schemaErrors = (new Schema($schemaFilename))->validate();
-            if ($schemaErrors->count() > 0) {
-                $this->_("<red>Schema is invalid:</red> {$schemaFilename}");
-                $this->_($schemaErrors->render($this->getReportType()));
+            $totalFiles = \count($schemaFilenames);
+
+            $this->out("Check schema syntax: {$totalFiles}");
+
+            foreach ($schemaFilenames as $index => $schemaFilename) {
+                $prefix = '(' . ((int)$index + 1) . "/{$totalFiles})";
+                $path   = Utils::printFile($schemaFilename->getPathname());
+
+                if ($quickCheck && $schemaErrors !== null && $schemaErrors->count() > 0) {
+                    $this->out("{$prefix} <yellow>Skipped (Quick mode)</yellow>");
+                    continue;
+                }
+
+                try {
+                    $schemaErrors = (new Schema($schemaFilename->getPathname()))->validate($quickCheck);
+                    if ($schemaErrors->count() > 0) {
+                        $this->out([
+                            "{$prefix} Schema: {$path}",
+                            "{$prefix} <yellow>Issues:</yellow> {$schemaErrors->count()}",
+                        ]);
+                        $this->_($schemaErrors->render($this->getReportType()));
+                        $totalSchemaErrors->addErrorSuit($schemaErrors);
+                    } else {
+                        $this->out("{$prefix} <green>OK:</green> {$path}");
+                    }
+                } catch (Exception $e) {
+                    $this->out([
+                        "{$prefix} Schema: {$path}",
+                        "{$prefix} Exception: <yellow>{$e->getMessage()}</yellow>",
+                    ]);
+                }
             }
+
+            $this->out('');
         }
 
-        return $schemaErrors;
+        return $totalSchemaErrors->count();
     }
 
-    private function validateCsvFiles(array $csvFilenames, string $schemaFilename): array
+    private function validateCsvFiles(array $matchedFiles): array
     {
-        $totalFiles   = \count($csvFilenames);
+        $totalFiles   = \count($matchedFiles['found_pairs']);
         $invalidFiles = 0;
         $errorCounter = 0;
         $errorSuite   = null;
-        $quickCheck   = $this->isQuickCheck();
+        $quickCheck   = $this->isQuickMode();
 
-        foreach ($csvFilenames as $index => $csvFilename) {
+        $this->out("CSV file validation: {$totalFiles}");
+
+        foreach ($matchedFiles['found_pairs'] as $index => $pair) {
+            [$schema, $csv] = $pair;
+
             $prefix = '(' . ((int)$index + 1) . "/{$totalFiles})";
 
+            $this->out([
+                "{$prefix} Schema: " . Utils::printFile($schema),
+                "{$prefix} CSV   : " . Utils::printFile($csv),
+            ]);
+
             if ($quickCheck && $errorSuite !== null && $errorSuite->count() > 0) {
-                $this->_("{$prefix} <yellow>Skipped:</yellow> " . Utils::cutPath($csvFilename->getPathname()));
+                $this->out("{$prefix} <yellow>Skipped (Quick mode)</yellow>");
                 continue;
             }
 
-            $csvFile    = new CsvFile($csvFilename->getPathname(), $schemaFilename);
+            $csvFile    = new CsvFile($csv, $schema);
             $errorSuite = $csvFile->validate($quickCheck);
 
             if ($errorSuite->count() > 0) {
                 $invalidFiles++;
                 $errorCounter += $errorSuite->count();
-
-                if ($this->isHumanReadableMode()) {
-                    $this->_("{$prefix} <red>Invalid file:</red> " . Utils::cutPath($csvFilename->getPathname()));
-                }
-
-                $output = $errorSuite->render($this->getOptString('report'));
-                if ($output !== null) {
-                    $this->_($output);
-                }
-            } elseif ($this->isHumanReadableMode()) {
-                $this->_("{$prefix} <green>OK:</green> " . Utils::cutPath($csvFilename->getPathname()));
+                $this->out("{$prefix} <yellow>Issues:</yellow> {$errorSuite->count()}");
+                $this->_($errorSuite->render($this->getOptString('report')));
+            } else {
+                $this->out("{$prefix} <green>OK</green>");
             }
         }
 
         return [$invalidFiles, $errorCounter];
     }
 
-    private function printSchemaInfo(string $schemaFilename): void
-    {
-        if ($this->isHumanReadableMode()) {
-            $validationFlag = $this->isCheckingSchema() ? '' : ' (<c>Validation skipped</c>)';
-            $this->_('<blue>Schema:</blue> ' . Utils::cutPath($schemaFilename) . $validationFlag);
-        }
-    }
-
-    private function printFooter(
-        int $totalFiles,
-        int $invalidFiles,
-        int $errorCounter,
-        ?ErrorSuite $schemaErrors,
+    /**
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     */
+    private function printSummary(
+        int $totalCsvFiles,
+        int $totalSchemaFiles,
+        int $invalidCsvFiles,
+        int $errorInCsvCounter,
+        int $errorInSchemaCounter,
+        array $matchedFiles,
     ): int {
         $exitCode = self::SUCCESS;
+        if (
+            $totalSchemaFiles === 0
+            || $errorInCsvCounter > 0
+            || $errorInSchemaCounter > 0
+            || \count($matchedFiles['schema_without_csv']) > 0
+            || \count($matchedFiles['csv_without_schema']) > 0
+            || \count($matchedFiles['found_pairs']) === 0
+        ) {
+            $exitCode = self::FAILURE;
+        }
 
-        $this->_('');
-        if ($errorCounter > 0 && $this->isHumanReadableMode()) {
-            if ($totalFiles === 1) {
-                $errMessage = "<c>Found {$errorCounter} issues in CSV file.</c>";
-            } else {
-                $errMessage = "<c>Found {$errorCounter} issues in {$invalidFiles} out of {$totalFiles} CSV files.</c>";
+        $this->out(['', 'Summary:']);
+
+        if ($totalSchemaFiles === 0) {
+            $this->out('  <red>No schema files found!</red>');
+        }
+
+        $this->out(
+            '  ' . \count($matchedFiles['found_pairs']) . ' ' .
+            'pairs (schema to csv) were found based on `filename_pattern`.',
+        );
+
+        if ($errorInSchemaCounter > 0) {
+            $this->out("  Found <c>{$errorInSchemaCounter}</c> issues in {$totalSchemaFiles} schemas.");
+        } else {
+            $this->out("  <green>No issues in {$totalSchemaFiles} schemas.</green>");
+        }
+
+        if ($errorInCsvCounter > 0) {
+            $this->out(
+                "  Found <c>{$errorInCsvCounter}</c> issues in {$invalidCsvFiles} " .
+                "out of {$totalCsvFiles} CSV files.",
+            );
+        } else {
+            $this->out("  <green>No issues in {$totalCsvFiles} CSV files.</green>");
+        }
+
+        if (\count($matchedFiles['global_schemas']) > 0) {
+            $this->out(
+                '  <yellow>Schemas have no filename_pattern and are applied to all CSV files found:</yellow>',
+            );
+
+            foreach ($matchedFiles['global_schemas'] as $file) {
+                $this->out('    - ' . Utils::printFile($file));
             }
-
-            $this->_($errMessage);
-
-            $exitCode = self::FAILURE;
         }
 
-        if ($schemaErrors !== null && $schemaErrors->count() > 0) {
-            $this->_("<c>Found {$schemaErrors->count()} issues in schema.</c>");
+        if (isset($matchedFiles['csv_without_schema']) && \count($matchedFiles['csv_without_schema']) > 0) {
+            $this->out(
+                "  <yellow>No schema was applied to the CSV files (filename_pattern didn't match):</yellow>",
+            );
 
-            $exitCode = self::FAILURE;
+            foreach ($matchedFiles['csv_without_schema'] as $file) {
+                $this->out('    - ' . Utils::printFile($file));
+            }
         }
 
-        if ($exitCode === self::SUCCESS && $this->isHumanReadableMode()) {
-            $this->_('<green>Looks good!</green>');
+        if (isset($matchedFiles['schema_without_csv']) && \count($matchedFiles['schema_without_csv']) > 0) {
+            $this->out('  <yellow>Not used schemas:</yellow>');
+
+            foreach ($matchedFiles['schema_without_csv'] as $file) {
+                $this->out('    - ' . Utils::printFile($file));
+            }
         }
+
+        if ($exitCode === self::SUCCESS) {
+            $this->out('  <green>Looks good!</green>');
+        }
+        $this->out('');
 
         return $exitCode;
     }
 
-    private function printCsvFilesInfo(array $totalFiles): void
+    /**
+     * @param SplFileInfo[] $csvFilenames
+     * @param SplFileInfo[] $schemaFilenames
+     * @param array[]       $matchedFiles
+     */
+    private function printHeaderInfo(array $csvFilenames, array $schemaFilenames, array $matchedFiles): void
     {
-        $this->_('Found CSV files: ' . \count($totalFiles));
-        $this->_('');
+        $validationFlag = $this->isCheckingSchema() ? '' : ' (<c>Validation skipped</c>)';
+        $this->out([
+            'Found Schemas   : ' . \count($schemaFilenames) . $validationFlag,
+            'Found CSV files : ' . \count($csvFilenames),
+            'Pairs by pattern: ' . \count($matchedFiles['found_pairs']),
+        ]);
+
+        if ($this->isQuickMode()) {
+            $this->out('<yellow>Quick mode enabled!</yellow>');
+        }
+
+        $this->out('');
+    }
+
+    private function out(null|array|string $messge): void
+    {
+        if ($this->isHumanReadableMode()) {
+            $this->_($messge);
+        }
     }
 }

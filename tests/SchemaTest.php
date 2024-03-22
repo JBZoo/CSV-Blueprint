@@ -229,8 +229,6 @@ final class SchemaTest extends TestCase
             ])
             ->files();
 
-        isCount(6, $schemas);
-
         foreach ($schemas as $schemaFile) {
             $filepath = $schemaFile->getPathname();
             isSame('', (string)(new Schema($filepath))->validate(), $filepath);

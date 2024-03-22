@@ -46,20 +46,25 @@ final class Tools
     public const DEMO_YML_VALID   = './tests/schemas/demo_valid.yml';
     public const DEMO_YML_INVALID = './tests/schemas/demo_invalid.yml';
     public const DEMO_CSV         = './tests/fixtures/demo.csv';
+    public const DEMO_INVALID_CSV = './tests/fixtures/demo_invalid.csv';
     public const DEMO_CSV_FULL    = PROJECT_ROOT . '/tests/fixtures/demo.csv';
 
     public const README = './README.md';
 
-    public static function virtualExecution(string $action, array $params = []): array
+    public static function virtualExecution(string $action, array|string $params = []): array
     {
-        $params['no-ansi'] = null;
-
         $application = new CliApplication();
         $application->add(new ValidateCsv());
         $command = $application->find($action);
 
-        $buffer   = new BufferedOutput();
-        $args     = new StringInput(Cli::build('', $params));
+        $buffer = new BufferedOutput();
+        if (\is_array($params)) {
+            $params['no-ansi'] = null;
+            $args              = new StringInput(Cli::build('', $params));
+        } else {
+            $args = new StringInput($params);
+        }
+
         $exitCode = $command->run($args, $buffer);
 
         return [$buffer->fetch(), $exitCode];
@@ -140,5 +145,22 @@ final class Tools
         }
 
         return $keysToRemove;
+    }
+
+    public static function arrayToOptionString(array $options): string
+    {
+        $optionsAsArray = [];
+
+        foreach ($options as $key => $subOptions) {
+            if (\is_array($subOptions)) {
+                foreach ($subOptions as $option) {
+                    $optionsAsArray[] = "--{$key}=\"{$option}\"";
+                }
+            } else {
+                $optionsAsArray[] = "--{$key}=\"{$subOptions}\"";
+            }
+        }
+
+        return \implode(' ', $optionsAsArray);
     }
 }

@@ -36,14 +36,30 @@ final class SchemaValidator
         $this->isHeader = $schema->getCsvStructure()->isHeader();
     }
 
-    public function validate(): ErrorSuite
+    public function validate(bool $quickStop = false): ErrorSuite
     {
         [$expectedMeta, $expectedColumn] = self::getExpected();
         [$actualMeta, $actualColumns]    = $this->getActual();
 
-        return (new ErrorSuite($this->filename))
-            ->addErrorSuit(self::validateMeta($expectedMeta, $actualMeta))
-            ->addErrorSuit($this->validateColumns($expectedColumn, $actualColumns));
+        $allErrors = new ErrorSuite($this->filename);
+
+        $errors = self::validateMeta($expectedMeta, $actualMeta, $quickStop);
+        if ($errors->count() > 0) {
+            $allErrors->addErrorSuit($errors);
+            if ($quickStop) {
+                return $allErrors;
+            }
+        }
+
+        $errors = $this->validateColumns($expectedColumn, $actualColumns, $quickStop);
+        if ($errors->count() > 0) {
+            $allErrors->addErrorSuit($errors);
+            if ($quickStop) {
+                return $allErrors;
+            }
+        }
+
+        return $allErrors;
     }
 
     private function getActual(): array
@@ -54,8 +70,11 @@ final class SchemaValidator
         return [$actualMeta, $actualColumns];
     }
 
-    private function validateColumns(array $expectedColumn, AbstractData $actualColumns): ErrorSuite
-    {
+    private function validateColumns(
+        array $expectedColumn,
+        AbstractData $actualColumns,
+        bool $quickStop = false,
+    ): ErrorSuite {
         $errors = new ErrorSuite();
 
         foreach ($actualColumns->getArrayCopy() as $columnKey => $actualColumn) {
@@ -63,6 +82,9 @@ final class SchemaValidator
 
             // Validate column names
             $errors->addErrorSuit($this->validateColumn($actualColumn, $columnId, (int)$columnKey));
+            if ($quickStop && $errors->count() > 0) {
+                return $errors;
+            }
 
             // Validate column schema
             $columnErrors = Utils::compareArray(
@@ -74,6 +96,9 @@ final class SchemaValidator
 
             foreach ($columnErrors as $columnError) {
                 $errors->addError(new Error('schema', $columnError[1], $columnError[0]));
+                if ($quickStop && $errors->count() > 0) {
+                    return $errors;
+                }
             }
         }
 
@@ -113,13 +138,19 @@ final class SchemaValidator
         return null;
     }
 
-    private static function validateMeta(array $expectedMeta, AbstractData $actualMeta): ErrorSuite
-    {
+    private static function validateMeta(
+        array $expectedMeta,
+        AbstractData $actualMeta,
+        bool $quickStop = false,
+    ): ErrorSuite {
         $errors     = new ErrorSuite();
         $metaErrors = Utils::compareArray($expectedMeta, $actualMeta->getArrayCopy(), 'meta', '.');
 
         foreach ($metaErrors as $metaError) {
             $errors->addError(new Error('schema', $metaError[1], $metaError[0]));
+            if ($quickStop) {
+                return $errors;
+            }
         }
 
         return $errors;

@@ -35,11 +35,39 @@ final class CsvValidator
 
     public function validate(bool $quickStop = false): ErrorSuite
     {
-        return $this->errors
-            ->addErrorSuit($this->validateFile($quickStop))
-            ->addErrorSuit($this->validateHeader($quickStop))
-            ->addErrorSuit($this->validateColumn($quickStop))
-            ->addErrorSuit($this->validateLines($quickStop));
+        $errors = $this->validateFile($quickStop);
+        if ($errors->count() > 0) {
+            $this->errors->addErrorSuit($errors);
+            if ($quickStop) {
+                return $this->errors;
+            }
+        }
+
+        $errors = $this->validateHeader($quickStop);
+        if ($errors->count() > 0) {
+            $this->errors->addErrorSuit($errors);
+            if ($quickStop) {
+                return $this->errors;
+            }
+        }
+
+        $errors = $this->validateColumn($quickStop);
+        if ($errors->count() > 0) {
+            $this->errors->addErrorSuit($errors);
+            if ($quickStop) {
+                return $this->errors;
+            }
+        }
+
+        $errors = $this->validateLines($quickStop);
+        if ($errors->count() > 0) {
+            $this->errors->addErrorSuit($errors);
+            if ($quickStop) {
+                return $this->errors;
+            }
+        }
+
+        return $this->errors;
     }
 
     private function validateHeader(bool $quickStop = false): ErrorSuite

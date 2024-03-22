@@ -10,43 +10,38 @@
 # @see        https://github.com/JBZoo/Csv-Blueprint
 #
 
-# This schema is invalid because does not match the CSV file (tests/fixtures/demo.csv).
-
-filename_pattern: /(demo-[12]|demo)\.csv)$/i
+# This schema is valid because match the CSV file (tests/fixtures/demo.csv) perfectly.
 
 columns:
   - name: Name
     rules:
       not_empty: true
-      length_min: 5
+      length_min: 4
       length_max: 7
+    aggregate_rules:
+      is_unique: true
 
   - name: City
     rules:
       not_empty: true
       is_capitalize: true
-    aggregate_rules:
-      is_unique: true
 
   - name: Float
-    example: Qwerty
     rules:
       not_empty: true
       is_float: true
-      num_min: -19366059128
-      num_max: 4825.184
+      num_min: 0
+      num_max: 4825.186
+    aggregate_rules:
+      sum_max: 4692
+
 
   - name: Birthday
     rules:
       not_empty: true
       date_format: Y-m-d
-      date_min: "1955-05-15"
-      date_max: "2009-01-01"
 
   - name: Favorite color
-    example: 123
     rules:
       not_empty: true
-      allow_values: [ red, green, Blue ]
-
-  - name: wrong_column_name
+      allow_values: [ red, green, blue ]

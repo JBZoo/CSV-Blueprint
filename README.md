@@ -492,8 +492,10 @@ Options:
                                    You can specify path in which CSV files will be searched (max depth is 10).
                                    Feel free to use glob pattrens. Usage examples:
                                    /full/path/file.csv, p/file.csv, p/*.csv, p/**/*.csv, p/**/name-*.csv, **/*.csv, etc. (multiple values allowed)
-  -s, --schema=SCHEMA              Schema filepath.
-                                   It can be a YAML, JSON or PHP. See examples on GitHub.
+  -s, --schema=SCHEMA              Path(s) to schema file(s).
+                                   It can be a YAML, JSON or PHP. See examples on GitHub.Also, you can specify path in which schema files will be searched (max depth is 10).
+                                   Feel free to use glob pattrens. Usage examples:
+                                   /full/path/file.yml, p/file.yml, p/*.yml, p/**/*.yml, p/**/name-*.json, **/*.php, etc. (multiple values allowed)
   -r, --report=REPORT              Report output format. Available options:
                                    text, table, github, gitlab, teamcity, junit [default: "table"]
   -Q, --quick[=QUICK]              Immediately terminate the check at the first error found.
@@ -539,10 +541,13 @@ Default report format is `table`:
 ./csv-blueprint validate:csv --csv='./tests/fixtures/demo.csv' --schema='./tests/schemas/demo_invalid.yml'
 
 
-Schema: ./tests/schemas/demo_invalid.yml
-Found CSV files: 1
+Found Schemas   : 1
+Found CSV files : 1
+Pairs by pattern: 1
 
-Schema is invalid: ./tests/schemas/demo_invalid.yml
+Check schema syntax: 1
+(1/1) Schema: ./tests/schemas/demo_invalid.yml
+(1/1) Issues: 2
 +-------+------------------+--------------+----- demo_invalid.yml -----------------------------------------------+
 | Line  | id:Column        | Rule         | Message                                                              |
 +-------+------------------+--------------+----------------------------------------------------------------------+
@@ -550,28 +555,34 @@ Schema is invalid: ./tests/schemas/demo_invalid.yml
 | undef | 4:Favorite color | allow_values | Value "123" is not allowed. Allowed values: ["red", "green", "Blue"] |
 +-------+------------------+--------------+----- demo_invalid.yml -----------------------------------------------+
 
-(1/1) Invalid file: ./tests/fixtures/demo.csv
-+-------+------------------+------------------+----------------------- demo.csv ---------------------------------------------------------------------+
-| Line  | id:Column        | Rule             | Message                                                                                              |
-+-------+------------------+------------------+------------------------------------------------------------------------------------------------------+
-| undef |                  | filename_pattern | Filename "./tests/fixtures/demo.csv" does not match pattern: "/demo-[12].csv$/i"                     |
-| 1     |                  | csv.header       | Columns not found in CSV: "wrong_column_name"                                                        |
-| 6     | 0:Name           | length_min       | The length of the value "Carl" is 4, which is less than the expected "5"                             |
-| 11    | 0:Name           | length_min       | The length of the value "Lois" is 4, which is less than the expected "5"                             |
-| 1     | 1:City           | ag:is_unique     | Column has non-unique values. Unique: 9, total: 10                                                   |
-| 2     | 2:Float          | num_max          | The number of the value "4825.185", which is greater than the expected "4825.184"                    |
-| 6     | 3:Birthday       | date_min         | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
-|       |                  |                  | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
-| 8     | 3:Birthday       | date_min         | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
-|       |                  |                  | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
-| 9     | 3:Birthday       | date_max         | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
-|       |                  |                  | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
-| 5     | 4:Favorite color | allow_values     | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
-+-------+------------------+------------------+----------------------- demo.csv ---------------------------------------------------------------------+
+
+CSV file validation: 1
+(1/1) Schema: ./tests/schemas/demo_invalid.yml
+(1/1) CSV   : ./tests/fixtures/demo.csv
+(1/1) Issues: 9
++------+------------------+--------------+------------------------- demo.csv -------------------------------------------------------------------+
+| Line | id:Column        | Rule         | Message                                                                                              |
++------+------------------+--------------+------------------------------------------------------------------------------------------------------+
+| 1    |                  | csv.header   | Columns not found in CSV: "wrong_column_name"                                                        |
+| 6    | 0:Name           | length_min   | The length of the value "Carl" is 4, which is less than the expected "5"                             |
+| 11   | 0:Name           | length_min   | The length of the value "Lois" is 4, which is less than the expected "5"                             |
+| 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 9, total: 10                                                   |
+| 2    | 2:Float          | num_max      | The number of the value "4825.185", which is greater than the expected "4825.184"                    |
+| 6    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
+|      |                  |              | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
+| 8    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
+|      |                  |              | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
+| 9    | 3:Birthday       | date_max     | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
+|      |                  |              | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
+| 5    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
++------+------------------+--------------+------------------------- demo.csv -------------------------------------------------------------------+
 
 
-Found 10 issues in CSV file.
-Found 2 issues in schema.
+Summary:
+  1 pairs (schema to csv) were found based on `filename_pattern`.
+  Found 2 issues in 1 schemas.
+  Found 9 issues in 1 out of 1 CSV files.
+
 
 ```
 <!-- /output-table -->
@@ -641,7 +652,8 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
 * **Misc**
   * Use it as PHP SDK. Examples in Readme.
   * Warnings about deprecated options and features.
-  * Warnings about invalid schema files.
+  * Add option `--recomendation` to show a list of recommended rules for the schema or potential issues in the CSV file or schema. It's useful when you are not sure what rules to use.
+  * Add option `--error=[level]` to show only errors with a specific level. It's useful when you have a lot of warnings and you want to see only errors. 
   * Move const:HELP to PHP annotations. Canonic way to describe the command.
   * S3 Storage support. Validate files in the S3 bucket?
   * More examples and documentation.

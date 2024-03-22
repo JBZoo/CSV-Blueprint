@@ -295,6 +295,9 @@ columns:
 
 
 complex_rules:
+  - sum_by_group:
+      group_column: 0
+      sum_column: 1
   - handler: My\Complex\Rule          # Full name of PHP Class (with namespace)
     handler_args:
       - column:0

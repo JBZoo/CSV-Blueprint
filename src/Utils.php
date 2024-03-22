@@ -202,14 +202,14 @@ final class Utils
             && \in_array($actualType, $mapOfValidConvertions[$expectedType], true);
     }
 
-    public static function testRegex(string $regex, string $cellValue): bool
+    public static function testRegex(?string $regex, string $subject): bool
     {
-        if ($regex === '' || $cellValue === '') {
+        if ($regex === null || $regex === '' || $subject === '') {
             return false;
         }
 
         try {
-            if (\preg_match($regex, $cellValue) === 0) {
+            if (\preg_match($regex, $subject) === 0) {
                 return true;
             }
         } catch (\Throwable) {
@@ -217,5 +217,80 @@ final class Utils
         }
 
         return false;
+    }
+
+    /**
+     * @param SplFileInfo[] $csvFiles
+     * @param SplFileInfo[] $schemaFiles
+     */
+    public static function matchSchemaAndCsvFiles(
+        array $csvFiles,
+        array $schemaFiles,
+        bool $useGlobalSchemas = true,
+    ): array {
+        $csvs    = self::makeFileMap($csvFiles);
+        $schemas = self::makeFileMap($schemaFiles);
+        $result  = [
+            'found_pairs'    => [],
+            'global_schemas' => [], // there is no filename_pattern in schema.
+        ];
+
+        foreach (\array_keys($schemas) as $schema) {
+            $schema = (string)$schema;
+
+            $filePattern = (new Schema($schema))->getFilenamePattern();
+            if ($filePattern === null || $filePattern === '') {
+                if ($useGlobalSchemas) {
+                    $result['global_schemas'][] = $schema;
+                } else {
+                    continue;
+                }
+            }
+
+            foreach (\array_keys($csvs) as $csv) {
+                $csv = (string)$csv;
+
+                if (!self::testRegex($filePattern, $csv)) {
+                    $result['found_pairs'][] = [$schema, $csv];
+
+                    // Mark as used
+                    $schemas[$schema] = true;
+                    $csvs[$csv]       = true;
+                }
+            }
+        }
+
+        $result['csv_without_schema'] = self::filterNotUsedFiles($csvs);
+        $result['schema_without_csv'] = self::filterNotUsedFiles($schemas);
+
+        return $result;
+    }
+
+    public static function printFile(string $fullpath): string
+    {
+        $relPath   = self::cutPath($fullpath);
+        $basename  = \pathinfo($relPath, \PATHINFO_BASENAME);
+        $directory = \str_replace($basename, '', $relPath);
+
+        return "{$directory}<blue>{$basename}</blue>";
+    }
+
+    /**
+     * @param SplFileInfo[] $files
+     */
+    private static function makeFileMap(array $files): array
+    {
+        $filemap = [];
+
+        foreach ($files as $file) {
+            $filemap[$file->getRealPath()] = false;
+        }
+
+        return $filemap;
+    }
+
+    private static function filterNotUsedFiles(array $files): array
+    {
+        return \array_keys(\array_filter($files, static fn ($value) => $value === false));
     }
 }

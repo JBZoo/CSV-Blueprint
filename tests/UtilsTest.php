@@ -88,6 +88,7 @@ final class UtilsTest extends TestCase
                 'complex_header.csv',
                 'complex_no_header.csv',
                 'demo.csv',
+                'demo_invalid.csv',
                 'empty_header.csv',
                 'empty_no_header.csv',
                 'simple_header.csv',
