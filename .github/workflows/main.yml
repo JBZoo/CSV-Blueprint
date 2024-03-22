@@ -197,18 +197,21 @@ jobs:
 
       - name: 👍 Valid CSV file
         run: |
-          ./build/csv-blueprint.phar                           \
-          validate:csv                                         \
-          --csv=./tests/fixtures/batch/*.csv                   \
-          --schema=./tests/schemas/demo_valid.yml              \
+          ./build/csv-blueprint.phar                   \
+          validate:csv                                 \
+          --csv=./tests/fixtures/batch/*.csv           \
+          --schema=./tests/schemas/demo_valid.yml      \
           --ansi
 
       - name: 👎 Invalid CSV file
         run: |
-          ! ./build/csv-blueprint.phar                         \
-          validate:csv                                         \
-          --csv=./tests/fixtures/batch/*.csv                   \
-          --schema=./tests/schemas/invalid_schema.yml          \
+          ! ./build/csv-blueprint.phar                 \
+          validate:csv                                 \
+          --csv=./tests/fixtures/batch/*.csv           \
+          --schema=./tests/schemas/invalid_schema.yml  \
+          --schema=./tests/schemas/invalid_schema.yml  \
+          --schema=./tests/schemas/demo_invalid.yml    \
+          --schema=./tests/schemas/demo_valid.yml      \
           --ansi
 
       - name: Upload Artifacts
@@ -250,4 +253,6 @@ jobs:
           validate:csv                                            \
           --csv=/parent-host/tests/fixtures/demo.csv              \
           --schema=/parent-host/tests/schemas/invalid_schema.yml  \
+          --schema=/parent-host/tests/schemas/demo_invalid.yml    \
+          --schema=/parent-host/tests/schemas/demo_valid.yml      \
           --ansi
