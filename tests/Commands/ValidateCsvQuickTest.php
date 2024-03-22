@@ -32,32 +32,31 @@ final class ValidateCsvQuickTest extends TestCase
             Found Schemas   : 1
             Found CSV files : 3
             Pairs by pattern: 3
+            Quick mode enabled!
             
             Check schema syntax: 1
             (1/1) Schema: ./tests/schemas/demo_invalid.yml
-            (1/1) Issues: 2
+            (1/1) Issues: 1
             "is_float", column "2:Float". Value "Qwerty" is not a float number.
-            "allow_values", column "4:Favorite color". Value "123" is not allowed. Allowed values: ["red", "green", "Blue"].
             
             
             CSV file validation: 3
             (1/3) Schema: ./tests/schemas/demo_invalid.yml
             (1/3) CSV   : ./tests/fixtures/batch/demo-1.csv
-            (1/3) Issues: 2
+            (1/3) Issues: 1
             "csv.header" at line 1. Columns not found in CSV: "wrong_column_name".
-            "ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 1, total: 2.
             
             (2/3) Schema: ./tests/schemas/demo_invalid.yml
             (2/3) CSV   : ./tests/fixtures/batch/demo-2.csv
-            (2/3) Skipped
+            (2/3) Skipped (Quick mode)
             (3/3) Schema: ./tests/schemas/demo_invalid.yml
             (3/3) CSV   : ./tests/fixtures/batch/sub/demo-3.csv
-            (3/3) Skipped
+            (3/3) Skipped (Quick mode)
             
             Summary:
               3 pairs (schema to csv) were found based on `filename_pattern`.
-              Found 2 issues in 1 schemas.
-              Found 2 issues in 1 out of 3 CSV files.
+              Found 1 issues in 1 schemas.
+              Found 1 issues in 1 out of 3 CSV files.
             
             
             TXT;
@@ -133,8 +132,10 @@ final class ValidateCsvQuickTest extends TestCase
         isSame($enabled1, $enabled4);
 
         isNotSame($enabled1, $disabled1);
-        isContain('Quick Mode', $enabled1, false, $enabled1);
-        isNotContain('Quick Mode', $disabled1, false, $disabled1);
+        isContain('Quick mode enabled!', $enabled1, false, $enabled1);
+        isContain('Skipped (Quick mode)', $enabled1, false, $enabled1);
+        isNotContain('Quick mode enabled!', $disabled1, false, $disabled1);
+        isNotContain('Skipped (Quick mode)', $disabled1, false, $disabled1);
     }
 
     private function getQuickOutput(?array $quickOption = null): string

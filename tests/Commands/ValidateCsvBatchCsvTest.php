@@ -18,7 +18,6 @@ namespace JBZoo\PHPUnit\Commands;
 
 use JBZoo\PHPUnit\TestCase;
 use JBZoo\PHPUnit\Tools;
-
 use JBZoo\Utils\Cli;
 use Symfony\Component\Console\Input\StringInput;
 

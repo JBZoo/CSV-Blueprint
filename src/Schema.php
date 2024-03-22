@@ -137,9 +137,9 @@ final class Schema
         return $result;
     }
 
-    public function validate(): ErrorSuite
+    public function validate(bool $quickStop = false): ErrorSuite
     {
-        return (new SchemaValidator($this))->validate();
+        return (new SchemaValidator($this))->validate($quickStop);
     }
 
     /**

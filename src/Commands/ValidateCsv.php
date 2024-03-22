@@ -101,13 +101,6 @@ final class ValidateCsv extends CliCommand
                 'Empty value or "yes" will be treated as "true".',
                 'no',
             );
-            //->addOption(
-            //    'skip-empty-file-regex', // TODO: impliment this option
-            //    'F',
-            //    InputOption::VALUE_OPTIONAL,
-            //    "Skip filename pattern validation.",
-            //    'no',
-            //);
 
         parent::configure();
     }
@@ -165,7 +158,7 @@ final class ValidateCsv extends CliCommand
         return $this->getOptString('report', ErrorSuite::RENDER_TABLE, ErrorSuite::getAvaiableRenderFormats());
     }
 
-    private function isQuickCheck(): bool
+    private function isQuickMode(): bool
     {
         $value = $this->getOptString('quick');
 
@@ -185,6 +178,10 @@ final class ValidateCsv extends CliCommand
     private function validateSchemas(array $schemaFilenames): int
     {
         $totalSchemaErrors = new ErrorSuite();
+
+        $schemaErrors = null;
+        $quickCheck   = $this->isQuickMode();
+
         if ($this->isCheckingSchema()) {
             $totalFiles = \count($schemaFilenames);
 
@@ -194,8 +191,13 @@ final class ValidateCsv extends CliCommand
                 $prefix = '(' . ((int)$index + 1) . "/{$totalFiles})";
                 $path   = Utils::printFile($schemaFilename->getPathname());
 
+                if ($quickCheck && $schemaErrors !== null && $schemaErrors->count() > 0) {
+                    $this->out("{$prefix} <yellow>Skipped (Quick mode)</yellow>");
+                    continue;
+                }
+
                 try {
-                    $schemaErrors = (new Schema($schemaFilename->getPathname()))->validate();
+                    $schemaErrors = (new Schema($schemaFilename->getPathname()))->validate($quickCheck);
                     if ($schemaErrors->count() > 0) {
                         $this->out("{$prefix} Schema: {$path}");
                         $this->out("{$prefix} <yellow>Issues:</yellow> {$schemaErrors->count()}");
@@ -222,7 +224,7 @@ final class ValidateCsv extends CliCommand
         $invalidFiles = 0;
         $errorCounter = 0;
         $errorSuite   = null;
-        $quickCheck   = $this->isQuickCheck();
+        $quickCheck   = $this->isQuickMode();
 
         $this->out("CSV file validation: {$totalFiles}");
 
@@ -235,7 +237,7 @@ final class ValidateCsv extends CliCommand
             $this->out("{$prefix} CSV   : " . Utils::printFile($csv));
 
             if ($quickCheck && $errorSuite !== null && $errorSuite->count() > 0) {
-                $this->out("{$prefix} <yellow>Skipped</yellow>");
+                $this->out("{$prefix} <yellow>Skipped (Quick mode)</yellow>");
                 continue;
             }
 
@@ -303,7 +305,7 @@ final class ValidateCsv extends CliCommand
 
         if (\count($matchedFiles['global_schemas']) > 0) {
             $this->out(
-                "  <yellow>Schemas have no filename_pattern and are applied to all CSV files found:</yellow>",
+                '  <yellow>Schemas have no filename_pattern and are applied to all CSV files found:</yellow>',
             );
 
             foreach ($matchedFiles['global_schemas'] as $file) {
@@ -348,10 +350,15 @@ final class ValidateCsv extends CliCommand
         $this->out('Found Schemas   : ' . \count($schemaFilenames) . $validationFlag);
         $this->out('Found CSV files : ' . \count($csvFilenames));
         $this->out('Pairs by pattern: ' . \count($matchedFiles['found_pairs']));
+
+        if ($this->isQuickMode()) {
+            $this->out('<yellow>Quick mode enabled!</yellow>');
+        }
+
         $this->out('');
     }
 
-    private function out(null|string|array $messge): void
+    private function out(null|array|string $messge): void
     {
         if ($this->isHumanReadableMode()) {
             $this->_($messge);
