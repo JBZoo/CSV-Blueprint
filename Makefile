@@ -46,7 +46,7 @@ test-all: ##@Project Run all project tests at once
 
 build-docker:
 	$(call title,"Building Docker Image")
-	@docker build -t jbzoo/csv-blueprint . 2>&1 | tee /tmp/docker-build.log
+	@docker build -t jbzoo/csv-blueprint-local .
 
 
 demo-valid: ##@Project Run demo valid CSV
