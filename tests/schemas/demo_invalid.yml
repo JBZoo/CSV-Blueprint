@@ -12,7 +12,7 @@
 
 # This schema is invalid because does not match the CSV file (tests/fixtures/demo.csv).
 
-filename_pattern: /demo-[12].csv$/i
+filename_pattern: /(demo-[12]|demo)\.csv)$/i
 
 columns:
   - name: Name
