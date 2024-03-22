@@ -220,8 +220,8 @@ final class Utils
     }
 
     /**
-     * @param SplFileInfo[] $csvs
-     * @param SplFileInfo[] $schemas
+     * @param SplFileInfo[] $csvFiles
+     * @param SplFileInfo[] $schemaFiles
      */
     public static function matchSchemaAndCsvFiles(
         array $csvFiles,
@@ -236,6 +236,8 @@ final class Utils
         ];
 
         foreach (\array_keys($schemas) as $schema) {
+            $schema = (string)$schema;
+
             $filePattern = (new Schema($schema))->getFilenamePattern();
             if ($filePattern === null || $filePattern === '') {
                 if ($useGlobalSchemas) {
@@ -245,9 +247,9 @@ final class Utils
                 }
             }
 
-            $patternMatched = false;
-
             foreach (\array_keys($csvs) as $csv) {
+                $csv = (string)$csv;
+
                 if (!self::testRegex($filePattern, $csv)) {
                     $result['found_pairs'][] = [$schema, $csv];
 
