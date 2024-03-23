@@ -24,15 +24,14 @@ on:
 
 
 env:
-  CSV_FILES: tests/fixtures/batch/*.csv
-  VALID_SCHEMA: tests/schemas/demo_valid.yml
-  INVALID_SCHEMA: tests/schemas/demo_*.yml
+  CSV_FILES: './tests/fixtures/batch/*.csv'
+  VALID_SCHEMA: './tests/schemas/demo_valid.yml'
+  INVALID_SCHEMA: './tests/schemas/demo_*.yml'
   BLUEPRINT_DOCKER: |
     docker run --rm
     --workdir=/parent-host
     -v .:/parent-host
     jbzoo/csv-blueprint:latest
-    validate:csv --ansi -vvv
 
 
 jobs:
@@ -110,8 +109,8 @@ jobs:
 
       - name: 👍 Valid CSV file
         run: |
-          $BLUEPRINT_DOCKER --csv=$CSV_FILES --schema=$VALID_SCHEMA
+          $BLUEPRINT_DOCKER validate:csv --ansi -vvv --csv=$CSV_FILES --schema=$VALID_SCHEMA
 
       - name: 👎 Invalid CSV file
         run: |
-          ! $BLUEPRINT_DOCKER --csv=$CSV_FILES --schema=$INVALID_SCHEMA
+          ! $BLUEPRINT_DOCKER validate:csv --ansi -vvv --csv=$CSV_FILES --schema=$INVALID_SCHEMA
