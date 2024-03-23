@@ -28,9 +28,6 @@ inputs:
   schema:
     description: 'Schema filepath. It can be a YAML, JSON or PHP. See examples on GitHub.'
     required: true
-  schema2:
-    description: 'Schema filepath. It can be a YAML, JSON or PHP. See examples on GitHub.'
-    required: true
   report:
     description: 'Report format. Available options: text, table, github, gitlab, teamcity, junit.'
     default: table
