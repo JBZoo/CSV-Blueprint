@@ -159,7 +159,7 @@ jobs:
           path: build/
 
 
-  test-php-binary:
+  verify-php-binary:
     name: Verify PHP binary
     runs-on: ubuntu-latest
     steps:
@@ -186,7 +186,7 @@ jobs:
           ! $BLUEPRINT $CMD_VALIDATE $INVALID_TEST
 
 
-  test-phar-binary:
+  verify-phar-binary:
     name: Verify PHAR
     runs-on: ubuntu-latest
     steps:
@@ -219,7 +219,7 @@ jobs:
           path: ./build/csv-blueprint.phar
 
 
-  docker:
+  verify-docker:
     name: Verify Docker
     runs-on: ubuntu-latest
     steps:
@@ -238,3 +238,24 @@ jobs:
       - name: 👎 Invalid CSV file
         run: |
           ! $BLUEPRINT_DOCKER $CMD_VALIDATE $INVALID_TEST
+
+
+  verify-ga:
+    name: Verify GitHub Actions
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: 👍 Valid CSV file
+        uses: ./action.yml
+        with:
+          csv: ./tests/fixtures/batch/*.csv
+          schema: ./tests/schemas/demo_valid.yml
+
+      - name: 👎 Invalid CSV file
+        uses: .
+        with:
+          csv: ./tests/fixtures/batch/*.csv
+          schema: ./tests/schemas/demo_*.yml
+        continue-on-error: true
