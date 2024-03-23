@@ -109,4 +109,9 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
             ),
         );
     }
+
+    public function testGithubActionsWorkflow(): void
+    {
+        success("It uses different workflows for CI");
+    }
 }

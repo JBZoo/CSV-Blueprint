@@ -145,7 +145,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        binfile: [ "./csv-blueprint", "./build/csv-blueprint.phar" ]
+        binfile: [ './csv-blueprint', './build/csv-blueprint.phar' ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -157,7 +157,11 @@ jobs:
           tools: composer
 
       - name: Build the project in production mode
-        run: make build-prod build-phar
+        run: make build-prod
+
+      - name: Build Phar file
+        if: matrix.binfile == './build/csv-blueprint.phar'
+        run: make build-phar-file
 
       - name: Test help and logo
         run: time ${{ matrix.binfile }} --ansi -vvv
@@ -179,6 +183,13 @@ jobs:
           --schema=./tests/schemas/invalid_schema.yml \
           --report=text                               \
           --ansi -vvv
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with:
+          name: Verify PHP binary
+          path: build/
 
 
   docker:
