@@ -24,7 +24,6 @@ on:
 
 
 env:
-  GA_VERSION: master
   CSV_FILES: tests/fixtures/batch/*.csv
   VALID_SCHEMA: tests/schemas/demo_valid.yml
   INVALID_SCHEMA: tests/schemas/demo_*.yml
@@ -51,7 +50,7 @@ jobs:
           schema: ${{ env.VALID_SCHEMA }}
 
       - name: 👎 Invalid CSV file - Default (Table)
-        uses: jbzoo/csv-blueprint@${{ env.GA_VERSION }}
+        uses: jbzoo/csv-blueprint@master
         with:
           csv: ${{ env.CSV_FILES }}
           schema: ${{ env.INVALID_SCHEMA }}
