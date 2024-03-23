@@ -84,6 +84,11 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
         parent::setUp();
     }
 
+    public function testGithubActionsWorkflow(): void
+    {
+        success('It uses different workflows for CI');
+    }
+
     protected function checkBadgeGithubActionsDemo(): ?string
     {
         $path = 'https://github.com/__VENDOR_ORIG__/__PACKAGE_ORIG__/actions/workflows';
@@ -108,10 +113,5 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
                 $path . '/release-docker.yml?query=branch%3Amaster',
             ),
         );
-    }
-
-    public function testGithubActionsWorkflow(): void
-    {
-        success("It uses different workflows for CI");
     }
 }
