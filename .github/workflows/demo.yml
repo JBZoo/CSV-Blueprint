@@ -13,51 +13,51 @@
 name: Demo
 
 on:
-  workflow_run:
-    workflows: [ CI ]
-    types: [ completed ]
+  release:
+    types: [ created ]
+
 
 jobs:
   reports:
     name: All Report Types
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Valid CSV file
+      - name: 👍 Valid CSV file
         uses: jbzoo/csv-blueprint@master
         with:
           csv: tests/fixtures/demo.csv
           schema: tests/schemas/demo_valid.yml
 
+      - name: 👎 Invalid CSV file - Default (Table)
+        uses: jbzoo/csv-blueprint@master
+        with:
+          csv: tests/fixtures/batch/*.csv
+          schema: tests/schemas/demo_*.yml
+        continue-on-error: true
+
       - name: Invalid CSV file - Text
         uses: jbzoo/csv-blueprint@master
         with:
           csv: tests/fixtures/batch/*.csv
-          schema: tests/schemas/demo_invalid.yml
+          schema: tests/schemas/demo_*.yml
           report: text
-        continue-on-error: true
-
-      - name: Invalid CSV file - Table
-        uses: jbzoo/csv-blueprint@master
-        with:
-          csv: tests/fixtures/batch/*.csv
-          schema: tests/schemas/demo_invalid.yml
-          report: table
         continue-on-error: true
 
       - name: Invalid CSV file - GitHub Annotations
         uses: jbzoo/csv-blueprint@master
         with:
           csv: tests/fixtures/batch/*.csv
-          schema: tests/schemas/demo_invalid.yml
+          schema: tests/schemas/demo_*.yml
         continue-on-error: true
 
       - name: Invalid CSV file - TeamCity
         uses: jbzoo/csv-blueprint@master
         with:
           csv: tests/fixtures/batch/*.csv
-          schema: tests/schemas/demo_invalid.yml
+          schema: tests/schemas/demo_*.yml
           report: teamcity
         continue-on-error: true
 
@@ -65,7 +65,7 @@ jobs:
         uses: jbzoo/csv-blueprint@master
         with:
           csv: tests/fixtures/batch/*.csv
-          schema: tests/schemas/demo_invalid.yml
+          schema: tests/schemas/demo_*.yml
           report: gitlab
         continue-on-error: true
 
@@ -73,7 +73,7 @@ jobs:
         uses: jbzoo/csv-blueprint@master
         with:
           csv: tests/fixtures/batch/*.csv
-          schema: tests/schemas/demo_invalid.yml
+          schema: tests/schemas/demo_*.yml
           report: junit
         continue-on-error: true
 
@@ -82,27 +82,30 @@ jobs:
     name: Docker
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Pull Docker Image
-        run: docker pull jbzoo/csv-blueprint
+        run: docker pull jbzoo/csv-blueprint:latest
+
+      - name: Test help and logo
+        run: docker run --rm jbzoo/csv-blueprint:latest --ansi
 
       - name: 👍 Valid CSV file
         run: |
           docker run                                           \
           -v `pwd`:/parent-host                                \
-          --rm jbzoo/csv-blueprint                             \
+          --rm jbzoo/csv-blueprint:latest                      \
           validate:csv                                         \
           --csv=/parent-host/tests/fixtures/batch/*.csv        \
           --schema=/parent-host/tests/schemas/demo_valid.yml   \
-          --ansi
+          --ansi -vvv
 
       - name: 👎 Invalid CSV file
         run: |
           ! docker run                                         \
           -v `pwd`:/parent-host                                \
-          --rm jbzoo/csv-blueprint                             \
+          --rm jbzoo/csv-blueprint:latest                      \
           validate:csv                                         \
           --csv=/parent-host/tests/fixtures/batch/*.csv        \
-          --schema=/parent-host/tests/schemas/demo_invalid.yml \
-          --ansi
+          --schema=/parent-host/tests/schemas/demo_*.yml \
+          --ansi -vvv

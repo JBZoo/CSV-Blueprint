@@ -21,231 +21,197 @@ on:
       - 'master'
 
 jobs:
-  phpunit:
-    name: PHPUnit
+  test-current-versions:
+    name: Tests - Current Libs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          coverage: xdebug
+          tools: composer
+          extensions: ast
+
+      - name: Build the Project
+        run: make build
+
+      - name: 🧪 PHPUnit Tests
+        run: make test
+
+      - name: 👍 Code Quality
+        run: make codestyle
+
+      - name: 📝 Build Reports
+        run: make report-all
+
+      - name: Uploading coverage to coveralls
+        continue-on-error: true
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: make report-coveralls || true
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with:
+          name: Tests - Current Versions
+          path: build/
+
+
+  test-lowest-versions:
+    name: Tests - Lowest Versions
+    runs-on: ubuntu-latest
+    env:
+      JBZOO_COMPOSER_UPDATE_FLAGS: '--prefer-lowest'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          tools: composer
+          extensions: ast
+
+      - name: Build the Project
+        run: make update
+
+      - name: 🧪 PHPUnit Tests
+        run: make test
+
+      - name: 👍 Code Quality
+        run: make codestyle
+
+      - name: 📝 Build Reports
+        run: make report-all
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with:
+          name: Tests - Lowest Versions
+          path: build/
+
+
+  test-latest-libs:
+    name: Tests - Latest Versions
+    runs-on: ubuntu-latest
+    env:
+      JBZOO_COMPOSER_UPDATE_FLAGS: '--with-all-dependencies'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          tools: composer
+          extensions: ast
+
+      - name: Build the Project
+        run: make update
+
+      - name: 🧪 PHPUnit Tests
+        run: make test
+
+      - name: 👍 Code Quality
+        run: make codestyle
+
+      - name: 📝 Build Reports
+        run: make report-all
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with:
+          name: Tests - Latest Versions
+          path: build/
+
+
+  test-php-binary:
+    name: Verify PHP binary
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        binfile: [ "./csv-blueprint", "./build/csv-blueprint.phar" ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          tools: composer
+
+      - name: Build the project in production mode
+        run: make build-prod build-phar
+
+      - name: Test help and logo
+        run: time ${{ matrix.binfile }} --ansi -vvv
+
+      - name: 👍 Valid CSV file
+        run: |
+          time ${{ matrix.binfile }}                  \
+          validate:csv                                \
+          --csv=./tests/fixtures/demo.csv             \
+          --schema=./tests/schemas/demo_valid.yml     \
+          --ansi -vvv
+
+      - name: 👎 Invalid CSV file
+        run: |
+          ! time ${{ matrix.binfile }}                \
+          validate:csv                                \
+          --csv=./tests/fixtures/batch/*.csv          \
+          --schema=./tests/schemas/demo_*.yml         \
+          --schema=./tests/schemas/invalid_schema.yml \
+          --report=text                               \
+          --ansi -vvv
+
+
+  docker:
+    name: Verify Docker
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: 🐳 Building Docker Image
+        run: make build-docker
 
-#  phpunit:
-#    name: PHPUnit
-#    runs-on: ubuntu-latest
-#    env:
-#      JBZOO_COMPOSER_UPDATE_FLAGS: ${{ matrix.composer_flags }}
-#    strategy:
-#      matrix:
-#        php-version: [ 8.1, 8.2, 8.3 ]
-#        coverage: [ xdebug, none ]
-#        composer_flags: [ "--prefer-lowest", "" ]
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v4
-#        with:
-#          fetch-depth: 0
-#
-#      - name: Setup PHP
-#        uses: shivammathur/setup-php@v2
-#        with:
-#          php-version: ${{ matrix.php-version }}
-#          coverage: ${{ matrix.coverage }}
-#          tools: composer
-#          extensions: ast
-#
-#      - name: Build the Project
-#        run: make update
-#
-#      - name: 🧪 PHPUnit Tests
-#        run: make test
-#
-#      - name: Uploading coverage to coveralls
-#        if: ${{ matrix.coverage == 'xdebug' }}
-#        continue-on-error: true
-#        env:
-#          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        run: make report-coveralls || true
-#
-#      - name: Upload Artifacts
-#        uses: actions/upload-artifact@v3
-#        continue-on-error: true
-#        with:
-#          name: PHPUnit - ${{ matrix.php-version }} - ${{ matrix.coverage }}
-#          path: build/
-#
-#
-#  linters:
-#    name: Linters
-#    runs-on: ubuntu-latest
-#    strategy:
-#      matrix:
-#        php-version: [ 8.1, 8.2, 8.3 ]
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v4
-#        with:
-#          fetch-depth: 0
-#
-#      - name: Setup PHP
-#        uses: shivammathur/setup-php@v2
-#        with:
-#          php-version: ${{ matrix.php-version }}
-#          coverage: none
-#          tools: composer
-#          extensions: ast
-#
-#      - name: Build the Project
-#        run: make update
-#
-#      - name: 👍 Code Quality
-#        run: make codestyle
-#
-#      - name: Upload Artifacts
-#        uses: actions/upload-artifact@v3
-#        continue-on-error: true
-#        with:
-#          name: Linters - ${{ matrix.php-version }}
-#          path: build/
-#
-#
-#  report:
-#    name: Reports
-#    runs-on: ubuntu-latest
-#    strategy:
-#      matrix:
-#        php-version: [ 8.1, 8.2, 8.3 ]
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v4
-#        with:
-#          fetch-depth: 0
-#
-#      - name: Setup PHP
-#        uses: shivammathur/setup-php@v2
-#        with:
-#          php-version: ${{ matrix.php-version }}
-#          coverage: xdebug
-#          tools: composer
-#          extensions: ast
-#
-#      - name: Build the Project
-#        run: make update
-#
-#      - name: 📝 Build Reports
-#        run: make report-all
-#
-#      - name: Upload Artifacts
-#        uses: actions/upload-artifact@v3
-#        continue-on-error: true
-#        with:
-#          name: Reports - ${{ matrix.php-version }}
-#          path: build/
-#
-#
-#  test-php-binary:
-#    name: Verify PHP binary
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v4
-#
-#      - name: Setup PHP
-#        uses: shivammathur/setup-php@v2
-#        with:
-#          php-version: 8.3
-#          tools: composer
-#
-#      - name: Build the Project
-#        run: make build-install
-#
-#      - name: 👍 Valid CSV file
-#        run: |
-#          ./csv-blueprint                                      \
-#          validate:csv                                         \
-#          --csv=./tests/fixtures/batch/*.csv                   \
-#          --schema=./tests/schemas/demo_valid.yml
-#
-#      - name: 👎 Invalid CSV file
-#        run: |
-#          ! ./csv-blueprint                                    \
-#          validate:csv                                         \
-#          --csv=./tests/fixtures/batch/*.csv                   \
-#          --schema=./tests/schemas/demo_invalid.yml            \
-#          --report=text                                        \
-#          --ansi
+      - name: Test help and logo
+        run: time docker run --rm jbzoo/csv-blueprint:local --ansi
 
-#
-#  test-phar:
-#    name: Verify PHAR
-#    runs-on: ubuntu-latest
-#    strategy:
-#      matrix:
-#        php-version: [ 8.1, 8.3 ]
-#    steps:
-#      - uses: actions/checkout@v4
-#
-#      - uses: shivammathur/setup-php@v2
-#        with:
-#          php-version: ${{ matrix.php-version }}
-#          tools: composer
-#
-#      - name: Build the project
-#        run: make build
-#
-#      - name: Test help and logo
-#        run: ./build/csv-blueprint.phar
-#
-#      - name: 👍 Valid CSV file
-#        run: |
-#          ./build/csv-blueprint.phar                   \
-#          validate:csv                                 \
-#          --csv=./tests/fixtures/batch/*.csv           \
-#          --schema=./tests/schemas/demo_valid.yml      \
-#          --ansi
-#
-#      - name: 👎 Invalid CSV file
-#        run: |
-#          ! ./build/csv-blueprint.phar                 \
-#          validate:csv                                 \
-#          --csv=./tests/fixtures/batch/*.csv           \
-#          --schema=./tests/schemas/invalid_schema.yml  \
-#          --schema=./tests/schemas/invalid_schema.yml  \
-#          --schema=./tests/schemas/demo_invalid.yml    \
-#          --schema=./tests/schemas/demo_valid.yml      \
-#          --ansi
-#
-#
-#  docker:
-#    name: Verify Docker
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v4
-#
-#      - name: 🐳 Building Docker Image
-#        run: make build-docker
-#
-#      - name: Test help and logo
-#        run: time docker run --rm jbzoo/csv-blueprint:local --ansi
-#
-#      - name: 👍 Valid CSV file
-#        run: |
-#          time docker run --rm                                    \
-#          -v `pwd`:/parent-host                                   \
-#          jbzoo/csv-blueprint:local                               \
-#          validate:csv                                            \
-#          --csv=/parent-host/tests/fixtures/demo.csv              \
-#          --schema=/parent-host/tests/schemas/demo_valid.yml      \
-#          --ansi -vvv
-#
-#      - name: 👎 Invalid CSV file
-#        run: |
-#          ! docker run --rm                                       \
-#          -v `pwd`:/parent-host                                   \
-#          jbzoo/csv-blueprint:local                               \
-#          validate:csv                                            \
-#          --csv=/parent-host/tests/fixtures/demo.csv              \
-#          --schema=/parent-host/tests/schemas/invalid_schema.yml  \
-#          --schema=/parent-host/tests/schemas/demo_invalid.yml    \
-#          --schema=/parent-host/tests/schemas/demo_valid.yml      \
-#          --ansi -vvv
+      - name: 👍 Valid CSV file
+        run: |
+          time docker run --rm                        \
+          --workdir=/parent-host                      \
+          -v `pwd`:/parent-host                       \
+          jbzoo/csv-blueprint:local                   \
+          validate:csv                                \
+          --csv=./tests/fixtures/demo.csv             \
+          --schema=./tests/schemas/demo_valid.yml     \
+          --ansi -vvv
+
+      - name: 👎 Invalid CSV file
+        run: |
+          ! time docker run --rm                      \
+          -v `pwd`:/parent-host                       \
+          jbzoo/csv-blueprint:local                   \
+          validate:csv                                \
+          --csv=./tests/fixtures/batch/*.csv          \
+          --schema=./tests/schemas/demo_*.yml         \
+          --schema=./tests/schemas/invalid_schema.yml \
+          --ansi -vvv
