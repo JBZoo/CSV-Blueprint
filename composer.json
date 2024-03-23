@@ -59,7 +59,7 @@
     },
 
     "config"            : {
-        "optimize-autoloader" : false,
+        "optimize-autoloader" : true,
         "allow-plugins"       : {"composer/package-versions-deprecated" : true},
         "platform-check"      : true
     },

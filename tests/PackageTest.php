@@ -86,12 +86,6 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
         parent::setUp();
     }
 
-    public static function testComposerOptimizeAutoloader(): void
-    {
-        $composer = json(PROJECT_ROOT . '/composer.json');
-        isSame(false, $composer->find('config.optimize-autoloader'));
-    }
-
     protected function checkBadgeGithubActionsDemo(): ?string
     {
         $path = 'https://github.com/__VENDOR_ORIG__/__PACKAGE_ORIG__/actions/workflows';

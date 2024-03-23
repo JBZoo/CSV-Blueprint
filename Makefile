@@ -13,7 +13,7 @@
 .PHONY: build
 
 REPORT  ?= table
-COLUMNS ?= 150
+COLUMNS ?= 300
 
 ifneq (, $(wildcard ./vendor/jbzoo/codestyle/src/init.Makefile))
     include ./vendor/jbzoo/codestyle/src/init.Makefile
@@ -27,26 +27,17 @@ build: ##@Project Install all 3rd party dependencies
 	@rm -f `pwd`/ci-report-converter
 
 
-build-install: ##@Project Install all 3rd party dependencies as prod
-	$(call title,"Install/Update all 3rd party dependencies as prod")
-	@composer install --no-dev --no-progress --no-interaction --no-suggest --optimize-autoloader
-	@rm -f `pwd`/ci-report-converter
-
-
 update: ##@Project Install/Update all 3rd party dependencies
 	@echo "Composer flags: $(JBZOO_COMPOSER_UPDATE_FLAGS)"
 	@composer update $(JBZOO_COMPOSER_UPDATE_FLAGS)
 	@make build-phar
 
 
-test-all: ##@Project Run all project tests at once
-	@make test
-	@make codestyle
+# Demo #################################################################################################################
 
-
-build-docker:
-	$(call title,"Building Docker Image")
-	@docker build -t jbzoo/csv-blueprint-local .
+demo: ##@Project Run all demo commands
+	@make demo-valid
+	@make demo-invalid
 
 
 demo-valid: ##@Project Run demo valid CSV
@@ -55,25 +46,6 @@ demo-valid: ##@Project Run demo valid CSV
        --csv=./tests/fixtures/demo.csv            \
        --schema=./tests/schemas/demo_valid.yml    \
        --skip-schema -v
-
-demo-docker: ##@Project Run demo via Docker
-	$(call title,"Demo - Valid CSV \(via Docker\)")
-	@docker run --rm                                         \
-       -v `pwd`:/parent-host                                 \
-       jbzoo/csv-blueprint-local                             \
-       validate:csv                                          \
-       --csv=/parent-host/tests/fixtures/demo.csv            \
-       --schema=/parent-host/tests/schemas/demo_valid.yml    \
-       --ansi -vvv
-	$(call title,"Demo - Invalid CSV \(via Docker\)")
-	@docker run --rm                                         \
-       -v `pwd`:/parent-host                                 \
-       jbzoo/csv-blueprint-local                             \
-       validate:csv                                          \
-       --csv=/parent-host/tests/fixtures/demo.csv            \
-       --schema=/parent-host/tests/schemas/demo_invalid.yml  \
-       --ansi -vvv
-
 
 demo-invalid: ##@Project Run demo invalid CSV
 	$(call title,"Demo - Invalid CSV")
@@ -91,12 +63,31 @@ demo-github: ##@Project Run demo invalid CSV
        --ansi
 
 
-demo: ##@Project Run all demo commands
-	@make demo-valid
-	@make demo-invalid
+# Docker ###############################################################################################################
+
+build-docker:
+	$(call title,"Building Docker Image")
+	@docker build -f ./docker/Dockerfile -t jbzoo/csv-blueprint:local .
 
 
-preload: ##@Project Preload all classes
-	@${PHP_BIN} ./vendor/bin/classpreloader compile \
-        --config=./docker/preload-config.php        \
-        --output=./docker/preload.php
+docker-in:
+	@docker run -it --entrypoint /bin/sh jbzoo/csv-blueprint:local
+
+
+demo-docker: ##@Project Run demo via Docker
+	$(call title,"Demo - Valid CSV \(via Docker\)")
+	@docker run --rm                                         \
+       -v `pwd`:/parent-host                                 \
+       jbzoo/csv-blueprint:local                             \
+       validate:csv                                          \
+       --csv=/parent-host/tests/fixtures/demo.csv            \
+       --schema=/parent-host/tests/schemas/demo_valid.yml    \
+       --ansi -vvv
+	$(call title,"Demo - Invalid CSV \(via Docker\)")
+	@docker run --rm                                         \
+       -v `pwd`:/parent-host                                 \
+       jbzoo/csv-blueprint:local                             \
+       validate:csv                                          \
+       --csv=/parent-host/tests/fixtures/demo.csv            \
+       --schema=/parent-host/tests/schemas/demo_invalid.yml  \
+       --ansi -vvv
