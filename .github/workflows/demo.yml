@@ -24,6 +24,7 @@ on:
 
 
 env:
+  GA_VERSION: master
   CSV_FILES: tests/fixtures/batch/*.csv
   VALID_SCHEMA: tests/schemas/demo_valid.yml
   INVALID_SCHEMA: tests/schemas/demo_*.yml
@@ -46,52 +47,52 @@ jobs:
       - name: 👍 Valid CSV file
         uses: jbzoo/csv-blueprint@master
         with:
-          csv: $CSV_FILES
-          schema: $VALID_SCHEMA
+          csv: ${{ env.CSV_FILES }}
+          schema: ${{ env.VALID_SCHEMA }}
 
       - name: 👎 Invalid CSV file - Default (Table)
-        uses: jbzoo/csv-blueprint@master
+        uses: jbzoo/csv-blueprint@${{ env.GA_VERSION }}
         with:
-          csv: $CSV_FILES
-          schema: $INVALID_SCHEMA
+          csv: ${{ env.CSV_FILES }}
+          schema: ${{ env.INVALID_SCHEMA }}
         continue-on-error: true
 
       - name: Invalid CSV file - Text
         uses: jbzoo/csv-blueprint@master
         with:
-          csv: $CSV_FILES
-          schema: $INVALID_SCHEMA
+          csv: ${{ env.CSV_FILES }}
+          schema: ${{ env.INVALID_SCHEMA }}
           report: text
         continue-on-error: true
 
       - name: Invalid CSV file - GitHub Annotations
         uses: jbzoo/csv-blueprint@master
         with:
-          csv: $CSV_FILES
-          schema: $INVALID_SCHEMA
+          csv: ${{ env.CSV_FILES }}
+          schema: ${{ env.INVALID_SCHEMA }}
         continue-on-error: true
 
       - name: Invalid CSV file - TeamCity
         uses: jbzoo/csv-blueprint@master
         with:
-          csv: $CSV_FILES
-          schema: $INVALID_SCHEMA
+          csv: ${{ env.CSV_FILES }}
+          schema: ${{ env.INVALID_SCHEMA }}
           report: teamcity
         continue-on-error: true
 
       - name: Invalid CSV file - Gitlab
         uses: jbzoo/csv-blueprint@master
         with:
-          csv: $CSV_FILES
-          schema: $INVALID_SCHEMA
+          csv: ${{ env.CSV_FILES }}
+          schema: ${{ env.INVALID_SCHEMA }}
           report: gitlab
         continue-on-error: true
 
       - name: Invalid CSV file - JUnit
         uses: jbzoo/csv-blueprint@master
         with:
-          csv: $CSV_FILES
-          schema: $INVALID_SCHEMA
+          csv: ${{ env.CSV_FILES }}
+          schema: ${{ env.INVALID_SCHEMA }}
           report: junit
         continue-on-error: true
 
