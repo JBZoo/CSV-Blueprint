@@ -31,20 +31,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: 👍 Valid CSV file
+      - name: 👍 Valid CSV files
         uses: jbzoo/csv-blueprint@master
         with:
           csv: ${{ env.CSV_FILES }}
           schema: ${{ env.VALID_SCHEMA }}
 
-      - name: 👎 Invalid CSV file - Default (Table)
+      - name: 👎 Invalid CSV files - Default (Table)
         uses: jbzoo/csv-blueprint@master
         with:
           csv: ${{ env.CSV_FILES }}
           schema: ${{ env.INVALID_SCHEMA }}
         continue-on-error: true
 
-      - name: Invalid CSV file - Text
+      - name: Invalid CSV files - Text
         uses: jbzoo/csv-blueprint@master
         with:
           csv: ${{ env.CSV_FILES }}
@@ -52,14 +52,14 @@ jobs:
           report: text
         continue-on-error: true
 
-      - name: Invalid CSV file - GitHub Annotations
+      - name: Invalid CSV files - GitHub Annotations
         uses: jbzoo/csv-blueprint@master
         with:
           csv: ${{ env.CSV_FILES }}
           schema: ${{ env.INVALID_SCHEMA }}
         continue-on-error: true
 
-      - name: Invalid CSV file - TeamCity
+      - name: Invalid CSV files - TeamCity
         uses: jbzoo/csv-blueprint@master
         with:
           csv: ${{ env.CSV_FILES }}
@@ -67,7 +67,7 @@ jobs:
           report: teamcity
         continue-on-error: true
 
-      - name: Invalid CSV file - Gitlab
+      - name: Invalid CSV files - Gitlab
         uses: jbzoo/csv-blueprint@master
         with:
           csv: ${{ env.CSV_FILES }}
@@ -75,7 +75,7 @@ jobs:
           report: gitlab
         continue-on-error: true
 
-      - name: Invalid CSV file - JUnit
+      - name: Invalid CSV files - JUnit
         uses: jbzoo/csv-blueprint@master
         with:
           csv: ${{ env.CSV_FILES }}
@@ -97,10 +97,10 @@ jobs:
       - name: 🎨 Test help and logo
         run: $BLUEPRINT_DOCKER --ansi
 
-      - name: 👍 Valid CSV file
+      - name: 👍 Valid CSV files
         run: |
           $BLUEPRINT_DOCKER validate:csv --ansi -vvv --csv=$CSV_FILES --schema=$VALID_SCHEMA
 
-      - name: 👎 Invalid CSV file
+      - name: 👎 Invalid CSV files
         run: |
           ! $BLUEPRINT_DOCKER validate:csv --ansi -vvv --csv=$CSV_FILES --schema=$INVALID_SCHEMA

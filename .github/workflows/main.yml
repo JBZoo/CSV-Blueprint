@@ -178,10 +178,10 @@ jobs:
       - name: 🎨 Test help and logo
         run: $BLUEPRINT --ansi -vvv
 
-      - name: 👍 Valid CSV file
+      - name: 👍 Valid CSV files
         run: $BLUEPRINT $CMD_VALIDATE $VALID_TEST
 
-      - name: 👎 Invalid CSV file
+      - name: 👎 Invalid CSV files
         run: |
           ! $BLUEPRINT $CMD_VALIDATE $INVALID_TEST
 
@@ -205,10 +205,10 @@ jobs:
       - name: 🎨 Test help and logo
         run: $BLUEPRINT_PHAR --ansi -vvv
 
-      - name: 👍 Valid CSV file
+      - name: 👍 Valid CSV files
         run: $BLUEPRINT_PHAR $CMD_VALIDATE $VALID_TEST
 
-      - name: 👎 Invalid CSV file
+      - name: 👎 Invalid CSV files
         run: |
           ! $BLUEPRINT_PHAR $CMD_VALIDATE $INVALID_TEST
 
@@ -234,10 +234,10 @@ jobs:
       - name: 🎨 Test help and logo
         run: $BLUEPRINT_DOCKER --ansi -vvv
 
-      - name: 👍 Valid CSV file
+      - name: 👍 Valid CSV files
         run: $BLUEPRINT_DOCKER $CMD_VALIDATE $VALID_TEST
 
-      - name: 👎 Invalid CSV file
+      - name: 👎 Invalid CSV files
         run: |
           ! $BLUEPRINT_DOCKER $CMD_VALIDATE $INVALID_TEST
 
@@ -249,13 +249,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: 👍 Valid CSV file
+      - name: 👍 Valid CSV files
         uses: ./
         with:
           csv: ./tests/fixtures/batch/*.csv
           schema: ./tests/schemas/demo_valid.yml
 
-      - name: 👎 Invalid CSV file
+      - name: 👎 Invalid CSV files
         uses: ./
         with:
           csv: ./tests/fixtures/batch/*.csv
