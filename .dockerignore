@@ -14,6 +14,7 @@
 .idea
 .github
 build
+/docker/preload.php
 tests
 vendor
 .DS_Store
@@ -22,6 +23,7 @@ vendor
 .gitignore
 .phan.php
 .phpunit.result.cache
+.php-cs-fixer.cache
 action.yml
 box.json.dist
 phpunit.xml.dist

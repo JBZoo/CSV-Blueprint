@@ -15,4 +15,5 @@
 build
 vendor
 phpunit.xml
+/docker/preload.php
 *.cache
