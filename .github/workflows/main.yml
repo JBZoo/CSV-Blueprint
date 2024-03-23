@@ -19,6 +19,8 @@ on:
   push:
     branches:
       - 'master'
+  schedule:
+    - cron: '0 0 * * *'
 
 # We want to avoid copy-pasting the same commands and add control over the environment
 env:
@@ -242,8 +244,8 @@ jobs:
         with:
           push: false
           tags: jbzoo/csv-blueprint:local
-          cache-from: type=registry,ref=jbzoo/csv-blueprint:local
-          cache-to: type=inline
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: 🎨 Test help and logo
         run: $BLUEPRINT_DOCKER --ansi -vvv
