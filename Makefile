@@ -76,7 +76,7 @@ demo-github: ##@Project Run demo invalid CSV
 
 build-docker:
 	$(call title,"Building Docker Image")
-	@docker build -f ./docker/Dockerfile -t jbzoo/csv-blueprint:local .
+	@docker build -t jbzoo/csv-blueprint:local .
 
 
 docker-in:

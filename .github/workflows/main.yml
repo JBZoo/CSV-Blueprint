@@ -247,9 +247,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Checkout code
-        run: cp ./docker/Dockerfile ./Dockerfile
-
       - name: 👍 Valid CSV file
         uses: ./
         with:
@@ -257,7 +254,7 @@ jobs:
           schema: ./tests/schemas/demo_valid.yml
 
       - name: 👎 Invalid CSV file
-        uses: ./
+        uses: .
         with:
           csv: ./tests/fixtures/batch/*.csv
           schema: ./tests/schemas/demo_*.yml

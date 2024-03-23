@@ -41,7 +41,6 @@ jobs:
         with:
           push: true
           context: .
-          file: ./docker/Dockerfile
           tags: |
             jbzoo/csv-blueprint:latest
             jbzoo/csv-blueprint:${{ github.event.release.tag_name }}

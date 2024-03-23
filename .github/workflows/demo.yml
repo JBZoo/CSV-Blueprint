@@ -13,14 +13,8 @@
 name: Demo
 
 on:
-#  release:
-#    types: [ created ]
-  pull_request:
-    branches:
-      - '*'
-  push:
-    branches:
-      - 'master'
+  release:
+    types: [ created ]
 
 env:
   CSV_FILES: './tests/fixtures/batch/*.csv'
