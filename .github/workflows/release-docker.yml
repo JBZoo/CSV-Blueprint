@@ -13,16 +13,16 @@
 name: Publish Docker
 
 on:
-  push:
-    branches:
-      - 'master'
+  release:
+    types: [ created ]
 
 jobs:
   docker:
-    name: Docker
+    name: Publish Docker
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -39,6 +39,11 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: .
           push: true
-          tags: jbzoo/csv-blueprint:latest
+          context: .
+          file: ./docker/Dockerfile
+          tags: jbzoo/csv-blueprint:${{ github.event.release.tag_name }}
+          platforms: linux/amd64,linux/arm64/v8,linux/386,
+
+      - name: Verify the Docker image
+        run: docker run --rm jbzoo/csv-blueprint:${{ github.event.release.tag_name }}
