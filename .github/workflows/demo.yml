@@ -13,22 +13,16 @@
 name: Demo
 
 on:
-  push:
-    branches:
-      - 'master'
-  release:
-    types: [ published ]
-
-env:
-  COLUMNS: 120
-  TERM_PROGRAM: Hyper
+  workflow_run:
+    workflows: [ CI ]
+    types: [ completed ]
 
 jobs:
   reports:
     name: All Report Types
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Valid CSV file
         uses: jbzoo/csv-blueprint@master
