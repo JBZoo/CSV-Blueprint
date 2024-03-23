@@ -42,8 +42,15 @@ jobs:
           push: true
           context: .
           file: ./docker/Dockerfile
-          tags: jbzoo/csv-blueprint:${{ github.event.release.tag_name }}
-          platforms: linux/amd64,linux/arm64/v8,linux/386,
+          tags: |
+            jbzoo/csv-blueprint:latest
+            jbzoo/csv-blueprint:${{ github.event.release.tag_name }}
+          platforms: linux/amd64,linux/arm64/v8,linux/386
+          build-args: |
+            VERSION=${{ github.event.release.tag_name }}
 
-      - name: Verify the Docker image
-        run: docker run --rm jbzoo/csv-blueprint:${{ github.event.release.tag_name }}
+      - name: Verify the Docker image by tag
+        run: docker run --rm jbzoo/csv-blueprint:${{ github.event.release.tag_name }} --ansi -vvv
+
+      - name: Verify the Docker image by latest
+        run: docker run --rm jbzoo/csv-blueprint:latest --ansi -vvv
