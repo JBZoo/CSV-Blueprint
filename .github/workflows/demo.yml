@@ -13,14 +13,20 @@
 name: Demo
 
 on:
-  release:
-    types: [ created ]
+#  release:
+#    types: [ created ]
+  pull_request:
+    branches:
+      - "*"
+  push:
+    branches:
+      - 'master'
+
 
 env:
   CSV_FILES: tests/fixtures/batch/*.csv
   VALID_SCHEMA: tests/schemas/demo_valid.yml
   INVALID_SCHEMA: tests/schemas/demo_*.yml
-  GA_VERSION: master
   BLUEPRINT_DOCKER: |
     docker run --rm
     --workdir=/parent-host
@@ -38,7 +44,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 👍 Valid CSV file
-        uses: jbzoo/csv-blueprint@$GA_VERSION
+        uses: jbzoo/csv-blueprint@master
         with:
           csv: $CSV_FILES
           schema: $VALID_SCHEMA

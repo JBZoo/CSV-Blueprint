@@ -220,12 +220,6 @@ jobs:
         run: |
           ! $BLUEPRINT_PHAR $CMD_VALIDATE $INVALID_TEST
 
-      - name: 👍 Valid CSV file
-        uses: jbzoo/csv-blueprint@$GA_VERSION
-        with:
-          csv: 'asdas'
-          schema: 'asdasd'
-
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         continue-on-error: true
