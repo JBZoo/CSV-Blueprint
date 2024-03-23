@@ -22,13 +22,15 @@ on:
 
 # We want to avoid copy-pasting the same commands and add control over the environment
 env:
-  VALID_CSV: '--csv=./tests/fixtures/demo.csv'
-  VALID_SCHEMA: '--schema=./tests/schemas/demo_valid.yml'
-  INVALID_CSV: '--csv=./tests/fixtures/batch/*.csv'
-  INVALID_SCHEMA: '--schema=./tests/schemas/demo_*.yml --schema=./tests/schemas/invalid_schema.yml'
   PHP_BIN: 'time ./csv-blueprint validate:csv --ansi -vvv'
   PHAR_BIN: 'time ./build/csv-blueprint.phar validate:csv --ansi -v'
   DOCKER_BIN: 'time docker run --rm --workdir=/h -v `pwd`:/h jbzoo/csv-blueprint:local validate:csv --ansi -vvv'
+
+  VALID_CSV: '--csv=./tests/fixtures/demo.csv'
+  VALID_SCHEMA: '--schema=./tests/schemas/demo_valid.yml'
+
+  INVALID_CSV: '--csv=./tests/fixtures/batch/*.csv'
+  INVALID_SCHEMA: '--schema=./tests/schemas/demo_*.yml --schema=./tests/schemas/invalid_schema.yml'
 
 
 jobs:
@@ -168,7 +170,7 @@ jobs:
         run: make build-prod
 
       - name: Test help and logo
-        run: $PHP_BIN
+        run: time ./csv-blueprint --ansi -vvv
 
       - name: 👍 Valid CSV file
         run: $PHP_BIN $VALID_CSV $VALID_SCHEMA
