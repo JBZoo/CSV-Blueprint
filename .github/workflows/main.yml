@@ -32,7 +32,7 @@ env:
     -v .:/parent-host
     jbzoo/csv-blueprint:local
   CMD_VALIDATE: |
-    validate:csv -ansi -vvv
+    validate:csv --ansi -vvv
   VALID_TEST: |
     --csv=./tests/fixtures/demo.csv
     --schema=./tests/schemas/demo_valid.yml
