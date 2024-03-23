@@ -33,6 +33,12 @@ update: ##@Project Install/Update all 3rd party dependencies
 	@make build-phar
 
 
+build-install: ##@Project Install all 3rd party dependencies as prod
+	$(call title,"Install/Update all 3rd party dependencies as prod")
+	@composer install --no-dev --classmap-authoritative
+	@rm -f `pwd`/ci-report-converter
+
+
 # Demo #################################################################################################################
 
 demo: ##@Project Run all demo commands
