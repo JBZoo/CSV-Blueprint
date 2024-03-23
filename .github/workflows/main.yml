@@ -22,9 +22,12 @@ on:
 
 # We want to avoid copy-pasting the same commands and add control over the environment
 env:
-  PHP_BIN: 'time ./csv-blueprint validate:csv --ansi -vvv'
-  PHAR_BIN: 'time ./build/csv-blueprint.phar validate:csv --ansi -v'
-  DOCKER_BIN: 'time docker run --rm --workdir=/h -v `pwd`:/h jbzoo/csv-blueprint:local validate:csv --ansi -vvv'
+  BLUEPRINT: |
+    time ./csv-blueprint validate:csv --ansi -vvv
+  BLUEPRINT_PHAR: |
+    time ./build/csv-blueprint.phar validate:csv --ansi -v
+  BLUEPRINT_DOCKER: |
+    time docker run --rm --workdir=/h -v .:/h jbzoo/csv-blueprint:local validate:csv --ansi -vvv
 
   VALID_CSV: '--csv=./tests/fixtures/demo.csv'
   VALID_SCHEMA: '--schema=./tests/schemas/demo_valid.yml'
@@ -173,11 +176,11 @@ jobs:
         run: time ./csv-blueprint --ansi -vvv
 
       - name: 👍 Valid CSV file
-        run: $PHP_BIN $VALID_CSV $VALID_SCHEMA
+        run: $BLUEPRINT $VALID_CSV $VALID_SCHEMA
 
       - name: 👎 Invalid CSV file
         run: |
-          ! $PHP_BIN $VALID_CSV $VALID_SCHEMA
+          ! $BLUEPRINT $VALID_CSV $VALID_SCHEMA
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
