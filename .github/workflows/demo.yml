@@ -14,10 +14,9 @@ name: Demo
 
 on:
   workflow_run:
-    workflows:
-      - CI
-    types:
-      - completed
+    workflows: [ CI ]
+    types: [ completed ]
+    branches: [ update-workflows ]
 
 jobs:
   reports:
