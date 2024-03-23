@@ -247,14 +247,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Checkout code
+        run: ln -s ./docker/Dockerfile ./Dockerfile
+
       - name: 👍 Valid CSV file
-        uses: ./docker/Dockerfile
+        uses: ./Dockerfile
         with:
           csv: ./tests/fixtures/batch/*.csv
           schema: ./tests/schemas/demo_valid.yml
 
       - name: 👎 Invalid CSV file
-        uses: ./docker/Dockerfile
+        uses: ./
+        with:
+          csv: ./tests/fixtures/batch/*.csv
+          schema: ./tests/schemas/demo_*.yml
+        continue-on-error: true
+
+      - name: 👎 Invalid CSV file
+        uses: .
         with:
           csv: ./tests/fixtures/batch/*.csv
           schema: ./tests/schemas/demo_*.yml
