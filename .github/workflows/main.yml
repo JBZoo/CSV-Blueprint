@@ -248,7 +248,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Checkout code
-        run: ln -s ./docker/Dockerfile ./Dockerfile
+        run: cp ./docker/Dockerfile ./Dockerfile
 
       - name: 👍 Valid CSV file
         uses: ./Dockerfile
