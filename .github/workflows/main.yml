@@ -23,17 +23,25 @@ on:
 # We want to avoid copy-pasting the same commands and add control over the environment
 env:
   BLUEPRINT: |
-    time ./csv-blueprint validate:csv --ansi -vvv
+    time ./csv-blueprint
   BLUEPRINT_PHAR: |
-    time ./build/csv-blueprint.phar validate:csv --ansi -v
+    time ./build/csv-blueprint.phar
   BLUEPRINT_DOCKER: |
-    time docker run --rm --workdir=/h -v .:/h jbzoo/csv-blueprint:local validate:csv --ansi -vvv
-
-  VALID_CSV: '--csv=./tests/fixtures/demo.csv'
-  VALID_SCHEMA: '--schema=./tests/schemas/demo_valid.yml'
-
-  INVALID_CSV: '--csv=./tests/fixtures/batch/*.csv'
-  INVALID_SCHEMA: '--schema=./tests/schemas/demo_*.yml --schema=./tests/schemas/invalid_schema.yml'
+    time docker run --rm
+    --workdir=/parent-host
+    -v .:/parent-host
+    jbzoo/csv-blueprint:local
+  CMD_FLAGS: |
+    -ansi -vvv
+  CMD_VALIDATE: |
+    validate:csv $CMD_FLAGS
+  VALID_TEST: |
+    --csv=./tests/fixtures/demo.csv
+    --schema=./tests/schemas/demo_valid.yml
+  INVALID_TEST: |
+    --csv=./tests/fixtures/batch/*.csv
+    --schema=./tests/schemas/demo_*.yml
+    --schema=./tests/schemas/invalid_schema.yml
 
 
 jobs:
@@ -173,14 +181,14 @@ jobs:
         run: make build-prod
 
       - name: Test help and logo
-        run: time ./csv-blueprint --ansi -vvv
+        run: $BLUEPRINT --ansi -vvv
 
       - name: 👍 Valid CSV file
-        run: $BLUEPRINT $VALID_CSV $VALID_SCHEMA
+        run: $BLUEPRINT $CMD_VALIDATE $VALID_TEST
 
       - name: 👎 Invalid CSV file
         run: |
-          ! $BLUEPRINT $VALID_CSV $VALID_SCHEMA
+          ! $BLUEPRINT $CMD_VALIDATE $INVALID_TEST
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
@@ -207,24 +215,14 @@ jobs:
         run: make build-prod build-phar-file
 
       - name: Test help and logo
-        run: time ./build/csv-blueprint.phar --ansi
+        run: $BLUEPRINT_PHAR --ansi -vvv
 
       - name: 👍 Valid CSV file
-        run: |
-          time ./build/csv-blueprint.phar             \
-          validate:csv                                \
-          --csv=./tests/fixtures/demo.csv             \
-          --schema=./tests/schemas/demo_valid.yml     \
-          --ansi
+        run: $BLUEPRINT_PHAR $CMD_VALIDATE $VALID_TEST
 
       - name: 👎 Invalid CSV file
         run: |
-          ! time ./build/csv-blueprint.phar           \
-          validate:csv                                \
-          --csv=./tests/fixtures/batch/*.csv          \
-          --schema=./tests/schemas/demo_*.yml         \
-          --schema=./tests/schemas/invalid_schema.yml \
-          --ansi
+          ! $BLUEPRINT_PHAR $CMD_VALIDATE $INVALID_TEST
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
@@ -245,26 +243,11 @@ jobs:
         run: make build-docker
 
       - name: Test help and logo
-        run: time docker run --rm jbzoo/csv-blueprint:local --ansi
+        run: $BLUEPRINT_DOCKER --ansi -vvv
 
       - name: 👍 Valid CSV file
-        run: |
-          time docker run --rm                        \
-          --workdir=/parent-host                      \
-          -v `pwd`:/parent-host                       \
-          jbzoo/csv-blueprint:local                   \
-          validate:csv                                \
-          --csv=./tests/fixtures/demo.csv             \
-          --schema=./tests/schemas/demo_valid.yml     \
-          --ansi -vvv
+        run: $BLUEPRINT_DOCKER $CMD_VALIDATE $VALID_TEST
 
       - name: 👎 Invalid CSV file
         run: |
-          ! time docker run --rm                      \
-          -v `pwd`:/parent-host                       \
-          jbzoo/csv-blueprint:local                   \
-          validate:csv                                \
-          --csv=./tests/fixtures/batch/*.csv          \
-          --schema=./tests/schemas/demo_*.yml         \
-          --schema=./tests/schemas/invalid_schema.yml \
-          --ansi -vvv
+          ! $BLUEPRINT_DOCKER $CMD_VALIDATE $INVALID_TEST
