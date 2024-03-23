@@ -3183,16 +3183,16 @@
         },
         {
             "name": "jbzoo/codestyle",
-            "version": "7.1.0",
+            "version": "7.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JBZoo/Codestyle.git",
-                "reference": "50c3261d9d566d1e1f94b34b8c2a2ef64e035b0c"
+                "reference": "a4989d427f1f6581344712313c76bee639215c84"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JBZoo/Codestyle/zipball/50c3261d9d566d1e1f94b34b8c2a2ef64e035b0c",
-                "reference": "50c3261d9d566d1e1f94b34b8c2a2ef64e035b0c",
+                "url": "https://api.github.com/repos/JBZoo/Codestyle/zipball/a4989d427f1f6581344712313c76bee639215c84",
+                "reference": "a4989d427f1f6581344712313c76bee639215c84",
                 "shasum": ""
             },
             "require": {
@@ -3264,9 +3264,9 @@
             ],
             "support": {
                 "issues": "https://github.com/JBZoo/Codestyle/issues",
-                "source": "https://github.com/JBZoo/Codestyle/tree/7.1.0"
+                "source": "https://github.com/JBZoo/Codestyle/tree/7.1.1"
             },
-            "time": "2024-01-27T21:57:08+00:00"
+            "time": "2024-03-23T21:24:15+00:00"
         },
         {
             "name": "jbzoo/jbdump",

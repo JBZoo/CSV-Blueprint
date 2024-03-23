@@ -28,3 +28,4 @@ action.yml
 box.json.dist
 phpunit.xml.dist
 Makefile
+*.phar

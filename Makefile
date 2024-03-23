@@ -20,23 +20,26 @@ ifneq (, $(wildcard ./vendor/jbzoo/codestyle/src/init.Makefile))
 endif
 
 
-build: ##@Project Install all 3rd party dependencies
-	$(call title,"Install/Update all 3rd party dependencies")
-	@composer install
-	@make build-phar
+build:
+	@composer install --optimize-autoloader
 	@rm -f `pwd`/ci-report-converter
 
 
-update: ##@Project Install/Update all 3rd party dependencies
-	@echo "Composer flags: $(JBZOO_COMPOSER_UPDATE_FLAGS)"
-	@composer update $(JBZOO_COMPOSER_UPDATE_FLAGS)
-	@make build-phar
-
-
-build-install: ##@Project Install all 3rd party dependencies as prod
-	$(call title,"Install/Update all 3rd party dependencies as prod")
+build-prod:
 	@composer install --no-dev --classmap-authoritative
 	@rm -f `pwd`/ci-report-converter
+
+
+build-phar-file:
+	curl -L "https://github.com/box-project/box/releases/download/4.5.1/box.phar" -o ./build/box.phar
+	@php ./build/box.phar --version
+	@php ./build/box.phar compile -vv
+	@ls -lh ./build/csv-blueprint.phar
+
+
+update:
+	@echo "Composer flags: $(JBZOO_COMPOSER_UPDATE_FLAGS)"
+	@composer update $(JBZOO_COMPOSER_UPDATE_FLAGS)
 
 
 # Demo #################################################################################################################
@@ -73,7 +76,7 @@ demo-github: ##@Project Run demo invalid CSV
 
 build-docker:
 	$(call title,"Building Docker Image")
-	@docker build -f ./docker/Dockerfile -t jbzoo/csv-blueprint:local .
+	@docker build -t jbzoo/csv-blueprint:local .
 
 
 docker-in:

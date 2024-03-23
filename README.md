@@ -608,7 +608,6 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
 
 * **Batch processing**
   * If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
-  * Discovering CSV files by `filename_pattern` in the schema file. In case you have a lot of schemas and a lot of CSV files and want to automate the process as one command.
   * Flag to ignore file name pattern. It's useful when you have a lot of files, and you don't want to validate the file name.
 
 * **Validation**
@@ -620,7 +619,6 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
   * Custom agregate rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
   * Configurable keyword for null/empty values. By default, it's an empty string. But you will use `null`, `nil`, `none`, `empty`, etc. Overridable on the column level.
   * Handle empty files and files with only a header row, or only with one line of data. One column wthout header is also possible.
-  * Using multiple schemas for one csv file.
   * Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas. Make it DRY and easy to maintain.
   * If option `--schema` is not specified, then validate only super base level things (like "is it a CSV file?").
   * Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
@@ -628,14 +626,11 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
   * Input encoding detection + `BOM` (right now it's experimental). It works but not so accurate... UTF-8/16/32 is the best choice for now.
 
 * **Release workflow**
-  * Build and release Docker image [via GitHub Actions, tags and labels](https://docs.docker.com/build/ci/github-actions/manage-tags-labels/). Review it.
-  * Build phar file and release via GitHub Actions.
   * Auto insert tool version into the Docker image and phar file. It's important to know the version of the tool you are using.
   * Show version as part of output.
 
 * **Performance and optimization**
   * Benchmarks as part of the CI(?) and Readme. It's important to know how much time the validation process takes.
-  * Optimization on `php.ini` level to start it faster. JIT, opcache, preloading, etc.
   * Parallel validation of really-really large files (1GB+ ?). I know you have them and not so much memory.
   * Parallel validation of multiple files at once.
 
@@ -654,8 +649,8 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
   * Warnings about deprecated options and features.
   * Add option `--recomendation` to show a list of recommended rules for the schema or potential issues in the CSV file or schema. It's useful when you are not sure what rules to use.
   * Add option `--error=[level]` to show only errors with a specific level. It's useful when you have a lot of warnings and you want to see only errors. 
-  * Move const:HELP to PHP annotations. Canonic way to describe the command.
-  * S3 Storage support. Validate files in the S3 bucket?
+  * Move `const:HELP` to PHP annotations. Canonic way to describe the command.
+  * S3 Storage support. Validate files in the S3 bucket? Hmm... Why not? But...
   * More examples and documentation.
 
  
