@@ -248,7 +248,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 👍 Valid CSV file
-        uses: ./action.yml
+        uses: .
         with:
           csv: ./tests/fixtures/batch/*.csv
           schema: ./tests/schemas/demo_valid.yml
