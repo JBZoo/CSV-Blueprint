@@ -22,17 +22,15 @@ on:
 
 # We want to avoid copy-pasting the same commands and add control over the environment
 env:
-  BLUEPRINT: |
-    time ./csv-blueprint
-  BLUEPRINT_PHAR: |
-    time ./build/csv-blueprint.phar
+  COLUMNS: 300
+  BLUEPRINT: time ./csv-blueprint
+  BLUEPRINT_PHAR: time ./build/csv-blueprint.phar
   BLUEPRINT_DOCKER: |
     time docker run --rm
     --workdir=/parent-host
     -v .:/parent-host
     jbzoo/csv-blueprint:local
-  CMD_VALIDATE: |
-    validate:csv --ansi -vvv
+  CMD_VALIDATE: validate:csv --ansi -vvv
   VALID_TEST: |
     --csv=./tests/fixtures/demo.csv
     --schema=./tests/schemas/demo_valid.yml
@@ -40,11 +38,11 @@ env:
     --csv=./tests/fixtures/batch/*.csv
     --schema=./tests/schemas/demo_*.yml
     --schema=./tests/schemas/invalid_schema.yml
-
+  GA_VERSION: master
 
 jobs:
   test-current-versions:
-    name: Tests - Current Libs
+    name: Tests - Current
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -61,33 +59,33 @@ jobs:
           extensions: ast
 
       - name: Build the Project
-        run: make build
+        run: make build --no-print-directory
 
       - name: 🧪 PHPUnit Tests
-        run: make test
+        run: make test --no-print-directory
 
       - name: 👍 Code Quality
-        run: make codestyle
+        run: make codestyle --no-print-directory
 
       - name: 📝 Build Reports
-        run: make report-all
+        run: make report-all --no-print-directory
 
       - name: Uploading coverage to coveralls
         continue-on-error: true
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: make report-coveralls || true
+        run: make report-coveralls --no-print-directory || true
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         continue-on-error: true
         with:
-          name: Tests - Current Versions
+          name: Tests - Current
           path: build/
 
 
   test-lowest-versions:
-    name: Tests - Lowest Versions
+    name: Tests - Lowest
     runs-on: ubuntu-latest
     env:
       JBZOO_COMPOSER_UPDATE_FLAGS: '--prefer-lowest'
@@ -105,27 +103,27 @@ jobs:
           extensions: ast
 
       - name: Build the Project
-        run: make update
+        run: make update --no-print-directory
 
       - name: 🧪 PHPUnit Tests
-        run: make test
+        run: make test --no-print-directory
 
       - name: 👍 Code Quality
-        run: make codestyle
+        run: make codestyle --no-print-directory
 
       - name: 📝 Build Reports
-        run: make report-all
+        run: make report-all --no-print-directory
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         continue-on-error: true
         with:
-          name: Tests - Lowest Versions
+          name: Tests - Lowest
           path: build/
 
 
   test-latest-libs:
-    name: Tests - Latest Versions
+    name: Tests - Latest
     runs-on: ubuntu-latest
     env:
       JBZOO_COMPOSER_UPDATE_FLAGS: '--with-all-dependencies'
@@ -143,22 +141,22 @@ jobs:
           extensions: ast
 
       - name: Build the Project
-        run: make update
+        run: make update --no-print-directory
 
       - name: 🧪 PHPUnit Tests
-        run: make test
+        run: make test --no-print-directory
 
       - name: 👍 Code Quality
-        run: make codestyle
+        run: make codestyle --no-print-directory
 
       - name: 📝 Build Reports
-        run: make report-all
+        run: make report-all --no-print-directory
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         continue-on-error: true
         with:
-          name: Tests - Latest Versions
+          name: Tests - Latest
           path: build/
 
 
@@ -176,9 +174,9 @@ jobs:
           tools: composer
 
       - name: Build the project in production mode
-        run: make build-prod
+        run: make build-prod --no-print-directory
 
-      - name: Test help and logo
+      - name: 🎨 Test help and logo
         run: $BLUEPRINT --ansi -vvv
 
       - name: 👍 Valid CSV file
@@ -210,9 +208,9 @@ jobs:
           tools: composer
 
       - name: Build the project in production mode
-        run: make build-prod build-phar-file
+        run: make build-prod build-phar-file --no-print-directory
 
-      - name: Test help and logo
+      - name: 🎨 Test help and logo
         run: $BLUEPRINT_PHAR --ansi -vvv
 
       - name: 👍 Valid CSV file
@@ -221,6 +219,12 @@ jobs:
       - name: 👎 Invalid CSV file
         run: |
           ! $BLUEPRINT_PHAR $CMD_VALIDATE $INVALID_TEST
+
+      - name: 👍 Valid CSV file
+        uses: jbzoo/csv-blueprint@$GA_VERSION
+        with:
+          csv: 'asdas'
+          schema: 'asdasd'
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
@@ -238,9 +242,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 🐳 Building Docker Image
-        run: make build-docker
+        run: make build-docker --no-print-directory
 
-      - name: Test help and logo
+      - name: 🎨 Test help and logo
         run: $BLUEPRINT_DOCKER --ansi -vvv
 
       - name: 👍 Valid CSV file

@@ -16,6 +16,18 @@ on:
   release:
     types: [ created ]
 
+env:
+  CSV_FILES: tests/fixtures/batch/*.csv
+  VALID_SCHEMA: tests/schemas/demo_valid.yml
+  INVALID_SCHEMA: tests/schemas/demo_*.yml
+  GA_VERSION: master
+  BLUEPRINT_DOCKER: |
+    docker run --rm
+    --workdir=/parent-host
+    -v .:/parent-host
+    jbzoo/csv-blueprint:latest
+    validate:csv --ansi -vvv
+
 
 jobs:
   reports:
@@ -26,54 +38,54 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 👍 Valid CSV file
-        uses: jbzoo/csv-blueprint@master
+        uses: jbzoo/csv-blueprint@$GA_VERSION
         with:
-          csv: tests/fixtures/demo.csv
-          schema: tests/schemas/demo_valid.yml
+          csv: $CSV_FILES
+          schema: $VALID_SCHEMA
 
       - name: 👎 Invalid CSV file - Default (Table)
         uses: jbzoo/csv-blueprint@master
         with:
-          csv: tests/fixtures/batch/*.csv
-          schema: tests/schemas/demo_*.yml
+          csv: $CSV_FILES
+          schema: $INVALID_SCHEMA
         continue-on-error: true
 
       - name: Invalid CSV file - Text
         uses: jbzoo/csv-blueprint@master
         with:
-          csv: tests/fixtures/batch/*.csv
-          schema: tests/schemas/demo_*.yml
+          csv: $CSV_FILES
+          schema: $INVALID_SCHEMA
           report: text
         continue-on-error: true
 
       - name: Invalid CSV file - GitHub Annotations
         uses: jbzoo/csv-blueprint@master
         with:
-          csv: tests/fixtures/batch/*.csv
-          schema: tests/schemas/demo_*.yml
+          csv: $CSV_FILES
+          schema: $INVALID_SCHEMA
         continue-on-error: true
 
       - name: Invalid CSV file - TeamCity
         uses: jbzoo/csv-blueprint@master
         with:
-          csv: tests/fixtures/batch/*.csv
-          schema: tests/schemas/demo_*.yml
+          csv: $CSV_FILES
+          schema: $INVALID_SCHEMA
           report: teamcity
         continue-on-error: true
 
       - name: Invalid CSV file - Gitlab
         uses: jbzoo/csv-blueprint@master
         with:
-          csv: tests/fixtures/batch/*.csv
-          schema: tests/schemas/demo_*.yml
+          csv: $CSV_FILES
+          schema: $INVALID_SCHEMA
           report: gitlab
         continue-on-error: true
 
       - name: Invalid CSV file - JUnit
         uses: jbzoo/csv-blueprint@master
         with:
-          csv: tests/fixtures/batch/*.csv
-          schema: tests/schemas/demo_*.yml
+          csv: $CSV_FILES
+          schema: $INVALID_SCHEMA
           report: junit
         continue-on-error: true
 
@@ -88,24 +100,12 @@ jobs:
         run: docker pull jbzoo/csv-blueprint:latest
 
       - name: Test help and logo
-        run: docker run --rm jbzoo/csv-blueprint:latest --ansi
+        run: $BLUEPRINT_DOCKER --ansi
 
       - name: 👍 Valid CSV file
         run: |
-          docker run                                           \
-          -v `pwd`:/parent-host                                \
-          --rm jbzoo/csv-blueprint:latest                      \
-          validate:csv                                         \
-          --csv=/parent-host/tests/fixtures/batch/*.csv        \
-          --schema=/parent-host/tests/schemas/demo_valid.yml   \
-          --ansi -vvv
+          $BLUEPRINT_DOCKER --csv=$CSV_FILES --schema=$VALID_SCHEMA
 
       - name: 👎 Invalid CSV file
         run: |
-          ! docker run                                         \
-          -v `pwd`:/parent-host                                \
-          --rm jbzoo/csv-blueprint:latest                      \
-          validate:csv                                         \
-          --csv=/parent-host/tests/fixtures/batch/*.csv        \
-          --schema=/parent-host/tests/schemas/demo_*.yml \
-          --ansi -vvv
+          ! $BLUEPRINT_DOCKER --csv=$CSV_FILES --schema=$INVALID_SCHEMA
