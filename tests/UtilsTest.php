@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit;
 
 use JBZoo\CsvBlueprint\Utils;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
 final class UtilsTest extends TestCase
