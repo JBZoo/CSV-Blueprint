@@ -94,3 +94,9 @@ demo-github: ##@Project Run demo invalid CSV
 demo: ##@Project Run all demo commands
 	@make demo-valid
 	@make demo-invalid
+
+
+preload: ##@Project Preload all classes
+	@${PHP_BIN} ./vendor/bin/classpreloader compile \
+        --config=./docker/preload-config.php        \
+        --output=./docker/preload.php
