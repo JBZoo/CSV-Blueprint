@@ -244,8 +244,6 @@ jobs:
         with:
           push: false
           tags: jbzoo/csv-blueprint:local
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
 
       - name: 🎨 Test help and logo
         run: $BLUEPRINT_DOCKER --ansi -vvv
