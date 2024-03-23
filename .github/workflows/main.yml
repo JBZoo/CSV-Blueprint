@@ -233,17 +233,17 @@ jobs:
         run: make build-docker
 
       - name: Test help and logo
-        run: docker run --rm jbzoo/csv-blueprint-local --ansi
+        run: time docker run --rm jbzoo/csv-blueprint-local --ansi
 
       - name: 👍 Valid CSV file
         run: |
-          docker run --rm                                         \
+          time docker run --rm                                    \
           -v `pwd`:/parent-host                                   \
           jbzoo/csv-blueprint-local                               \
           validate:csv                                            \
           --csv=/parent-host/tests/fixtures/demo.csv              \
           --schema=/parent-host/tests/schemas/demo_valid.yml      \
-          --ansi
+          --ansi -vvv
 
       - name: 👎 Invalid CSV file
         run: |
@@ -255,4 +255,4 @@ jobs:
           --schema=/parent-host/tests/schemas/invalid_schema.yml  \
           --schema=/parent-host/tests/schemas/demo_invalid.yml    \
           --schema=/parent-host/tests/schemas/demo_valid.yml      \
-          --ansi
+          --ansi -vvv
