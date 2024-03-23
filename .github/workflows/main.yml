@@ -173,8 +173,9 @@ jobs:
 
       - name: 👍 Valid CSV file
         run: |
-          time ./csv-blueprint validate:csv 
-          $VALID_CSV $VALID_SCHEMA --ansi -vvv
+          time ./csv-blueprint validate:csv           \
+          $VALID_CSV $VALID_SCHEMA                    \
+          --ansi -vvv
 
       - name: 👎 Invalid CSV file
         run: |
