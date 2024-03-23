@@ -31,9 +31,9 @@ build-prod:
 
 
 build-phar-file:
-	curl -L "https://github.com/box-project/box/releases/latest/download/box.phar" -o ./box.phar
-	@php ./box.phar --version
-	@php ./box.phar compile -vv
+	curl -L "https://github.com/box-project/box/releases/download/4.5.1/box.phar" -o ./build/box.phar
+	@php ./build/box.phar --version
+	@php ./build/box.phar compile -vv
 	@ls -lh ./build/csv-blueprint.phar
 
 
