@@ -20,6 +20,18 @@ on:
     branches:
       - 'master'
 
+env:
+  VALID_CSV: |
+    --csv=./tests/fixtures/demo.csv
+  VALID_SCHEMA: |
+    --schema=./tests/schemas/demo_valid.yml
+  INVALID_CSV: |
+    --csv=./tests/fixtures/batch/*.csv
+  INVALID_SCHEMA: |
+    --schema=./tests/schemas/demo_*.yml
+    --schema=./tests/schemas/invalid_schema.yml
+
+
 jobs:
   test-current-versions:
     name: Tests - Current Libs
@@ -143,9 +155,6 @@ jobs:
   test-php-binary:
     name: Verify PHP binary
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        binfile: [ './csv-blueprint', './build/csv-blueprint.phar' ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -159,29 +168,21 @@ jobs:
       - name: Build the project in production mode
         run: make build-prod
 
-      - name: Build Phar file
-        if: matrix.binfile == './build/csv-blueprint.phar'
-        run: make build-phar-file
-
       - name: Test help and logo
-        run: time ${{ matrix.binfile }} --ansi -vvv
+        run: time ./csv-blueprint --ansi -vvv
 
       - name: 👍 Valid CSV file
         run: |
-          time ${{ matrix.binfile }}                  \
-          validate:csv                                \
-          --csv=./tests/fixtures/demo.csv             \
-          --schema=./tests/schemas/demo_valid.yml     \
-          --ansi -vvv
+          time ./csv-blueprint validate:csv 
+          $VALID_CSV $VALID_SCHEMA --ansi -vvv
 
       - name: 👎 Invalid CSV file
         run: |
-          ! time ${{ matrix.binfile }}                \
+          ! time ./csv-blueprint                      \
           validate:csv                                \
           --csv=./tests/fixtures/batch/*.csv          \
           --schema=./tests/schemas/demo_*.yml         \
           --schema=./tests/schemas/invalid_schema.yml \
-          --report=text                               \
           --ansi -vvv
 
       - name: Upload Artifacts
@@ -189,6 +190,50 @@ jobs:
         continue-on-error: true
         with:
           name: Verify PHP binary
+          path: build/
+
+
+  test-phar-binary:
+    name: Verify PHAR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          tools: composer
+
+      - name: Build the project in production mode
+        run: make build-prod build-phar-file
+
+      - name: Test help and logo
+        run: time ./build/csv-blueprint.phar --ansi
+
+      - name: 👍 Valid CSV file
+        run: |
+          time ./build/csv-blueprint.phar             \
+          validate:csv                                \
+          --csv=./tests/fixtures/demo.csv             \
+          --schema=./tests/schemas/demo_valid.yml     \
+          --ansi
+
+      - name: 👎 Invalid CSV file
+        run: |
+          ! time ./build/csv-blueprint.phar           \
+          validate:csv                                \
+          --csv=./tests/fixtures/batch/*.csv          \
+          --schema=./tests/schemas/demo_*.yml         \
+          --schema=./tests/schemas/invalid_schema.yml \
+          --ansi
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with:
+          name: Verify PHAR
           path: build/
 
 
