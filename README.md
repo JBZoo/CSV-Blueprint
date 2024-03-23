@@ -1,7 +1,7 @@
-# JBZoo / Csv-Blueprint
+# JBZoo / CSV Blueprint
 
-[![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml?query=branch%3Amaster)    [![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml/badge.svg?branch=master)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml?query=branch%3Amaster)    [![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/release-docker.yml/badge.svg?branch=master)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/release-docker.yml?query=branch%3Amaster)    [![Coverage Status](https://coveralls.io/repos/github/JBZoo/Csv-Blueprint/badge.svg?branch=master)](https://coveralls.io/github/JBZoo/Csv-Blueprint?branch=master)    [![Psalm Coverage](https://shepherd.dev/github/JBZoo/Csv-Blueprint/coverage.svg)](https://shepherd.dev/github/JBZoo/Csv-Blueprint)    
-[![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint)    [![Dependents](https://poser.pugx.org/jbzoo/csv-blueprint/dependents)](https://packagist.org/packages/jbzoo/csv-blueprint/dependents?order_by=downloads)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
+[![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml?query=branch%3Amaster)    [![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml/badge.svg)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml)    [![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/release-docker.yml/badge.svg)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/release-docker.yml)    [![Coverage Status](https://coveralls.io/repos/github/JBZoo/Csv-Blueprint/badge.svg?branch=master)](https://coveralls.io/github/JBZoo/Csv-Blueprint?branch=master)    [![Psalm Coverage](https://shepherd.dev/github/JBZoo/Csv-Blueprint/coverage.svg)](https://shepherd.dev/github/JBZoo/Csv-Blueprint)    
+[![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
 
 <!-- rules-counter -->
 [![Static Badge](https://img.shields.io/badge/Rules-103-green?label=Total%20Number%20of%20Rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-55-green?label=Cell%20Value&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-45-green?label=Aggregate%20Column&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-3-green?label=Extra%20Checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-329-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
@@ -426,41 +426,39 @@ Ensure you have Docker installed on your machine.
 
 ```sh
 # Pull the Docker image
-docker pull jbzoo/csv-blueprint
+docker pull jbzoo/csv-blueprint:latest
 
 # Run the tool inside Docker
 docker run --rm                                  \
     --workdir=/parent-host                       \
     -v $(pwd):/parent-host                       \
-    jbzoo/csv-blueprint                          \
+    jbzoo/csv-blueprint:latest                   \
     validate:csv                                 \
     --csv=./tests/fixtures/demo.csv              \
     --schema=./tests/schemas/demo_invalid.yml
-```
 
-**Status: WIP**. Sometimes it doesn't work on some platforms. But you can build it from source.
 
-```sh
+# OR build it from source.
 git clone git@github.com:JBZoo/Csv-Blueprint.git csv-blueprint
 cd csv-blueprint
-make build-docker  # local tag is "jbzoo/csv-blueprint"
+make build-docker  # local tag is "jbzoo/csv-blueprint:local"
 ```
 
 
 ### PHP binary
 Ensure you have PHP installed on your machine.
 
-**Status: WIP**. It's not released yet. But you can build it from source. See manual above and `./build/csv-blueprint.phar` file.
-
 ```sh
+# download the latest version
+
 wget https://github.com/JBZoo/Csv-Blueprint/releases/latest/download/csv-blueprint.phar
 chmod +x ./csv-blueprint.phar
 ./csv-blueprint.phar validate:csv               \
    --csv=./tests/fixtures/demo.csv              \
    --schema=./tests/schemas/demo_invalid.yml
-```
 
-```sh
+
+# OR build from source
 git clone git@github.com:jbzoo/csv-blueprint.git csv-blueprint
 cd csv-blueprint 
 make build
@@ -700,7 +698,7 @@ make build
 # Make your local changes
 
 # Autofix code style 
-make test-phpcsfixer-fix
+make test-phpcsfixer-fix test-phpcs
 
 # Run all tests and check code style
 make test

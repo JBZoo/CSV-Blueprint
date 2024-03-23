@@ -21,14 +21,13 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
     protected string $packageName = 'Csv-Blueprint';
 
     protected array $params = [
-        // Packagist
         'packagist_latest_stable_version'   => true,
         'packagist_latest_unstable_version' => true,
         'packagist_license'                 => true,
         'packagist_version'                 => true,
 
-        'packagist_dependents' => true,
-        'packagist_suggesters' => true,
+        'packagist_dependents' => false,
+        'packagist_suggesters' => false,
 
         'packagist_downloads_total'   => true,
         'packagist_downloads_daily'   => true,
@@ -96,8 +95,8 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
         return $this->getPreparedBadge(
             $this->getBadge(
                 'CI',
-                $path . '/demo.yml/badge.svg?branch=master',
-                $path . '/demo.yml?query=branch%3Amaster',
+                $path . '/demo.yml/badge.svg',
+                $path . '/demo.yml',
             ),
         );
     }
@@ -109,9 +108,25 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
         return $this->getPreparedBadge(
             $this->getBadge(
                 'CI',
-                $path . '/release-docker.yml/badge.svg?branch=master',
-                $path . '/release-docker.yml?query=branch%3Amaster',
+                $path . '/release-docker.yml/badge.svg',
+                $path . '/release-docker.yml',
             ),
         );
+    }
+
+    protected function checkBadgeDockerPulls(): ?string
+    {
+        return $this->getPreparedBadge(
+            $this->getBadge(
+                'Docker Pulls',
+                'https://img.shields.io/docker/pulls/__VENDOR__/__PACKAGE__.svg',
+                'https://hub.docker.com/r/__VENDOR__/__PACKAGE__/tags',
+            ),
+        );
+    }
+
+    protected function getTitle(): string
+    {
+        return '# JBZoo / CSV Blueprint';
     }
 }
