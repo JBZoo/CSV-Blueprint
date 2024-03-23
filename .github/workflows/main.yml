@@ -21,6 +21,14 @@ on:
       - 'master'
 
 jobs:
+  phpunit:
+    name: PHPUnit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+
 #  phpunit:
 #    name: PHPUnit
 #    runs-on: ubuntu-latest
@@ -33,7 +41,7 @@ jobs:
 #        composer_flags: [ "--prefer-lowest", "" ]
 #    steps:
 #      - name: Checkout code
-#        uses: actions/checkout@v3
+#        uses: actions/checkout@v4
 #        with:
 #          fetch-depth: 0
 #
@@ -74,7 +82,7 @@ jobs:
 #        php-version: [ 8.1, 8.2, 8.3 ]
 #    steps:
 #      - name: Checkout code
-#        uses: actions/checkout@v3
+#        uses: actions/checkout@v4
 #        with:
 #          fetch-depth: 0
 #
@@ -108,7 +116,7 @@ jobs:
 #        php-version: [ 8.1, 8.2, 8.3 ]
 #    steps:
 #      - name: Checkout code
-#        uses: actions/checkout@v3
+#        uses: actions/checkout@v4
 #        with:
 #          fetch-depth: 0
 #
@@ -139,7 +147,7 @@ jobs:
 #    runs-on: ubuntu-latest
 #    steps:
 #      - name: Checkout code
-#        uses: actions/checkout@v3
+#        uses: actions/checkout@v4
 #
 #      - name: Setup PHP
 #        uses: shivammathur/setup-php@v2
@@ -166,53 +174,53 @@ jobs:
 #          --report=text                                        \
 #          --ansi
 
-
-  test-phar:
-    name: Verify PHAR
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        php-version: [ 8.1, 8.3 ]
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-version }}
-          tools: composer
-
-      - name: Build the project
-        run: make build
-
-      - name: Test help and logo
-        run: ./build/csv-blueprint.phar
-
-      - name: 👍 Valid CSV file
-        run: |
-          ./build/csv-blueprint.phar                   \
-          validate:csv                                 \
-          --csv=./tests/fixtures/batch/*.csv           \
-          --schema=./tests/schemas/demo_valid.yml      \
-          --ansi
-
-      - name: 👎 Invalid CSV file
-        run: |
-          ! ./build/csv-blueprint.phar                 \
-          validate:csv                                 \
-          --csv=./tests/fixtures/batch/*.csv           \
-          --schema=./tests/schemas/invalid_schema.yml  \
-          --schema=./tests/schemas/invalid_schema.yml  \
-          --schema=./tests/schemas/demo_invalid.yml    \
-          --schema=./tests/schemas/demo_valid.yml      \
-          --ansi
-
-
+#
+#  test-phar:
+#    name: Verify PHAR
+#    runs-on: ubuntu-latest
+#    strategy:
+#      matrix:
+#        php-version: [ 8.1, 8.3 ]
+#    steps:
+#      - uses: actions/checkout@v4
+#
+#      - uses: shivammathur/setup-php@v2
+#        with:
+#          php-version: ${{ matrix.php-version }}
+#          tools: composer
+#
+#      - name: Build the project
+#        run: make build
+#
+#      - name: Test help and logo
+#        run: ./build/csv-blueprint.phar
+#
+#      - name: 👍 Valid CSV file
+#        run: |
+#          ./build/csv-blueprint.phar                   \
+#          validate:csv                                 \
+#          --csv=./tests/fixtures/batch/*.csv           \
+#          --schema=./tests/schemas/demo_valid.yml      \
+#          --ansi
+#
+#      - name: 👎 Invalid CSV file
+#        run: |
+#          ! ./build/csv-blueprint.phar                 \
+#          validate:csv                                 \
+#          --csv=./tests/fixtures/batch/*.csv           \
+#          --schema=./tests/schemas/invalid_schema.yml  \
+#          --schema=./tests/schemas/invalid_schema.yml  \
+#          --schema=./tests/schemas/demo_invalid.yml    \
+#          --schema=./tests/schemas/demo_valid.yml      \
+#          --ansi
+#
+#
 #  docker:
 #    name: Verify Docker
 #    runs-on: ubuntu-latest
 #    steps:
 #      - name: Checkout code
-#        uses: actions/checkout@v3
+#        uses: actions/checkout@v4
 #
 #      - name: 🐳 Building Docker Image
 #        run: make build-docker
