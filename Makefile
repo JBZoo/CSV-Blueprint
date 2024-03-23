@@ -60,7 +60,7 @@ demo-docker: ##@Project Run demo via Docker
 	$(call title,"Demo - Valid CSV \(via Docker\)")
 	@docker run --rm                                         \
        -v `pwd`:/parent-host                                 \
-       jbzoo/csv-blueprint                                   \
+       jbzoo/csv-blueprint-local                             \
        validate:csv                                          \
        --csv=/parent-host/tests/fixtures/demo.csv            \
        --schema=/parent-host/tests/schemas/demo_valid.yml    \
@@ -68,7 +68,7 @@ demo-docker: ##@Project Run demo via Docker
 	$(call title,"Demo - Invalid CSV \(via Docker\)")
 	@docker run --rm                                         \
        -v `pwd`:/parent-host                                 \
-       jbzoo/csv-blueprint                                   \
+       jbzoo/csv-blueprint-local                             \
        validate:csv                                          \
        --csv=/parent-host/tests/fixtures/demo.csv            \
        --schema=/parent-host/tests/schemas/demo_invalid.yml  \

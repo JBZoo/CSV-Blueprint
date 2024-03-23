@@ -21,6 +21,7 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY . /app
 RUN cd /app                                         \
     && composer install --no-dev                    \
+                        --classmap-authoritative    \
                         --no-progress               \
     && composer clear-cache                         \
     && chmod +x /app/csv-blueprint
