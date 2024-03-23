@@ -99,19 +99,19 @@ final class SchemaTest extends TestCase
         );
     }
 
-    public function testIncludes(): void
-    {
-        skip('Implement me!');
-        $schemaEmpty = new Schema(Tools::SCHEMA_EXAMPLE_EMPTY);
-        isSame([], $schemaEmpty->getIncludes());
-
-        $schemaFull = new Schema(Tools::SCHEMA_FULL_YML);
-        isSame([
-            'alias_1' => '/path/schema_1.yml',
-            'alias_2' => './path/schema_2.yml',
-            'alias_3' => '../path/schema_3.yml',
-        ], $schemaFull->getIncludes());
-    }
+    // public function testIncludes(): void
+    // {
+    //     skip('Implement me!');
+    //     $schemaEmpty = new Schema(Tools::SCHEMA_EXAMPLE_EMPTY);
+    //     isSame([], $schemaEmpty->getIncludes());
+    //
+    //     $schemaFull = new Schema(Tools::SCHEMA_FULL_YML);
+    //     isSame([
+    //         'alias_1' => '/path/schema_1.yml',
+    //         'alias_2' => './path/schema_2.yml',
+    //         'alias_3' => '../path/schema_3.yml',
+    //     ], $schemaFull->getIncludes());
+    // }
 
     public function testGetUndefinedColumnById(): void
     {

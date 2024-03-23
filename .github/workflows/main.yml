@@ -216,7 +216,9 @@ jobs:
         uses: actions/upload-artifact@v4
         continue-on-error: true
         with:
+          name: PHAR
           path: ./build/csv-blueprint.phar
+          compression-level: 0
 
 
   verify-docker:

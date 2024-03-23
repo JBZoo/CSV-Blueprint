@@ -103,52 +103,6 @@ final class UtilsTest extends TestCase
         isSame([], $this->getFileName(Utils::findFiles(['demo.csv'])));
     }
 
-    public function test(): void
-    {
-        skip('Skip test. Debugging');
-        $finder = (new Finder())
-            ->in('/Users/smetdenis/Work/billups/csv-validation-rules/etl_scripts/exposure_delivery/rules')
-            ->ignoreVCSIgnored(true)
-            ->ignoreDotFiles(true)
-            ->followLinks()
-            ->name('*.yml')
-            ->sortByName(true);
-
-        $results  = [];
-        $makefile = [];
-
-        foreach ($finder as $file) {
-            $filename = $file->getFilenameWithoutExtension();
-            if (\str_starts_with($filename, 'TODO')) {
-                continue;
-            }
-
-            $ymlTmpl = <<<'YML'
-                      - name: _placeholder_
-                        uses: jbzoo/csv-blueprint@master
-                        with:
-                          csv: etl_scripts/exposure_delivery/examples/_placeholder_.*.csv
-                          schema: etl_scripts/exposure_delivery/rules/_placeholder_.yml
-                          report: table
-                YML;
-
-            $csvOption = \str_pad(
-                \str_replace(
-                    '_placeholder_',
-                    $filename,
-                    "\${BASE_PATH}/examples/_placeholder_.*.csv' ",
-                ),
-                58,
-            );
-            $makeTmpl = "\t\${CSV_BLUEPRINT} --csv='{$csvOption} --schema='\${BASE_PATH}/rules/_placeholder_.yml'";
-
-            $results[]  = \str_replace('_placeholder_', $filename, $ymlTmpl);
-            $makefile[] = \str_replace('_placeholder_', $filename, $makeTmpl);
-        }
-        \file_put_contents(PROJECT_ROOT . '/build/yml.yml', \implode("\n\n", $results) . "\n");
-        \file_put_contents(PROJECT_ROOT . '/build/Makefile', \implode("\n", $makefile) . "\n");
-    }
-
     /**
      * @param  SplFileInfo[] $files
      * @return string[]
