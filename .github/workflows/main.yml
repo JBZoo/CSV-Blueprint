@@ -254,7 +254,7 @@ jobs:
           schema: ./tests/schemas/demo_valid.yml
 
       - name: 👎 Invalid CSV file
-        uses: .
+        uses: ./
         with:
           csv: ./tests/fixtures/batch/*.csv
           schema: ./tests/schemas/demo_*.yml
