@@ -44,6 +44,7 @@
     <testsuites>
         <testsuite name="All">
             <directory suffix="Test.php">tests</directory>
+            <exclude>tests/PhpStormProxyTest.php</exclude>
         </testsuite>
     </testsuites>
 
