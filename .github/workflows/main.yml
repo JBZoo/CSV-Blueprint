@@ -231,8 +231,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: 🐳 Building Docker Image
-        run: make build-docker --no-print-directory
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          push: false
+          tags: jbzoo/csv-blueprint:local
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
 
       - name: 🎨 Test help and logo
         run: $BLUEPRINT_DOCKER --ansi -vvv
@@ -243,6 +262,11 @@ jobs:
       - name: 👎 Invalid CSV files
         run: |
           ! $BLUEPRINT_DOCKER $CMD_VALIDATE $INVALID_TEST
+
+      - name: Move Docker cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
 
   verify-ga:
