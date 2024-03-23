@@ -22,16 +22,11 @@ on:
     branches:
       - 'master'
 
-
 env:
   CSV_FILES: './tests/fixtures/batch/*.csv'
   VALID_SCHEMA: './tests/schemas/demo_valid.yml'
   INVALID_SCHEMA: './tests/schemas/demo_*.yml'
-  BLUEPRINT_DOCKER: |
-    docker run --rm
-    --workdir=/parent-host
-    -v .:/parent-host
-    jbzoo/csv-blueprint:latest
+  BLUEPRINT_DOCKER: 'docker run --rm --workdir=/parent-host -v .:/parent-host jbzoo/csv-blueprint:latest'
 
 
 jobs:
@@ -99,12 +94,13 @@ jobs:
     name: Docker
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Pull Docker Image
         run: docker pull jbzoo/csv-blueprint:latest
 
-      - name: Test help and logo
+      - name: 🎨 Test help and logo
         run: $BLUEPRINT_DOCKER --ansi
 
       - name: 👍 Valid CSV file
