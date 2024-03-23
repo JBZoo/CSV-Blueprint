@@ -15,7 +15,7 @@ name: CI
 on:
   pull_request:
     branches:
-      - "*"
+      - '*'
   push:
     branches:
       - 'master'
@@ -32,13 +32,12 @@ env:
     jbzoo/csv-blueprint:local
   CMD_VALIDATE: validate:csv --ansi -vvv
   VALID_TEST: |
-    --csv=./tests/fixtures/demo.csv
+    --csv=./tests/fixtures/batch/*.csv
     --schema=./tests/schemas/demo_valid.yml
   INVALID_TEST: |
     --csv=./tests/fixtures/batch/*.csv
     --schema=./tests/schemas/demo_*.yml
     --schema=./tests/schemas/invalid_schema.yml
-  GA_VERSION: master
 
 jobs:
   test-current-versions:
@@ -58,7 +57,7 @@ jobs:
           tools: composer
           extensions: ast
 
-      - name: Build the Project
+      - name: Build project
         run: make build --no-print-directory
 
       - name: 🧪 PHPUnit Tests
@@ -102,7 +101,7 @@ jobs:
           tools: composer
           extensions: ast
 
-      - name: Build the Project
+      - name: Build project
         run: make update --no-print-directory
 
       - name: 🧪 PHPUnit Tests
@@ -140,7 +139,7 @@ jobs:
           tools: composer
           extensions: ast
 
-      - name: Build the Project
+      - name: Build project
         run: make update --no-print-directory
 
       - name: 🧪 PHPUnit Tests
@@ -173,7 +172,7 @@ jobs:
           php-version: 8.3
           tools: composer
 
-      - name: Build the project in production mode
+      - name: Build project in production mode
         run: make build-prod --no-print-directory
 
       - name: 🎨 Test help and logo
@@ -185,13 +184,6 @@ jobs:
       - name: 👎 Invalid CSV file
         run: |
           ! $BLUEPRINT $CMD_VALIDATE $INVALID_TEST
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        continue-on-error: true
-        with:
-          name: Verify PHP binary
-          path: build/
 
 
   test-phar-binary:
@@ -207,7 +199,7 @@ jobs:
           php-version: 8.3
           tools: composer
 
-      - name: Build the project in production mode
+      - name: Build project in production mode
         run: make build-prod build-phar-file --no-print-directory
 
       - name: 🎨 Test help and logo
@@ -224,8 +216,7 @@ jobs:
         uses: actions/upload-artifact@v4
         continue-on-error: true
         with:
-          name: Verify PHAR
-          path: build/
+          path: ./build/csv-blueprint.phar
 
 
   docker:
