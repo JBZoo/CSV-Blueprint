@@ -76,7 +76,11 @@ final class GithubActionsTest extends TestCase
                 $expectedMessage[] = '    # Required: true';
             }
 
-            $expectedMessage[] = "    {$key}: {$examples[$key]}";
+            if ($key === 'csv' || $key === 'schema') {
+                $expectedMessage[] = "    {$key}: '{$examples[$key]}'";
+            } else {
+                $expectedMessage[] = "    {$key}: {$examples[$key]}";
+            }
             $expectedMessage[] = '';
         }
 
