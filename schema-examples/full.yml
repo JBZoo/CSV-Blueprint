@@ -179,6 +179,26 @@ columns:
     aggregate_rules:
       is_unique: true                   # All values in the column are unique.
 
+      # First number in the column. Expected value is float or integer.
+      first_num: 5
+      first_num_not: 4.123
+      first_num_min: -1
+      first_num_max: 2e4
+      first: Expected                   # First value in the column. Will be compared as strings.
+      first_not: 'Not Expected'         # Not allowed as the first value in the column. Will be compared as strings.
+
+      # N-th in the column.
+      nth: [ 2, Expected ]              # Nth value in the column. Will be compared as strings.
+      nth_not: [ 2, 'Not expected' ]    # Not allowed as the N-th value in the column. Will be compared as strings.
+
+      # Last number in the column. Expected value is float or integer.
+      last_num: 5
+      last_num_not: 4.123
+      last_num_min: -1
+      last_num_max: 2e4
+      last: Expected                    # Last value in the column. Will be compared as strings.
+      last_not: 'Not Expected'          # Not allowed as the last value in the column. Will be compared as strings.
+
       # Sum of the numbers in the column. Example: [1, 2, 3] => 6.
       sum: 5.123
       sum_not: 4.123

@@ -94,46 +94,74 @@ columns:
 
     aggregate_rules:
       is_unique: true
+
+      first_num: 5
+      first_num_not: 4.123
+      first_num_min: -1
+      first_num_max: 20000.0
+      first: Expected
+      first_not: 'Not Expected'
+
+      nth: [ 2, Expected ]
+      nth_not: [ 2, 'Not expected' ]
+
+      last_num: 5
+      last_num_not: 4.123
+      last_num_min: -1
+      last_num_max: 20000.0
+      last: Expected
+      last_not: 'Not Expected'
+
       sum: 5.123
       sum_not: 4.123
       sum_min: 1.123
       sum_max: 10.123
+
       average: 5.123
       average_not: 4.123
       average_min: 1.123
       average_max: 10.123
+
       count: 5
       count_not: 4
       count_min: 1
       count_max: 10
+
       count_empty: 5
       count_empty_not: 4
       count_empty_min: 1
       count_empty_max: 10
+
       count_not_empty: 5
       count_not_empty_not: 4
       count_not_empty_min: 1
       count_not_empty_max: 10
+
       median: 5.123
       median_not: 4.123
       median_min: 1.123
       median_max: 10.123
+
       population_variance: 5.123
       population_variance_not: 4.123
       population_variance_min: 1.123
       population_variance_max: 10.123
+
       sample_variance: 5.123
       sample_variance_not: 4.123
       sample_variance_min: 1.123
       sample_variance_max: 10.123
+
       stddev: 5.123
       stddev_not: 4.123
       stddev_min: 1.123
       stddev_max: 10.123
+
       stddev_pop: 5.123
       stddev_pop_not: 4.123
       stddev_pop_min: 1.123
       stddev_pop_max: 10.123
+
       coef_of_var: 5.123
       coef_of_var_not: 4.123
       coef_of_var_min: 1.123
