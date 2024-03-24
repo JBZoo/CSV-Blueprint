@@ -75,7 +75,7 @@ docker-in: ##@Docker Enter into Docker container
 
 
 # Benchmarks ###########################################################################################################
-BENCH_CSV    ?= --csv=./build/${BENCH_ROWS}.csv
+BENCH_CSV    ?= --csv=./build/bench/3_1000000_header.csv
 BENCH_SCHEMA ?= --schema=./tests/benchmarks/benchmark.yml
 
 BENCH_ROWS := 1000 100000 1000000
@@ -86,7 +86,6 @@ bench-prepare: ##@Benchmarks Create CSV files
 	@rm -fv    ./build/bench/*.csv
 	@$(foreach rows,$(BENCH_ROWS), \
         echo "Generate CSV: rows=$(rows)"; \
-        time \
         ${BENCH_BIN} -H --columns=1  --rows=$(rows) -q & \
         ${BENCH_BIN} -H --columns=3  --rows=$(rows) -q & \
         ${BENCH_BIN} -H --columns=5  --rows=$(rows) -q & \
@@ -99,7 +98,7 @@ bench-prepare: ##@Benchmarks Create CSV files
 
 bench-php: ##@Benchmarks Run PHP binary benchmarks
 	$(call title,"PHP Benchmarks - PHP binary")
-	${PHP_BIN} ./csv-blueprint validate:csv $(BENCH_CSV) $(BENCH_SCHEMA) --ansi -vvv
+	${PHP_BIN} ./csv-blueprint validate:csv $(BENCH_CSV) $(BENCH_SCHEMA) --ansi -vvv --profile
 
 bench-docker: ##@Benchmarks Run Docker benchmarks
 	$(call title,"PHP Benchmarks - Docker")

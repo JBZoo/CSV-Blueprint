@@ -39,12 +39,14 @@ final class Ruleset
         }
     }
 
-    public function validateRuleSet(array|string $cellValue, int $line): ErrorSuite
+    public function validateRuleSet(array|string &$cellValue, int $line): ErrorSuite
     {
         $errors = new ErrorSuite();
 
         foreach ($this->rules as $rule) {
+            Utils::debug("Start validate rule: {$rule->getRuleCode()}");
             $errors->addError($rule->validate($cellValue, $line));
+            Utils::debug('End');
         }
 
         return $errors;

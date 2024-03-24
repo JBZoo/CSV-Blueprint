@@ -107,6 +107,10 @@ final class ValidateCsv extends CliCommand
 
     protected function executeAction(): int
     {
+        if ($this->getOptBool('profile')) {
+            \define('PROFILE_MODE', true);
+        }
+
         $csvFilenames    = $this->getCsvFilepaths();
         $schemaFilenames = $this->getSchemaFilepaths();
         $matchedFiles    = Utils::matchSchemaAndCsvFiles($csvFilenames, $schemaFilenames);

@@ -34,7 +34,7 @@ final class ColumnValidator
         $this->aggRuleset  = new Ruleset($column->getAggregateRules(), $column->getHumanName());
     }
 
-    public function validateCell(string $cellValue, int $line): ErrorSuite
+    public function validateCell(string &$cellValue, int $line): ErrorSuite
     {
         return $this->cellRuleset->validateRuleSet($cellValue, $line);
     }

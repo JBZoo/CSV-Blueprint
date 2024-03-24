@@ -16,9 +16,12 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Validators;
 
+use JBZoo\Cli\OutLvl;
 use JBZoo\CsvBlueprint\Csv\CsvFile;
 use JBZoo\CsvBlueprint\Schema;
 use JBZoo\CsvBlueprint\Utils;
+
+use function JBZoo\Cli\cli;
 
 final class CsvValidator
 {
@@ -110,6 +113,8 @@ final class CsvValidator
                 continue;
             }
 
+            Utils::debug("<i>Col</i> start: {$column->getKey()}");
+
             $isAggRules = \count($column->getAggregateRules()) > 0;
             $isRules    = \count($column->getRules()) > 0;
 
@@ -130,9 +135,13 @@ final class CsvValidator
                 }
             }
 
+            Utils::debug("<i>Col</i> aggregate: {$column->getKey()}");
+
             if ($isAggRules) {
                 $errors->addErrorSuit($column->validateList($columValues));
             }
+
+            Utils::debug("<i>Col</i> end: {$column->getKey()}");
         }
 
         return $errors;

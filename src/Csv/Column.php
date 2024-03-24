@@ -102,7 +102,7 @@ final class Column
         return (new ColumnValidator($this))->validateCell($cellValue, $line);
     }
 
-    public function validateList(array $cellValue): ErrorSuite
+    public function validateList(array &$cellValue): ErrorSuite
     {
         return (new ColumnValidator($this))->validateList($cellValue);
     }
