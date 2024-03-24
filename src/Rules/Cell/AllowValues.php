@@ -24,7 +24,7 @@ class AllowValues extends AbstractCellRule
 
     public function validateRule(string $cellValue): ?string
     {
-        $allowedValues = $this->getOptionAsArray();
+        $allowedValues = \array_map('\strval', $this->getOptionAsArray());
 
         if (\count($allowedValues) === 0) {
             return 'Allowed values are not defined';

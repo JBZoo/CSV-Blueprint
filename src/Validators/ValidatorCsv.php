@@ -100,6 +100,9 @@ final class ValidatorCsv
         return $errors;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     */
     private function validateLines(bool $quickStop = false): ErrorSuite
     {
         $errors      = new ErrorSuite();
@@ -126,15 +129,29 @@ final class ValidatorCsv
             }
 
             foreach ($this->csv->getRecords() as $line => $record) {
-                if ($isAggRules) {  // Time & memory optimization
-                    $columValues[] = ValidatorColumn::prepareValue($record[$column->getKey()], $aggInputType);
-                }
+                $lineNum = (int)$line + 1;
 
                 if ($isRules) { // Time optimization
-                    $errors->addErrorSuit($colValidator->validateCell($record[$column->getKey()], (int)$line + 1));
+                    if (!isset($record[$column->getKey()])) {
+                        $errors->addError(
+                            new Error(
+                                'csv.column',
+                                "Column index:{$column->getKey()} not found",
+                                $column->getHumanName(),
+                                $lineNum,
+                            ),
+                        );
+                    } else {
+                        $errors->addErrorSuit($colValidator->validateCell($record[$column->getKey()], $lineNum));
+                    }
+
                     if ($quickStop && $errors->count() > 0) {
                         return $errors;
                     }
+                }
+
+                if ($isAggRules && isset($record[$column->getKey()])) {  // Time & memory optimization
+                    $columValues[] = ValidatorColumn::prepareValue($record[$column->getKey()], $aggInputType);
                 }
             }
 
@@ -182,27 +199,40 @@ final class ValidatorCsv
     {
         $errors = new ErrorSuite();
 
-        if (!$this->schema->getCsvStructure()->isHeader()) {
-            return $errors;
-        }
+        if ($this->schema->getCsvStructure()->isHeader()) {
+            $realColumns   = $this->schema->getColumnsMappedByHeader($this->csv->getHeader());
+            $schemaColumns = $this->schema->getColumns();
 
-        $realColumns   = $this->schema->getColumnsMappedByHeader($this->csv->getHeader());
-        $schemaColumns = $this->schema->getColumns();
+            $notFoundColums = \array_diff(\array_keys($schemaColumns), \array_keys($realColumns));
 
-        $notFoundColums = \array_diff(\array_keys($schemaColumns), \array_keys($realColumns));
+            if (\count($notFoundColums) > 0) {
+                $error = new Error(
+                    'csv.header',
+                    'Columns not found in CSV: "<c>' . \implode(', ', $notFoundColums) . '</c>"',
+                    '',
+                    ValidatorColumn::FALLBACK_LINE,
+                );
 
-        if (\count($notFoundColums) > 0) {
-            $error = new Error(
-                'csv.header',
-                'Columns not found in CSV: "<c>' . \implode(', ', $notFoundColums) . '</c>"',
-                '',
-                ValidatorColumn::FALLBACK_LINE,
-            );
+                $errors->addError($error);
+                if ($quickStop) {
+                    return $errors;
+                }
+            }
+        } else {
+            $schemaColumns = \count($this->schema->getColumns());
+            $realColumns   = $this->csv->getRealColumNumber();
+            if ($realColumns < $schemaColumns) {
+                $error = new Error(
+                    'csv.header',
+                    'Real number of columns is less than schema: ' . $realColumns . ' < ' . $schemaColumns,
+                    '',
+                    ValidatorColumn::FALLBACK_LINE,
+                );
 
-            $errors->addError($error);
-
-            if ($quickStop) {
-                return $errors;
+                $errors->addError($error);
+                if ($quickStop) {
+                    return $errors;
+                }
             }
         }
 
