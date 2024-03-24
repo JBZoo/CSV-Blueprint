@@ -407,7 +407,7 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
 
     # Schema filepath. It can be a YAML, JSON or PHP. See examples on GitHub.
     # Required: true
-    schema: ./tests/schema.yml
+    schema: ./tests/**/*.yml
 
     # Report format. Available options: text, table, github, gitlab, teamcity, junit.
     # Default value: table

@@ -51,7 +51,7 @@ final class GithubActionsTest extends TestCase
         $inputs   = yml(PROJECT_ROOT . '/action.yml')->findArray('inputs');
         $examples = [
             'csv'         => './tests/**/*.csv',
-            'schema'      => './tests/schema.yml',
+            'schema'      => './tests/**/*.yml',
             'report'      => ErrorSuite::REPORT_DEFAULT,
             'quick'       => 'no',
             'skip-schema' => 'no',
