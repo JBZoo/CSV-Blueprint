@@ -62,12 +62,6 @@ final class ComboPercentile extends AbstarctAggregateRuleCombo
 
         $percentile = (float)$this->getParams()[self::PERC];
 
-        if ($percentile < 0 || $percentile > 100) {
-            throw new \RuntimeException(
-                "The percentile value must be between 0 and 100, but \"<c>{$percentile}</c>\" given",
-            );
-        }
-
         return Descriptive::percentile(self::stringsToFloat($colValues), $percentile);
     }
 
