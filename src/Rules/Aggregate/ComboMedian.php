@@ -29,6 +29,10 @@ final class ComboMedian extends AbstarctAggregateRuleCombo
 
     protected function getActualAggregate(array $colValues): ?float
     {
+        if (\count($colValues) === 0) {
+            return null;
+        }
+
         return Average::median(self::stringsToFloat($colValues));
     }
 }

@@ -81,9 +81,10 @@ final class ValidateCsvQuickTest extends TestCase
             CSV file validation: 3
             (1/3) Schema: ./tests/schemas/demo_invalid.yml
             (1/3) CSV   : ./tests/fixtures/batch/demo-1.csv
-            (1/3) Issues: 4
+            (1/3) Issues: 5
             "csv.header" at line 1. Columns not found in CSV: "wrong_column_name".
             "ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 1, total: 2.
+            "ag:nth_num" at line 1, column "2:Float". The column does not have a line 4, so the value cannot be checked.
             "ag:nth" at line 1, column "3:Birthday". The value on line 2 in the column is "1998-02-28", which is not equal than the expected "2000-12-01".
             "allow_values" at line 3, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].
             
@@ -107,7 +108,7 @@ final class ValidateCsvQuickTest extends TestCase
             Summary:
               3 pairs (schema to csv) were found based on `filename_pattern`.
               Found 2 issues in 1 schemas.
-              Found 12 issues in 3 out of 3 CSV files.
+              Found 13 issues in 3 out of 3 CSV files.
             
             
             TXT;

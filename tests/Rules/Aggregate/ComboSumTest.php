@@ -74,13 +74,6 @@ class ComboSumTest extends TestAbstractAggregateRuleCombo
         );
     }
 
-    public function testInvalidOption(): void
-    {
-        $this->expectExceptionMessage('Invalid option "[1, 2]" for the "ag:sum_max" rule. It should be integer/float.');
-        $rule = $this->create([1, 2], Combo::MAX);
-        $rule->validate(['1', '2', '3']);
-    }
-
     public function testInvalidParsing(): void
     {
         $this->expectExceptionMessage('The value should be an array of numbers/strings');

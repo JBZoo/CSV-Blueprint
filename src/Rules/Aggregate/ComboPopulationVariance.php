@@ -33,6 +33,10 @@ final class ComboPopulationVariance extends AbstarctAggregateRuleCombo
 
     protected function getActualAggregate(array $colValues): ?float
     {
+        if (\count($colValues) === 0) {
+            return null;
+        }
+
         return Descriptive::populationVariance(self::stringsToFloat($colValues));
     }
 }

@@ -33,6 +33,10 @@ final class ComboMeanAbsDev extends AbstarctAggregateRuleCombo
 
     protected function getActualAggregate(array $colValues): ?float
     {
+        if (\count($colValues) === 0) {
+            return null;
+        }
+
         return Descriptive::meanAbsoluteDeviation(self::stringsToFloat($colValues));
     }
 }

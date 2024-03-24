@@ -61,15 +61,19 @@ abstract class AbstarctAggregateRuleCombo extends AbstarctRuleCombo
 
         try {
             $actual = $this->getActualAggregate($colValues); // Important to use the original method here!
-        } catch (\Throwable) {
-            $actual = null; // TODO: Expose the error/warning message in the report?
+        } catch (\Throwable $exception) {
+            return $exception->getMessage(); // TODO: Expose the error/warning message in the report?
         }
 
         if ($actual === null) {
             return null; // Looks like it's impossible to calculate the aggregate value in this case. Skip.
         }
 
-        $expected = $this->getExpected();
+        try {
+            $expected = $this->getExpected();
+        } catch (\Throwable $exception) {
+            return $exception->getMessage(); // TODO: Expose the error/warning message in the report?
+        }
 
         if (!self::compare($expected, $actual, $mode)) {
             return "The {$name} in the column is \"<c>{$actual}</c>\", " .
