@@ -71,7 +71,7 @@ final class ComboPercentile extends AbstarctAggregateRuleCombo
         if (\count($params) !== self::ARGS) {
             throw new \RuntimeException(
                 'The rule expects exactly two arguments: ' .
-                'the first is the line number (without header), the second is the expected value',
+                'the first is percentile (0 < p < 100), the second is the expected value',
             );
         }
 
