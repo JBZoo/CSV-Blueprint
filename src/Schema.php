@@ -94,8 +94,12 @@ final class Schema
     {
         $map = [];
 
-        foreach ($header as $headerName) {
-            $map[$headerName] = $this->columns[$headerName] ?? null;
+        if ($this->getCsvStructure()->isHeader()) {
+            foreach ($header as $headerName) {
+                $map[$headerName] = $this->columns[$headerName] ?? null;
+            }
+        } else {
+            return $this->getColumns();
         }
 
         return $map;

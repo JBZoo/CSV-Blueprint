@@ -36,10 +36,19 @@ final class CsvValidatorTest extends TestCase
         isSame('', \strip_tags((string)$csv->validate()));
     }
 
-    public function testValidWithoutHeader(): void
+    public function testInvalidWithoutHeader(): void
     {
         $csv = new CsvFile(Tools::CSV_SIMPLE_NO_HEADER, Tools::SCHEMA_SIMPLE_NO_HEADER);
-        isSame('', \strip_tags((string)$csv->validate()));
+        isSame(
+            <<<'TEXT'
+                "csv.header" at line 1. Real number of columns is less than schema: 2 < 3.
+                "csv.column" at line 1, column "2:". Column index:2 not found.
+                "csv.column" at line 2, column "2:". Column index:2 not found.
+                "csv.column" at line 3, column "2:". Column index:2 not found.
+                
+                TEXT,
+            \strip_tags((string)$csv->validate()),
+        );
     }
 
     public function testInvalidSchemaFile(): void

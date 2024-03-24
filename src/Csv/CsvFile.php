@@ -96,6 +96,11 @@ final class CsvFile
         return (new ValidatorCsv($this, $this->schema))->validate($quickStop);
     }
 
+    public function getRealColumNumber(): int
+    {
+        return \count($this->getRecordsChunk(0, 1)->first());
+    }
+
     private function prepareReader(): LeagueReader
     {
         $reader = LeagueReader::createFromPath($this->csvFilename)

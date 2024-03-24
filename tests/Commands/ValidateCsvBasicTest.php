@@ -252,6 +252,47 @@ final class ValidateCsvBasicTest extends TestCase
         isSame($expected, $actual);
     }
 
+    public function testValidateOneCsvNoHeaderNegative(): void
+    {
+        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
+            'csv'    => Tools::DEMO_CSV,
+            'schema' => './tests/schemas/simple_no_header.yml',
+        ]);
+
+        $expected = $expected = <<<'TXT'
+            Found Schemas   : 1
+            Found CSV files : 1
+            Pairs by pattern: 1
+            
+            Check schema syntax: 1
+            (1/1) OK: ./tests/schemas/simple_no_header.yml
+            
+            CSV file validation: 1
+            (1/1) Schema: ./tests/schemas/simple_no_header.yml
+            (1/1) CSV   : ./tests/fixtures/demo.csv
+            (1/1) Issues: 2
+            +------+-----------+---------- demo.csv -----------------------------+
+            | Line | id:Column | Rule             | Message                      |
+            +------+-----------+------------------+------------------------------+
+            | 2    | 0:        | not_allow_values | Value "Clyde" is not allowed |
+            | 5    | 2:        | not_allow_values | Value "74" is not allowed    |
+            +------+-----------+---------- demo.csv -----------------------------+
+            
+            
+            Summary:
+              1 pairs (schema to csv) were found based on `filename_pattern`.
+              No issues in 1 schemas.
+              Found 2 issues in 1 out of 1 CSV files.
+              Schemas have no filename_pattern and are applied to all CSV files found:
+                - ./tests/schemas/simple_no_header.yml
+            
+            
+            TXT;
+
+        isSame(1, $exitCode, $actual);
+        isSame($expected, $actual);
+    }
+
     public function testSchemaNotFound(): void
     {
         $this->expectExceptionMessage('Schema file(s) not found: invalid_schema_path.yml');

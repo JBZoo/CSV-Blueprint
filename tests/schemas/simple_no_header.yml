@@ -15,6 +15,11 @@ csv:
 
 columns:
   - rules:
-      not_empty: true
+      not_allow_values: [ Clyde ]
   - rules:
       not_empty: true
+  - rules:
+      not_allow_values: [ 74 ]
+      not_empty: true
+    aggregate_rules:
+      is_unique: true
