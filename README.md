@@ -4,7 +4,7 @@
 [![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
 
 <!-- rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-127-green?label=Total%20Number%20of%20Rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-55-green?label=Cell%20Value&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-67-green?label=Aggregate%20Column&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-5-green?label=Extra%20Checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-309-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-131-green?label=Total%20Number%20of%20Rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-55-green?label=Cell%20Value&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-71-green?label=Aggregate%20Column&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-5-green?label=Extra%20Checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-309-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- /rules-counter -->
 
 ## Introduction
@@ -273,7 +273,12 @@ columns:
       first: Expected                   # First value in the column. Will be compared as strings.
       first_not: 'Not Expected'         # Not allowed as the first value in the column. Will be compared as strings.
 
-      # N-th in the column.
+      # N-th value in the column.
+      # The rule expects exactly two arguments: the first is the line number (without header), the second is the expected value.
+      nth_num: [ 2, 5 ]                 # Example: On the line 2 (disregarding the header), we expect the 5.0. The comparison is always as float.
+      nth_num_not: [ 2, 4.123 ]
+      nth_num_min: [ 2, -1 ]
+      nth_num_max: [ 2, 2e4 ]
       nth: [ 2, Expected ]              # Nth value in the column. Will be compared as strings.
       nth_not: [ 2, 'Not expected' ]    # Not allowed as the N-th value in the column. Will be compared as strings.
 
@@ -597,7 +602,7 @@ Check schema syntax: 1
 CSV file validation: 1
 (1/1) Schema: ./tests/schemas/demo_invalid.yml
 (1/1) CSV   : ./tests/fixtures/demo.csv
-(1/1) Issues: 9
+(1/1) Issues: 10
 +------+------------------+--------------+------------------------- demo.csv -------------------------------------------------------------------+
 | Line | id:Column        | Rule         | Message                                                                                              |
 +------+------------------+--------------+------------------------------------------------------------------------------------------------------+
@@ -606,6 +611,7 @@ CSV file validation: 1
 | 11   | 0:Name           | length_min   | The length of the value "Lois" is 4, which is less than the expected "5"                             |
 | 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 9, total: 10                                                   |
 | 2    | 2:Float          | num_max      | The number of the value "4825.185", which is greater than the expected "4825.184"                    |
+| 1    | 2:Float          | ag:nth_num   | The N-th value in the column is "74", which is not equal than the expected "0.001"                   |
 | 6    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
 |      |                  |              | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
 | 8    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
@@ -619,7 +625,7 @@ CSV file validation: 1
 Summary:
   1 pairs (schema to csv) were found based on `filename_pattern`.
   Found 2 issues in 1 schemas.
-  Found 9 issues in 1 out of 1 CSV files.
+  Found 10 issues in 1 out of 1 CSV files.
 
 
 ```

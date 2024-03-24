@@ -71,7 +71,7 @@ final class ValidateCsvBatchSchemaTest extends TestCase
             CSV file validation: 2
             (1/2) Schema: ./tests/schemas/demo_invalid.yml
             (1/2) CSV   : ./tests/fixtures/demo.csv
-            (1/2) Issues: 9
+            (1/2) Issues: 10
             +------+------------------+--------------+------------------------- demo.csv -------------------------------------------------------------------+
             | Line | id:Column        | Rule         | Message                                                                                              |
             +------+------------------+--------------+------------------------------------------------------------------------------------------------------+
@@ -80,6 +80,7 @@ final class ValidateCsvBatchSchemaTest extends TestCase
             | 11   | 0:Name           | length_min   | The length of the value "Lois" is 4, which is less than the expected "5"                             |
             | 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 9, total: 10                                                   |
             | 2    | 2:Float          | num_max      | The number of the value "4825.185", which is greater than the expected "4825.184"                    |
+            | 1    | 2:Float          | ag:nth_num   | The N-th value in the column is "74", which is not equal than the expected "0.001"                   |
             | 6    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
             |      |                  |              | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
             | 8    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
@@ -96,7 +97,7 @@ final class ValidateCsvBatchSchemaTest extends TestCase
             Summary:
               2 pairs (schema to csv) were found based on `filename_pattern`.
               Found 10 issues in 3 schemas.
-              Found 9 issues in 1 out of 1 CSV files.
+              Found 10 issues in 1 out of 1 CSV files.
               Not used schemas:
                 - ./tests/schemas/invalid_schema.yml
             

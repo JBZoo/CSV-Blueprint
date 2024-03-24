@@ -34,6 +34,10 @@ final class ComboCoefOfVar extends AbstarctAggregateRuleCombo
 
     protected function getActualAggregate(array $colValues): ?float
     {
+        if (\count($colValues) === 0) {
+            return null;
+        }
+
         return Descriptive::coefficientOfVariation(self::stringsToFloat($colValues));
     }
 }

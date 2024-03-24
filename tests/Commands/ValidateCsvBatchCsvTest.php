@@ -101,18 +101,20 @@ final class ValidateCsvBatchCsvTest extends TestCase
             CSV file validation: 3
             (1/3) Schema: ./tests/schemas/demo_invalid.yml
             (1/3) CSV   : ./tests/fixtures/batch/demo-1.csv
-            (1/3) Issues: 3
-            +------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
-            | Line | id:Column        | Rule         | Message                                                               |
-            +------+------------------+--------------+-----------------------------------------------------------------------+
-            | 1    |                  | csv.header   | Columns not found in CSV: "wrong_column_name"                         |
-            | 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 1, total: 2                     |
-            | 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"] |
-            +------+------------------+--------------+--------- demo-1.csv --------------------------------------------------+
+            (1/3) Issues: 5
+            +------+------------------+--------------+------------------------ demo-1.csv ------------------------------------------------------------------+
+            | Line | id:Column        | Rule         | Message                                                                                              |
+            +------+------------------+--------------+------------------------------------------------------------------------------------------------------+
+            | 1    |                  | csv.header   | Columns not found in CSV: "wrong_column_name"                                                        |
+            | 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 1, total: 2                                                    |
+            | 1    | 2:Float          | ag:nth_num   | The column does not have a line 4, so the value cannot be checked.                                   |
+            | 1    | 3:Birthday       | ag:nth       | The value on line 2 in the column is "1998-02-28", which is not equal than the expected "2000-12-01" |
+            | 3    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
+            +------+------------------+--------------+------------------------ demo-1.csv ------------------------------------------------------------------+
             
             (2/3) Schema: ./tests/schemas/demo_invalid.yml
             (2/3) CSV   : ./tests/fixtures/batch/demo-2.csv
-            (2/3) Issues: 6
+            (2/3) Issues: 7
             +------+------------+------------+---------------------------- demo-2.csv --------------------------------------------------------------+
             | Line | id:Column  | Rule       | Message                                                                                              |
             +------+------------+------------+------------------------------------------------------------------------------------------------------+
@@ -125,6 +127,7 @@ final class ValidateCsvBatchCsvTest extends TestCase
             |      |            |            | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
             | 5    | 3:Birthday | date_max   | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
             |      |            |            | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
+            | 1    | 3:Birthday | ag:nth     | The value on line 2 in the column is "1989-05-15", which is not equal than the expected "2000-12-01" |
             +------+------------+------------+---------------------------- demo-2.csv --------------------------------------------------------------+
             
             (3/3) Schema: ./tests/schemas/demo_invalid.yml
@@ -140,7 +143,7 @@ final class ValidateCsvBatchCsvTest extends TestCase
             Summary:
               3 pairs (schema to csv) were found based on `filename_pattern`.
               Found 2 issues in 1 schemas.
-              Found 10 issues in 3 out of 3 CSV files.
+              Found 13 issues in 3 out of 3 CSV files.
             
             
             TXT;

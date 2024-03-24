@@ -102,6 +102,10 @@ columns:
       first: Expected
       first_not: 'Not Expected'
 
+      nth_num: [ 2, 5 ]
+      nth_num_not: [ 2, 4.123 ]
+      nth_num_min: [ 2, -1 ]
+      nth_num_max: [ 2, 2e4 ]
       nth: [ 2, Expected ]
       nth_not: [ 2, 'Not expected' ]
 

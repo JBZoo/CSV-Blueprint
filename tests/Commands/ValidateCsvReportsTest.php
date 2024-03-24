@@ -45,7 +45,7 @@ final class ValidateCsvReportsTest extends TestCase
             CSV file validation: 1
             (1/1) Schema: ./tests/schemas/demo_invalid.yml
             (1/1) CSV   : ./tests/fixtures/demo.csv
-            (1/1) Issues: 9
+            (1/1) Issues: 10
             +------+------------------+--------------+------------------------- demo.csv -------------------------------------------------------------------+
             | Line | id:Column        | Rule         | Message                                                                                              |
             +------+------------------+--------------+------------------------------------------------------------------------------------------------------+
@@ -54,6 +54,7 @@ final class ValidateCsvReportsTest extends TestCase
             | 11   | 0:Name           | length_min   | The length of the value "Lois" is 4, which is less than the expected "5"                             |
             | 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 9, total: 10                                                   |
             | 2    | 2:Float          | num_max      | The number of the value "4825.185", which is greater than the expected "4825.184"                    |
+            | 1    | 2:Float          | ag:nth_num   | The N-th value in the column is "74", which is not equal than the expected "0.001"                   |
             | 6    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
             |      |                  |              | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
             | 8    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
@@ -67,7 +68,7 @@ final class ValidateCsvReportsTest extends TestCase
             Summary:
               1 pairs (schema to csv) were found based on `filename_pattern`.
               Found 2 issues in 1 schemas.
-              Found 9 issues in 1 out of 1 CSV files.
+              Found 10 issues in 1 out of 1 CSV files.
             
             
             TXT;
@@ -92,12 +93,13 @@ final class ValidateCsvReportsTest extends TestCase
             CSV file validation: 1
             (1/1) Schema: ./tests/schemas/demo_invalid.yml
             (1/1) CSV   : ./tests/fixtures/demo.csv
-            (1/1) Issues: 9
+            (1/1) Issues: 10
             "csv.header" at line 1. Columns not found in CSV: "wrong_column_name".
             "length_min" at line 6, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".
             "length_min" at line 11, column "0:Name". The length of the value "Lois" is 4, which is less than the expected "5".
             "ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 9, total: 10.
             "num_max" at line 2, column "2:Float". The number of the value "4825.185", which is greater than the expected "4825.184".
+            "ag:nth_num" at line 1, column "2:Float". The N-th value in the column is "74", which is not equal than the expected "0.001".
             "date_min" at line 6, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
             "date_min" at line 8, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
             "date_max" at line 9, column "3:Birthday". The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)".
@@ -107,7 +109,7 @@ final class ValidateCsvReportsTest extends TestCase
             Summary:
               1 pairs (schema to csv) were found based on `filename_pattern`.
               Found 2 issues in 1 schemas.
-              Found 9 issues in 1 out of 1 CSV files.
+              Found 10 issues in 1 out of 1 CSV files.
             
             
             TXT;
@@ -133,7 +135,7 @@ final class ValidateCsvReportsTest extends TestCase
             CSV file validation: 1
             (1/1) Schema: ./tests/schemas/demo_invalid.yml
             (1/1) CSV   : ./tests/fixtures/demo.csv
-            (1/1) Issues: 9
+            (1/1) Issues: 10
             ::error file=<root>/tests/fixtures/demo.csv,line=1::csv.header at column%0A"csv.header" at line 1. Columns not found in CSV: "wrong_column_name".
             
             ::error file=<root>/tests/fixtures/demo.csv,line=6::length_min at column 0:Name%0A"length_min" at line 6, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".
@@ -143,6 +145,8 @@ final class ValidateCsvReportsTest extends TestCase
             ::error file=<root>/tests/fixtures/demo.csv,line=1::ag:is_unique at column 1:City%0A"ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 9, total: 10.
             
             ::error file=<root>/tests/fixtures/demo.csv,line=2::num_max at column 2:Float%0A"num_max" at line 2, column "2:Float". The number of the value "4825.185", which is greater than the expected "4825.184".
+            
+            ::error file=<root>/tests/fixtures/demo.csv,line=1::ag:nth_num at column 2:Float%0A"ag:nth_num" at line 1, column "2:Float". The N-th value in the column is "74", which is not equal than the expected "0.001".
             
             ::error file=<root>/tests/fixtures/demo.csv,line=6::date_min at column 3:Birthday%0A"date_min" at line 6, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
             
@@ -156,7 +160,7 @@ final class ValidateCsvReportsTest extends TestCase
             Summary:
               1 pairs (schema to csv) were found based on `filename_pattern`.
               Found 2 issues in 1 schemas.
-              Found 9 issues in 1 out of 1 CSV files.
+              Found 10 issues in 1 out of 1 CSV files.
             
             
             TXT;
@@ -183,7 +187,7 @@ final class ValidateCsvReportsTest extends TestCase
             ##teamcity[testSuiteFinished name='demo_invalid.yml' flowId='42']
             
             
-            ##teamcity[testCount count='9' flowId='42']
+            ##teamcity[testCount count='10' flowId='42']
             
             ##teamcity[testSuiteStarted name='demo.csv' flowId='42']
             
@@ -206,6 +210,10 @@ final class ValidateCsvReportsTest extends TestCase
             ##teamcity[testStarted name='num_max at column 2:Float' locationHint='php_qn://<root>/tests/fixtures/demo.csv' flowId='42']
             "num_max" at line 2, column "2:Float". The number of the value "4825.185", which is greater than the expected "4825.184".
             ##teamcity[testFinished name='num_max at column 2:Float' flowId='42']
+            
+            ##teamcity[testStarted name='ag:nth_num at column 2:Float' locationHint='php_qn://<root>/tests/fixtures/demo.csv' flowId='42']
+            "ag:nth_num" at line 1, column "2:Float". The N-th value in the column is "74", which is not equal than the expected "0.001".
+            ##teamcity[testFinished name='ag:nth_num at column 2:Float' flowId='42']
             
             ##teamcity[testStarted name='date_min at column 3:Birthday' locationHint='php_qn://<root>/tests/fixtures/demo.csv' flowId='42']
             "date_min" at line 6, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
@@ -249,7 +257,7 @@ final class ValidateCsvReportsTest extends TestCase
             
             <?xml version="1.0" encoding="UTF-8"?>
             <testsuites>
-              <testsuite name="demo.csv" tests="9">
+              <testsuite name="demo.csv" tests="10">
                 <testcase name="csv.header at column" file="<root>/tests/fixtures/demo.csv" line="1">
                   <system-out>"csv.header" at line 1. Columns not found in CSV: "wrong_column_name".</system-out>
                 </testcase>
@@ -264,6 +272,9 @@ final class ValidateCsvReportsTest extends TestCase
                 </testcase>
                 <testcase name="num_max at column 2:Float" file="<root>/tests/fixtures/demo.csv" line="2">
                   <system-out>"num_max" at line 2, column "2:Float". The number of the value "4825.185", which is greater than the expected "4825.184".</system-out>
+                </testcase>
+                <testcase name="ag:nth_num at column 2:Float" file="<root>/tests/fixtures/demo.csv" line="1">
+                  <system-out>"ag:nth_num" at line 1, column "2:Float". The N-th value in the column is "74", which is not equal than the expected "0.001".</system-out>
                 </testcase>
                 <testcase name="date_min at column 3:Birthday" file="<root>/tests/fixtures/demo.csv" line="6">
                   <system-out>"date_min" at line 6, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".</system-out>
@@ -368,6 +379,17 @@ final class ValidateCsvReportsTest extends TestCase
                         "path": "<root>\/tests\/fixtures\/demo.csv",
                         "lines": {
                             "begin": 2
+                        }
+                    }
+                },
+                {
+                    "description": "ag:nth_num at column 2:Float\n\"ag:nth_num\" at line 1, column \"2:Float\". The N-th value in the column is \"74\", which is not equal than the expected \"0.001\".",
+                    "fingerprint": "_replaced_",
+                    "severity": "major",
+                    "location": {
+                        "path": "<root>\/tests\/fixtures\/demo.csv",
+                        "lines": {
+                            "begin": 1
                         }
                     }
                 },

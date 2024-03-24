@@ -35,6 +35,8 @@ columns:
       is_float: true
       num_min: -19366059128
       num_max: 4825.184
+    aggregate_rules:
+      nth_num: [ 4, 0.001 ]
 
   - name: Birthday
     rules:
@@ -42,6 +44,8 @@ columns:
       date_format: Y-m-d
       date_min: "1955-05-15"
       date_max: "2009-01-01"
+    aggregate_rules:
+      nth: [ 2, '2000-12-01' ]
 
   - name: Favorite color
     example: 123

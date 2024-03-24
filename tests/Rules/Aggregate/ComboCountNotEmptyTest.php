@@ -77,15 +77,6 @@ class ComboCountNotEmptyTest extends TestAbstractAggregateRuleCombo
         );
     }
 
-    public function testInvalidOption(): void
-    {
-        $this->expectExceptionMessage(
-            'Invalid option "[1, 2]" for the "ag:count_not_empty_max" rule. It should be integer/float.',
-        );
-        $rule = $this->create([1, 2], Combo::MAX);
-        $rule->validate(['1', '2', '3']);
-    }
-
     public function testInvalidParsing(): void
     {
         $rule = $this->create(0, Combo::EQ);

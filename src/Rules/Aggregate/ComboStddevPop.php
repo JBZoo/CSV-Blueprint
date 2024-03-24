@@ -31,6 +31,10 @@ final class ComboStddevPop extends AbstarctAggregateRuleCombo
 
     protected function getActualAggregate(array $colValues): ?float
     {
+        if (\count($colValues) === 0) {
+            return null;
+        }
+
         return Descriptive::standardDeviation(self::stringsToFloat($colValues), Descriptive::POPULATION);
     }
 }

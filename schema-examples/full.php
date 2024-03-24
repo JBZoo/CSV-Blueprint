@@ -115,8 +115,12 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'first'         => 'Expected',
                 'first_not'     => 'Not Expected',
 
-                'nth'     => [2, 'Expected'],
-                'nth_not' => [2, 'Not expected'],
+                'nth_num'     => [2, 5],
+                'nth_num_not' => [2, 4.123],
+                'nth_num_min' => [2, -1],
+                'nth_num_max' => [2, 20000.0],
+                'nth'         => [2, 'Expected'],
+                'nth_not'     => [2, 'Not expected'],
 
                 'last_num'     => 5,
                 'last_num_not' => 4.123,

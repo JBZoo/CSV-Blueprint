@@ -76,11 +76,13 @@ class ComboAverageTest extends TestAbstractAggregateRuleCombo
 
     public function testInvalidOption(): void
     {
-        $this->expectExceptionMessage(
-            'Invalid option "[1, 2]" for the "ag:average_max" rule. It should be integer/float.',
-        );
         $rule = $this->create([1, 2], Combo::MAX);
-        $rule->validate(['1', '2', '3']);
+        isSame(
+            '"ag:average_max" at line <red>1</red>, column "prop". ' .
+            'Invalid option "[1, 2]" for the "ag:average_max" rule. ' .
+            'It should be integer/float.',
+            (string)$rule->validate(['1', '2', '3']),
+        );
     }
 
     public function testInvalidParsing(): void
