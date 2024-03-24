@@ -27,7 +27,7 @@ final class NthTest extends TestAbstractAggregateRule
 
     public function testPositive(): void
     {
-        $rule = $this->create([2, 'Value']);
+        $rule = $this->create([3, 'Value']);
         isSame(null, $rule->validate([]));
         isSame(null, $rule->validate(['', '2', 'Value']));
         isSame(null, $rule->validate(['', '2', 'Value', '']));
@@ -45,14 +45,14 @@ final class NthTest extends TestAbstractAggregateRule
         $rule = $this->create([]);
         isSame(
             'The rule expects exactly two arguments: ' .
-            'the first is the line number, the second is the expected value',
+            'the first is the line number (without header), the second is the expected value',
             $rule->test(['1', 'Value', '2', '3']),
         );
 
         $rule = $this->create([2, 'Value']);
         isSame(
-            'The 2 value in the column is "2", which is not equal than the expected "Value"',
-            $rule->test(['1', 'Value', '2', '3']),
+            'The value on line 2 in the column is "2", which is not equal than the expected "Value"',
+            $rule->test(['1', '2', 'Value', '3']),
         );
     }
 }

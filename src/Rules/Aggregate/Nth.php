@@ -39,19 +39,20 @@ final class Nth extends AbstarctAggregateRule
         $params = $this->getOptionAsArray();
         if (\count($params) !== self::ARGS) {
             return 'The rule expects exactly two arguments: ' .
-                'the first is the line number, the second is the expected value';
+                'the first is the line number (without header), the second is the expected value';
         }
 
-        $nth      = (int)$params[self::NTH];
+        $realLine = (int)$params[self::NTH];
+        $arrayInd = $realLine - 1;
         $expValue = (string)$params[self::VAL];
 
-        $actual = $columnValues[$nth] ?? null;
+        $actual = $columnValues[$arrayInd] ?? null;
         if ($actual === null) {
-            return "The column does not have a line {$nth}, so the value cannot be checked.";
+            return "The column does not have a line {$realLine}, so the value cannot be checked.";
         }
 
         if ($actual !== $expValue) {
-            return "The {$nth} value in the column is \"<c>{$actual}</c>\", " .
+            return "The value on line {$realLine} in the column is \"<c>{$actual}</c>\", " .
                 "which is not equal than the expected \"<green>{$expValue}</green>\"";
         }
 

@@ -42,6 +42,8 @@ columns:
       date_format: Y-m-d
       date_min: "1955-05-15"
       date_max: "2009-01-01"
+    aggregate_rules:
+      nth: [ 2, '2000-12-01' ]
 
   - name: Favorite color
     example: 123
