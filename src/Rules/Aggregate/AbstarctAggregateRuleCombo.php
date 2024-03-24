@@ -81,6 +81,6 @@ abstract class AbstarctAggregateRuleCombo extends AbstarctRuleCombo
 
     protected static function stringsToFloat(array $colValues): array
     {
-        return \array_map('floatval', $colValues);
+        return \array_map('\JBZoo\Utils\float', $colValues);
     }
 }

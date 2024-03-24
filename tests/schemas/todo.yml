@@ -257,7 +257,6 @@ columns:
       count_false: 1
 
       # https://github.com/markrogoyski/math-php#statistics---descriptive
-      mean_abs_dev: 1
       median_abs_dev: 1
       quartiles: [ 1, mode ]         # 0%, Q1, Q2, Q3, 100%, IQR
       quartiles_exclusive: 1
