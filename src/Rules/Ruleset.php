@@ -26,6 +26,9 @@ final class Ruleset
     private array  $rules;
     private string $columnNameId;
 
+    /** @var int[] */
+    private array $intputTypes = [];
+
     public function __construct(array $rules, string $columnNameId)
     {
         $this->rules        = [];
@@ -35,6 +38,7 @@ final class Ruleset
             $rule = $this->ruleDiscovery((string)$ruleName, $options);
             if ($rule !== null) {
                 $this->rules[$ruleName] = $rule;
+                $this->intputTypes[]    = $rule->getInputType();
             }
         }
     }
@@ -73,6 +77,22 @@ final class Ruleset
 
         // throw new Exception("Rule \"{$origRuleName}\" not found."); // FIXME: replace to warning
         return null;
+    }
+
+    /**
+     * Based on the fact that aggregation rules need different data types,
+     * we choose the minimum possible and safe one to save RAM when preparing the array for aggregation.
+     * Sometimes this can give us a benefit of up to 3 times.
+     *
+     * It also speeds up math functions a bit, but only if there are more than a million values.
+     */
+    public function getAggregationInputType(): int
+    {
+        if (\count($this->intputTypes) === 0) {
+            return AbstarctRule::INPUT_TYPE_UNDEF;
+        }
+
+        return \max($this->intputTypes);
     }
 
     /**

@@ -18,12 +18,28 @@ namespace JBZoo\CsvBlueprint;
 
 use JBZoo\Utils\Cli;
 use JBZoo\Utils\Env;
+use JBZoo\Utils\FS;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
+
+use function JBZoo\Cli\cli;
 
 final class Utils
 {
     public const MAX_DIRECTORY_DEPTH = 10;
+
+    public static function debug(int|string $message): void
+    {
+        if (\defined('PROFILE_MODE')) {
+            $memoryCur  = FS::format(\memory_get_usage(true), 0);
+            $memoryPeak = FS::format(\memory_get_peak_usage(true), 0);
+            $memory     = $memoryCur === $memoryPeak
+                ? "<green>{$memoryCur}</green>"
+                : "<c>{$memoryCur} / {$memoryPeak}</c>";
+
+            cli("{$memory}; {$message}");
+        }
+    }
 
     public static function kebabToCamelCase(string $input): string
     {

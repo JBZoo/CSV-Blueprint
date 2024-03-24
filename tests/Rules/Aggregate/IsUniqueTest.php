@@ -17,11 +17,11 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit\Rules\Aggregate;
 
 use JBZoo\CsvBlueprint\Rules\Aggregate\IsUnique;
-use JBZoo\PHPUnit\Rules\AbstractAggregateRule;
+use JBZoo\PHPUnit\Rules\TestAbstractAggregateRule;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class IsUniqueTest extends AbstractAggregateRule
+final class IsUniqueTest extends TestAbstractAggregateRule
 {
     protected string $ruleClass = IsUnique::class;
 

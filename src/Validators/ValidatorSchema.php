@@ -23,7 +23,7 @@ use JBZoo\Data\AbstractData;
 
 use function JBZoo\Data\phpArray;
 
-final class SchemaValidator
+final class ValidatorSchema
 {
     private ?string      $filename;
     private bool         $isHeader;
@@ -38,6 +38,7 @@ final class SchemaValidator
 
     public function validate(bool $quickStop = false): ErrorSuite
     {
+        Utils::debug('Start schema validation');
         [$expectedMeta, $expectedColumn] = self::getExpected();
         [$actualMeta, $actualColumns]    = $this->getActual();
 
@@ -58,6 +59,8 @@ final class SchemaValidator
                 return $allErrors;
             }
         }
+
+        Utils::debug('End schema validation');
 
         return $allErrors;
     }

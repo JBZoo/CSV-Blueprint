@@ -17,8 +17,9 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Csv;
 
 use JBZoo\CsvBlueprint\Schema;
-use JBZoo\CsvBlueprint\Validators\CsvValidator;
+use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
+use JBZoo\CsvBlueprint\Validators\ValidatorCsv;
 use League\Csv\Reader as LeagueReader;
 use League\Csv\Statement;
 use League\Csv\TabularDataReader;
@@ -30,6 +31,7 @@ final class CsvFile
     private LeagueReader $reader;
     private Schema       $schema;
     private bool         $isEmpty;
+    private ?array       $header = null;
 
     public function __construct(string $csvFilename, null|array|string $csvSchemaFilenameOrArray = null)
     {
@@ -59,18 +61,29 @@ final class CsvFile
      */
     public function getHeader(): array
     {
-        if ($this->structure->isHeader() && !$this->isEmpty) {
-            // TODO: add handler for empty file
-            // League\Csv\SyntaxError : The header record does not exist or is empty at offset: `0
-            return $this->reader->getHeader();
+        if ($this->header === null) {
+            Utils::debug('Start getHeader() from CSV');
+            $this->header = [];
+
+            if ($this->structure->isHeader() && !$this->isEmpty) {
+                // TODO: add handler for empty file
+                // League\Csv\SyntaxError : The header record does not exist or is empty at offset: `0
+                $this->header = $this->reader->getHeader();
+            }
+
+            Utils::debug('End getHeader()');
         }
 
-        return [];
+        return $this->header;
     }
 
     public function getRecords(): \Iterator
     {
-        return $this->reader->getRecords($this->getHeader());
+        Utils::debug('Start getRecords() from CSV');
+        $records = $this->reader->getRecords($this->getHeader());
+        Utils::debug('End getRecords()');
+
+        return $records;
     }
 
     public function getRecordsChunk(int $offset = 0, int $limit = -1): TabularDataReader
@@ -80,7 +93,7 @@ final class CsvFile
 
     public function validate(bool $quickStop = false): ErrorSuite
     {
-        return (new CsvValidator($this, $this->schema))->validate($quickStop);
+        return (new ValidatorCsv($this, $this->schema))->validate($quickStop);
     }
 
     private function prepareReader(): LeagueReader

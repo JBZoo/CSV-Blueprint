@@ -17,11 +17,11 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Rules\Cell\IsCurrencyCode;
-use JBZoo\PHPUnit\Rules\AbstractCellRule;
+use JBZoo\PHPUnit\Rules\TestAbstractCellRule;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class CurrencyCodeTest extends AbstractCellRule
+final class CurrencyCodeTest extends TestAbstractCellRule
 {
     protected string $ruleClass = IsCurrencyCode::class;
 

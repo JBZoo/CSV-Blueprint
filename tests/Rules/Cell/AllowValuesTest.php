@@ -17,11 +17,11 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Rules\Cell\AllowValues;
-use JBZoo\PHPUnit\Rules\AbstractCellRule;
+use JBZoo\PHPUnit\Rules\TestAbstractCellRule;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class AllowValuesTest extends AbstractCellRule
+final class AllowValuesTest extends TestAbstractCellRule
 {
     protected string $ruleClass = AllowValues::class;
 

@@ -16,10 +16,13 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
+use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use MathPHP\Statistics\Descriptive;
 
 final class ComboCoefOfVar extends AbstarctAggregateRuleCombo
 {
+    public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_FLOATS;
+
     protected const NAME = 'Coefficient of variation';
 
     protected const HELP_TOP = [

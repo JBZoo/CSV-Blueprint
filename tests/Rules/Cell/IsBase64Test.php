@@ -17,11 +17,11 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Rules\Cell\IsBase64;
-use JBZoo\PHPUnit\Rules\AbstractCellRule;
+use JBZoo\PHPUnit\Rules\TestAbstractCellRule;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class IsBase64Test extends AbstractCellRule
+final class IsBase64Test extends TestAbstractCellRule
 {
     protected string $ruleClass = IsBase64::class;
 

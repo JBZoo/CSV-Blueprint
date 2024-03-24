@@ -435,13 +435,14 @@ docker run --rm                                  \
     jbzoo/csv-blueprint:latest                   \
     validate:csv                                 \
     --csv=./tests/fixtures/demo.csv              \
-    --schema=./tests/schemas/demo_invalid.yml
+    --schema=./tests/schemas/demo_invalid.yml    \
+    --ansi -vvv
 
 
 # OR build it from source.
 git clone git@github.com:JBZoo/Csv-Blueprint.git csv-blueprint
 cd csv-blueprint
-make build-docker  # local tag is "jbzoo/csv-blueprint:local"
+make docker-build  # local tag is "jbzoo/csv-blueprint:local"
 ```
 
 

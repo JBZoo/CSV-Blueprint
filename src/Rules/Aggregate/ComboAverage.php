@@ -16,10 +16,13 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
+use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use MathPHP\Statistics\Average;
 
 final class ComboAverage extends AbstarctAggregateRuleCombo
 {
+    public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_FLOATS;
+
     protected const NAME = 'average';
 
     protected const HELP_TOP = ['Regular the arithmetic mean. The sum of the numbers divided by the count.'];

@@ -16,8 +16,12 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
+use JBZoo\CsvBlueprint\Rules\AbstarctRule;
+
 final class ComboSum extends AbstarctAggregateRuleCombo
 {
+    public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_FLOATS;
+
     protected const NAME = 'sum of numbers';
 
     protected const HELP_TOP = ['Sum of the numbers in the column. Example: [1, 2, 3] => 6.'];

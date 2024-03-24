@@ -17,10 +17,11 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Validators;
 
 use JBZoo\CsvBlueprint\Csv\CsvFile;
+use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use JBZoo\CsvBlueprint\Schema;
 use JBZoo\CsvBlueprint\Utils;
 
-final class CsvValidator
+final class ValidatorCsv
 {
     private CsvFile    $csv;
     private ErrorSuite $errors;
@@ -85,7 +86,7 @@ final class CsvValidator
                     'Property "<c>name</c>" is not defined in schema: ' .
                     "\"<c>{$this->schema->getFilename()}</c>\"",
                     $column->getHumanName(),
-                    ColumnValidator::FALLBACK_LINE,
+                    ValidatorColumn::FALLBACK_LINE,
                 );
 
                 $errors->addError($error);
@@ -110,15 +111,40 @@ final class CsvValidator
                 continue;
             }
 
+            Utils::debug("<i>Col</i> start: {$column->getKey()}");
+            $colValidator = $column->getValidator();
+
+            Utils::debug("<i>Col</i> validator created: {$column->getKey()}");
+
+            $isAggRules   = \count($column->getAggregateRules()) > 0;
+            $isRules      = \count($column->getRules()) > 0;
+            $aggInputType = $isAggRules ? $colValidator->getAggregationInputType() : AbstarctRule::INPUT_TYPE_UNDEF;
+            Utils::debug("<i>Col</i> Agg input type: {$aggInputType}");
+
+            if (!$isAggRules && !$isRules) { // Time optimization
+                continue;
+            }
+
             foreach ($this->csv->getRecords() as $line => $record) {
-                $columValues[] = $record[$column->getKey()];
-                $errors->addErrorSuit($column->validateCell($record[$column->getKey()], (int)$line + 1));
-                if ($quickStop && $errors->count() > 0) {
-                    return $errors;
+                if ($isAggRules) {  // Time & memory optimization
+                    $columValues[] = ValidatorColumn::prepareValue($record[$column->getKey()], $aggInputType);
+                }
+
+                if ($isRules) { // Time optimization
+                    $errors->addErrorSuit($colValidator->validateCell($record[$column->getKey()], (int)$line + 1));
+                    if ($quickStop && $errors->count() > 0) {
+                        return $errors;
+                    }
                 }
             }
 
-            $errors->addErrorSuit($column->validateList($columValues));
+            Utils::debug("<i>Col</i> aggregate: {$column->getKey()}");
+
+            if ($isAggRules) {// Time optimization
+                $errors->addErrorSuit($colValidator->validateList($columValues));
+            }
+
+            Utils::debug("<i>Col</i> end: {$column->getKey()}");
         }
 
         return $errors;
@@ -170,7 +196,7 @@ final class CsvValidator
                 'csv.header',
                 'Columns not found in CSV: "<c>' . \implode(', ', $notFoundColums) . '</c>"',
                 '',
-                ColumnValidator::FALLBACK_LINE,
+                ValidatorColumn::FALLBACK_LINE,
             );
 
             $errors->addError($error);

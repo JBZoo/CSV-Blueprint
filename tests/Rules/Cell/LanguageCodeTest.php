@@ -17,11 +17,11 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Rules\Cell\LanguageCode;
-use JBZoo\PHPUnit\Rules\AbstractCellRule;
+use JBZoo\PHPUnit\Rules\TestAbstractCellRule;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class LanguageCodeTest extends AbstractCellRule
+final class LanguageCodeTest extends TestAbstractCellRule
 {
     protected string $ruleClass = LanguageCode::class;
 

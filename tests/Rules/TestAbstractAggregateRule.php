@@ -25,7 +25,7 @@ use function JBZoo\PHPUnit\isFileContains;
 use function JBZoo\PHPUnit\isSame;
 use function JBZoo\PHPUnit\success;
 
-abstract class AbstractAggregateRule extends TestCase
+abstract class TestAbstractAggregateRule extends TestCase
 {
     protected string $ruleClass = '';
 

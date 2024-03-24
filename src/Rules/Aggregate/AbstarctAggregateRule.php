@@ -20,6 +20,8 @@ use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 
 abstract class AbstarctAggregateRule extends AbstarctRule
 {
+    public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_STRINGS;
+
     /**
      * Validate the rule.
      *

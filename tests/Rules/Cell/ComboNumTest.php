@@ -18,11 +18,11 @@ namespace JBZoo\PHPUnit\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Rules\AbstarctRule as Combo;
 use JBZoo\CsvBlueprint\Rules\Cell\ComboNum;
-use JBZoo\PHPUnit\Rules\AbstractCellRuleCombo;
+use JBZoo\PHPUnit\Rules\TestAbstractCellRuleCombo;
 
 use function JBZoo\PHPUnit\isSame;
 
-class ComboNumTest extends AbstractCellRuleCombo
+class ComboNumTest extends TestAbstractCellRuleCombo
 {
     protected string $ruleClass = ComboNum::class;
 
