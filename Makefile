@@ -12,117 +12,87 @@
 
 .PHONY: build
 
-REPORT  ?= table
-COLUMNS ?= 300
-
 ifneq (, $(wildcard ./vendor/jbzoo/codestyle/src/init.Makefile))
     include ./vendor/jbzoo/codestyle/src/init.Makefile
 endif
 
+CMD_VALIDATE     ?= validate:csv --ansi -vvv
+DOCKER_IMAGE     ?= jbzoo/csv-blueprint:local
+BLUEPRINT        ?= COLUMNS=300 $(PHP_BIN) ./csv-blueprint $(CMD_VALIDATE)
+BLUEPRINT_DOCKER ?= docker run --rm  --workdir=/parent-host -v .:/parent-host $(DOCKER_IMAGE) $(CMD_VALIDATE)
 
-build:
+VALID_CSV       ?= --csv='./tests/fixtures/demo.csv'
+VALID_SCHEMA    ?= --schema='./tests/schemas/demo_valid.yml'
+INVALID_CSV     ?= --csv='./tests/fixtures/batch/*.csv'
+INVALID_SCHEMA  ?= --schema='./tests/schemas/demo_invalid.yml'
+
+# Build/install ########################################################################################################
+build: ##@Project Build project in development mode
 	@composer install --optimize-autoloader
 	@rm -f `pwd`/ci-report-converter
 
-
-build-prod:
+build-prod: ##@Project Build project in production mode
 	@composer install --no-dev --classmap-authoritative
 	@rm -f `pwd`/ci-report-converter
 
-
-build-phar-file:
+build-phar-file: ##@Project Build PHAR file
 	curl -L "https://github.com/box-project/box/releases/download/4.5.1/box.phar" -o ./build/box.phar
 	@php ./build/box.phar --version
 	@php ./build/box.phar compile -vv
 	@ls -lh ./build/csv-blueprint.phar
 
-
-update:
+update: ##@Project Update dependencies
 	@echo "Composer flags: $(JBZOO_COMPOSER_UPDATE_FLAGS)"
 	@composer update $(JBZOO_COMPOSER_UPDATE_FLAGS)
 
 
 # Demo #################################################################################################################
+demo: ##@Demo Run demo via PHP binary
+	$(call title,"Demo - Valid CSV \(PHP binary\)")
+	@${BLUEPRINT} ${VALID_CSV} ${VALID_SCHEMA}
+	$(call title,"Demo - Invalid CSV \(PHP binary\)")
+	@${BLUEPRINT} ${INVALID_CSV} ${INVALID_SCHEMA}
 
-demo: ##@Project Run all demo commands
-	@make demo-valid
-	@make demo-invalid
-
-
-demo-valid: ##@Project Run demo valid CSV
-	$(call title,"Demo - Valid CSV")
-	@${PHP_BIN} ./csv-blueprint validate:csv      \
-       --csv=./tests/fixtures/demo.csv            \
-       --schema=./tests/schemas/demo_valid.yml    \
-       --skip-schema -v
-
-demo-invalid: ##@Project Run demo invalid CSV
-	$(call title,"Demo - Invalid CSV")
-	@${PHP_BIN} ./csv-blueprint validate:csv        \
-       --csv=./tests/fixtures/demo.csv              \
-       --schema=./tests/schemas/invalid_schema.yml  \
-       --report=$(REPORT) -v
-
-
-demo-github: ##@Project Run demo invalid CSV
-	@${PHP_BIN} ./csv-blueprint validate:csv        \
-       --csv=./tests/fixtures/batch/*.csv           \
-       --schema=./tests/schemas/demo_invalid.yml    \
-       --report=$(REPORT)                           \
-       --ansi
+REPORT ?= table
+demo-github: ##@Demo Run demo invalid CSV for GitHub Actions
+	@${BLUEPRINT} ${INVALID_CSV} ${INVALID_SCHEMA} --report=$(REPORT)
 
 
 # Docker ###############################################################################################################
-
-build-docker:
+docker-build: ##@Docker (Re-)build Docker image
 	$(call title,"Building Docker Image")
-	@docker build -t jbzoo/csv-blueprint:local .
+	@docker build -t $(DOCKER_IMAGE) .
 
-
-docker-in:
-	@docker run -it --entrypoint /bin/sh jbzoo/csv-blueprint:local
-
-
-demo-docker: ##@Project Run demo via Docker
+docker-demo: ##@Docker Run demo via Docker
 	$(call title,"Demo - Valid CSV \(via Docker\)")
-	@docker run --rm                                \
-       --workdir=/parent-host                       \
-       -v .:/parent-host                            \
-       jbzoo/csv-blueprint:local                    \
-       validate:csv                                 \
-       --csv=./tests/fixtures/demo.csv              \
-       --schema=./tests/schemas/demo_valid.yml      \
-       --ansi -vvv
+	@${BLUEPRINT_DOCKER} ${VALID_CSV} ${VALID_SCHEMA}
 	$(call title,"Demo - Invalid CSV \(via Docker\)")
-	@docker run --rm                                \
-       --workdir=/parent-host                       \
-       -v .:/parent-host                            \
-       jbzoo/csv-blueprint:local                    \
-       validate:csv                                 \
-       --csv=./tests/fixtures/demo.csv              \
-       --schema=./tests/schemas/demo_invalid.yml    \
-       --ansi -vvv
+	@${BLUEPRINT_DOCKER} ${INVALID_CSV} ${INVALID_SCHEMA}
+
+docker-in: ##@Docker Enter into Docker container
+	@docker run -it --entrypoint /bin/sh $(DOCKER_IMAGE)
+
 
 # Benchmarks ###########################################################################################################
-
-BENCH_ROWS ?= 1000000
-BENCH_CSV ?= --csv=./build/1000000.csv
+BENCH_CSV    ?= --csv=./build/${BENCH_ROWS}.csv
 BENCH_SCHEMA ?= --schema=./tests/benchmarks/benchmark.yml
 
-bench-prepare: ##@Project Run PHP benchmarks
+BENCH_ROWS := 1000 100000 1000000
+BENCH_COLS := 1 3 5 10 20
+bench-prepare: ##@Benchmarks Create CSV files
 	$(call title,"PHP Benchmarks - Prepare CSV files")
-	${PHP_BIN} ./tests/benchmarks/create-csv.php $(BENCH_ROWS)
-	ls -lh ./build/*.csv
+	@rm -fv ./build/bench_*.csv
+	@$(foreach cols,$(BENCH_COLS), \
+        $(foreach rows,$(BENCH_ROWS),\
+            ${PHP_BIN} ./tests/Benchmarks/bench.php -H --rows=$(rows) --columns=$(cols) -vv; \
+        ) \
+    )
+	@ls -lh ./build/bench_*.csv;
 
-bench-php: ##@Project Run PHP benchmarks
+bench-php: ##@Benchmarks Run PHP binary benchmarks
 	$(call title,"PHP Benchmarks - PHP binary")
 	${PHP_BIN} ./csv-blueprint validate:csv $(BENCH_CSV) $(BENCH_SCHEMA) --ansi -vvv
 
-bench-docker: ##@Project Run Docker benchmarks
+bench-docker: ##@Benchmarks Run Docker benchmarks
 	$(call title,"PHP Benchmarks - Docker")
-	@docker run --rm                                  \
-         --workdir=/parent-host                       \
-         -v .:/parent-host                            \
-         jbzoo/csv-blueprint:local                    \
-         validate:csv                                 \
-         $(BENCH_CSV) $(BENCH_SCHEMA) --ansi -vvv
+	@${BLUEPRINT_DOCKER} $(BENCH_CSV) $(BENCH_SCHEMA)
