@@ -36,6 +36,7 @@ columns:
     # Multi prop
     multiple: true
     multiple_separator: "|"           # Separator for multiple values
+    faker: [faker_method arg1 arg2]   # Faker method with arguments
 
     rules:
       # https://github.com/Respect/Validation/blob/main/docs/08-list-of-rules-by-category.md

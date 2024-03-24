@@ -127,15 +127,15 @@
                 "sample_variance_min"     : 1.123,
                 "sample_variance_max"     : 10.123,
 
-                "sd_sample"               : 5.123,
-                "sd_sample_not"           : 4.123,
-                "sd_sample_min"           : 1.123,
-                "sd_sample_max"           : 10.123,
+                "stddev"                  : 5.123,
+                "stddev_not"              : 4.123,
+                "stddev_min"              : 1.123,
+                "stddev_max"              : 10.123,
 
-                "sd_population"           : 5.123,
-                "sd_population_not"       : 4.123,
-                "sd_population_min"       : 1.123,
-                "sd_population_max"       : 10.123,
+                "stddev_pop"              : 5.123,
+                "stddev_pop_not"          : 4.123,
+                "stddev_pop_min"          : 1.123,
+                "stddev_pop_max"          : 10.123,
 
                 "coef_of_var"             : 5.123,
                 "coef_of_var_not"         : 4.123,

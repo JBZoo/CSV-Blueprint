@@ -19,19 +19,18 @@ namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use MathPHP\Statistics\Descriptive;
 
-final class ComboSdSample extends AbstarctAggregateRuleCombo
+final class ComboStddev extends AbstarctAggregateRuleCombo
 {
     public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_FLOATS;
 
-    protected const NAME = 'standard deviation (SD)';
+    protected const NAME = 'StdDev';
 
     protected const HELP_TOP = [
-        'Standard deviation (For a sample; uses sample variance)',
-        'Standard deviation is a measure that is used to quantify the amount of variation or ' .
-        'dispersion of a set of data values.',
-        'A low standard deviation indicates that the data points tend to be close to the mean ' .
+        'Standard deviation (For a sample; uses sample variance). It also known as SD or StdDev.',
+        'StdDev is a measure that is used to quantify the amount of variation or dispersion of a set of data values.',
+        ' - Low standard deviation indicates that the data points tend to be close to the mean ' .
         '(also called the expected value) of the set.',
-        'A high standard deviation indicates that the data points are spread out over a wider range of values.',
+        ' - High standard deviation indicates that the data points are spread out over a wider range of values.',
         'See: https://en.wikipedia.org/wiki/Standard_deviation',
     ];
 
