@@ -85,18 +85,44 @@ docker-in:
 
 demo-docker: ##@Project Run demo via Docker
 	$(call title,"Demo - Valid CSV \(via Docker\)")
-	@docker run --rm                                         \
-       -v `pwd`:/parent-host                                 \
-       jbzoo/csv-blueprint:local                             \
-       validate:csv                                          \
-       --csv=/parent-host/tests/fixtures/demo.csv            \
-       --schema=/parent-host/tests/schemas/demo_valid.yml    \
+	@docker run --rm                                \
+       --workdir=/parent-host                       \
+       -v .:/parent-host                            \
+       jbzoo/csv-blueprint:local                    \
+       validate:csv                                 \
+       --csv=./tests/fixtures/demo.csv              \
+       --schema=./tests/schemas/demo_valid.yml      \
        --ansi -vvv
 	$(call title,"Demo - Invalid CSV \(via Docker\)")
-	@docker run --rm                                         \
-       -v `pwd`:/parent-host                                 \
-       jbzoo/csv-blueprint:local                             \
-       validate:csv                                          \
-       --csv=/parent-host/tests/fixtures/demo.csv            \
-       --schema=/parent-host/tests/schemas/demo_invalid.yml  \
+	@docker run --rm                                \
+       --workdir=/parent-host                       \
+       -v .:/parent-host                            \
+       jbzoo/csv-blueprint:local                    \
+       validate:csv                                 \
+       --csv=./tests/fixtures/demo.csv              \
+       --schema=./tests/schemas/demo_invalid.yml    \
        --ansi -vvv
+
+# Benchmarks ###########################################################################################################
+
+BENCH_ROWS ?= 1000000
+BENCH_CSV ?= --csv=./build/1000000.csv
+BENCH_SCHEMA ?= --schema=./tests/benchmarks/benchmark.yml
+
+bench-prepare: ##@Project Run PHP benchmarks
+	$(call title,"PHP Benchmarks - Prepare CSV files")
+	${PHP_BIN} ./tests/benchmarks/create-csv.php $(BENCH_ROWS)
+	ls -lh ./build/*.csv
+
+bench-php: ##@Project Run PHP benchmarks
+	$(call title,"PHP Benchmarks - PHP binary")
+	${PHP_BIN} ./csv-blueprint validate:csv $(BENCH_CSV) $(BENCH_SCHEMA) --ansi -vvv
+
+bench-docker: ##@Project Run Docker benchmarks
+	$(call title,"PHP Benchmarks - Docker")
+	@docker run --rm                                  \
+         --workdir=/parent-host                       \
+         -v .:/parent-host                            \
+         jbzoo/csv-blueprint:local                    \
+         validate:csv                                 \
+         $(BENCH_CSV) $(BENCH_SCHEMA) --ansi -vvv

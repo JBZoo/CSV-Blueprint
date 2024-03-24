@@ -27,25 +27,26 @@
     "prefer-stable"     : true,
 
     "require"           : {
-        "php"                           : "^8.1",
-        "ext-mbstring"                  : "*",
+        "php"                       : "^8.1",
+        "ext-mbstring"              : "*",
 
-        "league/csv"                    : "^9.15.0",
-        "jbzoo/data"                    : "^7.1.1",
-        "jbzoo/cli"                     : "^7.1.8",
-        "jbzoo/utils"                   : "^7.2.0",
-        "jbzoo/ci-report-converter"     : "^7.2.1",
+        "league/csv"                : "^9.15.0",
+        "jbzoo/data"                : "^7.1.1",
+        "jbzoo/cli"                 : "^7.1.8",
+        "jbzoo/utils"               : "^7.2.0",
+        "jbzoo/ci-report-converter" : "^7.2.1",
 
-        "symfony/yaml"                  : ">=6.4.3",
-        "symfony/filesystem"            : ">=6.4.3",
-        "symfony/finder"                : ">=6.4.0",
-        "markrogoyski/math-php"         : "^2.9.0",
-        "respect/validation"            : "^2.3.5"
+        "symfony/yaml"              : ">=6.4.3",
+        "symfony/filesystem"        : ">=6.4.3",
+        "symfony/finder"            : ">=6.4.0",
+        "markrogoyski/math-php"     : "^2.9.0",
+        "respect/validation"        : "^2.3.5"
     },
 
     "require-dev"       : {
         "roave/security-advisories" : "dev-latest",
-        "jbzoo/toolbox-dev"         : "^7.1.0"
+        "jbzoo/toolbox-dev"         : "^7.1.0",
+        "fakerphp/faker"            : "^1.23.1"
     },
 
     "bin"               : ["csv-blueprint"],

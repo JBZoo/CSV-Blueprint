@@ -110,15 +110,29 @@ final class CsvValidator
                 continue;
             }
 
+            $isAggRules = \count($column->getAggregateRules()) > 0;
+            $isRules    = \count($column->getRules()) > 0;
+
+            if (!$isAggRules && !$isRules) {
+                continue;
+            }
+
             foreach ($this->csv->getRecords() as $line => $record) {
-                $columValues[] = $record[$column->getKey()];
-                $errors->addErrorSuit($column->validateCell($record[$column->getKey()], (int)$line + 1));
-                if ($quickStop && $errors->count() > 0) {
-                    return $errors;
+                if ($isAggRules) {
+                    $columValues[] = $record[$column->getKey()];
+                }
+
+                if ($isRules) {
+                    $errors->addErrorSuit($column->validateCell($record[$column->getKey()], (int)$line + 1));
+                    if ($quickStop && $errors->count() > 0) {
+                        return $errors;
+                    }
                 }
             }
 
-            $errors->addErrorSuit($column->validateList($columValues));
+            if ($isAggRules) {
+                $errors->addErrorSuit($column->validateList($columValues));
+            }
         }
 
         return $errors;

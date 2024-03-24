@@ -435,7 +435,8 @@ docker run --rm                                  \
     jbzoo/csv-blueprint:latest                   \
     validate:csv                                 \
     --csv=./tests/fixtures/demo.csv              \
-    --schema=./tests/schemas/demo_invalid.yml
+    --schema=./tests/schemas/demo_invalid.yml    \
+    --ansi -vvv
 
 
 # OR build it from source.
