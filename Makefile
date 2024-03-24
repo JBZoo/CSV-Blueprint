@@ -18,9 +18,9 @@ endif
 
 CMD_VALIDATE     ?= validate:csv --ansi -vvv
 DOCKER_IMAGE     ?= jbzoo/csv-blueprint:local
-BLUEPRINT        ?= COLUMNS=300 $(PHP_BIN) ./csv-blueprint $(CMD_VALIDATE)
+BLUEPRINT        ?= COLUMNS=300 time $(PHP_BIN) ./csv-blueprint $(CMD_VALIDATE)
 BLUEPRINT_DOCKER ?= docker run --rm  --workdir=/parent-host -v .:/parent-host $(DOCKER_IMAGE) $(CMD_VALIDATE)
-BENCH_BIN        ?= ${PHP_BIN} ./tests/Benchmarks/bench.php
+BENCH_BIN        ?= time ${PHP_BIN} ./tests/Benchmarks/bench.php
 
 VALID_CSV       ?= --csv='./tests/fixtures/demo.csv'
 VALID_SCHEMA    ?= --schema='./tests/schemas/demo_valid.yml'
@@ -80,11 +80,11 @@ BENCH_SCHEMA ?= --schema=./tests/benchmarks/benchmark.yml
 
 bench-php: ##@Benchmarks Run PHP binary benchmarks
 	$(call title,"PHP Benchmarks - PHP binary")
-	${PHP_BIN} ./csv-blueprint validate:csv $(BENCH_CSV) $(BENCH_SCHEMA) --ansi -vvv --profile
+	${BLUEPRINT} $(BENCH_CSV) $(BENCH_SCHEMA) --profile
 
 bench-docker: ##@Benchmarks Run Docker benchmarks
 	$(call title,"PHP Benchmarks - Docker")
-	@${BLUEPRINT_DOCKER} $(BENCH_CSV) $(BENCH_SCHEMA)
+	@time ${BLUEPRINT_DOCKER} $(BENCH_CSV) $(BENCH_SCHEMA) --profile
 
 
 BENCH_ROWS := 1000 100000 1000000

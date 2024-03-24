@@ -442,7 +442,7 @@ docker run --rm                                  \
 # OR build it from source.
 git clone git@github.com:JBZoo/Csv-Blueprint.git csv-blueprint
 cd csv-blueprint
-make build-docker  # local tag is "jbzoo/csv-blueprint:local"
+make docker-build  # local tag is "jbzoo/csv-blueprint:local"
 ```
 
 
