@@ -243,10 +243,6 @@ columns:
 
 
     aggregate_rules:
-      first_value: "first"
-      second_value: "second"
-      last_value: "last"
-
       # ?? https://github.com/Respect/Validation/blob/main/docs/rules/Sorted.md
       sorted: [ asc, SORT_NATURAL ]   # SORT_NATURAL, SORT_FLAG_CASE, SORT_FLAG_CASE|SORT_NATURAL
 
