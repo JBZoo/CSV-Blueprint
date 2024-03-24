@@ -20,6 +20,7 @@ CMD_VALIDATE     ?= validate:csv --ansi -vvv
 DOCKER_IMAGE     ?= jbzoo/csv-blueprint:local
 BLUEPRINT        ?= COLUMNS=300 $(PHP_BIN) ./csv-blueprint $(CMD_VALIDATE)
 BLUEPRINT_DOCKER ?= docker run --rm  --workdir=/parent-host -v .:/parent-host $(DOCKER_IMAGE) $(CMD_VALIDATE)
+BENCH_BIN        ?= ${PHP_BIN} ./tests/Benchmarks/bench.php
 
 VALID_CSV       ?= --csv='./tests/fixtures/demo.csv'
 VALID_SCHEMA    ?= --schema='./tests/schemas/demo_valid.yml'
@@ -77,17 +78,25 @@ docker-in: ##@Docker Enter into Docker container
 BENCH_CSV    ?= --csv=./build/${BENCH_ROWS}.csv
 BENCH_SCHEMA ?= --schema=./tests/benchmarks/benchmark.yml
 
-BENCH_ROWS := 1000 100000 1000000
-BENCH_COLS := 1 3 5 10 20
+#BENCH_ROWS := 1000 100000 1000000
+BENCH_ROWS := 1000
 bench-prepare: ##@Benchmarks Create CSV files
 	$(call title,"PHP Benchmarks - Prepare CSV files")
-	@rm -fv ./build/bench_*.csv
-	@$(foreach cols,$(BENCH_COLS), \
-        $(foreach rows,$(BENCH_ROWS),\
-            ${PHP_BIN} ./tests/Benchmarks/bench.php -H --rows=$(rows) --columns=$(cols) -vv; \
-        ) \
+	@echo "Remove old CSV files"
+	@mkdir -pv ./build/bench/
+	@rm -fv    ./build/bench/*.csv
+	@$(foreach rows,$(BENCH_ROWS), \
+        echo "Generate CSV: rows=$(rows)"; \
+        time \
+        ${BENCH_BIN} -H --columns=1  --rows=$(rows) -q & \
+        ${BENCH_BIN} -H --columns=3  --rows=$(rows) -q & \
+        ${BENCH_BIN} -H --columns=5  --rows=$(rows) -q & \
+        ${BENCH_BIN} -H --columns=10 --rows=$(rows) -q & \
+        ${BENCH_BIN} -H --columns=20 --rows=$(rows) -q & \
+        wait; \
+        echo "Generate CSV: rows=$(rows) - done"; \
     )
-	@ls -lh ./build/bench_*.csv;
+	@ls -lh ./build/bench/*.csv;
 
 bench-php: ##@Benchmarks Run PHP binary benchmarks
 	$(call title,"PHP Benchmarks - PHP binary")

@@ -116,11 +116,13 @@ final class CreateCsv extends CliCommand
         $rows      = $this->getOptInt('rows');
         $columns   = $this->getOptInt('columns');
 
-        $rowName  = self::ROW_NAME_MAP[$rows] ?? $rows;
-        $colwName = self::COLUMN_NAME_MAP[$columns] ?? $columns;
+        //$rowName  = self::ROW_NAME_MAP[$rows] ?? $rows;
+        //$colwName = self::COLUMN_NAME_MAP[$columns] ?? $columns;
+        $rowName  = $rows;
+        $colwName = $columns;
 
         return $addHeader
-            ? PATH_ROOT . "/build/bench_{$colwName}_{$rowName}_header.csv"
-            : PATH_ROOT . "/build/bench_{$colwName}}_{$rowName}.csv";
+            ? PATH_ROOT . "/build/bench/{$colwName}_{$rowName}_header.csv"
+            : PATH_ROOT . "/build/bench/{$colwName}}_{$rowName}.csv";
     }
 }
