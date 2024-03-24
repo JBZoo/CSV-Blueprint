@@ -18,11 +18,11 @@ namespace JBZoo\PHPUnit\Rules\Aggregate;
 
 use JBZoo\CsvBlueprint\Rules\AbstarctRule as Combo;
 use JBZoo\CsvBlueprint\Rules\Aggregate\ComboSampleVariance;
-use JBZoo\PHPUnit\Rules\AbstractAggregateRuleCombo;
+use JBZoo\PHPUnit\Rules\TestAbstractAggregateRuleCombo;
 
 use function JBZoo\PHPUnit\isSame;
 
-class ComboSampleVarianceTest extends AbstractAggregateRuleCombo
+class ComboSampleVarianceTest extends TestAbstractAggregateRuleCombo
 {
     protected string $ruleClass = ComboSampleVariance::class;
 

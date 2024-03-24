@@ -16,8 +16,12 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
+use JBZoo\CsvBlueprint\Rules\AbstarctRule;
+
 final class ComboCountEmpty extends AbstarctAggregateRuleCombo
 {
+    public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_STRINGS;
+
     protected const NAME = 'number of empty rows';
 
     protected const HELP_TOP = ['Counts only empty values (string length is 0).'];

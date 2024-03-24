@@ -23,7 +23,7 @@ use JBZoo\Data\AbstractData;
 
 use function JBZoo\Data\phpArray;
 
-final class SchemaValidator
+final class ValidatorSchema
 {
     private ?string      $filename;
     private bool         $isHeader;

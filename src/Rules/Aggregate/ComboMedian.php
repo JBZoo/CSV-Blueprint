@@ -16,10 +16,13 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
+use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use MathPHP\Statistics\Average;
 
 final class ComboMedian extends AbstarctAggregateRuleCombo
 {
+    public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_FLOATS;
+
     protected const NAME = 'median';
 
     protected const HELP_TOP = ['Calculate the median average of a list of numbers.'];

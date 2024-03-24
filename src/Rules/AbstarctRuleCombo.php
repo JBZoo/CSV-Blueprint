@@ -18,8 +18,8 @@ namespace JBZoo\CsvBlueprint\Rules;
 
 use JBZoo\CsvBlueprint\Rules\Aggregate\AbstarctAggregateRuleCombo;
 use JBZoo\CsvBlueprint\Rules\Cell\AbstractCellRuleCombo;
-use JBZoo\CsvBlueprint\Validators\ColumnValidator;
 use JBZoo\CsvBlueprint\Validators\Error;
+use JBZoo\CsvBlueprint\Validators\ValidatorColumn;
 
 abstract class AbstarctRuleCombo extends AbstarctRule
 {
@@ -36,7 +36,7 @@ abstract class AbstarctRuleCombo extends AbstarctRule
 
     abstract protected function getActual(array|string $value): float;
 
-    public function validate(array|string $cellValue, int $line = ColumnValidator::FALLBACK_LINE): ?Error
+    public function validate(array|string $cellValue, int $line = ValidatorColumn::FALLBACK_LINE): ?Error
     {
         $error = $this->validateCombo($cellValue);
 

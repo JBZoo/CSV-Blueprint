@@ -17,11 +17,11 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Rules\Cell\IsUsaMarketName;
-use JBZoo\PHPUnit\Rules\AbstractCellRule;
+use JBZoo\PHPUnit\Rules\TestAbstractCellRule;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class IsUsaMarketNameTest extends AbstractCellRule
+final class IsUsaMarketNameTest extends TestAbstractCellRule
 {
     protected string $ruleClass = IsUsaMarketName::class;
 

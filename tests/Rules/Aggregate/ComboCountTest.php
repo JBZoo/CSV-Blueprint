@@ -18,11 +18,11 @@ namespace JBZoo\PHPUnit\Rules\Aggregate;
 
 use JBZoo\CsvBlueprint\Rules\AbstarctRule as Combo;
 use JBZoo\CsvBlueprint\Rules\Aggregate\ComboCount;
-use JBZoo\PHPUnit\Rules\AbstractAggregateRuleCombo;
+use JBZoo\PHPUnit\Rules\TestAbstractAggregateRuleCombo;
 
 use function JBZoo\PHPUnit\isSame;
 
-class ComboCountTest extends AbstractAggregateRuleCombo
+class ComboCountTest extends TestAbstractAggregateRuleCombo
 {
     protected string $ruleClass = ComboCount::class;
 

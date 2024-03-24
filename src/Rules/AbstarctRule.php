@@ -17,13 +17,21 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Rules;
 
 use JBZoo\CsvBlueprint\Utils;
-use JBZoo\CsvBlueprint\Validators\ColumnValidator;
 use JBZoo\CsvBlueprint\Validators\Error;
+use JBZoo\CsvBlueprint\Validators\ValidatorColumn;
 
 use function JBZoo\Utils\bool;
 
 abstract class AbstarctRule
 {
+    public const INPUT_TYPE = self::INPUT_TYPE_UNDEF;
+
+    public const INPUT_TYPE_UNDEF   = self::INPUT_TYPE_STRINGS;
+    public const INPUT_TYPE_BOOL    = 0;
+    public const INPUT_TYPE_INTS    = 1;
+    public const INPUT_TYPE_FLOATS  = 2;
+    public const INPUT_TYPE_STRINGS = 3;
+
     // Modes
     public const DEFAULT = 'default';
     public const EQ      = '';
@@ -62,7 +70,7 @@ abstract class AbstarctRule
         // TODO: Move resolving and validating expected value on this stage to make it only once (before validation).
     }
 
-    public function validate(array|string $cellValue, int $line = ColumnValidator::FALLBACK_LINE): ?Error
+    public function validate(array|string $cellValue, int $line = ValidatorColumn::FALLBACK_LINE): ?Error
     {
         // TODO: Extract to abstract boolean cell/agregate rule
         if ($this->isEnabled($cellValue) === false) {
@@ -138,6 +146,14 @@ abstract class AbstarctRule
         $postfix = $mode !== self::EQ && $mode !== self::DEFAULT ? "_{$mode}" : '';
 
         return Utils::camelToKebabCase((new \ReflectionClass($this))->getShortName()) . $postfix;
+    }
+
+    /**
+     * @phan-suppress PhanPluginPossiblyStaticPublicMethod
+     */
+    public function getInputType(): int
+    {
+        return static::INPUT_TYPE;
     }
 
     protected function getOptionAsBool(): bool

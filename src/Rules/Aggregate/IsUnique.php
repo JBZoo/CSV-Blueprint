@@ -16,8 +16,12 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
+use JBZoo\CsvBlueprint\Rules\AbstarctRule;
+
 final class IsUnique extends AbstarctAggregateRule
 {
+    public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_STRINGS;
+
     protected const HELP_OPTIONS = [
         self::DEFAULT => ['true', 'All values in the column are unique.'],
     ];

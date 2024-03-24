@@ -20,6 +20,8 @@ use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 
 abstract class AbstarctAggregateRule extends AbstarctRule
 {
+    public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_STRINGS;
+
     /**
      * Validate the rule.
      *
@@ -31,7 +33,7 @@ abstract class AbstarctAggregateRule extends AbstarctRule
      */
     abstract public function validateRule(array &$columnValues): ?string;
 
-    public function test(array &$cellValue, bool $isHtml = false): string
+    public function test(array $cellValue, bool $isHtml = false): string
     {
         $errorMessage = (string)$this->validateRule($cellValue);
 

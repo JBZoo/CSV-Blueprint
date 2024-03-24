@@ -18,8 +18,8 @@ namespace JBZoo\CsvBlueprint\Csv;
 
 use JBZoo\CsvBlueprint\Schema;
 use JBZoo\CsvBlueprint\Utils;
-use JBZoo\CsvBlueprint\Validators\CsvValidator;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
+use JBZoo\CsvBlueprint\Validators\ValidatorCsv;
 use League\Csv\Reader as LeagueReader;
 use League\Csv\Statement;
 use League\Csv\TabularDataReader;
@@ -93,7 +93,7 @@ final class CsvFile
 
     public function validate(bool $quickStop = false): ErrorSuite
     {
-        return (new CsvValidator($this, $this->schema))->validate($quickStop);
+        return (new ValidatorCsv($this, $this->schema))->validate($quickStop);
     }
 
     private function prepareReader(): LeagueReader

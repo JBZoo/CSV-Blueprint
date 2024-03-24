@@ -75,12 +75,22 @@ docker-in: ##@Docker Enter into Docker container
 
 
 # Benchmarks ###########################################################################################################
-BENCH_CSV    ?= --csv=./build/bench/3_1000000_header.csv
+BENCH_CSV    ?= --csv=./build/bench/20_1000000_header.csv
 BENCH_SCHEMA ?= --schema=./tests/benchmarks/benchmark.yml
+
+bench-php: ##@Benchmarks Run PHP binary benchmarks
+	$(call title,"PHP Benchmarks - PHP binary")
+	${PHP_BIN} ./csv-blueprint validate:csv $(BENCH_CSV) $(BENCH_SCHEMA) --ansi -vvv --profile
+
+bench-docker: ##@Benchmarks Run Docker benchmarks
+	$(call title,"PHP Benchmarks - Docker")
+	@${BLUEPRINT_DOCKER} $(BENCH_CSV) $(BENCH_SCHEMA)
+
 
 BENCH_ROWS := 1000 100000 1000000
 bench-prepare: ##@Benchmarks Create CSV files
 	$(call title,"PHP Benchmarks - Prepare CSV files")
+	exit 1; # Disabled for now. Enable if you need to generate CSV files.
 	@echo "Remove old CSV files"
 	@mkdir -pv ./build/bench/
 	@rm -fv    ./build/bench/*.csv
@@ -95,11 +105,3 @@ bench-prepare: ##@Benchmarks Create CSV files
         echo "Generate CSV: rows=$(rows) - done"; \
     )
 	@ls -lh ./build/bench/*.csv;
-
-bench-php: ##@Benchmarks Run PHP binary benchmarks
-	$(call title,"PHP Benchmarks - PHP binary")
-	${PHP_BIN} ./csv-blueprint validate:csv $(BENCH_CSV) $(BENCH_SCHEMA) --ansi -vvv --profile
-
-bench-docker: ##@Benchmarks Run Docker benchmarks
-	$(call title,"PHP Benchmarks - Docker")
-	@${BLUEPRINT_DOCKER} $(BENCH_CSV) $(BENCH_SCHEMA)

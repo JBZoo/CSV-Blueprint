@@ -19,7 +19,7 @@ namespace JBZoo\CsvBlueprint;
 use JBZoo\CsvBlueprint\Csv\Column;
 use JBZoo\CsvBlueprint\Csv\ParseConfig;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
-use JBZoo\CsvBlueprint\Validators\SchemaValidator;
+use JBZoo\CsvBlueprint\Validators\ValidatorSchema;
 use JBZoo\Data\AbstractData;
 use JBZoo\Data\Data;
 
@@ -139,7 +139,7 @@ final class Schema
 
     public function validate(bool $quickStop = false): ErrorSuite
     {
-        return (new SchemaValidator($this))->validate($quickStop);
+        return (new ValidatorSchema($this))->validate($quickStop);
     }
 
     /**

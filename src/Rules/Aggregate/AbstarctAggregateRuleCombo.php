@@ -16,10 +16,13 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
+use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use JBZoo\CsvBlueprint\Rules\AbstarctRuleCombo;
 
 abstract class AbstarctAggregateRuleCombo extends AbstarctRuleCombo
 {
+    public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_STRINGS;
+
     protected const HELP_OPTIONS = [
         self::EQ  => ['5.123', ''],
         self::NOT => ['4.123', ''],

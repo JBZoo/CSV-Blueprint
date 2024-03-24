@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint;
 
-use JBZoo\Cli\OutLvl;
 use JBZoo\Utils\Cli;
 use JBZoo\Utils\Env;
 use JBZoo\Utils\FS;
@@ -32,9 +31,9 @@ final class Utils
     public static function debug(int|string $message): void
     {
         if (\defined('PROFILE_MODE')) {
-            $memoryCur = FS::format(\memory_get_usage(true), 0);
+            $memoryCur  = FS::format(\memory_get_usage(true), 0);
             $memoryPeak = FS::format(\memory_get_peak_usage(true), 0);
-            $memory = $memoryCur === $memoryPeak
+            $memory     = $memoryCur === $memoryPeak
                 ? "<green>{$memoryCur}</green>"
                 : "<c>{$memoryCur} / {$memoryPeak}</c>";
 
@@ -71,7 +70,7 @@ final class Utils
 
     /**
      * Find files from given paths.
-     * @param string[] $paths
+     * @param  string[]      $paths
      * @return SplFileInfo[]
      */
     public static function findFiles(array $paths): array
@@ -177,7 +176,7 @@ final class Utils
 
             if (!self::matchTypes($expectedSchema[$key], $value)) {
                 $expectedType = \gettype($expectedSchema[$key]);
-                $actualType = \gettype($value);
+                $actualType   = \gettype($value);
 
                 $differences[$columnId . '/' . $curPath] = [
                     $columnId,
@@ -200,7 +199,7 @@ final class Utils
         null|array|bool|float|int|string $actual,
     ): bool {
         $expectedType = \gettype($expected);
-        $actualType = \gettype($actual);
+        $actualType   = \gettype($actual);
 
         $mapOfValidConvertions = [
             'NULL'    => [],
@@ -245,9 +244,9 @@ final class Utils
         array $schemaFiles,
         bool $useGlobalSchemas = true,
     ): array {
-        $csvs = self::makeFileMap($csvFiles);
+        $csvs    = self::makeFileMap($csvFiles);
         $schemas = self::makeFileMap($schemaFiles);
-        $result = [
+        $result  = [
             'found_pairs'    => [],
             'global_schemas' => [], // there is no filename_pattern in schema.
         ];
@@ -272,7 +271,7 @@ final class Utils
 
                     // Mark as used
                     $schemas[$schema] = true;
-                    $csvs[$csv] = true;
+                    $csvs[$csv]       = true;
                 }
             }
         }
@@ -285,8 +284,8 @@ final class Utils
 
     public static function printFile(string $fullpath): string
     {
-        $relPath = self::cutPath($fullpath);
-        $basename = \pathinfo($relPath, \PATHINFO_BASENAME);
+        $relPath   = self::cutPath($fullpath);
+        $basename  = \pathinfo($relPath, \PATHINFO_BASENAME);
         $directory = \str_replace($basename, '', $relPath);
 
         return "{$directory}<blue>{$basename}</blue>";
@@ -308,6 +307,6 @@ final class Utils
 
     private static function filterNotUsedFiles(array $files): array
     {
-        return \array_keys(\array_filter($files, static fn($value) => $value === false));
+        return \array_keys(\array_filter($files, static fn ($value) => $value === false));
     }
 }

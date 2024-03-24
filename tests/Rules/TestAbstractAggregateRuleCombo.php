@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules;
 
-use JBZoo\CsvBlueprint\Rules\Cell\AbstractCellRule as CellRule;
+use JBZoo\CsvBlueprint\Rules\AbstarctRule as Combo;
 use JBZoo\PHPUnit\TestCase;
 use JBZoo\PHPUnit\Tools;
 use JBZoo\Utils\Str;
@@ -25,40 +25,48 @@ use function JBZoo\PHPUnit\isFileContains;
 use function JBZoo\PHPUnit\isSame;
 use function JBZoo\PHPUnit\success;
 
-abstract class AbstractCellRule extends TestCase
+abstract class TestAbstractAggregateRuleCombo extends TestCase
 {
     protected string $ruleClass = '';
 
-    abstract public function testPositive(): void;
+    abstract public function testEqual(): void;
 
-    abstract public function testNegative(): void;
+    // abstract public function testNotEqual(): void;
+
+    // abstract public function testMin(): void;
+
+    // abstract public function testMax(): void;
 
     // abstract public function testInvalidOption(): void;
 
-    // abstract public function testInvalidParsing(): void;
-
     public function testHelpMessageInExample(): void
     {
-        isFileContains($this->create(6)->getHelp(), Tools::SCHEMA_FULL_YML);
+        isFileContains($this->create(6, Combo::MAX)->getHelp(), Tools::SCHEMA_FULL_YML);
     }
 
     public function testBoolenOptionFlag(): void
     {
-        if (\str_starts_with($this->create(true)->getRuleCode(''), 'is_')) {
+        if (\str_starts_with($this->create(1, Combo::MAX)->getRuleCode(), 'ag:is_')) {
             // Enabled and ignore empty string
             $rule = $this->create(true);
-            isSame(null, $rule->validate(''));
+            isSame('11', $rule->validate('', Combo::MAX));
 
             // Disabled and ignore ANY string
             $rule = $this->create(false);
-            isSame(null, $rule->validate(Str::random(10)));
+            isSame(null, $rule->validate(Str::random(10), Combo::MAX));
         }
 
         success();
     }
 
-    protected function create(array|bool|float|int|string $value): CellRule
+    public function testInvalidParsing(): void
     {
-        return new $this->ruleClass('prop', $value);
+        $rule = $this->create(0, Combo::EQ);
+        isSame('', $rule->test([]));
+    }
+
+    protected function create(array|float|int|string $value, string $mode): Combo
+    {
+        return new $this->ruleClass('prop', $value, $mode);
     }
 }

@@ -16,9 +16,9 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Csv;
 
-use JBZoo\CsvBlueprint\Validators\ColumnValidator;
 use JBZoo\CsvBlueprint\Validators\Error;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
+use JBZoo\CsvBlueprint\Validators\ValidatorColumn;
 use JBZoo\Data\Data;
 
 final class Column
@@ -97,14 +97,19 @@ final class Column
         return $this->column->getString('inherit', self::FALLBACK_VALUES['inherit']);
     }
 
+    public function getValidator(): ValidatorColumn
+    {
+        return new ValidatorColumn($this);
+    }
+
     public function validateCell(string $cellValue, int $line = Error::UNDEFINED_LINE): ErrorSuite
     {
-        return (new ColumnValidator($this))->validateCell($cellValue, $line);
+        return $this->getValidator()->validateCell($cellValue, $line);
     }
 
     public function validateList(array &$cellValue): ErrorSuite
     {
-        return (new ColumnValidator($this))->validateList($cellValue);
+        return $this->getValidator()->validateList($cellValue);
     }
 
     private function prepareRuleSet(string $schemaKey): array

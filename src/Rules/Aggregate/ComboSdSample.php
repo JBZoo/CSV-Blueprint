@@ -16,10 +16,13 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
+use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use MathPHP\Statistics\Descriptive;
 
 final class ComboSdSample extends AbstarctAggregateRuleCombo
 {
+    public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_FLOATS;
+
     protected const NAME = 'standard deviation (SD)';
 
     protected const HELP_TOP = [

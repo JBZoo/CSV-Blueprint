@@ -17,11 +17,11 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Rules\Cell\ContainsAll;
-use JBZoo\PHPUnit\Rules\AbstractCellRule;
+use JBZoo\PHPUnit\Rules\TestAbstractCellRule;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class ContainsAllTest extends AbstractCellRule
+final class ContainsAllTest extends TestAbstractCellRule
 {
     protected string $ruleClass = ContainsAll::class;
 
