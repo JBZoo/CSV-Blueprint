@@ -78,8 +78,7 @@ docker-in: ##@Docker Enter into Docker container
 BENCH_CSV    ?= --csv=./build/${BENCH_ROWS}.csv
 BENCH_SCHEMA ?= --schema=./tests/benchmarks/benchmark.yml
 
-#BENCH_ROWS := 1000 100000 1000000
-BENCH_ROWS := 1000
+BENCH_ROWS := 1000 100000 1000000
 bench-prepare: ##@Benchmarks Create CSV files
 	$(call title,"PHP Benchmarks - Prepare CSV files")
 	@echo "Remove old CSV files"
