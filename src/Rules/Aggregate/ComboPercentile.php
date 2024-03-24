@@ -31,7 +31,8 @@ final class ComboPercentile extends AbstarctAggregateRuleCombo
         'Linear interpolation between closest ranks method - Second variant, ',
         'C = 1 P-th percentile (0 <= P <= 100) of a list of N ordered values (sorted from least to greatest).' .
         'Similar method used in NumPy and Excel',
-        'See: https://en.wikipedia.org/wiki/Percentile#Second_variant.2C_.7F.27.22.60UNIQ--postMath-00000043-QINU.60.22.27.7F',
+        'See: https://en.wikipedia.org/wiki/Percentile#' .
+        'Second_variant.2C_.7F.27.22.60UNIQ--postMath-00000043-QINU.60.22.27.7F',
     ];
 
     protected const HELP_OPTIONS = [
