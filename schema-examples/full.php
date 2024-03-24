@@ -159,6 +159,11 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'median_min' => 1.123,
                 'median_max' => 10.123,
 
+                'percentile'     => [95, 1.234],
+                'percentile_not' => [95, 4.123],
+                'percentile_min' => [95, -1],
+                'percentile_max' => [95, 20000.0],
+
                 'mean_abs_dev'     => 5.123,
                 'mean_abs_dev_not' => 4.123,
                 'mean_abs_dev_min' => 1.123,
