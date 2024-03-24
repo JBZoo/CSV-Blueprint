@@ -160,6 +160,11 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'mean_abs_dev_min' => 1.123,
                 'mean_abs_dev_max' => 10.123,
 
+                'median_abs_dev'     => 5.123,
+                'median_abs_dev_not' => 4.123,
+                'median_abs_dev_min' => 1.123,
+                'median_abs_dev_max' => 10.123,
+
                 'population_variance'     => 5.123,
                 'population_variance_not' => 4.123,
                 'population_variance_min' => 1.123,

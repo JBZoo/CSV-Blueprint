@@ -244,6 +244,15 @@ columns:
       mean_abs_dev_min: 1.123
       mean_abs_dev_max: 10.123
 
+      # MAD - median absolute deviation. The average of the absolute deviations from a central point.
+      # It is a summary statistic of statistical dispersion or variability.
+      # It is a robust measure of the variability of a univariate sample of quantitative data.
+      # See: https://en.wikipedia.org/wiki/Median_absolute_deviation.
+      median_abs_dev: 5.123
+      median_abs_dev_not: 4.123
+      median_abs_dev_min: 1.123
+      median_abs_dev_max: 10.123
+
       # Population variance - Use when all possible observations of the system are present.
       # If used with a subset of data (sample variance), it will be a biased variance.
       # n degrees of freedom, where n is the number of observations.

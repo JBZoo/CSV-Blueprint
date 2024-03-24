@@ -22,7 +22,7 @@ use JBZoo\PHPUnit\Rules\TestAbstractAggregateRuleCombo;
 
 use function JBZoo\PHPUnit\isSame;
 
-class ComboStdDev1Test extends TestAbstractAggregateRuleCombo
+class ComboMeanAbsDevTest extends TestAbstractAggregateRuleCombo
 {
     protected string $ruleClass = ComboMeanAbsDev::class;
 
