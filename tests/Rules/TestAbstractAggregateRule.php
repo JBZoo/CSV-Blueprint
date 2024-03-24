@@ -16,12 +16,14 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules;
 
+use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule as Combo;
 use JBZoo\PHPUnit\TestCase;
 use JBZoo\PHPUnit\Tools;
 use JBZoo\Utils\Str;
 
 use function JBZoo\PHPUnit\isFileContains;
+use function JBZoo\PHPUnit\isNotSame;
 use function JBZoo\PHPUnit\isSame;
 use function JBZoo\PHPUnit\success;
 
@@ -40,6 +42,11 @@ abstract class TestAbstractAggregateRule extends TestCase
     public function testHelpMessageInExample(): void
     {
         isFileContains($this->create(6)->getHelp(), Tools::SCHEMA_FULL_YML);
+    }
+
+    public function testInputType(): void
+    {
+        isNotSame(AbstarctRule::INPUT_TYPE_UNDEF, $this->create(true)->getInputType());
     }
 
     public function testBoolenOptionFlag(): void

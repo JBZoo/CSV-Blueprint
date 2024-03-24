@@ -108,6 +108,23 @@ This example serves as a comprehensive guide for creating robust CSV file valida
             'aggregate_rules' => [
                 'is_unique' => true,
 
+                'first_num'     => 5,
+                'first_num_not' => 4.123,
+                'first_num_min' => -1,
+                'first_num_max' => 20000.0,
+                'first'         => 'Expected',
+                'first_not'     => 'Not Expected',
+
+                'nth'     => [2, 'Expected'],
+                'nth_not' => [2, 'Not expected'],
+
+                'last_num'     => 5,
+                'last_num_not' => 4.123,
+                'last_num_min' => -1,
+                'last_num_max' => 20000.0,
+                'last'         => 'Expected',
+                'last_not'     => 'Not Expected',
+
                 'sum'     => 5.123,
                 'sum_not' => 4.123,
                 'sum_min' => 1.123,

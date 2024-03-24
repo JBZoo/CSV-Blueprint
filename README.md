@@ -4,7 +4,7 @@
 [![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
 
 <!-- rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-103-green?label=Total%20Number%20of%20Rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-55-green?label=Cell%20Value&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-45-green?label=Aggregate%20Column&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-3-green?label=Extra%20Checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-329-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-117-green?label=Total%20Number%20of%20Rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-55-green?label=Cell%20Value&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-59-green?label=Aggregate%20Column&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-3-green?label=Extra%20Checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-329-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- /rules-counter -->
 
 ## Introduction
@@ -264,6 +264,26 @@ columns:
     # TODO: There are several ways to optimize this process, but the author needs time to test it carefully.
     aggregate_rules:
       is_unique: true                   # All values in the column are unique.
+
+      # First number in the column. Expected value is float or integer.
+      first_num: 5
+      first_num_not: 4.123
+      first_num_min: -1
+      first_num_max: 2e4
+      first: Expected                   # First value in the column. Will be compared as strings.
+      first_not: 'Not Expected'         # Not allowed as the first value in the column. Will be compared as strings.
+
+      # N-th in the column.
+      nth: [ 2, Expected ]              # Nth value in the column. Will be compared as strings.
+      nth_not: [ 2, 'Not expected' ]    # Not allowed as the N-th value in the column. Will be compared as strings.
+
+      # Last number in the column. Expected value is float or integer.
+      last_num: 5
+      last_num_not: 4.123
+      last_num_min: -1
+      last_num_max: 2e4
+      last: Expected                    # Last value in the column. Will be compared as strings.
+      last_not: 'Not Expected'          # Not allowed as the last value in the column. Will be compared as strings.
 
       # Sum of the numbers in the column. Example: [1, 2, 3] => 6.
       sum: 5.123
