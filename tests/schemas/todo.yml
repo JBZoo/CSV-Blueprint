@@ -261,7 +261,6 @@ columns:
       quartiles_exclusive: 1
       quartiles_inclusive: 1
       interquartile_range: 1         # interquartileRange (IQR)
-      percentile: [ 1, 95 ]          # 0-100
       midhinge: 1
 
       # https://github.com/markrogoyski/math-php#statistics---averages
