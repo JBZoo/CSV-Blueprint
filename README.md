@@ -368,8 +368,7 @@ columns:
       harmonic_mean_less: 8.0           # x <  8.0
       harmonic_mean_max: 9.0            # x <= 9.0
 
-      # Geometric mean. A type of mean which indicates the central tendency or typical value of a set of numbers
-      # by using the product of their values (as opposed to the arithmetic mean which uses their sum).
+      # Geometric mean. A type of mean which indicates the central tendency or typical value of a set of numbers by using the product of their values (as opposed to the arithmetic mean which uses their sum).
       # See: https://en.wikipedia.org/wiki/Geometric_mean
       geometric_mean_min: 1.0           # x >= 1.0
       geometric_mean_greater: 2.0       # x >  2.0
