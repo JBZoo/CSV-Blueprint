@@ -4,7 +4,7 @@
 [![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
 
 <!-- rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-192-green?label=Total%20Number%20of%20Rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-66-green?label=Cell%20Value&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-121-green?label=Aggregate%20Column&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-5-green?label=Extra%20Checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-323-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-210-green?label=Total%20Number%20of%20Rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-66-green?label=Cell%20Value&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-139-green?label=Aggregate%20Column&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-5-green?label=Extra%20Checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-305-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- /rules-counter -->
 
 ## Introduction
@@ -350,12 +350,42 @@ columns:
       count_not_empty_max: 9            # x <= 9
 
       # Calculate the median average of a list of numbers.
+      # See: https://en.wikipedia.org/wiki/Median
       median_min: 1.0                   # x >= 1.0
       median_greater: 2.0               # x >  2.0
       median_not: 5.0                   # x != 5.0
       median: 7.0                       # x == 7.0
       median_less: 8.0                  # x <  8.0
       median_max: 9.0                   # x <= 9.0
+
+      # Harmonic mean (subcontrary mean). The harmonic mean can be expressed as the reciprocal of the arithmetic mean of the reciprocals.
+      # Appropriate for situations when the average of rates is desired.
+      # See: https://en.wikipedia.org/wiki/Harmonic_mean
+      harmonic_mean_min: 1.0            # x >= 1.0
+      harmonic_mean_greater: 2.0        # x >  2.0
+      harmonic_mean_not: 5.0            # x != 5.0
+      harmonic_mean: 7.0                # x == 7.0
+      harmonic_mean_less: 8.0           # x <  8.0
+      harmonic_mean_max: 9.0            # x <= 9.0
+
+      # Geometric mean. A type of mean which indicates the central tendency or typical value of a set of numbers
+      # by using the product of their values (as opposed to the arithmetic mean which uses their sum).
+      # See: https://en.wikipedia.org/wiki/Geometric_mean
+      geometric_mean_min: 1.0           # x >= 1.0
+      geometric_mean_greater: 2.0       # x >  2.0
+      geometric_mean_not: 5.0           # x != 5.0
+      geometric_mean: 7.0               # x == 7.0
+      geometric_mean_less: 8.0          # x <  8.0
+      geometric_mean_max: 9.0           # x <= 9.0
+
+      # Contraharmonic mean. A function complementary to the harmonic mean. A special case of the Lehmer mean, L₂(x), where p = 2.
+      # See: https://en.wikipedia.org/wiki/Contraharmonic_mean
+      contraharmonic_mean_min: 1.0      # x >= 1.0
+      contraharmonic_mean_greater: 2.0  # x >  2.0
+      contraharmonic_mean_not: 5.0      # x != 5.0
+      contraharmonic_mean: 7.0          # x == 7.0
+      contraharmonic_mean_less: 8.0     # x <  8.0
+      contraharmonic_mean_max: 9.0      # x <= 9.0
 
       # Compute the P-th percentile of a list of numbers.
       # Linear interpolation between closest ranks method - Second variant, C = 1 P-th percentile (0 <= P <= 100) of a list of N ordered values (sorted from least to greatest).

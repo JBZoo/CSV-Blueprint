@@ -19,18 +19,19 @@ namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use MathPHP\Statistics\Average;
 
-final class ComboMedian extends AbstarctAggregateRuleCombo
+final class ComboHarmonicMean extends AbstarctAggregateRuleCombo
 {
     public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_FLOATS;
 
-    protected const NAME = 'median';
+    protected const NAME = 'harmonic mean';
 
     public function getHelpMeta(): array
     {
         return [
             [
-                'Calculate the median average of a list of numbers.',
-                'See: https://en.wikipedia.org/wiki/Median',
+                'Harmonic mean (subcontrary mean). The harmonic mean can be expressed as the reciprocal of the arithmetic mean of the reciprocals.',
+                'Appropriate for situations when the average of rates is desired.',
+                'See: https://en.wikipedia.org/wiki/Harmonic_mean',
             ],
             [],
         ];
@@ -42,6 +43,6 @@ final class ComboMedian extends AbstarctAggregateRuleCombo
             return null;
         }
 
-        return Average::median(self::stringsToFloat($colValues));
+        return Average::harmonicMean(self::stringsToFloat($colValues));
     }
 }

@@ -19,18 +19,19 @@ namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use MathPHP\Statistics\Average;
 
-final class ComboMedian extends AbstarctAggregateRuleCombo
+final class ComboGeometricMean extends AbstarctAggregateRuleCombo
 {
     public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_FLOATS;
 
-    protected const NAME = 'median';
+    protected const NAME = 'geometric mean';
 
     public function getHelpMeta(): array
     {
         return [
             [
-                'Calculate the median average of a list of numbers.',
-                'See: https://en.wikipedia.org/wiki/Median',
+                'Geometric mean. A type of mean which indicates the central tendency or typical value of a set of numbers',
+                'by using the product of their values (as opposed to the arithmetic mean which uses their sum).',
+                'See: https://en.wikipedia.org/wiki/Geometric_mean',
             ],
             [],
         ];
@@ -42,6 +43,6 @@ final class ComboMedian extends AbstarctAggregateRuleCombo
             return null;
         }
 
-        return Average::median(self::stringsToFloat($colValues));
+        return Average::geometricMean(self::stringsToFloat($colValues));
     }
 }
