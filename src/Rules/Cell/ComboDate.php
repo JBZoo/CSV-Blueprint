@@ -30,10 +30,12 @@ final class ComboDate extends AbstractCellRuleCombo
     ];
 
     protected const HELP_OPTIONS = [
-        self::EQ  => ['01 Jan 2000', 'You can use any string that can be parsed by the strtotime function'],
-        self::NOT => ['2006-01-02 15:04:05 -0700 Europe/Rome'],
-        self::MIN => ['+1 day', 'Examples of relative formats'],
-        self::MAX => ['now', 'Examples of current date and time'],
+        self::MIN     => ['-100 years', 'Example of relative formats'],
+        self::GREATER => ['-99 days', 'Example of relative formats'],
+        self::EQ      => ['01 Jan 2000', 'You can use any string that can be parsed by the strtotime function'],
+        self::NOT     => ['2006-01-02 15:04:05 -0700 Europe/Rome'],
+        self::LESS    => ['now', 'Example of current date and time'],
+        self::MAX     => ['+1 day', 'Example of relative formats'],
     ];
 
     private const OUTPUT_DATE_FORMAT = 'Y-m-d H:i:s P';

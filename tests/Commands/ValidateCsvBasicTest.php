@@ -77,12 +77,12 @@ final class ValidateCsvBasicTest extends TestCase
             (1/1) Schema: ./tests/schemas/demo_valid.yml
             (1/1) CSV   : ./tests/fixtures/demo_invalid.csv
             (1/1) Issues: 2
-            +------+------------------+--------------+-------------- demo_invalid.csv --------------------------------------------------------+
-            | Line | id:Column        | Rule         | Message                                                                                |
-            +------+------------------+--------------+----------------------------------------------------------------------------------------+
-            | 6    | 0:Name           | length_max   | The length of the value "Long-long-name" is 14, which is greater than the expected "7" |
-            | 11   | 4:Favorite color | allow_values | Value "YELLOW" is not allowed. Allowed values: ["red", "green", "blue"]                |
-            +------+------------------+--------------+-------------- demo_invalid.csv --------------------------------------------------------+
+            +------+------------------+--------------+------------------- demo_invalid.csv ------------------------------------------------------------+
+            | Line | id:Column        | Rule         | Message                                                                                         |
+            +------+------------------+--------------+-------------------------------------------------------------------------------------------------+
+            | 6    | 0:Name           | length_max   | The length of the value "Long-long-name" is 14, which is greater or equal than the expected "7" |
+            | 11   | 4:Favorite color | allow_values | Value "YELLOW" is not allowed. Allowed values: ["red", "green", "blue"]                         |
+            +------+------------------+--------------+------------------- demo_invalid.csv ------------------------------------------------------------+
             
             
             Summary:
@@ -128,17 +128,17 @@ final class ValidateCsvBasicTest extends TestCase
             | Line | id:Column        | Rule         | Message                                                                                              |
             +------+------------------+--------------+------------------------------------------------------------------------------------------------------+
             | 1    |                  | csv.header   | Columns not found in CSV: "wrong_column_name"                                                        |
-            | 6    | 0:Name           | length_min   | The length of the value "Carl" is 4, which is less than the expected "5"                             |
-            | 11   | 0:Name           | length_min   | The length of the value "Lois" is 4, which is less than the expected "5"                             |
+            | 6    | 0:Name           | length_min   | The length of the value "Carl" is 4, which is less or equal than the expected "5"                    |
+            | 11   | 0:Name           | length_min   | The length of the value "Lois" is 4, which is less or equal than the expected "5"                    |
             | 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 9, total: 10                                                   |
-            | 2    | 2:Float          | num_max      | The number of the value "4825.185", which is greater than the expected "4825.184"                    |
+            | 2    | 2:Float          | num_max      | The number of the value "4825.185", which is greater or equal than the expected "4825.184"           |
             | 1    | 2:Float          | ag:nth_num   | The N-th value in the column is "74", which is not equal than the expected "0.001"                   |
-            | 6    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
-            |      |                  |              | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
-            | 8    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
-            |      |                  |              | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
-            | 9    | 3:Birthday       | date_max     | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
-            |      |                  |              | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
+            | 6    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less or equal |
+            |      |                  |              | than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                          |
+            | 8    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less or equal |
+            |      |                  |              | than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                          |
+            | 9    | 3:Birthday       | date_max     | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater or    |
+            |      |                  |              | equal than the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                    |
             | 5    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
             +------+------------------+--------------+------------------------- demo.csv -------------------------------------------------------------------+
             

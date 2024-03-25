@@ -31,14 +31,14 @@ final class ErrorSuiteTest extends TestCase
         $csv = new CsvFile(Tools::CSV_SIMPLE_HEADER, Tools::getRule('seq', 'num_min', 3));
         isSame(
             '"num_min" at line 2, column "0:seq". ' .
-            'The number of the value "1", which is less than the expected "3".' . "\n",
+            'The number of the value "1", which is less or equal than the expected "3".' . "\n",
             \strip_tags($csv->validate(true)->render(ErrorSuite::REPORT_TEXT)),
         );
 
         isSame(
             <<<'TEXT'
-                "num_min" at line 2, column "0:seq". The number of the value "1", which is less than the expected "3".
-                "num_min" at line 3, column "0:seq". The number of the value "2", which is less than the expected "3".
+                "num_min" at line 2, column "0:seq". The number of the value "1", which is less or equal than the expected "3".
+                "num_min" at line 3, column "0:seq". The number of the value "2", which is less or equal than the expected "3".
                 
                 TEXT,
             \strip_tags($csv->validate()->render(ErrorSuite::REPORT_TEXT)),
@@ -50,11 +50,11 @@ final class ErrorSuiteTest extends TestCase
         $csv = new CsvFile(Tools::CSV_SIMPLE_HEADER, Tools::getRule('seq', 'num_min', 3));
         isSame(
             <<<'TABLE'
-                +------+-----------+---------+--------- simple_header.csv --------------------------------------+
-                | Line | id:Column | Rule    | Message                                                          |
-                +------+-----------+---------+------------------------------------------------------------------+
-                | 2    | 0:seq     | num_min | The number of the value "1", which is less than the expected "3" |
-                +------+-----------+---------+--------- simple_header.csv --------------------------------------+
+                +------+-----------+---------+------------- simple_header.csv -------------------------------------------+
+                | Line | id:Column | Rule    | Message                                                                   |
+                +------+-----------+---------+---------------------------------------------------------------------------+
+                | 2    | 0:seq     | num_min | The number of the value "1", which is less or equal than the expected "3" |
+                +------+-----------+---------+------------- simple_header.csv -------------------------------------------+
                 
                 TABLE,
             $csv->validate(true)->render(ErrorSuite::RENDER_TABLE),
@@ -62,12 +62,12 @@ final class ErrorSuiteTest extends TestCase
 
         isSame(
             <<<'TABLE'
-                +------+-----------+---------+--------- simple_header.csv --------------------------------------+
-                | Line | id:Column | Rule    | Message                                                          |
-                +------+-----------+---------+------------------------------------------------------------------+
-                | 2    | 0:seq     | num_min | The number of the value "1", which is less than the expected "3" |
-                | 3    | 0:seq     | num_min | The number of the value "2", which is less than the expected "3" |
-                +------+-----------+---------+--------- simple_header.csv --------------------------------------+
+                +------+-----------+---------+------------- simple_header.csv -------------------------------------------+
+                | Line | id:Column | Rule    | Message                                                                   |
+                +------+-----------+---------+---------------------------------------------------------------------------+
+                | 2    | 0:seq     | num_min | The number of the value "1", which is less or equal than the expected "3" |
+                | 3    | 0:seq     | num_min | The number of the value "2", which is less or equal than the expected "3" |
+                +------+-----------+---------+------------- simple_header.csv -------------------------------------------+
                 
                 TABLE,
             $csv->validate()->render(ErrorSuite::RENDER_TABLE),
@@ -87,11 +87,11 @@ final class ErrorSuiteTest extends TestCase
             ##teamcity[testSuiteStarted name='simple_header.csv' flowId='42']
             
             ##teamcity[testStarted name='num_min at column 0:seq' locationHint='php_qn://./tests/fixtures/simple_header.csv' flowId='42']
-            "num_min" at line 2, column "0:seq". The number of the value "1", which is less than the expected "3".
+            "num_min" at line 2, column "0:seq". The number of the value "1", which is less or equal than the expected "3".
             ##teamcity[testFinished name='num_min at column 0:seq' flowId='42']
             
             ##teamcity[testStarted name='num_min at column 0:seq' locationHint='php_qn://./tests/fixtures/simple_header.csv' flowId='42']
-            "num_min" at line 3, column "0:seq". The number of the value "2", which is less than the expected "3".
+            "num_min" at line 3, column "0:seq". The number of the value "2", which is less or equal than the expected "3".
             ##teamcity[testFinished name='num_min at column 0:seq' flowId='42']
             
             ##teamcity[testSuiteFinished name='simple_header.csv' flowId='42']
@@ -107,9 +107,9 @@ final class ErrorSuiteTest extends TestCase
         $csv  = new CsvFile($path, Tools::getRule('seq', 'num_min', 3));
         isSame(
             <<<'GITHUB'
-                ::error file=./tests/fixtures/simple_header.csv,line=2::num_min at column 0:seq%0A"num_min" at line 2, column "0:seq". The number of the value "1", which is less than the expected "3".
+                ::error file=./tests/fixtures/simple_header.csv,line=2::num_min at column 0:seq%0A"num_min" at line 2, column "0:seq". The number of the value "1", which is less or equal than the expected "3".
 
-                ::error file=./tests/fixtures/simple_header.csv,line=3::num_min at column 0:seq%0A"num_min" at line 3, column "0:seq". The number of the value "2", which is less than the expected "3".
+                ::error file=./tests/fixtures/simple_header.csv,line=3::num_min at column 0:seq%0A"num_min" at line 3, column "0:seq". The number of the value "2", which is less or equal than the expected "3".
                 
                 GITHUB,
             $csv->validate()->render(ErrorSuite::REPORT_GITHUB),
@@ -139,13 +139,13 @@ final class ErrorSuiteTest extends TestCase
             [
                 [
                     'description' => "num_min at column 0:seq\n\"num_min\" at line 2, column \"0:seq\". " .
-                        'The number of the value "1", which is less than the expected "3".',
+                        'The number of the value "1", which is less or equal than the expected "3".',
                     'severity' => 'major',
                     'location' => ['path' => $path, 'lines' => ['begin' => 2]],
                 ],
                 [
                     'description' => "num_min at column 0:seq\n\"num_min\" at line 3, column \"0:seq\". " .
-                        'The number of the value "2", which is less than the expected "3".',
+                        'The number of the value "2", which is less or equal than the expected "3".',
                     'severity' => 'major',
                     'location' => ['path' => $path, 'lines' => ['begin' => 3]],
                 ],
@@ -164,10 +164,10 @@ final class ErrorSuiteTest extends TestCase
                 <testsuites>
                   <testsuite name="simple_header.csv" tests="2">
                     <testcase name="num_min at column 0:seq" file="./tests/fixtures/simple_header.csv" line="2">
-                      <system-out>"num_min" at line 2, column "0:seq". The number of the value "1", which is less than the expected "3".</system-out>
+                      <system-out>"num_min" at line 2, column "0:seq". The number of the value "1", which is less or equal than the expected "3".</system-out>
                     </testcase>
                     <testcase name="num_min at column 0:seq" file="./tests/fixtures/simple_header.csv" line="3">
-                      <system-out>"num_min" at line 3, column "0:seq". The number of the value "2", which is less than the expected "3".</system-out>
+                      <system-out>"num_min" at line 3, column "0:seq". The number of the value "2", which is less or equal than the expected "3".</system-out>
                     </testcase>
                   </testsuite>
                 </testsuites>

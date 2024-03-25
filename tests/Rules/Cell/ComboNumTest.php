@@ -49,7 +49,7 @@ class ComboNumTest extends TestAbstractCellRuleCombo
         isSame('', $rule->test('6'));
         isSame('', $rule->test('7'));
         isSame(
-            'The number of the value "5", which is less than the expected "6"',
+            'The number of the value "5", which is less or equal than the expected "6"',
             $rule->test('5'),
         );
     }
@@ -62,7 +62,7 @@ class ComboNumTest extends TestAbstractCellRuleCombo
         isSame('', $rule->test('6'));
         isSame('', $rule->test('5'));
         isSame(
-            'The number of the value "8", which is greater than the expected "6"',
+            'The number of the value "8", which is greater or equal than the expected "6"',
             $rule->test('8'),
         );
     }
@@ -76,6 +76,39 @@ class ComboNumTest extends TestAbstractCellRuleCombo
         isSame(
             'The number of the value "6", which is equal than the not expected "6"',
             $rule->test('6'),
+        );
+    }
+
+    public function testLess(): void
+    {
+        $rule = $this->create(6, Combo::LESS);
+
+        isSame('', $rule->test(''));
+        isSame('', $rule->test('5'));
+        isSame('', $rule->test('4'));
+        isSame(
+            'The number of the value "6", which is greater and not equal than the expected "6"',
+            $rule->test('6'),
+        );
+        isSame(
+            'The number of the value "7", which is greater and not equal than the expected "6"',
+            $rule->test('7'),
+        );
+    }
+
+    public function testGreater(): void
+    {
+        $rule = $this->create(6, Combo::GREATER);
+
+        isSame('', $rule->test(''));
+        isSame('', $rule->test('7'));
+        isSame(
+            'The number of the value "6", which is less and not equal than the expected "6"',
+            $rule->test('6'),
+        );
+        isSame(
+            'The number of the value "5", which is less and not equal than the expected "6"',
+            $rule->test('5'),
         );
     }
 

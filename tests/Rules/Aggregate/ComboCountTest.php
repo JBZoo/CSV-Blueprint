@@ -57,7 +57,7 @@ class ComboCountTest extends TestAbstractAggregateRuleCombo
         isSame('', $rule->test(['1', '2', '3']));
 
         isSame(
-            'The number of rows in the column is "2", which is less than the expected "3"',
+            'The number of rows in the column is "2", which is less or equal than the expected "3"',
             $rule->test(['1', '2']),
         );
     }
@@ -69,7 +69,7 @@ class ComboCountTest extends TestAbstractAggregateRuleCombo
         isSame('', $rule->test(['1', '2', '3']));
 
         isSame(
-            'The number of rows in the column is "4", which is greater than the expected "3"',
+            'The number of rows in the column is "4", which is greater or equal than the expected "3"',
             $rule->test(['1', '2', '3', '4.5']),
         );
     }

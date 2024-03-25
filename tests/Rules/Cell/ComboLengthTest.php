@@ -64,7 +64,7 @@ class ComboLengthTest extends TestAbstractCellRuleCombo
         isSame('', $rule->test('123456'));
         isSame('', $rule->test('1234567'));
         isSame(
-            'The length of the value "12345" is 5, which is less than the expected "6"',
+            'The length of the value "12345" is 5, which is less or equal than the expected "6"',
             $rule->test('12345'),
         );
     }
@@ -77,7 +77,7 @@ class ComboLengthTest extends TestAbstractCellRuleCombo
         isSame('', $rule->test('123456'));
         isSame('', $rule->test('12345'));
         isSame(
-            'The length of the value "1234567" is 7, which is greater than the expected "6"',
+            'The length of the value "1234567" is 7, which is greater or equal than the expected "6"',
             $rule->test('1234567'),
         );
     }

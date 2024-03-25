@@ -26,10 +26,12 @@ abstract class AbstarctRuleCombo extends AbstarctRule
     protected const NAME = 'UNDEFINED';
 
     protected const VERBS = [
-        self::EQ  => 'not equal',
-        self::NOT => 'equal',
-        self::MIN => 'less',
-        self::MAX => 'greater',
+        self::MIN     => 'less or equal',
+        self::GREATER => 'less and not equal',
+        self::NOT     => 'equal',
+        self::EQ      => 'not equal',
+        self::LESS    => 'greater and not equal',
+        self::MAX     => 'greater or equal',
     ];
 
     abstract protected function getExpected(): float;
@@ -61,7 +63,7 @@ abstract class AbstarctRuleCombo extends AbstarctRule
 
     public static function parseMode(string $origRuleName): string
     {
-        $postfixes = [self::MAX, self::MIN, self::NOT];
+        $postfixes = [self::MIN, self::GREATER, self::NOT, self::LESS, self::MAX];
 
         if (\preg_match('/_(' . \implode('|', $postfixes) . ')$/', $origRuleName, $matches) === 1) {
             return $matches[1];
@@ -84,11 +86,13 @@ abstract class AbstarctRuleCombo extends AbstarctRule
         $actual    = \round($actual, $precision);
 
         return match ($mode) {
-            self::EQ  => $expected === $actual,
-            self::NOT => $expected !== $actual,
-            self::MIN => $expected <= $actual,
-            self::MAX => $expected >= $actual,
-            default   => throw new \InvalidArgumentException("Unknown mode: {$mode}"),
+            self::MIN     => $expected <= $actual,
+            self::GREATER => $expected < $actual,
+            self::NOT     => $expected !== $actual,
+            self::EQ      => $expected === $actual,
+            self::LESS    => $expected > $actual,
+            self::MAX     => $expected >= $actual,
+            default       => throw new \InvalidArgumentException("Unknown mode: {$mode}"),
         };
     }
 

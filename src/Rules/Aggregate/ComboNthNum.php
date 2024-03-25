@@ -28,17 +28,17 @@ final class ComboNthNum extends AbstarctAggregateRuleCombo
     protected const HELP_TOP = [
         'N-th value in the column.',
         'The rule expects exactly two arguments: ' .
-        'the first is the line number (without header), the second is the expected value',
+        'the first is the line number (without header), the second is the expected value.',
+        'Example: `[ 42, 5.0 ]` On the line 42 (disregarding the header), we expect the 5.0. The comparison is always as float.',
     ];
 
     protected const HELP_OPTIONS = [
-        self::EQ => [
-            '[ 2, 5 ]',
-            'Example: On the line 2 (disregarding the header), we expect the 5.0. The comparison is always as float.',
-        ],
-        self::NOT => ['[ 2, 4.123 ]', ''],
-        self::MIN => ['[ 2, -1 ]', ''],
-        self::MAX => ['[ 2, 2e4 ]', ''],
+        self::MIN     => ['[ 42, 1.0 ]', 'x >= 1.0'],
+        self::GREATER => ['[ 42, 2.0 ]', 'x >  2.0'],
+        self::NOT     => ['[ 42, 5.0 ]', 'x != 5.0'],
+        self::EQ      => ['[ 42, 7.0 ]', 'x == 7.0'],
+        self::LESS    => ['[ 42, 8.0 ]', 'x <  8.0'],
+        self::MAX     => ['[ 42, 9.0 ]', 'x <= 9.0'],
     ];
 
     private const ARGS = 2;

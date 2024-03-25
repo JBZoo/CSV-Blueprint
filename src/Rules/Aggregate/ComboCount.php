@@ -29,13 +29,6 @@ final class ComboCount extends AbstarctAggregateRuleCombo
         'Since any(!) values are taken into account, it only makes sense to use these rules once in any column.',
     ];
 
-    protected const HELP_OPTIONS = [
-        self::EQ  => ['5', ''],
-        self::NOT => ['4', ''],
-        self::MIN => ['1', ''],
-        self::MAX => ['10', ''],
-    ];
-
     protected function getActualAggregate(array $colValues): ?float
     {
         return \count($colValues);

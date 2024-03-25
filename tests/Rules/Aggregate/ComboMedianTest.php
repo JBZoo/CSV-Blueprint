@@ -57,7 +57,7 @@ class ComboMedianTest extends TestAbstractAggregateRuleCombo
         isSame('', $rule->test(['1', '2', '3']));
 
         isSame(
-            'The median in the column is "1.5", which is less than the expected "1.999"',
+            'The median in the column is "1.5", which is less or equal than the expected "1.999"',
             $rule->test(['1', '2']),
         );
     }
@@ -69,7 +69,7 @@ class ComboMedianTest extends TestAbstractAggregateRuleCombo
         isSame('', $rule->test(['1', '2', '3']));
 
         isSame(
-            'The median in the column is "3", which is greater than the expected "2"',
+            'The median in the column is "3", which is greater or equal than the expected "2"',
             $rule->test(['1', '2', '3', '4.5', '1000']),
         );
     }

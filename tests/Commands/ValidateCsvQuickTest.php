@@ -92,11 +92,11 @@ final class ValidateCsvQuickTest extends TestCase
             (2/3) CSV   : ./tests/fixtures/batch/demo-2.csv
             (2/3) Issues: 7
             "csv.header" at line 1. Columns not found in CSV: "wrong_column_name".
-            "length_min" at line 2, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".
-            "length_min" at line 7, column "0:Name". The length of the value "Lois" is 4, which is less than the expected "5".
-            "date_min" at line 2, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
-            "date_min" at line 4, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
-            "date_max" at line 5, column "3:Birthday". The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)".
+            "length_min" at line 2, column "0:Name". The length of the value "Carl" is 4, which is less or equal than the expected "5".
+            "length_min" at line 7, column "0:Name". The length of the value "Lois" is 4, which is less or equal than the expected "5".
+            "date_min" at line 2, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less or equal than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
+            "date_min" at line 4, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less or equal than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
+            "date_max" at line 5, column "3:Birthday". The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater or equal than the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)".
             "ag:nth" at line 1, column "3:Birthday". The value on line 2 in the column is "1989-05-15", which is not equal than the expected "2000-12-01".
             
             (3/3) Schema: ./tests/schemas/demo_invalid.yml

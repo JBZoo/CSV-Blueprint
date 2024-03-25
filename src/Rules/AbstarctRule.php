@@ -38,19 +38,8 @@ abstract class AbstarctRule
     public const NOT     = 'not';
     public const MIN     = 'min';
     public const MAX     = 'max';
-
-    protected const HELP_TOP = [];
-
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => ['FIXME', 'Add description.'],
-        self::EQ      => ['5', ''],
-        self::NOT     => ['4', ''],
-        self::MIN     => ['1', ''],
-        self::MAX     => ['10', ''],
-    ];
-
-    private const HELP_LEFT_PAD = 6;
-    private const HELP_DESC_PAD = 40;
+    public const LESS    = 'less';
+    public const GREATER = 'greater';
 
     protected string $columnNameId;
     protected string $ruleCode;
@@ -101,43 +90,7 @@ abstract class AbstarctRule
 
     public function getHelp(): string
     {
-        $leftPad = \str_repeat(' ', self::HELP_LEFT_PAD);
-
-        $renderLine = function (array|string $row, string $mode) use ($leftPad): string {
-            $ymlRuleCode = \str_replace('ag:', '', $this->getRuleCode($mode));
-            $baseKeyVal  = "{$leftPad}{$ymlRuleCode}: {$row[0]}";
-
-            if (isset($row[1]) && $row[1] !== '') {
-                $desc = \rtrim($row[1], '.') . '.';
-
-                return \str_pad($baseKeyVal, self::HELP_DESC_PAD, ' ', \STR_PAD_RIGHT) . "# {$desc}";
-            }
-
-            return $baseKeyVal;
-        };
-
-        $topComment = '';
-        if (\count(static::HELP_TOP) > 0) {
-            $topComment = "{$leftPad}# " . \implode(
-                "\n{$leftPad}# ",
-                \array_map(static fn (string $item): string => \rtrim($item, '.') . '.', static::HELP_TOP),
-            );
-        }
-
-        if ($this instanceof AbstarctRuleCombo) {
-            return \implode("\n", [
-                $topComment,
-                $renderLine(static::HELP_OPTIONS[self::EQ], self::EQ),
-                $renderLine(static::HELP_OPTIONS[self::NOT], self::NOT),
-                $renderLine(static::HELP_OPTIONS[self::MIN], self::MIN),
-                $renderLine(static::HELP_OPTIONS[self::MAX], self::MAX),
-            ]);
-        }
-
-        return \implode("\n", [
-            $topComment,
-            $renderLine(static::HELP_OPTIONS[self::DEFAULT], self::DEFAULT),
-        ]);
+        return (new DocBuilder($this, $this->mode))->getHelp();
     }
 
     public function getRuleCode(?string $mode = null): string
@@ -154,6 +107,14 @@ abstract class AbstarctRule
     public function getInputType(): int
     {
         return static::INPUT_TYPE;
+    }
+
+    public function getMeta(): array
+    {
+        return [
+            \defined(static::class . '::HELP_TOP') ? static::HELP_TOP : [],
+            \defined(static::class . '::HELP_OPTIONS') ? static::HELP_OPTIONS : [],
+        ];
     }
 
     protected function getOptionAsBool(): bool

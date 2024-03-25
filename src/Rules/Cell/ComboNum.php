@@ -28,13 +28,6 @@ final class ComboNum extends AbstractCellRuleCombo
         'Scientific number format is also supported. Example: "1.2e3"',
     ];
 
-    protected const HELP_OPTIONS = [
-        self::EQ  => ['5', 'You can use integers'],
-        self::NOT => ['4.123', 'Float numbers'],
-        self::MIN => ['-10.123', 'Negative and positive, zero is also supported'],
-        self::MAX => ['1.2e3', 'And even scientific format'],
-    ];
-
     private const PRECISION = 10;
 
     protected function getExpected(): float

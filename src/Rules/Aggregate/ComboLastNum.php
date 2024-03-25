@@ -26,13 +26,6 @@ final class ComboLastNum extends AbstarctAggregateRuleCombo
 
     protected const HELP_TOP = ['Last number in the column. Expected value is float or integer.'];
 
-    protected const HELP_OPTIONS = [
-        self::EQ  => ['5', ''],
-        self::NOT => ['4.123', ''],
-        self::MIN => ['-1', ''],
-        self::MAX => ['2e4', ''],
-    ];
-
     protected function getActualAggregate(array $colValues): ?float
     {
         if (\count($colValues) === 0) {

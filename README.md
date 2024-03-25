@@ -4,7 +4,7 @@
 [![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
 
 <!-- rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-135-green?label=Total%20Number%20of%20Rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-55-green?label=Cell%20Value&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-75-green?label=Aggregate%20Column&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-5-green?label=Extra%20Checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-305-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-179-green?label=Total%20Number%20of%20Rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-65-green?label=Cell%20Value&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-109-green?label=Aggregate%20Column&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-5-green?label=Extra%20Checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-305-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- /rules-counter -->
 
 ## Introduction
@@ -161,18 +161,20 @@ columns:
       allow_values: [ y, n, "" ]        # Strict set of values that are allowed.
       not_allow_values: [ invalid ]     # Strict set of values that are NOT allowed.
 
-      # Any valid regex pattern. See https://www.php.net/manual/en/reference.pcre.pattern.syntax.php.
+      # Any valid regex pattern. See https://www.php.net/manual/en/reference.pcre.pattern.syntax.php
       # Of course it's a super powerful tool to verify any sort of string data.
       # Please, be careful. Regex is a powerful tool, but it can be very dangerous if used incorrectly.
       # Remember that if you want to solve a problem with regex, you now have two problems.
-      # But have it your way, then happy debugging! https://regex101.com.
+      # But have it your way, then happy debugging! https://regex101.com
       regex: /^[\d]{2}$/
 
       # Checks length of a string including spaces (multibyte safe).
-      length: 5
-      length_not: 4
-      length_min: 1
-      length_max: 10
+      length_min: 1                     # x >= 1
+      length_greater: 2                 # x >  2
+      length_not: 0                     # x != 0
+      length: 7                         # x == 7
+      length_less: 8                    # x <  8
+      length_max: 9                     # x <= 9
 
       # Basic string checks
       is_trimmed: true                  # Only trimmed strings. Example: "Hello World" (not " Hello World ").
@@ -180,13 +182,15 @@ columns:
       is_uppercase: true                # String is only upper-case. Example: "HELLO WORLD".
       is_capitalize: true               # String is only capitalized. Example: "Hello World".
 
-      # Count number of words used in a string.
+      # Count number of words used in a string
       # Note that multibyte locales are not supported.
       # Example: "Hello World, 123" - 2 words only (123 is not a word).
-      word_count: 5
-      word_count_not: 4
-      word_count_min: 1
-      word_count_max: 10
+      word_count_min: 1                 # x >= 1
+      word_count_greater: 2             # x >  2
+      word_count_not: 0                 # x != 0
+      word_count: 7                     # x == 7
+      word_count_less: 8                # x <  8
+      word_count_max: 9                 # x <= 9
 
       # Contains rules
       contains: Hello                   # Example: "Hello World".
@@ -197,30 +201,36 @@ columns:
 
       # Under the hood it converts and compares as float values.
       # Comparison accuracy is 10 digits after a dot.
-      # Scientific number format is also supported. Example: "1.2e3".
-      num: 5                            # You can use integers.
-      num_not: 4.123                    # Float numbers.
-      num_min: -10.123                  # Negative and positive, zero is also supported.
-      num_max: 1.2e3                    # And even scientific format.
+      # Scientific number format is also supported. Example: "1.2e3"
+      num_min: 1.0                      # x >= 1.0
+      num_greater: 2.0                  # x >  2.0
+      num_not: 5.0                      # x != 5.0
+      num: 7.0                          # x == 7.0
+      num_less: 8.0                     # x <  8.0
+      num_max: 9.0                      # x <= 9.0
       is_int: true                      # Check format only. Can be negative and positive. Without any separators.
       is_float: true                    # Check format only. Can be negative and positive. Dot as decimal separator.
 
-      # Number of digits after the decimal point (with zeros).
-      precision: 5
-      precision_not: 4
-      precision_min: 1
-      precision_max: 10
+      # Number of digits after the decimal point (with zeros)
+      precision_min: 1                  # x >= 1
+      precision_greater: 2              # x >  2
+      precision_not: 0                  # x != 0
+      precision: 7                      # x == 7
+      precision_less: 8                 # x <  8
+      precision_max: 9                  # x <= 9
 
       # Dates. Under the hood, the strings are converted to timestamp and compared.
       # This gives you the ability to use relative dates and any formatting you want.
       # By default, it works in UTC. But you can specify your own timezone as part of the date string.
-      # Format:    https://www.php.net/manual/en/datetime.format.php.
-      # Parsing:   https://www.php.net/manual/en/function.strtotime.php.
-      # Timezones: https://www.php.net/manual/en/timezones.php.
-      date: 01 Jan 2000                 # You can use any string that can be parsed by the strtotime function.
+      # Format:    https://www.php.net/manual/en/datetime.format.php
+      # Parsing:   https://www.php.net/manual/en/function.strtotime.php
+      # Timezones: https://www.php.net/manual/en/timezones.php
+      date_min: -100 years              # Example of relative formats
+      date_greater: -99 days            # Example of relative formats
       date_not: 2006-01-02 15:04:05 -0700 Europe/Rome
-      date_min: +1 day                  # Examples of relative formats.
-      date_max: now                     # Examples of current date and time.
+      date: 01 Jan 2000                 # You can use any string that can be parsed by the strtotime function
+      date_less: now                    # Example of current date and time
+      date_max: +1 day                  # Example of relative formats
       date_format: Y-m-d                # Check strict format of the date.
       is_date: true                     # Accepts arbitrary date format. Is shows error if failed to convert to timestamp.
 
@@ -266,132 +276,168 @@ columns:
       is_unique: true                   # All values in the column are unique.
 
       # First number in the column. Expected value is float or integer.
-      first_num: 5
-      first_num_not: 4.123
-      first_num_min: -1
-      first_num_max: 2e4
+      first_num_min: 1.0                # x >= 1.0
+      first_num_greater: 2.0            # x >  2.0
+      first_num_not: 5.0                # x != 5.0
+      first_num: 7.0                    # x == 7.0
+      first_num_less: 8.0               # x <  8.0
+      first_num_max: 9.0                # x <= 9.0
       first: Expected                   # First value in the column. Will be compared as strings.
       first_not: 'Not Expected'         # Not allowed as the first value in the column. Will be compared as strings.
 
       # N-th value in the column.
       # The rule expects exactly two arguments: the first is the line number (without header), the second is the expected value.
-      nth_num: [ 2, 5 ]                 # Example: On the line 2 (disregarding the header), we expect the 5.0. The comparison is always as float.
-      nth_num_not: [ 2, 4.123 ]
-      nth_num_min: [ 2, -1 ]
-      nth_num_max: [ 2, 2e4 ]
+      # Example: `[ 42, 5.0 ]` On the line 42 (disregarding the header), we expect the 5.0. The comparison is always as float.
+      nth_num_min: [ 42, 1.0 ]          # x >= 1.0
+      nth_num_greater: [ 42, 2.0 ]      # x >  2.0
+      nth_num_not: [ 42, 5.0 ]          # x != 5.0
+      nth_num: [ 42, 7.0 ]              # x == 7.0
+      nth_num_less: [ 42, 8.0 ]         # x <  8.0
+      nth_num_max: [ 42, 9.0 ]          # x <= 9.0
       nth: [ 2, Expected ]              # Nth value in the column. Will be compared as strings.
       nth_not: [ 2, 'Not expected' ]    # Not allowed as the N-th value in the column. Will be compared as strings.
 
       # Last number in the column. Expected value is float or integer.
-      last_num: 5
-      last_num_not: 4.123
-      last_num_min: -1
-      last_num_max: 2e4
+      last_num_min: 1.0                 # x >= 1.0
+      last_num_greater: 2.0             # x >  2.0
+      last_num_not: 5.0                 # x != 5.0
+      last_num: 7.0                     # x == 7.0
+      last_num_less: 8.0                # x <  8.0
+      last_num_max: 9.0                 # x <= 9.0
       last: Expected                    # Last value in the column. Will be compared as strings.
       last_not: 'Not Expected'          # Not allowed as the last value in the column. Will be compared as strings.
 
       # Sum of the numbers in the column. Example: [1, 2, 3] => 6.
-      sum: 5.123
-      sum_not: 4.123
-      sum_min: 1.123
-      sum_max: 10.123
+      sum_min: 1.0                      # x >= 1.0
+      sum_greater: 2.0                  # x >  2.0
+      sum_not: 5.0                      # x != 5.0
+      sum: 7.0                          # x == 7.0
+      sum_less: 8.0                     # x <  8.0
+      sum_max: 9.0                      # x <= 9.0
 
       # Regular the arithmetic mean. The sum of the numbers divided by the count.
-      average: 5.123
-      average_not: 4.123
-      average_min: 1.123
-      average_max: 10.123
+      average_min: 1.0                  # x >= 1.0
+      average_greater: 2.0              # x >  2.0
+      average_not: 5.0                  # x != 5.0
+      average: 7.0                      # x == 7.0
+      average_less: 8.0                 # x <  8.0
+      average_max: 9.0                  # x <= 9.0
 
       # Total number of rows in the CSV file.
       # Since any(!) values are taken into account, it only makes sense to use these rules once in any column.
-      count: 5
-      count_not: 4
-      count_min: 1
-      count_max: 10
+      count_min: 1                      # x >= 1
+      count_greater: 2                  # x >  2
+      count_not: 0                      # x != 0
+      count: 7                          # x == 7
+      count_less: 8                     # x <  8
+      count_max: 9                      # x <= 9
 
       # Counts only empty values (string length is 0).
-      count_empty: 5
-      count_empty_not: 4
-      count_empty_min: 1
-      count_empty_max: 10
+      count_empty_min: 1                # x >= 1
+      count_empty_greater: 2            # x >  2
+      count_empty_not: 0                # x != 0
+      count_empty: 7                    # x == 7
+      count_empty_less: 8               # x <  8
+      count_empty_max: 9                # x <= 9
 
       # Counts only not empty values (string length is not 0).
-      count_not_empty: 5
-      count_not_empty_not: 4
-      count_not_empty_min: 1
-      count_not_empty_max: 10
+      count_not_empty_min: 1            # x >= 1
+      count_not_empty_greater: 2        # x >  2
+      count_not_empty_not: 0            # x != 0
+      count_not_empty: 7                # x == 7
+      count_not_empty_less: 8           # x <  8
+      count_not_empty_max: 9            # x <= 9
 
       # Calculate the median average of a list of numbers.
-      median: 5.123
-      median_not: 4.123
-      median_min: 1.123
-      median_max: 10.123
+      median_min: 1.0                   # x >= 1.0
+      median_greater: 2.0               # x >  2.0
+      median_not: 5.0                   # x != 5.0
+      median: 7.0                       # x == 7.0
+      median_less: 8.0                  # x <  8.0
+      median_max: 9.0                   # x <= 9.0
 
       # Compute the P-th percentile of a list of numbers.
-      # Linear interpolation between closest ranks method - Second variant, .
-      # C = 1 P-th percentile (0 <= P <= 100) of a list of N ordered values (sorted from least to greatest).Similar method used in NumPy and Excel.
-      # See: https://en.wikipedia.org/wiki/Percentile#Second_variant.2C_.7F.27.22.60UNIQ--postMath-00000043-QINU.60.22.27.7F.
-      percentile: [ 95, 1.234 ]         # Example: The 95th percentile in the column must be "1.234" (float).
-      percentile_not: [ 95, 4.123 ]
-      percentile_min: [ 95, -1 ]
-      percentile_max: [ 95, 2e4 ]
+      # Linear interpolation between closest ranks method - Second variant, C = 1 P-th percentile (0 <= P <= 100) of a list of N ordered values (sorted from least to greatest).
+      # Similar method used in NumPy and Excel.
+      # See: https://en.wikipedia.org/wiki/Percentile#Second_variant.2C_.7F.27.22.60UNIQ--postMath-00000043-QINU.60.22.27.7F
+      # Example: `[ 95, 1.234 ]` The 95th percentile in the column must be "1.234" (float).
+      percentile_min: [ 95, 1.0 ]       # x >= 1.0
+      percentile_greater: [ 95, 2.0 ]   # x >  2.0
+      percentile_not: [ 95, 5.0 ]       # x != 5.0
+      percentile: [ 95, 7.0 ]           # x == 7.0
+      percentile_less: [ 95, 8.0 ]      # x <  8.0
+      percentile_max: [ 95, 9.0 ]       # x <= 9.0
 
       # MAD - mean absolute deviation. The average of the absolute deviations from a central point.
       # It is a summary statistic of statistical dispersion or variability.
-      # See: https://en.wikipedia.org/wiki/Average_absolute_deviation.
-      mean_abs_dev: 5.123
-      mean_abs_dev_not: 4.123
-      mean_abs_dev_min: 1.123
-      mean_abs_dev_max: 10.123
+      # See: https://en.wikipedia.org/wiki/Average_absolute_deviation
+      mean_abs_dev_min: 1.0             # x >= 1.0
+      mean_abs_dev_greater: 2.0         # x >  2.0
+      mean_abs_dev_not: 5.0             # x != 5.0
+      mean_abs_dev: 7.0                 # x == 7.0
+      mean_abs_dev_less: 8.0            # x <  8.0
+      mean_abs_dev_max: 9.0             # x <= 9.0
 
       # MAD - median absolute deviation. The average of the absolute deviations from a central point.
       # It is a summary statistic of statistical dispersion or variability.
       # It is a robust measure of the variability of a univariate sample of quantitative data.
-      # See: https://en.wikipedia.org/wiki/Median_absolute_deviation.
-      median_abs_dev: 5.123
-      median_abs_dev_not: 4.123
-      median_abs_dev_min: 1.123
-      median_abs_dev_max: 10.123
+      # See: https://en.wikipedia.org/wiki/Median_absolute_deviation
+      median_abs_dev_min: 1.0           # x >= 1.0
+      median_abs_dev_greater: 2.0       # x >  2.0
+      median_abs_dev_not: 5.0           # x != 5.0
+      median_abs_dev: 7.0               # x == 7.0
+      median_abs_dev_less: 8.0          # x <  8.0
+      median_abs_dev_max: 9.0           # x <= 9.0
 
       # Population variance - Use when all possible observations of the system are present.
       # If used with a subset of data (sample variance), it will be a biased variance.
       # n degrees of freedom, where n is the number of observations.
-      population_variance: 5.123
-      population_variance_not: 4.123
-      population_variance_min: 1.123
-      population_variance_max: 10.123
+      population_variance_min: 1.0      # x >= 1.0
+      population_variance_greater: 2.0  # x >  2.0
+      population_variance_not: 5.0      # x != 5.0
+      population_variance: 7.0          # x == 7.0
+      population_variance_less: 8.0     # x <  8.0
+      population_variance_max: 9.0      # x <= 9.0
 
       # Unbiased sample variance Use when only a subset of all possible observations of the system are present.
       # n - 1 degrees of freedom, where n is the number of observations.
-      sample_variance: 5.123
-      sample_variance_not: 4.123
-      sample_variance_min: 1.123
-      sample_variance_max: 10.123
+      sample_variance_min: 1.0          # x >= 1.0
+      sample_variance_greater: 2.0      # x >  2.0
+      sample_variance_not: 5.0          # x != 5.0
+      sample_variance: 7.0              # x == 7.0
+      sample_variance_less: 8.0         # x <  8.0
+      sample_variance_max: 9.0          # x <= 9.0
 
       # Standard deviation (For a sample; uses sample variance). It also known as SD or StdDev.
       # StdDev is a measure that is used to quantify the amount of variation or dispersion of a set of data values.
       #  - Low standard deviation indicates that the data points tend to be close to the mean (also called the expected value) of the set.
       #  - High standard deviation indicates that the data points are spread out over a wider range of values.
-      # See: https://en.wikipedia.org/wiki/Standard_deviation.
-      stddev: 5.123
-      stddev_not: 4.123
-      stddev_min: 1.123
-      stddev_max: 10.123
+      # See: https://en.wikipedia.org/wiki/Standard_deviation
+      stddev_min: 1.0                   # x >= 1.0
+      stddev_greater: 2.0               # x >  2.0
+      stddev_not: 5.0                   # x != 5.0
+      stddev: 7.0                       # x == 7.0
+      stddev_less: 8.0                  # x <  8.0
+      stddev_max: 9.0                   # x <= 9.0
 
-      # SD+ (Standard deviation for a population; uses population variance).
-      stddev_pop: 5.123
-      stddev_pop_not: 4.123
-      stddev_pop_min: 1.123
-      stddev_pop_max: 10.123
+      # SD+ (Standard deviation for a population; uses population variance)
+      stddev_pop_min: 1.0               # x >= 1.0
+      stddev_pop_greater: 2.0           # x >  2.0
+      stddev_pop_not: 5.0               # x != 5.0
+      stddev_pop: 7.0                   # x == 7.0
+      stddev_pop_less: 8.0              # x <  8.0
+      stddev_pop_max: 9.0               # x <= 9.0
 
-      # Coefficient of variation (cᵥ) Also known as relative standard deviation (RSD).
+      # Coefficient of variation (cᵥ) Also known as relative standard deviation (RSD)
       # A standardized measure of dispersion of a probability distribution or frequency distribution.
       # It is often expressed as a percentage. The ratio of the standard deviation to the mean.
-      # See: https://en.wikipedia.org/wiki/Coefficient_of_variation.
-      coef_of_var: 5.123
-      coef_of_var_not: 4.123
-      coef_of_var_min: 1.123
-      coef_of_var_max: 10.123
+      # See: https://en.wikipedia.org/wiki/Coefficient_of_variation
+      coef_of_var_min: 1.0              # x >= 1.0
+      coef_of_var_greater: 2.0          # x >  2.0
+      coef_of_var_not: 5.0              # x != 5.0
+      coef_of_var: 7.0                  # x == 7.0
+      coef_of_var_less: 8.0             # x <  8.0
+      coef_of_var_max: 9.0              # x <= 9.0
 
   - name: another_column
     rules:
@@ -616,17 +662,17 @@ CSV file validation: 1
 | Line | id:Column        | Rule         | Message                                                                                              |
 +------+------------------+--------------+------------------------------------------------------------------------------------------------------+
 | 1    |                  | csv.header   | Columns not found in CSV: "wrong_column_name"                                                        |
-| 6    | 0:Name           | length_min   | The length of the value "Carl" is 4, which is less than the expected "5"                             |
-| 11   | 0:Name           | length_min   | The length of the value "Lois" is 4, which is less than the expected "5"                             |
+| 6    | 0:Name           | length_min   | The length of the value "Carl" is 4, which is less or equal than the expected "5"                    |
+| 11   | 0:Name           | length_min   | The length of the value "Lois" is 4, which is less or equal than the expected "5"                    |
 | 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 9, total: 10                                                   |
-| 2    | 2:Float          | num_max      | The number of the value "4825.185", which is greater than the expected "4825.184"                    |
+| 2    | 2:Float          | num_max      | The number of the value "4825.185", which is greater or equal than the expected "4825.184"           |
 | 1    | 2:Float          | ag:nth_num   | The N-th value in the column is "74", which is not equal than the expected "0.001"                   |
-| 6    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
-|      |                  |              | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
-| 8    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
-|      |                  |              | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
-| 9    | 3:Birthday       | date_max     | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
-|      |                  |              | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
+| 6    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less or equal |
+|      |                  |              | than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                          |
+| 8    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less or equal |
+|      |                  |              | than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                          |
+| 9    | 3:Birthday       | date_max     | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater or    |
+|      |                  |              | equal than the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                    |
 | 5    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
 +------+------------------+--------------+------------------------- demo.csv -------------------------------------------------------------------+
 

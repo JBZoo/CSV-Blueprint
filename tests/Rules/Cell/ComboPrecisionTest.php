@@ -47,7 +47,7 @@ class ComboPrecisionTest extends TestAbstractCellRuleCombo
         isSame('', $rule->test('0.123'));
         isSame('', $rule->test('0.12345'));
         isSame(
-            'The precision of the value "0.12" is 2, which is less than the expected "3"',
+            'The precision of the value "0.12" is 2, which is less or equal than the expected "3"',
             $rule->test('0.12'),
         );
     }
@@ -61,7 +61,7 @@ class ComboPrecisionTest extends TestAbstractCellRuleCombo
         isSame('', $rule->test('0.12'));
         isSame('', $rule->test('0.1'));
         isSame(
-            'The precision of the value "0.12345" is 5, which is greater than the expected "3"',
+            'The precision of the value "0.12345" is 5, which is greater or equal than the expected "3"',
             $rule->test('0.12345'),
         );
     }

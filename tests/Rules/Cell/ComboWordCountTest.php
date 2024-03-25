@@ -74,11 +74,11 @@ class ComboWordCountTest extends TestAbstractCellRuleCombo
         isSame('', $rule->test('asd, asdasd asd'));
         isSame('', $rule->test('asd, asdasd 1232 asdas'));
         isSame(
-            'The word count of the value "cba" is 1, which is less than the expected "2"',
+            'The word count of the value "cba" is 1, which is less or equal than the expected "2"',
             $rule->test('cba'),
         );
         isSame(
-            'The word count of the value "cba 123, 123123" is 1, which is less than the expected "2"',
+            'The word count of the value "cba 123, 123123" is 1, which is less or equal than the expected "2"',
             $rule->test('cba 123, 123123'),
         );
     }
@@ -94,7 +94,7 @@ class ComboWordCountTest extends TestAbstractCellRuleCombo
         isSame('', $rule->test('asd, 1232'));
         isSame('', $rule->test('asd, 1232 113234324 342 . ..'));
         isSame(
-            'The word count of the value "asd, asdasd asd 1232 asdas" is 4, which is greater than the expected "2"',
+            'The word count of the value "asd, asdasd asd 1232 asdas" is 4, which is greater or equal than the expected "2"',
             $rule->test('asd, asdasd asd 1232 asdas'),
         );
     }

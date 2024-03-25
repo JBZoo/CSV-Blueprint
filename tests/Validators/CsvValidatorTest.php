@@ -62,7 +62,7 @@ final class CsvValidatorTest extends TestCase
         $csv = new CsvFile(Tools::CSV_SIMPLE_HEADER, Tools::SCHEMA_SIMPLE_HEADER_PHP);
         isSame(
             '"num_min" at line 2, column "0:seq". ' .
-            'The number of the value "1", which is less than the expected "2".' . "\n",
+            'The number of the value "1", which is less or equal than the expected "2".' . "\n",
             \strip_tags((string)$csv->validate()),
         );
     }
@@ -72,7 +72,7 @@ final class CsvValidatorTest extends TestCase
         $csv = new CsvFile(Tools::CSV_SIMPLE_HEADER, Tools::SCHEMA_SIMPLE_HEADER_JSON);
         isSame(
             '"num_min" at line 2, column "0:seq". ' .
-            'The number of the value "1", which is less than the expected "2".' . "\n",
+            'The number of the value "1", which is less or equal than the expected "2".' . "\n",
             \strip_tags((string)$csv->validate()),
         );
     }
