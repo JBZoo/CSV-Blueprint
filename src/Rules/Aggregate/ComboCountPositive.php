@@ -20,7 +20,7 @@ use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 
 final class ComboCountPositive extends AbstarctAggregateRuleCombo
 {
-    public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_FLOATS;
+    public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_INTS;
 
     protected const NAME = 'number of positive values';
 
