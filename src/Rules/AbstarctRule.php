@@ -47,6 +47,8 @@ abstract class AbstarctRule
 
     private null|array|bool|float|int|string $options;
 
+    abstract public function getHelpMeta(): array;
+
     public function __construct(
         string $columnNameId,
         null|array|bool|float|int|string $options,
@@ -90,7 +92,7 @@ abstract class AbstarctRule
 
     public function getHelp(): string
     {
-        return (new DocBuilder($this, $this->mode))->getHelp();
+        return (new DocBuilder($this))->getHelp();
     }
 
     public function getRuleCode(?string $mode = null): string
@@ -107,14 +109,6 @@ abstract class AbstarctRule
     public function getInputType(): int
     {
         return static::INPUT_TYPE;
-    }
-
-    public function getMeta(): array
-    {
-        return [
-            \defined(static::class . '::HELP_TOP') ? static::HELP_TOP : [],
-            \defined(static::class . '::HELP_OPTIONS') ? static::HELP_OPTIONS : [],
-        ];
     }
 
     protected function getOptionAsBool(): bool

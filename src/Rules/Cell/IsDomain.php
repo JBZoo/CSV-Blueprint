@@ -20,9 +20,15 @@ use JBZoo\CsvBlueprint\Utils;
 
 final class IsDomain extends AbstractCellRule
 {
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => ['true', 'Only domain name. Example: "example.com"'],
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [],
+            [
+                self::DEFAULT => ['true', 'Only domain name. Example: "example.com"'],
+            ],
+        ];
+    }
 
     public function validateRule(string $cellValue): ?string
     {

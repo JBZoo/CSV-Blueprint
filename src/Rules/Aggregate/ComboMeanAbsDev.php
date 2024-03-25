@@ -25,11 +25,17 @@ final class ComboMeanAbsDev extends AbstarctAggregateRuleCombo
 
     protected const NAME = 'MAD';
 
-    protected const HELP_TOP = [
-        'MAD - mean absolute deviation. The average of the absolute deviations from a central point.',
-        'It is a summary statistic of statistical dispersion or variability.',
-        'See: https://en.wikipedia.org/wiki/Average_absolute_deviation',
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [
+                'MAD - mean absolute deviation. The average of the absolute deviations from a central point.',
+                'It is a summary statistic of statistical dispersion or variability.',
+                'See: https://en.wikipedia.org/wiki/Average_absolute_deviation',
+            ],
+            [],
+        ];
+    }
 
     protected function getActualAggregate(array $colValues): ?float
     {

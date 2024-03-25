@@ -18,9 +18,18 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 final class NotEmpty extends AbstractCellRule
 {
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => ['true', 'Value is not an empty string. Actually checks if the string length is not 0.'],
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [],
+            [
+                self::DEFAULT => [
+                    'true',
+                    'Value is not an empty string. Actually checks if the string length is not 0.',
+                ],
+            ],
+        ];
+    }
 
     public function validateRule(string $cellValue): ?string
     {

@@ -25,12 +25,18 @@ final class ComboMedianAbsDev extends AbstarctAggregateRuleCombo
 
     protected const NAME = 'MAD';
 
-    protected const HELP_TOP = [
-        'MAD - median absolute deviation. The average of the absolute deviations from a central point.',
-        'It is a summary statistic of statistical dispersion or variability.',
-        'It is a robust measure of the variability of a univariate sample of quantitative data.',
-        'See: https://en.wikipedia.org/wiki/Median_absolute_deviation',
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [
+                'MAD - median absolute deviation. The average of the absolute deviations from a central point.',
+                'It is a summary statistic of statistical dispersion or variability.',
+                'It is a robust measure of the variability of a univariate sample of quantitative data.',
+                'See: https://en.wikipedia.org/wiki/Median_absolute_deviation',
+            ],
+            [],
+        ];
+    }
 
     protected function getActualAggregate(array $colValues): ?float
     {

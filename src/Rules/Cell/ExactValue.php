@@ -18,9 +18,15 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 final class ExactValue extends AbstractCellRule
 {
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => ['Some string', 'Exact value for string in the column.'],
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [],
+            [
+                self::DEFAULT => ['Some string', 'Exact value for string in the column.'],
+            ],
+        ];
+    }
 
     public function validateRule(string $cellValue): ?string
     {

@@ -22,13 +22,19 @@ final class ComboNum extends AbstractCellRuleCombo
 {
     protected const NAME = 'number';
 
-    protected const HELP_TOP = [
-        'Under the hood it converts and compares as float values.',
-        'Comparison accuracy is ' . self::PRECISION . ' digits after a dot.',
-        'Scientific number format is also supported. Example: "1.2e3"',
-    ];
-
     private const PRECISION = 10;
+
+    public function getHelpMeta(): array
+    {
+        return [
+            [
+                'Under the hood it converts and compares as float values.',
+                'Comparison accuracy is ' . self::PRECISION . ' digits after a dot.',
+                'Scientific number format is also supported. Example: "1.2e3"',
+            ],
+            [],
+        ];
+    }
 
     protected function getExpected(): float
     {

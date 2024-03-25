@@ -20,13 +20,19 @@ use Respect\Validation\Validator;
 
 final class IsCurrencyCode extends AbstractCellRule
 {
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => [
-            'true',
-            'Validates an ISO 4217 currency code like GBP or EUR. Case-sensitive. ' .
-            'See: https://en.wikipedia.org/wiki/ISO_4217',
-        ],
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [],
+            [
+                self::DEFAULT => [
+                    'true',
+                    'Validates an ISO 4217 currency code like GBP or EUR. Case-sensitive. ' .
+                    'See: https://en.wikipedia.org/wiki/ISO_4217',
+                ],
+            ],
+        ];
+    }
 
     public function validateRule(string $cellValue): ?string
     {

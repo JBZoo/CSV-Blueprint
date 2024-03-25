@@ -18,9 +18,15 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 final class IsTrimmed extends AbstractCellRule
 {
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => ['true', 'Only trimmed strings. Example: "Hello World" (not " Hello World ").'],
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [],
+            [
+                self::DEFAULT => ['true', 'Only trimmed strings. Example: "Hello World" (not " Hello World ").'],
+            ],
+        ];
+    }
 
     public function validateRule(string $cellValue): ?string
     {

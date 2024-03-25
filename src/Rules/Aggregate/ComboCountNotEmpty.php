@@ -24,7 +24,10 @@ final class ComboCountNotEmpty extends AbstarctAggregateRuleCombo
 
     protected const NAME = 'number of not empty rows';
 
-    protected const HELP_TOP = ['Counts only not empty values (string length is not 0).'];
+    public function getHelpMeta(): array
+    {
+        return [['Counts only not empty values (string length is not 0).'], []];
+    }
 
     protected function getActualAggregate(array $colValues): ?float
     {

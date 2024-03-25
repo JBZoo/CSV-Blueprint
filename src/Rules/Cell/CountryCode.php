@@ -21,15 +21,19 @@ use Respect\Validation\Validator;
 
 class CountryCode extends AbstractCellRule
 {
-    protected const HELP_TOP = [
-        'Validates whether the input is a country code in ISO 3166-1 standard.',
-        'Available options: "alpha-2" (Ex: "US"), "alpha-3" (Ex: "USA"), "numeric" (Ex: "840").',
-        'The rule uses data from iso-codes: https://salsa.debian.org/iso-codes-team/iso-codes.',
-    ];
-
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => ['alpha-2', 'Country code in ISO 3166-1 standard. Examples: "US", "USA", "840"'],
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [
+                'Validates whether the input is a country code in ISO 3166-1 standard.',
+                'Available options: "alpha-2" (Ex: "US"), "alpha-3" (Ex: "USA"), "numeric" (Ex: "840").',
+                'The rule uses data from iso-codes: https://salsa.debian.org/iso-codes-team/iso-codes.',
+            ],
+            [
+                self::DEFAULT => ['alpha-2', 'Country code in ISO 3166-1 standard. Examples: "US", "USA", "840"'],
+            ],
+        ];
+    }
 
     public function validateRule(string $cellValue): ?string
     {

@@ -24,7 +24,10 @@ final class ComboLastNum extends AbstarctAggregateRuleCombo
 
     protected const NAME = 'last value';
 
-    protected const HELP_TOP = ['Last number in the column. Expected value is float or integer.'];
+    public function getHelpMeta(): array
+    {
+        return [['Last number in the column. Expected value is float or integer.'], []];
+    }
 
     protected function getActualAggregate(array $colValues): ?float
     {

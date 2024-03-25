@@ -18,12 +18,18 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 final class IsLongitude extends IsFloat
 {
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => ['true', 'Can be integer or float. Example: -89.123456'],
-    ];
-
     private float $min = -180.0;
     private float $max = 180.0;
+
+    public function getHelpMeta(): array
+    {
+        return [
+            [],
+            [
+                self::DEFAULT => ['true', 'Can be integer or float. Example: -89.123456'],
+            ],
+        ];
+    }
 
     public function validateRule(string $cellValue): ?string
     {

@@ -22,9 +22,13 @@ final class IsUnique extends AbstarctAggregateRule
 {
     public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_STRINGS;
 
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => ['true', 'All values in the column are unique.'],
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [],
+            [self::DEFAULT => ['true', 'All values in the column are unique.']],
+        ];
+    }
 
     public function validateRule(array &$columnValues): ?string
     {

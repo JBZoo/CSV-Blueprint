@@ -20,11 +20,17 @@ final class ComboWordCount extends AbstractCellRuleCombo
 {
     protected const NAME = 'word count';
 
-    protected const HELP_TOP = [
-        'Count number of words used in a string',
-        'Note that multibyte locales are not supported.',
-        'Example: "Hello World, 123" - 2 words only (123 is not a word).',
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [
+                'Count number of words used in a string',
+                'Note that multibyte locales are not supported.',
+                'Example: "Hello World, 123" - 2 words only (123 is not a word).',
+            ],
+            [],
+        ];
+    }
 
     protected function getExpected(): float
     {

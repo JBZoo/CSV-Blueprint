@@ -25,7 +25,10 @@ final class ComboMedian extends AbstarctAggregateRuleCombo
 
     protected const NAME = 'median';
 
-    protected const HELP_TOP = ['Calculate the median average of a list of numbers.'];
+    public function getHelpMeta(): array
+    {
+        return [['Calculate the median average of a list of numbers.'], []];
+    }
 
     protected function getActualAggregate(array $colValues): ?float
     {

@@ -22,9 +22,13 @@ final class Last extends AbstarctAggregateRule
 {
     public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_STRINGS;
 
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => ['Expected', 'Last value in the column. Will be compared as strings.'],
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [],
+            [self::DEFAULT => ['Expected', 'Last value in the column. Will be compared as strings.']],
+        ];
+    }
 
     public function validateRule(array &$columnValues): ?string
     {

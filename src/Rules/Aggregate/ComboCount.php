@@ -24,10 +24,17 @@ final class ComboCount extends AbstarctAggregateRuleCombo
 
     protected const NAME = 'number of rows';
 
-    protected const HELP_TOP = [
-        'Total number of rows in the CSV file.',
-        'Since any(!) values are taken into account, it only makes sense to use these rules once in any column.',
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [
+                'Total number of rows in the CSV file.',
+                'Since any(!) values are taken into account, ' .
+                'it only makes sense to use these rules once in any column.',
+            ],
+            [],
+        ];
+    }
 
     protected function getActualAggregate(array $colValues): ?float
     {

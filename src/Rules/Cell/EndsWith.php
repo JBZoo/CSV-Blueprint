@@ -18,9 +18,15 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 final class EndsWith extends AbstractCellRule
 {
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => ['" suffix"', 'Example: "Hello World suffix".'],
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [],
+            [
+                self::DEFAULT => ['" suffix"', 'Example: "Hello World suffix".'],
+            ],
+        ];
+    }
 
     public function validateRule(string $cellValue): ?string
     {

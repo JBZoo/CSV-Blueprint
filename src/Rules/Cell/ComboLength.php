@@ -20,7 +20,10 @@ final class ComboLength extends AbstractCellRuleCombo
 {
     protected const NAME = 'length';
 
-    protected const HELP_TOP = ['Checks length of a string including spaces (multibyte safe).'];
+    public function getHelpMeta(): array
+    {
+        return [['Checks length of a string including spaces (multibyte safe).'], []];
+    }
 
     protected function getExpected(): float
     {

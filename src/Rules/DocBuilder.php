@@ -26,11 +26,8 @@ use JBZoo\CsvBlueprint\Rules\Cell\ComboWordCount;
 
 final class DocBuilder
 {
-    private const HELP_FALLBACK = [
-        Rule::DEFAULT => ['FIXME', 'Add description.'],
-    ];
-
     private const HELP_COMBO_INT = [
+        Rule::DEFAULT => ['FIXME', 'Add description.'],
         Rule::MIN     => ['1', 'x >= 1'],
         Rule::GREATER => ['2', 'x >  2'],
         Rule::NOT     => ['0', 'x != 0'],
@@ -40,6 +37,7 @@ final class DocBuilder
     ];
 
     private const HELP_COMBO_FLOAT = [
+        Rule::DEFAULT => ['FIXME', 'Add description.'],
         Rule::MIN     => ['1.0', 'x >= 1.0'],
         Rule::GREATER => ['2.0', 'x >  2.0'],
         Rule::NOT     => ['5.0', 'x != 5.0'],
@@ -70,15 +68,15 @@ final class DocBuilder
     {
         $this->rule = $rule;
 
-        [$this->topHelp, $this->options] = $rule->getMeta();
+        [$this->topHelp, $this->options] = $rule->getHelpMeta();
         if (\count($this->options) === 0) {
             $this->options = \in_array(\get_class($rule), self::RULES_ACCEPT_ONLY_INT, true)
                 ? self::HELP_COMBO_INT
                 : self::HELP_COMBO_FLOAT;
         }
 
-        $this->ymlRuleCode      = $this->getYmlRuleCode($rule->getRuleCode());
-        $this->ymlRuleCodeClean = $this->getYmlRuleCodeClean($rule->getRuleCode());
+        $this->ymlRuleCode      = self::getYmlRuleCode($rule->getRuleCode());
+        $this->ymlRuleCodeClean = self::getYmlRuleCodeClean($rule->getRuleCode());
     }
 
     public function getHelp(): string
@@ -93,22 +91,40 @@ final class DocBuilder
         if ($this->rule instanceof AbstarctRuleCombo) {
             return \implode("\n", [
                 $topComment,
-                $this->renderLine($this->ymlRuleCode, $this->options[Rule::MIN], Rule::MIN),
-                $this->renderLine($this->ymlRuleCode, $this->options[Rule::GREATER], Rule::GREATER),
-                $this->renderLine($this->ymlRuleCode, $this->options[Rule::NOT], Rule::NOT),
-                $this->renderLine($this->ymlRuleCode, $this->options[Rule::EQ], Rule::EQ),
-                $this->renderLine($this->ymlRuleCode, $this->options[Rule::LESS], Rule::LESS),
-                $this->renderLine($this->ymlRuleCode, $this->options[Rule::MAX], Rule::MAX),
+                self::renderLine($this->ymlRuleCode, $this->options[Rule::MIN], Rule::MIN),
+                self::renderLine($this->ymlRuleCode, $this->options[Rule::GREATER], Rule::GREATER),
+                self::renderLine($this->ymlRuleCode, $this->options[Rule::NOT], Rule::NOT),
+                self::renderLine($this->ymlRuleCode, $this->options[Rule::EQ], Rule::EQ),
+                self::renderLine($this->ymlRuleCode, $this->options[Rule::LESS], Rule::LESS),
+                self::renderLine($this->ymlRuleCode, $this->options[Rule::MAX], Rule::MAX),
             ]);
         }
 
         return \implode("\n", [
             $topComment,
-            $this->renderLine($this->ymlRuleCodeClean, $this->options[Rule::DEFAULT], Rule::EQ),
+            self::renderLine($this->ymlRuleCodeClean, $this->options[Rule::DEFAULT], Rule::EQ),
         ]);
     }
 
-    private function renderLine(string $ruleCode, array $row, string $mode): string
+    private static function getYmlRuleCode(string $origRuleName): string
+    {
+        $postfixes = [Rule::MIN, Rule::GREATER, Rule::NOT, Rule::LESS, Rule::MAX];
+
+        $result = self::getYmlRuleCodeClean($origRuleName);
+
+        if (\preg_match('/(.*?)_(' . \implode('|', $postfixes) . ')$/', $result, $matches) === 1) {
+            return $matches[1];
+        }
+
+        return $result;
+    }
+
+    private static function getYmlRuleCodeClean(string $origRuleCode): string
+    {
+        return \str_replace('ag:', '', $origRuleCode);
+    }
+
+    private static function renderLine(string $ruleCode, array $row, string $mode): string
     {
         $leftPad = \str_repeat(' ', self::HELP_LEFT_PAD);
 
@@ -121,29 +137,5 @@ final class DocBuilder
         }
 
         return $baseKeyVal;
-    }
-
-    private function getYmlRuleCode(string $origRuleName): string
-    {
-        $postfixes = [
-            Rule::MIN,
-            Rule::GREATER,
-            Rule::NOT,
-            Rule::LESS,
-            Rule::MAX,
-        ];
-
-        $result = $this->getYmlRuleCodeClean($origRuleName);
-
-        if (\preg_match('/(.*?)_(' . \implode('|', $postfixes) . ')$/', $result, $matches) === 1) {
-            return $matches[1];
-        }
-
-        return $result;
-    }
-
-    private function getYmlRuleCodeClean(string $origRuleCode): string
-    {
-        return \str_replace('ag:', '', $origRuleCode);
     }
 }

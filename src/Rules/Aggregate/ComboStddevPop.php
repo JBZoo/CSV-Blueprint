@@ -25,9 +25,15 @@ final class ComboStddevPop extends AbstarctAggregateRuleCombo
 
     protected const NAME = 'standard deviation (SD+)';
 
-    protected const HELP_TOP = [
-        'SD+ (Standard deviation for a population; uses population variance)',
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [
+                'SD+ (Standard deviation for a population; uses population variance)',
+            ],
+            [],
+        ];
+    }
 
     protected function getActualAggregate(array $colValues): ?float
     {

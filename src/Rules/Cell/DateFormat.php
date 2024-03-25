@@ -18,9 +18,13 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 final class DateFormat extends AbstractCellRule
 {
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => ['Y-m-d', 'Check strict format of the date.'],
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [],
+            [self::DEFAULT => ['Y-m-d', 'Check strict format of the date.']],
+        ];
+    }
 
     public function validateRule(string $cellValue): ?string
     {

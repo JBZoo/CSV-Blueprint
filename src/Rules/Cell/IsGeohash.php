@@ -20,9 +20,15 @@ use JBZoo\CsvBlueprint\Utils;
 
 class IsGeohash extends AbstractCellRule
 {
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => ['true', 'Check if the value is a valid geohash. Example: "u4pruydqqvj"'],
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [],
+            [
+                self::DEFAULT => ['true', 'Check if the value is a valid geohash. Example: "u4pruydqqvj"'],
+            ],
+        ];
+    }
 
     public function validateRule(string $cellValue): ?string
     {

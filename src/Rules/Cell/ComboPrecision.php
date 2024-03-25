@@ -20,7 +20,10 @@ final class ComboPrecision extends AbstractCellRuleCombo
 {
     protected const NAME = 'precision';
 
-    protected const HELP_TOP = ['Number of digits after the decimal point (with zeros)'];
+    public function getHelpMeta(): array
+    {
+        return [['Number of digits after the decimal point (with zeros)'], []];
+    }
 
     protected function getExpected(): float
     {
