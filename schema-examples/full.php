@@ -198,6 +198,13 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'percentile_less'    => [95, 8.0],
                 'percentile_max'     => [95, 9.0],
 
+                'quartiles_min'     => ['exclusive', '0%', 1.0],
+                'quartiles_greater' => ['inclusive', 'Q1', 2.0],
+                'quartiles_not'     => ['exclusive', 'Q2', 5.0],
+                'quartiles'         => ['inclusive', 'Q3', 7.0],
+                'quartiles_less'    => ['exclusive', '100%', 8.0],
+                'quartiles_max'     => ['inclusive', 'IQR', 9.0],
+
                 'mean_abs_dev_min'     => 1.0,
                 'mean_abs_dev_greater' => 2.0,
                 'mean_abs_dev_not'     => 5.0,

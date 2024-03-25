@@ -44,13 +44,7 @@ columns:
       is_iban: true
       is_bool_value: true             # https://github.com/Respect/Validation/blob/main/docs/rules/BoolVal.md
 
-      # Composite (deprecated current rule names)
-      any_of: [ ]
-      none_of: [ ]
-      one_of: [ ]
-      
       # Dates
-      leap_date: 29.02.2020          # Check if the date is a valid leap year
       leap_year: true                # Check if the date is a valid leap year
       age: 35
       dateperiod: 1
@@ -243,10 +237,6 @@ columns:
       count_false: 1
 
       # https://github.com/markrogoyski/math-php#statistics---descriptive
-      quartiles: [ 1, mode ]         # 0%, Q1, Q2, Q3, 100%, IQR
-      quartiles_exclusive: 1
-      quartiles_inclusive: 1
-      interquartile_range: 1         # interquartileRange (IQR)
       midhinge: 1
 
       # https://github.com/markrogoyski/math-php#statistics---averages

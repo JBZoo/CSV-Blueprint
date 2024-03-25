@@ -176,6 +176,13 @@
                 "percentile_less"             : [95, 8],
                 "percentile_max"              : [95, 9],
 
+                "quartiles_min"               : ["exclusive", "0%", 1],
+                "quartiles_greater"           : ["inclusive", "Q1", 2],
+                "quartiles_not"               : ["exclusive", "Q2", 5],
+                "quartiles"                   : ["inclusive", "Q3", 7],
+                "quartiles_less"              : ["exclusive", "100%", 8],
+                "quartiles_max"               : ["inclusive", "IQR", 9],
+
                 "mean_abs_dev_min"            : 1,
                 "mean_abs_dev_greater"        : 2,
                 "mean_abs_dev_not"            : 5,
