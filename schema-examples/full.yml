@@ -330,6 +330,14 @@ columns:
       interquartile_mean_less: 8.0      # x <  8.0
       interquartile_mean_max: 9.0       # x <= 9.0
 
+      # Cubic mean. See: https://en.wikipedia.org/wiki/Cubic_mean
+      cubic_mean_min: 1.0               # x >= 1.0
+      cubic_mean_greater: 2.0           # x >  2.0
+      cubic_mean_not: 5.0               # x != 5.0
+      cubic_mean: 7.0                   # x == 7.0
+      cubic_mean_less: 8.0              # x <  8.0
+      cubic_mean_max: 9.0               # x <= 9.0
+
       # Compute the P-th percentile of a list of numbers.
       # Linear interpolation between closest ranks method - Second variant, C = 1 P-th percentile (0 <= P <= 100) of a list of N ordered values (sorted from least to greatest).
       # Similar method used in NumPy and Excel.
