@@ -4,7 +4,7 @@
 [![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
 
 <!-- rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-180-green?label=Total%20Number%20of%20Rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-66-green?label=Cell%20Value&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-109-green?label=Aggregate%20Column&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-5-green?label=Extra%20Checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-293-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-192-green?label=Total%20Number%20of%20Rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-66-green?label=Cell%20Value&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-121-green?label=Aggregate%20Column&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-5-green?label=Extra%20Checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-323-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- /rules-counter -->
 
 ## Introduction
@@ -368,6 +368,29 @@ columns:
       percentile: [ 95, 7.0 ]           # x == 7.0
       percentile_less: [ 95, 8.0 ]      # x <  8.0
       percentile_max: [ 95, 9.0 ]       # x <= 9.0
+
+      # Quartiles. Three points that divide the data set into four equal groups, each group comprising a quarter of the data.
+      # See: https://en.wikipedia.org/wiki/Quartile
+      # There are multiple methods for computing quartiles: "exclusive", "inclusive". Exclusive is ussually classic.
+      # Available types: "0%", "Q1", "Q2", "Q3", "100%", "IQR" (aka Interquartile Range)
+      # Example: `[ inclusive, 'Q3', 42.0 ]` - the Q3 inclusive quartile is 50.0
+      quartiles_min: [ 'exclusive', '0%', 1.0 ]             # x >= 1.0
+      quartiles_greater: [ 'inclusive', 'Q1', 2.0 ]         # x >  2.0
+      quartiles_not: [ 'exclusive', 'Q2', 5.0 ]             # x != 5.0
+      quartiles: [ 'inclusive', 'Q3', 7.0 ]                 # x == 7.0
+      quartiles_less: [ 'exclusive', '100%', 8.0 ]          # x <  8.0
+      quartiles_max: [ 'inclusive', 'IQR', 9.0 ]            # x <= 9.0
+
+      # Midhinge. The average of the first and third quartiles and is thus a measure of location.
+      # Equivalently, it is the 25% trimmed mid-range or 25% midsummary; it is an L-estimator.
+      # See: https://en.wikipedia.org/wiki/Midhinge
+      # Midhinge = (first quartile, third quartile) / 2
+      midhinge_min: 1.0                 # x >= 1.0
+      midhinge_greater: 2.0             # x >  2.0
+      midhinge_not: 5.0                 # x != 5.0
+      midhinge: 7.0                     # x == 7.0
+      midhinge_less: 8.0                # x <  8.0
+      midhinge_max: 9.0                 # x <= 9.0
 
       # MAD - mean absolute deviation. The average of the absolute deviations from a central point.
       # It is a summary statistic of statistical dispersion or variability.

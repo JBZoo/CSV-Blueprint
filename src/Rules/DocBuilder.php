@@ -127,13 +127,18 @@ final class DocBuilder
     private static function renderLine(string $ruleCode, array $row, string $mode): string
     {
         $leftPad = \str_repeat(' ', self::HELP_LEFT_PAD);
+        $descPad = self::HELP_DESC_PAD;
 
         $baseKeyVal = $mode === ''
             ? "{$leftPad}{$ruleCode}: {$row[0]}"
             : "{$leftPad}{$ruleCode}_{$mode}: {$row[0]}";
 
+        if (\strlen($baseKeyVal) > $descPad) {
+            $descPad = 60;
+        }
+
         if (isset($row[1]) && $row[1] !== '') {
-            return \str_pad($baseKeyVal, self::HELP_DESC_PAD, ' ', \STR_PAD_RIGHT) . "# {$row[1]}";
+            return \str_pad($baseKeyVal, $descPad, ' ', \STR_PAD_RIGHT) . "# {$row[1]}";
         }
 
         return $baseKeyVal;

@@ -77,7 +77,7 @@ final class ReadmeTest extends TestCase
 
         $todoYml   = yml(Tools::SCHEMA_TODO);
         $planToAdd = \count($todoYml->findArray('columns.0.rules')) +
-            (\count($todoYml->findArray('columns.0.aggregate_rules')) * 4)
+            (\count($todoYml->findArray('columns.0.aggregate_rules')) * 6)
             + \count([
                 'required',
                 'null_values',
