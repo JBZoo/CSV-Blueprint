@@ -29,7 +29,8 @@ final class ComboHarmonicMean extends AbstarctAggregateRuleCombo
     {
         return [
             [
-                'Harmonic mean (subcontrary mean). The harmonic mean can be expressed as the reciprocal of the arithmetic mean of the reciprocals.',
+                'Harmonic mean (subcontrary mean). The harmonic mean can be expressed as the reciprocal of ' .
+                'the arithmetic mean of the reciprocals.',
                 'Appropriate for situations when the average of rates is desired.',
                 'See: https://en.wikipedia.org/wiki/Harmonic_mean',
             ],

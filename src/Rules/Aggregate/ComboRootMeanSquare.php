@@ -29,7 +29,8 @@ final class ComboRootMeanSquare extends AbstarctAggregateRuleCombo
     {
         return [
             [
-                'Root mean square (quadratic mean) The square root of the arithmetic mean of the squares of a set of numbers.',
+                'Root mean square (quadratic mean) ' .
+                'The square root of the arithmetic mean of the squares of a set of numbers.',
                 'See https://en.wikipedia.org/wiki/Root_mean_square',
             ],
             [],
