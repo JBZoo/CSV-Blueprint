@@ -120,7 +120,6 @@ class ComboTest extends TestAbstractCellRuleCombo
 
     public function testInvalidParsing(): void
     {
-        // TODO: This test is not working as expected. It should throw an exception.
         $rule = $this->create(6, Combo::NOT);
         isSame('', $rule->test('qwerty'));
     }
