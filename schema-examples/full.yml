@@ -108,8 +108,9 @@ columns:
 
       # Contains rules
       contains: Hello                   # Example: "Hello World".
-      contains_one: [ a, b ]            # At least one of the string must be in the CSV value.
+      contains_one: [ a, b ]            # At least one of the string must be part of the CSV value.
       contains_all: [ a, b, c ]         # All the strings must be part of a CSV value.
+      contains_none: [ a, b ]           # All the strings must NOT be part of a CSV value.
       starts_with: "prefix "            # Example: "prefix Hello World".
       ends_with: " suffix"              # Example: "Hello World suffix".
 

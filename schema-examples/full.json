@@ -49,6 +49,7 @@
                 "contains"              : "Hello",
                 "contains_one"          : ["a", "b"],
                 "contains_all"          : ["a", "b", "c"],
+                "contains_none"         : ["a", "b"],
                 "starts_with"           : "prefix ",
                 "ends_with"             : " suffix",
 

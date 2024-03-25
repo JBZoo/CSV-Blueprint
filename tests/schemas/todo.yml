@@ -44,18 +44,8 @@ columns:
       is_iban: true
       is_bool_value: true             # https://github.com/Respect/Validation/blob/main/docs/rules/BoolVal.md
 
-      # Comparisons
-      between: 1
-      between_exclusive: [ min, max ]  # https://github.com/Respect/Validation/blob/main/docs/rules/BetweenExclusive.md
-      equals: 1
-      equivalent: 1
-      identical: 1
-      in: 1
-
       # Composite (deprecated current rule names)
-      all_of: [ ]
       any_of: [ ]
-      consecutive: [ ]
       none_of: [ ]
       one_of: [ ]
       

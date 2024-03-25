@@ -67,11 +67,12 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'word_count_less'    => 8,
                 'word_count_max'     => 9,
 
-                'contains'     => 'Hello',
-                'contains_one' => ['a', 'b'],
-                'contains_all' => ['a', 'b', 'c'],
-                'starts_with'  => 'prefix ',
-                'ends_with'    => ' suffix',
+                'contains'      => 'Hello',
+                'contains_one'  => ['a', 'b'],
+                'contains_all'  => ['a', 'b', 'c'],
+                'contains_none' => ['a', 'b'],
+                'starts_with'   => 'prefix ',
+                'ends_with'     => ' suffix',
 
                 'num_min'     => 1.0,
                 'num_greater' => 2.0,
