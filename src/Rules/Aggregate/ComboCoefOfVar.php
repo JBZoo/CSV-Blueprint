@@ -25,12 +25,18 @@ final class ComboCoefOfVar extends AbstarctAggregateRuleCombo
 
     protected const NAME = 'Coefficient of variation';
 
-    protected const HELP_TOP = [
-        'Coefficient of variation (cᵥ) Also known as relative standard deviation (RSD)',
-        'A standardized measure of dispersion of a probability distribution or frequency distribution.',
-        'It is often expressed as a percentage. The ratio of the standard deviation to the mean.',
-        'See: https://en.wikipedia.org/wiki/Coefficient_of_variation',
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [
+                'Coefficient of variation (cᵥ) Also known as relative standard deviation (RSD)',
+                'A standardized measure of dispersion of a probability distribution or frequency distribution.',
+                'It is often expressed as a percentage. The ratio of the standard deviation to the mean.',
+                'See: https://en.wikipedia.org/wiki/Coefficient_of_variation',
+            ],
+            [],
+        ];
+    }
 
     protected function getActualAggregate(array $colValues): ?float
     {

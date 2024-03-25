@@ -24,14 +24,10 @@ final class ComboCountEmpty extends AbstarctAggregateRuleCombo
 
     protected const NAME = 'number of empty rows';
 
-    protected const HELP_TOP = ['Counts only empty values (string length is 0).'];
-
-    protected const HELP_OPTIONS = [
-        self::EQ  => ['5', ''],
-        self::NOT => ['4', ''],
-        self::MIN => ['1', ''],
-        self::MAX => ['10', ''],
-    ];
+    public function getHelpMeta(): array
+    {
+        return [['Counts only empty values (string length is 0).'], []];
+    }
 
     protected function getActualAggregate(array $colValues): ?float
     {

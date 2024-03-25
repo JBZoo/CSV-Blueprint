@@ -18,9 +18,18 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 final class IsCardinalDirection extends AllowValues
 {
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => ['true', 'Valid cardinal direction. Examples: "N", "S", "NE", "SE", "none", ""'],
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [],
+            [
+                self::DEFAULT => [
+                    'true',
+                    'Valid cardinal direction. Available values: "' . \implode('", "', $this->getOptionAsArray()) . '"',
+                ],
+            ],
+        ];
+    }
 
     public function getOptionAsArray(): array
     {

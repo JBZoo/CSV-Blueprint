@@ -18,9 +18,13 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 final class ContainsAll extends AbstractCellRule
 {
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => ['[ a, b, c ]', 'All the strings must be part of a CSV value.'],
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [],
+            [self::DEFAULT => ['[ a, b, c ]', 'All the strings must be part of a CSV value.']],
+        ];
+    }
 
     public function validateRule(string $cellValue): ?string
     {

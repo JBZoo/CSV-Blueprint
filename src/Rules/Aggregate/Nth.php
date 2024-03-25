@@ -22,13 +22,17 @@ final class Nth extends AbstarctAggregateRule
 {
     public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_STRINGS;
 
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => ['[ 2, Expected ]', 'Nth value in the column. Will be compared as strings.'],
-    ];
-
     private const ARGS = 2;
     private const NTH  = 0;
     private const VAL  = 1;
+
+    public function getHelpMeta(): array
+    {
+        return [
+            [],
+            [self::DEFAULT => ['[ 2, Expected ]', 'Nth value in the column. Will be compared as strings.']],
+        ];
+    }
 
     public function validateRule(array &$columnValues): ?string
     {

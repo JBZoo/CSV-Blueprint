@@ -20,17 +20,18 @@ use Respect\Validation\Validator;
 
 final class IsJson extends AbstractCellRule
 {
-    protected const HELP_TOP = [
-        'Validates if the given input is a valid JSON.',
-        'This is possible if you escape all special characters correctly and use a special CSV format.',
-    ];
-
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => [
-            'true',
-            'Example: {"foo":"bar"}',
-        ],
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [
+                'Validates if the given input is a valid JSON.',
+                'This is possible if you escape all special characters correctly and use a special CSV format.',
+            ],
+            [
+                self::DEFAULT => ['true', 'Example: {"foo":"bar"}'],
+            ],
+        ];
+    }
 
     public function validateRule(string $cellValue): ?string
     {

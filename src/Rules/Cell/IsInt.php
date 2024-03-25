@@ -20,9 +20,15 @@ use JBZoo\CsvBlueprint\Utils;
 
 final class IsInt extends AbstractCellRule
 {
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => ['true', 'Check format only. Can be negative and positive. Without any separators'],
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [],
+            [
+                self::DEFAULT => ['true', 'Check format only. Can be negative and positive. Without any separators'],
+            ],
+        ];
+    }
 
     public function validateRule(string $cellValue): ?string
     {

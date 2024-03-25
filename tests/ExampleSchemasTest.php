@@ -50,8 +50,10 @@ final class ExampleSchemasTest extends TestCase
             if (\str_contains($ruleName, 'combo_')) {
                 $ruleName      = \str_replace('combo_', '', $ruleName);
                 $rulesInCode[] = $ruleName;
-                $rulesInCode[] = "{$ruleName}_not";
                 $rulesInCode[] = "{$ruleName}_min";
+                $rulesInCode[] = "{$ruleName}_greater";
+                $rulesInCode[] = "{$ruleName}_not";
+                $rulesInCode[] = "{$ruleName}_less";
                 $rulesInCode[] = "{$ruleName}_max";
             } else {
                 $rulesInCode[] = $ruleName;

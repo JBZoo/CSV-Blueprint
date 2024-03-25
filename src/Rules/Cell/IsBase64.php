@@ -20,9 +20,15 @@ use Respect\Validation\Validator;
 
 final class IsBase64 extends AbstractCellRule
 {
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => ['true', 'Validate if a string is Base64-encoded. Example: "cmVzcGVjdCE="'],
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [],
+            [
+                self::DEFAULT => ['true', 'Validate if a string is Base64-encoded. Example: "cmVzcGVjdCE="'],
+            ],
+        ];
+    }
 
     public function validateRule(string $cellValue): ?string
     {

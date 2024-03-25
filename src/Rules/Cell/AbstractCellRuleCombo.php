@@ -69,6 +69,11 @@ abstract class AbstractCellRuleCombo extends AbstarctRuleCombo
             $currentStr = " is {$currentStr}";
         }
 
+        if ($name === '') {
+            return "The value \"<c>{$cellValue}</c>\"{$currentStr} " .
+                "is {$verb} than the {$prefix}expected \"<green>{$expectedStr}</green>\"";
+        }
+
         return "The {$name} of the value \"<c>{$cellValue}</c>\"{$currentStr}, " .
             "which is {$verb} than the {$prefix}expected \"<green>{$expectedStr}</green>\"";
     }

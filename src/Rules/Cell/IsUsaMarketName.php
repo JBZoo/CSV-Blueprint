@@ -20,9 +20,15 @@ use JBZoo\CsvBlueprint\Utils;
 
 final class IsUsaMarketName extends AllowValues
 {
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => ['true', 'Check if the value is a valid USA market name. Example: "New York, NY"'],
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [],
+            [
+                self::DEFAULT => ['true', 'Check if the value is a valid USA market name. Example: "New York, NY"'],
+            ],
+        ];
+    }
 
     public function validateRule(string $cellValue): ?string
     {

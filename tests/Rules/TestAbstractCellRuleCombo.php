@@ -28,15 +28,7 @@ abstract class TestAbstractCellRuleCombo extends TestCase
 
     abstract public function testEqual(): void;
 
-    abstract public function testNotEqual(): void;
-
-    abstract public function testMin(): void;
-
-    abstract public function testMax(): void;
-
-    abstract public function testInvalidOption(): void;
-
-    abstract public function testInvalidParsing(): void;
+    // abstract public function testInvalidOption(): void;
 
     public function testHelpMessageInExample(): void
     {

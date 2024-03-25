@@ -18,9 +18,15 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 final class IsEmail extends AbstractCellRule
 {
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => ['true', 'Only email format. Example: "user@example.com"'],
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [],
+            [
+                self::DEFAULT => ['true', 'Only email format. Example: "user@example.com"'],
+            ],
+        ];
+    }
 
     public function validateRule(string $cellValue): ?string
     {

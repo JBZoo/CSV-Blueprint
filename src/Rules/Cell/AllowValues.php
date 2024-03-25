@@ -18,9 +18,13 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 class AllowValues extends AbstractCellRule
 {
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => ['[ y, n, "" ]', 'Strict set of values that are allowed.'],
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [],
+            [self::DEFAULT => ['[ y, n, "" ]', 'Strict set of values that are allowed.']],
+        ];
+    }
 
     public function validateRule(string $cellValue): ?string
     {

@@ -25,10 +25,17 @@ final class ComboSampleVariance extends AbstarctAggregateRuleCombo
 
     protected const NAME = 'population variance';
 
-    protected const HELP_TOP = [
-        'Unbiased sample variance Use when only a subset of all possible observations of the system are present.',
-        'n - 1 degrees of freedom, where n is the number of observations.',
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [
+                'Unbiased sample variance Use when only a subset ' .
+                'of all possible observations of the system are present.',
+                'n - 1 degrees of freedom, where n is the number of observations.',
+            ],
+            [],
+        ];
+    }
 
     protected function getActualAggregate(array $colValues): ?float
     {

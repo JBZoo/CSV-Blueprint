@@ -24,14 +24,10 @@ final class ComboFirstNum extends AbstarctAggregateRuleCombo
 
     protected const NAME = 'first value';
 
-    protected const HELP_TOP = ['First number in the column. Expected value is float or integer.'];
-
-    protected const HELP_OPTIONS = [
-        self::EQ  => ['5', ''],
-        self::NOT => ['4.123', ''],
-        self::MIN => ['-1', ''],
-        self::MAX => ['2e4', ''],
-    ];
+    public function getHelpMeta(): array
+    {
+        return [['First number in the column. Expected value is float or integer.'], []];
+    }
 
     protected function getActualAggregate(array $colValues): ?float
     {

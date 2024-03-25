@@ -25,29 +25,34 @@ final class ComboPercentile extends AbstarctAggregateRuleCombo
 {
     public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_FLOATS;
 
-    protected const NAME     = 'percentile';
-    protected const HELP_TOP = [
-        'Compute the P-th percentile of a list of numbers.',
-        'Linear interpolation between closest ranks method - Second variant, ',
-        'C = 1 P-th percentile (0 <= P <= 100) of a list of N ordered values (sorted from least to greatest).' .
-        'Similar method used in NumPy and Excel',
-        'See: https://en.wikipedia.org/wiki/Percentile#' .
-        'Second_variant.2C_.7F.27.22.60UNIQ--postMath-00000043-QINU.60.22.27.7F',
-    ];
-
-    protected const HELP_OPTIONS = [
-        self::EQ => [
-            '[ 95, 1.234 ]',
-            'Example: The 95th percentile in the column must be "1.234" (float)',
-        ],
-        self::NOT => ['[ 95, 4.123 ]', ''],
-        self::MIN => ['[ 95, -1 ]', ''],
-        self::MAX => ['[ 95, 2e4 ]', ''],
-    ];
+    protected const NAME = 'percentile';
 
     private const ARGS = 2;
     private const PERC = 0;
     private const VAL  = 1;
+
+    public function getHelpMeta(): array
+    {
+        return [
+            [
+                'Compute the P-th percentile of a list of numbers.',
+                'Linear interpolation between closest ranks method - Second variant, ' .
+                'C = 1 P-th percentile (0 <= P <= 100) of a list of N ordered values (sorted from least to greatest).',
+                'Similar method used in NumPy and Excel.',
+                'See: https://en.wikipedia.org/wiki/Percentile#' .
+                'Second_variant.2C_.7F.27.22.60UNIQ--postMath-00000043-QINU.60.22.27.7F',
+                'Example: `[ 95, 1.234 ]` The 95th percentile in the column must be "1.234" (float).',
+            ],
+            [
+                self::MIN     => ['[ 95, 1.0 ]', 'x >= 1.0'],
+                self::GREATER => ['[ 95, 2.0 ]', 'x >  2.0'],
+                self::NOT     => ['[ 95, 5.0 ]', 'x != 5.0'],
+                self::EQ      => ['[ 95, 7.0 ]', 'x == 7.0'],
+                self::LESS    => ['[ 95, 8.0 ]', 'x <  8.0'],
+                self::MAX     => ['[ 95, 9.0 ]', 'x <= 9.0'],
+            ],
+        ];
+    }
 
     protected function getExpected(): float
     {
@@ -70,8 +75,8 @@ final class ComboPercentile extends AbstarctAggregateRuleCombo
         $params = $this->getOptionAsArray();
         if (\count($params) !== self::ARGS) {
             throw new \RuntimeException(
-                'The rule expects exactly two arguments: ' .
-                'the first is percentile (0 < p < 100), the second is the expected value',
+                'The rule expects exactly two params: ' .
+                'the first is percentile (P is beet 0.0 and 100.0), the second is the expected value (float)',
             );
         }
 

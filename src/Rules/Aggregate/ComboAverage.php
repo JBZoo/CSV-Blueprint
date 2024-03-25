@@ -25,7 +25,10 @@ final class ComboAverage extends AbstarctAggregateRuleCombo
 
     protected const NAME = 'average';
 
-    protected const HELP_TOP = ['Regular the arithmetic mean. The sum of the numbers divided by the count.'];
+    public function getHelpMeta(): array
+    {
+        return [['Regular the arithmetic mean. The sum of the numbers divided by the count.'], []];
+    }
 
     protected function getActualAggregate(array $colValues): ?float
     {

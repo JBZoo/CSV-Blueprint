@@ -23,13 +23,6 @@ abstract class AbstarctAggregateRuleCombo extends AbstarctRuleCombo
 {
     public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_STRINGS;
 
-    protected const HELP_OPTIONS = [
-        self::EQ  => ['5.123', ''],
-        self::NOT => ['4.123', ''],
-        self::MIN => ['1.123', ''],
-        self::MAX => ['10.123', ''],
-    ];
-
     abstract protected function getActualAggregate(array $colValues): ?float;
 
     public function getRuleCode(?string $mode = null): string

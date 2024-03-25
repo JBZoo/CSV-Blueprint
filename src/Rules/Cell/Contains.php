@@ -18,9 +18,13 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 final class Contains extends AbstractCellRule
 {
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => ['Hello', 'Example: "Hello World".'],
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [],
+            [self::DEFAULT => ['Hello', 'Example: "Hello World".']],
+        ];
+    }
 
     public function validateRule(string $cellValue): ?string
     {

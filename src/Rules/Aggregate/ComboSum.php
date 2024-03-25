@@ -24,7 +24,10 @@ final class ComboSum extends AbstarctAggregateRuleCombo
 
     protected const NAME = 'sum of numbers';
 
-    protected const HELP_TOP = ['Sum of the numbers in the column. Example: [1, 2, 3] => 6.'];
+    public function getHelpMeta(): array
+    {
+        return [['Sum of the numbers in the column. Example: [1, 2, 3] => 6.'], []];
+    }
 
     protected function getActualAggregate(array $colValues): ?float
     {

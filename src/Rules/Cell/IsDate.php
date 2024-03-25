@@ -18,9 +18,18 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 class IsDate extends AbstractCellRule
 {
-    protected const HELP_OPTIONS = [
-        self::DEFAULT => ['true', 'Accepts arbitrary date format. Is shows error if failed to convert to timestamp.'],
-    ];
+    public function getHelpMeta(): array
+    {
+        return [
+            [],
+            [
+                self::DEFAULT => [
+                    'true',
+                    'Accepts arbitrary date format. Is shows error if failed to convert to timestamp.',
+                ],
+            ],
+        ];
+    }
 
     public function validateRule(string $cellValue): ?string
     {
