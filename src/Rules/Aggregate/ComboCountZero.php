@@ -18,15 +18,21 @@ namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 
-final class ComboCountNotEmpty extends AbstarctAggregateRuleCombo
+final class ComboCountZero extends AbstarctAggregateRuleCombo
 {
-    public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_STRINGS;
+    public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_INTS;
 
-    protected const NAME = 'number of not empty rows';
+    protected const NAME = 'number of zero values';
 
     public function getHelpMeta(): array
     {
-        return [['Counts only not empty values (string length is not 0).'], []];
+        return [
+            [
+                'Number of zero values. ' .
+                'Any text and spaces (i.e. anything that doesn\'t look like a number) will be converted to 0.',
+            ],
+            [],
+        ];
     }
 
     protected function getActualAggregate(array $colValues): ?float
@@ -35,6 +41,6 @@ final class ComboCountNotEmpty extends AbstarctAggregateRuleCombo
             return null;
         }
 
-        return \count(\array_filter($colValues, static fn ($colValue) => $colValue !== ''));
+        return \count(\array_filter(self::stringsToFloat($colValues), static fn ($value) => $value === 0.0));
     }
 }

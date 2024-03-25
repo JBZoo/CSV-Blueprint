@@ -18,8 +18,15 @@ namespace JBZoo\CsvBlueprint\Rules;
 
 use JBZoo\CsvBlueprint\Rules\AbstarctRule as Rule;
 use JBZoo\CsvBlueprint\Rules\Aggregate\ComboCount;
+use JBZoo\CsvBlueprint\Rules\Aggregate\ComboCountDistinct;
 use JBZoo\CsvBlueprint\Rules\Aggregate\ComboCountEmpty;
+use JBZoo\CsvBlueprint\Rules\Aggregate\ComboCountEven;
+use JBZoo\CsvBlueprint\Rules\Aggregate\ComboCountNegative;
 use JBZoo\CsvBlueprint\Rules\Aggregate\ComboCountNotEmpty;
+use JBZoo\CsvBlueprint\Rules\Aggregate\ComboCountOdd;
+use JBZoo\CsvBlueprint\Rules\Aggregate\ComboCountPositive;
+use JBZoo\CsvBlueprint\Rules\Aggregate\ComboCountPrime;
+use JBZoo\CsvBlueprint\Rules\Aggregate\ComboCountZero;
 use JBZoo\CsvBlueprint\Rules\Cell\ComboLength;
 use JBZoo\CsvBlueprint\Rules\Cell\ComboPrecision;
 use JBZoo\CsvBlueprint\Rules\Cell\ComboWordCount;
@@ -53,6 +60,13 @@ final class DocBuilder
         ComboCount::class,
         ComboCountEmpty::class,
         ComboCountNotEmpty::class,
+        ComboCountDistinct::class,
+        ComboCountPositive::class,
+        ComboCountNegative::class,
+        ComboCountZero::class,
+        ComboCountEven::class,
+        ComboCountOdd::class,
+        ComboCountPrime::class,
     ];
 
     private const HELP_LEFT_PAD = 6;

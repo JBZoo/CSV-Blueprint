@@ -30,6 +30,7 @@ class ComboCountNotEmptyTest extends TestAbstractAggregateRuleCombo
     {
         $rule = $this->create(1, Combo::EQ);
 
+        isSame('', $rule->test([]));
         isSame('', $rule->test(['', '', ' ']));
         isSame('', $rule->test(['', '', '', '1']));
 

@@ -263,6 +263,62 @@ columns:
       count_not_empty_less: 8           # x <  8
       count_not_empty_max: 9            # x <= 9
 
+      # Number of unique values.
+      count_distinct_min: 1             # x >= 1
+      count_distinct_greater: 2         # x >  2
+      count_distinct_not: 0             # x != 0
+      count_distinct: 7                 # x == 7
+      count_distinct_less: 8            # x <  8
+      count_distinct_max: 9             # x <= 9
+
+      # Number of positive values.
+      count_positive_min: 1             # x >= 1
+      count_positive_greater: 2         # x >  2
+      count_positive_not: 0             # x != 0
+      count_positive: 7                 # x == 7
+      count_positive_less: 8            # x <  8
+      count_positive_max: 9             # x <= 9
+
+      # Number of negative values.
+      count_negative_min: 1             # x >= 1
+      count_negative_greater: 2         # x >  2
+      count_negative_not: 0             # x != 0
+      count_negative: 7                 # x == 7
+      count_negative_less: 8            # x <  8
+      count_negative_max: 9             # x <= 9
+
+      # Number of zero values. Any text and spaces (i.e. anything that doesn't look like a number) will be converted to 0.
+      count_zero_min: 1                 # x >= 1
+      count_zero_greater: 2             # x >  2
+      count_zero_not: 0                 # x != 0
+      count_zero: 7                     # x == 7
+      count_zero_less: 8                # x <  8
+      count_zero_max: 9                 # x <= 9
+
+      # Number of even values.
+      count_even_min: 1                 # x >= 1
+      count_even_greater: 2             # x >  2
+      count_even_not: 0                 # x != 0
+      count_even: 7                     # x == 7
+      count_even_less: 8                # x <  8
+      count_even_max: 9                 # x <= 9
+
+      # Number of odd values.
+      count_odd_min: 1                  # x >= 1
+      count_odd_greater: 2              # x >  2
+      count_odd_not: 0                  # x != 0
+      count_odd: 7                      # x == 7
+      count_odd_less: 8                 # x <  8
+      count_odd_max: 9                  # x <= 9
+
+      # Number of prime values.
+      count_prime_min: 1                # x >= 1
+      count_prime_greater: 2            # x >  2
+      count_prime_not: 0                # x != 0
+      count_prime: 7                    # x == 7
+      count_prime_less: 8               # x <  8
+      count_prime_max: 9                # x <= 9
+
       # Calculate the median average of a list of numbers.
       # See: https://en.wikipedia.org/wiki/Median
       median_min: 1.0                   # x >= 1.0
