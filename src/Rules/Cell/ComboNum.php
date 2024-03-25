@@ -20,7 +20,7 @@ use function JBZoo\Utils\float;
 
 final class ComboNum extends AbstractCellRuleCombo
 {
-    protected const NAME = 'number';
+    protected const NAME = '';
 
     private const PRECISION = 10;
 

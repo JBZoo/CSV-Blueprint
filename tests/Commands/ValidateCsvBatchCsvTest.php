@@ -119,14 +119,14 @@ final class ValidateCsvBatchCsvTest extends TestCase
             | Line | id:Column  | Rule       | Message                                                                                              |
             +------+------------+------------+------------------------------------------------------------------------------------------------------+
             | 1    |            | csv.header | Columns not found in CSV: "wrong_column_name"                                                        |
-            | 2    | 0:Name     | length_min | The length of the value "Carl" is 4, which is less or equal than the expected "5"                    |
-            | 7    | 0:Name     | length_min | The length of the value "Lois" is 4, which is less or equal than the expected "5"                    |
-            | 2    | 3:Birthday | date_min   | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less or equal |
-            |      |            |            | than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                          |
-            | 4    | 3:Birthday | date_min   | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less or equal |
-            |      |            |            | than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                          |
-            | 5    | 3:Birthday | date_max   | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater or    |
-            |      |            |            | equal than the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                    |
+            | 2    | 0:Name     | length_min | The length of the value "Carl" is 4, which is less than the expected "5"                             |
+            | 7    | 0:Name     | length_min | The length of the value "Lois" is 4, which is less than the expected "5"                             |
+            | 2    | 3:Birthday | date_min   | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
+            |      |            |            | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
+            | 4    | 3:Birthday | date_min   | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
+            |      |            |            | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
+            | 5    | 3:Birthday | date_max   | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
+            |      |            |            | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
             | 1    | 3:Birthday | ag:nth     | The value on line 2 in the column is "1989-05-15", which is not equal than the expected "2000-12-01" |
             +------+------------+------------+---------------------------- demo-2.csv --------------------------------------------------------------+
             

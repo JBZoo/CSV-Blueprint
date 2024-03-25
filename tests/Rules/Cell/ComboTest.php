@@ -22,7 +22,7 @@ use JBZoo\PHPUnit\Rules\TestAbstractCellRuleCombo;
 
 use function JBZoo\PHPUnit\isSame;
 
-class ComboNumTest extends TestAbstractCellRuleCombo
+class ComboTest extends TestAbstractCellRuleCombo
 {
     protected string $ruleClass = ComboNum::class;
 

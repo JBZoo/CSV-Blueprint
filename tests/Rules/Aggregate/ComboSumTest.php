@@ -57,7 +57,7 @@ class ComboSumTest extends TestAbstractAggregateRuleCombo
         isSame('', $rule->test(['1', '2', '3']));
 
         isSame(
-            'The sum of numbers in the column is "3", which is less or equal than the expected "6"',
+            'The sum of numbers in the column is "3", which is less than the expected "6"',
             $rule->test(['1', '2']),
         );
     }
@@ -69,7 +69,7 @@ class ComboSumTest extends TestAbstractAggregateRuleCombo
         isSame('', $rule->test(['1', '2', '3']));
 
         isSame(
-            'The sum of numbers in the column is "10.5", which is greater or equal than the expected "6"',
+            'The sum of numbers in the column is "10.5", which is greater than the expected "6"',
             $rule->test(['1', '2', '3', '4.5']),
         );
     }

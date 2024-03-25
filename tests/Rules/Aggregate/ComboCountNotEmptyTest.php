@@ -58,7 +58,7 @@ class ComboCountNotEmptyTest extends TestAbstractAggregateRuleCombo
         isSame('', $rule->test(['', '', '', '1']));
 
         isSame(
-            'The number of not empty rows in the column is "0", which is less or equal than the expected "1"',
+            'The number of not empty rows in the column is "0", which is less than the expected "1"',
             $rule->test(['']),
         );
     }
@@ -72,7 +72,7 @@ class ComboCountNotEmptyTest extends TestAbstractAggregateRuleCombo
         isSame('', $rule->test([]));
 
         isSame(
-            'The number of not empty rows in the column is "5", which is greater or equal than the expected "3"',
+            'The number of not empty rows in the column is "5", which is greater than the expected "3"',
             $rule->test([1, 2, 3, 4, 5]),
         );
     }

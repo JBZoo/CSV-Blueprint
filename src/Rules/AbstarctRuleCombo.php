@@ -26,12 +26,12 @@ abstract class AbstarctRuleCombo extends AbstarctRule
     protected const NAME = 'UNDEFINED';
 
     protected const VERBS = [
-        self::MIN     => 'less or equal',
+        self::MIN     => 'less',
         self::GREATER => 'less and not equal',
         self::NOT     => 'equal',
         self::EQ      => 'not equal',
         self::LESS    => 'greater and not equal',
-        self::MAX     => 'greater or equal',
+        self::MAX     => 'greater',
     ];
 
     abstract protected function getExpected(): float;

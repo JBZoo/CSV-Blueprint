@@ -50,17 +50,17 @@ final class ValidateCsvReportsTest extends TestCase
             | Line | id:Column        | Rule         | Message                                                                                              |
             +------+------------------+--------------+------------------------------------------------------------------------------------------------------+
             | 1    |                  | csv.header   | Columns not found in CSV: "wrong_column_name"                                                        |
-            | 6    | 0:Name           | length_min   | The length of the value "Carl" is 4, which is less or equal than the expected "5"                    |
-            | 11   | 0:Name           | length_min   | The length of the value "Lois" is 4, which is less or equal than the expected "5"                    |
+            | 6    | 0:Name           | length_min   | The length of the value "Carl" is 4, which is less than the expected "5"                             |
+            | 11   | 0:Name           | length_min   | The length of the value "Lois" is 4, which is less than the expected "5"                             |
             | 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 9, total: 10                                                   |
-            | 2    | 2:Float          | num_max      | The number of the value "4825.185", which is greater or equal than the expected "4825.184"           |
+            | 2    | 2:Float          | num_max      | The value "4825.185" is greater than the expected "4825.184"                                         |
             | 1    | 2:Float          | ag:nth_num   | The N-th value in the column is "74", which is not equal than the expected "0.001"                   |
-            | 6    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less or equal |
-            |      |                  |              | than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                          |
-            | 8    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less or equal |
-            |      |                  |              | than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                          |
-            | 9    | 3:Birthday       | date_max     | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater or    |
-            |      |                  |              | equal than the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                    |
+            | 6    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
+            |      |                  |              | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
+            | 8    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
+            |      |                  |              | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
+            | 9    | 3:Birthday       | date_max     | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
+            |      |                  |              | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
             | 5    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
             +------+------------------+--------------+------------------------- demo.csv -------------------------------------------------------------------+
             
@@ -95,14 +95,14 @@ final class ValidateCsvReportsTest extends TestCase
             (1/1) CSV   : ./tests/fixtures/demo.csv
             (1/1) Issues: 10
             "csv.header" at line 1. Columns not found in CSV: "wrong_column_name".
-            "length_min" at line 6, column "0:Name". The length of the value "Carl" is 4, which is less or equal than the expected "5".
-            "length_min" at line 11, column "0:Name". The length of the value "Lois" is 4, which is less or equal than the expected "5".
+            "length_min" at line 6, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".
+            "length_min" at line 11, column "0:Name". The length of the value "Lois" is 4, which is less than the expected "5".
             "ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 9, total: 10.
-            "num_max" at line 2, column "2:Float". The number of the value "4825.185", which is greater or equal than the expected "4825.184".
+            "num_max" at line 2, column "2:Float". The value "4825.185" is greater than the expected "4825.184".
             "ag:nth_num" at line 1, column "2:Float". The N-th value in the column is "74", which is not equal than the expected "0.001".
-            "date_min" at line 6, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less or equal than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
-            "date_min" at line 8, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less or equal than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
-            "date_max" at line 9, column "3:Birthday". The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater or equal than the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)".
+            "date_min" at line 6, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
+            "date_min" at line 8, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
+            "date_max" at line 9, column "3:Birthday". The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)".
             "allow_values" at line 5, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].
             
             
@@ -138,21 +138,21 @@ final class ValidateCsvReportsTest extends TestCase
             (1/1) Issues: 10
             ::error file=<root>/tests/fixtures/demo.csv,line=1::csv.header at column%0A"csv.header" at line 1. Columns not found in CSV: "wrong_column_name".
             
-            ::error file=<root>/tests/fixtures/demo.csv,line=6::length_min at column 0:Name%0A"length_min" at line 6, column "0:Name". The length of the value "Carl" is 4, which is less or equal than the expected "5".
+            ::error file=<root>/tests/fixtures/demo.csv,line=6::length_min at column 0:Name%0A"length_min" at line 6, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".
             
-            ::error file=<root>/tests/fixtures/demo.csv,line=11::length_min at column 0:Name%0A"length_min" at line 11, column "0:Name". The length of the value "Lois" is 4, which is less or equal than the expected "5".
+            ::error file=<root>/tests/fixtures/demo.csv,line=11::length_min at column 0:Name%0A"length_min" at line 11, column "0:Name". The length of the value "Lois" is 4, which is less than the expected "5".
             
             ::error file=<root>/tests/fixtures/demo.csv,line=1::ag:is_unique at column 1:City%0A"ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 9, total: 10.
             
-            ::error file=<root>/tests/fixtures/demo.csv,line=2::num_max at column 2:Float%0A"num_max" at line 2, column "2:Float". The number of the value "4825.185", which is greater or equal than the expected "4825.184".
+            ::error file=<root>/tests/fixtures/demo.csv,line=2::num_max at column 2:Float%0A"num_max" at line 2, column "2:Float". The value "4825.185" is greater than the expected "4825.184".
             
             ::error file=<root>/tests/fixtures/demo.csv,line=1::ag:nth_num at column 2:Float%0A"ag:nth_num" at line 1, column "2:Float". The N-th value in the column is "74", which is not equal than the expected "0.001".
             
-            ::error file=<root>/tests/fixtures/demo.csv,line=6::date_min at column 3:Birthday%0A"date_min" at line 6, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less or equal than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
+            ::error file=<root>/tests/fixtures/demo.csv,line=6::date_min at column 3:Birthday%0A"date_min" at line 6, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
             
-            ::error file=<root>/tests/fixtures/demo.csv,line=8::date_min at column 3:Birthday%0A"date_min" at line 8, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less or equal than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
+            ::error file=<root>/tests/fixtures/demo.csv,line=8::date_min at column 3:Birthday%0A"date_min" at line 8, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
             
-            ::error file=<root>/tests/fixtures/demo.csv,line=9::date_max at column 3:Birthday%0A"date_max" at line 9, column "3:Birthday". The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater or equal than the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)".
+            ::error file=<root>/tests/fixtures/demo.csv,line=9::date_max at column 3:Birthday%0A"date_max" at line 9, column "3:Birthday". The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)".
             
             ::error file=<root>/tests/fixtures/demo.csv,line=5::allow_values at column 4:Favorite color%0A"allow_values" at line 5, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].
             
@@ -196,11 +196,11 @@ final class ValidateCsvReportsTest extends TestCase
             ##teamcity[testFinished name='csv.header at column' flowId='42']
             
             ##teamcity[testStarted name='length_min at column 0:Name' locationHint='php_qn://<root>/tests/fixtures/demo.csv' flowId='42']
-            "length_min" at line 6, column "0:Name". The length of the value "Carl" is 4, which is less or equal than the expected "5".
+            "length_min" at line 6, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".
             ##teamcity[testFinished name='length_min at column 0:Name' flowId='42']
             
             ##teamcity[testStarted name='length_min at column 0:Name' locationHint='php_qn://<root>/tests/fixtures/demo.csv' flowId='42']
-            "length_min" at line 11, column "0:Name". The length of the value "Lois" is 4, which is less or equal than the expected "5".
+            "length_min" at line 11, column "0:Name". The length of the value "Lois" is 4, which is less than the expected "5".
             ##teamcity[testFinished name='length_min at column 0:Name' flowId='42']
             
             ##teamcity[testStarted name='ag:is_unique at column 1:City' locationHint='php_qn://<root>/tests/fixtures/demo.csv' flowId='42']
@@ -208,7 +208,7 @@ final class ValidateCsvReportsTest extends TestCase
             ##teamcity[testFinished name='ag:is_unique at column 1:City' flowId='42']
             
             ##teamcity[testStarted name='num_max at column 2:Float' locationHint='php_qn://<root>/tests/fixtures/demo.csv' flowId='42']
-            "num_max" at line 2, column "2:Float". The number of the value "4825.185", which is greater or equal than the expected "4825.184".
+            "num_max" at line 2, column "2:Float". The value "4825.185" is greater than the expected "4825.184".
             ##teamcity[testFinished name='num_max at column 2:Float' flowId='42']
             
             ##teamcity[testStarted name='ag:nth_num at column 2:Float' locationHint='php_qn://<root>/tests/fixtures/demo.csv' flowId='42']
@@ -216,15 +216,15 @@ final class ValidateCsvReportsTest extends TestCase
             ##teamcity[testFinished name='ag:nth_num at column 2:Float' flowId='42']
             
             ##teamcity[testStarted name='date_min at column 3:Birthday' locationHint='php_qn://<root>/tests/fixtures/demo.csv' flowId='42']
-            "date_min" at line 6, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less or equal than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
+            "date_min" at line 6, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
             ##teamcity[testFinished name='date_min at column 3:Birthday' flowId='42']
             
             ##teamcity[testStarted name='date_min at column 3:Birthday' locationHint='php_qn://<root>/tests/fixtures/demo.csv' flowId='42']
-            "date_min" at line 8, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less or equal than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
+            "date_min" at line 8, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
             ##teamcity[testFinished name='date_min at column 3:Birthday' flowId='42']
             
             ##teamcity[testStarted name='date_max at column 3:Birthday' locationHint='php_qn://<root>/tests/fixtures/demo.csv' flowId='42']
-            "date_max" at line 9, column "3:Birthday". The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater or equal than the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)".
+            "date_max" at line 9, column "3:Birthday". The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)".
             ##teamcity[testFinished name='date_max at column 3:Birthday' flowId='42']
             
             ##teamcity[testStarted name='allow_values at column 4:Favorite color' locationHint='php_qn://<root>/tests/fixtures/demo.csv' flowId='42']
@@ -262,28 +262,28 @@ final class ValidateCsvReportsTest extends TestCase
                   <system-out>"csv.header" at line 1. Columns not found in CSV: "wrong_column_name".</system-out>
                 </testcase>
                 <testcase name="length_min at column 0:Name" file="<root>/tests/fixtures/demo.csv" line="6">
-                  <system-out>"length_min" at line 6, column "0:Name". The length of the value "Carl" is 4, which is less or equal than the expected "5".</system-out>
+                  <system-out>"length_min" at line 6, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".</system-out>
                 </testcase>
                 <testcase name="length_min at column 0:Name" file="<root>/tests/fixtures/demo.csv" line="11">
-                  <system-out>"length_min" at line 11, column "0:Name". The length of the value "Lois" is 4, which is less or equal than the expected "5".</system-out>
+                  <system-out>"length_min" at line 11, column "0:Name". The length of the value "Lois" is 4, which is less than the expected "5".</system-out>
                 </testcase>
                 <testcase name="ag:is_unique at column 1:City" file="<root>/tests/fixtures/demo.csv" line="1">
                   <system-out>"ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 9, total: 10.</system-out>
                 </testcase>
                 <testcase name="num_max at column 2:Float" file="<root>/tests/fixtures/demo.csv" line="2">
-                  <system-out>"num_max" at line 2, column "2:Float". The number of the value "4825.185", which is greater or equal than the expected "4825.184".</system-out>
+                  <system-out>"num_max" at line 2, column "2:Float". The value "4825.185" is greater than the expected "4825.184".</system-out>
                 </testcase>
                 <testcase name="ag:nth_num at column 2:Float" file="<root>/tests/fixtures/demo.csv" line="1">
                   <system-out>"ag:nth_num" at line 1, column "2:Float". The N-th value in the column is "74", which is not equal than the expected "0.001".</system-out>
                 </testcase>
                 <testcase name="date_min at column 3:Birthday" file="<root>/tests/fixtures/demo.csv" line="6">
-                  <system-out>"date_min" at line 6, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less or equal than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".</system-out>
+                  <system-out>"date_min" at line 6, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".</system-out>
                 </testcase>
                 <testcase name="date_min at column 3:Birthday" file="<root>/tests/fixtures/demo.csv" line="8">
-                  <system-out>"date_min" at line 8, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less or equal than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".</system-out>
+                  <system-out>"date_min" at line 8, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".</system-out>
                 </testcase>
                 <testcase name="date_max at column 3:Birthday" file="<root>/tests/fixtures/demo.csv" line="9">
-                  <system-out>"date_max" at line 9, column "3:Birthday". The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater or equal than the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)".</system-out>
+                  <system-out>"date_max" at line 9, column "3:Birthday". The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)".</system-out>
                 </testcase>
                 <testcase name="allow_values at column 4:Favorite color" file="<root>/tests/fixtures/demo.csv" line="5">
                   <system-out>"allow_values" at line 5, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].</system-out>
@@ -339,7 +339,7 @@ final class ValidateCsvReportsTest extends TestCase
                     }
                 },
                 {
-                    "description": "length_min at column 0:Name\n\"length_min\" at line 6, column \"0:Name\". The length of the value \"Carl\" is 4, which is less or equal than the expected \"5\".",
+                    "description": "length_min at column 0:Name\n\"length_min\" at line 6, column \"0:Name\". The length of the value \"Carl\" is 4, which is less than the expected \"5\".",
                     "fingerprint": "_replaced_",
                     "severity": "major",
                     "location": {
@@ -350,7 +350,7 @@ final class ValidateCsvReportsTest extends TestCase
                     }
                 },
                 {
-                    "description": "length_min at column 0:Name\n\"length_min\" at line 11, column \"0:Name\". The length of the value \"Lois\" is 4, which is less or equal than the expected \"5\".",
+                    "description": "length_min at column 0:Name\n\"length_min\" at line 11, column \"0:Name\". The length of the value \"Lois\" is 4, which is less than the expected \"5\".",
                     "fingerprint": "_replaced_",
                     "severity": "major",
                     "location": {
@@ -372,7 +372,7 @@ final class ValidateCsvReportsTest extends TestCase
                     }
                 },
                 {
-                    "description": "num_max at column 2:Float\n\"num_max\" at line 2, column \"2:Float\". The number of the value \"4825.185\", which is greater or equal than the expected \"4825.184\".",
+                    "description": "num_max at column 2:Float\n\"num_max\" at line 2, column \"2:Float\". The value \"4825.185\" is greater than the expected \"4825.184\".",
                     "fingerprint": "_replaced_",
                     "severity": "major",
                     "location": {
@@ -394,7 +394,7 @@ final class ValidateCsvReportsTest extends TestCase
                     }
                 },
                 {
-                    "description": "date_min at column 3:Birthday\n\"date_min\" at line 6, column \"3:Birthday\". The date of the value \"1955-05-14\" is parsed as \"1955-05-14 00:00:00 +00:00\", which is less or equal than the expected \"1955-05-15 00:00:00 +00:00 (1955-05-15)\".",
+                    "description": "date_min at column 3:Birthday\n\"date_min\" at line 6, column \"3:Birthday\". The date of the value \"1955-05-14\" is parsed as \"1955-05-14 00:00:00 +00:00\", which is less than the expected \"1955-05-15 00:00:00 +00:00 (1955-05-15)\".",
                     "fingerprint": "_replaced_",
                     "severity": "major",
                     "location": {
@@ -405,7 +405,7 @@ final class ValidateCsvReportsTest extends TestCase
                     }
                 },
                 {
-                    "description": "date_min at column 3:Birthday\n\"date_min\" at line 8, column \"3:Birthday\". The date of the value \"1955-05-14\" is parsed as \"1955-05-14 00:00:00 +00:00\", which is less or equal than the expected \"1955-05-15 00:00:00 +00:00 (1955-05-15)\".",
+                    "description": "date_min at column 3:Birthday\n\"date_min\" at line 8, column \"3:Birthday\". The date of the value \"1955-05-14\" is parsed as \"1955-05-14 00:00:00 +00:00\", which is less than the expected \"1955-05-15 00:00:00 +00:00 (1955-05-15)\".",
                     "fingerprint": "_replaced_",
                     "severity": "major",
                     "location": {
@@ -416,7 +416,7 @@ final class ValidateCsvReportsTest extends TestCase
                     }
                 },
                 {
-                    "description": "date_max at column 3:Birthday\n\"date_max\" at line 9, column \"3:Birthday\". The date of the value \"2010-07-20\" is parsed as \"2010-07-20 00:00:00 +00:00\", which is greater or equal than the expected \"2009-01-01 00:00:00 +00:00 (2009-01-01)\".",
+                    "description": "date_max at column 3:Birthday\n\"date_max\" at line 9, column \"3:Birthday\". The date of the value \"2010-07-20\" is parsed as \"2010-07-20 00:00:00 +00:00\", which is greater than the expected \"2009-01-01 00:00:00 +00:00 (2009-01-01)\".",
                     "fingerprint": "_replaced_",
                     "severity": "major",
                     "location": {
