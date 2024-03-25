@@ -17,16 +17,17 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
+use Respect\Validation\Validator;
 
-final class ComboCountNotEmpty extends AbstarctAggregateRuleCombo
+final class ComboCountPrime extends AbstarctAggregateRuleCombo
 {
-    public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_STRINGS;
+    public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_FLOATS;
 
-    protected const NAME = 'number of not empty rows';
+    protected const NAME = 'number of prime values';
 
     public function getHelpMeta(): array
     {
-        return [['Counts only not empty values (string length is not 0).'], []];
+        return [['Number of prime values.'], []];
     }
 
     protected function getActualAggregate(array $colValues): ?float
@@ -35,6 +36,11 @@ final class ComboCountNotEmpty extends AbstarctAggregateRuleCombo
             return null;
         }
 
-        return \count(\array_filter($colValues, static fn ($colValue) => $colValue !== ''));
+        return \count(
+            \array_filter(
+                self::stringsToFloat($colValues),
+                static fn ($value) => Validator::primeNumber()->validate($value),
+            ),
+        );
     }
 }

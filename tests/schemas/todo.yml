@@ -226,13 +226,6 @@ columns:
       # ?? https://github.com/Respect/Validation/blob/main/docs/rules/Sorted.md
       sorted: [ asc, SORT_NATURAL ]   # SORT_NATURAL, SORT_FLAG_CASE, SORT_FLAG_CASE|SORT_NATURAL
 
-      count_distinct: 1
-      count_zero: 1
-      count_positive: 1
-      count_negative: 1
-      count_even: 1
-      count_odd: 1
-      count_prime: 1
       count_true: 1
       count_false: 1
 

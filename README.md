@@ -4,7 +4,7 @@
 [![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
 
 <!-- rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-234-green?label=Total%20Number%20of%20Rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-66-green?label=Cell%20Value&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-163-green?label=Aggregate%20Column&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-5-green?label=Extra%20Checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-275-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-276-green?label=Total%20Number%20of%20Rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-66-green?label=Cell%20Value&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-205-green?label=Aggregate%20Column&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-5-green?label=Extra%20Checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-233-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- /rules-counter -->
 
 ## Introduction
@@ -348,6 +348,62 @@ columns:
       count_not_empty: 7                # x == 7
       count_not_empty_less: 8           # x <  8
       count_not_empty_max: 9            # x <= 9
+
+      # Number of unique values.
+      count_distinct_min: 1             # x >= 1
+      count_distinct_greater: 2         # x >  2
+      count_distinct_not: 0             # x != 0
+      count_distinct: 7                 # x == 7
+      count_distinct_less: 8            # x <  8
+      count_distinct_max: 9             # x <= 9
+
+      # Number of positive values.
+      count_positive_min: 1             # x >= 1
+      count_positive_greater: 2         # x >  2
+      count_positive_not: 0             # x != 0
+      count_positive: 7                 # x == 7
+      count_positive_less: 8            # x <  8
+      count_positive_max: 9             # x <= 9
+
+      # Number of negative values.
+      count_negative_min: 1             # x >= 1
+      count_negative_greater: 2         # x >  2
+      count_negative_not: 0             # x != 0
+      count_negative: 7                 # x == 7
+      count_negative_less: 8            # x <  8
+      count_negative_max: 9             # x <= 9
+
+      # Number of zero values. Any text and spaces (i.e. anything that doesn't look like a number) will be converted to 0.
+      count_zero_min: 1                 # x >= 1
+      count_zero_greater: 2             # x >  2
+      count_zero_not: 0                 # x != 0
+      count_zero: 7                     # x == 7
+      count_zero_less: 8                # x <  8
+      count_zero_max: 9                 # x <= 9
+
+      # Number of even values.
+      count_even_min: 1                 # x >= 1
+      count_even_greater: 2             # x >  2
+      count_even_not: 0                 # x != 0
+      count_even: 7                     # x == 7
+      count_even_less: 8                # x <  8
+      count_even_max: 9                 # x <= 9
+
+      # Number of odd values.
+      count_odd_min: 1                  # x >= 1
+      count_odd_greater: 2              # x >  2
+      count_odd_not: 0                  # x != 0
+      count_odd: 7                      # x == 7
+      count_odd_less: 8                 # x <  8
+      count_odd_max: 9                  # x <= 9
+
+      # Number of prime values.
+      count_prime_min: 1                # x >= 1
+      count_prime_greater: 2            # x >  2
+      count_prime_not: 0                # x != 0
+      count_prime: 7                    # x == 7
+      count_prime_less: 8               # x <  8
+      count_prime_max: 9                # x <= 9
 
       # Calculate the median average of a list of numbers.
       # See: https://en.wikipedia.org/wiki/Median
