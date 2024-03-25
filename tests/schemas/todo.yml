@@ -237,10 +237,6 @@ columns:
       count_false: 1
 
       # https://github.com/markrogoyski/math-php#statistics---averages
-      quadratic_mean: 1
-      root_mean_square: 1
-      trimean: 1
-      interquartile_mean: 1 # iqm
       cubic_mean: 1
       truncated_mean: [ 1, 25 ]      # 25 percent of observations trimmed from each end of distribution
       generalized_mean: [ 1, 2 ]     # p-power mean
