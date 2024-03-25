@@ -16,12 +16,9 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Validators;
 
-use JBZoo\CsvBlueprint\Csv\CsvFile;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use JBZoo\PHPUnit\TestCase;
-use JBZoo\PHPUnit\Tools;
 
-use function JBZoo\Data\json;
 use function JBZoo\PHPUnit\isSame;
 
 final class ErrorSuiteTest extends TestCase
