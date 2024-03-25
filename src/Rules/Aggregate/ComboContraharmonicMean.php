@@ -19,18 +19,19 @@ namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use MathPHP\Statistics\Average;
 
-final class ComboMedian extends AbstarctAggregateRuleCombo
+final class ComboContraharmonicMean extends AbstarctAggregateRuleCombo
 {
     public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_FLOATS;
 
-    protected const NAME = 'median';
+    protected const NAME = 'contraharmonic mean';
 
     public function getHelpMeta(): array
     {
         return [
             [
-                'Calculate the median average of a list of numbers.',
-                'See: https://en.wikipedia.org/wiki/Median',
+                'Contraharmonic mean. A function complementary to the harmonic mean. ' .
+                'A special case of the Lehmer mean, L₂(x), where p = 2.',
+                'See: https://en.wikipedia.org/wiki/Contraharmonic_mean',
             ],
             [],
         ];
@@ -42,6 +43,6 @@ final class ComboMedian extends AbstarctAggregateRuleCombo
             return null;
         }
 
-        return Average::median(self::stringsToFloat($colValues));
+        return Average::contraharmonicMean(self::stringsToFloat($colValues));
     }
 }

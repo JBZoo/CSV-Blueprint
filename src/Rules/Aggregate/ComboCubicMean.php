@@ -19,21 +19,15 @@ namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use MathPHP\Statistics\Average;
 
-final class ComboMedian extends AbstarctAggregateRuleCombo
+final class ComboCubicMean extends AbstarctAggregateRuleCombo
 {
     public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_FLOATS;
 
-    protected const NAME = 'median';
+    protected const NAME = 'cubic mean';
 
     public function getHelpMeta(): array
     {
-        return [
-            [
-                'Calculate the median average of a list of numbers.',
-                'See: https://en.wikipedia.org/wiki/Median',
-            ],
-            [],
-        ];
+        return [['Cubic mean. See: https://en.wikipedia.org/wiki/Cubic_mean'], []];
     }
 
     protected function getActualAggregate(array $colValues): ?float
@@ -42,6 +36,6 @@ final class ComboMedian extends AbstarctAggregateRuleCombo
             return null;
         }
 
-        return Average::median(self::stringsToFloat($colValues));
+        return Average::cubicMean(self::stringsToFloat($colValues));
     }
 }

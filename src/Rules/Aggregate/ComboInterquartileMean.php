@@ -19,18 +19,21 @@ namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use MathPHP\Statistics\Average;
 
-final class ComboMedian extends AbstarctAggregateRuleCombo
+final class ComboInterquartileMean extends AbstarctAggregateRuleCombo
 {
     public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_FLOATS;
 
-    protected const NAME = 'median';
+    protected const NAME = 'interquartile mean (IQM)';
 
     public function getHelpMeta(): array
     {
         return [
             [
-                'Calculate the median average of a list of numbers.',
-                'See: https://en.wikipedia.org/wiki/Median',
+                'Interquartile mean (IQM). A measure of central tendency based on the truncated mean of ' .
+                'the interquartile range.',
+                'Only the data in the second and third quartiles is used (as in the interquartile range), ' .
+                'and the lowest 25% and the highest 25% of the scores are discarded.',
+                'See: https://en.wikipedia.org/wiki/Interquartile_mean',
             ],
             [],
         ];
@@ -42,6 +45,6 @@ final class ComboMedian extends AbstarctAggregateRuleCombo
             return null;
         }
 
-        return Average::median(self::stringsToFloat($colValues));
+        return Average::interquartileMean(self::stringsToFloat($colValues));
     }
 }

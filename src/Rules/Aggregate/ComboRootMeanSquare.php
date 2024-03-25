@@ -19,18 +19,19 @@ namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use MathPHP\Statistics\Average;
 
-final class ComboMedian extends AbstarctAggregateRuleCombo
+final class ComboRootMeanSquare extends AbstarctAggregateRuleCombo
 {
     public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_FLOATS;
 
-    protected const NAME = 'median';
+    protected const NAME = 'root mean square (quadratic mean)';
 
     public function getHelpMeta(): array
     {
         return [
             [
-                'Calculate the median average of a list of numbers.',
-                'See: https://en.wikipedia.org/wiki/Median',
+                'Root mean square (quadratic mean) ' .
+                'The square root of the arithmetic mean of the squares of a set of numbers.',
+                'See https://en.wikipedia.org/wiki/Root_mean_square',
             ],
             [],
         ];
@@ -42,6 +43,6 @@ final class ComboMedian extends AbstarctAggregateRuleCombo
             return null;
         }
 
-        return Average::median(self::stringsToFloat($colValues));
+        return Average::rootMeanSquare(self::stringsToFloat($colValues));
     }
 }

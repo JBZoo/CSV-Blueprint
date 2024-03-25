@@ -212,6 +212,55 @@ columns:
       median_less: 8.0
       median_max: 9.0
 
+      harmonic_mean_min: 1.0
+      harmonic_mean_greater: 2.0
+      harmonic_mean_not: 5.0
+      harmonic_mean: 7.0
+      harmonic_mean_less: 8.0
+      harmonic_mean_max: 9.0
+
+      geometric_mean_min: 1.0
+      geometric_mean_greater: 2.0
+      geometric_mean_not: 5.0
+      geometric_mean: 7.0
+      geometric_mean_less: 8.0
+      geometric_mean_max: 9.0
+
+      contraharmonic_mean_min: 1.0
+      contraharmonic_mean_greater: 2.0
+      contraharmonic_mean_not: 5.0
+      contraharmonic_mean: 7.0
+      contraharmonic_mean_less: 8.0
+      contraharmonic_mean_max: 9.0
+
+      root_mean_square_min: 1.0
+      root_mean_square_greater: 2.0
+      root_mean_square_not: 5.0
+      root_mean_square: 7.0
+      root_mean_square_less: 8.0
+      root_mean_square_max: 9.0
+
+      trimean_min: 1.0
+      trimean_greater: 2.0
+      trimean_not: 5.0
+      trimean: 7.0
+      trimean_less: 8.0
+      trimean_max: 9.0
+
+      interquartile_mean_min: 1.0
+      interquartile_mean_greater: 2.0
+      interquartile_mean_not: 5.0
+      interquartile_mean: 7.0
+      interquartile_mean_less: 8.0
+      interquartile_mean_max: 9.0
+
+      cubic_mean_min: 1.0
+      cubic_mean_greater: 2.0
+      cubic_mean_not: 5.0
+      cubic_mean: 7.0
+      cubic_mean_less: 8.0
+      cubic_mean_max: 9.0
+
       percentile_min:
         - 95
         - 1.0

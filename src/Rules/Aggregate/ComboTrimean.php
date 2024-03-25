@@ -19,18 +19,20 @@ namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use MathPHP\Statistics\Average;
 
-final class ComboMedian extends AbstarctAggregateRuleCombo
+final class ComboTrimean extends AbstarctAggregateRuleCombo
 {
     public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_FLOATS;
 
-    protected const NAME = 'median';
+    protected const NAME = 'trimean';
 
     public function getHelpMeta(): array
     {
         return [
             [
-                'Calculate the median average of a list of numbers.',
-                'See: https://en.wikipedia.org/wiki/Median',
+                "Trimean (TM, or Tukey's trimean).",
+                "A measure of a probability distribution's location defined as a weighted average of" .
+                " the distribution's median and its two quartiles.",
+                'See: https://en.wikipedia.org/wiki/Trimean',
             ],
             [],
         ];
@@ -42,6 +44,6 @@ final class ComboMedian extends AbstarctAggregateRuleCombo
             return null;
         }
 
-        return Average::median(self::stringsToFloat($colValues));
+        return Average::trimean(self::stringsToFloat($colValues));
     }
 }
