@@ -49,12 +49,8 @@ columns:
       between_exclusive: [ min, max ]  # https://github.com/Respect/Validation/blob/main/docs/rules/BetweenExclusive.md
       equals: 1
       equivalent: 1
-      greater_than: 1
-      greater_than_or_equal: 1
       identical: 1
       in: 1
-      less_than: 1
-      less_than_or_equal: 1
 
       # Composite (deprecated current rule names)
       all_of: [ ]
