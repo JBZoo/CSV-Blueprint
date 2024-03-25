@@ -183,6 +183,13 @@
                 "quartiles_less"              : ["exclusive", "100%", 8],
                 "quartiles_max"               : ["inclusive", "IQR", 9],
 
+                "midhinge_min"                : 1,
+                "midhinge_greater"            : 2,
+                "midhinge_not"                : 5,
+                "midhinge"                    : 7,
+                "midhinge_less"               : 8,
+                "midhinge_max"                : 9,
+
                 "mean_abs_dev_min"            : 1,
                 "mean_abs_dev_greater"        : 2,
                 "mean_abs_dev_not"            : 5,

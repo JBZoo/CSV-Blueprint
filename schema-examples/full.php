@@ -205,6 +205,13 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'quartiles_less'    => ['exclusive', '100%', 8.0],
                 'quartiles_max'     => ['inclusive', 'IQR', 9.0],
 
+                'midhinge_min'     => 1.0,
+                'midhinge_greater' => 2.0,
+                'midhinge_not'     => 5.0,
+                'midhinge'         => 7.0,
+                'midhinge_less'    => 8.0,
+                'midhinge_max'     => 9.0,
+
                 'mean_abs_dev_min'     => 1.0,
                 'mean_abs_dev_greater' => 2.0,
                 'mean_abs_dev_not'     => 5.0,

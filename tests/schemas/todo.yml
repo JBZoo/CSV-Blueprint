@@ -236,9 +236,6 @@ columns:
       count_true: 1
       count_false: 1
 
-      # https://github.com/markrogoyski/math-php#statistics---descriptive
-      midhinge: 1
-
       # https://github.com/markrogoyski/math-php#statistics---averages
       harmonic_mean: 1
       geometric_mean: 1

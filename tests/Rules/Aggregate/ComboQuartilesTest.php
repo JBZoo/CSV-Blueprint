@@ -66,6 +66,8 @@ class ComboQuartilesTest extends TestAbstractAggregateRuleCombo
         $rule = $this->create(['inclusive', 'IQR', 199], Combo::EQ);
         isSame('', $rule->test($range));
 
+        isSame('', $rule->test([]));
+
         isSame(
             'The quartile in the column is "100", which is not equal than the expected "199"',
             $rule->test(\range(1, 200)),
