@@ -4,7 +4,7 @@
 [![Stable Version](https://poser.pugx.org/jbzoo/csv-blueprint/version)](https://packagist.org/packages/jbzoo/csv-blueprint/)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)
 
 <!-- rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-210-green?label=Total%20Number%20of%20Rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-66-green?label=Cell%20Value&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-139-green?label=Aggregate%20Column&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-5-green?label=Extra%20Checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-305-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-234-green?label=Total%20Number%20of%20Rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-66-green?label=Cell%20Value&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-163-green?label=Aggregate%20Column&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-5-green?label=Extra%20Checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-275-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- /rules-counter -->
 
 ## Introduction
@@ -386,6 +386,43 @@ columns:
       contraharmonic_mean: 7.0          # x == 7.0
       contraharmonic_mean_less: 8.0     # x <  8.0
       contraharmonic_mean_max: 9.0      # x <= 9.0
+
+      # Root mean square (quadratic mean) The square root of the arithmetic mean of the squares of a set of numbers.
+      # See https://en.wikipedia.org/wiki/Root_mean_square
+      root_mean_square_min: 1.0         # x >= 1.0
+      root_mean_square_greater: 2.0     # x >  2.0
+      root_mean_square_not: 5.0         # x != 5.0
+      root_mean_square: 7.0             # x == 7.0
+      root_mean_square_less: 8.0        # x <  8.0
+      root_mean_square_max: 9.0         # x <= 9.0
+
+      # Trimean (TM, or Tukey's trimean).
+      # A measure of a probability distribution's location defined as a weighted average of the distribution's median and its two quartiles.
+      # See: https://en.wikipedia.org/wiki/Trimean
+      trimean_min: 1.0                  # x >= 1.0
+      trimean_greater: 2.0              # x >  2.0
+      trimean_not: 5.0                  # x != 5.0
+      trimean: 7.0                      # x == 7.0
+      trimean_less: 8.0                 # x <  8.0
+      trimean_max: 9.0                  # x <= 9.0
+
+      # Interquartile mean (IQM). A measure of central tendency based on the truncated mean of the interquartile range.
+      # Only the data in the second and third quartiles is used (as in the interquartile range), and the lowest 25% and the highest 25% of the scores are discarded.
+      # See: https://en.wikipedia.org/wiki/Interquartile_mean
+      interquartile_mean_min: 1.0       # x >= 1.0
+      interquartile_mean_greater: 2.0   # x >  2.0
+      interquartile_mean_not: 5.0       # x != 5.0
+      interquartile_mean: 7.0           # x == 7.0
+      interquartile_mean_less: 8.0      # x <  8.0
+      interquartile_mean_max: 9.0       # x <= 9.0
+
+      # Cubic mean. See: https://en.wikipedia.org/wiki/Cubic_mean
+      cubic_mean_min: 1.0               # x >= 1.0
+      cubic_mean_greater: 2.0           # x >  2.0
+      cubic_mean_not: 5.0               # x != 5.0
+      cubic_mean: 7.0                   # x == 7.0
+      cubic_mean_less: 8.0              # x <  8.0
+      cubic_mean_max: 9.0               # x <= 9.0
 
       # Compute the P-th percentile of a list of numbers.
       # Linear interpolation between closest ranks method - Second variant, C = 1 P-th percentile (0 <= P <= 100) of a list of N ordered values (sorted from least to greatest).

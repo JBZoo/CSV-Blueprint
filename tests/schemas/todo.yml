@@ -237,7 +237,6 @@ columns:
       count_false: 1
 
       # https://github.com/markrogoyski/math-php#statistics---averages
-      cubic_mean: 1
       truncated_mean: [ 1, 25 ]      # 25 percent of observations trimmed from each end of distribution
       generalized_mean: [ 1, 2 ]     # p-power mean
       power_mean: [ 1, 2 ]           # p-power mean
