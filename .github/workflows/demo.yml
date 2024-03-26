@@ -13,8 +13,10 @@
 name: Demo
 
 on:
-  release:
-    types: [ created ]
+  workflow_run:
+    workflows: [ "Publish Docker" ]
+    types:
+      - completed
 
 env:
   CSV_FILES: './tests/fixtures/batch/*.csv'
