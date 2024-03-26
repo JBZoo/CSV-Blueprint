@@ -312,7 +312,7 @@ final class Utils
 
         [$tag, $isStable, $branch, $date, $hash] = $parts;
 
-        $dateStr = (new \DateTimeImmutable($date))->format('d M Y H:i');
+        $dateStr = (new \DateTimeImmutable($date))->format('d M Y H:i P');
         $tag     = 'v' . \ltrim($tag, 'v');
 
         if ($tagOnly) {
