@@ -878,10 +878,6 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
   * Extending with custom rules and custom report formats. Plugins?
   * Input encoding detection + `BOM` (right now it's experimental). It works but not so accurate... UTF-8/16/32 is the best choice for now.
 
-* **Release workflow**
-  * Auto insert tool version into the Docker image and phar file. It's important to know the version of the tool you are using.
-  * Show version as part of output.
-
 * **Performance and optimization**
   * Benchmarks as part of the CI(?) and Readme. It's important to know how much time the validation process takes.
   * Parallel validation of really-really large files (1GB+ ?). I know you have them and not so much memory.

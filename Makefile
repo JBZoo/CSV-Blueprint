@@ -27,7 +27,7 @@ VALID_SCHEMA    ?= --schema='./tests/schemas/demo_valid.yml'
 INVALID_CSV     ?= --csv='./tests/fixtures/batch/*.csv'
 INVALID_SCHEMA  ?= --schema='./tests/schemas/demo_invalid.yml'
 
-VERSION_FILE ?= "$(PATH_ROOT)/.version"
+VERSION_FILE ?= ./.version
 
 # Build/install ########################################################################################################
 build: ##@Project Build project in development mode
