@@ -303,8 +303,9 @@ final class Utils
             return 'unknown version';
         }
 
-        $parts = \array_filter(\explode("\n", \file_get_contents($versionFile)));
-        if (\count($parts) < 5) {
+        $parts         = \array_filter(\explode("\n", (string)\file_get_contents($versionFile)));
+        $expectedParts = 5;
+        if (\count($parts) < $expectedParts) {
             return 'unknown version';
         }
 

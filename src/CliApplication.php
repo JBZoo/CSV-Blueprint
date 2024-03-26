@@ -18,16 +18,18 @@ namespace JBZoo\CsvBlueprint;
 
 class CliApplication extends \JBZoo\Cli\CliApplication
 {
-    private string $appLogo = <<<'EOF'
-          __________   __  ___  __                  _      __ 
-         / ___/ __/ | / / / _ )/ /_ _____ ___  ____(_)__  / /_
-        / /___\ \ | |/ / / _  / / // / -_) _ \/ __/ / _ \/ __/
-        \___/___/ |___/ /____/_/\_,_/\__/ .__/_/ /_/_//_/\__/ 
-                                       /_/                    
-        EOF;
+    private array $appLogo = [
+        '  __________   __  ___  __                  _      __ ',
+        ' / ___/ __/ | / / / _ )/ /_ _____ ___  ____(_)__  / /_',
+        '/ /___\ \ | |/ / / _  / / // / -_) _ \/ __/ / _ \/ __/',
+        '\___/___/ |___/ /____/_/\_,_/\__/ .__/_/ /_/_//_/\__/ ',
+        '                               /_/                    ',
+    ];
 
     public function getLongVersion(): string
     {
-        return "<info>{$this->appLogo}</info>\n" . Utils::getVersion(false);
+        $logo = \implode("\n", $this->appLogo);
+
+        return "<info>{$logo}</info>\n" . Utils::getVersion(false);
     }
 }
