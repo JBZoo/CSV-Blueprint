@@ -223,9 +223,6 @@ columns:
 
 
     aggregate_rules:
-      # ?? https://github.com/Respect/Validation/blob/main/docs/rules/Sorted.md
-      sorted: [ asc, SORT_NATURAL ]   # SORT_NATURAL, SORT_FLAG_CASE, SORT_FLAG_CASE|SORT_NATURAL
-
       count_true: 1
       count_false: 1
 

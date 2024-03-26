@@ -121,6 +121,7 @@ This example serves as a comprehensive guide for creating robust CSV file valida
 
             'aggregate_rules' => [
                 'is_unique' => true,
+                'is_sorted' => ['asc', 'natural'],
 
                 'first_num_min'     => 1.0,
                 'first_num_greater' => 2.0,
