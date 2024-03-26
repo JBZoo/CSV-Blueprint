@@ -16,28 +16,31 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\Cell\ExactValue;
+use JBZoo\CsvBlueprint\Rules\Cell\IsSlug;
 use JBZoo\PHPUnit\Rules\TestAbstractCellRule;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class ExactValueTest extends TestAbstractCellRule
+final class IsSlugTest extends TestAbstractCellRule
 {
-    protected string $ruleClass = ExactValue::class;
+    protected string $ruleClass = IsSlug::class;
 
     public function testPositive(): void
     {
-        $rule = $this->create('123');
-        isSame('', $rule->test(''));
+        $rule = $this->create(true);
+        isSame('Value "" is not a valid slug. Expected format "my-slug-123"', $rule->test(''));
         isSame('', $rule->test('123'));
+
+        $rule = $this->create(false);
+        isSame(null, $rule->validate('Qwerty, asd 123'));
     }
 
     public function testNegative(): void
     {
-        $rule = $this->create('123');
+        $rule = $this->create(true);
         isSame(
-            'Value "2000-01-02" is not strict equal to "123"',
-            $rule->test('2000-01-02'),
+            'Value "Qwerty, asd 123" is not a valid slug. Expected format "my-slug-123"',
+            $rule->test('Qwerty, asd 123'),
         );
     }
 }
