@@ -300,19 +300,20 @@ final class Utils
 
         $versionFile = __DIR__ . '/../.version';
         if (!\file_exists($versionFile)) {
-            return 'unknown version';
+            return 'version file not found';
         }
 
-        $parts         = \array_filter(\explode("\n", (string)\file_get_contents($versionFile)));
+        $parts = \array_filter(\explode("\n", (string)\file_get_contents($versionFile)));
+
         $expectedParts = 5;
         if (\count($parts) < $expectedParts) {
-            return 'unknown version';
+            return 'invalid version file format';
         }
 
         [$tag, $isStable, $branch, $date, $hash] = $parts;
 
         $dateStr = (new \DateTimeImmutable($date))->format('d M Y H:i');
-        $tag     = 'v' . \trim($tag, 'v');
+        $tag     = 'v' . \ltrim($tag, 'v');
 
         if ($tagOnly) {
             return $tag;
