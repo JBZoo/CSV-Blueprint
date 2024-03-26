@@ -76,5 +76,12 @@ class IsSortedTest extends TestAbstractAggregateRule
             'Unknown sort method: "QQQQQQQ". Allowed: "natural", "regular", "numeric", "string"',
             $rule->test(['1', '11', '2', '20', '21']),
         );
+
+        $rule = $this->create(['']);
+        isSame(
+            'The rule expects exactly two params: ' .
+            'direction ["asc", "desc"] and method ["natural", "regular", "numeric", "string"]',
+            $rule->test(['1', '11', '2', '20', '21']),
+        );
     }
 }
