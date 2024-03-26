@@ -792,7 +792,7 @@ Default report format is `table`:
 ./csv-blueprint validate:csv --csv='./tests/fixtures/demo.csv' --schema='./tests/schemas/demo_invalid.yml'
 
 
-CSV Blueprint: unknown version (phpunit)
+CSV Blueprint: vX.Y.Z
 Found Schemas   : 1
 Found CSV files : 1
 Pairs by pattern: 1
