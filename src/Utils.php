@@ -295,19 +295,19 @@ final class Utils
     public static function getVersion(bool $tagOnly = false, bool $oneLine = false): string
     {
         if (self::isPhpUnit()) {
-            return 'unknown version (phpunit)';
+            return 'Unknown version (PhpUnit)';
         }
 
         $versionFile = __DIR__ . '/../.version';
         if (!\file_exists($versionFile)) {
-            return 'version file not found';
+            return 'Version file not found';
         }
 
         $parts = \array_filter(\explode("\n", (string)\file_get_contents($versionFile)));
 
         $expectedParts = 5;
         if (\count($parts) < $expectedParts) {
-            return 'invalid version file format';
+            return 'Invalid version file format';
         }
 
         [$tag, $isStable, $branch, $date, $hash] = $parts;
@@ -323,7 +323,7 @@ final class Utils
 
         if (!bool($isStable)) {
             $version[] = '<comment>Experimental!</comment>';
-            $version[] = "\nbranch: {$branch} ({$hash})";
+            $version[] = "\nBranch: {$branch} ({$hash})";
         }
 
         $result = \implode('  ', $version);

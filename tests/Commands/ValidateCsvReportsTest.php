@@ -27,7 +27,7 @@ final class ValidateCsvReportsTest extends TestCase
     public function testDefault(): void
     {
         $expected = <<<'TXT'
-            CSV Blueprint: unknown version (phpunit)
+            CSV Blueprint: Unknown version (PhpUnit)
             Found Schemas   : 1
             Found CSV files : 1
             Pairs by pattern: 1
@@ -80,7 +80,7 @@ final class ValidateCsvReportsTest extends TestCase
     public function testText(): void
     {
         $expected = <<<'TXT'
-            CSV Blueprint: unknown version (phpunit)
+            CSV Blueprint: Unknown version (PhpUnit)
             Found Schemas   : 1
             Found CSV files : 1
             Pairs by pattern: 1
@@ -122,7 +122,7 @@ final class ValidateCsvReportsTest extends TestCase
     public function testGithub(): void
     {
         $expected = <<<'TXT'
-            CSV Blueprint: unknown version (phpunit)
+            CSV Blueprint: Unknown version (PhpUnit)
             Found Schemas   : 1
             Found CSV files : 1
             Pairs by pattern: 1

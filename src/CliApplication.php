@@ -28,8 +28,8 @@ class CliApplication extends \JBZoo\Cli\CliApplication
 
     public function getLongVersion(): string
     {
-        $logo = \implode("\n", $this->appLogo);
+        $logo = '<info>' . \implode("</info>\n<info>", $this->appLogo) . '</info>';
 
-        return "<info>{$logo}</info>\n" . Utils::getVersion(false);
+        return "{$logo}</info>\n" . Utils::getVersion(false);
     }
 }
