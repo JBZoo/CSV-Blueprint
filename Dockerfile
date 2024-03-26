@@ -19,6 +19,7 @@ RUN install-php-extensions opcache @composer
 # Install application
 ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY . /app
+COPY ./.version /app/.version
 RUN cd /app                                         \
     && composer install --no-dev                    \
                         --classmap-authoritative    \

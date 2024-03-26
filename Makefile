@@ -52,6 +52,10 @@ build-version: ##@Project Save version info
 	$(eval SHORT_COMMIT_HASH := $(shell git rev-parse --short HEAD))
 	$(eval STABLE_FLAG := $(shell git diff --quiet $(TAG) HEAD -- && echo "true" || echo "false"))
 	@echo "$(TAG)\n$(STABLE_FLAG)\n$(BRANCH)\n$(LAST_COMMIT_DATE)\n$(SHORT_COMMIT_HASH)" > `pwd`/.version
+	@echo "Version info saved to `pwd`/.version"
+	@echo "----"
+	@cat `pwd`/.version
+	@echo "----"
 
 update: ##@Project Update dependencies
 	@echo "Composer flags: $(JBZOO_COMPOSER_UPDATE_FLAGS)"
