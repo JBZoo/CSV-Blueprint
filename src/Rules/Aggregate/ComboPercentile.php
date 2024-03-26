@@ -29,7 +29,7 @@ final class ComboPercentile extends AbstarctAggregateRuleCombo
 
     private const ARGS = 2;
     private const PERC = 0;
-    private const VAL  = 1;
+    private const VAL = 1;
 
     public function getHelpMeta(): array
     {

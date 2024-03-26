@@ -42,10 +42,13 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
         'github_stars'   => true,
         'github_actions' => true,
 
+        'github_latest_release' => true,
+
         'github_actions_demo'           => true,
         'github_actions_release_docker' => true,
 
-        'docker_pulls' => true,
+        'docker_pulls'      => true,
+        'docker_image_size' => true,
 
         'psalm_coverage' => true,
         'psalm_level'    => false,
@@ -60,20 +63,17 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
         'github_actions',
         'github_actions_demo',
         'github_actions_release_docker',
-        'docker_build',
-        'codecov',
         'coveralls',
         'psalm_coverage',
         'psalm_level',
         'codefactor',
-        'scrutinizer',
+        'github_license',
         '__BR__',
-        'packagist_latest_stable_version',
+        'github_latest_release',
         'packagist_downloads_total',
         'docker_pulls',
+        'docker_image_size',
         'packagist_dependents',
-        'visitors',
-        'github_license',
     ];
 
     protected function setUp(): void
@@ -121,6 +121,28 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
                 'Docker Pulls',
                 'https://img.shields.io/docker/pulls/__VENDOR__/__PACKAGE__.svg',
                 'https://hub.docker.com/r/__VENDOR__/__PACKAGE__/tags',
+            ),
+        );
+    }
+
+    protected function checkBadgeDockerImageSize(): ?string
+    {
+        return $this->getPreparedBadge(
+            $this->getBadge(
+                'Docker Image Size',
+                'https://img.shields.io/docker/image-size/jbzoo/csv-blueprint',
+                'https://hub.docker.com/r/__VENDOR__/__PACKAGE__/tags',
+            ),
+        );
+    }
+
+    protected function checkBadgeGithubLatestRelease(): ?string
+    {
+        return $this->getPreparedBadge(
+            $this->getBadge(
+                'GitHub Release',
+                'https://img.shields.io/github/v/release/jbzoo/csv-blueprint?label=Latest',
+                'https://github.com/__VENDOR__/__PACKAGE__/releases',
             ),
         );
     }

@@ -32,9 +32,9 @@ final class Utils
     public static function debug(int|string $message): void
     {
         if (\defined('PROFILE_MODE')) {
-            $memoryCur  = FS::format(\memory_get_usage(true), 0);
+            $memoryCur = FS::format(\memory_get_usage(true), 0);
             $memoryPeak = FS::format(\memory_get_peak_usage(true), 0);
-            $memory     = $memoryCur === $memoryPeak
+            $memory = $memoryCur === $memoryPeak
                 ? "<green>{$memoryCur}</green>"
                 : "<c>{$memoryCur} / {$memoryPeak}</c>";
 
@@ -177,7 +177,7 @@ final class Utils
 
             if (!self::matchTypes($expectedSchema[$key], $value)) {
                 $expectedType = \gettype($expectedSchema[$key]);
-                $actualType   = \gettype($value);
+                $actualType = \gettype($value);
 
                 $differences[$columnId . '/' . $curPath] = [
                     $columnId,
@@ -200,7 +200,7 @@ final class Utils
         null|array|bool|float|int|string $actual,
     ): bool {
         $expectedType = \gettype($expected);
-        $actualType   = \gettype($actual);
+        $actualType = \gettype($actual);
 
         $mapOfValidConvertions = [
             'NULL'    => [],
@@ -245,9 +245,9 @@ final class Utils
         array $schemaFiles,
         bool $useGlobalSchemas = true,
     ): array {
-        $csvs    = self::makeFileMap($csvFiles);
+        $csvs = self::makeFileMap($csvFiles);
         $schemas = self::makeFileMap($schemaFiles);
-        $result  = [
+        $result = [
             'found_pairs'    => [],
             'global_schemas' => [], // there is no filename_pattern in schema.
         ];
@@ -272,7 +272,7 @@ final class Utils
 
                     // Mark as used
                     $schemas[$schema] = true;
-                    $csvs[$csv]       = true;
+                    $csvs[$csv] = true;
                 }
             }
         }
@@ -285,14 +285,13 @@ final class Utils
 
     public static function printFile(string $fullpath): string
     {
-        $relPath   = self::cutPath($fullpath);
-        $basename  = \pathinfo($relPath, \PATHINFO_BASENAME);
+        $relPath = self::cutPath($fullpath);
+        $basename = \pathinfo($relPath, \PATHINFO_BASENAME);
         $directory = \str_replace($basename, '', $relPath);
-
         return "{$directory}<blue>{$basename}</blue>";
     }
 
-    public static function getVersion(bool $tagOnly = false, bool $oneLine = false): string
+    public static function getVersion(bool $showFull): string
     {
         if (self::isPhpUnit()) {
             return 'Unknown version (PhpUnit)';
@@ -304,18 +303,16 @@ final class Utils
         }
 
         $parts = \array_filter(\explode("\n", (string)\file_get_contents($versionFile)));
-
         $expectedParts = 5;
         if (\count($parts) < $expectedParts) {
             return 'Invalid version file format';
         }
 
         [$tag, $isStable, $branch, $date, $hash] = $parts;
-
         $dateStr = self::convertTzToUTC($date)->format('d M Y H:i \U\T\C');
-        $tag     = 'v' . \ltrim($tag, 'v');
+        $tag = 'v' . \ltrim($tag, 'v');
 
-        if ($tagOnly) {
+        if (!$showFull) {
             return $tag;
         }
 
@@ -327,12 +324,10 @@ final class Utils
             } else {
                 $version[] = '<comment>Experimental!</comment>';
             }
-            $version[] = "\nBranch: {$branch} ({$hash})";
+            $version[] = "Branch: {$branch} ({$hash})";
         }
 
-        $result = \implode('  ', $version);
-
-        return \trim($oneLine ? \str_replace("\n", ' ', $result) : $result);
+        return \implode('  ', $version);
     }
 
     /**

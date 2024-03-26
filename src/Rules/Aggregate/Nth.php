@@ -23,8 +23,8 @@ final class Nth extends AbstarctAggregateRule
     public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_STRINGS;
 
     private const ARGS = 2;
-    private const NTH  = 0;
-    private const VAL  = 1;
+    private const NTH = 0;
+    private const VAL = 1;
 
     public function getHelpMeta(): array
     {

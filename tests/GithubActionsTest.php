@@ -48,7 +48,7 @@ final class GithubActionsTest extends TestCase
 
     public function testGitHubActionsReadMe(): void
     {
-        $inputs   = yml(PROJECT_ROOT . '/action.yml')->findArray('inputs');
+        $inputs = yml(PROJECT_ROOT . '/action.yml')->findArray('inputs');
         $examples = [
             'csv'         => './tests/**/*.csv',
             'schema'      => './tests/**/*.yml',

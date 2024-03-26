@@ -21,7 +21,7 @@ final class ComboDate extends AbstractCellRuleCombo
     protected const NAME = 'date';
 
     private const OUTPUT_DATE_FORMAT = 'Y-m-d H:i:s P';
-    private const INVALID_TIMESTAMP  = -1;
+    private const INVALID_TIMESTAMP = -1;
 
     public function getHelpMeta(): array
     {

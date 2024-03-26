@@ -27,13 +27,13 @@ final class ComboQuartiles extends AbstarctAggregateRuleCombo
 
     protected const NAME = 'quartile';
 
-    private const TYPES   = ['0%', 'Q1', 'Q2', 'Q3', '100%', 'IQR'];
+    private const TYPES = ['0%', 'Q1', 'Q2', 'Q3', '100%', 'IQR'];
     private const METHODS = ['exclusive', 'inclusive'];
 
-    private const ARGS   = 3;
+    private const ARGS = 3;
     private const METHOD = 0;
-    private const TYPE   = 1;
-    private const VAL    = 2;
+    private const TYPE = 1;
+    private const VAL = 2;
 
     public function getHelpMeta(): array
     {
@@ -73,7 +73,7 @@ final class ComboQuartiles extends AbstarctAggregateRuleCombo
         }
 
         $method = $this->getMethod();
-        $type   = $this->getType();
+        $type = $this->getType();
         $result = Descriptive::quartiles(self::stringsToFloat($colValues), $method);
 
         return $result[$type];

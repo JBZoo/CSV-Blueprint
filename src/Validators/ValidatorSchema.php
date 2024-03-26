@@ -32,7 +32,7 @@ final class ValidatorSchema
     public function __construct(Schema $schema)
     {
         $this->filename = $schema->getFilename();
-        $this->data     = $schema->getData();
+        $this->data = $schema->getData();
         $this->isHeader = $schema->getCsvStructure()->isHeader();
     }
 
@@ -40,7 +40,7 @@ final class ValidatorSchema
     {
         Utils::debug('Start schema validation');
         [$expectedMeta, $expectedColumn] = self::getExpected();
-        [$actualMeta, $actualColumns]    = $this->getActual();
+        [$actualMeta, $actualColumns] = $this->getActual();
 
         $allErrors = new ErrorSuite($this->filename);
 
@@ -68,7 +68,7 @@ final class ValidatorSchema
     private function getActual(): array
     {
         $actualColumns = $this->data->findSelf('columns');
-        $actualMeta    = $this->data->remove('columns');
+        $actualMeta = $this->data->remove('columns');
 
         return [$actualMeta, $actualColumns];
     }
@@ -146,7 +146,7 @@ final class ValidatorSchema
         AbstractData $actualMeta,
         bool $quickStop = false,
     ): ErrorSuite {
-        $errors     = new ErrorSuite();
+        $errors = new ErrorSuite();
         $metaErrors = Utils::compareArray($expectedMeta, $actualMeta->getArrayCopy(), 'meta', '.');
 
         foreach ($metaErrors as $metaError) {
@@ -166,9 +166,9 @@ final class ValidatorSchema
             throw new Exception("Reference schema not found: {$referenceFile}");
         }
 
-        $expected       = phpArray($referenceFile);
+        $expected = phpArray($referenceFile);
         $expectedColumn = $expected->findArray('columns.0');
-        $expectedMeta   = $expected->remove('columns')->getArrayCopy();
+        $expectedMeta = $expected->remove('columns')->getArrayCopy();
 
         return [$expectedMeta, $expectedColumn];
     }

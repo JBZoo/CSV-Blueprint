@@ -51,7 +51,7 @@ final class ReadmeTest extends TestCase
             'csv'    => './tests/fixtures/demo.csv',
             'schema' => './tests/schemas/demo_invalid.yml',
         ];
-        $optionsAsString     = new StringInput(Cli::build('', $options));
+        $optionsAsString = new StringInput(Cli::build('', $options));
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $options);
 
         isSame(1, $exitCode, $actual);
@@ -72,12 +72,12 @@ final class ReadmeTest extends TestCase
 
     public function testBadgeOfRules(): void
     {
-        $cellRules  = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.rules'));
-        $aggRules   = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.aggregate_rules'));
+        $cellRules = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.rules'));
+        $aggRules = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.aggregate_rules'));
         $extraRules = \count(self::EXTRA_RULES);
         $totalRules = $cellRules + $aggRules + $extraRules;
 
-        $todoYml   = yml(Tools::SCHEMA_TODO);
+        $todoYml = yml(Tools::SCHEMA_TODO);
         $planToAdd = \count($todoYml->findArray('columns.0.rules')) +
             (\count($todoYml->findArray('columns.0.aggregate_rules')) * 6)
             + \count([
@@ -111,10 +111,10 @@ final class ReadmeTest extends TestCase
         };
 
         $text = \implode('    ', [
-            $badge('Total Number of Rules', $totalRules, 'schema-examples/full.yml', 'darkgreen'),
-            $badge('Cell Value', $cellRules, 'src/Rules/Cell', 'blue'),
-            $badge('Aggregate Column', $aggRules, 'src/Rules/Aggregate', 'blue'),
-            $badge('Extra Checks', $extraRules, '#extra-checks', 'blue'),
+            $badge('Total number of rules', $totalRules, 'schema-examples/full.yml', 'darkgreen'),
+            $badge('Cell rules', $cellRules, 'src/Rules/Cell', 'blue'),
+            $badge('Aggregate rules', $aggRules, 'src/Rules/Aggregate', 'blue'),
+            $badge('Extra checks', $extraRules, '#extra-checks', 'blue'),
             $badge('Plan to add', $planToAdd, 'tests/schemas/todo.yml', 'gray'),
         ]);
 
@@ -135,7 +135,7 @@ final class ReadmeTest extends TestCase
 
     public function testAdditionalValidationRules(): void
     {
-        $list   = self::EXTRA_RULES;
+        $list = self::EXTRA_RULES;
         $list[] = '';
 
         $text = \implode("\n", self::EXTRA_RULES);

@@ -37,7 +37,7 @@ final class IsUnique extends AbstarctAggregateRule
         }
 
         $uValuesCount = \count(\array_unique($columnValues));
-        $valuesCount  = \count($columnValues);
+        $valuesCount = \count($columnValues);
 
         if ($uValuesCount !== $valuesCount) {
             return 'Column has non-unique values. ' .

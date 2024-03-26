@@ -46,6 +46,7 @@
     "require-dev"       : {
         "roave/security-advisories" : "dev-latest",
         "jbzoo/toolbox-dev"         : "^7.1.0",
+        "jbzoo/codestyle"           : "^7.1.2",
         "fakerphp/faker"            : "^1.23.1"
     },
 

@@ -40,10 +40,10 @@ final class CsvFile
         }
 
         $this->csvFilename = $csvFilename;
-        $this->isEmpty     = \filesize($this->csvFilename) <= 1;
-        $this->schema      = new Schema($csvSchemaFilenameOrArray);
-        $this->structure   = $this->schema->getCsvStructure();
-        $this->reader      = $this->prepareReader();
+        $this->isEmpty = \filesize($this->csvFilename) <= 1;
+        $this->schema = new Schema($csvSchemaFilenameOrArray);
+        $this->structure = $this->schema->getCsvStructure();
+        $this->reader = $this->prepareReader();
     }
 
     public function getCsvFilename(): string

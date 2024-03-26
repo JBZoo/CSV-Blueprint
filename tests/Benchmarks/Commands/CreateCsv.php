@@ -56,11 +56,11 @@ final class CreateCsv extends CliCommand
     protected function executeAction(): int
     {
         $addHeader = $this->getOptBool('add-header');
-        $rows      = $this->getOptInt('rows');
-        $columns   = $this->getOptInt('columns');
+        $rows = $this->getOptInt('rows');
+        $columns = $this->getOptInt('columns');
 
         $outputFile = $this->getFilename();
-        $writer     = Writer::createFromPath($outputFile, 'w+');
+        $writer = Writer::createFromPath($outputFile, 'w+');
 
         if ($addHeader) {
             $writer->insertOne(\array_keys($this->getDatasetRow($columns)));
@@ -113,8 +113,8 @@ final class CreateCsv extends CliCommand
     private function getFilename(): string
     {
         $addHeader = $this->getOptBool('add-header');
-        $rows      = $this->getOptInt('rows');
-        $columns   = $this->getOptInt('columns');
+        $rows = $this->getOptInt('rows');
+        $columns = $this->getOptInt('columns');
 
         return $addHeader
             ? PATH_ROOT . "/build/bench/{$columns}_{$rows}_header.csv"
