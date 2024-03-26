@@ -16,10 +16,12 @@ FROM php:8.3-cli-alpine
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 RUN install-php-extensions opcache @composer
 
+
 # Install application
+# run `make build-version` before!
 ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY . /app
-COPY ./.version /app/.version
+COPY .version /app/
 RUN cd /app                                         \
     && composer install --no-dev                    \
                         --classmap-authoritative    \

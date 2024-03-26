@@ -53,9 +53,6 @@ build-version: ##@Project Save version info
 	$(eval STABLE_FLAG := $(shell git diff --quiet $(TAG) HEAD -- && echo "true" || echo "false"))
 	@echo "$(TAG)\n$(STABLE_FLAG)\n$(BRANCH)\n$(LAST_COMMIT_DATE)\n$(SHORT_COMMIT_HASH)" > `pwd`/.version
 	@echo "Version info saved to `pwd`/.version"
-	@echo "----"
-	@cat `pwd`/.version
-	@echo "----"
 
 update: ##@Project Update dependencies
 	@echo "Composer flags: $(JBZOO_COMPOSER_UPDATE_FLAGS)"
@@ -77,6 +74,7 @@ demo-github: ##@Demo Run demo invalid CSV for GitHub Actions
 # Docker ###############################################################################################################
 docker-build: ##@Docker (Re-)build Docker image
 	$(call title,"Building Docker Image")
+	@make build-version
 	@docker build -t $(DOCKER_IMAGE) .
 
 docker-demo: ##@Docker Run demo via Docker
