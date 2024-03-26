@@ -13,8 +13,10 @@
 name: Demo
 
 on:
-  release:
-    types: [ created ]
+  workflow_run:
+    workflows: [ "Publish Docker" ]
+    types:
+      - completed
 
 env:
   CSV_FILES: './tests/fixtures/batch/*.csv'
@@ -28,15 +30,6 @@ jobs:
     name: All Report Types
     runs-on: ubuntu-latest
     steps:
-      # Sleep for 15 minutes to wait for the Docker image to be built and pushed to the Docker Hub.
-      # This is a workaround for the Docker image not being available immediately after the release is created.
-      # I don't want to use a GA trigger to wait for the Docker image to be built and pushed to the Docker Hub,
-      # because in this case the name of the pipeline in the log will be "Demo", not the name of the tag.
-      # Usually it takes less than 12 minutes to build and push the Docker image.
-      # So 15 min - just in case.
-      - name: Wait for Docker image
-        run: sleep 900
-
       - name: Checkout code
         uses: actions/checkout@v4
 
