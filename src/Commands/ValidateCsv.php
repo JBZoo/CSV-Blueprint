@@ -107,6 +107,10 @@ final class ValidateCsv extends CliCommand
 
     protected function executeAction(): int
     {
+        if ($this->isHumanReadableMode()) {
+            $this->_('CSV Blueprint: ' . Utils::getVersion(false, true));
+        }
+
         if ($this->getOptBool('profile')) {
             \define('PROFILE_MODE', true);
         }

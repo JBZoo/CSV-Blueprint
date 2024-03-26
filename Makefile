@@ -27,25 +27,43 @@ VALID_SCHEMA    ?= --schema='./tests/schemas/demo_valid.yml'
 INVALID_CSV     ?= --csv='./tests/fixtures/batch/*.csv'
 INVALID_SCHEMA  ?= --schema='./tests/schemas/demo_invalid.yml'
 
+VERSION_FILE ?= "$(PATH_ROOT)/.version"
+
 # Build/install ########################################################################################################
 build: ##@Project Build project in development mode
 	@composer install --optimize-autoloader
 	@rm -f `pwd`/ci-report-converter
+	@make build-version
 
 build-prod: ##@Project Build project in production mode
 	@composer install --no-dev --classmap-authoritative
 	@rm -f `pwd`/ci-report-converter
+	@make build-version
 
 build-phar-file: ##@Project Build PHAR file
 	curl -L "https://github.com/box-project/box/releases/download/4.5.1/box.phar" -o ./build/box.phar
+	@make build-version
 	@php ./build/box.phar --version
 	@php ./build/box.phar compile -vv
 	@ls -lh ./build/csv-blueprint.phar
+
+build-version: ##@Project Save version info
+	$(eval TAG := $(shell git describe --tags --abbrev=0))
+	$(eval BRANCH := $(shell git rev-parse --abbrev-ref HEAD))
+	$(eval LAST_COMMIT_DATE := $(shell git log -1 --format=%cI))
+	$(eval SHORT_COMMIT_HASH := $(shell git rev-parse --short HEAD))
+	$(eval STABLE_FLAG := $(shell git diff --quiet $(TAG) HEAD -- && echo "true" || echo "false"))
+	@echo "$(TAG)\n$(STABLE_FLAG)\n$(BRANCH)\n$(LAST_COMMIT_DATE)\n$(SHORT_COMMIT_HASH)" > $(VERSION_FILE)
 
 update: ##@Project Update dependencies
 	@echo "Composer flags: $(JBZOO_COMPOSER_UPDATE_FLAGS)"
 	@composer update $(JBZOO_COMPOSER_UPDATE_FLAGS)
 
+
+print-version: ##@Project Print version info
+	@./csv-blueprint
+	@echo "------------------------------"
+	@./csv-blueprint --version
 
 # Demo #################################################################################################################
 demo: ##@Demo Run demo via PHP binary

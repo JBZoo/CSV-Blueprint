@@ -23,6 +23,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
 use function JBZoo\Cli\cli;
+use function JBZoo\Utils\bool;
 
 final class Utils
 {
@@ -291,6 +292,43 @@ final class Utils
         return "{$directory}<blue>{$basename}</blue>";
     }
 
+    public static function getVersion(bool $tagOnly = false, bool $oneLine = false): string
+    {
+        if (self::isPhpUnit()) {
+            return 'unknown version (phpunit)';
+        }
+
+        $versionFile = __DIR__ . '/../.version';
+        if (!\file_exists($versionFile)) {
+            return 'unknown version';
+        }
+
+        $parts = \array_filter(\explode("\n", \file_get_contents($versionFile)));
+        if (\count($parts) < 5) {
+            return 'unknown version';
+        }
+
+        [$tag, $isStable, $branch, $date, $hash] = $parts;
+
+        $dateStr = (new \DateTimeImmutable($date))->format('d M Y H:i');
+        $tag     = 'v' . \trim($tag, 'v');
+
+        if ($tagOnly) {
+            return $tag;
+        }
+
+        $version = ["<info>{$tag}</info>", $dateStr];
+
+        if (!bool($isStable)) {
+            $version[] = '<comment>Experimental!</comment>';
+            $version[] = "\nbranch: {$branch} ({$hash})";
+        }
+
+        $result = \implode('  ', $version);
+
+        return \trim($oneLine ? \str_replace("\n", ' ', $result) : $result);
+    }
+
     /**
      * @param SplFileInfo[] $files
      */
@@ -308,5 +346,10 @@ final class Utils
     private static function filterNotUsedFiles(array $files): array
     {
         return \array_keys(\array_filter($files, static fn ($value) => $value === false));
+    }
+
+    private static function isPhpUnit(): bool
+    {
+        return \defined('PHPUNIT_COMPOSER_INSTALL') || \defined('__PHPUNIT_PHAR__');
     }
 }
