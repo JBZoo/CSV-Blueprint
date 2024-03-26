@@ -16,28 +16,31 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-use JBZoo\Utils\Filter;
-
-final class IsAlias extends AbstractCellRule
+final class IsAngle extends IsFloat
 {
+    private float $min = 0.0;
+    private float $max = 360.0;
+
     public function getHelpMeta(): array
     {
         return [
             [],
             [
-                self::DEFAULT => [
-                    'true',
-                    'Only alias format. Example: "my-alias-123". It can contain letters, numbers, and dashes.',
-                ],
+                self::DEFAULT => ['true', 'Check if the cell value is a valid angle (0.0 to 360.0).'],
             ],
         ];
     }
 
     public function validateRule(string $cellValue): ?string
     {
-        $alias = Filter::alias($cellValue);
-        if ($cellValue !== $alias) {
-            return "Value \"<c>{$cellValue}</c>\" is not a valid alias. Expected \"<green>{$alias}</green>\".";
+        $result = parent::validateRule($cellValue);
+        if ($result !== null) {
+            return $result;
+        }
+
+        $angle = (float)$cellValue;
+        if ($angle < $this->min || $angle > $this->max) {
+            return "Value \"<c>{$cellValue}</c>\" is not a valid angle <green>({$this->min} to {$this->max})</green>";
         }
 
         return null;

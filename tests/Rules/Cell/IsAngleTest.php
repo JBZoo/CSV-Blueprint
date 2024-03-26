@@ -16,31 +16,41 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\Cell\IsAlias;
+use JBZoo\CsvBlueprint\Rules\Cell\IsAngle;
 use JBZoo\PHPUnit\Rules\TestAbstractCellRule;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class IsAliasTest extends TestAbstractCellRule
+final class IsAngleTest extends TestAbstractCellRule
 {
-    protected string $ruleClass = IsAlias::class;
+    protected string $ruleClass = IsAngle::class;
 
     public function testPositive(): void
     {
         $rule = $this->create(true);
-        isSame('', $rule->test(''));
-        isSame('', $rule->test('123'));
+        isSame('', $rule->test('0'));
+        isSame('', $rule->test('90'));
+        isSame('', $rule->test('360.0'));
+        isSame('', $rule->test('360'));
 
         $rule = $this->create(false);
-        isSame(null, $rule->validate('Qwerty, asd 123'));
+        isSame(null, $rule->validate('90.1.1.1.1'));
     }
 
     public function testNegative(): void
     {
         $rule = $this->create(true);
         isSame(
-            'Value "Qwerty, asd 123" is not a valid alias. Expected "qwerty-asd-123".',
-            $rule->test('Qwerty, asd 123'),
+            'Value "1230" is not a valid angle (0 to 360)',
+            $rule->test('1230'),
+        );
+        isSame(
+            'Value "-0.1" is not a valid angle (0 to 360)',
+            $rule->test('-0.1'),
+        );
+        isSame(
+            'Value "90.1.1.1.1" is not a float number',
+            $rule->test('90.1.1.1.1'),
         );
     }
 }

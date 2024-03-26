@@ -40,7 +40,7 @@ final class DateFormat extends AbstractCellRule
         $date = \DateTimeImmutable::createFromFormat($expectedDateFormat, $cellValue);
         if ($date === false || $date->format($expectedDateFormat) !== $cellValue) {
             return "Date format of value \"<c>{$cellValue}</c>\" is not valid. " .
-                "Expected format: \"<green>{$expectedDateFormat}<green>\"";
+                "Expected format: \"<green>{$expectedDateFormat}</green>\"";
         }
 
         return null;
