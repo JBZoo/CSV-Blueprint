@@ -34,6 +34,7 @@ final class IsTimeTest extends TestAbstractCellRule
         $seconds = ['00', '01', '59'];
 
         $rule = $this->create(true);
+        isSame('', $rule->test(''));
         foreach ($flags as $flag) {
             foreach ($hoursAm as $hour) {
                 foreach ($minutes as $minute) {
