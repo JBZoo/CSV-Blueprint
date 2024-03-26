@@ -40,7 +40,7 @@ class IsLeapYear extends AbstractCellRule
         }
 
         if (!Validator::leapYear()->validate($cellValue)) {
-            return "Cell value \"{$cellValue}\" should be a leap year";
+            return "Cell value \"<c>{$cellValue}</c>\" should be a leap year";
         }
 
         return null;
