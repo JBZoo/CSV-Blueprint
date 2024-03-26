@@ -111,10 +111,10 @@ final class ReadmeTest extends TestCase
         };
 
         $text = \implode('    ', [
-            $badge('Total Number of Rules', $totalRules, 'schema-examples/full.yml', 'darkgreen'),
-            $badge('Cell Value', $cellRules, 'src/Rules/Cell', 'blue'),
-            $badge('Aggregate Column', $aggRules, 'src/Rules/Aggregate', 'blue'),
-            $badge('Extra Checks', $extraRules, '#extra-checks', 'blue'),
+            $badge('Total number of rules', $totalRules, 'schema-examples/full.yml', 'darkgreen'),
+            $badge('Cell rules', $cellRules, 'src/Rules/Cell', 'blue'),
+            $badge('Aggregate rules', $aggRules, 'src/Rules/Aggregate', 'blue'),
+            $badge('Extra checks', $extraRules, '#extra-checks', 'blue'),
             $badge('Plan to add', $planToAdd, 'tests/schemas/todo.yml', 'gray'),
         ]);
 
