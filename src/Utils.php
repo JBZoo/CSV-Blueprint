@@ -312,7 +312,7 @@ final class Utils
 
         [$tag, $isStable, $branch, $date, $hash] = $parts;
 
-        $dateStr = (new \DateTimeImmutable($date))->format('d M Y H:i P');
+        $dateStr = self::convertTzToUTC($date)->format('d M Y H:i \U\T\C');
         $tag     = 'v' . \ltrim($tag, 'v');
 
         if ($tagOnly) {
@@ -353,5 +353,11 @@ final class Utils
     private static function isPhpUnit(): bool
     {
         return \defined('PHPUNIT_COMPOSER_INSTALL') || \defined('__PHPUNIT_PHAR__');
+    }
+
+    private static function convertTzToUTC(string $dateWithSourceTZ): \DateTime
+    {
+        return (new \DateTime($dateWithSourceTZ, new \DateTimeZone('UTC')))
+            ->setTimezone(new \DateTimeZone('UTC'));
     }
 }
