@@ -268,6 +268,14 @@ jobs:
         run: |
           ! $BLUEPRINT_DOCKER $CMD_VALIDATE $INVALID_TEST
 
+      - name: Push Docker Image (master)
+        uses: docker/build-push-action@v5
+        if: github.ref == 'refs/heads/master'
+        with:
+          context: .
+          puth: true
+          tags: jbzoo/csv-blueprint:master
+
 
   verify-ga:
     name: Verify GitHub Actions

@@ -36,6 +36,9 @@ jobs:
       - name: Build project in production mode
         run: make build-prod build-phar-file --no-print-directory
 
+      - name: 🎨 Test PHAR file
+        run: ./build/csv-blueprint.phar --ansi -vvv
+
       - name: Upload PHAR to the release
         uses: softprops/action-gh-release@v2
         with:
