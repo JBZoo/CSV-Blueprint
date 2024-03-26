@@ -254,6 +254,7 @@ jobs:
       - name: 🐳 Building Docker Image
         uses: docker/build-push-action@v5
         with:
+          context: .
           push: false
           tags: jbzoo/csv-blueprint:local
 
