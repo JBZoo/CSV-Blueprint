@@ -21,7 +21,7 @@ use JBZoo\PHPUnit\Rules\TestAbstractAggregateRule;
 
 use function JBZoo\PHPUnit\isSame;
 
-class SortedTest extends TestAbstractAggregateRule
+class IsSortedTest extends TestAbstractAggregateRule
 {
     protected string $ruleClass = IsSorted::class;
 
