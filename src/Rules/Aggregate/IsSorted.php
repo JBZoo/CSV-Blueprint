@@ -22,11 +22,11 @@ final class IsSorted extends AbstarctAggregateRule
 {
     public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_STRINGS;
 
-    private const ARGS   = 2;
-    private const DIR    = 0;
+    private const ARGS = 2;
+    private const DIR = 0;
     private const METHOD = 1;
 
-    private const DIRS    = ['asc', 'desc'];
+    private const DIRS = ['asc', 'desc'];
     private const METHODS = [
         'natural' => \SORT_NATURAL,
         'regular' => \SORT_REGULAR,
@@ -56,7 +56,7 @@ final class IsSorted extends AbstarctAggregateRule
         }
 
         try {
-            $dir    = $this->getDir();
+            $dir = $this->getDir();
             $method = $this->getMethod();
         } catch (\RuntimeException $e) {
             return $e->getMessage();

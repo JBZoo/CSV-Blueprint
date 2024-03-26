@@ -20,9 +20,10 @@ use JBZoo\Data\Data;
 
 final class ParseConfig
 {
-    public const ENCODING_UTF8    = 'utf-8';
-    public const ENCODING_UTF16   = 'utf-16';
-    public const ENCODING_UTF32   = 'utf-32';
+    public const ENCODING_UTF8 = 'utf-8';
+    public const ENCODING_UTF16 = 'utf-16';
+    public const ENCODING_UTF32 = 'utf-32';
+
     private const FALLBACK_VALUES = [
         'inherit'                => null,
         'bom'                    => false,

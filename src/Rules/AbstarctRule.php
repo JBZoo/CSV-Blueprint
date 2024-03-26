@@ -26,19 +26,19 @@ abstract class AbstarctRule
 {
     public const INPUT_TYPE = self::INPUT_TYPE_UNDEF;
 
-    public const INPUT_TYPE_BOOL    = 0;
-    public const INPUT_TYPE_INTS    = 1;
-    public const INPUT_TYPE_FLOATS  = 2;
+    public const INPUT_TYPE_BOOL = 0;
+    public const INPUT_TYPE_INTS = 1;
+    public const INPUT_TYPE_FLOATS = 2;
     public const INPUT_TYPE_STRINGS = 3;
-    public const INPUT_TYPE_UNDEF   = 4;
+    public const INPUT_TYPE_UNDEF = 4;
 
     // Modes
     public const DEFAULT = 'default';
-    public const EQ      = '';
-    public const NOT     = 'not';
-    public const MIN     = 'min';
-    public const MAX     = 'max';
-    public const LESS    = 'less';
+    public const EQ = '';
+    public const NOT = 'not';
+    public const MIN = 'min';
+    public const MAX = 'max';
+    public const LESS = 'less';
     public const GREATER = 'greater';
 
     protected string $columnNameId;
@@ -54,10 +54,10 @@ abstract class AbstarctRule
         null|array|bool|float|int|string $options,
         string $mode = self::DEFAULT,
     ) {
-        $this->mode         = $mode;
+        $this->mode = $mode;
         $this->columnNameId = $columnNameId;
-        $this->ruleCode     = $this->getRuleCode();
-        $this->options      = $options;
+        $this->ruleCode = $this->getRuleCode();
+        $this->options = $options;
         // TODO: Move resolving and validating expected value on this stage to make it only once (before validation).
     }
 

@@ -31,14 +31,14 @@ final class Ruleset
 
     public function __construct(array $rules, string $columnNameId)
     {
-        $this->rules        = [];
+        $this->rules = [];
         $this->columnNameId = $columnNameId;
 
         foreach ($rules as $ruleName => $options) {
             $rule = $this->ruleDiscovery((string)$ruleName, $options);
             if ($rule !== null) {
                 $this->rules[$ruleName] = $rule;
-                $this->intputTypes[]    = $rule->getInputType();
+                $this->intputTypes[] = $rule->getInputType();
             }
         }
     }
@@ -58,10 +58,10 @@ final class Ruleset
         string $origRuleName,
         null|array|bool|float|int|string $options = null,
     ): ?AbstarctRule {
-        $mode    = AbstractCellRuleCombo::parseMode($origRuleName);
+        $mode = AbstractCellRuleCombo::parseMode($origRuleName);
         $noCombo = \preg_replace("/(_{$mode})\$/", '', $origRuleName);
 
-        $origRuleClass  = Utils::kebabToCamelCase($origRuleName);
+        $origRuleClass = Utils::kebabToCamelCase($origRuleName);
         $comboRuleClass = Utils::kebabToCamelCase("combo_{$noCombo}");
 
         foreach (['Cell', 'Aggregate'] as $group) {

@@ -134,7 +134,7 @@ final class SchemaTest extends TestCase
     public function testGetColumnMinimal(): void
     {
         $schemaFull = new Schema(Tools::SCHEMA_FULL_YML);
-        $column     = $schemaFull->getColumn(0);
+        $column = $schemaFull->getColumn(0);
 
         isSame('Column Name (header)', $column->getName());
         isSame('Lorem ipsum', $column->getDescription());
@@ -151,7 +151,7 @@ final class SchemaTest extends TestCase
     public function testGetColumnProps(): void
     {
         $schemaFull = new Schema(Tools::SCHEMA_FULL_YML);
-        $column     = $schemaFull->getColumn(0);
+        $column = $schemaFull->getColumn(0);
 
         isSame('Column Name (header)', $column->getName());
         isSame('Lorem ipsum', $column->getDescription());

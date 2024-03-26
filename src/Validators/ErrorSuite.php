@@ -28,13 +28,13 @@ use Symfony\Component\Console\Output\BufferedOutput;
 
 final class ErrorSuite
 {
-    public const REPORT_TEXT     = 'text';
-    public const RENDER_TABLE    = 'table';
+    public const REPORT_TEXT = 'text';
+    public const RENDER_TABLE = 'table';
     public const REPORT_TEAMCITY = 'teamcity';
-    public const REPORT_GITLAB   = 'gitlab';
-    public const REPORT_GITHUB   = 'github';
-    public const REPORT_JUNIT    = 'junit';
-    public const REPORT_DEFAULT  = self::RENDER_TABLE;
+    public const REPORT_GITLAB = 'gitlab';
+    public const REPORT_GITHUB = 'github';
+    public const REPORT_JUNIT = 'junit';
+    public const REPORT_DEFAULT = self::RENDER_TABLE;
 
     /** @var Error[] */
     private array $errors = [];
@@ -58,7 +58,7 @@ final class ErrorSuite
         }
 
         $suite = $this->prepareSourceSuite();
-        $map   = [
+        $map = [
             self::REPORT_TEXT     => fn (): string => $this->renderPlainText(),
             self::RENDER_TABLE    => fn (): string => $this->renderTable(),
             self::REPORT_GITHUB   => static fn (): string => (new GithubCliConverter())->fromInternal($suite),
@@ -149,7 +149,7 @@ final class ErrorSuite
         $floatingSizes = self::getTableSize();
 
         $buffer = new BufferedOutput();
-        $table  = (new Table($buffer))
+        $table = (new Table($buffer))
             ->setHeaderTitle($this->getTestcaseName())
             ->setFooterTitle($this->getTestcaseName())
             ->setHeaders(['Line', 'id:Column', 'Rule', 'Message'])
@@ -177,10 +177,10 @@ final class ErrorSuite
         $suite = new SourceSuite($this->getTestcaseName());
 
         foreach ($this->errors as $error) {
-            $caseName     = $error->getRuleCode() . ' at column ' . $error->getColumnName();
-            $case         = $suite->addTestCase($caseName);
-            $case->line   = (int)$error->getLine();
-            $case->file   = $this->csvFilename;
+            $caseName = $error->getRuleCode() . ' at column ' . $error->getColumnName();
+            $case = $suite->addTestCase($caseName);
+            $case->line = (int)$error->getLine();
+            $case->file = $this->csvFilename;
             $case->errOut = $error->toCleanString();
         }
 

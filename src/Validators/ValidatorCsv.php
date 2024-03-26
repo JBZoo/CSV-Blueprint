@@ -29,7 +29,7 @@ final class ValidatorCsv
 
     public function __construct(CsvFile $csv, Schema $schema)
     {
-        $this->csv    = $csv;
+        $this->csv = $csv;
         $this->schema = $schema;
         $this->errors = new ErrorSuite($this->csv->getCsvFilename());
     }
@@ -105,7 +105,7 @@ final class ValidatorCsv
      */
     private function validateLines(bool $quickStop = false): ErrorSuite
     {
-        $errors      = new ErrorSuite();
+        $errors = new ErrorSuite();
         $realColumns = $this->schema->getColumnsMappedByHeader($this->csv->getHeader());
 
         foreach ($realColumns as $column) {
@@ -119,8 +119,8 @@ final class ValidatorCsv
 
             Utils::debug("<i>Col</i> validator created: {$column->getKey()}");
 
-            $isAggRules   = \count($column->getAggregateRules()) > 0;
-            $isRules      = \count($column->getRules()) > 0;
+            $isAggRules = \count($column->getAggregateRules()) > 0;
+            $isRules = \count($column->getRules()) > 0;
             $aggInputType = $isAggRules ? $colValidator->getAggregationInputType() : AbstarctRule::INPUT_TYPE_UNDEF;
             Utils::debug("<i>Col</i> Agg input type: {$aggInputType}");
 
@@ -200,7 +200,7 @@ final class ValidatorCsv
         $errors = new ErrorSuite();
 
         if ($this->schema->getCsvStructure()->isHeader()) {
-            $realColumns   = $this->schema->getColumnsMappedByHeader($this->csv->getHeader());
+            $realColumns = $this->schema->getColumnsMappedByHeader($this->csv->getHeader());
             $schemaColumns = $this->schema->getColumns();
 
             $notFoundColums = \array_diff(\array_keys($schemaColumns), \array_keys($realColumns));
@@ -220,7 +220,7 @@ final class ValidatorCsv
             }
         } else {
             $schemaColumns = \count($this->schema->getColumns());
-            $realColumns   = $this->csv->getRealColumNumber();
+            $realColumns = $this->csv->getRealColumNumber();
             if ($realColumns < $schemaColumns) {
                 $error = new Error(
                     'csv.header',

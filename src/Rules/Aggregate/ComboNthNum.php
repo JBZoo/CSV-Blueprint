@@ -27,8 +27,8 @@ final class ComboNthNum extends AbstarctAggregateRuleCombo
     protected const NAME = 'N-th value';
 
     private const ARGS = 2;
-    private const NTH  = 0;
-    private const VAL  = 1;
+    private const NTH = 0;
+    private const VAL = 1;
 
     public function getHelpMeta(): array
     {
@@ -64,7 +64,7 @@ final class ComboNthNum extends AbstarctAggregateRuleCombo
 
         $realLine = (int)$this->getParams()[self::NTH];
         $arrayInd = $realLine - 1;
-        $actual   = $colValues[$arrayInd] ?? null;
+        $actual = $colValues[$arrayInd] ?? null;
 
         if ($actual === null) {
             throw new \RuntimeException(

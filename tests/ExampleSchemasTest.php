@@ -48,7 +48,7 @@ final class ExampleSchemasTest extends TestCase
             }
 
             if (\str_contains($ruleName, 'combo_')) {
-                $ruleName      = \str_replace('combo_', '', $ruleName);
+                $ruleName = \str_replace('combo_', '', $ruleName);
                 $rulesInCode[] = $ruleName;
                 $rulesInCode[] = "{$ruleName}_min";
                 $rulesInCode[] = "{$ruleName}_greater";
@@ -95,7 +95,7 @@ final class ExampleSchemasTest extends TestCase
     public function testCheckPhpExample(): void
     {
         $basepath = PROJECT_ROOT . '/schema-examples/full';
-        $origYml  = yml(Tools::SCHEMA_FULL_YML)->getArrayCopy();
+        $origYml = yml(Tools::SCHEMA_FULL_YML)->getArrayCopy();
 
         isSame((string)phpArray(Tools::SCHEMA_FULL_PHP), (string)phpArray($origYml), 'PHP config');
     }
@@ -103,7 +103,7 @@ final class ExampleSchemasTest extends TestCase
     public function testCheckYmlCleanExample(): void
     {
         $basepath = PROJECT_ROOT . '/schema-examples/full';
-        $origYml  = yml(Tools::SCHEMA_FULL_YML)->getArrayCopy();
+        $origYml = yml(Tools::SCHEMA_FULL_YML)->getArrayCopy();
 
         isSame((string)yml(Tools::SCHEMA_FULL_YML_CLEAN), (string)yml($origYml), 'Yml (clean) config');
     }
@@ -111,7 +111,7 @@ final class ExampleSchemasTest extends TestCase
     public function testCheckJsonExample(): void
     {
         $basepath = PROJECT_ROOT . '/schema-examples/full';
-        $origYml  = yml(Tools::SCHEMA_FULL_YML)->getArrayCopy();
+        $origYml = yml(Tools::SCHEMA_FULL_YML)->getArrayCopy();
 
         isSame((string)json(Tools::SCHEMA_FULL_JSON), (string)json($origYml), 'JSON config');
     }
@@ -120,8 +120,8 @@ final class ExampleSchemasTest extends TestCase
     {
         $yml = yml(Tools::SCHEMA_FULL_YML);
 
-        $rules     = \array_keys($yml->findArray('columns.0.rules'));
-        $agRules   = \array_keys($yml->findArray('columns.0.aggregate_rules'));
+        $rules = \array_keys($yml->findArray('columns.0.rules'));
+        $agRules = \array_keys($yml->findArray('columns.0.aggregate_rules'));
         $notUnique = \array_intersect($rules, $agRules);
 
         isSame([], $notUnique, 'Rules names should be unique: ' . \implode(', ', $notUnique));

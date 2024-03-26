@@ -82,8 +82,8 @@ abstract class AbstarctRuleCombo extends AbstarctRule
         // making it a practical approach to handle the imprecision and ensure more reliable equality checks.
         // Since PHP's default precision is 12 digits, we chose 10 digits to be more confident.
         $precision = 10;
-        $expected  = \round($expected, $precision);
-        $actual    = \round($actual, $precision);
+        $expected = \round($expected, $precision);
+        $actual = \round($actual, $precision);
 
         return match ($mode) {
             self::MIN     => $expected <= $actual,

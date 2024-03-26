@@ -26,8 +26,8 @@ $config = ClassLoader::getIncludes(function (ClassLoader $loader): void {
     $loader->register();
 
     $command = (new CliApplication())->add(new ValidateCsv());
-    $buffer  = new BufferedOutput();
-    $args    = new StringInput(Cli::build('', [
+    $buffer = new BufferedOutput();
+    $args = new StringInput(Cli::build('', [
         'csv'    => './tests/fixtures/*.csv',
         'schema' => './tests/schemas/*.yml',
     ]));

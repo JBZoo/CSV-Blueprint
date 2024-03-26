@@ -39,15 +39,15 @@ final class Schema
     {
         if (\is_array($csvSchemaFilenameOrArray)) {
             $this->filename = '_custom_array_';
-            $this->data     = new Data($csvSchemaFilenameOrArray);
+            $this->data = new Data($csvSchemaFilenameOrArray);
         } elseif (
             \is_string($csvSchemaFilenameOrArray)
             && $csvSchemaFilenameOrArray !== ''
             && \file_exists($csvSchemaFilenameOrArray)
         ) {
             $this->filename = $csvSchemaFilenameOrArray;
-            $this->data     = new Data();
-            $fileExtension  = \pathinfo($csvSchemaFilenameOrArray, \PATHINFO_EXTENSION);
+            $this->data = new Data();
+            $fileExtension = \pathinfo($csvSchemaFilenameOrArray, \PATHINFO_EXTENSION);
 
             if ($fileExtension === 'yml' || $fileExtension === 'yaml') {
                 $this->data = yml($csvSchemaFilenameOrArray);
@@ -62,7 +62,7 @@ final class Schema
             throw new \InvalidArgumentException("Invalid schema data: {$csvSchemaFilenameOrArray}");
         } else {
             $this->filename = null;
-            $this->data     = new Data();
+            $this->data = new Data();
         }
 
         $this->columns = $this->prepareColumns();
@@ -133,7 +133,7 @@ final class Schema
             [$schemaPath, $alias] = \explode(' as ', $includedPath);
 
             $schemaPath = \trim($schemaPath);
-            $alias      = \trim($alias);
+            $alias = \trim($alias);
 
             $result[$alias] = $schemaPath;
         }

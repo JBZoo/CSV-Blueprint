@@ -166,7 +166,7 @@ final class ValidateCsvBasicTest extends TestCase
             'csv'    => './tests/fixtures/demo.csv',
             'schema' => Tools::SCHEMA_INVALID,
         ];
-        $optionsAsString     = new StringInput(Cli::build('', $options));
+        $optionsAsString = new StringInput(Cli::build('', $options));
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $options);
 
         $expected = <<<'TXT'
@@ -216,7 +216,7 @@ final class ValidateCsvBasicTest extends TestCase
             'csv'    => './tests/fixtures/no-found-file.csv',
             'schema' => Tools::SCHEMA_INVALID,
         ];
-        $optionsAsString     = new StringInput(Cli::build('', $options));
+        $optionsAsString = new StringInput(Cli::build('', $options));
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $options);
 
         $expected = <<<'TXT'

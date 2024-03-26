@@ -49,8 +49,8 @@ abstract class AbstarctAggregateRuleCombo extends AbstarctRuleCombo
     protected function validateComboAggregate(array $colValues, string $mode): ?string
     {
         $prefix = $mode === self::NOT ? 'not ' : '';
-        $verb   = static::VERBS[$mode];
-        $name   = static::NAME;
+        $verb = static::VERBS[$mode];
+        $name = static::NAME;
 
         try {
             $actual = $this->getActualAggregate($colValues); // Important to use the original method here!

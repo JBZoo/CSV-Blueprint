@@ -89,7 +89,7 @@ final class DocBuilder
                 : self::HELP_COMBO_FLOAT;
         }
 
-        $this->ymlRuleCode      = self::getYmlRuleCode($rule->getRuleCode());
+        $this->ymlRuleCode = self::getYmlRuleCode($rule->getRuleCode());
         $this->ymlRuleCodeClean = self::getYmlRuleCodeClean($rule->getRuleCode());
     }
 

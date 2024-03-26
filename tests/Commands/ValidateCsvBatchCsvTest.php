@@ -80,7 +80,7 @@ final class ValidateCsvBatchCsvTest extends TestCase
             'csv'    => './tests/fixtures/batch/*.csv',
             'schema' => Tools::DEMO_YML_INVALID,
         ];
-        $optionsAsString     = new StringInput(Cli::build('', $options));
+        $optionsAsString = new StringInput(Cli::build('', $options));
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $options);
 
         $expected = <<<'TXT'
@@ -176,7 +176,7 @@ final class ValidateCsvBatchCsvTest extends TestCase
         );
 
         // Remove version
-        $actual   = \preg_replace('/^.+\n/', '', $actual);
+        $actual = \preg_replace('/^.+\n/', '', $actual);
         $expected = \preg_replace('/^.+\n/', '', $expected);
 
         isNotEmpty($expected);

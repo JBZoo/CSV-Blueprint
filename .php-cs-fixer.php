@@ -23,4 +23,17 @@ return (new PhpCsFixerCodingStandard(__DIR__))->getFixerConfig(null, [
             '=>' => 'align_single_space_minimal',
         ],
     ],
+    'blank_line_before_statement' => [
+        'statements' => [
+            'case',
+            'default',
+            'declare',
+            'do',
+            'for',
+            'switch',
+            'try',
+            'while',
+            'phpdoc',
+        ],
+    ],
 ]);

@@ -51,7 +51,7 @@ final class ReadmeTest extends TestCase
             'csv'    => './tests/fixtures/demo.csv',
             'schema' => './tests/schemas/demo_invalid.yml',
         ];
-        $optionsAsString     = new StringInput(Cli::build('', $options));
+        $optionsAsString = new StringInput(Cli::build('', $options));
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $options);
 
         isSame(1, $exitCode, $actual);
@@ -72,12 +72,12 @@ final class ReadmeTest extends TestCase
 
     public function testBadgeOfRules(): void
     {
-        $cellRules  = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.rules'));
-        $aggRules   = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.aggregate_rules'));
+        $cellRules = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.rules'));
+        $aggRules = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.aggregate_rules'));
         $extraRules = \count(self::EXTRA_RULES);
         $totalRules = $cellRules + $aggRules + $extraRules;
 
-        $todoYml   = yml(Tools::SCHEMA_TODO);
+        $todoYml = yml(Tools::SCHEMA_TODO);
         $planToAdd = \count($todoYml->findArray('columns.0.rules')) +
             (\count($todoYml->findArray('columns.0.aggregate_rules')) * 6)
             + \count([
@@ -135,7 +135,7 @@ final class ReadmeTest extends TestCase
 
     public function testAdditionalValidationRules(): void
     {
-        $list   = self::EXTRA_RULES;
+        $list = self::EXTRA_RULES;
         $list[] = '';
 
         $text = \implode("\n", self::EXTRA_RULES);

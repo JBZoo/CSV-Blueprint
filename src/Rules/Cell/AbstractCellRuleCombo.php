@@ -59,10 +59,10 @@ abstract class AbstractCellRuleCombo extends AbstarctRuleCombo
     private function getErrorMessage(string $cellValue, string $mode): string
     {
         $prefix = $mode === self::NOT ? 'not ' : '';
-        $verb   = self::VERBS[$mode];
-        $name   = static::NAME;
+        $verb = self::VERBS[$mode];
+        $name = static::NAME;
 
-        $currentStr  = $this->getCurrentStr($cellValue);
+        $currentStr = $this->getCurrentStr($cellValue);
         $expectedStr = $this->getExpectedStr();
 
         if ($currentStr !== '') {

@@ -42,9 +42,9 @@ final class Column
 
     public function __construct(int $id, array $config)
     {
-        $this->id       = $id;
-        $this->column   = new Data($config);
-        $this->rules    = $this->prepareRuleSet('rules');
+        $this->id = $id;
+        $this->column = new Data($config);
+        $this->rules = $this->prepareRuleSet('rules');
         $this->aggRules = $this->prepareRuleSet('aggregate_rules');
     }
 

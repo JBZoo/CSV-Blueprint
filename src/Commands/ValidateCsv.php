@@ -108,16 +108,16 @@ final class ValidateCsv extends CliCommand
     protected function executeAction(): int
     {
         if ($this->isHumanReadableMode()) {
-            $this->_('CSV Blueprint: ' . Utils::getVersion(false, true));
+            $this->_('CSV Blueprint: ' . Utils::getVersion(true));
         }
 
         if ($this->getOptBool('profile')) {
             \define('PROFILE_MODE', true);
         }
 
-        $csvFilenames    = $this->getCsvFilepaths();
+        $csvFilenames = $this->getCsvFilepaths();
         $schemaFilenames = $this->getSchemaFilepaths();
-        $matchedFiles    = Utils::matchSchemaAndCsvFiles($csvFilenames, $schemaFilenames);
+        $matchedFiles = Utils::matchSchemaAndCsvFiles($csvFilenames, $schemaFilenames);
 
         $this->printHeaderInfo($csvFilenames, $schemaFilenames, $matchedFiles);
 
@@ -188,7 +188,7 @@ final class ValidateCsv extends CliCommand
         $totalSchemaErrors = new ErrorSuite();
 
         $schemaErrors = null;
-        $quickCheck   = $this->isQuickMode();
+        $quickCheck = $this->isQuickMode();
 
         if ($this->isCheckingSchema()) {
             $totalFiles = \count($schemaFilenames);
@@ -197,7 +197,7 @@ final class ValidateCsv extends CliCommand
 
             foreach ($schemaFilenames as $index => $schemaFilename) {
                 $prefix = '(' . ((int)$index + 1) . "/{$totalFiles})";
-                $path   = Utils::printFile($schemaFilename->getPathname());
+                $path = Utils::printFile($schemaFilename->getPathname());
 
                 if ($quickCheck && $schemaErrors !== null && $schemaErrors->count() > 0) {
                     $this->out("{$prefix} <yellow>Skipped (Quick mode)</yellow>");
@@ -232,11 +232,11 @@ final class ValidateCsv extends CliCommand
 
     private function validateCsvFiles(array $matchedFiles): array
     {
-        $totalFiles   = \count($matchedFiles['found_pairs']);
+        $totalFiles = \count($matchedFiles['found_pairs']);
         $invalidFiles = 0;
         $errorCounter = 0;
-        $errorSuite   = null;
-        $quickCheck   = $this->isQuickMode();
+        $errorSuite = null;
+        $quickCheck = $this->isQuickMode();
 
         $this->out("CSV file validation: {$totalFiles}");
 
@@ -255,7 +255,7 @@ final class ValidateCsv extends CliCommand
                 continue;
             }
 
-            $csvFile    = new CsvFile($csv, $schema);
+            $csvFile = new CsvFile($csv, $schema);
             $errorSuite = $csvFile->validate($quickCheck);
 
             if ($errorSuite->count() > 0) {

@@ -32,7 +32,7 @@ final class ValidatorColumn
     public function __construct(Column $column)
     {
         $this->cellRuleset = new Ruleset($column->getRules(), $column->getHumanName());
-        $this->aggRuleset  = new Ruleset($column->getAggregateRules(), $column->getHumanName());
+        $this->aggRuleset = new Ruleset($column->getAggregateRules(), $column->getHumanName());
     }
 
     public function validateCell(string $cellValue, int $line): ErrorSuite

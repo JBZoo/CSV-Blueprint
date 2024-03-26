@@ -30,6 +30,6 @@ class CliApplication extends \JBZoo\Cli\CliApplication
     {
         $logo = '<info>' . \implode("</info>\n<info>", $this->appLogo) . '</info>';
 
-        return "{$logo}\n" . Utils::getVersion(false);
+        return "{$logo}\n" . Utils::getVersion(true);
     }
 }
