@@ -112,9 +112,10 @@ columns:
       is_email: true
       is_domain: true
       is_uuid: true
-      is_alias: true
+      is_slug: true
       is_currency_code: true
       is_base64: true
+      is_angle: true
       is_json: true
       is_latitude: true
       is_longitude: true

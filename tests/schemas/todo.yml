@@ -40,8 +40,6 @@ columns:
 
     rules:
       # https://github.com/Respect/Validation/blob/main/docs/08-list-of-rules-by-category.md
-      is_credit_card: brands[]        # https://github.com/Respect/Validation/blob/main/docs/rules/CreditCard.md
-      is_iban: true
       is_bool_value: true             # https://github.com/Respect/Validation/blob/main/docs/rules/BoolVal.md
 
       # Dates
@@ -66,6 +64,8 @@ columns:
       subdivision_code: [ ]           # https://github.com/Respect/Validation/blob/main/docs/rules/SubdivisionCode.md
 
       # ids
+      is_credit_card: brands[]        # https://github.com/Respect/Validation/blob/main/docs/rules/CreditCard.md
+      is_iban: true
       postal_code: country code       # https://github.com/Respect/Validation/blob/main/docs/rules/PostalCode.md
       is_bsn: true
       is_cnh: true
@@ -194,15 +194,14 @@ columns:
       # Math
       is_fibonacci: true
       is_prime_number: true
-      is_positive: true
-      is_negative: true
-      is_zero: true
       is_digit: true
       is_digits: true
       is_even: true
       is_odd: true
       is_roman: true
       is_perfect_square: true
+
+      # Strings
       is_alnum: true
       is_alpha: true
       is_charset: true
@@ -210,22 +209,18 @@ columns:
       no_whitespace: true
       is_phone: true
       is_punct: true
-      is_slug: true
-      is_space(s): true
+      is_spaces: true
+      is_space: true
       is_regex: true
       is_version: true
       is_vowel: true
       is_consonant: true
       is_xdigit: true
-      is_angle:                       # 0.0-360.0
 
       custom_func: callbak function
 
 
     aggregate_rules:
-      count_true: 1
-      count_false: 1
-
       # https://github.com/markrogoyski/math-php#statistics---averages
       truncated_mean: [ 1, 25 ]      # 25 percent of observations trimmed from each end of distribution
       generalized_mean: [ 1, 2 ]     # p-power mean

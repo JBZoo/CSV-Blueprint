@@ -16,27 +16,27 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class ExactValue extends AbstractCellRule
+use Respect\Validation\Validator;
+
+final class IsSlug extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {
         return [
             [],
             [
-                self::DEFAULT => ['Some string', 'Exact value for string in the column.'],
+                self::DEFAULT => [
+                    'true',
+                    'Only slug format. Example: "my-slug-123". It can contain letters, numbers, and dashes.',
+                ],
             ],
         ];
     }
 
     public function validateRule(string $cellValue): ?string
     {
-        if ($cellValue === '') {
-            return null;
-        }
-
-        if ($this->getOptionAsString() !== $cellValue) {
-            return "Value \"<c>{$cellValue}</c>\" is not strict equal to " .
-                "\"<green>{$this->getOptionAsString()}</green>\"";
+        if (!Validator::slug()->validate($cellValue)) {
+            return "Value \"{$cellValue}\" is not a valid slug. Expected format \"<green>my-slug-123</green>\"";
         }
 
         return null;
