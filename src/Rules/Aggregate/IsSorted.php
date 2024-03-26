@@ -109,8 +109,8 @@ final class IsSorted extends AbstarctAggregateRule
         $params = $this->getOptionAsArray();
         if (\count($params) !== self::ARGS) {
             throw new \RuntimeException(
-                'The rule expects exactly three params: ' .
-                'method (exclusive, inclusive), type (0%, Q1, Q2, Q3, 100%, IQR), expected value (float)',
+                'The rule expects exactly two params: ' .
+                'direction ["asc", "desc"] and method ["natural", "regular", "numeric", "string"]',
             );
         }
 
