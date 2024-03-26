@@ -23,13 +23,13 @@ class CliApplication extends \JBZoo\Cli\CliApplication
         ' / ___/ __/ | / /  / _ )/ /_ _____ ___  ____(_)__  / /_',
         '/ /___\ \ | |/ /  / _  / / // / -_) _ \/ __/ / _ \/ __/',
         '\___/___/ |___/  /____/_/\_,_/\__/ .__/_/ /_/_//_/\__/ ',
-        '                               /_/                    ',
+        '                                /_/                    ',
     ];
 
     public function getLongVersion(): string
     {
         $logo = '<info>' . \implode("</info>\n<info>", $this->appLogo) . '</info>';
 
-        return "{$logo}</info>\n" . Utils::getVersion(false);
+        return "{$logo}\n" . Utils::getVersion(false);
     }
 }
