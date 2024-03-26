@@ -288,7 +288,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
 
       - name: 👍 Valid CSV files
-        uses: jbzoo/csv-blueprint@0
+        uses: jbzoo/csv-blueprint@v0
         with:
           csv: ./tests/fixtures/batch/*.csv
           schema: ./tests/schemas/demo_valid.yml
