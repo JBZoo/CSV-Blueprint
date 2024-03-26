@@ -322,7 +322,7 @@ final class Utils
         $version = ["<info>{$tag}</info>", $dateStr];
 
         if (!bool($isStable)) {
-            $version[] = '<comment>Experimental!</comment>';
+            $version[] = "<comment>Experimental!</comment>";
             $version[] = "\nbranch: {$branch} ({$hash})";
         }
 

@@ -52,17 +52,11 @@ build-version: ##@Project Save version info
 	$(eval SHORT_COMMIT_HASH := $(shell git rev-parse --short HEAD))
 	$(eval STABLE_FLAG := $(shell git diff --quiet $(TAG) HEAD -- && echo "true" || echo "false"))
 	@echo "$(TAG)\n$(STABLE_FLAG)\n$(BRANCH)\n$(LAST_COMMIT_DATE)\n$(SHORT_COMMIT_HASH)" > `pwd`/.version
-	@cat `pwd`/.version
 
 update: ##@Project Update dependencies
 	@echo "Composer flags: $(JBZOO_COMPOSER_UPDATE_FLAGS)"
 	@composer update $(JBZOO_COMPOSER_UPDATE_FLAGS)
 
-
-print-version: ##@Project Print version info
-	@./csv-blueprint
-	@echo "------------------------------"
-	@./csv-blueprint --version
 
 # Demo #################################################################################################################
 demo: ##@Demo Run demo via PHP binary
