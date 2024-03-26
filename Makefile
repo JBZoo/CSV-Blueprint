@@ -34,7 +34,7 @@ build: ##@Project Build project in development mode
 	@make build-version
 
 build-prod: ##@Project Build project in production mode
-	@composer install --no-dev --classmap-authoritative
+	@composer install --no-dev --classmap-authoritative --no-progress --no-suggest --optimize-autoloader
 	@rm -f `pwd`/ci-report-converter
 	@make build-version
 

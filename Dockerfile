@@ -23,8 +23,11 @@ RUN cd /app                                         \
     && composer install --no-dev                    \
                         --classmap-authoritative    \
                         --no-progress               \
+                        --no-suggest                \
+                        --optimize-autoloader       \
     && composer clear-cache                         \
     && chmod +x /app/csv-blueprint
+
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY ./docker/php.ini /usr/local/etc/php/conf.d/docker-z99-php.ini
