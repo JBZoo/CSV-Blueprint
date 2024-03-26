@@ -27,8 +27,6 @@ VALID_SCHEMA    ?= --schema='./tests/schemas/demo_valid.yml'
 INVALID_CSV     ?= --csv='./tests/fixtures/batch/*.csv'
 INVALID_SCHEMA  ?= --schema='./tests/schemas/demo_invalid.yml'
 
-VERSION_FILE ?= ./.version
-
 # Build/install ########################################################################################################
 build: ##@Project Build project in development mode
 	@composer install --optimize-autoloader
@@ -53,7 +51,8 @@ build-version: ##@Project Save version info
 	$(eval LAST_COMMIT_DATE := $(shell git log -1 --format=%cI))
 	$(eval SHORT_COMMIT_HASH := $(shell git rev-parse --short HEAD))
 	$(eval STABLE_FLAG := $(shell git diff --quiet $(TAG) HEAD -- && echo "true" || echo "false"))
-	@echo "$(TAG)\n$(STABLE_FLAG)\n$(BRANCH)\n$(LAST_COMMIT_DATE)\n$(SHORT_COMMIT_HASH)" > $(VERSION_FILE)
+	@echo "$(TAG)\n$(STABLE_FLAG)\n$(BRANCH)\n$(LAST_COMMIT_DATE)\n$(SHORT_COMMIT_HASH)" > `pwd`/.version
+	@cat `pwd`/.version
 
 update: ##@Project Update dependencies
 	@echo "Composer flags: $(JBZOO_COMPOSER_UPDATE_FLAGS)"
