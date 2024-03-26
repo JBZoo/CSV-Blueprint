@@ -190,6 +190,12 @@ columns:
     aggregate_rules:
       is_unique: true                   # All values in the column are unique.
 
+      # Check if the column is sorted in a specific order.
+      #  - Direction: "asc", "desc".
+      #  - Method: "natural", "regular", "numeric", "string".
+      # See: https://www.php.net/manual/en/function.sort.php
+      is_sorted: [ asc, natural ]       # Expected ascending order, natural sorting.
+
       # First number in the column. Expected value is float or integer.
       first_num_min: 1.0                # x >= 1.0
       first_num_greater: 2.0            # x >  2.0
