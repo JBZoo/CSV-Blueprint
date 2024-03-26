@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit;
 
 use JBZoo\CsvBlueprint\Utils;
+use JBZoo\Utils\FS;
 use Symfony\Component\Finder\SplFileInfo;
 
 final class UtilsTest extends TestCase
@@ -100,6 +101,68 @@ final class UtilsTest extends TestCase
     public function testFindFilesNotFound(): void
     {
         isSame([], $this->getFileName(Utils::findFiles(['demo.csv'])));
+    }
+
+    public function testColorsTags(): void
+    {
+        $packs = [
+            FS::ls(PROJECT_ROOT . '/src'),
+            FS::ls(PROJECT_ROOT . '/tests'),
+            [PROJECT_ROOT . '/README.md'],
+        ];
+
+        $tags = \explode(
+            '|',
+            '|i|c|q|e' .
+            '|comment|info|error|question' .
+            '|black|red|green|yellow|blue|magenta|cyan|white|default' .
+            '|bl|b|u|r|bg',
+        );
+
+        foreach ($packs as $files) {
+            foreach ($files as $filepath) {
+                foreach ($tags as $tag) {
+                    $source = \file_get_contents($filepath);
+                    $open = \substr_count($source, "<{$tag}>");
+                    $close = \substr_count($source, "</{$tag}>");
+                    isTrue($open === $close, "Tag: \"{$tag}\"; Open({$open}) != close({$close}) in file: {$filepath}");
+                }
+            }
+        }
+    }
+
+    public function testColorOfCellValue(): void
+    {
+        $packs = [
+            FS::ls(PROJECT_ROOT . '/src/Rules/Aggregate'),
+            FS::ls(PROJECT_ROOT . '/src/Rules/Cell'),
+        ];
+
+        $exclude = [
+            'Abstract',
+            'Aggregate/Combo',
+            'Cell/Combo',
+            'IsSorted',
+            'IsBase64',
+            'IsBool',
+            'IsCardinalDirection',
+            'IsUnique',
+            'NotEmpty',
+        ];
+
+        foreach ($packs as $files) {
+            foreach ($files as $filepath) {
+                foreach ($exclude as $excludeItem) {
+                    if (\str_contains($filepath, $excludeItem)) {
+                        continue 2;
+                    }
+                }
+
+                $source = \file_get_contents($filepath);
+                isTrue(\str_contains($source, '\"<c>'), 'Coloring is not found in file: ' . $filepath);
+                isTrue(\str_contains($source, '</c>\"'), 'Coloring is not found in file: ' . $filepath);
+            }
+        }
     }
 
     /**

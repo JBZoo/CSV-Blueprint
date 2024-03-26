@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 use Respect\Validation\Validator;
 
-final class IsSlug extends AbstractCellRule
+class IsLeapYear extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {
@@ -27,7 +27,7 @@ final class IsSlug extends AbstractCellRule
             [
                 self::DEFAULT => [
                     'true',
-                    'Only slug format. Example: "my-slug-123". It can contain letters, numbers, and dashes.',
+                    'Check if the cell value is a leap year. Example: "2008", "2008-02-29 23:59:59 UTC".',
                 ],
             ],
         ];
@@ -35,8 +35,12 @@ final class IsSlug extends AbstractCellRule
 
     public function validateRule(string $cellValue): ?string
     {
-        if (!Validator::slug()->validate($cellValue)) {
-            return "Value \"<c>{$cellValue}</c>\" is not a valid slug. Expected format \"<green>my-slug-123</green>\"";
+        if ($cellValue === '') {
+            return null;
+        }
+
+        if (!Validator::leapYear()->validate($cellValue)) {
+            return "Cell value \"<c>{$cellValue}</c>\" should be a leap year";
         }
 
         return null;

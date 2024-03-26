@@ -16,9 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-use Respect\Validation\Validator;
-
-final class IsSlug extends AbstractCellRule
+class IsTimezone extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {
@@ -27,7 +25,7 @@ final class IsSlug extends AbstractCellRule
             [
                 self::DEFAULT => [
                     'true',
-                    'Only slug format. Example: "my-slug-123". It can contain letters, numbers, and dashes.',
+                    'Allow only timezone identifiers. Case-insensitive. Example: "Europe/London", "utc".',
                 ],
             ],
         ];
@@ -35,8 +33,16 @@ final class IsSlug extends AbstractCellRule
 
     public function validateRule(string $cellValue): ?string
     {
-        if (!Validator::slug()->validate($cellValue)) {
-            return "Value \"<c>{$cellValue}</c>\" is not a valid slug. Expected format \"<green>my-slug-123</green>\"";
+        if ($cellValue === '') {
+            return null;
+        }
+
+        $zoneLowercase = \strtolower($cellValue);
+        $expectedLowercase = \array_map('strtolower', \timezone_identifiers_list());
+
+        if (!\in_array($zoneLowercase, $expectedLowercase, true)) {
+            return "Value \"<c>{$cellValue}</c>\" is not a valid timezone identifier. " .
+                'Example: "<green>Europe/London</green>".';
         }
 
         return null;

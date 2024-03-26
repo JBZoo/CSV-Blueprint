@@ -16,36 +16,34 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\Cell\IsUuid;
+use JBZoo\CsvBlueprint\Rules\Cell\IsTimezone;
 use JBZoo\PHPUnit\Rules\TestAbstractCellRule;
-use JBZoo\Utils\Str;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class IsUuid4Test extends TestAbstractCellRule
+final class IsTimezoneTest extends TestAbstractCellRule
 {
-    protected string $ruleClass = IsUuid::class;
+    protected string $ruleClass = IsTimezone::class;
 
     public function testPositive(): void
     {
         $rule = $this->create(true);
-        isSame(null, $rule->validate(''));
-        isSame('', $rule->test(Str::uuid()));
+        isSame('', $rule->test(''));
+        isSame('', $rule->test('Europe/London'));
+        isSame('', $rule->test('America/New_York'));
+        isSame('', $rule->test('UTC'));
+        isSame('', $rule->test('utc'));
 
         $rule = $this->create(false);
-        isSame(null, $rule->validate('123'));
+        isSame(null, $rule->validate('1'));
     }
 
     public function testNegative(): void
     {
         $rule = $this->create(true);
         isSame(
-            'Value "123e4567-e89b-12d3-a456-4266554400zz" is not a valid UUID',
-            $rule->test('123e4567-e89b-12d3-a456-4266554400zz'),
-        );
-        isSame(
-            'Value "123" is not a valid UUID',
-            $rule->test('123'),
+            'Value "1" is not a valid timezone identifier. Example: "Europe/London".',
+            $rule->test('1'),
         );
     }
 }

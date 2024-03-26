@@ -16,27 +16,27 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-use Respect\Validation\Validator;
+use JBZoo\CsvBlueprint\Utils;
 
-final class IsSlug extends AbstractCellRule
+class IsTimezoneOffset extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {
         return [
             [],
-            [
-                self::DEFAULT => [
-                    'true',
-                    'Only slug format. Example: "my-slug-123". It can contain letters, numbers, and dashes.',
-                ],
-            ],
+            [self::DEFAULT => ['true', 'Allow only timezone offsets. Example: "+03:00".']],
         ];
     }
 
     public function validateRule(string $cellValue): ?string
     {
-        if (!Validator::slug()->validate($cellValue)) {
-            return "Value \"<c>{$cellValue}</c>\" is not a valid slug. Expected format \"<green>my-slug-123</green>\"";
+        if ($cellValue === '') {
+            return null;
+        }
+
+        if (Utils::testRegex('/^[\+\-](0[0-9]|1[0-4]):([0-5][0-9])$/', $cellValue)) {
+            return "Value \"<c>{$cellValue}</c>\" is not a valid timezone offset. " .
+                'Example: "<green>+03:00</green>".';
         }
 
         return null;

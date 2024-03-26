@@ -16,36 +16,43 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\Cell\IsUuid;
+use JBZoo\CsvBlueprint\Rules\Cell\IsLeapYear;
 use JBZoo\PHPUnit\Rules\TestAbstractCellRule;
-use JBZoo\Utils\Str;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class IsUuid4Test extends TestAbstractCellRule
+final class IsLeapYearTest extends TestAbstractCellRule
 {
-    protected string $ruleClass = IsUuid::class;
+    protected string $ruleClass = IsLeapYear::class;
 
     public function testPositive(): void
     {
         $rule = $this->create(true);
-        isSame(null, $rule->validate(''));
-        isSame('', $rule->test(Str::uuid()));
+
+        isSame('', $rule->test(''));
+        isSame('', $rule->test('2008'));
+        isSame('', $rule->test('2008-02-29'));
+        isSame('', $rule->test('2008-02-29 00:00:00'));
+        isSame('', $rule->test('2008-02-29 23:59:59 UTC'));
 
         $rule = $this->create(false);
-        isSame(null, $rule->validate('123'));
+        isSame(null, $rule->validate('90.1.1.1.1'));
     }
 
     public function testNegative(): void
     {
         $rule = $this->create(true);
         isSame(
-            'Value "123e4567-e89b-12d3-a456-4266554400zz" is not a valid UUID',
-            $rule->test('123e4567-e89b-12d3-a456-4266554400zz'),
+            'Cell value "1230" should be a leap year',
+            $rule->test('1230'),
         );
         isSame(
-            'Value "123" is not a valid UUID',
-            $rule->test('123'),
+            'Cell value "2009" should be a leap year',
+            $rule->test('2009'),
+        );
+        isSame(
+            'Cell value "90.1.1.1.1" should be a leap year',
+            $rule->test('90.1.1.1.1'),
         );
     }
 }

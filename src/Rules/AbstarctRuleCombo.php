@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules;
 
-use JBZoo\CsvBlueprint\Rules\Aggregate\AbstarctAggregateRuleCombo;
+use JBZoo\CsvBlueprint\Rules\Aggregate\AbstractAggregateRuleCombo;
 use JBZoo\CsvBlueprint\Rules\Cell\AbstractCellRuleCombo;
 use JBZoo\CsvBlueprint\Validators\Error;
 use JBZoo\CsvBlueprint\Validators\ValidatorColumn;
@@ -106,7 +106,7 @@ abstract class AbstarctRuleCombo extends AbstarctRule
             return $this->validateComboCell($cellValue, $this->mode);
         }
 
-        if ($this instanceof AbstarctAggregateRuleCombo) {
+        if ($this instanceof AbstractAggregateRuleCombo) {
             if (!\is_array($cellValue)) {
                 throw new \InvalidArgumentException('The value should be an array of numbers/strings');
             }

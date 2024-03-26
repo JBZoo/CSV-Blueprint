@@ -77,6 +77,10 @@
                 "date_max"              : "+1 day",
                 "date_format"           : "Y-m-d",
                 "is_date"               : true,
+                "is_timezone"           : true,
+                "is_timezone_offset"    : true,
+                "is_time"               : true,
+                "is_leap_year"          : true,
 
                 "is_bool"               : true,
                 "is_ip4"                : true,

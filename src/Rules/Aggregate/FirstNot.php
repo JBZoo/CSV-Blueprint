@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 
-final class FirstNot extends AbstarctAggregateRule
+final class FirstNot extends AbstractAggregateRule
 {
     public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_STRINGS;
 
