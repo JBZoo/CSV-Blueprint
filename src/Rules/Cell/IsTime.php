@@ -47,8 +47,8 @@ class IsTime extends AbstractCellRule
             '12:59:59 am' => '/^(1[0-2]|0?[1-9]):[0-5][0-9]:[0-5][0-9]\s?(am|pm)$/i',
         ];
 
-        foreach ($regexs as $format => $regex) {
-            if (\preg_match($regex, $cellValue)) {
+        foreach ($regexs as $regex) {
+            if (\preg_match($regex, $cellValue) > 0) {
                 return null;
             }
         }

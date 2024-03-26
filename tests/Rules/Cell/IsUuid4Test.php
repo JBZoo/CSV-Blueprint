@@ -40,11 +40,11 @@ final class IsUuid4Test extends TestAbstractCellRule
     {
         $rule = $this->create(true);
         isSame(
-            'Value is not a valid UUID',
+            'Value "123e4567-e89b-12d3-a456-4266554400zz" is not a valid UUID',
             $rule->test('123e4567-e89b-12d3-a456-4266554400zz'),
         );
         isSame(
-            'Value is not a valid UUID',
+            'Value "123" is not a valid UUID',
             $rule->test('123'),
         );
     }

@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 
-final class ComboSum extends AbstarctAggregateRuleCombo
+final class ComboSum extends AbstractAggregateRuleCombo
 {
     public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_FLOATS;
 

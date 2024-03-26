@@ -37,7 +37,7 @@ final class IsUuid extends AbstractCellRule
     public function validateRule(string $cellValue): ?string
     {
         if (!Validator::uuid()->validate($cellValue)) {
-            return 'Value is not a valid UUID';
+            return "Value \"<c>{$cellValue}</c>\" is not a valid UUID";
         }
 
         return null;

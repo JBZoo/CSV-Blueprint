@@ -36,7 +36,7 @@ final class IsSlug extends AbstractCellRule
     public function validateRule(string $cellValue): ?string
     {
         if (!Validator::slug()->validate($cellValue)) {
-            return "Value \"{$cellValue}\" is not a valid slug. Expected format \"<green>my-slug-123</green>\"";
+            return "Value \"<c>{$cellValue}</c>\" is not a valid slug. Expected format \"<green>my-slug-123</green>\"";
         }
 
         return null;

@@ -131,6 +131,40 @@ final class UtilsTest extends TestCase
         }
     }
 
+    public function testColorOfCellValue(): void
+    {
+        $packs = [
+            FS::ls(PROJECT_ROOT . '/src/Rules/Aggregate'),
+            FS::ls(PROJECT_ROOT . '/src/Rules/Cell'),
+        ];
+
+        $exclude = [
+            'Abstract',
+            'Aggregate/Combo',
+            'Cell/Combo',
+            'IsSorted',
+            'IsBase64',
+            'IsBool',
+            'IsCardinalDirection',
+            'IsUnique',
+            'NotEmpty',
+        ];
+
+        foreach ($packs as $files) {
+            foreach ($files as $filepath) {
+                foreach ($exclude as $excludeItem) {
+                    if (\str_contains($filepath, $excludeItem)) {
+                        continue 2;
+                    }
+                }
+
+                $source = \file_get_contents($filepath);
+                isTrue(\str_contains($source, '\"<c>'), 'Coloring is not found in file: ' . $filepath);
+                isTrue(\str_contains($source, '</c>\"'), 'Coloring is not found in file: ' . $filepath);
+            }
+        }
+    }
+
     /**
      * @param  SplFileInfo[] $files
      * @return string[]

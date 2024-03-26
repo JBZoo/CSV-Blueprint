@@ -19,7 +19,7 @@ namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use MathPHP\Statistics\Average;
 
-final class ComboRootMeanSquare extends AbstarctAggregateRuleCombo
+final class ComboRootMeanSquare extends AbstractAggregateRuleCombo
 {
     public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_FLOATS;
 

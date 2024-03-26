@@ -19,7 +19,7 @@ namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use MathPHP\Statistics\Descriptive;
 
-final class ComboStddev extends AbstarctAggregateRuleCombo
+final class ComboStddev extends AbstractAggregateRuleCombo
 {
     public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_FLOATS;
 

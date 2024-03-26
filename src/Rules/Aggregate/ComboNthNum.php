@@ -20,7 +20,7 @@ use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 
 use function JBZoo\Utils\float;
 
-final class ComboNthNum extends AbstarctAggregateRuleCombo
+final class ComboNthNum extends AbstractAggregateRuleCombo
 {
     public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_FLOATS;
 

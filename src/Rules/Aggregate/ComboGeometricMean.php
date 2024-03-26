@@ -19,7 +19,7 @@ namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use MathPHP\Statistics\Average;
 
-final class ComboGeometricMean extends AbstarctAggregateRuleCombo
+final class ComboGeometricMean extends AbstractAggregateRuleCombo
 {
     public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_FLOATS;
 

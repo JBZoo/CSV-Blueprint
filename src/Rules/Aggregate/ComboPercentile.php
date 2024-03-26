@@ -21,7 +21,7 @@ use MathPHP\Statistics\Descriptive;
 
 use function JBZoo\Utils\float;
 
-final class ComboPercentile extends AbstarctAggregateRuleCombo
+final class ComboPercentile extends AbstractAggregateRuleCombo
 {
     public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_FLOATS;
 
