@@ -29,6 +29,7 @@ final class ValidateCsvQuickTest extends TestCase
     public function testEnabled(): void
     {
         $expectedFull = <<<'TXT'
+            CSV Blueprint: Unknown version (PhpUnit)
             Found Schemas   : 1
             Found CSV files : 3
             Pairs by pattern: 3
@@ -67,6 +68,7 @@ final class ValidateCsvQuickTest extends TestCase
     public function testDisabled(): void
     {
         $expectedFull = <<<'TXT'
+            CSV Blueprint: Unknown version (PhpUnit)
             Found Schemas   : 1
             Found CSV files : 3
             Pairs by pattern: 3

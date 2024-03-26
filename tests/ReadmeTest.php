@@ -65,6 +65,8 @@ final class ReadmeTest extends TestCase
             '```',
         ]);
 
+        $text = \str_replace('CSV Blueprint: Unknown version (PhpUnit)', 'CSV Blueprint: vX.Y.Z', $text);
+
         Tools::insertInReadme('output-table', $text);
     }
 

@@ -792,6 +792,7 @@ Default report format is `table`:
 ./csv-blueprint validate:csv --csv='./tests/fixtures/demo.csv' --schema='./tests/schemas/demo_invalid.yml'
 
 
+CSV Blueprint: vX.Y.Z
 Found Schemas   : 1
 Found CSV files : 1
 Pairs by pattern: 1
@@ -876,10 +877,6 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
   * Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
   * Extending with custom rules and custom report formats. Plugins?
   * Input encoding detection + `BOM` (right now it's experimental). It works but not so accurate... UTF-8/16/32 is the best choice for now.
-
-* **Release workflow**
-  * Auto insert tool version into the Docker image and phar file. It's important to know the version of the tool you are using.
-  * Show version as part of output.
 
 * **Performance and optimization**
   * Benchmarks as part of the CI(?) and Readme. It's important to know how much time the validation process takes.

@@ -18,3 +18,4 @@ phpunit.xml
 /docker/preload.php
 *.cache
 *.phar
+.version

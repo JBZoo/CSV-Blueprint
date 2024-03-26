@@ -37,6 +37,7 @@ final class ValidateCsvBatchSchemaTest extends TestCase
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $optionsAsString);
 
         $expected = <<<'TXT'
+            CSV Blueprint: Unknown version (PhpUnit)
             Found Schemas   : 3
             Found CSV files : 1
             Pairs by pattern: 2
@@ -121,6 +122,7 @@ final class ValidateCsvBatchSchemaTest extends TestCase
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $optionsAsString);
 
         $expected = <<<'TXT'
+            CSV Blueprint: Unknown version (PhpUnit)
             Found Schemas   : 2
             Found CSV files : 1
             Pairs by pattern: 2

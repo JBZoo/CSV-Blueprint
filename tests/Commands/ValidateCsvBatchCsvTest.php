@@ -39,6 +39,7 @@ final class ValidateCsvBatchCsvTest extends TestCase
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $optionsAsString);
 
         $expected = $expected = <<<'TXT'
+            CSV Blueprint: Unknown version (PhpUnit)
             Found Schemas   : 1
             Found CSV files : 4
             Pairs by pattern: 4
@@ -83,6 +84,7 @@ final class ValidateCsvBatchCsvTest extends TestCase
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $options);
 
         $expected = <<<'TXT'
+            CSV Blueprint: Unknown version (PhpUnit)
             Found Schemas   : 1
             Found CSV files : 3
             Pairs by pattern: 3
@@ -172,6 +174,10 @@ final class ValidateCsvBatchCsvTest extends TestCase
             [],
             '',
         );
+
+        // Remove version
+        $actual   = \preg_replace('/^.+\n/', '', $actual);
+        $expected = \preg_replace('/^.+\n/', '', $expected);
 
         isNotEmpty($expected);
         isNotEmpty($actual);

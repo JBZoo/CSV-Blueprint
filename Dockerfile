@@ -16,15 +16,21 @@ FROM php:8.3-cli-alpine
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 RUN install-php-extensions opcache @composer
 
+
 # Install application
+# run `make build-version` before!
 ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY . /app
+COPY ./.version /app/
 RUN cd /app                                         \
     && composer install --no-dev                    \
                         --classmap-authoritative    \
                         --no-progress               \
+                        --no-suggest                \
+                        --optimize-autoloader       \
     && composer clear-cache                         \
     && chmod +x /app/csv-blueprint
+
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY ./docker/php.ini /usr/local/etc/php/conf.d/docker-z99-php.ini

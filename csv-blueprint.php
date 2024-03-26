@@ -16,8 +16,6 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint;
 
-use JBZoo\Cli\CliApplication;
-
 \define('PATH_ROOT', __DIR__);
 
 $vendorPaths = [
@@ -41,18 +39,9 @@ require_once JBZOO_AUTOLOAD_FILE;
     throw new \ErrorException($message, 0, $severity, $file, $line);
 });
 
-(new CliApplication('CSV Blueprint', '@git-version@'))
+$cliApp = (new CliApplication('CSV Blueprint', Utils::getVersion(true)));
+$cliApp->setVersion(Utils::getVersion(false));
+
+$cliApp
     ->registerCommandsByPath(PATH_ROOT . '/src/Commands', __NAMESPACE__)
-    ->setLogo(
-        <<<'EOF'
-             _____            ______ _                       _       _   
-            /  __ \           | ___ \ |                     (_)     | |  
-            | /  \/_____   __ | |_/ / |_   _  ___ _ __  _ __ _ _ __ | |_ 
-            | |   / __\ \ / / | ___ \ | | | |/ _ \ '_ \| '__| | '_ \| __|
-            | \__/\__ \\ V /  | |_/ / | |_| |  __/ |_) | |  | | | | | |_ 
-             \____/___/ \_/   \____/|_|\__,_|\___| .__/|_|  |_|_| |_|\__|
-                                                 | |                     
-                                                 |_|                     
-            EOF,
-    )
     ->run();

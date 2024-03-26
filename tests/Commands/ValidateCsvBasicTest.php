@@ -33,6 +33,7 @@ final class ValidateCsvBasicTest extends TestCase
         ]);
 
         $expected = $expected = <<<'TXT'
+            CSV Blueprint: Unknown version (PhpUnit)
             Found Schemas   : 1
             Found CSV files : 1
             Pairs by pattern: 1
@@ -66,6 +67,7 @@ final class ValidateCsvBasicTest extends TestCase
         ]);
 
         $expected = <<<'TXT'
+            CSV Blueprint: Unknown version (PhpUnit)
             Found Schemas   : 1
             Found CSV files : 1
             Pairs by pattern: 1
@@ -105,6 +107,7 @@ final class ValidateCsvBasicTest extends TestCase
         ]);
 
         $expected = <<<'TXT'
+            CSV Blueprint: Unknown version (PhpUnit)
             Found Schemas   : 1
             Found CSV files : 1
             Pairs by pattern: 1
@@ -167,6 +170,7 @@ final class ValidateCsvBasicTest extends TestCase
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $options);
 
         $expected = <<<'TXT'
+            CSV Blueprint: Unknown version (PhpUnit)
             Found Schemas   : 1
             Found CSV files : 1
             Pairs by pattern: 0
@@ -216,6 +220,7 @@ final class ValidateCsvBasicTest extends TestCase
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $options);
 
         $expected = <<<'TXT'
+            CSV Blueprint: Unknown version (PhpUnit)
             Found Schemas   : 1
             Found CSV files : 0
             Pairs by pattern: 0
@@ -261,6 +266,7 @@ final class ValidateCsvBasicTest extends TestCase
         ]);
 
         $expected = $expected = <<<'TXT'
+            CSV Blueprint: Unknown version (PhpUnit)
             Found Schemas   : 1
             Found CSV files : 1
             Pairs by pattern: 1

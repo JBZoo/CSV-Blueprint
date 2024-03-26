@@ -23,6 +23,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
 use function JBZoo\Cli\cli;
+use function JBZoo\Utils\bool;
 
 final class Utils
 {
@@ -291,6 +292,45 @@ final class Utils
         return "{$directory}<blue>{$basename}</blue>";
     }
 
+    public static function getVersion(bool $tagOnly = false, bool $oneLine = false): string
+    {
+        if (self::isPhpUnit()) {
+            return 'Unknown version (PhpUnit)';
+        }
+
+        $versionFile = __DIR__ . '/../.version';
+        if (!\file_exists($versionFile)) {
+            return 'Version file not found';
+        }
+
+        $parts = \array_filter(\explode("\n", (string)\file_get_contents($versionFile)));
+
+        $expectedParts = 5;
+        if (\count($parts) < $expectedParts) {
+            return 'Invalid version file format';
+        }
+
+        [$tag, $isStable, $branch, $date, $hash] = $parts;
+
+        $dateStr = self::convertTzToUTC($date)->format('d M Y H:i \U\T\C');
+        $tag     = 'v' . \ltrim($tag, 'v');
+
+        if ($tagOnly) {
+            return $tag;
+        }
+
+        $version = ["<info>{$tag}</info>", $dateStr];
+
+        if (!bool($isStable)) {
+            $version[] = '<comment>Experimental!</comment>';
+            $version[] = "\nBranch: {$branch} ({$hash})";
+        }
+
+        $result = \implode('  ', $version);
+
+        return \trim($oneLine ? \str_replace("\n", ' ', $result) : $result);
+    }
+
     /**
      * @param SplFileInfo[] $files
      */
@@ -308,5 +348,16 @@ final class Utils
     private static function filterNotUsedFiles(array $files): array
     {
         return \array_keys(\array_filter($files, static fn ($value) => $value === false));
+    }
+
+    private static function isPhpUnit(): bool
+    {
+        return \defined('PHPUNIT_COMPOSER_INSTALL') || \defined('__PHPUNIT_PHAR__');
+    }
+
+    private static function convertTzToUTC(string $dateWithSourceTZ): \DateTime
+    {
+        return (new \DateTime($dateWithSourceTZ, new \DateTimeZone('UTC')))
+            ->setTimezone(new \DateTimeZone('UTC'));
     }
 }

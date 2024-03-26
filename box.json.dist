@@ -18,7 +18,10 @@
         "schema-examples",
         "src"
     ],
-    "files"       : ["csv-blueprint.php"],
+    "files"       : [
+        "csv-blueprint.php",
+        ".version"
+    ],
     "git-version" : "git-version",
 
     "finder"      : [{"in" : "vendor"}]
