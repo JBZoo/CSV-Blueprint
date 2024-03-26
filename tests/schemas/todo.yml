@@ -47,9 +47,6 @@ columns:
       age: 35
       dateperiod: 1
       dateinterval: 1
-      is_time: true
-      is_timezone: true
-      is_timezone_offset: true
 
       # FS
       is_dir_name: true
