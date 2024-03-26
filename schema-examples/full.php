@@ -101,6 +101,7 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'is_timezone'        => true,
                 'is_timezone_offset' => true,
                 'is_time'            => true,
+                'is_leap_year'       => true,
 
                 'is_bool'               => true,
                 'is_ip4'                => true,

@@ -108,6 +108,7 @@ columns:
       is_timezone: true
       is_timezone_offset: true
       is_time: true
+      is_leap_year: true
 
       is_bool: true
       is_ip4: true

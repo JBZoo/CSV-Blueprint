@@ -151,6 +151,7 @@ columns:
       is_timezone: true                 # Allow only timezone identifiers. Case-insensitive. Example: "Europe/London", "utc".
       is_timezone_offset: true          # Allow only timezone offsets. Example: "+03:00".
       is_time: true                     # Check if the cell value is a valid time in the format "HH:MM:SS AM/PM" / "HH:MM:SS" / "HH:MM". Case-insensitive.
+      is_leap_year: true                # Check if the cell value is a leap year. Example: "2008", "2008-02-29 23:59:59 UTC".
 
       # Specific formats
       is_bool: true                     # Allow only boolean values "true" and "false", case-insensitive.

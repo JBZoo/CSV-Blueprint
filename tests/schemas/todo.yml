@@ -43,7 +43,6 @@ columns:
       is_bool_value: true             # https://github.com/Respect/Validation/blob/main/docs/rules/BoolVal.md
 
       # Dates
-      leap_year: true                # Check if the date is a valid leap year
       age: 35
       dateperiod: 1
       dateinterval: 1
