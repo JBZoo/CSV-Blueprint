@@ -12,6 +12,8 @@ in [YAML files](#schema-definition) serves an essential purpose in ensuring data
 This utility facilitates automated checks to verify that the structure and content of CSV files adhere to predefined
 specifications, making it invaluable in scenarios where data quality and consistency are critical.
 
+### Why?
+
 * **Data Integration:** When integrating data from multiple sources, ensuring that incoming CSV files meet expected
   formats and data types.
 * **Automated Data Pipelines:** In automated ETL processes, validating CSV files against a predefined schema can
@@ -134,7 +136,7 @@ csv:
 columns:
   - name: Column Name (header)          # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
     description: Lorem ipsum            # Description of the column. Not used in the validation process.
-    example: Some example               # Example of the column value. Not used in the validation process.
+    example: Some example               # Example of the column value. Schema will also check this value on its own.
 
     # Important notes about the validation rules.
     # 1. All rules except "not_empty" ignored for empty strings (length 0).
@@ -152,8 +154,7 @@ columns:
 
     ####################################################################################################################
     # Data validation for each(!) value in the column.
-    # Of course, this can greatly affect the speed of checking.
-    # It depends on the number of checks and CSV file size.
+    # Every rule is optional.
     rules:
       # General rules
       not_empty: true                   # Value is not an empty string. Actually checks if the string length is not 0.
@@ -313,10 +314,10 @@ columns:
       #  - haval128,4, haval160,4, haval192,4, haval224,4, haval256,4, haval128,5, haval160,5, haval192,5, haval224,5, haval256,5
       hash: set_algo                    # Example: "1234567890abcdef".
 
+
     ####################################################################################################################
     # Data validation for the entire(!) column using different data aggregation methods.
-    # Depending on the file size and the chosen aggregation method - this can use a lot of RAM time.
-    # Be careful with files that are 2-3 or more times larger than the available memory.
+    # Every rule is optional.
     aggregate_rules:
       is_unique: true                   # All values in the column are unique.
 
