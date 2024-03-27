@@ -122,7 +122,7 @@ bench-prepare: ##@Benchmarks Create CSV files
 bench-create-1M-csv: ##@Benchmarks Create 1M CSV file
 	$(call title,"PHP Benchmarks - Create 1M CSV file")
 	@mkdir -pv ./build/bench/
-	@${BENCH_BIN} --add-header --columns=5 --rows=1000000
+	@${BENCH_BIN} --add-header --columns=5 --rows=1000000 --ansi
 	@ls -lh ./build/bench/*.csv;
 
 bench-1M-docker: ##@Benchmarks Run 1M CSV file via Docker
@@ -131,6 +131,13 @@ bench-1M-docker: ##@Benchmarks Run 1M CSV file via Docker
         -v .:/parent-host \
         jbzoo/csv-blueprint:latest \
         validate:csv \
+        --csv=/parent-host/build/bench/5_1000000_header.csv \
+        --schema=/parent-host/tests/Benchmarks/benchmark.yml \
+        --profile -vvv --ansi
+
+bench-1M-php: ##@Benchmarks Run 1M CSV file via PHP binary
+	$(call title,"PHP Benchmarks - 1M CSV file via Docker")
+	@{BLUEPRINT} \
         --csv=/parent-host/build/bench/5_1000000_header.csv \
         --schema=/parent-host/tests/Benchmarks/benchmark.yml \
         --profile -vvv --ansi

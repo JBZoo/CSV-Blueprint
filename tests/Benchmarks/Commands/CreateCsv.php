@@ -80,26 +80,26 @@ final class CreateCsv extends CliCommand
         $faker = Factory::create();
 
         $data = [
-            'id'              => static fn () => $i,                                    // 1
-            'bool_int'        => static fn () => $faker->boolean() ? '1' : '0',         // 2
-            'bool_str'        => static fn () => $faker->boolean() ? 'true' : 'false',  // 3
-            'number'          => static fn () => $faker->numberBetween(1, 1_000_000),   // 4
-            'float'           => static fn () => $faker->randomFloat(6, 1, 1_000_000),  // 5
-            'date'            => static fn () => $faker->date(),                        // 6
-            'datetime'        => static fn () => $faker->date('Y-m-d H:i:s'),           // 7
-            'domain'          => static fn () => $faker->domainName(),                  // 8
-            'email'           => static fn () => $faker->email(),                       // 9
-            'ip4'             => static fn () => $faker->ipv4(),                        // 10
-            'ip6'             => static fn () => $faker->ipv6(),                        // 11
-            'uuid'            => static fn () => $faker->uuid(),                        // 12
-            'address'         => static fn () => $faker->address(),                     // 13
-            'postcode'        => static fn () => $faker->postcode(),                    // 14
-            'latitude'        => static fn () => $faker->latitude(),                    // 15
-            'longitude'       => static fn () => $faker->longitude(),                   // 16
-            'sentence_tiny'   => static fn () => $faker->sentence(3),                   // 17
-            'sentence_small'  => static fn () => $faker->sentence(6),                   // 18
-            'sentence_medium' => static fn () => $faker->sentence(10),                  // 19
-            'sentence_huge'   => static fn () => $faker->sentence(30),                  // 20
+            'id'              => static fn () => $i,                                            // 1
+            'bool_int'        => static fn () => \random_int(0, 1),                             // 2
+            'bool_str'        => static fn () => \random_int(0, 1) === 1 ? 'true' : 'false',    // 3
+            'number'          => static fn () => \random_int(0, 1_000_000),                     // 4
+            'float'           => static fn () => \random_int(0, 10_000_000) / 7,                // 5
+            'date'            => static fn () => $faker->date(),                                // 6
+            'datetime'        => static fn () => $faker->date('Y-m-d H:i:s'),                   // 7
+            'domain'          => static fn () => $faker->domainName(),                          // 8
+            'email'           => static fn () => $faker->email(),                               // 9
+            'ip4'             => static fn () => $faker->ipv4(),                                // 10
+            'ip6'             => static fn () => $faker->ipv6(),                                // 11
+            'uuid'            => static fn () => $faker->uuid(),                                // 12
+            'address'         => static fn () => $faker->address(),                             // 13
+            'postcode'        => static fn () => $faker->postcode(),                            // 14
+            'latitude'        => static fn () => $faker->latitude(),                            // 15
+            'longitude'       => static fn () => $faker->longitude(),                           // 16
+            'sentence_tiny'   => static fn () => $faker->sentence(3),                           // 17
+            'sentence_small'  => static fn () => $faker->sentence(6),                           // 18
+            'sentence_medium' => static fn () => $faker->sentence(10),                          // 19
+            'sentence_huge'   => static fn () => $faker->sentence(30),                          // 20
         ];
 
         $firstN = $data;
