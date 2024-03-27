@@ -77,8 +77,17 @@ final class CreateCsv extends CliCommand
 
     private function getDatasetRow(int $dataset, int $i = 0): array
     {
-        $faker = Factory::create();
+        if ($dataset === 5) {
+            return [
+                'id'       => $i,                                                   // 1
+                'bool_int' => \random_int(0, 1),                                    // 2
+                'bool_str' => \random_int(0, 1) === 1 ? 'true' : 'false',           // 3
+                'number'   => \random_int(0, 1_000_000),                            // 4
+                'float'    => \random_int(0, 10_000_000) / 7,                       // 5
+            ];
+        }
 
+        $faker = Factory::create();
         $data = [
             'id'              => static fn () => $i,                                            // 1
             'bool_int'        => static fn () => \random_int(0, 1),                             // 2
