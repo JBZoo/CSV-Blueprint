@@ -48,18 +48,17 @@ final class IpV4RangeTest extends TestAbstractCellRule
     {
         $rule = $this->create(['127.0.0.1-127.0.0.5']);
         isSame(
-            'Value "1.2.3" is not included in any of IPv4 the ranges: ["127.0.0.1-127.0.0.5"]',
+            'Value "1.2.3" is not included in any of IPv4 the ranges: "127.0.0.1-127.0.0.5"',
             $rule->test('1.2.3'),
         );
         isSame(
             '"ip_v4_range" at line <red>1</red>, column "prop". ' .
-            'Value "<c>1.2.3</c>" is not included in any of IPv4 the ranges: ' .
-            '["<green>127.0.0.1-127.0.0.5</green>"].',
+            'Value "<c>1.2.3</c>" is not included in any of IPv4 the ranges: "<green>127.0.0.1-127.0.0.5</green>".',
             (string)$rule->validate('1.2.3'),
         );
         isSame(
             'Value "2001:0db8:85a3:08d3:1319:8a2e:0370:7334" is not included in any of IPv4 the ranges: ' .
-            '["127.0.0.1-127.0.0.5"]',
+            '"127.0.0.1-127.0.0.5"',
             $rule->test('2001:0db8:85a3:08d3:1319:8a2e:0370:7334'),
         );
 

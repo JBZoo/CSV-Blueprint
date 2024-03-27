@@ -41,7 +41,7 @@ final class IsLanguageCodeTest extends TestAbstractCellRule
     {
         $rule = $this->create('alpha-2');
         isSame(
-            'Value "qq" is not a valid alpha-2 language code.',
+            'Value "qq" is not a valid "alpha-2" language code.',
             $rule->test('qq'),
         );
     }
@@ -50,7 +50,7 @@ final class IsLanguageCodeTest extends TestAbstractCellRule
     {
         $rule = $this->create('qwerty');
         isSame(
-            'Unknown language set: "qwerty". Available options: [alpha-2, alpha-3]',
+            'Unknown language set: "qwerty". Available options: ["alpha-2", "alpha-3"]',
             $rule->test('US'),
         );
     }

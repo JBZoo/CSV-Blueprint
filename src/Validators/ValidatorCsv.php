@@ -208,7 +208,7 @@ final class ValidatorCsv
             if (\count($notFoundColums) > 0) {
                 $error = new Error(
                     'csv.header',
-                    'Columns not found in CSV: "<c>' . \implode(', ', $notFoundColums) . '</c>"',
+                    'Columns not found in CSV: ' . Utils::printList($notFoundColums, 'c'),
                     '',
                     ValidatorColumn::FALLBACK_LINE,
                 );

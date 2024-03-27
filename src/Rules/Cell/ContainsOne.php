@@ -50,7 +50,7 @@ final class ContainsOne extends AbstractCellRule
             return null;
         }
 
-        return "Value \"<c>{$cellValue}</c>\" must contain exactly one of the following:" .
-            ' [' . Utils::printList($inclusions, 'green') . ']';
+        return "Value \"<c>{$cellValue}</c>\" must contain exactly one of the following: " .
+            Utils::printList($inclusions, 'green');
     }
 }

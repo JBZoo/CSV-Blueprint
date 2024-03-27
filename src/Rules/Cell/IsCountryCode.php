@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
+use JBZoo\CsvBlueprint\Utils;
 use Respect\Validation\Rules\CountryCode as RespectCountryCode;
 use Respect\Validation\Validator;
 
@@ -51,11 +52,11 @@ class IsCountryCode extends AbstractCellRule
 
         if (!\in_array($set, $validSets, true)) {
             return "Unknown country set: \"<c>{$set}</c>\". " .
-                'Available options: [<green>' . \implode(', ', $validSets) . '</green>]';
+                'Available options: ' . Utils::printList($validSets, 'green');
         }
 
         if (!Validator::countryCode($set)->validate($cellValue)) {
-            return "Value \"<c>{$cellValue}</c>\" is not a valid {$set} country code.";
+            return "Value \"<c>{$cellValue}</c>\" is not a valid \"{$set}\" country code.";
         }
 
         return null;

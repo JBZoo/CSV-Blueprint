@@ -45,11 +45,11 @@ final class ContainsAllTest extends TestAbstractCellRule
 
         $rule = $this->create(['a', 'b', 'c']);
         isSame(
-            'Value "ab" must contain all of the following: "["a", "b", "c"]"',
+            'Value "ab" must contain all of the following: ["a", "b", "c"]',
             $rule->test('ab'),
         );
         isSame(
-            'Value "ac" must contain all of the following: "["a", "b", "c"]"',
+            'Value "ac" must contain all of the following: ["a", "b", "c"]',
             $rule->test('ac'),
         );
     }

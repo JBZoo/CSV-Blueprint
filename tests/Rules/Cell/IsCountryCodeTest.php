@@ -43,19 +43,19 @@ final class IsCountryCodeTest extends TestAbstractCellRule
     {
         $rule = $this->create(RespectCountryCode::ALPHA2);
         isSame(
-            'Value "qq" is not a valid alpha-2 country code.',
+            'Value "qq" is not a valid "alpha-2" country code.',
             $rule->test('qq'),
         );
 
         $rule = $this->create(RespectCountryCode::ALPHA3);
         isSame(
-            'Value "QQQ" is not a valid alpha-3 country code.',
+            'Value "QQQ" is not a valid "alpha-3" country code.',
             $rule->test('QQQ'),
         );
 
         $rule = $this->create(RespectCountryCode::NUMERIC);
         isSame(
-            'Value "101010101" is not a valid numeric country code.',
+            'Value "101010101" is not a valid "numeric" country code.',
             $rule->test('101010101'),
         );
     }
@@ -64,7 +64,7 @@ final class IsCountryCodeTest extends TestAbstractCellRule
     {
         $rule = $this->create('qwerty');
         isSame(
-            'Unknown country set: "qwerty". Available options: [alpha-2, alpha-3, numeric]',
+            'Unknown country set: "qwerty". Available options: ["alpha-2", "alpha-3", "numeric"]',
             $rule->test('US'),
         );
     }

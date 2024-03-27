@@ -49,6 +49,6 @@ final class IpV4Range extends AbstractCellRule
         }
 
         return "Value \"<c>{$cellValue}</c>\" is not included in any of IPv4 the ranges: " .
-            '[' . Utils::printList($ranges, 'green') . ']';
+            Utils::printList($ranges, 'green');
     }
 }

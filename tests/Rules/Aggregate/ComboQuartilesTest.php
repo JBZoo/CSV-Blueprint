@@ -79,8 +79,9 @@ class ComboQuartilesTest extends TestAbstractAggregateRuleCombo
         $rule = $this->create([950.05], Combo::EQ);
         isSame(
             'The rule expects exactly three params: ' .
-            'method ("exclusive", "inclusive"), ' .
-            'type ("0%", "Q1", "Q2", "Q3", "100%", "IQR"), expected value (float)',
+            'method ["exclusive", "inclusive"], ' .
+            'type ["0%", "Q1", "Q2", "Q3", "100%", "IQR"], ' .
+            'expected value (float)',
             $rule->test(\range(1, 200)),
         );
 

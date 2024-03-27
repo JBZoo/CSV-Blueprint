@@ -111,8 +111,8 @@ final class IsSorted extends AbstractAggregateRule
         if (\count($params) !== self::ARGS) {
             throw new \RuntimeException(
                 'The rule expects exactly two params: ' .
-                'direction [' . Utils::printList(self::DIRS) . '] and ' .
-                'method [' . Utils::printList(\array_keys(self::METHODS)) . ']',
+                'direction ' . Utils::printList(self::DIRS) . ' and ' .
+                'method ' . Utils::printList(\array_keys(self::METHODS)),
             );
         }
 

@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
+use JBZoo\CsvBlueprint\Utils;
+
 final class ContainsAll extends AbstractCellRule
 {
     public function getHelpMeta(): array
@@ -39,8 +41,8 @@ final class ContainsAll extends AbstractCellRule
 
         foreach ($inclusions as $inclusion) {
             if (\strpos($cellValue, $inclusion) === false) {
-                return "Value \"<c>{$cellValue}</c>\" must contain all of the following:" .
-                    ' "<green>["' . \implode('", "', $inclusions) . '"]</green>"';
+                return "Value \"<c>{$cellValue}</c>\" must contain all of the following: "
+                    . Utils::printList($inclusions, 'green');
             }
         }
 

@@ -59,7 +59,8 @@ final class AllowValuesTest extends TestAbstractCellRule
         $rule = $this->create('qwe');
         isSame(
             '"allow_values" at line <red>1</red>, column "prop". ' .
-            'Unexpected error: Invalid option "qwe" for the "allow_values" rule. It should be array of strings.',
+            'Unexpected error: Invalid option "<c>qwe</c>" for the "allow_values" rule. ' .
+            'It should be array of strings.',
             (string)$rule->validate('true'),
         );
     }

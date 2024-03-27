@@ -38,7 +38,7 @@ class AllowValues extends AbstractCellRule
 
         if (!\in_array($cellValue, $allowedValues, true)) {
             return "Value \"<c>{$cellValue}</c>\" is not allowed. " .
-                'Allowed values: [' . Utils::printList($allowedValues, 'green') . ']';
+                'Allowed values: ' . Utils::printList($allowedValues, 'green');
         }
 
         return null;

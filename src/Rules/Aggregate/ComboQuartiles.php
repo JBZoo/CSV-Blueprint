@@ -44,9 +44,9 @@ final class ComboQuartiles extends AbstractAggregateRuleCombo
                 'each group comprising a quarter of the data.',
                 'See: https://en.wikipedia.org/wiki/Quartile',
                 // Options
-                'There are multiple methods for computing quartiles: "' . Utils::printList(self::METHODS) . '". ' .
+                'There are multiple methods for computing quartiles: ' . Utils::printList(self::METHODS) . '. ' .
                 'Exclusive is ussually classic.',
-                'Available types: "' . Utils::printList(self::TYPES) . '" (aka Interquartile Range)',
+                'Available types: ' . Utils::printList(self::TYPES) . ' ("IQR" is Interquartile Range)',
                 // Example
                 'Example: `[ ' . self::METHODS[1] . ", '" . self::TYPES[3] . "', 42.0 ]`" .
                 ' - the ' . self::TYPES[3] . ' ' . self::METHODS[1] . ' quartile is 50.0',
@@ -86,7 +86,7 @@ final class ComboQuartiles extends AbstractAggregateRuleCombo
 
         if (!\in_array($type, self::TYPES, true)) {
             throw new \RuntimeException(
-                "Unknown quartile type: \"{$type}\". Allowed: [" . Utils::printList(self::TYPES, 'green') . ']',
+                "Unknown quartile type: \"{$type}\". Allowed: " . Utils::printList(self::TYPES, 'green'),
             );
         }
 
@@ -99,7 +99,7 @@ final class ComboQuartiles extends AbstractAggregateRuleCombo
 
         if (!\in_array($method, self::METHODS, true)) {
             throw new \RuntimeException(
-                "Unknown quartile method: \"{$method}\". Allowed: [" . Utils::printList(self::METHODS, 'green') . ']',
+                "Unknown quartile method: \"{$method}\". Allowed: " . Utils::printList(self::METHODS, 'green'),
             );
         }
 
@@ -112,8 +112,9 @@ final class ComboQuartiles extends AbstractAggregateRuleCombo
         if (\count($params) !== self::ARGS) {
             throw new \RuntimeException(
                 'The rule expects exactly three params: ' .
-                'method (' . Utils::printList(self::METHODS) . '), ' .
-                'type (' . Utils::printList(self::TYPES) . '), expected value (float)',
+                'method ' . Utils::printList(self::METHODS) . ', ' .
+                'type ' . Utils::printList(self::TYPES) . ', ' .
+                'expected value (float)',
             );
         }
 

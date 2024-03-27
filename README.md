@@ -269,7 +269,7 @@ columns:
       is_latitude: true                 # Can be integer or float. Example: 50.123456.
       is_longitude: true                # Can be integer or float. Example: -89.123456.
       is_geohash: true                  # Check if the value is a valid geohash. Example: "u4pruydqqvj".
-      is_cardinal_direction: true       # Valid cardinal direction. Available values: "N", "S", "E", "W", "NE", "SE", "NW", "SW", "none", ""
+      is_cardinal_direction: true       # Valid cardinal direction. Available values: ["N", "S", "E", "W", "NE", "SE", "NW", "SW", "none", ""]
       is_usa_market_name: true          # Check if the value is a valid USA market name. Example: "New York, NY".
 
       # Validates whether the input is a country code in ISO 3166-1 standard.
@@ -294,8 +294,8 @@ columns:
       is_unique: true                   # All values in the column are unique.
 
       # Check if the column is sorted in a specific order.
-      #  - Direction: "asc", "desc".
-      #  - Method: "natural", "regular", "numeric", "string".
+      #  - Direction: ["asc", "desc"].
+      #  - Method: ["natural", "regular", "numeric", "string"].
       # See: https://www.php.net/manual/en/function.sort.php
       is_sorted: [ asc, natural ]       # Expected ascending order, natural sorting.
 
@@ -517,8 +517,8 @@ columns:
 
       # Quartiles. Three points that divide the data set into four equal groups, each group comprising a quarter of the data.
       # See: https://en.wikipedia.org/wiki/Quartile
-      # There are multiple methods for computing quartiles: ""exclusive", "inclusive"". Exclusive is ussually classic.
-      # Available types: ""0%", "Q1", "Q2", "Q3", "100%", "IQR"" (aka Interquartile Range)
+      # There are multiple methods for computing quartiles: ["exclusive", "inclusive"]. Exclusive is ussually classic.
+      # Available types: ["0%", "Q1", "Q2", "Q3", "100%", "IQR"] ("IQR" is Interquartile Range)
       # Example: `[ inclusive, 'Q3', 42.0 ]` - the Q3 inclusive quartile is 50.0
       quartiles_min: [ 'exclusive', '0%', 1.0 ]             # x >= 1.0
       quartiles_greater: [ 'inclusive', 'Q1', 2.0 ]         # x >  2.0
@@ -765,7 +765,7 @@ Options:
                                    Feel free to use glob pattrens. Usage examples:
                                    /full/path/file.yml, p/file.yml, p/*.yml, p/**/*.yml, p/**/name-*.json, **/*.php, etc. (multiple values allowed)
   -r, --report=REPORT              Report output format. Available options:
-                                   text, table, github, gitlab, teamcity, junit [default: "table"]
+                                   ["text", "table", "github", "gitlab", "teamcity", "junit"] [default: "table"]
   -Q, --quick[=QUICK]              Immediately terminate the check at the first error found.
                                    Of course it will speed up the check, but you will get only 1 message out of many.
                                    If any error is detected, the utility will return a non-zero exit code.
