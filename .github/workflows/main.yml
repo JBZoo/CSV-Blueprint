@@ -343,6 +343,7 @@ jobs:
           --workdir=/parent-host                    \
           -v .:/parent-host                         \
           jbzoo/csv-blueprint:latest                \
+          validate:csv                              \
           --csv=./build/bench/3_1000000_header.csv  \
           --schema=./tests/benchmarks/benchmark.yml \
           --ansi -vvv --profile
