@@ -18,4 +18,4 @@ csv:
 columns:
   - name: id
     aggregate_rules:
-      count_max: 999999
+      average: 999999
