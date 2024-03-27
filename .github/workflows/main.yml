@@ -336,11 +336,5 @@ jobs:
       - name: Create random CSV files with 5M rows
         run: make bench-create-csv --no-print-directory
 
-      - name: Pull latest Docker image
-        run: docker pull jbzoo/csv-blueprint:master
-
-      - name: 🔥 Check 5M rows with Docker 🔥
-        run: make bench-docker --no-print-directory
-
       - name: 🔥 Check 5M rows with PHP Binary 🔥
         run: make bench-php --no-print-directory
