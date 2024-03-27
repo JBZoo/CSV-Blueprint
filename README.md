@@ -7,41 +7,35 @@
 [![Static Badge](https://img.shields.io/badge/Rules-305-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-94-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-5-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-42/54/8-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- /rules-counter -->
 
-## Introduction
-
 A console utility designed for validating CSV files against a strictly defined schema and validation rules outlined
-in [YAML files](schema-examples/full.yml) serves an essential purpose in ensuring data integrity and conformity.
+in [YAML files](#schema-definition) serves an essential purpose in ensuring data integrity and conformity.
 This utility facilitates automated checks to verify that the structure and content of CSV files adhere to predefined
 specifications, making it invaluable in scenarios where data quality and consistency are critical.
 
-### Areas of Application:
-
 * **Data Integration:** When integrating data from multiple sources, ensuring that incoming CSV files meet expected
-  formats and data types is crucial for preventing errors and data corruption.
-* **Automated Data Pipelines:** In automated ETL (Extract, Transform, Load) processes, validating CSV files against a
-  predefined schema can significantly reduce the risk of errors and data quality issues in downstream applications.
+  formats and data types.
+* **Automated Data Pipelines:** In automated ETL processes, validating CSV files against a predefined schema can
+  significantly reduce the risk of errors and data quality issues in downstream applications.
 * **Data Quality Assurance:** Ensuring the quality of data before it enters analysis workflows or databases can save
-  significant time and resources by avoiding the need for manual data cleaning and correction.
-* **Compliance and Reporting:** For industries where data compliance is critical, such as finance and healthcare, being
-  able to validate data against specific rules and formats is essential for regulatory reporting and audits.
+  significant time and resources.
 * **Development and Testing:** During software development, especially in applications that import or export CSV data,
   having a tool to validate test data ensures consistency and reliability of test cases.
 * **Collaboration Across Teams:** By defining CSV formats and validation rules in YAML files, teams can share and
   collaborate on data specifications more easily, ensuring consistency across different parts of an organization.
+  Documentation as code!
+
 
 ### Features
 
 * **Schema-based Validation**: Define the structure and rules for your CSV files in an
   intuitive [YAML format](schema-examples/full.yml), enabling precise validation against your data's expected format.
-* **Flexible Configuration**: Support for custom delimiters, quote characters, enclosures, and encoding settings to
-  handle a wide range of CSV formats.
 * **Comprehensive Rule Set**: Includes a broad set of validation rules, such as non-empty fields, exact values, regular
   expressions, numeric constraints, date formats, and more, catering to various data validation needs.
 * **Docker Support**: Easily integrate into any workflow with Docker, providing a seamless experience for development,
   testing, and production environments.
 * **GitHub Actions Integration**: Automate CSV validation in your CI/CD pipeline, enhancing the quality control of your
   data in pull requests and deployments.
-* **Various ways to report:** issues that can be easily integrated with GitHub, Gitlab, TeamCity, etc. The default
+* **Various ways of reporting:** You can be easily integrated with GitHub, Gitlab, TeamCity, etc. The default
   output is a human-readable table. [See Live Demo](https://github.com/JBZoo/Csv-Blueprint-Demo).
 
 ### Live Demo
