@@ -198,8 +198,8 @@ columns:
       contains_one: [ a, b ]            # Only one of the strings must be part of the CSV value.
       contains_any: [ a, b ]            # At least one of the string must be part of the CSV value.
       contains_all: [ a, b ]            # All the strings must be part of a CSV value.
-      starts_with: "prefix "            # Example: "prefix Hello World".
-      ends_with: " suffix"              # Example: "Hello World suffix".
+      starts_with: 'prefix '            # Example: "prefix Hello World".
+      ends_with: ' suffix'              # Example: "Hello World suffix".
 
       # Under the hood it converts and compares as float values.
       # Comparison accuracy is 10 digits after a dot.
@@ -519,13 +519,13 @@ columns:
       # See: https://en.wikipedia.org/wiki/Quartile
       # There are multiple methods for computing quartiles: ["exclusive", "inclusive"]. Exclusive is ussually classic.
       # Available types: ["0%", "Q1", "Q2", "Q3", "100%", "IQR"] ("IQR" is Interquartile Range)
-      # Example: `[ inclusive, 'Q3', 42.0 ]` - the Q3 inclusive quartile is 50.0
-      quartiles_min: [ 'exclusive', '0%', 1.0 ]             # x >= 1.0
-      quartiles_greater: [ 'inclusive', 'Q1', 2.0 ]         # x >  2.0
-      quartiles_not: [ 'exclusive', 'Q2', 5.0 ]             # x != 5.0
-      quartiles: [ 'inclusive', 'Q3', 7.0 ]                 # x == 7.0
-      quartiles_less: [ 'exclusive', '100%', 8.0 ]          # x <  8.0
-      quartiles_max: [ 'inclusive', 'IQR', 9.0 ]            # x <= 9.0
+      # Example: `[ inclusive, 'Q3', 42.0 ]` - the Q3 inclusive quartile is 42.0
+      quartiles_min: [ exclusive, '0%', 1.0 ]               # x >= 1.0
+      quartiles_greater: [ inclusive, 'Q1', 2.0 ]           # x >  2.0
+      quartiles_not: [ exclusive, 'Q2', 5.0 ]               # x != 5.0
+      quartiles: [ inclusive, 'Q3', 7.0 ]                   # x == 7.0
+      quartiles_less: [ exclusive, '100%', 8.0 ]            # x <  8.0
+      quartiles_max: [ inclusive, 'IQR', 9.0 ]              # x <= 9.0
 
       # Midhinge. The average of the first and third quartiles and is thus a measure of location.
       # Equivalently, it is the 25% trimmed mid-range or 25% midsummary; it is an L-estimator.

@@ -23,7 +23,7 @@ final class EndsWith extends AbstractCellRule
         return [
             [],
             [
-                self::DEFAULT => ['" suffix"', 'Example: "Hello World suffix".'],
+                self::DEFAULT => ["' suffix'", 'Example: "Hello World suffix".'],
             ],
         ];
     }
