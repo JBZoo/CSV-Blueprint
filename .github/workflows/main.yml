@@ -321,11 +321,14 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
 
-      - name: Pull latest docker image
-        run: docker pull jbzoo/csv-blueprint:master
+      - name: Build project
+        run: make build --no-print-directory
 
       - name: Create random CSV files with 1M rows
         run: make bench-create-1M-csv --no-print-directory
+
+      - name: Pull latest Docker image
+        run: docker pull jbzoo/csv-blueprint:master
 
       - name: 🔥 Check 1M rows!
         run: |

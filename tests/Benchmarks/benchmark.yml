@@ -30,7 +30,7 @@ columns:
       not_empty: true
 
       # 12.8 sec
-      #num_min: 1
+      num_min: 1
     aggregate_rules:
       # 28 MB (input:bool)
       count_max: 1000000
