@@ -118,3 +118,8 @@ bench-prepare: ##@Benchmarks Create CSV files
         echo "Generate CSV: rows=$(rows) - done"; \
     )
 	@ls -lh ./build/bench/*.csv;
+
+bench-create-1M-csv: ##@Benchmarks Create 1M CSV file
+	$(call title,"PHP Benchmarks - Create 1M CSV file")
+	@${BENCH_BIN} -H --columns=3 --rows=1000000
+	@ls -lh ./build/bench/*.csv;

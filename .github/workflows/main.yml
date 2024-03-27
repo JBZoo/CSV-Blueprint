@@ -309,3 +309,30 @@ jobs:
           csv: ./tests/fixtures/batch/*.csv
           schema: ./tests/schemas/demo_*.yml
         continue-on-error: true
+
+
+  benchmark:
+    name: Benchmark
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Pull latest docker image
+        run: docker pull jbzoo/csv-blueprint:master
+
+      - name: Create random CSV files with 1M rows
+        run: make bench-create-1M-csv --no-print-directory
+
+      - name: 🔥 Check 1M rows!
+        run: |
+          docker run --rm
+          --workdir=/parent-host
+          -v .:/parent-host
+          jbzoo/csv-blueprint:latest
+          --csv=./build/bench/3_1000000_header.csv
+          --schema=./tests/benchmarks/benchmark.yml
+          --ansi -vvv --profile
