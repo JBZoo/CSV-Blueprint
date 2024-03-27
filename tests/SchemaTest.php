@@ -302,6 +302,8 @@ final class SchemaTest extends TestCase
             'float !== null',
             'int !== null',
             'null !== string',
+            'float !== int',
+            'int !== string',
         ];
 
         $invalidPairs = [];

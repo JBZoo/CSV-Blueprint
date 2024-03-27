@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
+use JBZoo\CsvBlueprint\Utils;
+
 final class ContainsNone extends AbstractCellRule
 {
     public function getHelpMeta(): array
@@ -39,8 +41,8 @@ final class ContainsNone extends AbstractCellRule
 
         foreach ($exclusions as $exclusion) {
             if (\strpos($cellValue, $exclusion) !== false) {
-                return "Value \"<c>{$cellValue}</c>\" must not contain any of the following:" .
-                    ' "<green>["' . \implode('", "', $exclusions) . '"]</green>"';
+                return "Value \"<c>{$cellValue}</c>\" must not contain any of the following: " .
+                    Utils::printList($exclusions, 'green');
             }
         }
 

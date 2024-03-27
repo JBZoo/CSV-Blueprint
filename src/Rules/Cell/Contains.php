@@ -22,7 +22,7 @@ final class Contains extends AbstractCellRule
     {
         return [
             [],
-            [self::DEFAULT => ['Hello', 'Example: "Hello World".']],
+            [self::DEFAULT => ['World', 'Example: "Hello World!". The string must contain "World" in any place.']],
         ];
     }
 

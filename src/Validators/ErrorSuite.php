@@ -137,10 +137,6 @@ final class ErrorSuite
             $result[] = (string)$error;
         }
 
-        // if (\count($result) > 0) {
-        //    \array_unshift($result, $this->csvFilename);
-        // }
-
         return \implode("\n", $result) . "\n";
     }
 

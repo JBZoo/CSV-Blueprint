@@ -16,14 +16,14 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\Cell\LanguageCode;
+use JBZoo\CsvBlueprint\Rules\Cell\IsLanguageCode;
 use JBZoo\PHPUnit\Rules\TestAbstractCellRule;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class LanguageCodeTest extends TestAbstractCellRule
+final class IsLanguageCodeTest extends TestAbstractCellRule
 {
-    protected string $ruleClass = LanguageCode::class;
+    protected string $ruleClass = IsLanguageCode::class;
 
     public function testPositive(): void
     {
@@ -41,7 +41,7 @@ final class LanguageCodeTest extends TestAbstractCellRule
     {
         $rule = $this->create('alpha-2');
         isSame(
-            'Value "qq" is not a valid alpha-2 language code.',
+            'Value "qq" is not a valid "alpha-2" language code.',
             $rule->test('qq'),
         );
     }
@@ -50,7 +50,7 @@ final class LanguageCodeTest extends TestAbstractCellRule
     {
         $rule = $this->create('qwerty');
         isSame(
-            'Unknown language set: "qwerty". Available options: [alpha-2, alpha-3]',
+            'Unknown language set: "qwerty". Available options: ["alpha-2", "alpha-3"]',
             $rule->test('US'),
         );
     }

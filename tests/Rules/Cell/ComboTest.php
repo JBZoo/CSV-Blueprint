@@ -127,7 +127,8 @@ class ComboTest extends TestAbstractCellRuleCombo
     public function testInvalidOption2(): void
     {
         $this->expectExceptionMessage(
-            'Invalid option "1, 2, 3" for the "num_not" rule. It should be int/float/string.',
+            'Invalid option ["<c>1</c>", "<c>2</c>", "<c>3</c>"] for the "num_not" rule. ' .
+            'It should be int/float/string.',
         );
 
         $rule = $this->create([1, 2, 3], Combo::NOT);

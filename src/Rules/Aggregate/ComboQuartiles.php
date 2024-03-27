@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
+use JBZoo\CsvBlueprint\Utils;
 use MathPHP\Statistics\Descriptive;
 
 use function JBZoo\Utils\float;
@@ -43,9 +44,9 @@ final class ComboQuartiles extends AbstractAggregateRuleCombo
                 'each group comprising a quarter of the data.',
                 'See: https://en.wikipedia.org/wiki/Quartile',
                 // Options
-                'There are multiple methods for computing quartiles: "' . \implode('", "', self::METHODS) . '". ' .
+                'There are multiple methods for computing quartiles: ' . Utils::printList(self::METHODS) . '. ' .
                 'Exclusive is ussually classic.',
-                'Available types: "' . \implode('", "', self::TYPES) . '" (aka Interquartile Range)',
+                'Available types: ' . Utils::printList(self::TYPES) . ' ("IQR" is Interquartile Range)',
                 // Example
                 'Example: `[ ' . self::METHODS[1] . ", '" . self::TYPES[3] . "', 42.0 ]`" .
                 ' - the ' . self::TYPES[3] . ' ' . self::METHODS[1] . ' quartile is 50.0',
@@ -81,13 +82,11 @@ final class ComboQuartiles extends AbstractAggregateRuleCombo
 
     private function getType(): string
     {
-        $allowedTypes = ['0%', 'Q1', 'Q2', 'Q3', '100%', 'IQR'];
-
         $type = $this->getParams()[self::TYPE];
 
-        if (!\in_array($type, $allowedTypes, true)) {
+        if (!\in_array($type, self::TYPES, true)) {
             throw new \RuntimeException(
-                "Unknown quartile type: \"{$type}\". Allowed: \"" . \implode('", "', $allowedTypes) . '"',
+                "Unknown quartile type: \"{$type}\". Allowed: " . Utils::printList(self::TYPES, 'green'),
             );
         }
 
@@ -96,13 +95,11 @@ final class ComboQuartiles extends AbstractAggregateRuleCombo
 
     private function getMethod(): string
     {
-        $allowedMethods = ['exclusive', 'inclusive'];
-
         $method = $this->getParams()[self::METHOD];
 
-        if (!\in_array($method, $allowedMethods, true)) {
+        if (!\in_array($method, self::METHODS, true)) {
             throw new \RuntimeException(
-                "Unknown quartile method: \"{$method}\". Allowed: \"" . \implode('", "', $allowedMethods) . '"',
+                "Unknown quartile method: \"{$method}\". Allowed: " . Utils::printList(self::METHODS, 'green'),
             );
         }
 
@@ -115,7 +112,9 @@ final class ComboQuartiles extends AbstractAggregateRuleCombo
         if (\count($params) !== self::ARGS) {
             throw new \RuntimeException(
                 'The rule expects exactly three params: ' .
-                'method (exclusive, inclusive), type (0%, Q1, Q2, Q3, 100%, IQR), expected value (float)',
+                'method ' . Utils::printList(self::METHODS) . ', ' .
+                'type ' . Utils::printList(self::TYPES) . ', ' .
+                'expected value (float)',
             );
         }
 

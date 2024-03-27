@@ -28,7 +28,7 @@ final class FirstNot extends AbstractAggregateRule
             [],
             [
                 self::DEFAULT => [
-                    "'Not Expected'",
+                    'Not expected',
                     'Not allowed as the first value in the column. Will be compared as strings.',
                 ],
             ],

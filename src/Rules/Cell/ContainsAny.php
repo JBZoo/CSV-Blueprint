@@ -18,13 +18,13 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Utils;
 
-final class ContainsOne extends AbstractCellRule
+final class ContainsAny extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {
         return [
             [],
-            [self::DEFAULT => ['[ a, b ]', 'Only one of the strings must be part of the CSV value.']],
+            [self::DEFAULT => ['[ a, b ]', 'At least one of the string must be part of the CSV value.']],
         ];
     }
 
@@ -39,18 +39,13 @@ final class ContainsOne extends AbstractCellRule
             return 'Rule must contain at least one inclusion value in schema file.';
         }
 
-        $found = 0;
         foreach ($inclusions as $inclusion) {
             if (\strpos($cellValue, $inclusion) !== false) {
-                $found++;
+                return null;
             }
         }
 
-        if ($found === 1) {
-            return null;
-        }
-
-        return "Value \"<c>{$cellValue}</c>\" must contain exactly one of the following: " .
+        return "Value \"<c>{$cellValue}</c>\" must contain at least one of the following: " .
             Utils::printList($inclusions, 'green');
     }
 }

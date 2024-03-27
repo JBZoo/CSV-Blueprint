@@ -79,7 +79,7 @@ final class ValidateCsv extends CliCommand
                 'r',
                 InputOption::VALUE_REQUIRED,
                 "Report output format. Available options:\n" .
-                '<info>' . \implode(', ', ErrorSuite::getAvaiableRenderFormats()) . '</info>',
+                Utils::printList(ErrorSuite::getAvaiableRenderFormats(), 'info'),
                 ErrorSuite::REPORT_DEFAULT,
             )
             ->addOption(
@@ -148,7 +148,7 @@ final class ValidateCsv extends CliCommand
         $schemaFilenames = \array_values(Utils::findFiles($this->getOptArray('schema')));
 
         if (\count($schemaFilenames) === 0) {
-            throw new Exception('Schema file(s) not found: ' . \implode('; ', $this->getOptArray('schema')));
+            throw new Exception('Schema file(s) not found: ' . Utils::printList($this->getOptArray('schema')));
         }
 
         return $schemaFilenames;

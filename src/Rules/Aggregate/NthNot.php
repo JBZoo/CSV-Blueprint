@@ -32,7 +32,7 @@ final class NthNot extends AbstractAggregateRule
             [],
             [
                 self::DEFAULT => [
-                    "[ 2, 'Not expected' ]",
+                    '[ 2, Not expected ]',
                     'Not allowed as the N-th value in the column. Will be compared as strings.',
                 ],
             ],

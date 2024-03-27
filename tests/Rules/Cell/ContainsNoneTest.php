@@ -45,13 +45,13 @@ final class ContainsNoneTest extends TestAbstractCellRule
 
         $rule = $this->create(['a', 'b', 'c']);
         isSame(
-            'Value "a" must not contain any of the following: "["a", "b", "c"]"',
+            'Value "a" must not contain any of the following: ["a", "b", "c"]',
             $rule->test('a'),
         );
 
         $rule = $this->create(['a', 'b', 'c']);
         isSame(
-            'Value "ddddb" must not contain any of the following: "["a", "b", "c"]"',
+            'Value "ddddb" must not contain any of the following: ["a", "b", "c"]',
             $rule->test('ddddb'),
         );
     }

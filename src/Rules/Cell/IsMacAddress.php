@@ -18,22 +18,22 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 use Respect\Validation\Validator;
 
-final class IsDomain extends AbstractCellRule
+final class IsMacAddress extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {
         return [
             [],
             [
-                self::DEFAULT => ['true', 'Only domain name. Example: "example.com"'],
+                self::DEFAULT => ['true', 'The input is a valid MAC address. Example: 00:00:5e:00:53:01'],
             ],
         ];
     }
 
     public function validateRule(string $cellValue): ?string
     {
-        if (!Validator::domain()->validate($cellValue)) {
-            return "Value \"<c>{$cellValue}</c>\" is not a valid domain";
+        if (!Validator::macAddress()->validate($cellValue)) {
+            return "Value \"<c>{$cellValue}</c>\" is not a valid MAC address.";
         }
 
         return null;

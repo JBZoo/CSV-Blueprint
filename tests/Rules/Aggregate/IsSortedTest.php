@@ -67,13 +67,13 @@ class IsSortedTest extends TestAbstractAggregateRule
 
         $rule = $this->create(['QQQ', 'natural']);
         isSame(
-            'Unknown sort direction: "QQQ". Allowed: "asc", "desc"',
+            'Unknown sort direction: "QQQ". Allowed: ["asc", "desc"]',
             $rule->test(['1', '11', '2', '20', '21']),
         );
 
         $rule = $this->create(['asc', 'QQQQQQQ']);
         isSame(
-            'Unknown sort method: "QQQQQQQ". Allowed: "natural", "regular", "numeric", "string"',
+            'Unknown sort method: "QQQQQQQ". Allowed: ["natural", "regular", "numeric", "string"]',
             $rule->test(['1', '11', '2', '20', '21']),
         );
 

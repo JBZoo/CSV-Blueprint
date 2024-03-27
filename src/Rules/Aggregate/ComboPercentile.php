@@ -41,15 +41,15 @@ final class ComboPercentile extends AbstractAggregateRuleCombo
                 'Similar method used in NumPy and Excel.',
                 'See: https://en.wikipedia.org/wiki/Percentile#' .
                 'Second_variant.2C_.7F.27.22.60UNIQ--postMath-00000043-QINU.60.22.27.7F',
-                'Example: `[ 95, 1.234 ]` The 95th percentile in the column must be "1.234" (float).',
+                'Example: `[ 95.5, 1.234 ]` The 95.5th percentile in the column must be "1.234" (float).',
             ],
             [
-                self::MIN     => ['[ 95, 1.0 ]', 'x >= 1.0'],
-                self::GREATER => ['[ 95, 2.0 ]', 'x >  2.0'],
-                self::NOT     => ['[ 95, 5.0 ]', 'x != 5.0'],
-                self::EQ      => ['[ 95, 7.0 ]', 'x == 7.0'],
-                self::LESS    => ['[ 95, 8.0 ]', 'x <  8.0'],
-                self::MAX     => ['[ 95, 9.0 ]', 'x <= 9.0'],
+                self::MIN     => ['[ 95.0, 1.0 ]', 'x >= 1.0'],
+                self::GREATER => ['[ 95.0, 2.0 ]', 'x >  2.0'],
+                self::NOT     => ['[ 95.0, 5.0 ]', 'x != 5.0'],
+                self::EQ      => ['[ 95.0, 7.0 ]', 'x == 7.0'],
+                self::LESS    => ['[ 95.0, 8.0 ]', 'x <  8.0'],
+                self::MAX     => ['[ 95.0, 9.0 ]', 'x <= 9.0'],
             ],
         ];
     }

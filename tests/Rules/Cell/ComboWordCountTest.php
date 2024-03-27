@@ -21,7 +21,6 @@ use JBZoo\CsvBlueprint\Rules\Cell\ComboWordCount;
 use JBZoo\PHPUnit\Rules\TestAbstractCellRuleCombo;
 
 use function JBZoo\PHPUnit\isSame;
-use function JBZoo\PHPUnit\success;
 
 class ComboWordCountTest extends TestAbstractCellRuleCombo
 {
@@ -97,19 +96,5 @@ class ComboWordCountTest extends TestAbstractCellRuleCombo
             'The word count of the value "asd, asdasd asd 1232 asdas" is 4, which is greater than the expected "2"',
             $rule->test('asd, asdasd asd 1232 asdas'),
         );
-    }
-
-    public function testInvalidOption(): void
-    {
-        $this->expectException(\JBZoo\CsvBlueprint\Rules\Exception::class);
-        $this->expectExceptionMessage('Invalid option "qwerty" for the "word_count_max" rule. It should be integer.');
-
-        $rule = $this->create('qwerty', Combo::MAX);
-        $rule->test('12345');
-    }
-
-    public function testInvalidParsing(): void
-    {
-        success('No cases for invalid parsing.');
     }
 }

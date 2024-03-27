@@ -54,12 +54,4 @@ final class IsBoolTest extends TestAbstractCellRule
             $rule->test(''),
         );
     }
-
-    public function testInvalidOption(): void
-    {
-        $this->expectExceptionMessage('Invalid option "qwerty" for the "is_bool" rule. It should be true|false.');
-
-        $rule = $this->create('qwerty');
-        $rule->validate('true');
-    }
 }

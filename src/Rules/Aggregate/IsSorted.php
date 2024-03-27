@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
+use JBZoo\CsvBlueprint\Utils;
 
 final class IsSorted extends AbstractAggregateRule
 {
@@ -39,8 +40,8 @@ final class IsSorted extends AbstractAggregateRule
         return [
             [
                 'Check if the column is sorted in a specific order.',
-                ' - Direction: "' . \implode('", "', self::DIRS) . '".',
-                ' - Method: "' . \implode('", "', \array_keys(self::METHODS)) . '".',
+                ' - Direction: ' . Utils::printList(self::DIRS) . '.',
+                ' - Method: ' . Utils::printList(\array_keys(self::METHODS)) . '.',
                 'See: https://www.php.net/manual/en/function.sort.php',
             ],
             [
@@ -84,7 +85,7 @@ final class IsSorted extends AbstractAggregateRule
 
         if (!\in_array($dir, self::DIRS, true)) {
             throw new \RuntimeException(
-                "Unknown sort direction: \"{$dir}\". Allowed: \"" . \implode('", "', self::DIRS) . '"',
+                "Unknown sort direction: \"{$dir}\". Allowed: " . Utils::printList(self::DIRS, 'green'),
             );
         }
 
@@ -97,7 +98,7 @@ final class IsSorted extends AbstractAggregateRule
 
         if (!\in_array($method, \array_keys(self::METHODS), true)) {
             throw new \RuntimeException(
-                "Unknown sort method: \"{$method}\". Allowed: \"" . \implode('", "', \array_keys(self::METHODS)) . '"',
+                "Unknown sort method: \"{$method}\". Allowed: " . Utils::printList(\array_keys(self::METHODS), 'green'),
             );
         }
 
@@ -110,7 +111,8 @@ final class IsSorted extends AbstractAggregateRule
         if (\count($params) !== self::ARGS) {
             throw new \RuntimeException(
                 'The rule expects exactly two params: ' .
-                'direction ["asc", "desc"] and method ["natural", "regular", "numeric", "string"]',
+                'direction ' . Utils::printList(self::DIRS) . ' and ' .
+                'method ' . Utils::printList(\array_keys(self::METHODS)),
             );
         }
 

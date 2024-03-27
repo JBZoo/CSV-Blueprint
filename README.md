@@ -4,7 +4,7 @@
 [![GitHub Release](https://img.shields.io/github/v/release/jbzoo/csv-blueprint?label=Latest)](https://github.com/jbzoo/csv-blueprint/releases)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)    [![Docker Image Size](https://img.shields.io/docker/image-size/jbzoo/csv-blueprint)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)
 
 <!-- rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-282-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-71-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-5-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-207-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-292-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-81-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-5-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-199-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- /rules-counter -->
 
 ## Introduction
@@ -193,10 +193,11 @@ columns:
       word_count_max: 9                 # x <= 9
 
       # Contains rules
-      contains: Hello                   # Example: "Hello World".
-      contains_one: [ a, b ]            # At least one of the string must be part of the CSV value.
-      contains_all: [ a, b, c ]         # All the strings must be part of a CSV value.
+      contains: World                   # Example: "Hello World!". The string must contain "World" in any place.
       contains_none: [ a, b ]           # All the strings must NOT be part of a CSV value.
+      contains_one: [ a, b ]            # Only one of the strings must be part of the CSV value.
+      contains_any: [ a, b ]            # At least one of the string must be part of the CSV value.
+      contains_all: [ a, b ]            # All the strings must be part of a CSV value.
       starts_with: "prefix "            # Example: "prefix Hello World".
       ends_with: " suffix"              # Example: "Hello World suffix".
 
@@ -241,15 +242,24 @@ columns:
 
       # Specific formats
       is_bool: true                     # Allow only boolean values "true" and "false", case-insensitive.
-      is_ip4: true                      # Only IPv4. Example: "127.0.0.1".
-      is_url: true                      # Only URL format. Example: "https://example.com/page?query=string#anchor".
-      is_email: true                    # Only email format. Example: "user@example.com".
-      is_domain: true                   # Only domain name. Example: "example.com".
       is_uuid: true                     # Validates whether the input is a valid UUID. It also supports validation of specific versions 1, 3, 4 and 5.
       is_slug: true                     # Only slug format. Example: "my-slug-123". It can contain letters, numbers, and dashes.
       is_currency_code: true            # Validates an ISO 4217 currency code like GBP or EUR. Case-sensitive. See: https://en.wikipedia.org/wiki/ISO_4217.
       is_base64: true                   # Validate if a string is Base64-encoded. Example: "cmVzcGVjdCE=".
       is_angle: true                    # Check if the cell value is a valid angle (0.0 to 360.0).
+
+      # Internet
+      is_ip: true                       # Both: IPv4 or IPv6.
+      is_ip_v4: true                    # Only IPv4. Example: "127.0.0.1".
+      is_ip_v6: true                    # Only IPv6. Example: "2001:0db8:85a3:08d3:1319:8a2e:0370:7334".
+      is_ip_private: true               # IPv4 has ranges: 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16. IPv6 has ranges starting with FD or FC.
+      is_ip_reserved: true              # IPv4 has ranges: 0.0.0.0/8, 169.254.0.0/16, 127.0.0.0/8 and 240.0.0.0/4. IPv6 has ranges: ::1/128, ::/128, ::ffff:0:0/96 and fe80::/10.
+      ip_v4_range: [ '127.0.0.1-127.0.0.5', '127.0.0.0/21' ] # Check subnet mask or range for IPv4. Address must be in one of the ranges.
+      is_mac_address: true              # The input is a valid MAC address. Example: 00:00:5e:00:53:01
+      is_domain: true                   # Only domain name. Example: "example.com".
+      is_public_domain_suffix: true     # The input is a public ICANN domain suffix. Example: "com", "nom.br", "net" etc.
+      is_url: true                      # Only URL format. Example: "https://example.com/page?query=string#anchor".
+      is_email: true                    # Only email format. Example: "user@example.com".
 
       # Validates if the given input is a valid JSON.
       # This is possible if you escape all special characters correctly and use a special CSV format.
@@ -259,19 +269,21 @@ columns:
       is_latitude: true                 # Can be integer or float. Example: 50.123456.
       is_longitude: true                # Can be integer or float. Example: -89.123456.
       is_geohash: true                  # Check if the value is a valid geohash. Example: "u4pruydqqvj".
-      is_cardinal_direction: true       # Valid cardinal direction. Available values: "N", "S", "E", "W", "NE", "SE", "NW", "SW", "none", ""
+      is_cardinal_direction: true       # Valid cardinal direction. Available values: ["N", "S", "E", "W", "NE", "SE", "NW", "SW", "none", ""]
       is_usa_market_name: true          # Check if the value is a valid USA market name. Example: "New York, NY".
 
       # Validates whether the input is a country code in ISO 3166-1 standard.
       # Available options: "alpha-2" (Ex: "US"), "alpha-3" (Ex: "USA"), "numeric" (Ex: "840").
       # The rule uses data from iso-codes: https://salsa.debian.org/iso-codes-team/iso-codes.
-      country_code: alpha-2             # Country code in ISO 3166-1 standard. Examples: "US", "USA", "840".
+      is_country_code: alpha-2          # Country code in ISO 3166-1 standard. Examples: "US", "USA", "840"
 
       # Validates whether the input is language code based on ISO 639.
       # Available options: "alpha-2" (Ex: "en"), "alpha-3" (Ex: "eng").
       # See: https://en.wikipedia.org/wiki/ISO_639.
-      language_code: alpha-2            # Examples: "en", "eng".
+      is_language_code: alpha-2         # Examples: "en", "eng"
 
+      is_file_exists: true              # Check if file exists on the filesystem (It's FS IO operation!).
+      is_dir_exists: true               # Check if directory exists on the filesystem (It's FS IO operation!).
 
     ####################################################################################################################
     # Data validation for the entire(!) column using different data aggregation methods.
@@ -282,8 +294,8 @@ columns:
       is_unique: true                   # All values in the column are unique.
 
       # Check if the column is sorted in a specific order.
-      #  - Direction: "asc", "desc".
-      #  - Method: "natural", "regular", "numeric", "string".
+      #  - Direction: ["asc", "desc"].
+      #  - Method: ["natural", "regular", "numeric", "string"].
       # See: https://www.php.net/manual/en/function.sort.php
       is_sorted: [ asc, natural ]       # Expected ascending order, natural sorting.
 
@@ -295,7 +307,7 @@ columns:
       first_num_less: 8.0               # x <  8.0
       first_num_max: 9.0                # x <= 9.0
       first: Expected                   # First value in the column. Will be compared as strings.
-      first_not: 'Not Expected'         # Not allowed as the first value in the column. Will be compared as strings.
+      first_not: Not expected           # Not allowed as the first value in the column. Will be compared as strings.
 
       # N-th value in the column.
       # The rule expects exactly two arguments: the first is the line number (without header), the second is the expected value.
@@ -307,7 +319,7 @@ columns:
       nth_num_less: [ 42, 8.0 ]         # x <  8.0
       nth_num_max: [ 42, 9.0 ]          # x <= 9.0
       nth: [ 2, Expected ]              # Nth value in the column. Will be compared as strings.
-      nth_not: [ 2, 'Not expected' ]    # Not allowed as the N-th value in the column. Will be compared as strings.
+      nth_not: [ 2, Not expected ]      # Not allowed as the N-th value in the column. Will be compared as strings.
 
       # Last number in the column. Expected value is float or integer.
       last_num_min: 1.0                 # x >= 1.0
@@ -317,7 +329,7 @@ columns:
       last_num_less: 8.0                # x <  8.0
       last_num_max: 9.0                 # x <= 9.0
       last: Expected                    # Last value in the column. Will be compared as strings.
-      last_not: 'Not Expected'          # Not allowed as the last value in the column. Will be compared as strings.
+      last_not: Not expected            # Not allowed as the last value in the column. Will be compared as strings.
 
       # Sum of the numbers in the column. Example: [1, 2, 3] => 6.
       sum_min: 1.0                      # x >= 1.0
@@ -495,18 +507,18 @@ columns:
       # Linear interpolation between closest ranks method - Second variant, C = 1 P-th percentile (0 <= P <= 100) of a list of N ordered values (sorted from least to greatest).
       # Similar method used in NumPy and Excel.
       # See: https://en.wikipedia.org/wiki/Percentile#Second_variant.2C_.7F.27.22.60UNIQ--postMath-00000043-QINU.60.22.27.7F
-      # Example: `[ 95, 1.234 ]` The 95th percentile in the column must be "1.234" (float).
-      percentile_min: [ 95, 1.0 ]       # x >= 1.0
-      percentile_greater: [ 95, 2.0 ]   # x >  2.0
-      percentile_not: [ 95, 5.0 ]       # x != 5.0
-      percentile: [ 95, 7.0 ]           # x == 7.0
-      percentile_less: [ 95, 8.0 ]      # x <  8.0
-      percentile_max: [ 95, 9.0 ]       # x <= 9.0
+      # Example: `[ 95.5, 1.234 ]` The 95.5th percentile in the column must be "1.234" (float).
+      percentile_min: [ 95.0, 1.0 ]     # x >= 1.0
+      percentile_greater: [ 95.0, 2.0 ] # x >  2.0
+      percentile_not: [ 95.0, 5.0 ]     # x != 5.0
+      percentile: [ 95.0, 7.0 ]         # x == 7.0
+      percentile_less: [ 95.0, 8.0 ]    # x <  8.0
+      percentile_max: [ 95.0, 9.0 ]     # x <= 9.0
 
       # Quartiles. Three points that divide the data set into four equal groups, each group comprising a quarter of the data.
       # See: https://en.wikipedia.org/wiki/Quartile
-      # There are multiple methods for computing quartiles: "exclusive", "inclusive". Exclusive is ussually classic.
-      # Available types: "0%", "Q1", "Q2", "Q3", "100%", "IQR" (aka Interquartile Range)
+      # There are multiple methods for computing quartiles: ["exclusive", "inclusive"]. Exclusive is ussually classic.
+      # Available types: ["0%", "Q1", "Q2", "Q3", "100%", "IQR"] ("IQR" is Interquartile Range)
       # Example: `[ inclusive, 'Q3', 42.0 ]` - the Q3 inclusive quartile is 50.0
       quartiles_min: [ 'exclusive', '0%', 1.0 ]             # x >= 1.0
       quartiles_greater: [ 'inclusive', 'Q1', 2.0 ]         # x >  2.0
@@ -753,7 +765,7 @@ Options:
                                    Feel free to use glob pattrens. Usage examples:
                                    /full/path/file.yml, p/file.yml, p/*.yml, p/**/*.yml, p/**/name-*.json, **/*.php, etc. (multiple values allowed)
   -r, --report=REPORT              Report output format. Available options:
-                                   text, table, github, gitlab, teamcity, junit [default: "table"]
+                                   ["text", "table", "github", "gitlab", "teamcity", "junit"] [default: "table"]
   -Q, --quick[=QUICK]              Immediately terminate the check at the first error found.
                                    Of course it will speed up the check, but you will get only 1 message out of many.
                                    If any error is detected, the utility will return a non-zero exit code.

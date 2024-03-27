@@ -29,6 +29,31 @@ final class Utils
 {
     public const MAX_DIRECTORY_DEPTH = 10;
 
+    public static function printList(null|array|bool|float|int|string $items, string $color = ''): string
+    {
+        if (!\is_array($items)) {
+            $items = [$items];
+        }
+
+        if (\count($items) === 0) {
+            return '[]';
+        }
+
+        if (\count($items) === 1) {
+            $val = \reset($items);
+            if ($color === '') {
+                return "\"{$val}\"";
+            }
+            return "\"<{$color}>{$val}</{$color}>\"";
+        }
+
+        if ($color === '') {
+            return '["' . \implode('", "', $items) . '"]';
+        }
+
+        return "[\"<{$color}>" . \implode("</{$color}>\", \"<{$color}>", $items) . "</{$color}>\"]";
+    }
+
     public static function debug(int|string $message): void
     {
         if (\defined('PROFILE_MODE')) {
@@ -207,7 +232,7 @@ final class Utils
             'array'   => [],
             'boolean' => [],
             'double'  => ['string', 'integer'],
-            'integer' => ['string', 'double'],
+            'integer' => [],
             'string'  => ['double', 'integer'],
         ];
 

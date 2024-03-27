@@ -115,9 +115,9 @@ abstract class AbstarctRule
     {
         // TODO: Replace to warning message
         if (!\is_bool($this->options)) {
-            $options = \is_array($this->options) ? \implode(', ', $this->options) : (string)$this->options;
+            $options = Utils::printList($this->options, 'c');
             throw new Exception(
-                "Invalid option \"{$options}\" for the \"{$this->getRuleCode()}\" rule. " .
+                "Invalid option {$options} for the \"{$this->getRuleCode()}\" rule. " .
                 'It should be true|false.',
             );
         }
@@ -129,10 +129,9 @@ abstract class AbstarctRule
     {
         // TODO: Replace to warning message
         if (\is_array($this->options)) {
-            $options = \implode(', ', $this->options);
-
+            $options = Utils::printList($this->options, 'c');
             throw new Exception(
-                "Invalid option \"{$options}\" for the \"{$this->getRuleCode()}\" rule. " .
+                "Invalid option {$options} for the \"{$this->getRuleCode()}\" rule. " .
                 'It should be int/float/string.',
             );
         }
@@ -144,9 +143,9 @@ abstract class AbstarctRule
     {
         // TODO: Replace to warning message
         if ($this->options === '' || !\is_numeric($this->options)) {
-            $options = \is_array($this->options) ? '[' . \implode(', ', $this->options) . ']' : $this->options;
+            $options = Utils::printList($this->options, 'c');
             throw new Exception(
-                "Invalid option \"{$options}\" for the \"{$this->getRuleCode()}\" rule. " .
+                "Invalid option {$options} for the \"{$this->getRuleCode()}\" rule. " .
                 'It should be integer.',
             );
         }
@@ -158,9 +157,9 @@ abstract class AbstarctRule
     {
         // TODO: Replace to warning message
         if ($this->options === '' || !\is_numeric($this->options)) {
-            $options = \is_array($this->options) ? '[' . \implode(', ', $this->options) . ']' : $this->options;
+            $options = Utils::printList($this->options, 'c');
             throw new Exception(
-                "Invalid option \"{$options}\" for the \"{$this->getRuleCode()}\" rule. " .
+                "Invalid option {$options} for the \"{$this->getRuleCode()}\" rule. " .
                 'It should be integer/float.',
             );
         }
@@ -172,8 +171,9 @@ abstract class AbstarctRule
     {
         // TODO: Replace to warning message
         if (!\is_array($this->options)) {
+            $options = Utils::printList($this->options, 'c');
             throw new Exception(
-                "Invalid option \"{$this->options}\" for the \"{$this->getRuleCode()}\" rule. " .
+                "Invalid option {$options} for the \"{$this->getRuleCode()}\" rule. " .
                 'It should be array of strings.',
             );
         }

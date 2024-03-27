@@ -67,15 +67,17 @@ columns:
       word_count_less: 8
       word_count_max: 9
 
-      contains: Hello
+      contains: World
+      contains_none:
+        - a
+        - b
       contains_one:
         - a
         - b
-      contains_all:
+      contains_any:
         - a
         - b
-        - c
-      contains_none:
+      contains_all:
         - a
         - b
       starts_with: 'prefix '
@@ -111,23 +113,37 @@ columns:
       is_leap_year: true
 
       is_bool: true
-      is_ip4: true
-      is_url: true
-      is_email: true
-      is_domain: true
       is_uuid: true
       is_slug: true
       is_currency_code: true
       is_base64: true
       is_angle: true
+
+      is_ip: true
+      is_ip_v4: true
+      is_ip_v6: true
+      is_ip_private: true
+      is_ip_reserved: true
+      ip_v4_range:
+        - 127.0.0.1-127.0.0.5
+        - 127.0.0.0/21
+      is_mac_address: true
+      is_domain: true
+      is_public_domain_suffix: true
+      is_url: true
+      is_email: true
+
       is_json: true
       is_latitude: true
       is_longitude: true
       is_geohash: true
       is_cardinal_direction: true
       is_usa_market_name: true
-      country_code: alpha-2
-      language_code: alpha-2
+      is_country_code: alpha-2
+      is_language_code: alpha-2
+
+      is_file_exists: true
+      is_dir_exists: true
 
     aggregate_rules:
       is_unique: true
@@ -142,7 +158,7 @@ columns:
       first_num_less: 8.0
       first_num_max: 9.0
       first: Expected
-      first_not: 'Not Expected'
+      first_not: Not expected
 
       nth_num_min:
         - 42
@@ -167,7 +183,7 @@ columns:
         - Expected
       nth_not:
         - 2
-        - 'Not expected'
+        - Not expected
 
       last_num_min: 1.0
       last_num_greater: 2.0
@@ -176,7 +192,7 @@ columns:
       last_num_less: 8.0
       last_num_max: 9.0
       last: Expected
-      last_not: 'Not Expected'
+      last_not: Not expected
 
       sum_min: 1.0
       sum_greater: 2.0
@@ -319,22 +335,22 @@ columns:
       cubic_mean_max: 9.0
 
       percentile_min:
-        - 95
+        - 95.0
         - 1.0
       percentile_greater:
-        - 95
+        - 95.0
         - 2.0
       percentile_not:
-        - 95
+        - 95.0
         - 5.0
       percentile:
-        - 95
+        - 95.0
         - 7.0
       percentile_less:
-        - 95
+        - 95.0
         - 8.0
       percentile_max:
-        - 95
+        - 95.0
         - 9.0
 
       quartiles_min:

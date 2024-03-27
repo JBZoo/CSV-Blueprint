@@ -71,6 +71,7 @@ final class DocBuilder
 
     private const HELP_LEFT_PAD = 6;
     private const HELP_DESC_PAD = 40;
+    private const HELP_DESC_PAD_BIG = 60;
 
     private array  $topHelp;
     private array  $options;
@@ -148,11 +149,11 @@ final class DocBuilder
             : "{$leftPad}{$ruleCode}_{$mode}: {$row[0]}";
 
         if (\strlen($baseKeyVal) > $descPad) {
-            $descPad = 60;
+            $descPad = self::HELP_DESC_PAD_BIG;
         }
 
         if (isset($row[1]) && $row[1] !== '') {
-            return \str_pad($baseKeyVal, $descPad, ' ', \STR_PAD_RIGHT) . "# {$row[1]}";
+            return \str_pad($baseKeyVal, $descPad - 1, ' ', \STR_PAD_RIGHT) . " # {$row[1]}";
         }
 
         return $baseKeyVal;

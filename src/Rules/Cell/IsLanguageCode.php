@@ -16,10 +16,11 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
+use JBZoo\CsvBlueprint\Utils;
 use Respect\Validation\Rules\LanguageCode as RespectLanguageCode;
 use Respect\Validation\Validator;
 
-class LanguageCode extends AbstractCellRule
+class IsLanguageCode extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {
@@ -47,11 +48,11 @@ class LanguageCode extends AbstractCellRule
 
         if (!\in_array($set, $validSets, true)) {
             return "Unknown language set: \"<c>{$set}</c>\". " .
-                'Available options: [<green>' . \implode(', ', $validSets) . '</green>]';
+                'Available options: ' . Utils::printList($validSets, 'green');
         }
 
         if (!Validator::languageCode($set)->validate($cellValue)) {
-            return "Value \"<c>{$cellValue}</c>\" is not a valid {$set} language code.";
+            return "Value \"<c>{$cellValue}</c>\" is not a valid \"{$set}\" language code.";
         }
 
         return null;

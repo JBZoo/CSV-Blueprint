@@ -18,22 +18,27 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 use Respect\Validation\Validator;
 
-final class IsDomain extends AbstractCellRule
+final class IsPublicDomainSuffix extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {
         return [
             [],
             [
-                self::DEFAULT => ['true', 'Only domain name. Example: "example.com"'],
+                self::DEFAULT => [
+                    'true',
+                    'The input is a public ICANN domain suffix. Example: "com", "nom.br", "net" etc.',
+                ],
             ],
         ];
     }
 
     public function validateRule(string $cellValue): ?string
     {
-        if (!Validator::domain()->validate($cellValue)) {
-            return "Value \"<c>{$cellValue}</c>\" is not a valid domain";
+        // @phpstan-ignore-next-line
+        if (!Validator::oneOf(Validator::tld(), Validator::publicDomainSuffix())->validate($cellValue)) {
+            return "The value \"<c>{$cellValue}</c>\" is not a valid public domain suffix. " .
+                'Example: "com", "nom.br", "net" etc.';
         }
 
         return null;

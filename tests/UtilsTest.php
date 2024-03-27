@@ -103,6 +103,18 @@ final class UtilsTest extends TestCase
         isSame([], $this->getFileName(Utils::findFiles(['demo.csv'])));
     }
 
+    public function testPrintList(): void
+    {
+        isSame('["one", "two", "three"]', Utils::printList(['one', 'two', 'three']));
+        isSame('["<c>one</c>", "<c>two</c>", "<c>three</c>"]', Utils::printList(['one', 'two', 'three'], 'c'));
+        isSame('"one"', Utils::printList(['one']));
+        isSame('"one"', Utils::printList('one'));
+        isSame('"<c>one</c>"', Utils::printList(['one'], 'c'));
+        isSame('"<c>one</c>"', Utils::printList('one', 'c'));
+        isSame('[]', Utils::printList([]));
+        isSame('[]', Utils::printList([], 'c'));
+    }
+
     public function testColorsTags(): void
     {
         $packs = [

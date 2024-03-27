@@ -16,14 +16,14 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\Cell\ContainsAll;
+use JBZoo\CsvBlueprint\Rules\Cell\ContainsAny;
 use JBZoo\PHPUnit\Rules\TestAbstractCellRule;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class ContainsAllTest extends TestAbstractCellRule
+final class ContainsAnyTest extends TestAbstractCellRule
 {
-    protected string $ruleClass = ContainsAll::class;
+    protected string $ruleClass = ContainsAny::class;
 
     public function testPositive(): void
     {
@@ -31,8 +31,10 @@ final class ContainsAllTest extends TestAbstractCellRule
         isSame('', $rule->test(''));
 
         $rule = $this->create(['a', 'b', 'c']);
+        isSame('', $rule->test('a'));
+        isSame('', $rule->test('ab'));
         isSame('', $rule->test('abc'));
-        isSame('', $rule->test('abdasadasdasdc'));
+        isSame('', $rule->test('abc  '));
     }
 
     public function testNegative(): void
@@ -45,12 +47,8 @@ final class ContainsAllTest extends TestAbstractCellRule
 
         $rule = $this->create(['a', 'b', 'c']);
         isSame(
-            'Value "ab" must contain all of the following: ["a", "b", "c"]',
-            $rule->test('ab'),
-        );
-        isSame(
-            'Value "ac" must contain all of the following: ["a", "b", "c"]',
-            $rule->test('ac'),
+            'Value "d" must contain at least one of the following: ["a", "b", "c"]',
+            $rule->test('d'),
         );
     }
 }

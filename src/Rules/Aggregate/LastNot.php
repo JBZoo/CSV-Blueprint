@@ -28,7 +28,7 @@ final class LastNot extends AbstractAggregateRule
             [],
             [
                 self::DEFAULT => [
-                    "'Not Expected'",
+                    'Not expected',
                     'Not allowed as the last value in the column. Will be compared as strings.',
                 ],
             ],

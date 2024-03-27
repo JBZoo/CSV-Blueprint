@@ -79,19 +79,21 @@ class ComboQuartilesTest extends TestAbstractAggregateRuleCombo
         $rule = $this->create([950.05], Combo::EQ);
         isSame(
             'The rule expects exactly three params: ' .
-            'method (exclusive, inclusive), type (0%, Q1, Q2, Q3, 100%, IQR), expected value (float)',
+            'method ["exclusive", "inclusive"], ' .
+            'type ["0%", "Q1", "Q2", "Q3", "100%", "IQR"], ' .
+            'expected value (float)',
             $rule->test(\range(1, 200)),
         );
 
         $rule = $this->create(['qwerty', 'IQR', 5], Combo::EQ);
         isSame(
-            'Unknown quartile method: "qwerty". Allowed: "exclusive", "inclusive"',
+            'Unknown quartile method: "qwerty". Allowed: ["exclusive", "inclusive"]',
             $rule->test(\range(1, 200)),
         );
 
         $rule = $this->create(['inclusive', 'QQQQ', 5], Combo::EQ);
         isSame(
-            'Unknown quartile type: "QQQQ". Allowed: "0%", "Q1", "Q2", "Q3", "100%", "IQR"',
+            'Unknown quartile type: "QQQQ". Allowed: ["0%", "Q1", "Q2", "Q3", "100%", "IQR"]',
             $rule->test(\range(1, 200)),
         );
     }
