@@ -11,41 +11,38 @@
 
 A console utility designed for validating CSV files against a strictly defined schema and validation rules outlined
 in [YAML files](schema-examples/full.yml) serves an essential purpose in ensuring data integrity and conformity.
-This utility facilitates automated checks to verify that the structure and content of CSV files adhere to predefined specifications,
-making it invaluable in scenarios where data quality and consistency are critical.
-By leveraging a schema and rules described in YAML, a human-readable format, this tool allows for easy configuration
-and modification of validation criteria without the need for extensive programming knowledge.
+This utility facilitates automated checks to verify that the structure and content of CSV files adhere to predefined
+specifications, making it invaluable in scenarios where data quality and consistency are critical.
 
-The primary use cases for such a utility include:
+### Areas of Application:
 
-* **Data Import/Export Operations:** Ensuring that data exchanged between different systems or processes meets the
-  required standards, thereby reducing errors and inconsistencies.
-* **Data Cleaning and Preprocessing:** Identifying and correcting errors or anomalies in CSV datasets before they are
-  used for analysis or processing, improving the quality of the results.
-* **Compliance and Reporting:** Verifying that data complies with industry standards or regulatory requirements before
-  submission or use in reporting.
-* **Integration and Automation Workflows:** Integrating data validation into continuous integration/continuous
-  deployment (CI/CD) pipelines or automated workflows to ensure data integrity is maintained throughout development and
-  deployment processes.
-
-This utility stands as a crucial component in a broader data quality management strategy, providing a straightforward
-and effective method to enforce data standards and improve the reliability of data-driven decisions.
-
-The CSV Blueprint tool is a powerful and flexible utility designed for validating CSV files against 
-a pre-defined schema specified in YAML format. With the capability to run both locally and in Docker environments,
-CSV Blueprint is an ideal choice for integrating into CI/CD pipelines, such as GitHub Actions,
-to ensure the integrity of CSV data in your projects.
-
+* **Data Integration:** When integrating data from multiple sources, ensuring that incoming CSV files meet expected
+  formats and data types is crucial for preventing errors and data corruption.
+* **Automated Data Pipelines:** In automated ETL (Extract, Transform, Load) processes, validating CSV files against a
+  predefined schema can significantly reduce the risk of errors and data quality issues in downstream applications.
+* **Data Quality Assurance:** Ensuring the quality of data before it enters analysis workflows or databases can save
+  significant time and resources by avoiding the need for manual data cleaning and correction.
+* **Compliance and Reporting:** For industries where data compliance is critical, such as finance and healthcare, being
+  able to validate data against specific rules and formats is essential for regulatory reporting and audits.
+* **Development and Testing:** During software development, especially in applications that import or export CSV data,
+  having a tool to validate test data ensures consistency and reliability of test cases.
+* **Collaboration Across Teams:** By defining CSV formats and validation rules in YAML files, teams can share and
+  collaborate on data specifications more easily, ensuring consistency across different parts of an organization.
 
 ### Features
 
-* **Schema-based Validation**: Define the structure and rules for your CSV files in an intuitive [YAML format](schema-examples/full.yml), enabling precise validation against your data's expected format.
-* **Flexible Configuration**: Support for custom delimiters, quote characters, enclosures, and encoding settings to handle a wide range of CSV formats.
-* **Comprehensive Rule Set**: Includes a broad set of validation rules, such as non-empty fields, exact values, regular expressions, numeric constraints, date formats, and more, catering to various data validation needs.
-* **Docker Support**: Easily integrate into any workflow with Docker, providing a seamless experience for development, testing, and production environments.
-* **GitHub Actions Integration**: Automate CSV validation in your CI/CD pipeline, enhancing the quality control of your data in pull requests and deployments.
-* **Various ways to report:** issues that can be easily integrated with GitHub, Gitlab, TeamCity, etc. The default output is a human-readable table. [See Live Demo](https://github.com/JBZoo/Csv-Blueprint-Demo).
-
+* **Schema-based Validation**: Define the structure and rules for your CSV files in an
+  intuitive [YAML format](schema-examples/full.yml), enabling precise validation against your data's expected format.
+* **Flexible Configuration**: Support for custom delimiters, quote characters, enclosures, and encoding settings to
+  handle a wide range of CSV formats.
+* **Comprehensive Rule Set**: Includes a broad set of validation rules, such as non-empty fields, exact values, regular
+  expressions, numeric constraints, date formats, and more, catering to various data validation needs.
+* **Docker Support**: Easily integrate into any workflow with Docker, providing a seamless experience for development,
+  testing, and production environments.
+* **GitHub Actions Integration**: Automate CSV validation in your CI/CD pipeline, enhancing the quality control of your
+  data in pull requests and deployments.
+* **Various ways to report:** issues that can be easily integrated with GitHub, Gitlab, TeamCity, etc. The default
+  output is a human-readable table. [See Live Demo](https://github.com/JBZoo/Csv-Blueprint-Demo).
 
 ### Live Demo
 
