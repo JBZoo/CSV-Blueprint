@@ -150,6 +150,8 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'is_consonant' => true,
                 'is_alnum'     => true,
                 'is_alpha'     => true,
+
+                'hash' => 'set_algo',
             ],
 
             'aggregate_rules' => [

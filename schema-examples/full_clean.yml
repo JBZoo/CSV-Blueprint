@@ -160,6 +160,8 @@ columns:
       is_alnum: true
       is_alpha: true
 
+      hash: set_algo
+
     aggregate_rules:
       is_unique: true
       is_sorted:
