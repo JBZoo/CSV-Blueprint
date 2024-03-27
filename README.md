@@ -36,6 +36,7 @@ a pre-defined schema specified in YAML format. With the capability to run both l
 CSV Blueprint is an ideal choice for integrating into CI/CD pipelines, such as GitHub Actions,
 to ensure the integrity of CSV data in your projects.
 
+
 ### Features
 
 * **Schema-based Validation**: Define the structure and rules for your CSV files in an intuitive [YAML format](schema-examples/full.yml), enabling precise validation against your data's expected format.
@@ -49,7 +50,7 @@ to ensure the integrity of CSV data in your projects.
 ### Live Demo
 
 * As a live demonstration of how the tool works you can take a look at the super minimal repository - [JBZoo/Csv-Blueprint-Demo](https://github.com/JBZoo/Csv-Blueprint-Demo). Feel free to fork it and play with the tool.
-* You can see more complex examples and different ways of reporting by looking at the [last Demo pipeline](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml?query=branch%3Amaster) (please open the logs). There you'll find the basic ways to get started. And also the `All Report Types` (left sidebar) link with the different report types.
+* You can see more complex examples and different ways of reporting by looking at the [last Demo pipeline](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml) (please open the logs). There you'll find the basic ways to get started. And also the `All Report Types` (left sidebar) link with the different report types.
 
 **See also**
 * [PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files)
@@ -325,7 +326,6 @@ columns:
     # Data validation for the entire(!) column using different data aggregation methods.
     # Depending on the file size and the chosen aggregation method - this can use a lot of RAM time.
     # Be careful with files that are 2-3 or more times larger than the available memory.
-    # TODO: There are several ways to optimize this process, but the author needs time to test it carefully.
     aggregate_rules:
       is_unique: true                   # All values in the column are unique.
 
