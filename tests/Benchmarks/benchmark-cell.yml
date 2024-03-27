@@ -18,5 +18,4 @@ csv:
 columns:
   - name: id
     rules:
-      not_empty: true
       num_min: 2

@@ -88,32 +88,42 @@ docker-in: ##@Docker Enter into Docker container
 
 
 # Benchmarks ###########################################################################################################
-BENCH_CSV    ?= build/bench/5_5000000_header.csv
-BENCH_SCHEMA ?= tests/Benchmarks/benchmark-*.yml
+BENCH_ROWS        ?= 5000000
+BENCH_CSV         ?= --csv='./build/bench/5_$(BENCH_ROWS)_header.csv'
+BENCH_SCHEMA_CELL ?= --schema='./tests/Benchmarks/benchmark-cell.yml'
+BENCH_SCHEMA_AGG  ?= --schema='./tests/Benchmarks/benchmark-agg.yml'
 
-bench-docker: ##@Benchmarks Run 5M CSV file with Docker
-	$(call title,"PHP Benchmarks - 5M CSV file with Docker")
-	time docker run --rm \
-        --workdir=/parent-host \
-        -v .:/parent-host \
-        jbzoo/csv-blueprint:master \
-        validate:csv \
-        --csv=$(BENCH_CSV) \
-        --schema=$(BENCH_SCHEMA) \
-        --profile -vvv --ansi
+bench-create-csv: ##@Benchmarks Create CSV file
+	$(call title,"PHP Benchmarks - Create $(BENCH_ROWS) CSV file")
+	@mkdir -pv ./build/bench/
+	@${BENCH_BIN} --add-header --columns=5 --rows=$(BENCH_ROWS) --ansi
+	@ls -lh ./build/bench/*.csv;
 
-bench-php: ##@Benchmarks Run 5M CSV file with PHP binary
-	$(call title,"PHP Benchmarks - 5M CSV file with Docker")
-	@(BLUEPRINT) --csv=./$(BENCH_CSV) --schema=./$(BENCH_SCHEMA) --profile
 
-BENCH_ROWS := 1000 100000 1000000
+bench-docker: ##@Benchmarks Run CSV file with Docker
+	$(call title,"PHP Benchmarks - CSV file with Docker")
+	$(call title,"Only one cell rule")
+	-$(BLUEPRINT_DOCKER) $(BENCH_CSV) $(BENCH_SCHEMA_CELL) --profile
+	$(call title,"Only one aggregation rule")
+	-$(BLUEPRINT_DOCKER) $(BENCH_CSV) $(BENCH_SCHEMA_AGG)  --profile
+
+
+bench-php: ##@Benchmarks Run CSV file with PHP binary
+	$(call title,"PHP Benchmarks - CSV file with PHP binary")
+	$(call title,"Only one cell rule")
+	-$(BLUEPRINT) $(BENCH_CSV) $(BENCH_SCHEMA_CELL) --profile
+	$(call title,"Only one aggregation rule")
+	-$(BLUEPRINT) $(BENCH_CSV) $(BENCH_SCHEMA_AGG)  --profile
+
+
+BENCH_ROWS_LIST := 100000 1000000
 bench-prepare: ##@Benchmarks Create CSV files
 	$(call title,"PHP Benchmarks - Prepare CSV files")
 	exit 1; # Disabled for now. Enable if you need to generate CSV files.
 	@echo "Remove old CSV files"
 	@mkdir -pv ./build/bench/
 	@rm -fv    ./build/bench/*.csv
-	@$(foreach rows,$(BENCH_ROWS), \
+	@$(foreach rows,$(BENCH_ROWS_LIST), \
         echo "Generate CSV: rows=$(rows)"; \
         ${BENCH_BIN} -H --columns=1  --rows=$(rows) -q & \
         ${BENCH_BIN} -H --columns=3  --rows=$(rows) -q & \
@@ -123,10 +133,4 @@ bench-prepare: ##@Benchmarks Create CSV files
         wait; \
         echo "Generate CSV: rows=$(rows) - done"; \
     )
-	@ls -lh ./build/bench/*.csv;
-
-bench-create-csv: ##@Benchmarks Create 5M CSV file
-	$(call title,"PHP Benchmarks - Create 5M CSV file")
-	@mkdir -pv ./build/bench/
-	@${BENCH_BIN} --add-header --columns=5 --rows=5000000 --ansi
 	@ls -lh ./build/bench/*.csv;
