@@ -57,7 +57,7 @@ jobs:
           php-version: 8.3
           coverage: xdebug
           tools: composer
-          extensions: ast
+          extensions: ast, opcache
 
       - name: Build project
         run: make build --no-print-directory
@@ -102,7 +102,7 @@ jobs:
           php-version: 8.1
           coverage: none
           tools: composer
-          extensions: ast
+          extensions: ast, opcache
 
       - name: Install project
         run: make build --no-print-directory
@@ -145,7 +145,7 @@ jobs:
           php-version: 8.3
           coverage: none
           tools: composer
-          extensions: ast
+          extensions: ast, opcache
 
       - name: Install project
         run: make build --no-print-directory
@@ -219,6 +219,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           tools: composer
+          extensions: opcache
 
       - name: Build project in production mode
         run: make build-prod build-phar-file --no-print-directory
@@ -329,6 +330,7 @@ jobs:
           php-version: 8.3
           coverage: none
           tools: composer
+          extensions: opcache
 
       - name: Build project
         run: make build --no-print-directory
