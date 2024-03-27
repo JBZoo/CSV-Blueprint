@@ -196,8 +196,27 @@ columns:
       # See: https://en.wikipedia.org/wiki/ISO_639.
       is_language_code: alpha-2         # Examples: "en", "eng"
 
+      # Filesystem (with IO!)
       is_file_exists: true              # Check if file exists on the filesystem (It's FS IO operation!).
       is_dir_exists: true               # Check if directory exists on the filesystem (It's FS IO operation!).
+
+      # Mathematical
+      is_fibonacci: true                # Validates whether the input follows the Fibonacci integer sequence. Example: "8", "13".
+      is_prime_number: true             # Validates a prime number. Example: "3", "5", "7", "11".
+      is_even: true                     # Check if the value is an even number. Example: "2", "4", "6".
+      is_odd: true                      # Check if the value is an odd number. Example: "1", "7", "11".
+      is_roman: true                    # Validates if the input is a Roman numeral. Example: "I", "IV", "XX".
+
+      # Identifications
+      phone: ALL                        # Validates if the input is a phone number. Specify the country code to validate the phone number for a specific country. Example: "ALL", "US", "BR".".
+
+      # Misc
+      is_version: true                  # Validates the string as version numbers using Semantic Versioning. Example: "1.2.3".
+      is_punct: true                    # Validates whether the input composed by only punctuation characters. Example: "!@#$%^&*()".
+      is_vowel: true                    # Validates whether the input contains only vowels. Example: "aei".
+      is_consonant: true                # Validates if the input contains only consonants. Example: "bcd".
+      is_alnum: true                    # Validates whether the input is only alphanumeric. Example: "aBc123".
+      is_alpha: true                    # This is similar to `is_alnum`, but it does not allow numbers. Example: "aBc".
 
     ####################################################################################################################
     # Data validation for the entire(!) column using different data aggregation methods.
