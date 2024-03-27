@@ -122,7 +122,7 @@ bench-prepare: ##@Benchmarks Create CSV files
 bench-create-1M-csv: ##@Benchmarks Create 1M CSV file
 	$(call title,"PHP Benchmarks - Create 1M CSV file")
 	@mkdir -pv ./build/bench/
-	@${BENCH_BIN} -H --columns=20 --rows=1000000 -q -vvv
+	@${BENCH_BIN} -H --columns=20 --rows=1000000
 	@ls -lh ./build/bench/*.csv;
 
 bench-1M-docker: ##@Benchmarks Run 1M CSV file via Docker
