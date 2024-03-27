@@ -9,24 +9,32 @@
 
 ## Introduction
 
+A console utility designed for validating CSV files against a strictly defined schema and validation rules outlined
+in [YAML files](schema-examples/full.yml) serves an essential purpose in ensuring data integrity and conformity.
+This utility facilitates automated checks to verify that the structure and content of CSV files adhere to predefined specifications,
+making it invaluable in scenarios where data quality and consistency are critical.
+By leveraging a schema and rules described in YAML, a human-readable format, this tool allows for easy configuration
+and modification of validation criteria without the need for extensive programming knowledge.
+
+The primary use cases for such a utility include:
+
+* **Data Import/Export Operations:** Ensuring that data exchanged between different systems or processes meets the
+  required standards, thereby reducing errors and inconsistencies.
+* **Data Cleaning and Preprocessing:** Identifying and correcting errors or anomalies in CSV datasets before they are
+  used for analysis or processing, improving the quality of the results.
+* **Compliance and Reporting:** Verifying that data complies with industry standards or regulatory requirements before
+  submission or use in reporting.
+* **Integration and Automation Workflows:** Integrating data validation into continuous integration/continuous
+  deployment (CI/CD) pipelines or automated workflows to ensure data integrity is maintained throughout development and
+  deployment processes.
+
+This utility stands as a crucial component in a broader data quality management strategy, providing a straightforward
+and effective method to enforce data standards and improve the reliability of data-driven decisions.
+
 The CSV Blueprint tool is a powerful and flexible utility designed for validating CSV files against 
 a pre-defined schema specified in YAML format. With the capability to run both locally and in Docker environments,
 CSV Blueprint is an ideal choice for integrating into CI/CD pipelines, such as GitHub Actions,
 to ensure the integrity of CSV data in your projects.
-
-
-### Why validate CSV files
-
-Validating CSV files at the Continuous Integration (CI) level within a repository is crucial for several reasons in data engineering:
-
-* **Data Quality Assurance**: Ensures that the data meets predefined standards and formats before it's used in applications or analytics, preventing data corruption and inconsistency issues.
-* **Early Detection of Errors**: Identifies problems with data submissions or changes early in the development process, reducing the time and effort required for troubleshooting and fixes.
-* **Automated Data Governance**: Enforces data governance policies automatically, ensuring that all data complies with regulatory and business rules.
-* **Streamlined Data Integration**: Facilitates smoother data integration processes by ensuring that the data being ingested from different sources adheres to the expected schema, minimizing integration errors.
-* **Collaboration and Transparency**: Helps teams collaborate more effectively by providing clear standards for data formats and validation rules, leading to more transparent and predictable data handling practices.
-
-Integrating CSV validation into CI processes promotes higher data integrity, reliability, and operational efficiency in data engineering projects.
-
 
 ### Features
 
@@ -909,8 +917,6 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
   * Flag to ignore file name pattern. It's useful when you have a lot of files, and you don't want to validate the file name.
 
 * **Validation**
-  * [More aggregate rules](https://github.com/markrogoyski/math-php#statistics---descriptive).
-  * [More cell rules](https://github.com/Respect/Validation).
   * `required` flag for the column.
   * Multi values in one cell.
   * Custom cell rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
