@@ -31,6 +31,7 @@ final class PhoneTest extends TestAbstractCellRule
         isSame(null, $rule->validate(''));
 
         $valid = [
+            '',
             '+1 650 253 00 00',
             '+7 (999) 999-99-99',
             '+7(999)999-99-99',
@@ -89,9 +90,14 @@ final class PhoneTest extends TestAbstractCellRule
     public function testInvalidCountryCode(): void
     {
         $rule = $this->create('QWERTY');
-
         isSame(
             '"phone" at line <red>1</red>, column "prop". Unexpected error: Invalid country code QWERTY.',
+            (string)$rule->validate('+1 650 253 00 00'),
+        );
+
+        $rule = $this->create('');
+        isSame(
+            '"phone" at line <red>1</red>, column "prop". The country code is required. Example: "ALL", "US", "BR".',
             (string)$rule->validate('+1 650 253 00 00'),
         );
     }

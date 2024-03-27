@@ -31,6 +31,7 @@ final class IsRomanTest extends TestAbstractCellRule
         isSame(null, $rule->validate(''));
 
         $valid = [
+            '',
             'III',
             'IV',
             'VI',

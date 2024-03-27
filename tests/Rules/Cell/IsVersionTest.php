@@ -31,6 +31,7 @@ final class IsVersionTest extends TestAbstractCellRule
         isSame(null, $rule->validate(''));
 
         $valid = [
+            '',
             '1.0.0',
             '1.0.0-alpha',
             '1.0.0-alpha.1',
