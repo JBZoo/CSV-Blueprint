@@ -23,7 +23,7 @@ final class StartsWith extends AbstractCellRule
         return [
             [],
             [
-                self::DEFAULT => ['"prefix "', 'Example: "prefix Hello World".'],
+                self::DEFAULT => ["'prefix '", 'Example: "prefix Hello World".'],
             ],
         ];
     }

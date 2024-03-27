@@ -4,7 +4,7 @@
 [![GitHub Release](https://img.shields.io/github/v/release/jbzoo/csv-blueprint?label=Latest)](https://github.com/jbzoo/csv-blueprint/releases)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)    [![Docker Image Size](https://img.shields.io/docker/image-size/jbzoo/csv-blueprint)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)
 
 <!-- rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-292-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-81-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-5-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-199-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-292-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-81-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-5-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-142/54/8-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- /rules-counter -->
 
 ## Introduction
@@ -198,8 +198,8 @@ columns:
       contains_one: [ a, b ]            # Only one of the strings must be part of the CSV value.
       contains_any: [ a, b ]            # At least one of the string must be part of the CSV value.
       contains_all: [ a, b ]            # All the strings must be part of a CSV value.
-      starts_with: "prefix "            # Example: "prefix Hello World".
-      ends_with: " suffix"              # Example: "Hello World suffix".
+      starts_with: 'prefix '            # Example: "prefix Hello World".
+      ends_with: ' suffix'              # Example: "Hello World suffix".
 
       # Under the hood it converts and compares as float values.
       # Comparison accuracy is 10 digits after a dot.
@@ -519,13 +519,13 @@ columns:
       # See: https://en.wikipedia.org/wiki/Quartile
       # There are multiple methods for computing quartiles: ["exclusive", "inclusive"]. Exclusive is ussually classic.
       # Available types: ["0%", "Q1", "Q2", "Q3", "100%", "IQR"] ("IQR" is Interquartile Range)
-      # Example: `[ inclusive, 'Q3', 42.0 ]` - the Q3 inclusive quartile is 50.0
-      quartiles_min: [ 'exclusive', '0%', 1.0 ]             # x >= 1.0
-      quartiles_greater: [ 'inclusive', 'Q1', 2.0 ]         # x >  2.0
-      quartiles_not: [ 'exclusive', 'Q2', 5.0 ]             # x != 5.0
-      quartiles: [ 'inclusive', 'Q3', 7.0 ]                 # x == 7.0
-      quartiles_less: [ 'exclusive', '100%', 8.0 ]          # x <  8.0
-      quartiles_max: [ 'inclusive', 'IQR', 9.0 ]            # x <= 9.0
+      # Example: `[ inclusive, 'Q3', 42.0 ]` - the Q3 inclusive quartile is 42.0
+      quartiles_min: [ exclusive, '0%', 1.0 ]               # x >= 1.0
+      quartiles_greater: [ inclusive, 'Q1', 2.0 ]           # x >  2.0
+      quartiles_not: [ exclusive, 'Q2', 5.0 ]               # x != 5.0
+      quartiles: [ inclusive, 'Q3', 7.0 ]                   # x == 7.0
+      quartiles_less: [ exclusive, '100%', 8.0 ]            # x <  8.0
+      quartiles_max: [ inclusive, 'IQR', 9.0 ]              # x <= 9.0
 
       # Midhinge. The average of the first and third quartiles and is thus a measure of location.
       # Equivalently, it is the 25% trimmed mid-range or 25% midsummary; it is an L-estimator.
@@ -938,7 +938,7 @@ But... it's not a problem for most cases. And it solves the problem of validatin
 
 The utility is made to just pick up and use and not think about how it works internally.
 Moreover, everything is covered as strictly as possible by tests, strict typing of variables + `~7` linters and static analyzers (max level of rules). 
-Also, if you look, you'll see that any PR goes through about `~30` different checks on GitHub Actions (matrix of PHP versions and mods).
+Also, if you look, you'll see that any PR goes through about `~10` different checks on GitHub Actions (matrix of PHP versions and mods).
 Since I don't know under what conditions the code will be used, everything I can think of is covered. The wonderful world of Open Source.
 
 So... as strictly as possible in today's PHP world. I think it works as expected.

@@ -49,15 +49,15 @@ final class ComboQuartiles extends AbstractAggregateRuleCombo
                 'Available types: ' . Utils::printList(self::TYPES) . ' ("IQR" is Interquartile Range)',
                 // Example
                 'Example: `[ ' . self::METHODS[1] . ", '" . self::TYPES[3] . "', 42.0 ]`" .
-                ' - the ' . self::TYPES[3] . ' ' . self::METHODS[1] . ' quartile is 50.0',
+                ' - the ' . self::TYPES[3] . ' ' . self::METHODS[1] . ' quartile is 42.0',
             ],
             [
-                self::MIN     => ["[ '" . self::METHODS[0] . "', '" . self::TYPES[0] . "', 1.0 ]", 'x >= 1.0'],
-                self::GREATER => ["[ '" . self::METHODS[1] . "', '" . self::TYPES[1] . "', 2.0 ]", 'x >  2.0'],
-                self::NOT     => ["[ '" . self::METHODS[0] . "', '" . self::TYPES[2] . "', 5.0 ]", 'x != 5.0'],
-                self::EQ      => ["[ '" . self::METHODS[1] . "', '" . self::TYPES[3] . "', 7.0 ]", 'x == 7.0'],
-                self::LESS    => ["[ '" . self::METHODS[0] . "', '" . self::TYPES[4] . "', 8.0 ]", 'x <  8.0'],
-                self::MAX     => ["[ '" . self::METHODS[1] . "', '" . self::TYPES[5] . "', 9.0 ]", 'x <= 9.0'],
+                self::MIN     => ['[ ' . self::METHODS[0] . ", '" . self::TYPES[0] . "', 1.0 ]", 'x >= 1.0'],
+                self::GREATER => ['[ ' . self::METHODS[1] . ", '" . self::TYPES[1] . "', 2.0 ]", 'x >  2.0'],
+                self::NOT     => ['[ ' . self::METHODS[0] . ", '" . self::TYPES[2] . "', 5.0 ]", 'x != 5.0'],
+                self::EQ      => ['[ ' . self::METHODS[1] . ", '" . self::TYPES[3] . "', 7.0 ]", 'x == 7.0'],
+                self::LESS    => ['[ ' . self::METHODS[0] . ", '" . self::TYPES[4] . "', 8.0 ]", 'x <  8.0'],
+                self::MAX     => ['[ ' . self::METHODS[1] . ", '" . self::TYPES[5] . "', 9.0 ]", 'x <= 9.0'],
             ],
         ];
     }
