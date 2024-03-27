@@ -331,16 +331,16 @@ jobs:
       - name: Build project
         run: make build --no-print-directory
 
-      - name: Create random CSV files with 1M rows
-        run: make bench-create-1M-csv --no-print-directory
+      - name: Create random CSV files with 5M rows
+        run: make bench-create-csv --no-print-directory
 
       - name: Pull latest Docker image
         run: docker pull jbzoo/csv-blueprint:master
 
-      - name: 🔥 Check 5M rows! Docker
-        run: make bench-1M-docker --no-print-directory
+      - name: 🔥 Check 5M rows with Docker 🔥
+        run: make bench-docker --no-print-directory
         continue-on-error: true
 
-      - name: 🔥 Check 5M rows! PHP Binary
-        run: make bench-1M-php --no-print-directory
+      - name: 🔥 Check 5M rows with PHP Binary 🔥
+        run: make bench-php --no-print-directory
         continue-on-error: true

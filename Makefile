@@ -88,17 +88,23 @@ docker-in: ##@Docker Enter into Docker container
 
 
 # Benchmarks ###########################################################################################################
-BENCH_CSV    ?= --csv=./build/bench/20_1000000_header.csv
-BENCH_SCHEMA ?= --schema=./tests/Benchmarks/benchmark.yml
+BENCH_CSV    ?= build/bench/5_5000000_header.csv
+BENCH_SCHEMA ?= tests/Benchmarks/benchmark-*.yml
 
-bench-php: ##@Benchmarks Run PHP binary benchmarks
-	$(call title,"PHP Benchmarks - PHP binary")
-	${BLUEPRINT} $(BENCH_CSV) $(BENCH_SCHEMA) --profile
+bench-docker: ##@Benchmarks Run 5M CSV file with Docker
+	$(call title,"PHP Benchmarks - 5M CSV file with Docker")
+	time docker run --rm \
+        --workdir=/parent-host \
+        -v .:/parent-host \
+        jbzoo/csv-blueprint:master \
+        validate:csv \
+        --csv=$(BENCH_CSV) \
+        --schema=$(BENCH_SCHEMA) \
+        --profile -vvv --ansi
 
-bench-docker: ##@Benchmarks Run Docker benchmarks
-	$(call title,"PHP Benchmarks - Docker")
-	@time ${BLUEPRINT_DOCKER} $(BENCH_CSV) $(BENCH_SCHEMA) --profile
-
+bench-php: ##@Benchmarks Run 5M CSV file with PHP binary
+	$(call title,"PHP Benchmarks - 5M CSV file with Docker")
+	@(BLUEPRINT) --csv=./$(BENCH_CSV) --schema=./$(BENCH_SCHEMA) --profile
 
 BENCH_ROWS := 1000 100000 1000000
 bench-prepare: ##@Benchmarks Create CSV files
@@ -119,25 +125,8 @@ bench-prepare: ##@Benchmarks Create CSV files
     )
 	@ls -lh ./build/bench/*.csv;
 
-bench-create-1M-csv: ##@Benchmarks Create 5M CSV file
+bench-create-csv: ##@Benchmarks Create 5M CSV file
 	$(call title,"PHP Benchmarks - Create 5M CSV file")
 	@mkdir -pv ./build/bench/
 	@${BENCH_BIN} --add-header --columns=5 --rows=5000000 --ansi
 	@ls -lh ./build/bench/*.csv;
-
-bench-1M-docker: ##@Benchmarks Run 5M CSV file via Docker
-	$(call title,"PHP Benchmarks - 5M CSV file via Docker")
-	time docker run --rm \
-        -v .:/parent-host \
-        jbzoo/csv-blueprint:master \
-        validate:csv \
-        --csv=/parent-host/build/bench/5_5000000_header.csv \
-        --schema=/parent-host/tests/Benchmarks/benchmark-*.yml \
-        --profile -vvv --ansi
-
-bench-1M-php: ##@Benchmarks Run 5M CSV file via PHP binary
-	$(call title,"PHP Benchmarks - 5M CSV file via Docker")
-	@{BLUEPRINT} \
-        --csv=/parent-host/build/bench/5_5000000_header.csv \
-        --schema=/parent-host/tests/Benchmarks/benchmark-*.yml \
-        --profile
