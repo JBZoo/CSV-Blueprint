@@ -129,7 +129,8 @@
                 "is_vowel"                : true,
                 "is_consonant"            : true,
                 "is_alnum"                : true,
-                "is_alpha"                : true
+                "is_alpha"                : true,
+                "hash"                    : "set_algo"
             },
             "aggregate_rules" : {
                 "is_unique"                   : true,
