@@ -13,6 +13,8 @@
 name: Demo
 
 on:
+  release:
+    types: [ created ]
   workflow_run:
     workflows: [ "Publish Docker" ]
     types:
