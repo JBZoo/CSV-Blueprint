@@ -341,8 +341,6 @@ jobs:
 
       - name: 🔥 Check 5M rows with Docker 🔥
         run: make bench-docker --no-print-directory
-        continue-on-error: true
 
       - name: 🔥 Check 5M rows with PHP Binary 🔥
         run: make bench-php --no-print-directory
-        continue-on-error: true

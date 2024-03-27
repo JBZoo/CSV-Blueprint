@@ -19,7 +19,7 @@ endif
 DOCKER_IMAGE     ?= jbzoo/csv-blueprint:local
 CMD_VALIDATE     := validate:csv --ansi -vvv
 BLUEPRINT        := COLUMNS=300 time $(PHP_BIN) ./csv-blueprint $(CMD_VALIDATE)
-BLUEPRINT_DOCKER := docker run --rm  --workdir=/parent-host -v .:/parent-host $(DOCKER_IMAGE) $(CMD_VALIDATE)
+BLUEPRINT_DOCKER := time docker run --rm  --workdir=/parent-host -v .:/parent-host $(DOCKER_IMAGE) $(CMD_VALIDATE)
 BENCH_BIN        := time $(PHP_BIN) ./tests/Benchmarks/bench.php
 
 VALID_CSV       := --csv='./tests/fixtures/demo.csv'
