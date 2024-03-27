@@ -337,10 +337,10 @@ jobs:
       - name: Pull latest Docker image
         run: docker pull jbzoo/csv-blueprint:master
 
-      - name: 🔥 Check 1M rows! Docker
+      - name: 🔥 Check 5M rows! Docker
         run: make bench-1M-docker --no-print-directory
         continue-on-error: true
 
-      - name: 🔥 Check 1M rows! PHP Binary
+      - name: 🔥 Check 5M rows! PHP Binary
         run: make bench-1M-php --no-print-directory
         continue-on-error: true
