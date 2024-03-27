@@ -28,16 +28,21 @@ final class IsFloatTest extends TestAbstractCellRule
     public function testPositive(): void
     {
         $rule = $this->create(true);
-        isSame(null, $rule->validate(''));
+        isSame('', $rule->test(''));
         isSame('', $rule->test('1'));
         isSame('', $rule->test('01'));
         isSame('', $rule->test('1.0'));
         isSame('', $rule->test('01.0'));
+        isSame('', $rule->test('.0'));
+        isSame('', $rule->test('.1'));
         isSame('', $rule->test('-1'));
         isSame('', $rule->test('-1.0'));
+        isSame('', $rule->test('1e5'));
+        isSame('', $rule->test('1E5'));
+        isSame('', $rule->test(' 1E5'));
 
         $rule = $this->create(false);
-        isSame(null, $rule->validate(' 1'));
+        isSame(null, $rule->validate(' q'));
     }
 
     public function testNegative(): void
@@ -48,8 +53,12 @@ final class IsFloatTest extends TestAbstractCellRule
             $rule->test('1.000.000'),
         );
         isSame(
-            'Value " 1" is not a float number',
-            $rule->test(' 1'),
+            'Value "1.000 000" is not a float number',
+            $rule->test('1.000 000'),
+        );
+        isSame(
+            'Value " q" is not a float number',
+            $rule->test(' q'),
         );
     }
 }

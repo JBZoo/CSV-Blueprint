@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Utils;
+use Respect\Validation\Validator;
 
 final class IsInt extends AbstractCellRule
 {
@@ -32,7 +32,11 @@ final class IsInt extends AbstractCellRule
 
     public function validateRule(string $cellValue): ?string
     {
-        if (Utils::testRegex('/^-?\d+$/', $cellValue)) {
+        if ($cellValue === '') {
+            return null;
+        }
+
+        if (!Validator::intVal()->validate($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not an integer";
         }
 

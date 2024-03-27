@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Utils;
+use Respect\Validation\Validator;
 
 class IsFloat extends AbstractCellRule
 {
@@ -32,7 +32,11 @@ class IsFloat extends AbstractCellRule
 
     public function validateRule(string $cellValue): ?string
     {
-        if (Utils::testRegex('/^-?\d+(\.\d+)?$/', $cellValue)) {
+        if ($cellValue === '') {
+            return null;
+        }
+
+        if (!Validator::floatVal()->validate($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not a float number";
         }
 

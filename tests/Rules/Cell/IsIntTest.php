@@ -34,6 +34,7 @@ final class IsIntTest extends TestAbstractCellRule
         isSame('', $rule->test('0'));
         isSame('', $rule->test('00'));
         isSame('', $rule->test('-1'));
+        isSame('', $rule->test('089'));
 
         $rule = $this->create(false);
         isSame(null, $rule->validate(' 1'));
@@ -42,6 +43,14 @@ final class IsIntTest extends TestAbstractCellRule
     public function testNegative(): void
     {
         $rule = $this->create(true);
+        isSame(
+            'Value "1_000_000" is not an integer',
+            $rule->test('1_000_000'),
+        );
+        isSame(
+            'Value "1000 000" is not an integer',
+            $rule->test('1000 000'),
+        );
         isSame(
             'Value "1.000.000" is not an integer',
             $rule->test('1.000.000'),
