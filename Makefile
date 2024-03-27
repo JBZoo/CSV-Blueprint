@@ -29,7 +29,7 @@ INVALID_SCHEMA  ?= --schema='./tests/schemas/demo_invalid.yml'
 
 # Build/install ########################################################################################################
 build: ##@Project Build project in development mode
-	@composer install --optimize-autoloader
+	@composer install --optimize-autoloader --ansi
 	@rm -f `pwd`/ci-report-converter
 	@make build-version
 
@@ -56,7 +56,7 @@ build-version: ##@Project Save version info
 
 update: ##@Project Update dependencies
 	@echo "Composer flags: $(JBZOO_COMPOSER_UPDATE_FLAGS)"
-	@composer update $(JBZOO_COMPOSER_UPDATE_FLAGS)
+	@composer update $(JBZOO_COMPOSER_UPDATE_FLAGS) --ansi
 
 
 # Demo #################################################################################################################
