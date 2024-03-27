@@ -129,7 +129,7 @@ bench-1M-docker: ##@Benchmarks Run 1M CSV file via Docker
 	$(call title,"PHP Benchmarks - 10M CSV file via Docker")
 	time docker run --rm \
         -v .:/parent-host \
-        jbzoo/csv-blueprint:latest \
+        jbzoo/csv-blueprint:master \
         validate:csv \
         --csv=/parent-host/build/bench/5_1000000_header.csv \
         --schema=/parent-host/tests/Benchmarks/benchmark.yml \
