@@ -131,6 +131,6 @@ bench-1M-docker: ##@Benchmarks Run 1M CSV file via Docker
         -v .:/parent-host \
         jbzoo/csv-blueprint:latest \
         validate:csv \
-        --csv=/parent-host/build/bench/3_1000000_header.csv \
+        --csv=/parent-host/build/bench/5_1000000_header.csv \
         --schema=/parent-host/tests/Benchmarks/benchmark.yml \
         --profile -vvv --ansi
