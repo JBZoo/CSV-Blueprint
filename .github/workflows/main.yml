@@ -285,6 +285,7 @@ jobs:
           context: .
           push: true
           tags: jbzoo/csv-blueprint:master
+          platforms: linux/amd64,linux/arm64/v8,linux/386
 
 
   verify-ga:
