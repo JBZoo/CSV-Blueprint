@@ -104,6 +104,10 @@ jobs:
           tools: composer
           extensions: ast
 
+      - name: Install project
+        run: make build --no-print-directory
+
+        ## To see the difference between the current and the lowest versions
       - name: Build project
         run: make update --no-print-directory
 
@@ -143,6 +147,10 @@ jobs:
           tools: composer
           extensions: ast
 
+      - name: Install project
+        run: make build --no-print-directory
+
+        ## To see the difference between the current and the latest versions
       - name: Build project
         run: make update --no-print-directory
 
