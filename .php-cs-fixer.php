@@ -25,8 +25,8 @@ return (new PhpCsFixerCodingStandard(__DIR__))->getFixerConfig(null, [
     ],
     'blank_line_before_statement' => [
         'statements' => [
-            "case",
-            "default",
+            'case',
+            'default',
             'declare',
             'do',
             'for',
