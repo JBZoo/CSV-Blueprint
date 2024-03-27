@@ -22,7 +22,7 @@ csv:
   header: true
 
 columns:
-  - name: float
+  - name: id
     rules:
       # Both: 13.0 sec
 
@@ -30,22 +30,22 @@ columns:
       not_empty: true
 
       # 12.8 sec
-      num_min: 1
+      num_min: 2
     aggregate_rules:
       # 28 MB (input:bool)
-      count_max: 1000000
+      count_max: 999999
 
       # 36 MB (input:float/int)
       #sum_max: 499844777878
 
       # 36 MB (input:float/int)
-      #average: 499844.77787765
+      average: 500000
 
       # 74 MB (input:float/int)
       #median: 499844.77787765
 
       # 52 MB (input:float/int)
-      #sd_sample: 499844.77787765
+      #stddev: 499844.77787765
 
       # 52 MB (input:float/int)
       #coef_of_var: 499844.77787765

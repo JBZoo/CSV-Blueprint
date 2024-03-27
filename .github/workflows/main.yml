@@ -338,12 +338,4 @@ jobs:
         run: docker pull jbzoo/csv-blueprint:master
 
       - name: 🔥 Check 1M rows!
-        run: |
-          docker run --rm                           \
-          --workdir=/parent-host                    \
-          -v .:/parent-host                         \
-          jbzoo/csv-blueprint:latest                \
-          validate:csv                              \
-          --csv=./build/bench/3_1000000_header.csv  \
-          --schema=./tests/benchmarks/benchmark.yml \
-          --ansi -vvv --profile
+        run: make bench-1M-docker --no-print-directory
