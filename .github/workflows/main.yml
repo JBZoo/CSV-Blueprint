@@ -339,10 +339,10 @@ jobs:
 
       - name: 🔥 Check 1M rows!
         run: |
-          docker run --rm
-          --workdir=/parent-host
-          -v .:/parent-host
-          jbzoo/csv-blueprint:latest
-          --csv=./build/bench/3_1000000_header.csv
-          --schema=./tests/benchmarks/benchmark.yml
+          docker run --rm                           \
+          --workdir=/parent-host                    \
+          -v .:/parent-host                         \
+          jbzoo/csv-blueprint:latest                \
+          --csv=./build/bench/3_1000000_header.csv  \
+          --schema=./tests/benchmarks/benchmark.yml \
           --ansi -vvv --profile
