@@ -37,12 +37,12 @@ final class ValidatorColumn
 
     public function validateCell(string $cellValue, int $line): ErrorSuite
     {
-        return $this->cellRuleset->validateRuleSet($cellValue, $line);
+        return $this->cellRuleset->validateRuleSet($cellValue, $line, false);
     }
 
     public function validateList(array $cellValue): ErrorSuite
     {
-        return $this->aggRuleset->validateRuleSet($cellValue, self::FALLBACK_LINE);
+        return $this->aggRuleset->validateRuleSet($cellValue, self::FALLBACK_LINE, true);
     }
 
     public function getAggregationInputType(): int

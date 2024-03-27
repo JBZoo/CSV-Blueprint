@@ -4,44 +4,46 @@
 [![GitHub Release](https://img.shields.io/github/v/release/jbzoo/csv-blueprint?label=Latest)](https://github.com/jbzoo/csv-blueprint/releases)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)    [![Docker Image Size](https://img.shields.io/docker/image-size/jbzoo/csv-blueprint)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)
 
 <!-- rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-305-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-94-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-5-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-42/54/8-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-305-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-94-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-5-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-32/54/8-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- /rules-counter -->
 
-## Introduction
+A console utility designed for validating CSV files against a strictly defined schema and validation rules outlined
+in [YAML files](#schema-definition) serves an essential purpose in ensuring data integrity and conformity.
+This utility facilitates automated checks to verify that the structure and content of CSV files adhere to predefined
+specifications, making it invaluable in scenarios where data quality and consistency are critical.
 
-The CSV Blueprint tool is a powerful and flexible utility designed for validating CSV files against 
-a pre-defined schema specified in YAML format. With the capability to run both locally and in Docker environments,
-CSV Blueprint is an ideal choice for integrating into CI/CD pipelines, such as GitHub Actions,
-to ensure the integrity of CSV data in your projects.
+### Why?
 
-
-### Why validate CSV files
-
-Validating CSV files at the Continuous Integration (CI) level within a repository is crucial for several reasons in data engineering:
-
-* **Data Quality Assurance**: Ensures that the data meets predefined standards and formats before it's used in applications or analytics, preventing data corruption and inconsistency issues.
-* **Early Detection of Errors**: Identifies problems with data submissions or changes early in the development process, reducing the time and effort required for troubleshooting and fixes.
-* **Automated Data Governance**: Enforces data governance policies automatically, ensuring that all data complies with regulatory and business rules.
-* **Streamlined Data Integration**: Facilitates smoother data integration processes by ensuring that the data being ingested from different sources adheres to the expected schema, minimizing integration errors.
-* **Collaboration and Transparency**: Helps teams collaborate more effectively by providing clear standards for data formats and validation rules, leading to more transparent and predictable data handling practices.
-
-Integrating CSV validation into CI processes promotes higher data integrity, reliability, and operational efficiency in data engineering projects.
+* **Data Integration:** When integrating data from multiple sources, ensuring that incoming CSV files meet expected
+  formats and data types.
+* **Automated Data Pipelines:** In automated ETL processes, validating CSV files against a predefined schema can
+  significantly reduce the risk of errors and data quality issues in downstream applications.
+* **Data Quality Assurance:** Ensuring the quality of data before it enters analysis workflows or databases can save
+  significant time and resources.
+* **Development and Testing:** During software development, especially in applications that import or export CSV data,
+  having a tool to validate test data ensures consistency and reliability of test cases.
+* **Collaboration Across Teams:** By defining CSV formats and validation rules in YAML files, teams can share and
+  collaborate on data specifications more easily, ensuring consistency across different parts of an organization.
+  Documentation as code!
 
 
 ### Features
 
-* **Schema-based Validation**: Define the structure and rules for your CSV files in an intuitive [YAML format](schema-examples/full.yml), enabling precise validation against your data's expected format.
-* **Flexible Configuration**: Support for custom delimiters, quote characters, enclosures, and encoding settings to handle a wide range of CSV formats.
-* **Comprehensive Rule Set**: Includes a broad set of validation rules, such as non-empty fields, exact values, regular expressions, numeric constraints, date formats, and more, catering to various data validation needs.
-* **Docker Support**: Easily integrate into any workflow with Docker, providing a seamless experience for development, testing, and production environments.
-* **GitHub Actions Integration**: Automate CSV validation in your CI/CD pipeline, enhancing the quality control of your data in pull requests and deployments.
-* **Various ways to report:** issues that can be easily integrated with GitHub, Gitlab, TeamCity, etc. The default output is a human-readable table. [See Live Demo](https://github.com/JBZoo/Csv-Blueprint-Demo).
-
+* **Schema-based Validation**: Define the structure and rules for your CSV files in an
+  intuitive [YAML format](schema-examples/full.yml), enabling precise validation against your data's expected format.
+* **Comprehensive Rule Set**: Includes a broad set of validation rules, such as non-empty fields, exact values, regular
+  expressions, numeric constraints, date formats, and more, catering to various data validation needs.
+* **Docker Support**: Easily integrate into any workflow with Docker, providing a seamless experience for development,
+  testing, and production environments.
+* **GitHub Actions Integration**: Automate CSV validation in your CI/CD pipeline, enhancing the quality control of your
+  data in pull requests and deployments.
+* **Various ways of reporting:** You can be easily integrated with GitHub, Gitlab, TeamCity, etc. The default
+  output is a human-readable table. [See Live Demo](https://github.com/JBZoo/Csv-Blueprint-Demo).
 
 ### Live Demo
 
 * As a live demonstration of how the tool works you can take a look at the super minimal repository - [JBZoo/Csv-Blueprint-Demo](https://github.com/JBZoo/Csv-Blueprint-Demo). Feel free to fork it and play with the tool.
-* You can see more complex examples and different ways of reporting by looking at the [last Demo pipeline](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml?query=branch%3Amaster) (please open the logs). There you'll find the basic ways to get started. And also the `All Report Types` (left sidebar) link with the different report types.
+* You can see more complex examples and different ways of reporting by looking at the [last Demo pipeline](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml) (please open the logs). There you'll find the basic ways to get started. And also the `All Report Types` (left sidebar) link with the different report types.
 
 **See also**
 * [PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files)
@@ -134,7 +136,7 @@ csv:
 columns:
   - name: Column Name (header)          # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
     description: Lorem ipsum            # Description of the column. Not used in the validation process.
-    example: Some example               # Example of the column value. Not used in the validation process.
+    example: Some example               # Example of the column value. Schema will also check this value on its own.
 
     # Important notes about the validation rules.
     # 1. All rules except "not_empty" ignored for empty strings (length 0).
@@ -152,8 +154,7 @@ columns:
 
     ####################################################################################################################
     # Data validation for each(!) value in the column.
-    # Of course, this can greatly affect the speed of checking.
-    # It depends on the number of checks and CSV file size.
+    # Every rule is optional.
     rules:
       # General rules
       not_empty: true                   # Value is not an empty string. Actually checks if the string length is not 0.
@@ -313,11 +314,10 @@ columns:
       #  - haval128,4, haval160,4, haval192,4, haval224,4, haval256,4, haval128,5, haval160,5, haval192,5, haval224,5, haval256,5
       hash: set_algo                    # Example: "1234567890abcdef".
 
+
     ####################################################################################################################
     # Data validation for the entire(!) column using different data aggregation methods.
-    # Depending on the file size and the chosen aggregation method - this can use a lot of RAM time.
-    # Be careful with files that are 2-3 or more times larger than the available memory.
-    # TODO: There are several ways to optimize this process, but the author needs time to test it carefully.
+    # Every rule is optional.
     aggregate_rules:
       is_unique: true                   # All values in the column are unique.
 
@@ -909,8 +909,6 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
   * Flag to ignore file name pattern. It's useful when you have a lot of files, and you don't want to validate the file name.
 
 * **Validation**
-  * [More aggregate rules](https://github.com/markrogoyski/math-php#statistics---descriptive).
-  * [More cell rules](https://github.com/Respect/Validation).
   * `required` flag for the column.
   * Multi values in one cell.
   * Custom cell rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.

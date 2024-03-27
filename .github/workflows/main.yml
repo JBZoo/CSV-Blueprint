@@ -57,7 +57,7 @@ jobs:
           php-version: 8.3
           coverage: xdebug
           tools: composer
-          extensions: ast
+          extensions: ast, opcache
 
       - name: Build project
         run: make build --no-print-directory
@@ -102,7 +102,7 @@ jobs:
           php-version: 8.1
           coverage: none
           tools: composer
-          extensions: ast
+          extensions: ast, opcache
 
       - name: Install project
         run: make build --no-print-directory
@@ -145,7 +145,7 @@ jobs:
           php-version: 8.3
           coverage: none
           tools: composer
-          extensions: ast
+          extensions: ast, opcache
 
       - name: Install project
         run: make build --no-print-directory
@@ -219,6 +219,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           tools: composer
+          extensions: opcache
 
       - name: Build project in production mode
         run: make build-prod build-phar-file --no-print-directory
@@ -309,3 +310,33 @@ jobs:
           csv: ./tests/fixtures/batch/*.csv
           schema: ./tests/schemas/demo_*.yml
         continue-on-error: true
+
+
+  benchmark:
+    name: Benchmark
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_IMAGE: jbzoo/csv-blueprint:master
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          coverage: none
+          tools: composer
+          extensions: opcache
+
+      - name: Build project
+        run: make build --no-print-directory
+
+      - name: Create random CSV files with 5M rows
+        run: make bench-create-csv --no-print-directory
+
+      - name: 🔥 Check 5M rows with PHP Binary 🔥
+        run: make bench-php --no-print-directory

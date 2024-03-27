@@ -1,0 +1,55 @@
+#
+# JBZoo Toolbox - Csv-Blueprint.
+#
+# This file is part of the JBZoo Toolbox project.
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# @license    MIT
+# @copyright  Copyright (C) JBZoo.com, All rights reserved.
+# @see        https://github.com/JBZoo/Csv-Blueprint
+#
+
+name: Benchmark
+
+on:
+  push:
+    branches:
+      - 'master'
+  workflow_run:
+    workflows: [ "Publish Docker" ]
+    types:
+      - completed
+
+jobs:
+  benchmark:
+    name: Benchmark
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_IMAGE: jbzoo/csv-blueprint:master
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          coverage: none
+          tools: composer
+          extensions: opcache
+
+      - name: Build project
+        run: make build --no-print-directory
+
+      - name: Create random CSV files with 5M rows
+        run: make bench-create-csv --no-print-directory
+
+      - name: Pull latest Docker image
+        run: docker pull ${{ env.DOCKER_IMAGE }}
+
+      - name: 🔥 Check 5M rows with Docker 🔥
+        run: make bench-docker --no-print-directory

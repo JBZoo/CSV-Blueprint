@@ -24,7 +24,6 @@ env:
   CSV_FILES: './tests/fixtures/batch/*.csv'
   VALID_SCHEMA: './tests/schemas/demo_valid.yml'
   INVALID_SCHEMA: './tests/schemas/demo_*.yml'
-  BLUEPRINT_DOCKER: 'docker run --rm --workdir=/parent-host -v .:/parent-host jbzoo/csv-blueprint:latest'
 
 
 jobs:
@@ -86,25 +85,3 @@ jobs:
           schema: ${{ env.INVALID_SCHEMA }}
           report: junit
         continue-on-error: true
-
-
-  docker:
-    name: Docker
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Pull Docker Image
-        run: docker pull jbzoo/csv-blueprint:latest
-
-      - name: 🎨 Test help and logo
-        run: $BLUEPRINT_DOCKER --ansi
-
-      - name: 👍 Valid CSV files
-        run: |
-          $BLUEPRINT_DOCKER validate:csv --ansi -vvv --csv=$CSV_FILES --schema=$VALID_SCHEMA
-
-      - name: 👎 Invalid CSV files
-        run: |
-          ! $BLUEPRINT_DOCKER validate:csv --ansi -vvv --csv=$CSV_FILES --schema=$INVALID_SCHEMA

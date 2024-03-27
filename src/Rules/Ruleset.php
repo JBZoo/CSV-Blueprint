@@ -43,12 +43,20 @@ final class Ruleset
         }
     }
 
-    public function validateRuleSet(array|string $cellValue, int $line): ErrorSuite
+    public function validateRuleSet(array|string $cellValue, int $line, bool $isAggredate): ErrorSuite
     {
         $errors = new ErrorSuite();
 
         foreach ($this->rules as $rule) {
+            if ($isAggredate) {
+                Utils::debug("<i>Col</i> Rule:{$rule->getRuleCode()} - Start");
+            }
+
             $errors->addError($rule->validate($cellValue, $line));
+
+            if ($isAggredate) {
+                Utils::debug("<i>Col</i> Rule:{$rule->getRuleCode()} - Finish");
+            }
         }
 
         return $errors;

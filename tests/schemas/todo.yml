@@ -73,29 +73,12 @@ columns:
       is_iban: true
       is_card_number: true
 
-      # URL
-      url_scheme: https               # Can be set of schemes [http, https, ftp]
-      url_host: example.com           # Can be regex
-      url_path: /some/path            # Can be regex
-      url_query: p1=val1&p2=val2      # Can be regex
-      url_fragment: some-fragment     # Can be regex
-      url_port: 443                   # Can be set of ports [80, 443, 8080]
-      url_username: user              # Can be regex
-      url_password: password          # Can be regex
-
-      # Email
-      email_domain: example.com       # Can be regex
-      email_user: user                # Can be regex
-
       # Strings
       is_hex: true
       is_binary: true
       is_charset: true
       is_hex_rgb_color: true
       no_whitespace: true
-
-      # is_space: true
-      # is_xdigit: true
 
       custom_func: callbak function
 

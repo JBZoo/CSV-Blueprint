@@ -62,16 +62,12 @@ final class CsvFile
     public function getHeader(): array
     {
         if ($this->header === null) {
-            Utils::debug('Start getHeader() from CSV');
             $this->header = [];
-
             if ($this->structure->isHeader() && !$this->isEmpty) {
                 // TODO: add handler for empty file
                 // League\Csv\SyntaxError : The header record does not exist or is empty at offset: `0
                 $this->header = $this->reader->getHeader();
             }
-
-            Utils::debug('End getHeader()');
         }
 
         return $this->header;
