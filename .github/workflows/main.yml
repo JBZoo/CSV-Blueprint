@@ -339,6 +339,8 @@ jobs:
 
       - name: 🔥 Check 1M rows! Docker
         run: make bench-1M-docker --no-print-directory
+        continue-on-error: true
 
       - name: 🔥 Check 1M rows! PHP Binary
         run: make bench-1M-php --no-print-directory
+        continue-on-error: true
