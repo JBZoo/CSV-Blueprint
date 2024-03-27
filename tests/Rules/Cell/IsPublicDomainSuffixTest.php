@@ -16,39 +16,33 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\Cell\IsDomain;
+use JBZoo\CsvBlueprint\Rules\Cell\IsPublicDomainSuffix;
 use JBZoo\PHPUnit\Rules\TestAbstractCellRule;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class IsDomainTest extends TestAbstractCellRule
+final class IsPublicDomainSuffixTest extends TestAbstractCellRule
 {
-    protected string $ruleClass = IsDomain::class;
+    protected string $ruleClass = IsPublicDomainSuffix::class;
 
     public function testPositive(): void
     {
         $rule = $this->create(true);
         isSame(null, $rule->validate(''));
-        isSame('', $rule->test('example.com'));
-        isSame('', $rule->test('sub.example.com'));
-        isSame('', $rule->test('sub.sub.example.com'));
-        isSame('', $rule->test('sub.sub-example.com'));
-        isSame('', $rule->test('sub-sub-example.com'));
-
-        $rule = $this->create(false);
-        isSame(null, $rule->validate('example'));
+        isSame('', $rule->test('com'));
+        isSame('', $rule->test('CO.UK'));
     }
 
     public function testNegative(): void
     {
         $rule = $this->create(true);
         isSame(
-            'Value "example" is not a valid domain',
-            $rule->test('example'),
+            'The value "127.0.0.1" is not a valid public domain suffix. Example: "com", "nom.br", "net" etc.',
+            $rule->test('127.0.0.1'),
         );
         isSame(
-            'Value "sub-sub-example.qwerty" is not a valid domain',
-            $rule->test('sub-sub-example.qwerty'),
+            'The value "invalid.com" is not a valid public domain suffix. Example: "com", "nom.br", "net" etc.',
+            $rule->test('invalid.com'),
         );
     }
 }

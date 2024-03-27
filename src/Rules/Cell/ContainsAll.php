@@ -22,7 +22,7 @@ final class ContainsAll extends AbstractCellRule
     {
         return [
             [],
-            [self::DEFAULT => ['[ a, b, c ]', 'All the strings must be part of a CSV value.']],
+            [self::DEFAULT => ['[ a, b ]', 'All the strings must be part of a CSV value.']],
         ];
     }
 

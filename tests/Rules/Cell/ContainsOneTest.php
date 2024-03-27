@@ -32,9 +32,8 @@ final class ContainsOneTest extends TestAbstractCellRule
 
         $rule = $this->create(['a', 'b', 'c']);
         isSame('', $rule->test('a'));
-        isSame('', $rule->test('ab'));
-        isSame('', $rule->test('abc'));
-        isSame('', $rule->test('abc  '));
+        isSame('', $rule->test('b'));
+        isSame('', $rule->test('c'));
     }
 
     public function testNegative(): void
@@ -47,8 +46,14 @@ final class ContainsOneTest extends TestAbstractCellRule
 
         $rule = $this->create(['a', 'b', 'c']);
         isSame(
-            'Value "d" must contain at least one of the following: "["a", "b", "c"]"',
+            'Value "d" must contain exactly one of the following: ["a", "b", "c"]',
             $rule->test('d'),
+        );
+
+        $rule = $this->create(['a', 'b', 'c']);
+        isSame(
+            'Value "ab" must contain exactly one of the following: ["a", "b", "c"]',
+            $rule->test('ab'),
         );
     }
 }

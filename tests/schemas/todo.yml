@@ -41,6 +41,7 @@ columns:
     rules:
       # https://github.com/Respect/Validation/blob/main/docs/08-list-of-rules-by-category.md
       is_bool_value: true             # https://github.com/Respect/Validation/blob/main/docs/rules/BoolVal.md
+      is_null: true                   # see empty_values
 
       # Dates
       age: 35
@@ -61,8 +62,8 @@ columns:
 
       # ids
       is_credit_card: brands[]        # https://github.com/Respect/Validation/blob/main/docs/rules/CreditCard.md
-      is_iban: true
-      postal_code: country code       # https://github.com/Respect/Validation/blob/main/docs/rules/PostalCode.md
+      is_postal_code: country code       # https://github.com/Respect/Validation/blob/main/docs/rules/PostalCode.md
+      is_phone: true
       is_bsn: true
       is_cnh: true
       is_cnpj: true
@@ -79,6 +80,7 @@ columns:
       is_polish_id_card: true
       is_portuguese_nif: true
       is_bic: true
+      is_iban: true
       is_card_number: true
 
       # Hashes
@@ -161,18 +163,6 @@ columns:
       is_hmac_sha256: true
       is_hmac_sha512: true
 
-      # Web
-      ip: 220.78.168.0/21             # https://github.com/Respect/Validation/blob/main/docs/rules/Ip.md
-      is_ip6: true                    # Check if the value is a valid IPv6 address. Example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
-      ip4_subnets: [ 192.168.1.2/24 ] # If not set, then no subnet check
-      is_mac_address: true
-      is_public_domain_suffix: true
-      # is_email: true                # improve
-      is_tid: true
-      # is_domain: true               # improve
-      is_video_url: true
-      is_null: true                   # see empty_values
-
       # URL
       url_scheme: https               # Can be set of schemes [http, https, ftp]
       url_host: example.com           # Can be regex
@@ -190,8 +180,6 @@ columns:
       # Math
       is_fibonacci: true
       is_prime_number: true
-      is_digit: true
-      is_digits: true
       is_even: true
       is_odd: true
       is_roman: true
@@ -199,13 +187,14 @@ columns:
 
       # Strings
       is_alnum: true
+      is_hex: true
+      is_binary: true
       is_alpha: true
       is_charset: true
       is_hex_rgb_color: true
       no_whitespace: true
-      is_phone: true
+
       is_punct: true
-      is_spaces: true
       is_space: true
       is_regex: true
       is_version: true

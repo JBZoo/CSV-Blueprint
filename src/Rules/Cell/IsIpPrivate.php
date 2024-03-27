@@ -18,22 +18,26 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 use Respect\Validation\Validator;
 
-final class IsDomain extends AbstractCellRule
+final class IsIpPrivate extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {
         return [
             [],
             [
-                self::DEFAULT => ['true', 'Only domain name. Example: "example.com"'],
+                self::DEFAULT => [
+                    'true',
+                    'IPv4 has ranges: 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16. ' .
+                    'IPv6 has ranges starting with FD or FC.',
+                ],
             ],
         ];
     }
 
     public function validateRule(string $cellValue): ?string
     {
-        if (!Validator::domain()->validate($cellValue)) {
-            return "Value \"<c>{$cellValue}</c>\" is not a valid domain";
+        if (Validator::ip('*', \FILTER_FLAG_NO_PRIV_RANGE)->validate($cellValue)) {
+            return "Value \"<c>{$cellValue}</c>\" is not a private IP address.";
         }
 
         return null;

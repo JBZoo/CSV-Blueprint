@@ -16,39 +16,30 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\Cell\IsDomain;
+use JBZoo\CsvBlueprint\Rules\Cell\IsFileExists;
 use JBZoo\PHPUnit\Rules\TestAbstractCellRule;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class IsDomainTest extends TestAbstractCellRule
+final class IsFileExistsTest extends TestAbstractCellRule
 {
-    protected string $ruleClass = IsDomain::class;
+    protected string $ruleClass = IsFileExists::class;
 
     public function testPositive(): void
     {
         $rule = $this->create(true);
         isSame(null, $rule->validate(''));
-        isSame('', $rule->test('example.com'));
-        isSame('', $rule->test('sub.example.com'));
-        isSame('', $rule->test('sub.sub.example.com'));
-        isSame('', $rule->test('sub.sub-example.com'));
-        isSame('', $rule->test('sub-sub-example.com'));
-
-        $rule = $this->create(false);
-        isSame(null, $rule->validate('example'));
+        isSame('', $rule->test(__FILE__));
+        isSame('', $rule->test('README.md'));
+        isSame('', $rule->test('./README.md'));
     }
 
     public function testNegative(): void
     {
         $rule = $this->create(true);
         isSame(
-            'Value "example" is not a valid domain',
-            $rule->test('example'),
-        );
-        isSame(
-            'Value "sub-sub-example.qwerty" is not a valid domain',
-            $rule->test('sub-sub-example.qwerty'),
+            'File "qwerty" not found',
+            $rule->test('qwerty'),
         );
     }
 }

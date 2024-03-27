@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
+use JBZoo\CsvBlueprint\Utils;
+
 final class IsCardinalDirection extends AllowValues
 {
     public function getHelpMeta(): array
@@ -25,7 +27,7 @@ final class IsCardinalDirection extends AllowValues
             [
                 self::DEFAULT => [
                     'true',
-                    'Valid cardinal direction. Available values: "' . \implode('", "', $this->getOptionAsArray()) . '"',
+                    'Valid cardinal direction. Available values: ' . Utils::printList($this->getOptionAsArray()),
                 ],
             ],
         ];

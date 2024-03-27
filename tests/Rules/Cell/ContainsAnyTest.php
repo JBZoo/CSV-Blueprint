@@ -16,14 +16,14 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\Cell\ContainsNone;
+use JBZoo\CsvBlueprint\Rules\Cell\ContainsAny;
 use JBZoo\PHPUnit\Rules\TestAbstractCellRule;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class ContainsNoneTest extends TestAbstractCellRule
+final class ContainsAnyTest extends TestAbstractCellRule
 {
-    protected string $ruleClass = ContainsNone::class;
+    protected string $ruleClass = ContainsAny::class;
 
     public function testPositive(): void
     {
@@ -31,28 +31,24 @@ final class ContainsNoneTest extends TestAbstractCellRule
         isSame('', $rule->test(''));
 
         $rule = $this->create(['a', 'b', 'c']);
-        isSame('', $rule->test(''));
-        isSame('', $rule->test('q'));
+        isSame('', $rule->test('a'));
+        isSame('', $rule->test('ab'));
+        isSame('', $rule->test('abc'));
+        isSame('', $rule->test('abc  '));
     }
 
     public function testNegative(): void
     {
         $rule = $this->create([]);
         isSame(
-            'Rule must contain at least one exclusion value in schema file.',
+            'Rule must contain at least one inclusion value in schema file.',
             $rule->test('ac'),
         );
 
         $rule = $this->create(['a', 'b', 'c']);
         isSame(
-            'Value "a" must not contain any of the following: ["a", "b", "c"]',
-            $rule->test('a'),
-        );
-
-        $rule = $this->create(['a', 'b', 'c']);
-        isSame(
-            'Value "ddddb" must not contain any of the following: ["a", "b", "c"]',
-            $rule->test('ddddb'),
+            'Value "d" must contain at least one of the following: ["a", "b", "c"]',
+            $rule->test('d'),
         );
     }
 }

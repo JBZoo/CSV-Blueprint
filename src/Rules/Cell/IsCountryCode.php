@@ -19,7 +19,7 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 use Respect\Validation\Rules\CountryCode as RespectCountryCode;
 use Respect\Validation\Validator;
 
-class CountryCode extends AbstractCellRule
+class IsCountryCode extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {

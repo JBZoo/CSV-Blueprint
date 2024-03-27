@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
+use Respect\Validation\Validator;
+
 final class IsEmail extends AbstractCellRule
 {
     public function getHelpMeta(): array
@@ -30,7 +32,7 @@ final class IsEmail extends AbstractCellRule
 
     public function validateRule(string $cellValue): ?string
     {
-        if (\filter_var($cellValue, \FILTER_VALIDATE_EMAIL) === false) {
+        if (!Validator::email()->validate($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not a valid email";
         }
 

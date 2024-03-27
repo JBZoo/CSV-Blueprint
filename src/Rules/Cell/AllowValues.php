@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
+use JBZoo\CsvBlueprint\Utils;
+
 class AllowValues extends AbstractCellRule
 {
     public function getHelpMeta(): array
@@ -36,7 +38,7 @@ class AllowValues extends AbstractCellRule
 
         if (!\in_array($cellValue, $allowedValues, true)) {
             return "Value \"<c>{$cellValue}</c>\" is not allowed. " .
-                'Allowed values: <green>["' . \implode('", "', $allowedValues) . '"]</green>';
+                'Allowed values: [' . Utils::printList($allowedValues, 'green') . ']';
         }
 
         return null;

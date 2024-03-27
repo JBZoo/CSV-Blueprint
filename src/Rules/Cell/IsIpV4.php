@@ -18,22 +18,22 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 use Respect\Validation\Validator;
 
-final class IsDomain extends AbstractCellRule
+final class IsIpV4 extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {
         return [
             [],
             [
-                self::DEFAULT => ['true', 'Only domain name. Example: "example.com"'],
+                self::DEFAULT => ['true', 'Only IPv4. Example: "127.0.0.1".'],
             ],
         ];
     }
 
     public function validateRule(string $cellValue): ?string
     {
-        if (!Validator::domain()->validate($cellValue)) {
-            return "Value \"<c>{$cellValue}</c>\" is not a valid domain";
+        if (!Validator::ip('*', \FILTER_FLAG_IPV4)->validate($cellValue)) {
+            return "Value \"<c>{$cellValue}</c>\" is not a valid IPv4";
         }
 
         return null;

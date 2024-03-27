@@ -16,39 +16,34 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\Cell\IsDomain;
+use JBZoo\CsvBlueprint\Rules\Cell\IsIpPrivate;
 use JBZoo\PHPUnit\Rules\TestAbstractCellRule;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class IsDomainTest extends TestAbstractCellRule
+final class IsIpPrivateTest extends TestAbstractCellRule
 {
-    protected string $ruleClass = IsDomain::class;
+    protected string $ruleClass = IsIpPrivate::class;
 
     public function testPositive(): void
     {
         $rule = $this->create(true);
         isSame(null, $rule->validate(''));
-        isSame('', $rule->test('example.com'));
-        isSame('', $rule->test('sub.example.com'));
-        isSame('', $rule->test('sub.sub.example.com'));
-        isSame('', $rule->test('sub.sub-example.com'));
-        isSame('', $rule->test('sub-sub-example.com'));
-
-        $rule = $this->create(false);
-        isSame(null, $rule->validate('example'));
+        isSame('', $rule->test('10.0.0.1'));
+        isSame('', $rule->test('fc01:0db8:85a3:08d3:1319:8a2e:0370:7334'));
+        isSame('', $rule->test('fd01:0db8:85a3:08d3:1319:8a2e:0370:7334'));
     }
 
     public function testNegative(): void
     {
         $rule = $this->create(true);
         isSame(
-            'Value "example" is not a valid domain',
-            $rule->test('example'),
+            'Value "189.0.0.1" is not a private IP address.',
+            $rule->test('189.0.0.1'),
         );
         isSame(
-            'Value "sub-sub-example.qwerty" is not a valid domain',
-            $rule->test('sub-sub-example.qwerty'),
+            'Value "2020:0000:0000:0000:0000:0000:0000:0001" is not a private IP address.',
+            $rule->test('2020:0000:0000:0000:0000:0000:0000:0001'),
         );
     }
 }

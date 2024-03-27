@@ -16,24 +16,22 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-use Respect\Validation\Validator;
-
-final class IsDomain extends AbstractCellRule
+final class IsDirExists extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {
         return [
             [],
             [
-                self::DEFAULT => ['true', 'Only domain name. Example: "example.com"'],
+                self::DEFAULT => ['true', "Check if directory exists on the filesystem (It's FS IO operation!)."],
             ],
         ];
     }
 
     public function validateRule(string $cellValue): ?string
     {
-        if (!Validator::domain()->validate($cellValue)) {
-            return "Value \"<c>{$cellValue}</c>\" is not a valid domain";
+        if (!\file_exists($cellValue)) {
+            return "Directory \"<c>{$cellValue}</c>\" not found";
         }
 
         return null;

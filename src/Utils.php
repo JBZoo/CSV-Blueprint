@@ -29,6 +29,15 @@ final class Utils
 {
     public const MAX_DIRECTORY_DEPTH = 10;
 
+    public static function printList(array $items, string $color = ''): string
+    {
+        if ($color === '') {
+            return '"' . \implode('", "', $items) . '"';
+        }
+
+        return "\"<{$color}>" . \implode("</{$color}>\", \"<{$color}>", $items) . "</{$color}>\"";
+    }
+
     public static function debug(int|string $message): void
     {
         if (\defined('PROFILE_MODE')) {
@@ -207,7 +216,7 @@ final class Utils
             'array'   => [],
             'boolean' => [],
             'double'  => ['string', 'integer'],
-            'integer' => ['string', 'double'],
+            'integer' => [],
             'string'  => ['double', 'integer'],
         ];
 
