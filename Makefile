@@ -132,12 +132,12 @@ bench-1M-docker: ##@Benchmarks Run 5M CSV file via Docker
         jbzoo/csv-blueprint:master \
         validate:csv \
         --csv=/parent-host/build/bench/5_5000000_header.csv \
-        --schema=/parent-host/tests/Benchmarks/benchmark.yml \
+        --schema=/parent-host/tests/Benchmarks/benchmark-*.yml \
         --profile -vvv --ansi
 
 bench-1M-php: ##@Benchmarks Run 5M CSV file via PHP binary
 	$(call title,"PHP Benchmarks - 5M CSV file via Docker")
 	@{BLUEPRINT} \
         --csv=/parent-host/build/bench/5_5000000_header.csv \
-        --schema=/parent-host/tests/Benchmarks/benchmark.yml \
+        --schema=/parent-host/tests/Benchmarks/benchmark-*.yml \
         --profile
