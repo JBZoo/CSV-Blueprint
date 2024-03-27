@@ -41,7 +41,7 @@
         "symfony/finder"                      : ">=6.4.0",
         "markrogoyski/math-php"               : "^2.9.0",
         "respect/validation"                  : "^2.3.5",
-        "giggsey/libphonenumber-for-php-lite" : "^8.13"
+        "giggsey/libphonenumber-for-php-lite" : "^8.13.33"
     },
 
     "require-dev"       : {
