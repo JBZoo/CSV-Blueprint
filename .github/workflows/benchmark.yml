@@ -40,6 +40,7 @@ jobs:
           php-version: 8.3
           coverage: none
           tools: composer
+          extensions: opcache
 
       - name: Build project
         run: make build --no-print-directory
