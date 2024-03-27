@@ -48,22 +48,12 @@ columns:
       dateperiod: 1
       dateinterval: 1
 
-      # FS
-      is_dir_name: true
-      is_dir_name_full: true
-      is_file_name: true
-      is_file_name_full: true
-      is_file_size: true
-      is_file_extension: true
-      is_mimetype: true
-
       # Codes
       subdivision_code: [ ]           # https://github.com/Respect/Validation/blob/main/docs/rules/SubdivisionCode.md
 
       # ids
       is_credit_card: brands[]        # https://github.com/Respect/Validation/blob/main/docs/rules/CreditCard.md
       is_postal_code: country code       # https://github.com/Respect/Validation/blob/main/docs/rules/PostalCode.md
-      is_phone: true
       is_bsn: true
       is_cnh: true
       is_cnpj: true
@@ -177,30 +167,15 @@ columns:
       email_domain: example.com       # Can be regex
       email_user: user                # Can be regex
 
-      # Math
-      is_fibonacci: true
-      is_prime_number: true
-      is_even: true
-      is_odd: true
-      is_roman: true
-      is_perfect_square: true
-
       # Strings
-      is_alnum: true
       is_hex: true
       is_binary: true
-      is_alpha: true
       is_charset: true
       is_hex_rgb_color: true
       no_whitespace: true
 
-      is_punct: true
-      is_space: true
-      is_regex: true
-      is_version: true
-      is_vowel: true
-      is_consonant: true
-      is_xdigit: true
+      # is_space: true
+      # is_xdigit: true
 
       custom_func: callbak function
 

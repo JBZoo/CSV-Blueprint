@@ -4,7 +4,7 @@
 [![GitHub Release](https://img.shields.io/github/v/release/jbzoo/csv-blueprint?label=Latest)](https://github.com/jbzoo/csv-blueprint/releases)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)    [![Docker Image Size](https://img.shields.io/docker/image-size/jbzoo/csv-blueprint)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)
 
 <!-- rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-292-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-81-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-5-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-142/54/8-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-304-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-93-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-5-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-119/54/8-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- /rules-counter -->
 
 ## Introduction
@@ -282,8 +282,27 @@ columns:
       # See: https://en.wikipedia.org/wiki/ISO_639.
       is_language_code: alpha-2         # Examples: "en", "eng"
 
+      # Filesystem (with IO!)
       is_file_exists: true              # Check if file exists on the filesystem (It's FS IO operation!).
       is_dir_exists: true               # Check if directory exists on the filesystem (It's FS IO operation!).
+
+      # Mathematical
+      is_fibonacci: true                # Validates whether the input follows the Fibonacci integer sequence. Example: "8", "13".
+      is_prime_number: true             # Validates a prime number. Example: "3", "5", "7", "11".
+      is_even: true                     # Check if the value is an even number. Example: "2", "4", "6".
+      is_odd: true                      # Check if the value is an odd number. Example: "1", "7", "11".
+      is_roman: true                    # Validates if the input is a Roman numeral. Example: "I", "IV", "XX".
+
+      # Identifications
+      phone: ALL                        # Validates if the input is a phone number. Specify the country code to validate the phone number for a specific country. Example: "ALL", "US", "BR".".
+
+      # Misc
+      is_version: true                  # Validates the string as version numbers using Semantic Versioning. Example: "1.2.3".
+      is_punct: true                    # Validates whether the input composed by only punctuation characters. Example: "!@#$%^&*()".
+      is_vowel: true                    # Validates whether the input contains only vowels. Example: "aei".
+      is_consonant: true                # Validates if the input contains only consonants. Example: "bcd".
+      is_alnum: true                    # Validates whether the input is only alphanumeric. Example: "aBc123".
+      is_alpha: true                    # This is similar to `is_alnum`, but it does not allow numbers. Example: "aBc".
 
     ####################################################################################################################
     # Data validation for the entire(!) column using different data aggregation methods.

@@ -104,7 +104,11 @@ jobs:
           tools: composer
           extensions: ast
 
-      - name: Build project
+      - name: Install project
+        run: make build --no-print-directory
+
+        ## To see the difference between the current and the lowest versions
+      - name: Downgrade dependencies
         run: make update --no-print-directory
 
       - name: 🧪 PHPUnit Tests
@@ -143,7 +147,11 @@ jobs:
           tools: composer
           extensions: ast
 
-      - name: Build project
+      - name: Install project
+        run: make build --no-print-directory
+
+        ## To see the difference between the current and the latest versions
+      - name: Upgrade dependencies
         run: make update --no-print-directory
 
       - name: 🧪 PHPUnit Tests
@@ -277,6 +285,7 @@ jobs:
           context: .
           push: true
           tags: jbzoo/csv-blueprint:master
+          platforms: linux/amd64,linux/arm64/v8,linux/386
 
 
   verify-ga:

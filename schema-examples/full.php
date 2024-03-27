@@ -135,6 +135,21 @@ This example serves as a comprehensive guide for creating robust CSV file valida
 
                 'is_file_exists' => true,
                 'is_dir_exists'  => true,
+
+                'is_fibonacci'    => true,
+                'is_prime_number' => true,
+                'is_even'         => true,
+                'is_odd'          => true,
+                'is_roman'        => true,
+
+                'phone' => 'ALL',
+
+                'is_version'   => true,
+                'is_punct'     => true,
+                'is_vowel'     => true,
+                'is_consonant' => true,
+                'is_alnum'     => true,
+                'is_alpha'     => true,
             ],
 
             'aggregate_rules' => [

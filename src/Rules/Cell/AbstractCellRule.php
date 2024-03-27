@@ -18,6 +18,9 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 
+/**
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
+ */
 abstract class AbstractCellRule extends AbstarctRule
 {
     /**

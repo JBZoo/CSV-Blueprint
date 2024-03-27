@@ -29,5 +29,10 @@
                 <directory name="src/Rules"/>
             </errorLevel>
         </InvalidClassConstantType>
+        <TooManyArguments>
+            <errorLevel type="suppress">
+                <file name="src/Rules/Cell/Phone.php"/>
+            </errorLevel>
+        </TooManyArguments>
     </issueHandlers>
 </psalm>
