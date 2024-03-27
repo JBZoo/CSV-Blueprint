@@ -78,9 +78,9 @@ final class ReadmeTest extends TestCase
         $totalRules = $cellRules + $aggRules + $extraRules;
 
         $todoYml = yml(Tools::SCHEMA_TODO);
-        $planToAdd = \count($todoYml->findArray('columns.0.rules')) +
-            (\count($todoYml->findArray('columns.0.aggregate_rules')) * 6)
-            + \count([
+        $planToAdd = \count($todoYml->findArray('columns.0.rules')) . '/' .
+            (\count($todoYml->findArray('columns.0.aggregate_rules')) * 6) . '/' .
+            \count([
                 'required',
                 'null_values',
                 'multiple + separator',
@@ -89,16 +89,9 @@ final class ReadmeTest extends TestCase
                 'complex_rules. one example',
                 'inherit',
                 'rule not found',
-            ])
-            - \count([
-                'first_value',
-                'second_value',
-                'last_value',
-                'sorted',
-                'custom_func',
             ]);
 
-        $badge = static function (string $label, int $count, string $url, string $color): string {
+        $badge = static function (string $label, int|string $count, string $url, string $color): string {
             $label = \str_replace(' ', '%20', $label);
             $badge = "![Static Badge](https://img.shields.io/badge/Rules-{$count}-green" .
                 "?label={$label}&labelColor={$color}&color=gray)";
