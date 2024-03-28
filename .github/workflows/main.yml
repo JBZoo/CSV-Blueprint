@@ -323,11 +323,6 @@ jobs:
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.3
-          coverage: none
-          tools: composer
-          extensions: opcache
 
       - name: Build project
         run: make build --no-print-directory
@@ -335,12 +330,12 @@ jobs:
       - name: Create random huge CSV files
         run: make bench-create-csv --no-print-directory
 
-#      - name: Building Docker Image
-#        uses: docker/build-push-action@v5
-#        with:
-#          context: .
-#          push: false
-#          tags: jbzoo/csv-blueprint:local
+      - name: Building Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: jbzoo/csv-blueprint:local
 
       - name: 🔥 Benchmark with Docker 🔥
-        run: make bench-php --no-print-directory
+        run: make bench-docker --no-print-directory
