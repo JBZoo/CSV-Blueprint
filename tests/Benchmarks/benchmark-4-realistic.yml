@@ -21,7 +21,7 @@ columns:
       length_max: 100
       is_int: true
       num_min: 1
-      num_max: 999
+      num_max: 10000000
 
     aggregate_rules:
       is_unique: true
