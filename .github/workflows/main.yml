@@ -335,9 +335,6 @@ jobs:
       - name: Create random huge CSV files
         run: make bench-create-csv --no-print-directory
 
-      - name: 🔥 Benchmark with PHP Binary 🔥
-        run: make bench-php --no-print-directory
-
       - name: Building Docker Image
         uses: docker/build-push-action@v5
         with:

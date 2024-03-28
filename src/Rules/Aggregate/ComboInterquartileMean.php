@@ -45,6 +45,6 @@ final class ComboInterquartileMean extends AbstractAggregateRuleCombo
             return null;
         }
 
-        return Average::interquartileMean(self::stringsToFloat($colValues));
+        return Average::interquartileMean($colValues);
     }
 }

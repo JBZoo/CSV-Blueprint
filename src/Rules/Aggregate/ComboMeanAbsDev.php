@@ -43,6 +43,6 @@ final class ComboMeanAbsDev extends AbstractAggregateRuleCombo
             return null;
         }
 
-        return Descriptive::meanAbsoluteDeviation(self::stringsToFloat($colValues));
+        return Descriptive::meanAbsoluteDeviation($colValues);
     }
 }

@@ -13,47 +13,60 @@
 filename_pattern: /.csv$/i
 
 csv:
+#  header: true
   header: false
 
 columns:
+#  - name: id
+#    rules:
+
   - rules:
-      not_empty: true
+                                           # Cell
+                                           #         Header:false    | Header:true
+                                           #                 lines per second
+      not_empty: true                      #          239,271        | 114,274
+
+                                           # Aggregate
     aggregate_rules:
-      is_unique: true
-      sorted: [ desc, natural ]
-      first_num_not: 5.0
-      first_not: Not expected
-      nth_num_not: [ 2, Expected ] ]
-      nth_not: [ 2, Not expected ] ]
-      last_num_not: 5.0
-      last_not: Not expected
-      sum_not: 5.0
-      average_not: 5.0
-      count_not: 0
-      count_empty_not: 0
-      count_not_empty_not: 0
-      count_distinct_not: 0
-      count_positive_not: 0
-      count_negative_not: 0
-      count_zero_not: 0
-      count_even_not: 0
-      count_odd_not: 0
-      count_prime_not: 0
-      median_not: 5.0
-      harmonic_mean_not: 5.0
-      geometric_mean_not: 5.0
-      contraharmonic_mean_not: 5.0
-      root_mean_square_not: 5.0
-      trimean_not: 5.0
-      # interquartile_mean_not: 5.0
-      cubic_mean_not: 5.0
-      percentile_not: [ 95.0, 5.0 ]
-      quartiles_not: [ exclusive, Q2, 5.0 ]
-      midhinge_not: 5.0
-      mean_abs_dev_not: 5.0
-      median_abs_dev_not: 5.0
-      population_variance_not: 5.0
-      sample_variance_not: 5.0
-      stddev_not: 5.0
-      stddev_pop_not: 5.0
-      coef_of_var_not: 5.0
+      last_num: 5.0                       #       271,072,720
+      count: 0                            #    1,964,547,164
+      nth: [ 2, Not expected ] ]          #    2,187,954,196
+      nth_num: [ 2, 123 ] ]          #   1,326,473,180
+
+      first_num: 5.0                      #    1,285,414,709
+      last: Not expected                  #       107,607,065
+      first: Not expected                 #       114,196,090
+      count_distinct: 0                   #       66,769,209
+      is_unique: true                     #       56,129,919
+      count_empty: 0                      #       28,360,808
+      count_not_empty: 0                  #       20,682,095
+
+      sum: 5.0                            #        272,180,934
+#      average: 5.0                        #        1,846,587
+#      count_zero: 0                       #        1,703,580
+#      count_positive: 0                   #        1,621,951
+#      count_negative: 0                   #        1,687,270
+#      geometric_mean: 5.0                 #        1,697,437
+#      mean_abs_dev: 5.0                   #        1,605,087
+#      count_odd: 0                        #        1,576,521
+#      count_even: 0                       #        1,570,565
+#      root_mean_square: 5.0               #        1,544,439
+#      cubic_mean: 5.0                     #        1,538,830
+#      harmonic_mean: 5.0                  #        1,533,866
+#      population_variance: 5.0            #        1,500,014
+#      stddev_pop: 5.0                     #        1,500,834
+#      sample_variance: 5.0                #        1,499,920
+#      coef_of_var: 5.0                    #        1,484,364
+#      stddev: 5.0                         #        1,428,391
+#      contraharmonic_mean: 5.0            #        1,282,485
+#      sorted: [ desc, natural ]           #        1,151,628
+#      percentile: [ 95.0, 5.0 ]           #        1,127,401
+#      median: 5.0                         #        1,069,675
+#
+#      median_abs_dev: 5.0                 #          705,327
+#      count_prime: 0                      #          510,366
+#      quartiles: [ exclusive, Q2, 5.0 ]   #          425,585
+#      midhinge: 5.0                       #          425,364
+#      trimean: 5.0                        #          423,072
+#
+#      interquartile_mean: 5.0             #            1,914

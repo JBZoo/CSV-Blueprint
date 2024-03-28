@@ -43,6 +43,6 @@ final class ComboRootMeanSquare extends AbstractAggregateRuleCombo
             return null;
         }
 
-        return Average::rootMeanSquare(self::stringsToFloat($colValues));
+        return Average::rootMeanSquare($colValues);
     }
 }

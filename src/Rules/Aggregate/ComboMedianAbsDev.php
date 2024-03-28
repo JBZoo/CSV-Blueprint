@@ -44,6 +44,6 @@ final class ComboMedianAbsDev extends AbstractAggregateRuleCombo
             return null;
         }
 
-        return Descriptive::medianAbsoluteDeviation(self::stringsToFloat($colValues));
+        return Descriptive::medianAbsoluteDeviation($colValues);
     }
 }

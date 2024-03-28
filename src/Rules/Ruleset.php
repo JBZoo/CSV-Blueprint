@@ -49,19 +49,18 @@ final class Ruleset
 
         foreach ($this->rules as $rule) {
             if ($linesToAggregate > 0) {
-                Utils::debug("  <i>Validate</i> Rule:{$rule->getRuleCode()} - Start");
+                Utils::debug("  {$rule->getRuleCode()} - start");
             }
 
             $startTimer = \microtime(true);
             $errors->addError($rule->validate($cellValue, $line));
 
             if ($linesToAggregate > 0) {
-                Utils::debug("  <i>Validate</i> Rule:{$rule->getRuleCode()} - Finish");
                 Utils::debug(
-                    "  <yellow>Speed</yellow> {$rule->getRuleCode()} - "
+                    "  {$rule->getRuleCode()} - "
                     . '<blue>'
                     . \number_format($linesToAggregate / (\microtime(true) - $startTimer))
-                    . '</blue> lines/sec',
+                    . '</blue> l/s',
                 );
             }
         }

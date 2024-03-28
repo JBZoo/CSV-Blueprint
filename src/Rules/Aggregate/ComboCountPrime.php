@@ -38,7 +38,7 @@ final class ComboCountPrime extends AbstractAggregateRuleCombo
 
         return \count(
             \array_filter(
-                self::stringsToFloat($colValues),
+                $colValues,
                 static fn ($value) => Validator::primeNumber()->validate($value),
             ),
         );

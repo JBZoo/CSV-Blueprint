@@ -57,13 +57,7 @@ final class Utils
     public static function debug(int|string $message): void
     {
         if (\defined('DEBUG_MODE')) {
-            $memoryCur = FS::format(\memory_get_usage(true), 0);
-            $memoryPeak = FS::format(\memory_get_peak_usage(true), 0);
-            $memory = $memoryCur === $memoryPeak
-                ? "<green>{$memoryCur}</green>"
-                : "<c>Cur:{$memoryCur} / Peak:{$memoryPeak}</c>";
-
-            cli("{$message}; {$memory}");
+            cli($message);
         }
     }
 

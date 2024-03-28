@@ -31,6 +31,6 @@ final class ComboSum extends AbstractAggregateRuleCombo
 
     protected function getActualAggregate(array $colValues): ?float
     {
-        return \array_sum(self::stringsToFloat($colValues));
+        return \array_sum($colValues);
     }
 }

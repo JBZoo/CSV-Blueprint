@@ -44,6 +44,6 @@ final class ComboTrimean extends AbstractAggregateRuleCombo
             return null;
         }
 
-        return Average::trimean(self::stringsToFloat($colValues));
+        return Average::trimean($colValues);
     }
 }
