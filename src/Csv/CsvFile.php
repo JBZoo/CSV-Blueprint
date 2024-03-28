@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Csv;
 
 use JBZoo\CsvBlueprint\Schema;
-use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use JBZoo\CsvBlueprint\Validators\ValidatorCsv;
 use League\Csv\Reader as LeagueReader;
@@ -44,8 +43,6 @@ final class CsvFile
         $this->schema = new Schema($csvSchemaFilenameOrArray);
         $this->structure = $this->schema->getCsvStructure();
         $this->reader = $this->prepareReader();
-
-        // Utils::debug('Found lines: ' . $this->reader->count());
     }
 
     public function getCsvFilename(): string

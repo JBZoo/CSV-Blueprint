@@ -355,6 +355,10 @@ final class Utils
             return '123.34 MB';
         }
 
+        if (!\file_exists($csv) === false) {
+            return 'file not found';
+        }
+
         return FS::format(\filesize($csv));
     }
 
