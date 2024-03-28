@@ -305,7 +305,7 @@ jobs:
           schema: ./tests/schemas/demo_valid.yml
 
       - name: 👎 Invalid CSV files
-        uses: jbzoo/csv-blueprint@0.32
+        uses: jbzoo/csv-blueprint@v0.32
         with:
           csv: ./tests/fixtures/batch/*.csv
           schema: ./tests/schemas/demo_*.yml
