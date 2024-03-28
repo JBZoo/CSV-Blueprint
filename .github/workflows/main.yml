@@ -315,8 +315,6 @@ jobs:
   benchmark:
     name: Benchmark
     runs-on: ubuntu-latest
-    env:
-      DOCKER_IMAGE: jbzoo/csv-blueprint:master
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -340,7 +338,7 @@ jobs:
       - name: 🔥 Benchmark with PHP Binary 🔥
         run: make bench-php --no-print-directory
 
-      - name: 🐳 Building Docker Image
+      - name: Building Docker Image
         uses: docker/build-push-action@v5
         with:
           context: .
