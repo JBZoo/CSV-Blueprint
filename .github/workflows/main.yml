@@ -142,7 +142,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.3
+          php-version: highest
           coverage: none
           tools: composer
           extensions: ast, opcache
@@ -299,13 +299,13 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
 
       - name: 👍 Valid CSV files
-        uses: jbzoo/csv-blueprint@0.30
+        uses: ./
         with:
           csv: ./tests/fixtures/batch/*.csv
           schema: ./tests/schemas/demo_valid.yml
 
       - name: 👎 Invalid CSV files
-        uses: jbzoo/csv-blueprint@v0.32
+        uses: ./
         with:
           csv: ./tests/fixtures/batch/*.csv
           schema: ./tests/schemas/demo_*.yml
