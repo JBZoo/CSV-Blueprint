@@ -325,7 +325,7 @@ columns:
       #  - Direction: ["asc", "desc"].
       #  - Method: ["natural", "regular", "numeric", "string"].
       # See: https://www.php.net/manual/en/function.sort.php
-      is_sorted: [ asc, natural ]       # Expected ascending order, natural sorting.
+      sorted: [ asc, natural ]          # Expected ascending order, natural sorting.
 
       # First number in the column. Expected value is float or integer.
       first_num_min: 1.0                # x >= 1.0
@@ -801,6 +801,7 @@ Options:
   -S, --skip-schema[=SKIP-SCHEMA]  Skip schema validation.
                                    If you are sure that the schema is correct, you can skip this check.
                                    Empty value or "yes" will be treated as "true". [default: "no"]
+  -D, --debug                      Show debug information. Only for developers.
       --no-progress                Disable progress bar animation for logs. It will be used only for text output format.
       --mute-errors                Mute any sort of errors. So exit code will be always "0" (if it's possible).
                                    It has major priority then --non-zero-on-error. It's on your own risk!
@@ -855,7 +856,7 @@ Check schema syntax: 1
 
 CSV file validation: 1
 (1/1) Schema: ./tests/schemas/demo_invalid.yml
-(1/1) CSV   : ./tests/fixtures/demo.csv
+(1/1) CSV   : ./tests/fixtures/demo.csv; Size: 408 B
 (1/1) Issues: 10
 +------+------------------+--------------+------------------------- demo.csv -------------------------------------------------------------------+
 | Line | id:Column        | Rule         | Message                                                                                              |

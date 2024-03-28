@@ -255,7 +255,7 @@ final class ValidateCsv extends CliCommand
             $this->out([
                 "{$prefix} Schema: " . Utils::printFile($schema),
                 "{$prefix} CSV   : " . Utils::printFile($csv) . ';' .
-                ' Size: ' . FS::format(filesize($csv)),
+                ' Size: ' . FS::format(\filesize($csv)),
             ]);
 
             if ($quickCheck && $errorSuite !== null && $errorSuite->count() > 0) {

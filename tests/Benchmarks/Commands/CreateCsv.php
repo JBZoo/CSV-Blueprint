@@ -72,7 +72,7 @@ final class CreateCsv extends CliCommand
         }
 
         $this->progressBar($rows, function ($index) use ($writer, $columns): void {
-            $writer->insertOne(($this->getDatasetRow($columns, $index + 1)));
+            $writer->insertOne($this->getDatasetRow($columns, $index + 1));
         }, "Dateset: {$columns} columns, {$rows} rows.");
 
         $this->_('File created: ' . Utils::printFile($outputFile));
@@ -96,7 +96,7 @@ final class CreateCsv extends CliCommand
             'ip4'             => static fn () => $faker->ipv4(),                                // 10
             'ip6'             => static fn () => $faker->ipv6(),                                // 11
             'uuid'            => static fn () => $faker->uuid(),                                // 12
-            'address'         => static fn () => str_replace("\n", '; ', $faker->address()),    // 13
+            'address'         => static fn () => \str_replace("\n", '; ', $faker->address()),    // 13
             'postcode'        => static fn () => $faker->postcode(),                            // 14
             'latitude'        => static fn () => $faker->latitude(),                            // 15
             'longitude'       => static fn () => $faker->longitude(),                           // 16

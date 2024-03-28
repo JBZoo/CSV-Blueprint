@@ -27,7 +27,7 @@ abstract class AbstarctRule
     public const INPUT_TYPE = self::INPUT_TYPE_UNDEF;
 
     public const INPUT_TYPE_COUNTER = 0;
-    public const INPUT_TYPE_INTS    = 1;
+    public const INPUT_TYPE_INTS = 1;
     public const INPUT_TYPE_FLOATS = 2;
     public const INPUT_TYPE_STRINGS = 3;
     public const INPUT_TYPE_UNDEF = 4;
