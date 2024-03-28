@@ -11,6 +11,7 @@
 #
 
 .PHONY: build
+SHELL := /bin/bash
 
 ifneq (, $(wildcard ./vendor/jbzoo/codestyle/src/init.Makefile))
     include ./vendor/jbzoo/codestyle/src/init.Makefile
