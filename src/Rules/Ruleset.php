@@ -58,7 +58,7 @@ final class Ruleset
             if ($linesToAggregate > 0) {
                 Utils::debug("  <i>Validate</i> Rule:{$rule->getRuleCode()} - Finish");
                 Utils::debug(
-                    '  <yellow>Speed:agg</yellow> '
+                    "  <yellow>Speed</yellow> {$rule->getRuleCode()} - "
                     . \number_format($linesToAggregate / (\microtime(true) - $startTimer)) . ' lines/sec',
                 );
             }

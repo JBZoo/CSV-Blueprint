@@ -89,7 +89,7 @@ docker-in: ##@Docker Enter into Docker container
 
 # Benchmarks ###########################################################################################################
 BENCH_COLS        ?= 5
-BENCH_ROWS_SRC    ?= 1000
+BENCH_ROWS_SRC    ?= 100000
 BENCH_CSV_PATH    := ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC)000.csv
 BENCH_CSV         := --csv=$(BENCH_CSV_PATH)
 BENCH_SCHEMA_CELL := --schema=./tests/Benchmarks/benchmark-cell.yml
@@ -103,7 +103,16 @@ bench-create-csv: ##@Benchmarks Create CSV file
 	$(BENCH_BIN) -q --columns=$(BENCH_COLS) --rows=0    --add-header
 	$(BENCH_BIN) -q --columns=$(BENCH_COLS) --rows=$(BENCH_ROWS_SRC)
 	cat ./build/bench/$(BENCH_COLS)_header.csv >> $(BENCH_CSV_PATH)
-	for i in {1..1000}; do cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH); done
+	cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH)
+	cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH)
+	cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH)
+	cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH)
+	cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH)
+	cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH)
+	cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH)
+	cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH)
+	cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH)
+	cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH)
 	@wc -l $(BENCH_CSV_PATH)
 	@ls -lah ./build/bench/*.csv
 
