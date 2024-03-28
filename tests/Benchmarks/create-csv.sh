@@ -13,8 +13,8 @@
 #
 
 echo "----"
-$BENCH_BIN --columns=$BENCH_COLS --rows=0 --add-header  --ansi -vv
-$BENCH_BIN --columns=$BENCH_COLS --rows=$BENCH_ROWS_SRC --ansi -vv
+php ./tests/Benchmarks/bench.php --columns=$BENCH_COLS --rows=0 --add-header  --ansi -vv
+php ./tests/Benchmarks/bench.php --columns=$BENCH_COLS --rows=$BENCH_ROWS_SRC --ansi -vv
 
 echo "----"
 echo "Source file size : $(du -h ./build/bench/${BENCH_COLS}_${BENCH_ROWS_SRC}.csv)"

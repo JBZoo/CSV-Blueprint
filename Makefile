@@ -20,7 +20,6 @@ DOCKER_IMAGE     ?= jbzoo/csv-blueprint:local
 CMD_VALIDATE     := validate:csv --ansi
 BLUEPRINT        := COLUMNS=300 time $(PHP_BIN) ./csv-blueprint $(CMD_VALIDATE)
 BLUEPRINT_DOCKER := time docker run --rm  --workdir=/parent-host -v .:/parent-host $(DOCKER_IMAGE) $(CMD_VALIDATE)
-BENCH_BIN        := $(PHP_BIN) ./tests/Benchmarks/bench.php
 
 VALID_CSV       := --csv='./tests/fixtures/demo.csv'
 VALID_SCHEMA    := --schema='./tests/schemas/demo_valid.yml'
@@ -91,23 +90,28 @@ docker-in: ##@Docker Enter into Docker container
 BENCH_COLS        ?= 10
 BENCH_ROWS_SRC    ?= 1000
 BENCH_CSV_PATH    := ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC)_000.csv
-BENCH_CSV         := --csv=$(BENCH_CSV_PATH)
-BENCH_SCHEMA_AGG  := --schema=./tests/Benchmarks/benchmark-*.yml
+BENCH_CSV         := --csv='$(BENCH_CSV_PATH)'
+BENCH_SCHEMAS     := --schema='./tests/Benchmarks/benchmark-*.yml'
 BENCH_FLAGS       := --debug --profile --report=text -vvv
 
 
+bench-all: ##@Benchmarks Run all benchmarks
+	@make bench-create-csv
+	@make docker-build
+	@make bench-docker
+
 bench-create-csv: ##@Benchmarks Create CSV file
-	$(call title,"Benchmark - Create CSV file - $(BENCH_ROWS_SRC)k rows")
+	$(call title,"Benchmark - Create CSV file")
 	@mkdir -pv ./build/bench/
 	@rm -fv    ./build/bench/*.csv
 	@time bash ./tests/Benchmarks/create-csv.sh
 
 
 bench-docker: ##@Benchmarks Run CSV file with Docker
-	$(call title,"Benchmark - CSV file with Docker - $(BENCH_ROWS_SRC)")
-	-$(BLUEPRINT_DOCKER) $(BENCH_CSV) $(BENCH_SCHEMA_AGG) $(BENCH_FLAGS)
+	$(call title,"Benchmark - CSV file with Docker")
+	-$(BLUEPRINT_DOCKER) $(BENCH_CSV) $(BENCH_SCHEMAS) $(BENCH_FLAGS)
 
 
 bench-php: ##@Benchmarks Run CSV file with PHP binary
-	$(call title,"Benchmark - CSV file with PHP binary - $(BENCH_ROWS_SRC)")
-	-$(BLUEPRINT) $(BENCH_CSV) $(BENCH_SCHEMA_AGG) $(BENCH_FLAGS)
+	$(call title,"Benchmark - CSV file with PHP binary")
+	-$(BLUEPRINT) $(BENCH_CSV) $(BENCH_SCHEMAS) $(BENCH_FLAGS)
