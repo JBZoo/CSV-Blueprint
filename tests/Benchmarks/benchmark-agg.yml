@@ -13,9 +13,11 @@
 filename_pattern: /.csv$/i
 
 csv:
-  header: true
+  header: false
 
 columns:
-  - name: id
-    aggregate_rules:
-      average: 999999
+  - aggregate_rules:
+      count: 999999
+      percentile: [ 95.0, 7.0 ]
+      is_unique: true
+      sorted: [ asc, numeric ]

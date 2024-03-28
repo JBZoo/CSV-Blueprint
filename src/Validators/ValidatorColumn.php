@@ -37,12 +37,12 @@ final class ValidatorColumn
 
     public function validateCell(string $cellValue, int $line): ErrorSuite
     {
-        return $this->cellRuleset->validateRuleSet($cellValue, $line, false);
+        return $this->cellRuleset->validateRuleSet($cellValue, $line);
     }
 
-    public function validateList(array $cellValue): ErrorSuite
+    public function validateList(array $cellValue, int $linesToAggregate): ErrorSuite
     {
-        return $this->aggRuleset->validateRuleSet($cellValue, self::FALLBACK_LINE, true);
+        return $this->aggRuleset->validateRuleSet($cellValue, self::FALLBACK_LINE, $linesToAggregate);
     }
 
     public function getAggregationInputType(): int
@@ -53,10 +53,10 @@ final class ValidatorColumn
     /**
      * See Ruleset::getAggregationInputType().
      */
-    public static function prepareValue(string $cellValue, int $aggInputType): bool|float|int|string
+    public static function prepareValue(string $cellValue, int $aggInputType): null|float|int|string
     {
-        if ($aggInputType === AbstarctRule::INPUT_TYPE_BOOL) {
-            return (bool)$cellValue;
+        if ($aggInputType === AbstarctRule::INPUT_TYPE_COUNTER) {
+            return null;
         }
 
         if ($aggInputType === AbstarctRule::INPUT_TYPE_INTS) {

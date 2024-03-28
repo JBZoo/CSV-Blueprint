@@ -43,19 +43,24 @@ final class Ruleset
         }
     }
 
-    public function validateRuleSet(array|string $cellValue, int $line, bool $isAggredate): ErrorSuite
+    public function validateRuleSet(array|string $cellValue, int $line, int $linesToAggregate = 0): ErrorSuite
     {
         $errors = new ErrorSuite();
 
         foreach ($this->rules as $rule) {
-            if ($isAggredate) {
-                Utils::debug("<i>Col</i> Rule:{$rule->getRuleCode()} - Start");
+            if ($linesToAggregate > 0) {
+                Utils::debug("  <i>Validate</i> Rule:{$rule->getRuleCode()} - Start");
             }
 
+            $startTimer = \microtime(true);
             $errors->addError($rule->validate($cellValue, $line));
 
-            if ($isAggredate) {
-                Utils::debug("<i>Col</i> Rule:{$rule->getRuleCode()} - Finish");
+            if ($linesToAggregate > 0) {
+                Utils::debug("  <i>Validate</i> Rule:{$rule->getRuleCode()} - Finish");
+                Utils::debug(
+                    '  <yellow>Speed:agg</yellow> '
+                    . \number_format($linesToAggregate / (\microtime(true) - $startTimer)) . ' lines/sec',
+                );
             }
         }
 

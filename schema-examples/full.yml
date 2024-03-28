@@ -237,7 +237,7 @@ columns:
       #  - Direction: ["asc", "desc"].
       #  - Method: ["natural", "regular", "numeric", "string"].
       # See: https://www.php.net/manual/en/function.sort.php
-      is_sorted: [ asc, natural ]       # Expected ascending order, natural sorting.
+      sorted: [ asc, natural ]          # Expected ascending order, natural sorting.
 
       # First number in the column. Expected value is float or integer.
       first_num_min: 1.0                # x >= 1.0

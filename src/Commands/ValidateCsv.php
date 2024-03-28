@@ -22,6 +22,7 @@ use JBZoo\CsvBlueprint\Exception;
 use JBZoo\CsvBlueprint\Schema;
 use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
+use JBZoo\Utils\FS;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -100,6 +101,12 @@ final class ValidateCsv extends CliCommand
                 "If you are sure that the schema is correct, you can skip this check.\n" .
                 'Empty value or "yes" will be treated as "true".',
                 'no',
+            )
+            ->addOption(
+                'debug',
+                'D',
+                InputOption::VALUE_NONE,
+                'Show debug information. Only for developers.',
             );
 
         parent::configure();
@@ -111,8 +118,8 @@ final class ValidateCsv extends CliCommand
             $this->_('CSV Blueprint: ' . Utils::getVersion(true));
         }
 
-        if ($this->getOptBool('profile')) {
-            \define('PROFILE_MODE', true);
+        if ($this->getOptBool('debug')) {
+            \define('DEBUG_MODE', true);
         }
 
         $csvFilenames = $this->getCsvFilepaths();
@@ -247,7 +254,8 @@ final class ValidateCsv extends CliCommand
 
             $this->out([
                 "{$prefix} Schema: " . Utils::printFile($schema),
-                "{$prefix} CSV   : " . Utils::printFile($csv),
+                "{$prefix} CSV   : " . Utils::printFile($csv) . ';' .
+                ' Size: ' . FS::format(filesize($csv)),
             ]);
 
             if ($quickCheck && $errorSuite !== null && $errorSuite->count() > 0) {

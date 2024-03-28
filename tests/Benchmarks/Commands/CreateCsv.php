@@ -64,11 +64,16 @@ final class CreateCsv extends CliCommand
 
         if ($addHeader) {
             $writer->insertOne(\array_keys($this->getDatasetRow($columns)));
+            if ($rows === 0) {
+                $this->_('Only header created.');
+                $this->_('File created: ' . Utils::printFile($outputFile));
+                return self::SUCCESS;
+            }
         }
 
         $this->progressBar($rows, function ($index) use ($writer, $columns): void {
-            $writer->insertOne($this->getDatasetRow($columns, $index + 1));
-        }, "Dateset: {$columns}");
+            $writer->insertOne(($this->getDatasetRow($columns, $index + 1)));
+        }, "Dateset: {$columns} columns, {$rows} rows.");
 
         $this->_('File created: ' . Utils::printFile($outputFile));
 
@@ -77,16 +82,6 @@ final class CreateCsv extends CliCommand
 
     private function getDatasetRow(int $dataset, int $i = 0): array
     {
-        if ($dataset === 5) {
-            return [
-                'id'       => $i,                                                   // 1
-                'bool_int' => \random_int(0, 1),                                    // 2
-                'bool_str' => \random_int(0, 1) === 1 ? 'true' : 'false',           // 3
-                'number'   => \random_int(0, 1_000_000),                            // 4
-                'float'    => \random_int(0, 10_000_000) / 7,                       // 5
-            ];
-        }
-
         $faker = Factory::create();
         $data = [
             'id'              => static fn () => $i,                                            // 1
@@ -101,7 +96,7 @@ final class CreateCsv extends CliCommand
             'ip4'             => static fn () => $faker->ipv4(),                                // 10
             'ip6'             => static fn () => $faker->ipv6(),                                // 11
             'uuid'            => static fn () => $faker->uuid(),                                // 12
-            'address'         => static fn () => $faker->address(),                             // 13
+            'address'         => static fn () => str_replace("\n", '; ', $faker->address()),    // 13
             'postcode'        => static fn () => $faker->postcode(),                            // 14
             'latitude'        => static fn () => $faker->latitude(),                            // 15
             'longitude'       => static fn () => $faker->longitude(),                           // 16
@@ -125,8 +120,14 @@ final class CreateCsv extends CliCommand
         $rows = $this->getOptInt('rows');
         $columns = $this->getOptInt('columns');
 
+        if ($rows === 0) {
+            return $addHeader
+                ? PATH_ROOT . "/build/bench/{$columns}_header.csv"
+                : PATH_ROOT . "/build/bench/{$columns}.csv";
+        }
+
         return $addHeader
             ? PATH_ROOT . "/build/bench/{$columns}_{$rows}_header.csv"
-            : PATH_ROOT . "/build/bench/{$columns}}_{$rows}.csv";
+            : PATH_ROOT . "/build/bench/{$columns}_{$rows}.csv";
     }
 }

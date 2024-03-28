@@ -20,7 +20,7 @@ use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 
 final class ComboCount extends AbstractAggregateRuleCombo
 {
-    public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_BOOL;
+    public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_COUNTER;
 
     protected const NAME = 'number of rows';
 

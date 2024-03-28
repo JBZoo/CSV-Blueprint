@@ -16,14 +16,14 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules\Aggregate;
 
-use JBZoo\CsvBlueprint\Rules\Aggregate\IsSorted;
+use JBZoo\CsvBlueprint\Rules\Aggregate\Sorted;
 use JBZoo\PHPUnit\Rules\TestAbstractAggregateRule;
 
 use function JBZoo\PHPUnit\isSame;
 
-class IsSortedTest extends TestAbstractAggregateRule
+class SortedTest extends TestAbstractAggregateRule
 {
-    protected string $ruleClass = IsSorted::class;
+    protected string $ruleClass = Sorted::class;
 
     public function testPositive(): void
     {

@@ -44,6 +44,8 @@ final class CsvFile
         $this->schema = new Schema($csvSchemaFilenameOrArray);
         $this->structure = $this->schema->getCsvStructure();
         $this->reader = $this->prepareReader();
+
+        // Utils::debug('Found lines: ' . $this->reader->count());
     }
 
     public function getCsvFilename(): string
@@ -75,11 +77,7 @@ final class CsvFile
 
     public function getRecords(): \Iterator
     {
-        Utils::debug('Start getRecords() from CSV');
-        $records = $this->reader->getRecords($this->getHeader());
-        Utils::debug('End getRecords()');
-
-        return $records;
+        return $this->reader->getRecords($this->getHeader());
     }
 
     public function getRecordsChunk(int $offset = 0, int $limit = -1): TabularDataReader
