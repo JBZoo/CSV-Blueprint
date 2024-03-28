@@ -16,8 +16,6 @@ ifneq (, $(wildcard ./vendor/jbzoo/codestyle/src/init.Makefile))
     include ./vendor/jbzoo/codestyle/src/init.Makefile
 endif
 
-SHELL := /bin/bash
-
 DOCKER_IMAGE     ?= jbzoo/csv-blueprint:local
 CMD_VALIDATE     := validate:csv --ansi
 BLUEPRINT        := COLUMNS=300 time $(PHP_BIN) ./csv-blueprint $(CMD_VALIDATE)
@@ -90,11 +88,11 @@ docker-in: ##@Docker Enter into Docker container
 
 
 # Benchmarks ###########################################################################################################
-BENCH_COLS        ?= 1
+BENCH_COLS        ?= 10
 BENCH_ROWS_SRC    ?= 1000
 BENCH_CSV_PATH    := ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC)_000.csv
 BENCH_CSV         := --csv=$(BENCH_CSV_PATH)
-BENCH_SCHEMA_AGG  := --schema=./tests/Benchmarks/benchmark.yml
+BENCH_SCHEMA_AGG  := --schema=./tests/Benchmarks/benchmark-*.yml
 BENCH_FLAGS       := --debug --profile --report=text -vvv
 
 
@@ -102,12 +100,7 @@ bench-create-csv: ##@Benchmarks Create CSV file
 	$(call title,"Benchmark - Create CSV file - $(BENCH_ROWS_SRC)k rows")
 	@mkdir -pv ./build/bench/
 	@rm -fv    ./build/bench/*.csv
-	$(BENCH_BIN) --columns=$(BENCH_COLS) --rows=0    --add-header
-	$(BENCH_BIN) --columns=$(BENCH_COLS) --rows=$(BENCH_ROWS_SRC) -vv
-	@cat ./build/bench/$(BENCH_COLS)_header.csv > $(BENCH_CSV_PATH)
-	@for i in {1..1000}; do cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH); done
-	@wc -l $(BENCH_CSV_PATH)
-	@ls -lah $(BENCH_CSV_PATH)
+	@time bash ./tests/Benchmarks/create-csv.sh
 
 
 bench-docker: ##@Benchmarks Run CSV file with Docker
