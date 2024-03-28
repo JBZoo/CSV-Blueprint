@@ -10,45 +10,50 @@
 # @see        https://github.com/JBZoo/Csv-Blueprint
 #
 
-# Tests on 20_1000000.csv
-# 32GB RAM, 2.4 GHz 8-Core Intel Core i9, SSD 1TB
-# MacOS, Sonoma 14.2.1
-# Docker, PHP 8.3.4
-# CSV Blueprint v0.24
-
 filename_pattern: /.csv$/i
 
 csv:
-  header: true
+  header: false
 
 columns:
-  - name: id
-    rules:
-      # Both: 13.0 sec
-
-      # 11.5 sec
+  - rules:
       not_empty: true
-
-      # 12.8 sec
-      num_min: 2
     aggregate_rules:
-      # 28 MB (input:bool)
-      count_max: 999999
-
-      # 36 MB (input:float/int)
-      #sum_max: 499844777878
-
-      # 36 MB (input:float/int)
-      average: 500000
-
-      # 74 MB (input:float/int)
-      #median: 499844.77787765
-
-      # 52 MB (input:float/int)
-      #stddev: 499844.77787765
-
-      # 52 MB (input:float/int)
-      #coef_of_var: 499844.77787765
-
-      # 120 MB (input:string)
-      #is_unique: true
+      is_unique: true
+      is_sorted: [ desc, natural ]
+      first_num_not: 5.0
+      first_not: Not expected
+      nth_num_not: [ 2, Expected ] ]
+      nth_not: [ 2, Not expected ] ]
+      last_num_not: 5.0
+      last_not: Not expected
+      sum_not: 5.0
+      average_not: 5.0
+      count_not: 0
+      count_empty_not: 0
+      count_not_empty_not: 0
+      count_distinct_not: 0
+      count_positive_not: 0
+      count_negative_not: 0
+      count_zero_not: 0
+      count_even_not: 0
+      count_odd_not: 0
+      count_prime_not: 0
+      median_not: 5.0
+      harmonic_mean_not: 5.0
+      geometric_mean_not: 5.0
+      contraharmonic_mean_not: 5.0
+      root_mean_square_not: 5.0
+      trimean_not: 5.0
+      interquartile_mean_not: 5.0
+      cubic_mean_not: 5.0
+      percentile_not: [ 95.0, 5.0 ]
+      quartiles_not: [ exclusive, Q2, 5.0 ]
+      midhinge_not: 5.0
+      mean_abs_dev_not: 5.0
+      median_abs_dev_not: 5.0
+      population_variance_not: 5.0
+      sample_variance_not: 5.0
+      stddev_not: 5.0
+      stddev_pop_not: 5.0
+      coef_of_var_not: 5.0
