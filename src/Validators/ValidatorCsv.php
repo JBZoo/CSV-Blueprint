@@ -161,6 +161,7 @@ final class ValidatorCsv
                     $columValues[] = ValidatorColumn::prepareValue($record[$column->getKey()], $aggInputType);
                 }
             }
+            Utils::debug("{$messPrefix} <yellow>Lines</yellow> {$lineCounter}");
             Utils::debug(
                 "{$messPrefix} <yellow>Speed:cell</yellow> "
                 . \number_format($lineCounter / (\microtime(true) - $startTimer)) . ' lines/sec',
