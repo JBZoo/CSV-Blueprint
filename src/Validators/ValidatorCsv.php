@@ -158,7 +158,7 @@ final class ValidatorCsv
                 }
 
                 if ($isAggRules && isset($record[$column->getKey()])) {  // Time & memory optimization
-//                    $columValues[] = ValidatorColumn::prepareValue($record[$column->getKey()], $aggInputType);
+                    //                    $columValues[] = ValidatorColumn::prepareValue($record[$column->getKey()], $aggInputType);
                     $columValues[] = $record[$column->getKey()];
                 }
             }

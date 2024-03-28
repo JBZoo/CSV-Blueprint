@@ -27,9 +27,9 @@ columns:
       not_empty: true                      #          239,271        | 114,274
 
                                            # Aggregate
-    aggregate_rules:
+#    aggregate_rules:
 #      last_num: 5.0                       #       271,072,720
-      count: 0                            #    1,964,547,164
+#      count: 0                            #    1,964,547,164
 #      nth: [ 2, Not expected ] ]          #    2,187,954,196
 #      nth_num: [ 2, 123 ] ]          #   1,326,473,180
 #
