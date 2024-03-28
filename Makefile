@@ -94,6 +94,7 @@ BENCH_CSV_PATH    := ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC)000.csv
 BENCH_CSV         := --csv=$(BENCH_CSV_PATH)
 BENCH_SCHEMA_CELL := --schema=./tests/Benchmarks/benchmark-cell.yml
 BENCH_SCHEMA_AGG  := --schema=./tests/Benchmarks/benchmark-agg.yml
+BENCH_FLAGS       := --debug --profile --report=text
 
 
 bench-create-csv: ##@Benchmarks Create CSV file
@@ -120,14 +121,14 @@ bench-create-csv: ##@Benchmarks Create CSV file
 bench-docker: ##@Benchmarks Run CSV file with Docker
 	$(call title,"Benchmark - CSV file with Docker")
 	$(call title,"Only one aggregation rule")
-	-$(BLUEPRINT_DOCKER) $(BENCH_CSV) $(BENCH_SCHEMA_AGG)  --debug --profile
+	-$(BLUEPRINT_DOCKER) $(BENCH_CSV) $(BENCH_SCHEMA_AGG) $(BENCH_FLAGS)
 	$(call title,"Only one cell rule")
-	-$(BLUEPRINT_DOCKER) $(BENCH_CSV) $(BENCH_SCHEMA_CELL) --debug --profile
+	-$(BLUEPRINT_DOCKER) $(BENCH_CSV) $(BENCH_SCHEMA_CELL) $(BENCH_FLAGS)
 
 
 bench-php: ##@Benchmarks Run CSV file with PHP binary
 	$(call title,"Benchmark - CSV file with PHP binary")
 	$(call title,"Only one aggregation rule")
-	-$(BLUEPRINT) $(BENCH_CSV) $(BENCH_SCHEMA_AGG)  --debug --profile
+	-$(BLUEPRINT) $(BENCH_CSV) $(BENCH_SCHEMA_AGG) $(BENCH_FLAGS)
 	$(call title,"Only one cell rule")
-	-$(BLUEPRINT) $(BENCH_CSV) $(BENCH_SCHEMA_CELL) --debug --profile
+	-$(BLUEPRINT) $(BENCH_CSV) $(BENCH_SCHEMA_CELL) $(BENCH_FLAGS)
