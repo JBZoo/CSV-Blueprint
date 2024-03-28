@@ -34,6 +34,7 @@ final class ComboInterquartileMean extends AbstractAggregateRuleCombo
                 'Only the data in the second and third quartiles is used (as in the interquartile range), ' .
                 'and the lowest 25% and the highest 25% of the scores are discarded.',
                 'See: https://en.wikipedia.org/wiki/Interquartile_mean',
+                'Note: It\'s SUPER slow!!!',
             ],
             [],
         ];

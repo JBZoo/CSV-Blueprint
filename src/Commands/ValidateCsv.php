@@ -104,9 +104,9 @@ final class ValidateCsv extends CliCommand
             )
             ->addOption(
                 'debug',
-                'D',
+                null,
                 InputOption::VALUE_NONE,
-                'Show debug information. Only for developers.',
+                "It's ONLY for debugging and advanced profiling!",
             );
 
         parent::configure();

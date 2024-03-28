@@ -65,4 +65,5 @@ columns:
       midhinge: 5.0
       trimean: 5.0
 
-      interquartile_mean: 5.0
+      # Disabled... It's tooooooooooo slow... About 2000-5000 lines per second :(
+      # interquartile_mean: 5.0
