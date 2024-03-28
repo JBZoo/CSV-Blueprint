@@ -16,7 +16,7 @@ ifneq (, $(wildcard ./vendor/jbzoo/codestyle/src/init.Makefile))
     include ./vendor/jbzoo/codestyle/src/init.Makefile
 endif
 
-SHELL := /bin/sh
+SHELL := /bin/bash
 
 DOCKER_IMAGE     ?= jbzoo/csv-blueprint:local
 CMD_VALIDATE     := validate:csv --ansi
