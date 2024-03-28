@@ -101,7 +101,7 @@ bench-create-csv: ##@Benchmarks Create CSV file
 	@mkdir -pv ./build/bench/
 	@rm -fv    ./build/bench/*.csv
 	$(BENCH_BIN) -q --columns=$(BENCH_COLS) --rows=0    --add-header
-	$(BENCH_BIN) -q --columns=$(BENCH_COLS) --rows=$(BENCH_ROWS_SRC)
+	$(BENCH_BIN) --columns=$(BENCH_COLS) --rows=$(BENCH_ROWS_SRC)
 	cat ./build/bench/$(BENCH_COLS)_header.csv >> $(BENCH_CSV_PATH)
 	cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH)
 	cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH)
