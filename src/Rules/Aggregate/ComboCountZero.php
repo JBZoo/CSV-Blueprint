@@ -29,7 +29,7 @@ final class ComboCountZero extends AbstractAggregateRuleCombo
         return [
             [
                 'Number of zero values. ' .
-                'Any text and spaces (i.e. anything that doesn\'t look like a number) will be converted to 0.',
+                "Any text and spaces (i.e. anything that doesn't look like a number) will be converted to 0.",
             ],
             [],
         ];

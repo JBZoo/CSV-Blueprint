@@ -108,8 +108,8 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
         return $this->getPreparedBadge(
             $this->getBadge(
                 'CI',
-                $path . '/release-docker.yml/badge.svg',
-                $path . '/release-docker.yml',
+                $path . '/publish.yml/badge.svg',
+                $path . '/publish.yml',
             ),
         );
     }
