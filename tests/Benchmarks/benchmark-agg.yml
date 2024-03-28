@@ -18,7 +18,7 @@ csv:
 columns:
   - rules:
       not_empty: true
-  - aggregate_rules:
+    aggregate_rules:
       count: 999999
       percentile: [ 95.0, 7.0 ]
       is_unique: true

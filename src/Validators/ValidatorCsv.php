@@ -164,7 +164,9 @@ final class ValidatorCsv
             Utils::debug("{$messPrefix} <yellow>Lines</yellow> {$lineCounter}");
             Utils::debug(
                 "{$messPrefix} <yellow>Speed:cell</yellow> "
-                . \number_format($lineCounter / (\microtime(true) - $startTimer)) . ' lines/sec',
+                . '<blue>'
+                . \number_format($lineCounter / (\microtime(true) - $startTimer))
+                . '</blue> lines/sec',
             );
 
             if ($isAggRules) { // Time optimization
