@@ -335,12 +335,12 @@ jobs:
       - name: Create random huge CSV files
         run: make bench-create-csv --no-print-directory
 
-      - name: Building Docker Image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: false
-          tags: jbzoo/csv-blueprint:local
+#      - name: Building Docker Image
+#        uses: docker/build-push-action@v5
+#        with:
+#          context: .
+#          push: false
+#          tags: jbzoo/csv-blueprint:local
 
       - name: 🔥 Benchmark with Docker 🔥
-        run: make bench-docker --no-print-directory
+        run: make bench-php --no-print-directory
