@@ -88,8 +88,8 @@ docker-in: ##@Docker Enter into Docker container
 
 
 # Benchmarks ###########################################################################################################
-BENCH_COLS        ?= 3
-BENCH_ROWS_SRC    ?= 100000
+BENCH_COLS        ?= 15
+BENCH_ROWS_SRC    ?= 1000000
 BENCH_CSV_PATH    := ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC)_0.csv
 BENCH_CSV         := --csv=$(BENCH_CSV_PATH)
 BENCH_SCHEMA_AGG  := --schema=./tests/Benchmarks/benchmark-agg.yml
