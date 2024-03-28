@@ -349,17 +349,17 @@ final class Utils
         return \implode('  ', $version);
     }
 
-    public static function getFileSize(mixed $csv): string
+    public static function getFileSize(string $csv): string
     {
+        if (!\file_exists($csv)) {
+            return 'file not found';
+        }
+
         if (self::isPhpUnit()) {
             return '123.34 MB';
         }
 
-        if (!\file_exists($csv) === false) {
-            return 'file not found';
-        }
-
-        return FS::format(\filesize($csv));
+        return FS::format((int)\filesize($csv));
     }
 
     /**
