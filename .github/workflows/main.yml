@@ -42,278 +42,8 @@ env:
     --schema=./tests/schemas/invalid_schema.yml
 
 jobs:
-#  test-current-versions:
-#    name: Tests - Current
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v4
-#        with:
-#          fetch-depth: 0
-#
-#      - name: Setup PHP
-#        uses: shivammathur/setup-php@v2
-#        with:
-#          php-version: 8.3
-#          coverage: xdebug
-#          tools: composer
-#          extensions: ast, opcache
-#
-#      - name: Build project
-#        run: make build --no-print-directory
-#
-#      - name: 🧪 PHPUnit Tests
-#        run: make test --no-print-directory
-#
-#      - name: 👍 Code Quality
-#        run: make codestyle --no-print-directory
-#
-#      - name: 📝 Build Reports
-#        run: make report-all --no-print-directory
-#
-#      - name: Uploading coverage to coveralls
-#        continue-on-error: true
-#        env:
-#          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        run: make report-coveralls --no-print-directory || true
-#
-#      - name: Upload Artifacts
-#        uses: actions/upload-artifact@v4
-#        continue-on-error: true
-#        with:
-#          name: Tests - Current
-#          path: build/
-#
-#
-#  test-lowest-versions:
-#    name: Tests - Lowest
-#    runs-on: ubuntu-latest
-#    env:
-#      JBZOO_COMPOSER_UPDATE_FLAGS: '--prefer-lowest'
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v4
-#        with:
-#          fetch-depth: 0
-#
-#      - name: Setup PHP
-#        uses: shivammathur/setup-php@v2
-#        with:
-#          php-version: 8.1
-#          coverage: none
-#          tools: composer
-#          extensions: ast, opcache
-#
-#      - name: Install project
-#        run: make build --no-print-directory
-#
-#        ## To see the difference between the current and the lowest versions
-#      - name: Downgrade dependencies
-#        run: make update --no-print-directory
-#
-#      - name: 🧪 PHPUnit Tests
-#        run: make test --no-print-directory
-#
-#      - name: 👍 Code Quality
-#        run: make codestyle --no-print-directory
-#
-#      - name: 📝 Build Reports
-#        run: make report-all --no-print-directory
-#
-#      - name: Upload Artifacts
-#        uses: actions/upload-artifact@v4
-#        continue-on-error: true
-#        with:
-#          name: Tests - Lowest
-#          path: build/
-#
-#
-#  test-latest-libs:
-#    name: Tests - Latest
-#    runs-on: ubuntu-latest
-#    env:
-#      JBZOO_COMPOSER_UPDATE_FLAGS: '--with-all-dependencies'
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v4
-#        with:
-#          fetch-depth: 0
-#
-#      - name: Setup PHP
-#        uses: shivammathur/setup-php@v2
-#        with:
-#          php-version: highest
-#          coverage: none
-#          tools: composer
-#          extensions: ast, opcache
-#
-#      - name: Install project
-#        run: make build --no-print-directory
-#
-#        ## To see the difference between the current and the latest versions
-#      - name: Upgrade dependencies
-#        run: make update --no-print-directory
-#
-#      - name: 🧪 PHPUnit Tests
-#        run: make test --no-print-directory
-#
-#      - name: 👍 Code Quality
-#        run: make codestyle --no-print-directory
-#
-#      - name: 📝 Build Reports
-#        run: make report-all --no-print-directory
-#
-#      - name: Upload Artifacts
-#        uses: actions/upload-artifact@v4
-#        continue-on-error: true
-#        with:
-#          name: Tests - Latest
-#          path: build/
-#
-#
-#  verify-php-binary:
-#    name: Verify PHP binary
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v4
-#        with:
-#          fetch-depth: 0
-#          ref: ${{ github.event.pull_request.head.ref }}
-#
-#      - name: Setup PHP
-#        uses: shivammathur/setup-php@v2
-#        with:
-#          php-version: 8.3
-#          tools: composer
-#
-#      - name: Build project in production mode
-#        run: make build-prod --no-print-directory
-#
-#      - name: 🎨 Test help and logo
-#        run: $BLUEPRINT --ansi -vvv
-#
-#      - name: 👍 Valid CSV files
-#        run: $BLUEPRINT $CMD_VALIDATE $VALID_TEST
-#
-#      - name: 👎 Invalid CSV files
-#        run: |
-#          ! $BLUEPRINT $CMD_VALIDATE $INVALID_TEST
-#
-#
-#  verify-phar-binary:
-#    name: Verify PHAR
-#    runs-on: ubuntu-latest
-#    strategy:
-#      matrix:
-#        php-version: [ 8.1, 8.3 ]
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v4
-#        with:
-#          fetch-depth: 0
-#          ref: ${{ github.event.pull_request.head.ref }}
-#
-#      - name: Setup PHP
-#        uses: shivammathur/setup-php@v2
-#        with:
-#          php-version: ${{ matrix.php-version }}
-#          tools: composer
-#          extensions: opcache
-#
-#      - name: Build project in production mode
-#        run: make build-prod build-phar-file --no-print-directory
-#
-#      - name: 🎨 Test help and logo
-#        run: $BLUEPRINT_PHAR --ansi -vvv
-#
-#      - name: 👍 Valid CSV files
-#        run: $BLUEPRINT_PHAR $CMD_VALIDATE $VALID_TEST
-#
-#      - name: 👎 Invalid CSV files
-#        run: |
-#          ! $BLUEPRINT_PHAR $CMD_VALIDATE $INVALID_TEST
-#
-#      - name: Upload Artifacts
-#        uses: actions/upload-artifact@v4
-#        continue-on-error: true
-#        with:
-#          name: PHAR - PHP v${{ matrix.php-version }}
-#          path: ./build/csv-blueprint.phar
-#          compression-level: 0
-#
-#
-#  verify-docker:
-#    name: Verify Docker
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v4
-#        with:
-#          fetch-depth: 0
-#          ref: ${{ github.event.pull_request.head.ref }}
-#
-#      - name: Save the current version
-#        run: make build-version --no-print-directory
-#
-#      - name: Login to Docker Hub
-#        uses: docker/login-action@v3
-#        with:
-#          username: ${{ secrets.DOCKERHUB_USERNAME }}
-#          password: ${{ secrets.DOCKERHUB_TOKEN }}
-#
-#      - name: 🐳 Building Docker Image
-#        uses: docker/build-push-action@v5
-#        with:
-#          context: .
-#          push: false
-#          tags: jbzoo/csv-blueprint:local
-#
-#      - name: 🎨 Test help and logo
-#        run: $BLUEPRINT_DOCKER --ansi -vvv
-#
-#      - name: 👍 Valid CSV files
-#        run: $BLUEPRINT_DOCKER $CMD_VALIDATE $VALID_TEST
-#
-#      - name: 👎 Invalid CSV files
-#        run: |
-#          ! $BLUEPRINT_DOCKER $CMD_VALIDATE $INVALID_TEST
-#
-#      - name: Push Docker Image (master)
-#        uses: docker/build-push-action@v5
-#        if: github.ref == 'refs/heads/master'
-#        with:
-#          context: .
-#          push: true
-#          tags: jbzoo/csv-blueprint:master
-#
-#
-#  verify-ga:
-#    name: Verify GitHub Actions
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v4
-#        with:
-#          fetch-depth: 0
-#          ref: ${{ github.event.pull_request.head.ref }}
-#
-#      - name: 👍 Valid CSV files
-#        uses: ./
-#        with:
-#          csv: ./tests/fixtures/batch/*.csv
-#          schema: ./tests/schemas/demo_valid.yml
-#
-#      - name: 👎 Invalid CSV files
-#        uses: ./
-#        with:
-#          csv: ./tests/fixtures/batch/*.csv
-#          schema: ./tests/schemas/demo_*.yml
-#        continue-on-error: true
-
-
-  benchmark:
-    name: Benchmark
+  test-current-versions:
+    name: Tests - Current
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -323,19 +53,254 @@ jobs:
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          coverage: xdebug
+          extensions: ast
 
       - name: Build project
         run: make build --no-print-directory
 
-      - name: Create random huge CSV files
-        run: make bench-create-csv --no-print-directory
+      - name: 🧪 PHPUnit Tests
+        run: make test --no-print-directory
 
-      - name: Building Docker Image
+      - name: 👍 Code Quality
+        run: make codestyle --no-print-directory
+
+      - name: 📝 Build Reports
+        run: make report-all --no-print-directory
+
+      - name: Uploading coverage to coveralls
+        continue-on-error: true
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: make report-coveralls --no-print-directory || true
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with:
+          name: Tests - Current
+          path: build/
+
+
+  test-lowest-versions:
+    name: Tests - Lowest
+    runs-on: ubuntu-latest
+    env:
+      JBZOO_COMPOSER_UPDATE_FLAGS: '--prefer-lowest'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          coverage: none
+          extensions: ast
+
+      - name: Install project
+        run: make build --no-print-directory
+
+        ## To see the difference between the current and the lowest versions
+      - name: Downgrade dependencies
+        run: make update --no-print-directory
+
+      - name: 🧪 PHPUnit Tests
+        run: make test --no-print-directory
+
+      - name: 👍 Code Quality
+        run: make codestyle --no-print-directory
+
+      - name: 📝 Build Reports
+        run: make report-all --no-print-directory
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with:
+          name: Tests - Lowest
+          path: build/
+
+
+  test-latest-libs:
+    name: Tests - Latest
+    runs-on: ubuntu-latest
+    env:
+      JBZOO_COMPOSER_UPDATE_FLAGS: '--with-all-dependencies'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: highest
+          coverage: none
+          extensions: ast
+
+      - name: Install project
+        run: make build --no-print-directory
+
+        ## To see the difference between the current and the latest versions
+      - name: Upgrade dependencies
+        run: make update --no-print-directory
+
+      - name: 🧪 PHPUnit Tests
+        run: make test --no-print-directory
+
+      - name: 👍 Code Quality
+        run: make codestyle --no-print-directory
+
+      - name: 📝 Build Reports
+        run: make report-all --no-print-directory
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with:
+          name: Tests - Latest
+          path: build/
+
+
+  verify-php-binary:
+    name: Verify PHP binary
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+
+      - name: Build project in production mode
+        run: make build-prod --no-print-directory
+
+      - name: 🎨 Test help and logo
+        run: $BLUEPRINT --ansi -vvv
+
+      - name: 👍 Valid CSV files
+        run: $BLUEPRINT $CMD_VALIDATE $VALID_TEST
+
+      - name: 👎 Invalid CSV files
+        run: |
+          ! $BLUEPRINT $CMD_VALIDATE $INVALID_TEST
+
+
+  verify-phar-binary:
+    name: Verify PHAR
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: [ 8.1, 8.3 ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+
+      - name: Build project in production mode
+        run: make build-prod build-phar-file --no-print-directory
+
+      - name: 🎨 Test help and logo
+        run: $BLUEPRINT_PHAR --ansi -vvv
+
+      - name: 👍 Valid CSV files
+        run: $BLUEPRINT_PHAR $CMD_VALIDATE $VALID_TEST
+
+      - name: 👎 Invalid CSV files
+        run: |
+          ! $BLUEPRINT_PHAR $CMD_VALIDATE $INVALID_TEST
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with:
+          name: PHAR - PHP v${{ matrix.php-version }}
+          path: ./build/csv-blueprint.phar
+          compression-level: 0
+
+
+  verify-docker:
+    name: Verify Docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Save the current version
+        run: make build-version --no-print-directory
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: 🐳 Building Docker Image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: false
           tags: jbzoo/csv-blueprint:local
 
-      - name: 🔥 Benchmark with Docker 🔥
-        run: make bench-docker --no-print-directory
+      - name: 🎨 Test help and logo
+        run: $BLUEPRINT_DOCKER --ansi -vvv
+
+      - name: 👍 Valid CSV files
+        run: $BLUEPRINT_DOCKER $CMD_VALIDATE $VALID_TEST
+
+      - name: 👎 Invalid CSV files
+        run: |
+          ! $BLUEPRINT_DOCKER $CMD_VALIDATE $INVALID_TEST
+
+      - name: Push Docker Image (master)
+        uses: docker/build-push-action@v5
+        if: github.ref == 'refs/heads/master'
+        with:
+          context: .
+          push: true
+          tags: jbzoo/csv-blueprint:master
+
+
+  verify-ga:
+    name: Verify GitHub Actions
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: 👍 Valid CSV files
+        uses: ./
+        with:
+          csv: ./tests/fixtures/batch/*.csv
+          schema: ./tests/schemas/demo_valid.yml
+
+      - name: 👎 Invalid CSV files
+        uses: ./
+        with:
+          csv: ./tests/fixtures/batch/*.csv
+          schema: ./tests/schemas/demo_*.yml
+        continue-on-error: true

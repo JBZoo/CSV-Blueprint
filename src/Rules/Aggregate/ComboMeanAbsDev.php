@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
+use JBZoo\CsvBlueprint\Utils;
 use MathPHP\Statistics\Descriptive;
 
 final class ComboMeanAbsDev extends AbstractAggregateRuleCombo
@@ -43,6 +44,6 @@ final class ComboMeanAbsDev extends AbstractAggregateRuleCombo
             return null;
         }
 
-        return Descriptive::meanAbsoluteDeviation($colValues);
+        return Descriptive::meanAbsoluteDeviation(Utils::stringsToFloat($colValues));
     }
 }

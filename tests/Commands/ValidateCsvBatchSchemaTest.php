@@ -71,7 +71,7 @@ final class ValidateCsvBatchSchemaTest extends TestCase
             
             CSV file validation: 2
             (1/2) Schema: ./tests/schemas/demo_invalid.yml
-            (1/2) CSV   : ./tests/fixtures/demo.csv
+            (1/2) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
             (1/2) Issues: 10
             +------+------------------+--------------+------------------------- demo.csv -------------------------------------------------------------------+
             | Line | id:Column        | Rule         | Message                                                                                              |
@@ -92,7 +92,7 @@ final class ValidateCsvBatchSchemaTest extends TestCase
             +------+------------------+--------------+------------------------- demo.csv -------------------------------------------------------------------+
             
             (2/2) Schema: ./tests/schemas/demo_valid.yml
-            (2/2) CSV   : ./tests/fixtures/demo.csv
+            (2/2) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
             (2/2) OK
             
             Summary:
@@ -133,7 +133,7 @@ final class ValidateCsvBatchSchemaTest extends TestCase
             
             CSV file validation: 2
             (1/2) Schema: ./tests/schemas/demo_invalid_no_pattern.yml
-            (1/2) CSV   : ./tests/fixtures/demo.csv
+            (1/2) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
             (1/2) Issues: 2
             +------+-----------+---------+------ demo.csv -----------------------------------+
             | Line | id:Column | Rule    | Message                                           |
@@ -143,7 +143,7 @@ final class ValidateCsvBatchSchemaTest extends TestCase
             +------+-----------+---------+------ demo.csv -----------------------------------+
             
             (2/2) Schema: ./tests/schemas/demo_valid.yml
-            (2/2) CSV   : ./tests/fixtures/demo.csv
+            (2/2) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
             (2/2) OK
             
             Summary:

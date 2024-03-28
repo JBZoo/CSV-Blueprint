@@ -79,8 +79,7 @@ class ComboAverageTest extends TestAbstractAggregateRuleCombo
         $rule = $this->create([1, 2], Combo::MAX);
         isSame(
             '"ag:average_max" at line <red>1</red>, column "prop". ' .
-            'Invalid option ["<c>1</c>", "<c>2</c>"] for the "ag:average_max" rule. ' .
-            'It should be integer/float.',
+            'Invalid option ["1", "2"] for the "ag:average_max" rule. It should be integer/float.',
             (string)$rule->validate(['1', '2', '3']),
         );
     }

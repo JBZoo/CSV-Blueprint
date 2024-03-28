@@ -513,16 +513,6 @@ columns:
       trimean_less: 8.0                 # x <  8.0
       trimean_max: 9.0                  # x <= 9.0
 
-      # Interquartile mean (IQM). A measure of central tendency based on the truncated mean of the interquartile range.
-      # Only the data in the second and third quartiles is used (as in the interquartile range), and the lowest 25% and the highest 25% of the scores are discarded.
-      # See: https://en.wikipedia.org/wiki/Interquartile_mean
-      interquartile_mean_min: 1.0       # x >= 1.0
-      interquartile_mean_greater: 2.0   # x >  2.0
-      interquartile_mean_not: 5.0       # x != 5.0
-      interquartile_mean: 7.0           # x == 7.0
-      interquartile_mean_less: 8.0      # x <  8.0
-      interquartile_mean_max: 9.0       # x <= 9.0
-
       # Cubic mean. See: https://en.wikipedia.org/wiki/Cubic_mean
       cubic_mean_min: 1.0               # x >= 1.0
       cubic_mean_greater: 2.0           # x >  2.0
@@ -636,6 +626,17 @@ columns:
       coef_of_var: 7.0                  # x == 7.0
       coef_of_var_less: 8.0             # x <  8.0
       coef_of_var_max: 9.0              # x <= 9.0
+
+      # Interquartile mean (IQM). A measure of central tendency based on the truncated mean of the interquartile range.
+      # Only the data in the second and third quartiles is used (as in the interquartile range), and the lowest 25% and the highest 25% of the scores are discarded.
+      # See: https://en.wikipedia.org/wiki/Interquartile_mean
+      # Note: It's SUPER slow!!!
+      interquartile_mean_min: 1.0       # x >= 1.0
+      interquartile_mean_greater: 2.0   # x >  2.0
+      interquartile_mean_not: 5.0       # x != 5.0
+      interquartile_mean: 7.0           # x == 7.0
+      interquartile_mean_less: 8.0      # x <  8.0
+      interquartile_mean_max: 9.0       # x <= 9.0
 
   - name: another_column
     rules:
@@ -801,7 +802,7 @@ Options:
   -S, --skip-schema[=SKIP-SCHEMA]  Skip schema validation.
                                    If you are sure that the schema is correct, you can skip this check.
                                    Empty value or "yes" will be treated as "true". [default: "no"]
-  -D, --debug                      Show debug information. Only for developers.
+      --debug                      It's ONLY for debugging and advanced profiling!
       --no-progress                Disable progress bar animation for logs. It will be used only for text output format.
       --mute-errors                Mute any sort of errors. So exit code will be always "0" (if it's possible).
                                    It has major priority then --non-zero-on-error. It's on your own risk!
@@ -856,7 +857,7 @@ Check schema syntax: 1
 
 CSV file validation: 1
 (1/1) Schema: ./tests/schemas/demo_invalid.yml
-(1/1) CSV   : ./tests/fixtures/demo.csv; Size: 408 B
+(1/1) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
 (1/1) Issues: 10
 +------+------------------+--------------+------------------------- demo.csv -------------------------------------------------------------------+
 | Line | id:Column        | Rule         | Message                                                                                              |

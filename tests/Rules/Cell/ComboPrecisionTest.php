@@ -82,7 +82,7 @@ class ComboPrecisionTest extends TestAbstractCellRuleCombo
     public function testInvalidOption(): void
     {
         $this->expectExceptionMessage(
-            'Invalid option "<c>s.223</c>" for the "precision_not" rule. It should be integer.',
+            'Invalid option "s.223" for the "precision_not" rule. It should be integer.',
         );
         $rule = $this->create('s.223', Combo::NOT);
         isSame('', $rule->test('5'));

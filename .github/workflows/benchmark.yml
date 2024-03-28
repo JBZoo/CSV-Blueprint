@@ -10,46 +10,41 @@
 # @see        https://github.com/JBZoo/Csv-Blueprint
 #
 
-name: Benchmark
+name: Stress Test
 
 on:
+  pull_request:
+    branches:
+      - '*'
   push:
     branches:
       - 'master'
-  workflow_run:
-    workflows: [ "Publish Docker" ]
-    types:
-      - completed
 
 jobs:
-  benchmark:
+  stress-test:
     name: Benchmark
     runs-on: ubuntu-latest
-    env:
-      DOCKER_IMAGE: jbzoo/csv-blueprint:master
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.3
-          coverage: none
-          tools: composer
-          extensions: opcache
 
       - name: Build project
         run: make build --no-print-directory
 
-      - name: Create random CSV files with 5M rows
+      - name: Create random huge CSV files
         run: make bench-create-csv --no-print-directory
 
-      - name: Pull latest Docker image
-        run: docker pull ${{ env.DOCKER_IMAGE }}
+      - name: Building Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: jbzoo/csv-blueprint:local
 
-      - name: 🔥 Check 5M rows with Docker 🔥
+      - name: 🔥 Benchmark with Docker 🔥
         run: make bench-docker --no-print-directory

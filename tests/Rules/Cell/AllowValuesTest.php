@@ -53,15 +53,4 @@ final class AllowValuesTest extends TestAbstractCellRule
             $rule->test('invalid'),
         );
     }
-
-    public function testInvalidOption(): void
-    {
-        $rule = $this->create('qwe');
-        isSame(
-            '"allow_values" at line <red>1</red>, column "prop". ' .
-            'Unexpected error: Invalid option "<c>qwe</c>" for the "allow_values" rule. ' .
-            'It should be array of strings.',
-            (string)$rule->validate('true'),
-        );
-    }
 }

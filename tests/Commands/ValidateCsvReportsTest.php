@@ -45,7 +45,7 @@ final class ValidateCsvReportsTest extends TestCase
             
             CSV file validation: 1
             (1/1) Schema: ./tests/schemas/demo_invalid.yml
-            (1/1) CSV   : ./tests/fixtures/demo.csv
+            (1/1) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
             (1/1) Issues: 10
             +------+------------------+--------------+------------------------- demo.csv -------------------------------------------------------------------+
             | Line | id:Column        | Rule         | Message                                                                                              |
@@ -94,7 +94,7 @@ final class ValidateCsvReportsTest extends TestCase
             
             CSV file validation: 1
             (1/1) Schema: ./tests/schemas/demo_invalid.yml
-            (1/1) CSV   : ./tests/fixtures/demo.csv
+            (1/1) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
             (1/1) Issues: 10
             "csv.header" at line 1. Columns not found in CSV: "wrong_column_name".
             "length_min" at line 6, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".
@@ -137,7 +137,7 @@ final class ValidateCsvReportsTest extends TestCase
             
             CSV file validation: 1
             (1/1) Schema: ./tests/schemas/demo_invalid.yml
-            (1/1) CSV   : ./tests/fixtures/demo.csv
+            (1/1) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
             (1/1) Issues: 10
             ::error file=<root>/tests/fixtures/demo.csv,line=1::csv.header at column%0A"csv.header" at line 1. Columns not found in CSV: "wrong_column_name".
             

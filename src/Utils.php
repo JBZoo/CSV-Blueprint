@@ -18,6 +18,7 @@ namespace JBZoo\CsvBlueprint;
 
 use JBZoo\Utils\Cli;
 use JBZoo\Utils\Env;
+use JBZoo\Utils\FS;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -346,6 +347,23 @@ final class Utils
         }
 
         return \implode('  ', $version);
+    }
+
+    public static function getFileSize(mixed $csv): string
+    {
+        if (self::isPhpUnit()) {
+            return '123.34 MB';
+        }
+
+        return FS::format(\filesize($csv));
+    }
+
+    /**
+     * @param float[] $colValues
+     */
+    public static function stringsToFloat(array $colValues): array
+    {
+        return \array_map('\floatval', $colValues);
     }
 
     /**

@@ -41,6 +41,6 @@ final class ComboCountZero extends AbstractAggregateRuleCombo
             return null;
         }
 
-        return \count(\array_filter($colValues, static fn ($value) => $value === 0.0));
+        return \count(\array_filter($colValues, static fn ($value) => (float)$value === 0.0));
     }
 }

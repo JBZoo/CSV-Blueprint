@@ -22,7 +22,6 @@ use JBZoo\CsvBlueprint\Exception;
 use JBZoo\CsvBlueprint\Schema;
 use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
-use JBZoo\Utils\FS;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -255,7 +254,7 @@ final class ValidateCsv extends CliCommand
             $this->out([
                 "{$prefix} Schema: " . Utils::printFile($schema),
                 "{$prefix} CSV   : " . Utils::printFile($csv) . ';' .
-                ' Size: ' . FS::format(\filesize($csv)),
+                ' Size: ' . Utils::getFileSize($csv),
             ]);
 
             if ($quickCheck && $errorSuite !== null && $errorSuite->count() > 0) {
