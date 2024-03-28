@@ -71,9 +71,9 @@ final class CreateCsv extends CliCommand
             }
         }
 
-        $this->progressBar($rows, function ($index) use ($writer, $columns): void {
+        foreach (\range(0, $rows - 1) as $index) {
             $writer->insertOne($this->getDatasetRow($columns, $index + 1));
-        }, "Dateset: {$columns} columns, {$rows} rows.");
+        }
 
         $this->_('File created: ' . Utils::printFile($outputFile));
 

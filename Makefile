@@ -17,7 +17,7 @@ ifneq (, $(wildcard ./vendor/jbzoo/codestyle/src/init.Makefile))
 endif
 
 DOCKER_IMAGE     ?= jbzoo/csv-blueprint:local
-CMD_VALIDATE     := validate:csv --ansi -vvv
+CMD_VALIDATE     := validate:csv --ansi
 BLUEPRINT        := COLUMNS=300 time $(PHP_BIN) ./csv-blueprint $(CMD_VALIDATE)
 BLUEPRINT_DOCKER := time docker run --rm  --workdir=/parent-host -v .:/parent-host $(DOCKER_IMAGE) $(CMD_VALIDATE)
 BENCH_BIN        := $(PHP_BIN) ./tests/Benchmarks/bench.php
@@ -64,11 +64,11 @@ demo: ##@Demo Run demo via PHP binary
 	$(call title,"Demo - Valid CSV \(PHP binary\)")
 	@$(BLUEPRINT) $(VALID_CSV) $(VALID_SCHEMA)
 	$(call title,"Demo - Invalid CSV \(PHP binary\)")
-	@$(BLUEPRINT) $(INVALID_CSV) $(INVALID_SCHEMA)
+	@$(BLUEPRINT) $(INVALID_CSV) $(INVALID_SCHEMA) -vvv
 
 REPORT ?= table
 demo-github: ##@Demo Run demo invalid CSV for GitHub Actions
-	@$(BLUEPRINT) $(INVALID_CSV) $(INVALID_SCHEMA) --report=$(REPORT)
+	@$(BLUEPRINT) $(INVALID_CSV) $(INVALID_SCHEMA) -vvv --report=$(REPORT)
 
 
 # Docker ###############################################################################################################
@@ -79,40 +79,34 @@ docker-build: ##@Docker (Re-)build Docker image
 
 docker-demo: ##@Docker Run demo via Docker
 	$(call title,"Demo - Valid CSV \(via Docker\)")
-	@$(BLUEPRINT_DOCKER) $(VALID_CSV) $(VALID_SCHEMA)
+	@$(BLUEPRINT_DOCKER) $(VALID_CSV) $(VALID_SCHEMA) -vvv
 	$(call title,"Demo - Invalid CSV \(via Docker\)")
-	@$(BLUEPRINT_DOCKER) $(INVALID_CSV) $(INVALID_SCHEMA)
+	@$(BLUEPRINT_DOCKER) $(INVALID_CSV) $(INVALID_SCHEMA) -vvv
 
 docker-in: ##@Docker Enter into Docker container
 	@docker run -it --entrypoint /bin/sh $(DOCKER_IMAGE)
 
 
 # Benchmarks ###########################################################################################################
-BENCH_COLS        ?= 10
+BENCH_COLS        ?= 3
 BENCH_ROWS_SRC    ?= 100000
-BENCH_CSV_PATH    := ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC)_0.csv
+BENCH_CSV_PATH    := ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC)_000.csv
 BENCH_CSV         := --csv=$(BENCH_CSV_PATH)
 BENCH_SCHEMA_AGG  := --schema=./tests/Benchmarks/benchmark.yml
-BENCH_FLAGS       := --debug --profile --report=text
+BENCH_FLAGS       := --debug --profile --report=text -vvv
 
 
 bench-create-csv: ##@Benchmarks Create CSV file
 	$(call title,"Benchmark - Create CSV file - $(BENCH_ROWS_SRC)k rows")
 	@mkdir -pv ./build/bench/
 	@rm -fv    ./build/bench/*.csv
-	$(BENCH_BIN) -q --columns=$(BENCH_COLS) --rows=0    --add-header
+	$(BENCH_BIN) --columns=$(BENCH_COLS) --rows=0    --add-header
 	$(BENCH_BIN) --columns=$(BENCH_COLS) --rows=$(BENCH_ROWS_SRC)
-	cat ./build/bench/$(BENCH_COLS)_header.csv >> $(BENCH_CSV_PATH)
-	cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH)
-	cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH)
-	cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH)
-	cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH)
-	cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH)
-	cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH)
-	cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH)
-	cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH)
-	cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH)
-	cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH)
+	cat ./build/bench/$(BENCH_COLS)_header.csv > $(BENCH_CSV_PATH)
+	for i in {1..1000}; do \
+        cat ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC).csv >> $(BENCH_CSV_PATH); \
+        echo $$i; \
+    done
 	@wc -l $(BENCH_CSV_PATH)
 	@ls -lah ./build/bench/*.csv
 
