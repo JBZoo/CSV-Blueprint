@@ -237,7 +237,7 @@ columns:
       #  - Direction: ["asc", "desc"].
       #  - Method: ["natural", "regular", "numeric", "string"].
       # See: https://www.php.net/manual/en/function.sort.php
-      is_sorted: [ asc, natural ]       # Expected ascending order, natural sorting.
+      sorted: [ asc, natural ]          # Expected ascending order, natural sorting.
 
       # First number in the column. Expected value is float or integer.
       first_num_min: 1.0                # x >= 1.0
@@ -425,16 +425,6 @@ columns:
       trimean_less: 8.0                 # x <  8.0
       trimean_max: 9.0                  # x <= 9.0
 
-      # Interquartile mean (IQM). A measure of central tendency based on the truncated mean of the interquartile range.
-      # Only the data in the second and third quartiles is used (as in the interquartile range), and the lowest 25% and the highest 25% of the scores are discarded.
-      # See: https://en.wikipedia.org/wiki/Interquartile_mean
-      interquartile_mean_min: 1.0       # x >= 1.0
-      interquartile_mean_greater: 2.0   # x >  2.0
-      interquartile_mean_not: 5.0       # x != 5.0
-      interquartile_mean: 7.0           # x == 7.0
-      interquartile_mean_less: 8.0      # x <  8.0
-      interquartile_mean_max: 9.0       # x <= 9.0
-
       # Cubic mean. See: https://en.wikipedia.org/wiki/Cubic_mean
       cubic_mean_min: 1.0               # x >= 1.0
       cubic_mean_greater: 2.0           # x >  2.0
@@ -548,6 +538,17 @@ columns:
       coef_of_var: 7.0                  # x == 7.0
       coef_of_var_less: 8.0             # x <  8.0
       coef_of_var_max: 9.0              # x <= 9.0
+
+      # Interquartile mean (IQM). A measure of central tendency based on the truncated mean of the interquartile range.
+      # Only the data in the second and third quartiles is used (as in the interquartile range), and the lowest 25% and the highest 25% of the scores are discarded.
+      # See: https://en.wikipedia.org/wiki/Interquartile_mean
+      # Note: It's SUPER slow!!!
+      interquartile_mean_min: 1.0       # x >= 1.0
+      interquartile_mean_greater: 2.0   # x >  2.0
+      interquartile_mean_not: 5.0       # x != 5.0
+      interquartile_mean: 7.0           # x == 7.0
+      interquartile_mean_less: 8.0      # x <  8.0
+      interquartile_mean_max: 9.0       # x <= 9.0
 
   - name: another_column
     rules:

@@ -42,6 +42,6 @@ final class ComboMedian extends AbstractAggregateRuleCombo
             return null;
         }
 
-        return Average::median(self::stringsToFloat($colValues));
+        return Average::median($colValues);
     }
 }

@@ -35,6 +35,6 @@ final class ComboCountOdd extends AbstractAggregateRuleCombo
             return null;
         }
 
-        return \count(\array_filter(self::stringsToFloat($colValues), static fn ($value) => $value % 2 !== 0));
+        return \count(\array_filter($colValues, static fn ($value) => $value % 2 !== 0));
     }
 }

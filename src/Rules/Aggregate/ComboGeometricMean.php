@@ -44,6 +44,6 @@ final class ComboGeometricMean extends AbstractAggregateRuleCombo
             return null;
         }
 
-        return Average::geometricMean(self::stringsToFloat($colValues));
+        return Average::geometricMean($colValues);
     }
 }

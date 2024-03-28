@@ -44,6 +44,6 @@ final class ComboMidhinge extends AbstractAggregateRuleCombo
             return null;
         }
 
-        return Descriptive::midhinge(self::stringsToFloat($colValues));
+        return Descriptive::midhinge($colValues);
     }
 }

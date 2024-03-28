@@ -29,7 +29,7 @@ class ComboMedianAbsDevTest extends TestAbstractAggregateRuleCombo
     public function testEqual(): void
     {
         $rule = $this->create(3.5, Combo::EQ);
-        isSame('', $rule->test(['_1', '   8.00   ']));
+        isSame('', $rule->test(['1_0', '   8.00   ']));
 
         $rule = $this->create(3, Combo::EQ);
         isSame(

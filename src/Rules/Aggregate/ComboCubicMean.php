@@ -36,6 +36,6 @@ final class ComboCubicMean extends AbstractAggregateRuleCombo
             return null;
         }
 
-        return Average::cubicMean(self::stringsToFloat($colValues));
+        return Average::cubicMean($colValues);
     }
 }

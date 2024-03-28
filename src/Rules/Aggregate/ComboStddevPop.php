@@ -41,6 +41,6 @@ final class ComboStddevPop extends AbstractAggregateRuleCombo
             return null;
         }
 
-        return Descriptive::standardDeviation(self::stringsToFloat($colValues), Descriptive::POPULATION);
+        return Descriptive::standardDeviation($colValues, Descriptive::POPULATION);
     }
 }

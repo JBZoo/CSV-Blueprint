@@ -67,7 +67,7 @@ final class ComboPercentile extends AbstractAggregateRuleCombo
 
         $percentile = (float)$this->getParams()[self::PERC];
 
-        return Descriptive::percentile(self::stringsToFloat($colValues), $percentile);
+        return Descriptive::percentile($colValues, $percentile);
     }
 
     private function getParams(): array

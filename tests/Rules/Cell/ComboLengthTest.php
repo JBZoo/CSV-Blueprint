@@ -86,7 +86,7 @@ class ComboLengthTest extends TestAbstractCellRuleCombo
     {
         $this->expectException(\JBZoo\CsvBlueprint\Rules\Exception::class);
         $this->expectExceptionMessage(
-            'Invalid option "<c>qwerty</c>" for the "length_max" rule. It should be integer.',
+            'Invalid option "qwerty" for the "length_max" rule. It should be integer.',
         );
 
         $rule = $this->create('qwerty', Combo::MAX);

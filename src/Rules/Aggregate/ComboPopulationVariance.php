@@ -43,6 +43,6 @@ final class ComboPopulationVariance extends AbstractAggregateRuleCombo
             return null;
         }
 
-        return Descriptive::populationVariance(self::stringsToFloat($colValues));
+        return Descriptive::populationVariance($colValues);
     }
 }

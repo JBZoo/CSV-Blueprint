@@ -10,13 +10,42 @@
 # @see        https://github.com/JBZoo/Csv-Blueprint
 #
 
-name: Publish Docker
+name: Publish
 
 on:
   release:
     types: [ created ]
 
 jobs:
+  phar:
+    name: Publish PHAR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref_name }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          tools: composer
+
+      - name: Build project in production mode
+        run: make build-prod build-phar-file --no-print-directory
+
+      - name: 🎨 Test PHAR file
+        run: ./build/csv-blueprint.phar --ansi -vvv
+
+      - name: Upload PHAR to the release
+        uses: softprops/action-gh-release@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: |
+            ./build/csv-blueprint.phar
+
   docker:
     name: Publish Docker
     runs-on: ubuntu-latest

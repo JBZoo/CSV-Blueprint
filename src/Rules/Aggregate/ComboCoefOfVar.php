@@ -44,6 +44,6 @@ final class ComboCoefOfVar extends AbstractAggregateRuleCombo
             return null;
         }
 
-        return Descriptive::coefficientOfVariation(self::stringsToFloat($colValues));
+        return Descriptive::coefficientOfVariation($colValues);
     }
 }

@@ -43,15 +43,15 @@ final class ValidateCsvQuickTest extends TestCase
             
             CSV file validation: 3
             (1/3) Schema: ./tests/schemas/demo_invalid.yml
-            (1/3) CSV   : ./tests/fixtures/batch/demo-1.csv
+            (1/3) CSV   : ./tests/fixtures/batch/demo-1.csv; Size: 123.34 MB
             (1/3) Issues: 1
             "csv.header" at line 1. Columns not found in CSV: "wrong_column_name".
             
             (2/3) Schema: ./tests/schemas/demo_invalid.yml
-            (2/3) CSV   : ./tests/fixtures/batch/demo-2.csv
+            (2/3) CSV   : ./tests/fixtures/batch/demo-2.csv; Size: 123.34 MB
             (2/3) Skipped (Quick mode)
             (3/3) Schema: ./tests/schemas/demo_invalid.yml
-            (3/3) CSV   : ./tests/fixtures/batch/sub/demo-3.csv
+            (3/3) CSV   : ./tests/fixtures/batch/sub/demo-3.csv; Size: 123.34 MB
             (3/3) Skipped (Quick mode)
             
             Summary:
@@ -82,7 +82,7 @@ final class ValidateCsvQuickTest extends TestCase
             
             CSV file validation: 3
             (1/3) Schema: ./tests/schemas/demo_invalid.yml
-            (1/3) CSV   : ./tests/fixtures/batch/demo-1.csv
+            (1/3) CSV   : ./tests/fixtures/batch/demo-1.csv; Size: 123.34 MB
             (1/3) Issues: 5
             "csv.header" at line 1. Columns not found in CSV: "wrong_column_name".
             "ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 1, total: 2.
@@ -91,7 +91,7 @@ final class ValidateCsvQuickTest extends TestCase
             "allow_values" at line 3, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].
             
             (2/3) Schema: ./tests/schemas/demo_invalid.yml
-            (2/3) CSV   : ./tests/fixtures/batch/demo-2.csv
+            (2/3) CSV   : ./tests/fixtures/batch/demo-2.csv; Size: 123.34 MB
             (2/3) Issues: 7
             "csv.header" at line 1. Columns not found in CSV: "wrong_column_name".
             "length_min" at line 2, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".
@@ -102,7 +102,7 @@ final class ValidateCsvQuickTest extends TestCase
             "ag:nth" at line 1, column "3:Birthday". The value on line 2 in the column is "1989-05-15", which is not equal than the expected "2000-12-01".
             
             (3/3) Schema: ./tests/schemas/demo_invalid.yml
-            (3/3) CSV   : ./tests/fixtures/batch/sub/demo-3.csv
+            (3/3) CSV   : ./tests/fixtures/batch/sub/demo-3.csv; Size: 123.34 MB
             (3/3) Issues: 1
             "csv.header" at line 1. Columns not found in CSV: "wrong_column_name".
             

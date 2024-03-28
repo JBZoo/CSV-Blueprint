@@ -164,10 +164,7 @@ columns:
 
     aggregate_rules:
       is_unique: true
-      is_sorted:
-        - asc
-        - natural
-
+      sorted: [ asc, natural ]
       first_num_min: 1.0
       first_num_greater: 2.0
       first_num_not: 5.0
@@ -177,24 +174,13 @@ columns:
       first: Expected
       first_not: Not expected
 
-      nth_num_min:
-        - 42
-        - 1.0
-      nth_num_greater:
-        - 42
-        - 2.0
-      nth_num_not:
-        - 42
-        - 5.0
-      nth_num:
-        - 42
-        - 7.0
-      nth_num_less:
-        - 42
-        - 8.0
-      nth_num_max:
-        - 42
-        - 9.0
+      nth_num_min: [ 42, 1.0 ]
+      nth_num_greater: [ 42, 2.0 ]
+      nth_num_not: [ 42, 5.0 ]
+      nth_num: [ 42, 7.0 ]
+      nth_num_less: [ 42, 8.0 ]
+      nth_num_max: [ 42, 9.0 ]
+
       nth:
         - 2
         - Expected
@@ -337,13 +323,6 @@ columns:
       trimean_less: 8.0
       trimean_max: 9.0
 
-      interquartile_mean_min: 1.0
-      interquartile_mean_greater: 2.0
-      interquartile_mean_not: 5.0
-      interquartile_mean: 7.0
-      interquartile_mean_less: 8.0
-      interquartile_mean_max: 9.0
-
       cubic_mean_min: 1.0
       cubic_mean_greater: 2.0
       cubic_mean_not: 5.0
@@ -450,6 +429,13 @@ columns:
       coef_of_var: 7.0
       coef_of_var_less: 8.0
       coef_of_var_max: 9.0
+
+      interquartile_mean_min: 1.0
+      interquartile_mean_greater: 2.0
+      interquartile_mean_not: 5.0
+      interquartile_mean: 7.0
+      interquartile_mean_less: 8.0
+      interquartile_mean_max: 9.0
 
   - name: another_column
     rules:

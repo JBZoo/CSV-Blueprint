@@ -27,20 +27,6 @@ use Symfony\Component\Console\Input\InputOption;
  */
 final class CreateCsv extends CliCommand
 {
-    private const COLUMN_NAME_MAP = [
-        1  => 'tiny',
-        3  => 'small',
-        5  => 'medium',
-        10 => 'large',
-        20 => 'huge',
-    ];
-
-    private const ROW_NAME_MAP = [
-        1_000     => '1K',
-        1_00_000  => '100K',
-        1_000_000 => '1M',
-    ];
-
     protected function configure(): void
     {
         $this
@@ -64,11 +50,15 @@ final class CreateCsv extends CliCommand
 
         if ($addHeader) {
             $writer->insertOne(\array_keys($this->getDatasetRow($columns)));
+            if ($rows === 0) {
+                $this->_('Only header created: ' . Utils::printFile($outputFile));
+                return self::SUCCESS;
+            }
         }
 
-        $this->progressBar($rows, function ($index) use ($writer, $columns): void {
+        foreach (\range(0, $rows - 1) as $index) {
             $writer->insertOne($this->getDatasetRow($columns, $index + 1));
-        }, "Dateset: {$columns}");
+        }
 
         $this->_('File created: ' . Utils::printFile($outputFile));
 
@@ -77,34 +67,31 @@ final class CreateCsv extends CliCommand
 
     private function getDatasetRow(int $dataset, int $i = 0): array
     {
-        if ($dataset === 5) {
-            return [
-                'id'       => $i,                                                   // 1
-                'bool_int' => \random_int(0, 1),                                    // 2
-                'bool_str' => \random_int(0, 1) === 1 ? 'true' : 'false',           // 3
-                'number'   => \random_int(0, 1_000_000),                            // 4
-                'float'    => \random_int(0, 10_000_000) / 7,                       // 5
-            ];
-        }
-
         $faker = Factory::create();
         $data = [
-            'id'              => static fn () => $i,                                            // 1
-            'bool_int'        => static fn () => \random_int(0, 1),                             // 2
-            'bool_str'        => static fn () => \random_int(0, 1) === 1 ? 'true' : 'false',    // 3
-            'number'          => static fn () => \random_int(0, 1_000_000),                     // 4
-            'float'           => static fn () => \random_int(0, 10_000_000) / 7,                // 5
-            'date'            => static fn () => $faker->date(),                                // 6
-            'datetime'        => static fn () => $faker->date('Y-m-d H:i:s'),                   // 7
-            'domain'          => static fn () => $faker->domainName(),                          // 8
-            'email'           => static fn () => $faker->email(),                               // 9
-            'ip4'             => static fn () => $faker->ipv4(),                                // 10
-            'ip6'             => static fn () => $faker->ipv6(),                                // 11
-            'uuid'            => static fn () => $faker->uuid(),                                // 12
-            'address'         => static fn () => $faker->address(),                             // 13
-            'postcode'        => static fn () => $faker->postcode(),                            // 14
-            'latitude'        => static fn () => $faker->latitude(),                            // 15
-            'longitude'       => static fn () => $faker->longitude(),                           // 16
+            // Tear 1: Small
+            'id'       => static fn () => $i,                                            // 1
+            'bool_int' => static fn () => \random_int(0, 1),                             // 2
+            'bool_str' => static fn () => \random_int(0, 1) === 1 ? 'true' : 'false',    // 3
+            'number'   => static fn () => \random_int(0, 1_000_000),                     // 4
+            'float'    => static fn () => \random_int(0, 10_000_000) / 7,                // 5
+
+            // Tear 2: Medium
+            'date'     => static fn () => $faker->date(),                                // 6
+            'datetime' => static fn () => $faker->date('Y-m-d H:i:s'),                   // 7
+            'domain'   => static fn () => $faker->domainName(),                          // 8
+            'email'    => static fn () => $faker->email(),                               // 9
+            'ip4'      => static fn () => $faker->ipv4(),                                // 10
+
+            // Tear 3: Large
+            'uuid'      => static fn () => $faker->uuid(),                                // 11
+            'address'   => static fn () => \str_replace("\n", '; ', $faker->address()),   // 12
+            'postcode'  => static fn () => $faker->postcode(),                            // 13
+            'latitude'  => static fn () => $faker->latitude(),                            // 14
+            'longitude' => static fn () => $faker->longitude(),                           // 15
+
+            // Tear 4: Huge
+            'ip6'             => static fn () => $faker->ipv6(),                                // 16
             'sentence_tiny'   => static fn () => $faker->sentence(3),                           // 17
             'sentence_small'  => static fn () => $faker->sentence(6),                           // 18
             'sentence_medium' => static fn () => $faker->sentence(10),                          // 19
@@ -125,8 +112,14 @@ final class CreateCsv extends CliCommand
         $rows = $this->getOptInt('rows');
         $columns = $this->getOptInt('columns');
 
+        if ($rows === 0) {
+            return $addHeader
+                ? PATH_ROOT . "/build/bench/{$columns}_header.csv"
+                : PATH_ROOT . "/build/bench/{$columns}.csv";
+        }
+
         return $addHeader
             ? PATH_ROOT . "/build/bench/{$columns}_{$rows}_header.csv"
-            : PATH_ROOT . "/build/bench/{$columns}}_{$rows}.csv";
+            : PATH_ROOT . "/build/bench/{$columns}_{$rows}.csv";
     }
 }

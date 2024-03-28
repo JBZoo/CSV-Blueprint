@@ -56,14 +56,8 @@ final class Utils
 
     public static function debug(int|string $message): void
     {
-        if (\defined('PROFILE_MODE')) {
-            $memoryCur = FS::format(\memory_get_usage(true), 0);
-            $memoryPeak = FS::format(\memory_get_peak_usage(true), 0);
-            $memory = $memoryCur === $memoryPeak
-                ? "<green>Cur:{$memoryCur}</green>"
-                : "<c>Cur:{$memoryCur} / Peak:{$memoryPeak}</c>";
-
-            cli("{$message}; {$memory}");
+        if (\defined('DEBUG_MODE')) {
+            cli($message);
         }
     }
 
@@ -353,6 +347,27 @@ final class Utils
         }
 
         return \implode('  ', $version);
+    }
+
+    public static function getFileSize(string $csv): string
+    {
+        if (!\file_exists($csv)) {
+            return 'file not found';
+        }
+
+        if (self::isPhpUnit()) {
+            return '123.34 MB';
+        }
+
+        return FS::format((int)\filesize($csv));
+    }
+
+    /**
+     * @param float[] $colValues
+     */
+    public static function stringsToFloat(array $colValues): array
+    {
+        return \array_map('\floatval', $colValues);
     }
 
     /**

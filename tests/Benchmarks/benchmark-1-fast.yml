@@ -13,9 +13,8 @@
 filename_pattern: /.csv$/i
 
 csv:
-  header: true
+  header: false
 
 columns:
-  - name: id
-    rules:
-      num_min: 2
+  - rules:
+      not_empty: true

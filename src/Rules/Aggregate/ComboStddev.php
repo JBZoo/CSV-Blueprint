@@ -48,6 +48,6 @@ final class ComboStddev extends AbstractAggregateRuleCombo
             return null;
         }
 
-        return Descriptive::standardDeviation(self::stringsToFloat($colValues));
+        return Descriptive::standardDeviation($colValues);
     }
 }

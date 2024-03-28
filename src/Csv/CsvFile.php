@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Csv;
 
 use JBZoo\CsvBlueprint\Schema;
-use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use JBZoo\CsvBlueprint\Validators\ValidatorCsv;
 use League\Csv\Reader as LeagueReader;
@@ -75,11 +74,7 @@ final class CsvFile
 
     public function getRecords(): \Iterator
     {
-        Utils::debug('Start getRecords() from CSV');
-        $records = $this->reader->getRecords($this->getHeader());
-        Utils::debug('End getRecords()');
-
-        return $records;
+        return $this->reader->getRecords($this->getHeader());
     }
 
     public function getRecordsChunk(int $offset = 0, int $limit = -1): TabularDataReader

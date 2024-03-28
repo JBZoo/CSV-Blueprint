@@ -134,7 +134,7 @@
             },
             "aggregate_rules" : {
                 "is_unique"                   : true,
-                "is_sorted"                   : ["asc", "natural"],
+                "sorted"                      : ["asc", "natural"],
 
                 "first_num_min"               : 1,
                 "first_num_greater"           : 2,
@@ -289,13 +289,6 @@
                 "trimean_less"                : 8,
                 "trimean_max"                 : 9,
 
-                "interquartile_mean_min"      : 1,
-                "interquartile_mean_greater"  : 2,
-                "interquartile_mean_not"      : 5,
-                "interquartile_mean"          : 7,
-                "interquartile_mean_less"     : 8,
-                "interquartile_mean_max"      : 9,
-
                 "cubic_mean_min"              : 1,
                 "cubic_mean_greater"          : 2,
                 "cubic_mean_not"              : 5,
@@ -371,7 +364,14 @@
                 "coef_of_var_not"             : 5,
                 "coef_of_var"                 : 7,
                 "coef_of_var_less"            : 8,
-                "coef_of_var_max"             : 9
+                "coef_of_var_max"             : 9,
+
+                "interquartile_mean_min"      : 1,
+                "interquartile_mean_greater"  : 2,
+                "interquartile_mean_not"      : 5,
+                "interquartile_mean"          : 7,
+                "interquartile_mean_less"     : 8,
+                "interquartile_mean_max"      : 9
             }
         },
         {

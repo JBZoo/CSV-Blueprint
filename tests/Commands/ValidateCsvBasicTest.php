@@ -43,7 +43,7 @@ final class ValidateCsvBasicTest extends TestCase
             
             CSV file validation: 1
             (1/1) Schema: ./tests/schemas/demo_valid.yml
-            (1/1) CSV   : ./tests/fixtures/demo.csv
+            (1/1) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
             (1/1) OK
             
             Summary:
@@ -77,7 +77,7 @@ final class ValidateCsvBasicTest extends TestCase
             
             CSV file validation: 1
             (1/1) Schema: ./tests/schemas/demo_valid.yml
-            (1/1) CSV   : ./tests/fixtures/demo_invalid.csv
+            (1/1) CSV   : ./tests/fixtures/demo_invalid.csv; Size: 123.34 MB
             (1/1) Issues: 2
             +------+------------------+--------------+-------------- demo_invalid.csv --------------------------------------------------------+
             | Line | id:Column        | Rule         | Message                                                                                |
@@ -125,7 +125,7 @@ final class ValidateCsvBasicTest extends TestCase
             
             CSV file validation: 1
             (1/1) Schema: ./tests/schemas/demo_invalid.yml
-            (1/1) CSV   : ./tests/fixtures/demo.csv
+            (1/1) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
             (1/1) Issues: 10
             +------+------------------+--------------+------------------------- demo.csv -------------------------------------------------------------------+
             | Line | id:Column        | Rule         | Message                                                                                              |
@@ -276,7 +276,7 @@ final class ValidateCsvBasicTest extends TestCase
             
             CSV file validation: 1
             (1/1) Schema: ./tests/schemas/simple_no_header.yml
-            (1/1) CSV   : ./tests/fixtures/demo.csv
+            (1/1) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
             (1/1) Issues: 2
             +------+-----------+---------- demo.csv -----------------------------+
             | Line | id:Column | Rule             | Message                      |

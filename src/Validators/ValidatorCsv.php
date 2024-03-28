@@ -114,21 +114,31 @@ final class ValidatorCsv
                 continue;
             }
 
-            Utils::debug("<i>Col</i> start: {$column->getKey()}");
+            $messPrefix = "<i>Column</i> \"{$column->getHumanName()}\" -";
+
+            Utils::debug("{$messPrefix} Column start");
             $colValidator = $column->getValidator();
 
-            Utils::debug("<i>Col</i> validator created: {$column->getKey()}");
+            Utils::debug("{$messPrefix} Validator created");
 
             $isAggRules = \count($column->getAggregateRules()) > 0;
             $isRules = \count($column->getRules()) > 0;
-            $aggInputType = $isAggRules ? $colValidator->getAggregationInputType() : AbstarctRule::INPUT_TYPE_UNDEF;
-            Utils::debug("<i>Col</i> Agg input type: {$aggInputType}");
+            if ($isAggRules) {
+                $aggInputType = $colValidator->getAggregationInputType();
+                Utils::debug("{$messPrefix} Aggregation Flag: {$aggInputType}");
+            } else {
+                $aggInputType = AbstarctRule::INPUT_TYPE_UNDEF;
+            }
 
             if (!$isAggRules && !$isRules) { // Time optimization
+                Utils::debug("{$messPrefix} Skipped (no rules)");
                 continue;
             }
 
+            $lineCounter = 0;
+            $startTimer = \microtime(true);
             foreach ($this->csv->getRecords() as $line => $record) {
+                $lineCounter++;
                 $lineNum = (int)$line + 1;
 
                 if ($isRules) { // Time optimization
@@ -154,14 +164,19 @@ final class ValidatorCsv
                     $columValues[] = ValidatorColumn::prepareValue($record[$column->getKey()], $aggInputType);
                 }
             }
+            Utils::debug("{$messPrefix} Lines <yellow>" . \number_format($lineCounter) . '</yellow>');
+            Utils::debug(
+                "{$messPrefix} <yellow>Speed:cell</yellow> "
+                . '<blue>'
+                . \number_format($lineCounter / (\microtime(true) - $startTimer))
+                . '</blue> l/s',
+            );
 
-            Utils::debug("<i>Col</i> aggregate: {$column->getKey()}");
-
-            if ($isAggRules) {// Time optimization
-                $errors->addErrorSuit($colValidator->validateList($columValues));
+            if ($isAggRules) { // Time optimization
+                $errors->addErrorSuit($colValidator->validateList($columValues, $lineCounter));
             }
 
-            Utils::debug("<i>Col</i> end: {$column->getKey()}");
+            Utils::debug("{$messPrefix} Column finished");
         }
 
         return $errors;

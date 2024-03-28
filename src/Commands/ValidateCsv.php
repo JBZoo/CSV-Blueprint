@@ -100,6 +100,12 @@ final class ValidateCsv extends CliCommand
                 "If you are sure that the schema is correct, you can skip this check.\n" .
                 'Empty value or "yes" will be treated as "true".',
                 'no',
+            )
+            ->addOption(
+                'debug',
+                null,
+                InputOption::VALUE_NONE,
+                "It's ONLY for debugging and advanced profiling!",
             );
 
         parent::configure();
@@ -111,8 +117,8 @@ final class ValidateCsv extends CliCommand
             $this->_('CSV Blueprint: ' . Utils::getVersion(true));
         }
 
-        if ($this->getOptBool('profile')) {
-            \define('PROFILE_MODE', true);
+        if ($this->getOptBool('debug')) {
+            \define('DEBUG_MODE', true);
         }
 
         $csvFilenames = $this->getCsvFilepaths();
@@ -247,7 +253,8 @@ final class ValidateCsv extends CliCommand
 
             $this->out([
                 "{$prefix} Schema: " . Utils::printFile($schema),
-                "{$prefix} CSV   : " . Utils::printFile($csv),
+                "{$prefix} CSV   : " . Utils::printFile($csv) . ';' .
+                ' Size: ' . Utils::getFileSize($csv),
             ]);
 
             if ($quickCheck && $errorSuite !== null && $errorSuite->count() > 0) {

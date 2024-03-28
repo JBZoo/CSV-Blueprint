@@ -43,6 +43,6 @@ final class ComboContraharmonicMean extends AbstractAggregateRuleCombo
             return null;
         }
 
-        return Average::contraharmonicMean(self::stringsToFloat($colValues));
+        return Average::contraharmonicMean($colValues);
     }
 }

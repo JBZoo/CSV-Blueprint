@@ -32,8 +32,8 @@
 
         "league/csv"                          : "^9.15.0",
         "jbzoo/data"                          : "^7.1.1",
-        "jbzoo/cli"                           : "^7.1.8",
-        "jbzoo/utils"                         : "^7.2.0",
+        "jbzoo/cli"                           : "^7.2.1",
+        "jbzoo/utils"                         : "^7.2.1",
         "jbzoo/ci-report-converter"           : "^7.2.1",
 
         "symfony/yaml"                        : ">=6.4.3",

@@ -36,6 +36,6 @@ final class ComboAverage extends AbstractAggregateRuleCombo
             return null;
         }
 
-        return Average::mean(self::stringsToFloat($colValues));
+        return Average::mean($colValues);
     }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1adc3bef17fcdbac873f8ab7b4d6a5ff",
+    "content-hash": "044e0e165042c8d9d38be2e786209913",
     "packages": [
         {
             "name": "bluepsyduck/symfony-process-manager",
@@ -287,16 +287,16 @@
         },
         {
             "name": "jbzoo/cli",
-            "version": "7.1.8",
+            "version": "7.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JBZoo/Cli.git",
-                "reference": "7577c4d88d9724103269696a4c7726ec68211279"
+                "reference": "afb6b31f4d155967a021215b142f15725ddd5039"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JBZoo/Cli/zipball/7577c4d88d9724103269696a4c7726ec68211279",
-                "reference": "7577c4d88d9724103269696a4c7726ec68211279",
+                "url": "https://api.github.com/repos/JBZoo/Cli/zipball/afb6b31f4d155967a021215b142f15725ddd5039",
+                "reference": "afb6b31f4d155967a021215b142f15725ddd5039",
                 "shasum": ""
             },
             "require": {
@@ -358,9 +358,9 @@
             ],
             "support": {
                 "issues": "https://github.com/JBZoo/Cli/issues",
-                "source": "https://github.com/JBZoo/Cli/tree/7.1.8"
+                "source": "https://github.com/JBZoo/Cli/tree/7.2.1"
             },
-            "time": "2024-01-28T13:57:00+00:00"
+            "time": "2024-03-28T20:21:50+00:00"
         },
         {
             "name": "jbzoo/data",
@@ -562,16 +562,16 @@
         },
         {
             "name": "jbzoo/utils",
-            "version": "7.2.0",
+            "version": "7.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JBZoo/Utils.git",
-                "reference": "4630245409b0442dcca022c1594450c143ece33f"
+                "reference": "bfea6b63961aae711ec05d5522abf6736f314bb7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JBZoo/Utils/zipball/4630245409b0442dcca022c1594450c143ece33f",
-                "reference": "4630245409b0442dcca022c1594450c143ece33f",
+                "url": "https://api.github.com/repos/JBZoo/Utils/zipball/bfea6b63961aae711ec05d5522abf6736f314bb7",
+                "reference": "bfea6b63961aae711ec05d5522abf6736f314bb7",
                 "shasum": ""
             },
             "require": {
@@ -655,9 +655,9 @@
             ],
             "support": {
                 "issues": "https://github.com/JBZoo/Utils/issues",
-                "source": "https://github.com/JBZoo/Utils/tree/7.2.0"
+                "source": "https://github.com/JBZoo/Utils/tree/7.2.1"
             },
-            "time": "2024-03-22T20:15:56+00:00"
+            "time": "2024-03-28T16:37:27+00:00"
         },
         {
             "name": "league/csv",
@@ -4688,16 +4688,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.65",
+            "version": "1.10.66",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "3c657d057a0b7ecae19cb12db446bbc99d8839c6"
+                "reference": "94779c987e4ebd620025d9e5fdd23323903950bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/3c657d057a0b7ecae19cb12db446bbc99d8839c6",
-                "reference": "3c657d057a0b7ecae19cb12db446bbc99d8839c6",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/94779c987e4ebd620025d9e5fdd23323903950bd",
+                "reference": "94779c987e4ebd620025d9e5fdd23323903950bd",
                 "shasum": ""
             },
             "require": {
@@ -4746,7 +4746,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-23T10:30:26+00:00"
+            "time": "2024-03-28T16:17:31+00:00"
         },
         {
             "name": "phpstan/phpstan-strict-rules",

@@ -43,6 +43,6 @@ final class ComboSampleVariance extends AbstractAggregateRuleCombo
             return null;
         }
 
-        return Descriptive::sampleVariance(self::stringsToFloat($colValues));
+        return Descriptive::sampleVariance($colValues);
     }
 }

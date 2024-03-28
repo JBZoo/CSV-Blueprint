@@ -156,7 +156,7 @@ This example serves as a comprehensive guide for creating robust CSV file valida
 
             'aggregate_rules' => [
                 'is_unique' => true,
-                'is_sorted' => ['asc', 'natural'],
+                'sorted'    => ['asc', 'natural'],
 
                 'first_num_min'     => 1.0,
                 'first_num_greater' => 2.0,
@@ -311,13 +311,6 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'trimean_less'    => 8.0,
                 'trimean_max'     => 9.0,
 
-                'interquartile_mean_min'     => 1.0,
-                'interquartile_mean_greater' => 2.0,
-                'interquartile_mean_not'     => 5.0,
-                'interquartile_mean'         => 7.0,
-                'interquartile_mean_less'    => 8.0,
-                'interquartile_mean_max'     => 9.0,
-
                 'cubic_mean_min'     => 1.0,
                 'cubic_mean_greater' => 2.0,
                 'cubic_mean_not'     => 5.0,
@@ -394,6 +387,13 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'coef_of_var'         => 7.0,
                 'coef_of_var_less'    => 8.0,
                 'coef_of_var_max'     => 9.0,
+
+                'interquartile_mean_min'     => 1.0,
+                'interquartile_mean_greater' => 2.0,
+                'interquartile_mean_not'     => 5.0,
+                'interquartile_mean'         => 7.0,
+                'interquartile_mean_less'    => 8.0,
+                'interquartile_mean_max'     => 9.0,
             ],
         ],
         [

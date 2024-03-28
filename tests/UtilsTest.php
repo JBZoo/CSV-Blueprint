@@ -154,7 +154,7 @@ final class UtilsTest extends TestCase
             'Abstract',
             'Aggregate/Combo',
             'Cell/Combo',
-            'IsSorted',
+            'Sorted',
             'IsBase64',
             'IsBool',
             'IsCardinalDirection',

@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
+use JBZoo\CsvBlueprint\Utils;
 use MathPHP\Statistics\Descriptive;
 
 final class ComboMedianAbsDev extends AbstractAggregateRuleCombo
@@ -44,6 +45,6 @@ final class ComboMedianAbsDev extends AbstractAggregateRuleCombo
             return null;
         }
 
-        return Descriptive::medianAbsoluteDeviation(self::stringsToFloat($colValues));
+        return Descriptive::medianAbsoluteDeviation(Utils::stringsToFloat($colValues));
     }
 }

@@ -44,6 +44,6 @@ final class ComboHarmonicMean extends AbstractAggregateRuleCombo
             return null;
         }
 
-        return Average::harmonicMean(self::stringsToFloat($colValues));
+        return Average::harmonicMean($colValues);
     }
 }

@@ -107,11 +107,6 @@ final class Column
         return $this->getValidator()->validateCell($cellValue, $line);
     }
 
-    public function validateList(array &$cellValue): ErrorSuite
-    {
-        return $this->getValidator()->validateList($cellValue);
-    }
-
     private function prepareRuleSet(string $schemaKey): array
     {
         $rules = [];

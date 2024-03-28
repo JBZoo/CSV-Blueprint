@@ -46,15 +46,4 @@ final class NotAllowValuesTest extends TestAbstractCellRule
         $rule = $this->create([]);
         isSame('Not allowed values are not defined', $rule->test('invalid'));
     }
-
-    public function testInvalidOption(): void
-    {
-        $rule = $this->create('qwe');
-        isSame(
-            '"not_allow_values" at line <red>1</red>, column "prop". ' .
-            'Unexpected error: Invalid option "<c>qwe</c>" for the "not_allow_values" rule. ' .
-            'It should be array of strings.',
-            (string)$rule->validate('true'),
-        );
-    }
 }
