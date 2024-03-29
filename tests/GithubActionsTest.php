@@ -55,6 +55,8 @@ final class GithubActionsTest extends TestCase
             'report'      => ErrorSuite::REPORT_DEFAULT,
             'quick'       => 'no',
             'skip-schema' => 'no',
+            'ansi'        => '--ansi',
+            'verbose'     => '-vv',
         ];
 
         $expectedMessage = [
