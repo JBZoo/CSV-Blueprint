@@ -26,6 +26,10 @@ for i in {1..1000}; do
 done
 
 echo "----"
+echo $BENCH_CSV_PATH
+head $BENCH_CSV_PATH
+
+echo "----"
 echo "File size : $(du -h $BENCH_CSV_PATH)"
 echo "Rows count: $(wc -l $BENCH_CSV_PATH)"
 
