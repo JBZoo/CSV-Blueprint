@@ -61,6 +61,12 @@ final class Utils
         }
     }
 
+    public static function debugSpeed(string $messPrefix, int $lines, float $startTimer): void
+    {
+        $kiloLines = \round(($lines / (\microtime(true) - $startTimer)) / 1000);
+        self::debug("{$messPrefix} <blue>" . \number_format($kiloLines) . 'K</blue> lines/sec');
+    }
+
     public static function kebabToCamelCase(string $input): string
     {
         return \str_replace(' ', '', \ucwords(\str_replace(['-', '_'], ' ', $input)));

@@ -115,3 +115,8 @@ bench-docker: ##@Benchmarks Run CSV file with Docker
 bench-phar: ##@Benchmarks Run CSV file with Phar
 	$(call title,"Benchmark - CSV file with Phar")
 	-$(BLUEPRINT_PHAR) $(BENCH_CSV) $(BENCH_SCHEMAS) $(BENCH_FLAGS)
+
+
+bench-php: ##@Benchmarks Run CSV file with classic PHP binary
+	$(call title,"Benchmark - CSV file with classic PHP binary")
+	-$(BLUEPRINT) $(BENCH_CSV) $(BENCH_SCHEMAS) $(BENCH_FLAGS)
