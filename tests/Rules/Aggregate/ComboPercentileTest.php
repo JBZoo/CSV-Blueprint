@@ -19,6 +19,7 @@ namespace JBZoo\PHPUnit\Rules\Aggregate;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule as Combo;
 use JBZoo\CsvBlueprint\Rules\Aggregate\ComboPercentile;
 use JBZoo\PHPUnit\Rules\TestAbstractAggregateRuleCombo;
+use JBZoo\PHPUnit\Tools;
 
 use function JBZoo\PHPUnit\isSame;
 
@@ -29,10 +30,10 @@ class ComboPercentileTest extends TestAbstractAggregateRuleCombo
     public function testEqual(): void
     {
         $rule = $this->create([95, 950.05], Combo::EQ);
-        isSame('', $rule->test(\range(1, 1000)));
+        isSame('', $rule->test(Tools::range(1, 1000)));
         isSame(
             'The percentile in the column is "190.05", which is not equal than the expected "950.05"',
-            $rule->test(\range(1, 200)),
+            $rule->test(Tools::range(1, 200)),
         );
     }
 
@@ -42,7 +43,7 @@ class ComboPercentileTest extends TestAbstractAggregateRuleCombo
         isSame(
             'The rule expects exactly two params: ' .
             'the first is percentile (P is beet 0.0 and 100.0), the second is the expected value (float)',
-            $rule->test(\range(1, 200)),
+            $rule->test(Tools::range(1, 200)),
         );
     }
 }

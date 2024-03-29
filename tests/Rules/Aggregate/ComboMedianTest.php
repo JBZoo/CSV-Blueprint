@@ -19,6 +19,7 @@ namespace JBZoo\PHPUnit\Rules\Aggregate;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule as Combo;
 use JBZoo\CsvBlueprint\Rules\Aggregate\ComboMedian;
 use JBZoo\PHPUnit\Rules\TestAbstractAggregateRuleCombo;
+use JBZoo\PHPUnit\Tools;
 
 use function JBZoo\PHPUnit\isSame;
 
@@ -30,11 +31,11 @@ class ComboMedianTest extends TestAbstractAggregateRuleCombo
     {
         $rule = $this->create(5.5, Combo::EQ);
 
-        isSame('', $rule->test(\range(1, 10)));
+        isSame('', $rule->test(Tools::range(1, 10)));
 
         isSame(
             'The median in the column is "6", which is not equal than the expected "5.5"',
-            $rule->test(\range(1, 11)),
+            $rule->test(Tools::range(1, 11)),
         );
     }
 
@@ -42,11 +43,11 @@ class ComboMedianTest extends TestAbstractAggregateRuleCombo
     {
         $rule = $this->create(6, Combo::NOT);
 
-        isSame('', $rule->test(\range(1, 10)));
+        isSame('', $rule->test(Tools::range(1, 10)));
 
         isSame(
             'The median in the column is "6", which is equal than the not expected "6"',
-            $rule->test(\range(1, 11)),
+            $rule->test(Tools::range(1, 11)),
         );
     }
 

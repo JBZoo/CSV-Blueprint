@@ -75,7 +75,7 @@ final class ComboQuartiles extends AbstractAggregateRuleCombo
 
         $method = $this->getMethod();
         $type = $this->getType();
-        $result = Descriptive::quartiles($colValues, $method);
+        $result = Descriptive::quartiles(Utils::stringsToFloat($colValues), $method);
 
         return $result[$type];
     }

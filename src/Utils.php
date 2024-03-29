@@ -370,6 +370,11 @@ final class Utils
         return \array_map('\floatval', $colValues);
     }
 
+    public static function isPhpUnit(): bool
+    {
+        return \defined('PHPUNIT_COMPOSER_INSTALL') || \defined('__PHPUNIT_PHAR__');
+    }
+
     /**
      * @param SplFileInfo[] $files
      */
@@ -387,11 +392,6 @@ final class Utils
     private static function filterNotUsedFiles(array $files): array
     {
         return \array_keys(\array_filter($files, static fn ($value) => $value === false));
-    }
-
-    private static function isPhpUnit(): bool
-    {
-        return \defined('PHPUNIT_COMPOSER_INSTALL') || \defined('__PHPUNIT_PHAR__');
     }
 
     private static function convertTzToUTC(string $dateWithSourceTZ): \DateTime

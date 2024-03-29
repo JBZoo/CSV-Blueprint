@@ -30,12 +30,12 @@ class ComboGeometricMeanTest extends TestAbstractAggregateRuleCombo
     {
         $rule = $this->create(14.789726414533, Combo::EQ);
         isSame('', $rule->test([]));
-        isSame('', $rule->test([13, 18, 13, 14, 13, 16, 14, 21, 13]));
+        isSame('', $rule->test(['13', '18', '13', '14', '13', '16', '14', '21', '13']));
 
         $rule = $this->create(1, Combo::EQ);
         isSame(
             'The geometric mean in the column is "14.789726414533", which is not equal than the expected "1"',
-            $rule->test([13, 18, 13, 14, 13, 16, 14, 21, 13]),
+            $rule->test(['13', '18', '13', '14', '13', '16', '14', '21', '13']),
         );
     }
 }

@@ -23,7 +23,6 @@ use Symfony\Component\Console\Input\StringInput;
 
 use function JBZoo\PHPUnit\isNotEmpty;
 use function JBZoo\PHPUnit\isSame;
-use function JBZoo\PHPUnit\skip;
 
 final class ValidateCsvBatchCsvTest extends TestCase
 {
@@ -157,8 +156,6 @@ final class ValidateCsvBatchCsvTest extends TestCase
 
     public function testMultipleCsvOptions(): void
     {
-        skip('TODO: Fix filesize in tests');
-
         [$expected, $expectedCode] = Tools::virtualExecution('validate:csv', [
             'csv'    => './tests/fixtures/batch/*.csv',
             'schema' => Tools::DEMO_YML_INVALID,
@@ -181,6 +178,9 @@ final class ValidateCsvBatchCsvTest extends TestCase
         // Remove version
         $actual = \preg_replace('/^.+\n/', '', $actual);
         $expected = \preg_replace('/^.+\n/', '', $expected);
+
+        // Remove file size
+        $actual = \preg_replace('/; Size: .*B/', '; Size: 123.34 MB', $actual);
 
         isNotEmpty($expected);
         isNotEmpty($actual);

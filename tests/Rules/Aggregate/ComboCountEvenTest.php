@@ -31,11 +31,11 @@ class ComboCountEvenTest extends TestAbstractAggregateRuleCombo
         $rule = $this->create(1, Combo::EQ);
 
         isSame('', $rule->test([]));
-        isSame('', $rule->test([1, 2, 3]));
+        isSame('', $rule->test(['1', '2', '3']));
 
         isSame(
             'The number of even values in the column is "2", which is not equal than the expected "1"',
-            $rule->test([1, 2, 3, 4, 5]),
+            $rule->test(['1', '2', '3', '4', '5']),
         );
     }
 }
