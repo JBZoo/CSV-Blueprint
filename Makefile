@@ -19,6 +19,7 @@ endif
 DOCKER_IMAGE     ?= jbzoo/csv-blueprint:local
 CMD_VALIDATE     := validate:csv --ansi
 BLUEPRINT        := COLUMNS=300 time $(PHP_BIN) ./csv-blueprint $(CMD_VALIDATE)
+BLUEPRINT_PHAR   := COLUMNS=300 time $(PHP_BIN) ./build/csv-blueprint.phar $(CMD_VALIDATE)
 BLUEPRINT_DOCKER := time docker run --rm  --workdir=/parent-host -v .:/parent-host $(DOCKER_IMAGE) $(CMD_VALIDATE)
 
 VALID_CSV       := --csv='./tests/fixtures/demo.csv'
@@ -37,7 +38,7 @@ build-prod: ##@Project Build project in production mode
 	@rm -f `pwd`/ci-report-converter
 	@make build-version
 
-build-phar-file: ##@Project Build PHAR file
+build-phar-file: ##@Project Build Phar file
 	curl -L "https://github.com/box-project/box/releases/download/4.5.1/box.phar" -o ./build/box.phar
 	@make build-version
 	@php ./build/box.phar --version
@@ -95,13 +96,12 @@ BENCH_SCHEMAS     := --schema='./tests/Benchmarks/benchmark-*.yml'
 BENCH_FLAGS       := --debug --profile --report=text -vvv
 
 
-bench-all: ##@Benchmarks Run all benchmarks
+bench: ##@Benchmarks Run all benchmarks
 	@make bench-create-csv
-	@make docker-build
 	@make bench-docker
 
 bench-create-csv: ##@Benchmarks Create CSV file
-	$(call title,"Benchmark - Create CSV file")
+	$(call title,"Benchmark - Create CSV file. Cols=${BENCH_COLS} Rows=${BENCH_ROWS_SRC}_000")
 	@mkdir -pv ./build/bench/
 	@rm -fv    ./build/bench/*.csv
 	@time bash ./tests/Benchmarks/create-csv.sh
@@ -112,6 +112,11 @@ bench-docker: ##@Benchmarks Run CSV file with Docker
 	-$(BLUEPRINT_DOCKER) $(BENCH_CSV) $(BENCH_SCHEMAS) $(BENCH_FLAGS)
 
 
-bench-php: ##@Benchmarks Run CSV file with PHP binary
-	$(call title,"Benchmark - CSV file with PHP binary")
+bench-phar: ##@Benchmarks Run CSV file with Phar
+	$(call title,"Benchmark - CSV file with Phar")
+	-$(BLUEPRINT_PHAR) $(BENCH_CSV) $(BENCH_SCHEMAS) $(BENCH_FLAGS)
+
+
+bench-php: ##@Benchmarks Run CSV file with classic PHP binary
+	$(call title,"Benchmark - CSV file with classic PHP binary")
 	-$(BLUEPRINT) $(BENCH_CSV) $(BENCH_SCHEMAS) $(BENCH_FLAGS)

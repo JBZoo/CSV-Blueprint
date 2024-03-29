@@ -10,41 +10,95 @@
 # @see        https://github.com/JBZoo/Csv-Blueprint
 #
 
-name: Stress Test
+name: Speed Test
 
 on:
-  pull_request:
-    branches:
-      - '*'
-  push:
-    branches:
-      - 'master'
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch Name'
+        required: true
+        default: 'master'
 
 jobs:
-  stress-test:
-    name: Benchmark
+  docker-benchmark:
+    name: Docker
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [ latest, local ]
+        columns: [ 1, 5, 10, 20 ]
+    env:
+      BENCH_COLS: ${{ matrix.columns }}
+      DOCKER_IMAGE: jbzoo/csv-blueprint:${{ matrix.version }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.event.inputs.branch }}
+          # ref: ${{ github.event.pull_request.head.ref }}
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-
+      # We need it to build benchmark tool. See ./tests/Benchmarks
       - name: Build project
         run: make build --no-print-directory
 
-      - name: Create random huge CSV files
-        run: make bench-create-csv --no-print-directory
-
-      - name: Building Docker Image
+      - name: Build local image
+        if: matrix.version == 'local'
         uses: docker/build-push-action@v5
         with:
           context: .
           push: false
-          tags: jbzoo/csv-blueprint:local
+          tags: ${{ env.DOCKER_IMAGE }}
 
-      - name: 🔥 Benchmark with Docker 🔥
-        run: make bench-docker --no-print-directory
+      - name: Pull latest image
+        if: matrix.version == 'latest'
+        run: docker pull ${{ env.DOCKER_IMAGE }}
+
+      - name: 🔥 Benchmark 🔥
+        run: make bench-create-csv bench-docker --no-print-directory
+
+
+  php-benchmark:
+    name: Phar
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [ latest, local ]
+        columns: [ 1, 5, 10, 20 ]
+    env:
+      BENCH_COLS: ${{ matrix.columns }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.inputs.branch }}
+          # ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          coverage: none
+          ini-values: opcache.enable_cli=1, opcache.jit=1255
+
+      - name: Build local Phar file
+        if: matrix.version == 'local'
+        run: |
+          make build-prod build-phar-file --no-print-directory
+          ./build/csv-blueprint.phar
+
+      - name: Download latest Phar file
+        if: matrix.version == 'latest'
+        run: |
+          wget https://github.com/JBZoo/Csv-Blueprint/releases/latest/download/csv-blueprint.phar -O ./build/csv-blueprint.phar
+          chmod +x ./build/csv-blueprint.phar
+          ./build/csv-blueprint.phar
+
+      # We need it to build benchmark tool. See ./tests/Benchmarks
+      - name: Build project
+        run: make build --no-print-directory
+
+      - name: 🔥 Benchmark 🔥
+        run: make bench-create-csv bench-phar --no-print-directory

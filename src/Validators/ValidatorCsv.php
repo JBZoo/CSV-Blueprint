@@ -165,12 +165,7 @@ final class ValidatorCsv
                 }
             }
             Utils::debug("{$messPrefix} Lines <yellow>" . \number_format($lineCounter) . '</yellow>');
-            Utils::debug(
-                "{$messPrefix} <yellow>Speed:cell</yellow> "
-                . '<blue>'
-                . \number_format($lineCounter / (\microtime(true) - $startTimer))
-                . '</blue> l/s',
-            );
+            Utils::debugSpeed($messPrefix, $lineCounter, $startTimer);
 
             if ($isAggRules) { // Time optimization
                 $errors->addErrorSuit($colValidator->validateList($columValues, $lineCounter));

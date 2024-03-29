@@ -56,12 +56,7 @@ final class Ruleset
             $errors->addError($rule->validate($cellValue, $line));
 
             if ($linesToAggregate > 0) {
-                Utils::debug(
-                    "  {$rule->getRuleCode()} - "
-                    . '<blue>'
-                    . \number_format($linesToAggregate / (\microtime(true) - $startTimer))
-                    . '</blue> l/s',
-                );
+                Utils::debugSpeed("  {$rule->getRuleCode()} -", $linesToAggregate, $startTimer);
             }
         }
 

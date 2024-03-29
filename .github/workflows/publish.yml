@@ -18,7 +18,7 @@ on:
 
 jobs:
   phar:
-    name: Publish PHAR
+    name: Publish Phar
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -36,10 +36,10 @@ jobs:
       - name: Build project in production mode
         run: make build-prod build-phar-file --no-print-directory
 
-      - name: 🎨 Test PHAR file
+      - name: 🎨 Test Phar file
         run: ./build/csv-blueprint.phar --ansi -vvv
 
-      - name: Upload PHAR to the release
+      - name: Upload Phar to the release
         uses: softprops/action-gh-release@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
