@@ -31,7 +31,7 @@ final class GithubActionsTest extends TestCase
         $expectedArgs = ['validate:csv'];
 
         foreach ($availableOptions as $option) {
-            if ($option !== 'extra') {
+            if ($option !== 'ansi' && $option !== 'verbose') {
                 $expectedArgs[] = "--{$option}";
             }
 

@@ -45,8 +45,10 @@ inputs:
     default: '--ansi'
     required: true
   verbose:
-    description: 'Verbosity level. Available options: -v, -vv, -vvv.'
-    default: '-vv'
+    description: 'Verbosity level. Available options: `-v`, `-vv`, `-vvv`. And also there is option `--profile`.'
+    default: |
+      -vv
+      --profile
     required: true
 
 runs:
