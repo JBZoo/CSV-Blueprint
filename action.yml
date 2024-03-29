@@ -44,13 +44,10 @@ inputs:
   # Only for debbuging and profiling
   verbose:
     description: 'Verbosity level. Available options: `-v`, `-vv`, `-vvv`'
-    default: ''
   profile:
     description: 'Setup this option to `--profile` if you want to see profiling info. Add details with `-vvv`.'
-    default: ''
   debug:
     description: 'Setup this option to `--debug` if you want to see more really deep details.'
-    default: ''
   ansi:
     description: 'ANSI output. You can disable ANSI colors if you want with `--no-ansi`.'
     default: --ansi
