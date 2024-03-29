@@ -198,7 +198,7 @@ jobs:
 
 
   verify-phar-binary:
-    name: Verify PHAR
+    name: Verify Phar
     runs-on: ubuntu-latest
     strategy:
       matrix:
