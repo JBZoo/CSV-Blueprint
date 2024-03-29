@@ -706,7 +706,8 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
     verbose: -vv
 
     # ANSI output. You can disable ANSI colors if you want with `--no-ansi`. Also see documentation on GitHub for other options.
-    # Default value: '--ansi' '--profile'
+    # Default value: --ansi
+    # You can skip it
     extra: --ansi
 
 ```
