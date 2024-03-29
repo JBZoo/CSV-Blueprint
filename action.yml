@@ -40,13 +40,13 @@ inputs:
     description: 'Skip schema validation. If you are sure that the schema is correct, you can skip this check.'
     default: no
     required: true
-  ansi:
-    description: 'ANSI output. You can disable ANSI colors if you want with `--no-ansi`.'
-    default: --ansi
-    required: false
   verbose:
     description: 'Verbosity level. Available options: `-v`, `-vv`, `-vvv`. And also there is option `--profile`.'
-    default: [ --profile -vv ]
+    default: -vv
+    required: false
+  extra:
+    description: 'ANSI output. You can disable ANSI colors if you want with `--no-ansi`. Also see documentation on GitHub for other options.'
+    default: --ansi
     required: false
 
 runs:
@@ -66,5 +66,5 @@ runs:
     - ${{ inputs.quick }}
     - '--skip-schema'
     - ${{ inputs.skip-schema }}
-    - ${{ inputs.ansi }}
     - ${{ inputs.verbose }}
+    - ${{ inputs.extra }}

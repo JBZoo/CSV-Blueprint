@@ -31,7 +31,7 @@ final class GithubActionsTest extends TestCase
         $expectedArgs = ['validate:csv'];
 
         foreach ($availableOptions as $option) {
-            if ($option !== 'ansi' && $option !== 'verbose') {
+            if ($option !== 'extra' && $option !== 'verbose') {
                 $expectedArgs[] = "--{$option}";
             }
 
@@ -55,8 +55,8 @@ final class GithubActionsTest extends TestCase
             'report'      => ErrorSuite::REPORT_DEFAULT,
             'quick'       => 'no',
             'skip-schema' => 'no',
-            'ansi'        => '--ansi',
             'verbose'     => '-vv',
+            'extra'       => '--ansi',
         ];
 
         $expectedMessage = [
