@@ -16,24 +16,12 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint;
 
-// Fix for GitHub actions. See action.yml
-$_SERVER['argv'] ??= [];
-$_SERVER['argv'] = \array_map('trim', $_SERVER['argv']);
-
-// Extract flags from the command line arguments `extra: --ansi --profile --debug -vvv`
-foreach ($_SERVER['argv'] as $key => $arg) {
-    if (\str_starts_with($arg, 'extra:')) {
-        $arg = \str_replace('extra:', '', $arg);
-        $flags = \array_filter(\array_map('trim', \explode(' ', $arg)), static fn ($flag): bool => $flag !== '');
-        foreach ($flags as $flag) {
-            $_SERVER['argv'][] = $flag;
-        }
-        unset($_SERVER['argv'][$key]);
-    }
-}
-
 \define('PATH_ROOT', __DIR__);
 require_once __DIR__ . '/vendor/autoload.php';
+
+// Fix for GitHub actions. See action.yml
+$_SERVER['argv'] = Utils::fixArgv($_SERVER['argv'] ?? []);
+$_SERVER['argc'] = \count($_SERVER['argv']);
 
 // Set default timezone
 \date_default_timezone_set('UTC');

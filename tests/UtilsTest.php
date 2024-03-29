@@ -143,6 +143,40 @@ final class UtilsTest extends TestCase
         }
     }
 
+    public function testFixCliArguments(): void
+    {
+        isSame([], Utils::fixArgv([]));
+
+        isSame(['cmd'], Utils::fixArgv(['cmd']));
+        isSame(['cmd'], Utils::fixArgv(['cmd', '']));
+
+        isSame(['cmd', '-h'], Utils::fixArgv(['cmd', '', '-h']));
+        isSame(['cmd', '-h'], Utils::fixArgv(['cmd', '', '-h']));
+        isSame(['cmd', '-h'], Utils::fixArgv(['cmd', '', ' -h ']));
+        isSame(['cmd', '"-h"'], Utils::fixArgv(['cmd', '', ' "-h" ']));
+
+        isSame(
+            ['cmd', '-h', '--ansi'],
+            Utils::fixArgv(['cmd', '', ' -h ', 'extra: --ansi']),
+        );
+        isSame(
+            ['cmd', '-h'],
+            Utils::fixArgv(['cmd', '', ' -h ', 'extra:']),
+        );
+        isSame(
+            ['cmd', '-h'],
+            Utils::fixArgv(['cmd', '', ' -h ', ' extra: ']),
+        );
+        isSame(
+            ['cmd', '-h', '--ansi', '--no'],
+            Utils::fixArgv(['cmd', '', ' -h ', 'extra: --ansi --no']),
+        );
+        isSame(
+            ['cmd', '-h', '--ansi', '--no'],
+            Utils::fixArgv(['cmd', '', ' -h ', 'extra: --ansi   --no  ']),
+        );
+    }
+
     public function testColorOfCellValue(): void
     {
         $packs = [

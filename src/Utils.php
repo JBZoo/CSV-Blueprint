@@ -367,6 +367,35 @@ final class Utils
         return \defined('PHPUNIT_COMPOSER_INSTALL') || \defined('__PHPUNIT_PHAR__');
     }
 
+    public static function fixArgv(array $originalArgs): array
+    {
+        $newArgumens = [];
+
+        // Extract flags from the command line arguments `extra: --ansi --profile --debug -vvv`
+        foreach ($originalArgs as $argValue) {
+            $argValue = \trim($argValue);
+            if ($argValue === '') {
+                continue;
+            }
+
+            if (\str_starts_with($argValue, 'extra:')) {
+                $extraArgs = \str_replace('extra:', '', $argValue);
+                $flags = \array_filter(
+                    \array_map('trim', \explode(' ', $extraArgs)),
+                    static fn ($flag): bool => $flag !== '',
+                );
+
+                foreach ($flags as $flag) {
+                    $newArgumens[] = $flag;
+                }
+            } else {
+                $newArgumens[] = $argValue;
+            }
+        }
+
+        return $newArgumens;
+    }
+
     /**
      * @param SplFileInfo[] $files
      */

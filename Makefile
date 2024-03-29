@@ -74,7 +74,6 @@ demo-github: ##@Demo Run demo invalid CSV for GitHub Actions
 # Docker ###############################################################################################################
 docker-build: ##@Docker (Re-)build Docker image
 	$(call title,"Building Docker Image")
-	@make build-version
 	@docker build -t $(DOCKER_IMAGE) .
 
 docker-demo: ##@Docker Run demo via Docker

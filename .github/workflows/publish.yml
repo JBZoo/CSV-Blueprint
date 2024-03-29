@@ -56,9 +56,6 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.ref_name }}
 
-      - name: Save the current version
-        run: make build-version --no-print-directory
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
