@@ -42,7 +42,7 @@ inputs:
     required: true
   extra:
     description: 'Any extra options for the CSV Blueprint. See more in the documentation.'
-    default: '--ansi -vv'
+    default: '--ansi'
     required: false
 
 runs:
