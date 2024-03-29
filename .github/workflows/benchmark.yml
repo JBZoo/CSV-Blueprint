@@ -13,12 +13,18 @@
 name: Stress Test
 
 on:
-  pull_request:
-    branches:
-      - '*'
-  push:
-    branches:
-      - 'master'
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch Name'
+        required: true
+        default: 'master'
+#  pull_request:
+#    branches:
+#      - '*'
+#  push:
+#    branches:
+#      - 'master'
 
 jobs:
   docker-benchmark:
@@ -36,11 +42,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.event.inputs.branch }}
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-
-      - name: Build project
+      - name: Build project # We need it to build benchmark tool. See ./tests/Benchmarks
         run: make build --no-print-directory
 
       - name: Building local image
@@ -72,6 +76,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.event.inputs.branch }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
