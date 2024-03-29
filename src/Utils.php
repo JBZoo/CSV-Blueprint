@@ -362,14 +362,6 @@ final class Utils
         return FS::format((int)\filesize($csv));
     }
 
-    /**
-     * @param float[] $colValues
-     */
-    public static function stringsToFloat(array $colValues): array
-    {
-        return \array_map('\floatval', $colValues);
-    }
-
     public static function isPhpUnit(): bool
     {
         return \defined('PHPUNIT_COMPOSER_INSTALL') || \defined('__PHPUNIT_PHAR__');
