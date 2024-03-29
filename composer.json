@@ -32,7 +32,7 @@
 
         "league/csv"                          : "^9.15.0",
         "jbzoo/data"                          : "^7.1.1",
-        "jbzoo/cli"                           : "^7.2.1",
+        "jbzoo/cli"                           : "^7.2.2",
         "jbzoo/utils"                         : "^7.2.1",
         "jbzoo/ci-report-converter"           : "^7.2.1",
 
