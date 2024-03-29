@@ -25,13 +25,13 @@ abstract class AbstractAggregateRule extends AbstarctRule
     /**
      * Validate the rule.
      *
-     * This method takes an array reference &$columnValues as input and returns a nullable string.
+     * TODO: This method takes an array reference &$columnValues as input and returns a nullable string.
      * We use a reference to the array to avoid copying the array. Important memory optimization!
      * Please DO NOT change the array in this method!
      *
      * @param string[] $columnValues
      */
-    abstract public function validateRule(array &$columnValues): ?string;
+    abstract public function validateRule(array $columnValues): ?string;
 
     public function test(array $cellValue, bool $isHtml = false): string
     {

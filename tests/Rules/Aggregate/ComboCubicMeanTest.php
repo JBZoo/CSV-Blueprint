@@ -30,12 +30,12 @@ class ComboCubicMeanTest extends TestAbstractAggregateRuleCombo
     {
         $rule = $this->create(15.492307432707, Combo::EQ);
         isSame('', $rule->test([]));
-        isSame('', $rule->test([13, 18, 13, 14, 13, 16, 14, 21, 13]));
+        isSame('', $rule->test(['13', '18', '13', '14', '13', '16', '14', '21', '13']));
 
         $rule = $this->create(1, Combo::EQ);
         isSame(
             'The cubic mean in the column is "15.492307432707", which is not equal than the expected "1"',
-            $rule->test([13, 18, 13, 14, 13, 16, 14, 21, 13]),
+            $rule->test(['13', '18', '13', '14', '13', '16', '14', '21', '13']),
         );
     }
 }

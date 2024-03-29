@@ -19,6 +19,7 @@ namespace JBZoo\PHPUnit\Rules\Aggregate;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule as Combo;
 use JBZoo\CsvBlueprint\Rules\Aggregate\ComboQuartiles;
 use JBZoo\PHPUnit\Rules\TestAbstractAggregateRuleCombo;
+use JBZoo\PHPUnit\Tools;
 
 use function JBZoo\PHPUnit\isSame;
 
@@ -28,7 +29,7 @@ class ComboQuartilesTest extends TestAbstractAggregateRuleCombo
 
     public function testEqual(): void
     {
-        $range = \range(2, 400);
+        $range = Tools::range(2, 400);
 
         $rule = $this->create(['exclusive', '0%', 2], Combo::EQ);
         isSame('', $rule->test($range));
@@ -70,7 +71,7 @@ class ComboQuartilesTest extends TestAbstractAggregateRuleCombo
 
         isSame(
             'The quartile in the column is "100", which is not equal than the expected "199"',
-            $rule->test(\range(1, 200)),
+            $rule->test(Tools::range(1, 200)),
         );
     }
 
@@ -82,19 +83,19 @@ class ComboQuartilesTest extends TestAbstractAggregateRuleCombo
             'method ["exclusive", "inclusive"], ' .
             'type ["0%", "Q1", "Q2", "Q3", "100%", "IQR"], ' .
             'expected value (float)',
-            $rule->test(\range(1, 200)),
+            $rule->test(Tools::range(1, 200)),
         );
 
         $rule = $this->create(['qwerty', 'IQR', 5], Combo::EQ);
         isSame(
             'Unknown quartile method: "qwerty". Allowed: ["exclusive", "inclusive"]',
-            $rule->test(\range(1, 200)),
+            $rule->test(Tools::range(1, 200)),
         );
 
         $rule = $this->create(['inclusive', 'QQQQ', 5], Combo::EQ);
         isSame(
             'Unknown quartile type: "QQQQ". Allowed: ["0%", "Q1", "Q2", "Q3", "100%", "IQR"]',
-            $rule->test(\range(1, 200)),
+            $rule->test(Tools::range(1, 200)),
         );
     }
 }

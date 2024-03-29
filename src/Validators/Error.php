@@ -31,12 +31,15 @@ final class Error
     public function __toString(): string
     {
         $columnStr = $this->getColumnName() === '' ? '' : ", column \"{$this->getColumnName()}\"";
+        $error = \rtrim($this->getMessage(), '.');
 
         if ($this->line === self::UNDEFINED_LINE) {
-            return "\"{$this->getRuleCode()}\"{$columnStr}. {$this->getMessage()}.";
+            $fullMessage = "\"{$this->getRuleCode()}\"{$columnStr}. {$error}.";
+        } else {
+            $fullMessage = "\"{$this->getRuleCode()}\" at line <red>{$this->getLine()}</red>{$columnStr}. {$error}.";
         }
 
-        return "\"{$this->getRuleCode()}\" at line <red>{$this->getLine()}</red>{$columnStr}. {$this->getMessage()}.";
+        return \str_replace('.</', '</', $fullMessage); // Double dots fix.
     }
 
     public function getRuleCode(): string

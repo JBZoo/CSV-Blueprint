@@ -68,7 +68,7 @@ abstract class AbstarctRule
             return null;
         }
 
-        if (\method_exists($this, 'validateRule')) {
+        if (\method_exists($this, 'validateRule')) { // TODO: Need to be removed
             try {
                 /** @phan-suppress-next-line PhanUndeclaredMethod */
                 $error = $this->validateRule($cellValue);

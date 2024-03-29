@@ -19,6 +19,7 @@ namespace JBZoo\PHPUnit\Rules\Aggregate;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule as Combo;
 use JBZoo\CsvBlueprint\Rules\Aggregate\ComboCountPrime;
 use JBZoo\PHPUnit\Rules\TestAbstractAggregateRuleCombo;
+use JBZoo\PHPUnit\Tools;
 
 use function JBZoo\PHPUnit\isSame;
 
@@ -31,11 +32,11 @@ class ComboCountPrimeTest extends TestAbstractAggregateRuleCombo
         $rule = $this->create(25, Combo::EQ);
 
         isSame('', $rule->test([]));
-        isSame('', $rule->test(\range(1, 100)));
+        isSame('', $rule->test(Tools::range(1, 100)));
 
         isSame(
             'The number of prime values in the column is "4", which is not equal than the expected "25"',
-            $rule->test(\range(1, 10)),
+            $rule->test(Tools::range(1, 10)),
         );
     }
 }

@@ -19,6 +19,7 @@ namespace JBZoo\PHPUnit\Rules\Aggregate;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule as Combo;
 use JBZoo\CsvBlueprint\Rules\Aggregate\ComboMidhinge;
 use JBZoo\PHPUnit\Rules\TestAbstractAggregateRuleCombo;
+use JBZoo\PHPUnit\Tools;
 
 use function JBZoo\PHPUnit\isSame;
 
@@ -30,12 +31,12 @@ class ComboMidhingeTest extends TestAbstractAggregateRuleCombo
     {
         $rule = $this->create(18, Combo::EQ);
         isSame('', $rule->test([]));
-        isSame('', $rule->test(\range(1, 35)));
+        isSame('', $rule->test(Tools::range(1, 35)));
 
         $rule = $this->create(3, Combo::EQ);
         isSame(
             'The midhinge in the column is "18", which is not equal than the expected "3"',
-            $rule->test(\range(1, 35)),
+            $rule->test(Tools::range(1, 35)),
         );
     }
 }

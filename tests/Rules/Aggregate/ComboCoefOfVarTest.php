@@ -29,13 +29,13 @@ class ComboCoefOfVarTest extends TestAbstractAggregateRuleCombo
     public function testEqual(): void
     {
         $rule = $this->create(0.18856180831641, Combo::EQ);
-        isSame('', $rule->test([13, 18, 13, 14, 13, 16, 14, 21, 13]));
+        isSame('', $rule->test(['13', '18', '13', '14', '13', '16', '14', '21', '13']));
 
         $rule = $this->create(3, Combo::EQ);
         isSame(
             'The Coefficient of variation in the column is "0.18856180831641", ' .
             'which is not equal than the expected "3"',
-            $rule->test([13, 18, 13, 14, 13, 16, 14, 21, 13]),
+            $rule->test(['13', '18', '13', '14', '13', '16', '14', '21', '13']),
         );
     }
 }

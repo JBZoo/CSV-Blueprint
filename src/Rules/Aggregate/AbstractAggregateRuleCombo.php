@@ -53,9 +53,18 @@ abstract class AbstractAggregateRuleCombo extends AbstarctRuleCombo
         $name = static::NAME;
 
         try {
+            // TODO: Think about the performance optimization here
+            if (static::INPUT_TYPE === AbstarctRule::INPUT_TYPE_FLOATS) {
+                $colValues = \array_map('floatval', $colValues);
+            }
+
+            if (static::INPUT_TYPE === AbstarctRule::INPUT_TYPE_INTS) {
+                $colValues = \array_map('intval', $colValues);
+            }
+
             $actual = $this->getActualAggregate($colValues); // Important to use the original method here!
         } catch (\Throwable $exception) {
-            return $exception->getMessage(); // TODO: Expose the error/warning message in the report?
+            return "<red>{$exception->getMessage()}</red>"; // TODO: Expose the error/warning message in the report?
         }
 
         if ($actual === null) {
@@ -65,7 +74,7 @@ abstract class AbstractAggregateRuleCombo extends AbstarctRuleCombo
         try {
             $expected = $this->getExpected();
         } catch (\Throwable $exception) {
-            return $exception->getMessage(); // TODO: Expose the error/warning message in the report?
+            return "<red>{$exception->getMessage()}</red>"; // TODO: Expose the error/warning message in the report?
         }
 
         if (!self::compare($expected, $actual, $mode)) {

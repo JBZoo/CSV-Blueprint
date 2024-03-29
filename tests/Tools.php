@@ -163,4 +163,9 @@ final class Tools
 
         return \implode(' ', $optionsAsArray);
     }
+
+    public static function range(int $min = 1, int $max = 10): array
+    {
+        return \array_map('strval', \range($min, $max));
+    }
 }
