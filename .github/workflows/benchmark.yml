@@ -19,9 +19,9 @@ on:
         description: 'Branch Name'
         required: true
         default: 'master'
-#  pull_request:
-#    branches:
-#      - '*'
+  pull_request:
+    branches:
+      - '*'
 #  push:
 #    branches:
 #      - 'master'
@@ -32,8 +32,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        version: [ latest, local ]
         columns: [ 1, 5, 10, 20 ]
-        version: [ local, latest ]
     env:
       BENCH_COLS: ${{ matrix.columns }}
       DOCKER_IMAGE: jbzoo/csv-blueprint:${{ matrix.version }}
