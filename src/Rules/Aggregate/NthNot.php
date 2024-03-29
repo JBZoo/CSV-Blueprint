@@ -39,7 +39,7 @@ final class NthNot extends AbstractAggregateRule
         ];
     }
 
-    public function validateRule(array &$columnValues): ?string
+    public function validateRule(array $columnValues): ?string
     {
         if (\count($columnValues) === 0) {
             return null;
