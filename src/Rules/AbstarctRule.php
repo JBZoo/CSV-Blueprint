@@ -68,19 +68,21 @@ abstract class AbstarctRule
             return null;
         }
 
-        try {
-            /** @phan-suppress-next-line PhanUndeclaredMethod */
-            $error = $this->validateRule($cellValue);
-            if ($error !== null) {
-                return new Error($this->ruleCode, $error, $this->columnNameId, $line);
+        if (\method_exists($this, 'validateRule')) { // TODO: Need to be removed
+            try {
+                /** @phan-suppress-next-line PhanUndeclaredMethod */
+                $error = $this->validateRule($cellValue);
+                if ($error !== null) {
+                    return new Error($this->ruleCode, $error, $this->columnNameId, $line);
+                }
+            } catch (\Exception $e) {
+                return new Error(
+                    $this->ruleCode,
+                    "Unexpected error: {$e->getMessage()}",
+                    $this->columnNameId,
+                    $line,
+                );
             }
-        } catch (\Exception $e) {
-            return new Error(
-                $this->ruleCode,
-                "Unexpected error: {$e->getMessage()}",
-                $this->columnNameId,
-                $line,
-            );
         }
 
         return null;
