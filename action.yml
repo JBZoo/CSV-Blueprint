@@ -42,15 +42,13 @@ inputs:
     required: true
 
   # Only for debbuging and profiling
-  ansi:
-    description: 'ANSI output. You can disable ANSI colors if you want with `--no-ansi`.'
-    default: --ansi
-  verbose:
-    description: 'Verbosity level. Available options: `-v`, `-vv`, `-vvv`'
-  profile:
-    description: 'Setup this option to `--profile` if you want to see profiling info. Add details with `-vvv`.'
-  debug:
-    description: 'Setup this option to `--debug` if you want to see more really deep details.'
+  extra:
+    description: >
+      ANSI output. You can disable ANSI colors if you want with `--no-ansi`.
+      Verbosity level: Available options: `-v`, `-vv`, `-vvv`
+      Add flag `--profile` if you want to see profiling info. Add details with `-vvv`.
+      Add flag `--debug` if you want to see more really deep details.
+    default: --ansi --profile --debug -vvv
 
 runs:
   using: 'docker'
@@ -67,4 +65,4 @@ runs:
     - ${{ inputs.quick }}
     - '--skip-schema'
     - ${{ inputs.skip-schema }}
-    - ${{ inputs.verbose }} ${{ inputs.profile }} ${{ inputs.debug }} ${{ inputs.ansi }}
+    - ${{ inputs.extra }}
