@@ -41,8 +41,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          # ref: ${{ github.event.inputs.branch }}
-          ref: ${{ github.event.pull_request.head.ref }}
+          ref: ${{ github.event.inputs.branch }}
+          # ref: ${{ github.event.pull_request.head.ref }}
 
       # We need it to build benchmark tool. See ./tests/Benchmarks
       - name: Build project
@@ -78,8 +78,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          # ref: ${{ github.event.inputs.branch }}
-          ref: ${{ github.event.pull_request.head.ref }}
+          ref: ${{ github.event.inputs.branch }}
+          # ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -90,7 +90,9 @@ jobs:
 
       - name: Build local Phar file
         if: matrix.version == 'local'
-        run: make build-prod build-phar-file --no-print-directory
+        run: |
+          make build-prod build-phar-file --no-print-directory
+          ./build/csv-blueprint.phar
 
       - name: Download latest Phar file
         if: matrix.version == 'latest'
