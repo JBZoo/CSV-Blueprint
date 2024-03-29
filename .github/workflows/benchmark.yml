@@ -86,10 +86,10 @@ jobs:
           ini-values: opcache.enable_cli=1, opcache.jit=1255
 
       - name: Build Phar file
-        run: make build-phar-file --no-print-directory
+        run: make build-prod build-phar-file --no-print-directory
 
       - name: Build project # We need it to build benchmark tool. See ./tests/Benchmarks
         run: make build --no-print-directory
 
       - name: 🔥 Benchmark 🔥
-        run: make bench-create-csv bench-php --no-print-directory
+        run: make bench-create-csv bench-phar --no-print-directory
