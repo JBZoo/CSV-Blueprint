@@ -700,16 +700,6 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
     # You can skip it
     skip-schema: no
 
-    # Verbosity level. Available options: `-v`, `-vv`, `-vvv`. And also there is option `--profile`.
-    # Default value: -vv
-    # You can skip it
-    verbose: -vv
-
-    # ANSI output. You can disable ANSI colors if you want with `--no-ansi`. Also see documentation on GitHub for other options.
-    # Default value: --ansi
-    # You can skip it
-    extra: --ansi
-
 ```
 <!-- /github-actions-yml -->
 

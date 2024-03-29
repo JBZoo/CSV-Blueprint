@@ -31,11 +31,10 @@ final class GithubActionsTest extends TestCase
         $expectedArgs = ['validate:csv'];
 
         foreach ($availableOptions as $option) {
-            if ($option !== 'extra' && $option !== 'verbose') {
+            if ($option !== 'extra') {
                 $expectedArgs[] = "--{$option}";
             }
-
-            $expectedArgs[] = '${{ inputs.' . $option . ' }}';
+            $expectedArgs[] = "\${{ inputs.{$option} }}";
         }
 
         isSame($expectedArgs, $action->findArray('runs.args'));
@@ -55,8 +54,6 @@ final class GithubActionsTest extends TestCase
             'report'      => ErrorSuite::REPORT_DEFAULT,
             'quick'       => 'no',
             'skip-schema' => 'no',
-            'verbose'     => '-vv',
-            'extra'       => '--ansi',
         ];
 
         $expectedMessage = [
@@ -66,6 +63,10 @@ final class GithubActionsTest extends TestCase
         ];
 
         foreach ($inputs as $key => $input) {
+            if ($key === 'extra') {
+                continue;
+            }
+
             $expectedMessage[] = '    # ' . \trim($input['description']);
 
             if (isset($input['default'])) {
