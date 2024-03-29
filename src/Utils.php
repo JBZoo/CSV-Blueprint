@@ -321,7 +321,7 @@ final class Utils
             return 'Version file not found';
         }
 
-        $parts = \array_filter(\explode("\n", (string)\file_get_contents($versionFile)));
+        $parts = \array_map('trim', \explode('|', (string)\file_get_contents($versionFile)));
         $expectedParts = 5;
         if (\count($parts) < $expectedParts) {
             return 'Invalid version file format';

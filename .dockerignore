@@ -10,7 +10,6 @@
 # @see        https://github.com/JBZoo/CI-Report-Converter
 #
 
-.git
 .idea
 .github
 build
@@ -27,5 +26,4 @@ vendor
 action.yml
 box.json.dist
 phpunit.xml.dist
-Makefile
 *.phar
