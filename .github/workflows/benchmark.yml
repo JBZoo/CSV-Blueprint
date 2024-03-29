@@ -21,9 +21,12 @@ on:
       - 'master'
 
 jobs:
-  stress-test:
-    name: Benchmark
+  docker-benchmark:
+    name: via Docker
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        columns: [ 1, 5, 10, 20 ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -46,5 +49,36 @@ jobs:
           push: false
           tags: jbzoo/csv-blueprint:local
 
-      - name: 🔥 Benchmark with Docker 🔥
+      - name: 🔥 Benchmark 🔥
         run: make bench-docker --no-print-directory
+
+
+  php-benchmark:
+    name: via PHP
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        columns: [ 1, 5, 10, 20 ]
+    env:
+      BENCH_COLS: ${{ matrix.php-version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          coverage: none
+          ini-values: opcache.enable_cli=1, opcache.jit=1255
+
+      - name: Build project
+        run: make build --no-print-directory
+
+      - name: Create random huge CSV files
+        run: make bench-create-csv --no-print-directory
+
+      - name: 🔥 Benchmark 🔥
+        run: make bench-php --no-print-directory

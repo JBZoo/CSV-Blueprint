@@ -95,13 +95,12 @@ BENCH_SCHEMAS     := --schema='./tests/Benchmarks/benchmark-*.yml'
 BENCH_FLAGS       := --debug --profile --report=text -vvv
 
 
-bench-all: ##@Benchmarks Run all benchmarks
+bench: ##@Benchmarks Run all benchmarks
 	@make bench-create-csv
-	@make docker-build
 	@make bench-docker
 
 bench-create-csv: ##@Benchmarks Create CSV file
-	$(call title,"Benchmark - Create CSV file")
+	$(call title,"Benchmark - Create CSV file. Cols=${BENCH_COLS} Rows=${BENCH_ROWS_SRC}_000")
 	@mkdir -pv ./build/bench/
 	@rm -fv    ./build/bench/*.csv
 	@time bash ./tests/Benchmarks/create-csv.sh
