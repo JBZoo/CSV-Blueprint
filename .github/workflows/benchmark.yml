@@ -10,7 +10,7 @@
 # @see        https://github.com/JBZoo/Csv-Blueprint
 #
 
-name: Stress Test
+name: Speed Test
 
 on:
   workflow_dispatch:
@@ -19,11 +19,6 @@ on:
         description: 'Branch Name'
         required: true
         default: 'master'
-  pull_request:
-    branches:
-      - '*'
-  release:
-    types: [ created ]
 
 jobs:
   docker-benchmark:
