@@ -321,7 +321,12 @@ final class Utils
             return 'Version file not found';
         }
 
-        $parts = \array_filter(\explode("\n", (string)\file_get_contents($versionFile)));
+        return self::parseVersion((string)\file_get_contents($versionFile), $showFull);
+    }
+
+    public static function parseVersion(string $content, bool $showFull): string
+    {
+        $parts = \array_map('trim', \explode('|', $content));
         $expectedParts = 5;
         if (\count($parts) < $expectedParts) {
             return 'Invalid version file format';
@@ -365,6 +370,35 @@ final class Utils
     public static function isPhpUnit(): bool
     {
         return \defined('PHPUNIT_COMPOSER_INSTALL') || \defined('__PHPUNIT_PHAR__');
+    }
+
+    public static function fixArgv(array $originalArgs): array
+    {
+        $newArgumens = [];
+
+        // Extract flags from the command line arguments `extra: --ansi --profile --debug -vvv`
+        foreach ($originalArgs as $argValue) {
+            $argValue = \trim($argValue);
+            if ($argValue === '') {
+                continue;
+            }
+
+            if (\str_starts_with($argValue, 'extra:')) {
+                $extraArgs = \str_replace('extra:', '', $argValue);
+                $flags = \array_filter(
+                    \array_map('trim', \explode(' ', $extraArgs)),
+                    static fn ($flag): bool => $flag !== '',
+                );
+
+                foreach ($flags as $flag) {
+                    $newArgumens[] = $flag;
+                }
+            } else {
+                $newArgumens[] = $argValue;
+            }
+        }
+
+        return $newArgumens;
     }
 
     /**

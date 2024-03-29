@@ -41,11 +41,18 @@ inputs:
     default: no
     required: true
 
+  # Only for debbuging and profiling
+  extra:
+    description: >
+      ANSI output. You can disable ANSI colors if you want with `--no-ansi`.
+      Verbosity level: Available options: `-v`, `-vv`, `-vvv`
+      Add flag `--profile` if you want to see profiling info. Add details with `-vvv`.
+      Add flag `--debug` if you want to see more really deep details.
+    default: 'extra: --ansi'
+
 runs:
   using: 'docker'
   image: 'docker://jbzoo/csv-blueprint'
-  env:
-    GITHUB_ACTIONS: 'true'
   args:
     - validate:csv
     - '--csv'
@@ -58,5 +65,4 @@ runs:
     - ${{ inputs.quick }}
     - '--skip-schema'
     - ${{ inputs.skip-schema }}
-    - '--ansi'
-    - '-vvv'
+    - ${{ inputs.extra }}

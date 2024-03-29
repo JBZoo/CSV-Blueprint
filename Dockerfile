@@ -10,24 +10,31 @@
 # @see        https://github.com/JBZoo/Csv-Blueprint
 #
 
+FROM alpine:latest as preparatory
+RUN apk add --no-cache make git
+WORKDIR /tmp
+COPY . /tmp
+RUN make build-version
+
+########################################################################################
 FROM php:8.3-cli-alpine
 
 # Install PHP extensions
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 RUN install-php-extensions opcache @composer
 
-
 # Install application
 # run `make build-version` before!
 ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY . /app
-COPY ./.version /app/
+COPY --from=preparatory /tmp/.version /app/.version
 RUN cd /app                                         \
     && composer install --no-dev                    \
                         --classmap-authoritative    \
                         --no-progress               \
                         --no-suggest                \
                         --optimize-autoloader       \
+    && rm -rf /app/.git                             \
     && composer clear-cache                         \
     && chmod +x /app/csv-blueprint
 
