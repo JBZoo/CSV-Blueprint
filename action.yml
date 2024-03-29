@@ -48,7 +48,7 @@ inputs:
       Verbosity level: Available options: `-v`, `-vv`, `-vvv`
       Add flag `--profile` if you want to see profiling info. Add details with `-vvv`.
       Add flag `--debug` if you want to see more really deep details.
-    default: --ansi --profile --debug -vvv
+    default: 'flags: --ansi --profile --debug -vvv'
 
 runs:
   using: 'docker'
