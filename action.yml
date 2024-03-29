@@ -51,7 +51,7 @@ inputs:
 
 runs:
   using: 'docker'
-  image: Dockerfile
+  image: 'docker://jbzoo/csv-blueprint'
   env:
     GITHUB_ACTIONS: 'true'
   args:
