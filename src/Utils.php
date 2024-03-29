@@ -321,7 +321,12 @@ final class Utils
             return 'Version file not found';
         }
 
-        $parts = \array_map('trim', \explode('|', (string)\file_get_contents($versionFile)));
+        return self::parseVersion((string)\file_get_contents($versionFile), $showFull);
+    }
+
+    public static function parseVersion(string $content, bool $showFull): string
+    {
+        $parts = \array_map('trim', \explode('|', $content));
         $expectedParts = 5;
         if (\count($parts) < $expectedParts) {
             return 'Invalid version file format';

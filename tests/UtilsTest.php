@@ -177,6 +177,30 @@ final class UtilsTest extends TestCase
         );
     }
 
+    public function testParseVersion(): void
+    {
+        // Stable
+        isSame(
+            '<info>v0.34</info>  29 Mar 2024 18:09 UTC',
+            Utils::parseVersion("0.34 | true | master | 2024-03-29T22:09:21+04:00 | 03c14cc\n", true),
+        );
+        isSame('v0.34', Utils::parseVersion("0.34 | true | master | 2024-03-29T22:09:21+04:00 | 03c14cc\n", false));
+
+        // Development
+        isSame(
+            '<info>v0.34</info>  29 Mar 2024 18:09 UTC  <comment>Experimental!</comment>  Branch: branch (03c14cc)',
+            Utils::parseVersion("0.34 | false | branch | 2024-03-29T22:09:21+04:00 | 03c14cc\n", true),
+        );
+        isSame('v0.34', Utils::parseVersion("0.34 | false | branch | 2024-03-29T22:09:21+04:00 | 03c14cc\n", false));
+
+        // Night build
+        isSame(
+            '<info>v0.34</info>  29 Mar 2024 18:09 UTC  <comment>Night build</comment>  Branch: master (03c14cc)',
+            Utils::parseVersion("0.34 | false | master | 2024-03-29T22:09:21+04:00 | 03c14cc\n", true),
+        );
+        isSame('v0.34', Utils::parseVersion("0.34 | false | master | 2024-03-29T22:09:21+04:00 | 03c14cc\n", false));
+    }
+
     public function testColorOfCellValue(): void
     {
         $packs = [
