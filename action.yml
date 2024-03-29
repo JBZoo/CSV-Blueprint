@@ -40,6 +40,10 @@ inputs:
     description: 'Skip schema validation. If you are sure that the schema is correct, you can skip this check.'
     default: no
     required: true
+  extra:
+    description: 'Any extra options for the CSV Blueprint. See more in the documentation.'
+    default: '--ansi -vv'
+    required: false
 
 runs:
   using: 'docker'
@@ -58,5 +62,4 @@ runs:
     - ${{ inputs.quick }}
     - '--skip-schema'
     - ${{ inputs.skip-schema }}
-    - '--ansi'
-    - '-vvv'
+    - ${{ inputs.extra }}
