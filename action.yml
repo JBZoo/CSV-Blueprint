@@ -46,14 +46,12 @@ inputs:
     required: false
   extra:
     description: 'ANSI output. You can disable ANSI colors if you want with `--no-ansi`. Also see documentation on GitHub for other options.'
-    default: "'--ansi' '--profile'"
+    default: --ansi
     required: false
 
 runs:
   using: 'docker'
   image: 'docker://jbzoo/csv-blueprint'
-  env:
-    GITHUB_ACTIONS: 'true'
   args:
     - validate:csv
     - --csv='${{ inputs.csv }}'
