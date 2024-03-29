@@ -18,7 +18,7 @@ on:
 
 jobs:
   phar:
-    name: Publish PHAR
+    name: PHAR
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -47,8 +47,14 @@ jobs:
             ./build/csv-blueprint.phar
 
   docker:
-    name: Publish Docker
+    name: Docker
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform:
+          - linux/amd64
+          - linux/arm64/v8
+          - linux/386
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -76,7 +82,7 @@ jobs:
           tags: |
             jbzoo/csv-blueprint:latest
             jbzoo/csv-blueprint:${{ github.event.release.tag_name }}
-          platforms: linux/amd64,linux/arm64/v8,linux/386
+          platforms: ${{ matrix.platform }}
           build-args: |
             VERSION=${{ github.event.release.tag_name }}
 
