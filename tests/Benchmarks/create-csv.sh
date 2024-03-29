@@ -21,7 +21,7 @@ echo "Source file size : $(du -h ./build/bench/${BENCH_COLS}_${BENCH_ROWS_SRC}.c
 echo "Source rows count: $(wc -l ./build/bench/${BENCH_COLS}_${BENCH_ROWS_SRC}.csv)"
 
 cat ./build/bench/${BENCH_COLS}_header.csv > $BENCH_CSV_PATH
-for i in {1..2000}; do
+for i in {1..1000}; do
     cat ./build/bench/${BENCH_COLS}_${BENCH_ROWS_SRC}.csv >> $BENCH_CSV_PATH
 done
 
