@@ -87,7 +87,7 @@ docker-in: ##@Docker Enter into Docker container
 
 
 # Benchmarks ###########################################################################################################
-BENCH_COLS        ?= $(or $(BENCH_COLS),10)
+BENCH_COLS        ?= 10
 BENCH_ROWS_SRC    ?= 1000
 BENCH_CSV_PATH    := ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC)_000.csv
 BENCH_CSV         := --csv='$(BENCH_CSV_PATH)'

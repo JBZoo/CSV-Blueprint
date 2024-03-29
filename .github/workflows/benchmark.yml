@@ -27,6 +27,8 @@ jobs:
     strategy:
       matrix:
         columns: [ 1, 5, 10, 20 ]
+    env:
+      BENCH_COLS: ${{ matrix.columns }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -60,7 +62,7 @@ jobs:
       matrix:
         columns: [ 1, 5, 10, 20 ]
     env:
-      BENCH_COLS: ${{ matrix.php-version }}
+      BENCH_COLS: ${{ matrix.columns }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
