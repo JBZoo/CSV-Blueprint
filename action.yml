@@ -42,14 +42,12 @@ inputs:
     required: true
   ansi:
     description: 'ANSI output. You can disable ANSI colors if you want with `--no-ansi`.'
-    default: '--ansi'
-    required: true
+    default: --ansi
+    required: false
   verbose:
     description: 'Verbosity level. Available options: `-v`, `-vv`, `-vvv`. And also there is option `--profile`.'
-    default: |
-      -vv
-      --profile
-    required: true
+    default: -vv
+    required: false
 
 runs:
   using: 'docker'
