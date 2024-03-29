@@ -22,11 +22,3 @@ columns:
       is_int: true
       num_min: 1
       num_max: 10000000
-
-    aggregate_rules:
-      is_unique: true
-      sorted: [ desc, natural ]
-      count: 0
-      sum: 5.0
-      average: 5.0
-      stddev: 5.0

@@ -19,3 +19,6 @@ columns:
   - rules:
       not_empty: true
       is_int: true
+    aggregate_rules:
+      average: 0
+      count: 0
