@@ -56,11 +56,10 @@ runs:
     GITHUB_ACTIONS: 'true'
   args:
     - validate:csv
-#    - --csv=${{ inputs.csv }}
-#    - --schema=${{ inputs.schema }}
-#    - --report=${{ inputs.report }}
-#    - --quick=${{ inputs.quick }}
-#    - --skip-schema=${{ inputs.skip-schema }}
-#    - ${{ inputs.verbose }}
-#    - ${{ inputs.extra }}
-#
+    - --csv='${{ inputs.csv }}'
+    - --schema='${{ inputs.schema }}'
+    - --report='${{ inputs.report }}'
+    - --quick='${{ inputs.quick }}'
+    - --skip-schema='${{ inputs.skip-schema }}'
+    - ${{ inputs.verbose }}
+    - ${{ inputs.extra }}
