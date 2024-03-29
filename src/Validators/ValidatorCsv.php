@@ -165,16 +165,16 @@ final class ValidatorCsv
                 }
             }
             Utils::debug("{$messPrefix} Lines <yellow>" . \number_format($lineCounter) . '</yellow>');
-            Utils::debugSpeed("{$messPrefix} - Cell - ", $lineCounter, $startTimer);
+            Utils::debugSpeed("{$messPrefix} Cell - ", $lineCounter, $startTimer);
 
             if ($isAggRules) { // Time optimization
                 $startTimerAgg = \microtime(true);
                 $errors->addErrorSuit($colValidator->validateList($columValues, $lineCounter));
-                Utils::debugSpeed("{$messPrefix} - Agg - ", $lineCounter, $startTimerAgg);
+                Utils::debugSpeed("{$messPrefix} Agg - ", $lineCounter, $startTimerAgg);
             }
 
+            Utils::debugSpeed("{$messPrefix} Total - ", $lineCounter, $startTimer);
             Utils::debug("{$messPrefix} Column finished");
-            Utils::debugSpeed("{$messPrefix} - Total - ", $lineCounter, $startTimer);
         }
 
         return $errors;
