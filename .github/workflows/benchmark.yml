@@ -27,8 +27,10 @@ jobs:
     strategy:
       matrix:
         columns: [ 1, 5, 10, 20 ]
+        version: [ local, latest ]
     env:
       BENCH_COLS: ${{ matrix.columns }}
+      DOCKER_IMAGE: jbzoo/csv-blueprint:${{ matrix.version }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -41,18 +43,20 @@ jobs:
       - name: Build project
         run: make build --no-print-directory
 
-      - name: Create random huge CSV files
-        run: make bench-create-csv --no-print-directory
-
-      - name: Building Docker Image
+      - name: Building local image
         uses: docker/build-push-action@v5
+        if: matrix.version == 'local'
         with:
           context: .
           push: false
-          tags: jbzoo/csv-blueprint:local
+          tags: ${{ env.DOCKER_IMAGE }}
+
+      - name: Pulling latest image
+        run: docker pull ${{ env.DOCKER_IMAGE }}
+        if: matrix.version == 'latest'
 
       - name: 🔥 Benchmark 🔥
-        run: make bench-docker --no-print-directory
+        run: make bench-create-csv bench-docker --no-print-directory
 
 
   php-benchmark:
@@ -79,8 +83,5 @@ jobs:
       - name: Build project
         run: make build --no-print-directory
 
-      - name: Create random huge CSV files
-        run: make bench-create-csv --no-print-directory
-
       - name: 🔥 Benchmark 🔥
-        run: make bench-php --no-print-directory
+        run: make bench-create-csv bench-php --no-print-directory
