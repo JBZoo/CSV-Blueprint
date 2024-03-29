@@ -46,7 +46,7 @@ inputs:
     required: false
   verbose:
     description: 'Verbosity level. Available options: `-v`, `-vv`, `-vvv`. And also there is option `--profile`.'
-    default: -vv --profile
+    default: '-vv" "--profile'
     required: false
 
 runs:
