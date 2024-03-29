@@ -46,7 +46,7 @@ inputs:
     required: false
   extra:
     description: 'ANSI output. You can disable ANSI colors if you want with `--no-ansi`. Also see documentation on GitHub for other options.'
-    default: --ansi
+    default: "'--ansi' '--profile'"
     required: false
 
 runs:
@@ -57,7 +57,7 @@ runs:
   args:
     - validate:csv
     - --csv=${{ inputs.csv }}
-    - --schema="${{ inputs.schema }}"
+    - --schema=${{ inputs.schema }}
     - --report=${{ inputs.report }}
     - --quick=${{ inputs.quick }}
     - --skip-schema=${{ inputs.skip-schema }}
