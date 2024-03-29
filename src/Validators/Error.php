@@ -33,10 +33,13 @@ final class Error
         $columnStr = $this->getColumnName() === '' ? '' : ", column \"{$this->getColumnName()}\"";
 
         if ($this->line === self::UNDEFINED_LINE) {
-            return "\"{$this->getRuleCode()}\"{$columnStr}. {$this->getMessage()}.";
+            $fullMessage = "\"{$this->getRuleCode()}\"{$columnStr}. {$this->getMessage()}.";
+        } else {
+            $fullMessage = "\"{$this->getRuleCode()}\" at line <red>{$this->getLine()}</red>{$columnStr}." .
+                " {$this->getMessage()}.";
         }
 
-        return "\"{$this->getRuleCode()}\" at line <red>{$this->getLine()}</red>{$columnStr}. {$this->getMessage()}.";
+        return \str_replace('.</', '</', $fullMessage); // Double dots fix.
     }
 
     public function getRuleCode(): string
