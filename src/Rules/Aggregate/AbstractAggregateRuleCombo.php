@@ -64,7 +64,7 @@ abstract class AbstractAggregateRuleCombo extends AbstarctRuleCombo
 
             $actual = $this->getActualAggregate($colValues); // Important to use the original method here!
         } catch (\Throwable $exception) {
-            return $exception->getMessage(); // TODO: Expose the error/warning message in the report?
+            return "<red>{$exception->getMessage()}</red>"; // TODO: Expose the error/warning message in the report?
         }
 
         if ($actual === null) {
@@ -74,7 +74,7 @@ abstract class AbstractAggregateRuleCombo extends AbstarctRuleCombo
         try {
             $expected = $this->getExpected();
         } catch (\Throwable $exception) {
-            return $exception->getMessage(); // TODO: Expose the error/warning message in the report?
+            return "<red>{$exception->getMessage()}</red>"; // TODO: Expose the error/warning message in the report?
         }
 
         if (!self::compare($expected, $actual, $mode)) {

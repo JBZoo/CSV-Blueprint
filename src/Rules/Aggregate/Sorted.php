@@ -73,7 +73,7 @@ final class Sorted extends AbstractAggregateRule
         }
 
         if ($sorted !== $columnValues) {
-            return "The column is not sorted \"{$dir}\" using method \"{$methodHuman}\"";
+            return "The column is not sorted \"<green>{$dir}</green>\" using method \"<green>{$methodHuman}</green>\"";
         }
 
         return null;
