@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
+use function JBZoo\Data\json;
+
 final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
 {
     protected string $packageName = 'Csv-Blueprint';
@@ -86,6 +88,12 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
     public function testGithubActionsWorkflow(): void
     {
         success('It uses different workflows for CI');
+    }
+
+    public function testComposerType(): void
+    {
+        $composer = json(PROJECT_ROOT . '/composer.json');
+        isSame('project', $composer->find('type'));
     }
 
     protected function checkBadgeGithubActionsDemo(): ?string

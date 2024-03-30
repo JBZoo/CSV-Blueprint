@@ -766,10 +766,10 @@ make build
     --schema=./tests/schemas/demo_invalid.yml
 ```
 
+### Complete CLI Help Message
 
-## Complete CLI Help Message
-
-Here you can see all available options and commands.  Tool uses [JBZoo/Cli](https://github.com/JBZoo/Cli) package for the CLI interface.
+Here you can see all available options and commands. Tool uses [JBZoo/Cli](https://github.com/JBZoo/Cli) package for the
+CLI interface.
 So there are options here for all occasions.
 
 
@@ -899,56 +899,277 @@ Optional format `text` with highlited keywords:
 
 **Notes**
 * Report format for GitHub Actions is `table` by default.
-* Tools uses [JBZoo/CI-Report-Converter](https://github.com/JBZoo/CI-Report-Converter) as SDK to convert reports to different formats. So you can easily integrate it with any CI system.
+* Tools uses [JBZoo/CI-Report-Converter](https://github.com/JBZoo/CI-Report-Converter) as SDK to convert reports to
+  different formats. So you can easily integrate it with any CI system.
+
+## Benchmarks
+
+Of course, you'll want to know how fast it works. The thing is, it depends very-very-very much on the following factors:
+
+* **The file size** - Width and height of the CSV file. The larger the dataset, the longer it will take to go through
+  it.
+  The dependence is linear and strongly depends on the speed of your hardware (CPU, SSD).
+* **Number of rules used** - Obviously, the more of them there are for one column, the more iterations you will have to
+  make.
+  Also remember that they do not depend on each other.
+* Some validation rules are very time or memory intensive. For the most part you won't notice this, but there are some
+  that are dramatically slow. For example, `interquartile_mean` processes about 4k lines per second, while the rest of
+  the rules are about 0.3-1 million lines per second.
+
+However, to get a rough picture, you can check out the table below.
+
+* All tests were run on a file size of `2 million lines` + 1 line for the header.
+* The results are based on the latest actual version using
+  [GitHub Actions](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/benchmark.yml) ([See workflow.yml](.github/workflows/benchmark.yml)).
+  At the link you will see considerably more different builds. We need them for different testing options/experiments.
+  Most representative values in `Docker (latest, XX)`.
+* Developer mode is used to display this information `-vvv --debug --profile`.
+* Software: Latest Ubuntu + Docker.
+  Also [see detail about GA hardware](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-private-repositories).
+* The main metric is the number of lines per second. Please note that the table is thousands of lines per second
+  (`100 K` = `100,000 lines per second`).
+* An additional metric is the peak RAM consumption over the entire time of the test case.
+
+Since usage profiles can vary, I've prepared a few profiles to cover most cases.
+
+* **[Quickest](tests/Benchmarks/bench_0_quickest_combo.yml)** - It check only one of the rule (cell or aggregation). I
+  picked the fastest rules.
+* **[Minimum](tests/Benchmarks/bench_1_mini_combo.yml)** - Normal rules with average performance, but 2 of each.
+* **[Realistic](tests/Benchmarks/bench_2_realistic_combo.yml)** - A mix of rules that are most likely to be used in real
+  life.
+* **[All aggregations at once](tests/Benchmarks/bench_3_all_agg.yml)** - All aggregation rules at once. This is the
+  worst-case scenario.
+
+Also, there is an additional division into
+
+* `Cell rules` - only rules applicable for each row/cell, 1000 lines per second.
+* `Agg rules` - only rules applicable for the whole column, 1000 lines per second.
+* `Cell + Agg` - a simultaneous combination of the previous two, 1000 lines per second.
+* `Peak Memory` - the maximum memory consumption during the test case, megabytes. **Important note:** This value is
+  only for the aggregation case. Since if you don't have aggregations, the peak memory usage will always be
+  no more than a couple megabytes.
+
+<!-- benchmark-table -->
+<table>
+<tr>
+   <td align="left"><b>File&nbsp/&nbspProfile</b><br></td>
+   <td align="left"><b>Metric</b><br></td>
+   <td align="left"><b>Quickest</b></td>
+   <td align="left"><b>Minimum</b></td>
+   <td align="left"><b>Realistic</b></td>
+   <td align="left"><b>All&nbspaggregations</b></td>
+</tr>
+<tr>
+   <td>Columns:&nbsp1<br>Size:&nbsp8.48&nbspMB<br><br><br></td>
+   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
+   <td align="right">
+586K,&nbsp3.4&nbspsec<br>
+802K,&nbsp2.5&nbspsec<br>
+474K,&nbsp4.2&nbspsec<br>
+52 MB
+</td>
+   <td align="right">
+320K,&nbsp6.3&nbspsec<br>
+755K,&nbsp2.6&nbspsec<br>
+274K,&nbsp7.3&nbspsec<br>
+68 MB
+</td>
+   <td align="right">
+171K,&nbsp11.7&nbspsec<br>
+532K,&nbsp3.8&nbspsec<br>
+142K,&nbsp14.1&nbspsec<br>
+208 MB
+</td>
+   <td align="right">
+794K,&nbsp2.5&nbspsec<br>
+142K,&nbsp14.1&nbspsec<br>
+121K,&nbsp16.5&nbspsec<br>
+272 MB
+</td>
+</tr>
+<tr>
+   <td>Columns:&nbsp5<br>Size:&nbsp64.04&nbspMB<br><br><br></td>
+   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
+   <td align="right">
+443K,&nbsp4.5&nbspsec<br>
+559K,&nbsp3.6&nbspsec<br>
+375K,&nbsp5.3&nbspsec<br>
+52 MB
+</td>
+   <td align="right">
+274K,&nbsp7.3&nbspsec<br>
+526K,&nbsp3.8&nbspsec<br>
+239K,&nbsp8.4&nbspsec<br>
+68 MB
+</td>
+   <td align="right">
+156K,&nbsp12.8&nbspsec<br>
+406K,&nbsp4.9&nbspsec<br>
+131K,&nbsp15.3&nbspsec<br>
+208 MB
+</td>
+   <td align="right">
+553K,&nbsp3.6&nbspsec<br>
+139K,&nbsp14.4&nbspsec<br>
+111K,&nbsp18&nbspsec<br>
+272 MB
+</td>
+</tr>
+<tr>
+   <td>Columns:&nbsp10<br>Size:&nbsp220.02&nbspMB<br><br><br></td>
+   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
+   <td align="right">
+276K,&nbsp7.2&nbspsec<br>
+314K,&nbsp6.4&nbspsec<br>
+247K,&nbsp8.1&nbspsec<br>
+52 MB
+</td>
+   <td align="right">
+197K,&nbsp10.2&nbspsec<br>
+308K,&nbsp6.5&nbspsec<br>
+178K,&nbsp11.2&nbspsec<br>
+68 MB
+</td>
+   <td align="right">
+129K,&nbsp15.5&nbspsec<br>
+262K,&nbsp7.6&nbspsec<br>
+111K,&nbsp18&nbspsec<br>
+208 MB
+</td>
+   <td align="right">
+311K,&nbsp6.4&nbspsec<br>
+142K,&nbsp14.1&nbspsec<br>
+97K,&nbsp20.6&nbspsec<br>
+272 MB
+</td>
+</tr>
+<tr>
+   <td>Columns:&nbsp20<br>Size:&nbsp1.18&nbspGB<br><br><br></td>
+   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
+   <td align="right">
+102K,&nbsp19.6&nbspsec<br>
+106K,&nbsp18.9&nbspsec<br>
+95K,&nbsp21.1&nbspsec<br>
+52 MB
+</td>
+   <td align="right">
+88K,&nbsp22.7&nbspsec<br>
+103K,&nbsp19.4&nbspsec<br>
+83K,&nbsp24.1&nbspsec<br>
+68 MB
+</td>
+   <td align="right">
+70K,&nbsp28.6&nbspsec<br>
+97K,&nbsp20.6&nbspsec<br>
+65K,&nbsp30.8&nbspsec<br>
+208 MB
+</td>
+   <td align="right">
+105K,&nbsp19&nbspsec<br>
+144K,&nbsp13.9&nbspsec<br>
+61K,&nbsp32.8&nbspsec<br>
+272 MB
+</td>
+</tr>
+</table>
+<!-- /benchmark-table -->
+
+### Brief conclusions
+
+* Cell rules are very CPU demanding, but use almost no RAM (always about 1-2 MB at peak).
+  The more of them there are, the longer it will take to validate a column, as they are additional actions per(!) value.
+
+* Aggregation rules - work lightning fast (from 10 millions to billions of rows per second), but require a lot of RAM.
+  On the other hand, if you add 20 different aggregation rules, the amount of memory consumed will not increase.
+
+* In fact, if you are willing to wait 30-60 seconds for a 1 GB file, and you have 200-500 MB of RAM,
+  I don't see the point in thinking about it at all.
+
+* No memory leaks have been detected.
+
+Btw, if you run the same tests on a MacBook 14" M2 Max 2023, the results are ~2 times better. On MacBook 2019 Intel
+2.4Gz about the same as on GitHub Actions. So I think the table can be considered an average (but too far from the best)
+hardware at the regular engineer.
+
+### Examples of CSV files
+
+Below you will find examples of CSV files that were used for the benchmarks. They were created
+with [PHP Faker](tests/Benchmarks/Commands/CreateCsv.php) (the first 2000 lines) and then
+copied [1000 times into themselves](tests/Benchmarks/create-csv.sh).
+
+<details>
+  <summary>Columns: 1, Size: 8.48 MB</summary>
+
+```csv
+id
+1
+2
+```
+
+</details>
 
 
-## Coming soon
+<details>
+  <summary>Columns: 5, Size: 64.04 MB</summary>
 
-It's random ideas and plans. No orderings and deadlines. <u>But batch processing is the priority #1</u>.
+```csv
+id,bool_int,bool_str,number,float
+1,0,false,289566,864360.14285714
+2,1,true,366276,444761.71428571
+```
 
-* **Batch processing**
-  * If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
-  * Flag to ignore file name pattern. It's useful when you have a lot of files, and you don't want to validate the file name.
+</details>
 
-* **Validation**
-  * `required` flag for the column.
-  * Multi values in one cell.
-  * Custom cell rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
-  * Custom agregate rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
-  * Configurable keyword for null/empty values. By default, it's an empty string. But you will use `null`, `nil`, `none`, `empty`, etc. Overridable on the column level.
-  * Handle empty files and files with only a header row, or only with one line of data. One column wthout header is also possible.
-  * Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas. Make it DRY and easy to maintain.
-  * If option `--schema` is not specified, then validate only super base level things (like "is it a CSV file?").
-  * Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
-  * Extending with custom rules and custom report formats. Plugins?
-  * Input encoding detection + `BOM` (right now it's experimental). It works but not so accurate... UTF-8/16/32 is the best choice for now.
 
-* **Performance and optimization**
-  * Benchmarks as part of the CI(?) and Readme. It's important to know how much time the validation process takes.
-  * Parallel validation of really-really large files (1GB+ ?). I know you have them and not so much memory.
-  * Parallel validation of multiple files at once.
+<details>
+  <summary>Columns: 10, Size: 220.02 MB</summary>
 
-* **Mock data generation**
-  * Create CSV files based on the schema (like "create 1000 rows with random data based on schema and rules").
-  * Use [Faker](https://github.com/FakerPHP/Faker) for random data generation.
-  * [ReverseRegex](https://github.com/enso-media/ReverseRegex) to generate text from regex.
+```csv
+id,bool_int,bool_str,number,float,date,datetime,domain,email,ip4
+1,1,true,779914,1101964.2857143,2011-02-04,"2000-03-02 00:33:57",erdman.net,germaine.brakus@yahoo.com,32.51.181.238
+2,0,true,405408,695839.42857143,1971-01-29,"1988-08-12 21:25:27",bode.com,tatyana.cremin@yahoo.com,76.79.155.73
+```
 
-* **Reporting**
-  * More report formats (like JSON, XML, etc). Any ideas?
-  * Gitlab and JUnit reports must be as one structure. It's not so easy to implement. But it's a good idea.
-  * Merge reports from multiple CSV files into one report. It's useful when you have a lot of files and you want to see all errors in one place. Especially for GitLab and JUnit reports.
+</details>
 
-* **Misc**
-  * Use it as PHP SDK. Examples in Readme.
-  * Warnings about deprecated options and features.
-  * Add option `--recomendation` to show a list of recommended rules for the schema or potential issues in the CSV file or schema. It's useful when you are not sure what rules to use.
-  * Add option `--error=[level]` to show only errors with a specific level. It's useful when you have a lot of warnings and you want to see only errors. 
-  * S3 Storage support. Validate files in the S3 bucket? Hmm... Why not? But...
-  * More examples and documentation.
 
- 
-PS. [There is a file](tests/schemas/todo.yml) with my ideas and imagination. It's not valid schema file, just a draft.
-I'm not sure if I will implement all of them. But I will try to do my best.
+<details>
+  <summary>Columns: 20, Size: 1.18 GB</summary>
+
+```csv
+id,bool_int,bool_str,number,float,date,datetime,domain,email,ip4,uuid,address,postcode,latitude,longitude,ip6,sentence_tiny,sentence_small,sentence_medium,sentence_huge
+1,1,false,884798,1078489.5714286,2006-02-09,"2015-12-07 22:59:06",gerhold.com,alisa93@barrows.com,173.231.203.134,5a2b6f01-0bac-35b2-bef1-5be7bb3c2d78,"776 Moises Coves Apt. 531; Port Rylan, DC 80810",10794,-69.908375,136.780034,78cb:75d9:4dd:8248:f190:9f3c:b0e:9afc,"Ea iusto non.","Qui sapiente qui ut nihil sit.","Modi et voluptate blanditiis aliquid iure eveniet voluptas facilis ipsum omnis velit.","Minima in molestiae nam ullam voluptatem sapiente corporis sunt in ut aut alias exercitationem incidunt fugiat doloribus laudantium ducimus iusto nemo assumenda non ratione neque labore voluptatem."
+2,0,false,267823,408705.14285714,1985-07-19,"1996-11-18 08:21:44",keebler.net,wwolff@connelly.com,73.197.210.145,29e076ab-a769-3a1f-abd4-2bc73ab17c99,"909 Sabryna Island Apt. 815; West Matteoside, CO 54360-7141",80948,7.908256,123.666864,bf3b:abab:3dcb:c335:b1a:b5d6:60e9:107e,"Aut dolor distinctio quasi.","Alias sit ut perferendis quod at dolores.","Molestiae est eos dolore deserunt atque temporibus.","Quisquam velit aut saepe temporibus officia labore quam numquam eveniet velit aliquid aut autem quis voluptatem in ut iste sunt omnis iure laudantium aspernatur tenetur nemo consequatur aliquid sint nostrum aut nostrum."
+```
+
+</details>
+
+### Run the benchmark locally
+
+Make sure you have PHP 8.1+ and Dooker installed.
+
+```shell
+# Clone the latest version
+git clone git@github.com:JBZoo/Csv-Blueprint.git csv-blueprint
+cd csv-blueprint
+
+# download dependencies and build the tool.
+make build              # We need it to build benchmark tool. See `./tests/Benchmarks` folder.
+make build-phar-file    # Optional. Only if you want to test it.
+make docker-build       # Recommended. local tag is "jbzoo/csv-blueprint:local"
+
+# Create random CSV files with 5 columns (max: 20).
+BENCH_COLS=5 make bench-create-csv
+
+# Run the benchmark for the recent CSV file.
+BENCH_COLS=5 make bench-docker # Recommended
+BENCH_COLS=5 make bench-phar
+BENCH_COLS=5 make bench-php
+
+# It's a shortcut that combines CSV file creation and Docker run.
+# By default BENCH_COLS=10
+make bench
+```
 
 
 ## Disadvantages?
@@ -956,6 +1177,7 @@ I'm not sure if I will implement all of them. But I will try to do my best.
 It is perceived that PHP is a slow language. I don't agree with that. You just need to know how to prepare it.
 See [Processing One Billion CSV rows in PHP!](https://dev.to/realflowcontrol/processing-one-billion-rows-in-php-3eg0).
 That is, if you do everything right, you can read, aggregate and calculate data from CSV at **~15 million lines per second**!
+Not all optimizations have been implemented at this time. But it already works fast enough.
 
 * Yeah-yeah. I know it's not the fastest tool in the world. But it's not the slowest either. See link above.
 * Yeah-yeah. I know it's PHP (not Python, Go, PySpark...). PHP is not the best language for such tasks.
@@ -974,12 +1196,80 @@ So... as strictly as possible in today's PHP world. I think it works as expected
 
 ## Interesting fact
 
-I've set a personal record. The first version was written from scratch in about 3 days (with really frequent breaks to take care of 4 month baby).
-I'm looking at the first commit and the very first git tag. I'd say over the weekend, in my spare time on my personal laptop.
-Well... AI was only used for this Readme file because I'm not very good at English. 🤔
+I've set a personal record. The [first version](https://github.com/JBZoo/Csv-Blueprint/releases/tag/0.1) was written
+from scratch in about 3 days (with really frequent breaks to take care of 4 month baby).
+I'm looking at the first commit and the very first git tag. I'd say over the weekend, in my spare time on my personal
+laptop. Well... AI was only used for this Readme file because I'm not very good at English. 🤔
 
 I seem to be typing fast and I had really great inspiration. I hope my wife doesn't divorce me. 😅
 
+## Coming soon
+
+It's random ideas and plans. No promises and deadlines. Feel free to [help me!](#contributing).
+
+<details>
+  <summary>Click to see the roadmap</summary>
+
+* **Batch processing**
+    * If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
+    * Flag to ignore file name pattern. It's useful when you have a lot of files, and you don't want to validate the
+      file name.
+
+* **Validation**
+    * `required` flag for the column.
+    * Multi values in one cell.
+    * Custom cell rule as a callback. It's useful when you have a complex rule that can't be described in the schema
+      file.
+    * Custom agregate rule as a callback. It's useful when you have a complex rule that can't be described in the schema
+      file.
+    * Configurable keyword for null/empty values. By default, it's an empty string. But you will
+      use `null`, `nil`, `none`, `empty`, etc. Overridable on the column level.
+    * Handle empty files and files with only a header row, or only with one line of data. One column wthout header is
+      also possible.
+    * Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas. Make
+      it DRY and easy to maintain.
+    * If option `--schema` is not specified, then validate only super base level things (like "is it a CSV file?").
+    * Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
+    * Extending with custom rules and custom report formats. Plugins?
+    * Input encoding detection + `BOM` (right now it's experimental). It works but not so accurate... UTF-8/16/32 is the
+      best choice for now.
+
+* **Performance and optimization**
+    * Using [vectors](https://www.php.net/manual/en/class.ds-vector.php) instead of arrays to optimaze memory usage
+      and speed of access.
+    * Parallel validation of schema by columns. You won't believe this, but modern PHP has multithreading support.
+    * Parallel validation of multiple files at once.
+
+* **Mock data generation**
+    * Create CSV files based on the schema (like "create 1000 rows with random data based on schema and rules").
+    * Use [Faker](https://github.com/FakerPHP/Faker) for random data generation.
+    * [ReverseRegex](https://github.com/enso-media/ReverseRegex) to generate text from regex.
+
+* **Analize CSV dataset**
+    * Calculate statistics for the column (like min, max, average, median, etc).
+    * Generate valid schema file based on the CSV file.
+
+* **Reporting**
+    * More report formats (like JSON, XML, etc). Any ideas?
+    * Gitlab and JUnit reports must be as one structure. It's not so easy to implement. But it's a good idea.
+    * Merge reports from multiple CSV files into one report. It's useful when you have a lot of files and you want to
+      see all errors in one place. Especially for GitLab and JUnit reports.
+
+* **Misc**
+    * Install via brew on MacOS.
+    * Install via apt on Ubuntu.
+    * Use it as PHP SDK. Examples in Readme.
+    * Warnings about deprecated options and features.
+    * Add option `--recomendation` to show a list of recommended rules for the schema or potential issues in the CSV
+      file or schema. It's useful when you are not sure what rules to use.
+    * Add option `--error=[level]` to show only errors with a specific level. It's useful when you have a lot of
+      warnings and you want to see only errors.
+    * S3 Storage support. Validate files in the S3 bucket? Hmm... Why not? But...
+    * More examples and documentation.
+
+PS. [There is a file](tests/schemas/todo.yml) with my ideas and imagination. It's not valid schema file, just a draft.
+I'm not sure if I will implement all of them. But I will try to do my best.
+</details>
 
 ## Contributing
 If you have any ideas or suggestions, feel free to open an issue or create a pull request.

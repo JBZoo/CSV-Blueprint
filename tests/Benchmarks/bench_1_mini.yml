@@ -13,11 +13,9 @@
 filename_pattern: /.csv$/i
 
 csv:
-  header: true
+  header: false
 
 columns:
-  - name: id
-    rules:
+  - rules:
       not_empty: true
-    aggregate_rules:
-      count: 0
+      is_int: true

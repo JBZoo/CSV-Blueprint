@@ -130,10 +130,89 @@ final class ReadmeTest extends TestCase
 
     public function testAdditionalValidationRules(): void
     {
-        $list = self::EXTRA_RULES;
         $list[] = '';
 
         $text = \implode("\n", self::EXTRA_RULES);
         Tools::insertInReadme('extra-rules', "\n{$text}\n");
+    }
+
+    public function testBenchmarkTable(): void
+    {
+        $nbsp = static fn (string $text): string => \str_replace(' ', '&nbsp', $text);
+        $numberOfLines = 2_000_000;
+
+        $columns = [
+            'Quickest',
+            'Minimum',
+            'Realistic',
+            'All aggregations',
+        ];
+
+        $table = [
+            'Columns: 1<br>Size: 8.48 MB' => [
+                [586, 802, 474, 52],
+                [320, 755, 274, 68],
+                [171, 532, 142, 208],
+                [794, 142, 121, 272],
+            ],
+            'Columns: 5<br>Size: 64.04 MB' => [
+                [443, 559, 375, 52],
+                [274, 526, 239, 68],
+                [156, 406, 131, 208],
+                [553, 139, 111, 272],
+            ],
+            'Columns: 10<br>Size: 220.02 MB' => [
+                [276, 314, 247, 52],
+                [197, 308, 178, 68],
+                [129, 262, 111, 208],
+                [311, 142, 97, 272],
+            ],
+            'Columns: 20<br>Size: 1.18 GB' => [
+                [102, 106, 95, 52],
+                [88, 103, 83, 68],
+                [70, 97, 65, 208],
+                [105, 144, 61, 272],
+            ],
+        ];
+
+        $output = ['<table>'];
+        $output[] = '<tr>';
+        $output[] = "   <td align=\"left\"><b>{$nbsp('File / Profile')}</b><br></td>";
+        $output[] = '   <td align="left"><b>Metric</b><br></td>';
+        foreach ($columns as $column) {
+            $output[] = "   <td align=\"left\"><b>{$nbsp($column)}</b></td>";
+        }
+        $output[] = '</tr>';
+
+        foreach ($table as $rowName => $row) {
+            $output[] = '<tr>';
+            $output[] = "   <td>{$nbsp($rowName)}<br><br><br></td>";
+            $output[] = '   <td>' . \implode('<br>', [
+                $nbsp('Cell rules'),
+                $nbsp('Agg rules'),
+                $nbsp('Cell + Agg'),
+                $nbsp('Peak Memory'),
+            ]) . '</td>';
+            foreach ($row as $values) {
+                $output[] = '   <td align="right">';
+                foreach ($values as $key => $value) {
+                    if ($key === 3) {
+                        $testRes = $value . ' MB';
+                    } else {
+                        $execTime = \round($numberOfLines / ($value * 1000), 1);
+                        $testRes = $nbsp("{$value}K, {$execTime} sec<br>");
+                    }
+
+                    $output[] = $testRes;
+                }
+
+                $output[] = '</td>';
+            }
+            $output[] = '</tr>';
+        }
+
+        $output[] = '</table>';
+
+        Tools::insertInReadme('benchmark-table', \implode("\n", $output));
     }
 }
