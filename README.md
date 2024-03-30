@@ -904,7 +904,7 @@ Optional format `text` with highlited keywords:
 ## Benchmarks
 
 <!-- benchmark-table -->
-<table width="100%">
+<table width="100%" style="wifth:100%">
 <tr valign="top">
 <th>File / Schema</th>
 <th>Metric</th>
