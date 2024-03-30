@@ -93,7 +93,11 @@ BENCH_ROWS_SRC    ?= 2000
 BENCH_CSV_PATH    := ./build/bench/$(BENCH_COLS)_$(BENCH_ROWS_SRC)_000.csv
 BENCH_CSV         := --csv='$(BENCH_CSV_PATH)'
 BENCH_FLAGS       := --debug --profile --report=text -vvv
-BENCH_SCHEMAS   := --schema='./tests/Benchmarks/bench_*.yml'
+BENCH_SCHEMAS_ALL := --schema='./tests/Benchmarks/bench_*.yml'
+BENCH_SCHEMAS_0   := --schema='./tests/Benchmarks/bench_0_*.yml'
+BENCH_SCHEMAS_1   := --schema='./tests/Benchmarks/bench_1_*.yml'
+BENCH_SCHEMAS_2   := --schema='./tests/Benchmarks/bench_2_*.yml'
+BENCH_SCHEMAS_3   := --schema='./tests/Benchmarks/bench_3_*.yml'
 
 
 bench: ##@Benchmarks Run all benchmarks
@@ -109,23 +113,37 @@ bench-create-csv: ##@Benchmarks Create CSV file
 
 
 bench-docker: ##@Benchmarks Run CSV file with Docker
+	@docker run --rm  $(DOCKER_IMAGE) --ansi --version
 	@echo "::group::Quickest"
-	-$(BLUEPRINT_DOCKER) $(BENCH_CSV) --schema='./tests/Benchmarks/bench_0_*.yml' $(BENCH_FLAGS)
+	-$(BLUEPRINT_DOCKER) $(BENCH_CSV) $(BENCH_SCHEMAS_0) $(BENCH_FLAGS)
 	@echo "::endgroup::"
 	@echo "::group::Minimum"
-	-$(BLUEPRINT_DOCKER) $(BENCH_CSV) --schema='./tests/Benchmarks/bench_1_*.yml' $(BENCH_FLAGS)
+	-$(BLUEPRINT_DOCKER) $(BENCH_CSV) $(BENCH_SCHEMAS_1) $(BENCH_FLAGS)
 	@echo "::endgroup::"
 	@echo "::group::Realistic"
-	-$(BLUEPRINT_DOCKER) $(BENCH_CSV) --schema='./tests/Benchmarks/bench_2_*.yml' $(BENCH_FLAGS)
+	-$(BLUEPRINT_DOCKER) $(BENCH_CSV) $(BENCH_SCHEMAS_2) $(BENCH_FLAGS)
 	@echo "::endgroup::"
 	@echo "::group::All aggregations at once"
-	-$(BLUEPRINT_DOCKER) $(BENCH_CSV) --schema='./tests/Benchmarks/bench_3_*.yml' $(BENCH_FLAGS)
+	-$(BLUEPRINT_DOCKER) $(BENCH_CSV) $(BENCH_SCHEMAS_3) $(BENCH_FLAGS)
 	@echo "::endgroup::"
 
 
 bench-phar: ##@Benchmarks Run CSV file with Phar
-	-$(BLUEPRINT_PHAR) $(BENCH_CSV) $(BENCH_SCHEMAS) $(BENCH_FLAGS)
+	./build/csv-blueprint.phar --ansi --version
+	@echo "::group::Quickest"
+	-$(BLUEPRINT_PHAR) $(BENCH_CSV) $(BENCH_SCHEMAS_0) $(BENCH_FLAGS)
+	@echo "::endgroup::"
+	@echo "::group::Minimum"
+	-$(BLUEPRINT_PHAR) $(BENCH_CSV) $(BENCH_SCHEMAS_1) $(BENCH_FLAGS)
+	@echo "::endgroup::"
+	@echo "::group::Realistic"
+	-$(BLUEPRINT_PHAR) $(BENCH_CSV) $(BENCH_SCHEMAS_2) $(BENCH_FLAGS)
+	@echo "::endgroup::"
+	@echo "::group::All aggregations at once"
+	-$(BLUEPRINT_PHAR) $(BENCH_CSV) $(BENCH_SCHEMAS_3) $(BENCH_FLAGS)
+	@echo "::endgroup::"
 
 
 bench-php: ##@Benchmarks Run CSV file with classic PHP binary
+	$(PHP_BIN) ./csv-blueprint --ansi --version
 	-$(BLUEPRINT) $(BENCH_CSV) $(BENCH_SCHEMAS) $(BENCH_FLAGS)
