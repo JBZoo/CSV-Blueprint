@@ -931,7 +931,7 @@ However, to get a rough picture, you can check out the table below.
 
 Since usage profiles can vary, I've prepared a few diagrams to cover most cases.
 
-* **[Fast](tests/Benchmarks/bench_0_quickest_combo.yml)** - It check only one of the rule (cell or aggregation). I
+* **[Quickest](tests/Benchmarks/bench_0_quickest_combo.yml)** - It check only one of the rule (cell or aggregation). I
   picked the fastest rules.
 * **[Minimum](tests/Benchmarks/bench_1_mini_combo.yml)** - Normal rules with average performance, but 2 of each.
 * **[Realistic](tests/Benchmarks/bench_2_realistic_combo.yml)** - A mix of rules that are most likely to be used in real
@@ -949,15 +949,15 @@ Also, there is an additional division into
 <!-- benchmark-table -->
 <table>
 <tr>
-   <td align="left"><b>File / Schema</b><br></th>
+   <td align="left"><b>File&nbsp/&nbspSchema</b><br></th>
    <td align="left"><b>Metric</b><br></th>
-   <td align="left"><b>Fast<br>1 quickest rule</b></th>
-   <td align="left"><b>Minimum<br>2 regular rules</b></th>
-   <td align="left"><b>Close to<br>real life</b></th>
-   <td align="left"><b>All aggregations<br>at once</b></th>
+   <td align="left"><b>Quickest</b></th>
+   <td align="left"><b>Minimum</b></th>
+   <td align="left"><b>Realistic</b></th>
+   <td align="left"><b>All&nbspaggregations</b></th>
 </tr>
 <tr>
-   <td>Columns: 1<br>Size: 8.48 MB<br><br><br></td>
+   <td>Columns:&nbsp1<br>Size:&nbsp8.48&nbspMB<br><br><br></td>
    <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMem</td>
    <td align="right">586&nbspK<br>802&nbspK<br>474&nbspK<br>52</td>
    <td align="right">320&nbspK<br>755&nbspK<br>274&nbspK<br>68</td>
@@ -965,7 +965,7 @@ Also, there is an additional division into
    <td align="right">794&nbspK<br>142&nbspK<br>121&nbspK<br>272</td>
 </tr>
 <tr>
-   <td>Columns: 5<br>Size: 64.04 MB<br><br><br></td>
+   <td>Columns:&nbsp5<br>Size:&nbsp64.04&nbspMB<br><br><br></td>
    <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMem</td>
    <td align="right">443&nbspK<br>559&nbspK<br>375&nbspK<br>52</td>
    <td align="right">274&nbspK<br>526&nbspK<br>239&nbspK<br>68</td>
@@ -973,7 +973,7 @@ Also, there is an additional division into
    <td align="right">553&nbspK<br>139&nbspK<br>111&nbspK<br>272</td>
 </tr>
 <tr>
-   <td>Columns: 10<br>Size: 220.02 MB<br><br><br></td>
+   <td>Columns:&nbsp10<br>Size:&nbsp220.02&nbspMB<br><br><br></td>
    <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMem</td>
    <td align="right">276&nbspK<br>314&nbspK<br>247&nbspK<br>52</td>
    <td align="right">197&nbspK<br>308&nbspK<br>178&nbspK<br>68</td>
@@ -981,7 +981,7 @@ Also, there is an additional division into
    <td align="right">311&nbspK<br>142&nbspK<br>97&nbspK<br>272</td>
 </tr>
 <tr>
-   <td>Columns: 20<br>Size: 1.18 GB<br><br><br></td>
+   <td>Columns:&nbsp20<br>Size:&nbsp1.18&nbspGB<br><br><br></td>
    <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMem</td>
    <td align="right">102&nbspK<br>106&nbspK<br>95&nbspK<br>52</td>
    <td align="right">88&nbspK<br>103&nbspK<br>83&nbspK<br>68</td>

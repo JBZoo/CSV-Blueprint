@@ -138,11 +138,13 @@ final class ReadmeTest extends TestCase
 
     public function testBenchmarkTable(): void
     {
+        $nbsp = static fn (string $text): string => \str_replace(' ', '&nbsp', $text);
+
         $columns = [
-            'Fast<br>1 quickest rule',
-            'Minimum<br>2 regular rules',
-            'Close to<br>real life',
-            'All aggregations<br>at once',
+            'Quickest',
+            'Minimum',
+            'Realistic',
+            'All aggregations',
         ];
 
         $table = [
@@ -174,19 +176,24 @@ final class ReadmeTest extends TestCase
 
         $output = ['<table>'];
         $output[] = '<tr>';
-        $output[] = '   <td align="left"><b>File / Schema</b><br></th>';
+        $output[] = "   <td align=\"left\"><b>{$nbsp('File / Schema')}</b><br></th>";
         $output[] = '   <td align="left"><b>Metric</b><br></th>';
         foreach ($columns as $column) {
-            $output[] = "   <td align=\"left\"><b>{$column}</b></th>";
+            $output[] = "   <td align=\"left\"><b>{$nbsp($column)}</b></th>";
         }
         $output[] = '</tr>';
 
         foreach ($table as $rowName => $row) {
             $output[] = '<tr>';
-            $output[] = "   <td>{$rowName}<br><br><br></td>";
-            $output[] = '   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMem</td>';
+            $output[] = "   <td>{$nbsp($rowName)}<br><br><br></td>";
+            $output[] = '   <td>' . \implode('<br>', [
+                $nbsp('Cell rules'),
+                $nbsp('Agg rules'),
+                $nbsp('Cell + Agg'),
+                $nbsp('Peak Mem'),
+            ]) . '</td>';
             foreach ($row as $values) {
-                $output[] = '   <td align="right">' . \implode('&nbspK<br>', $values) . '</td>';
+                $output[] = '   <td align="right">' . $nbsp(\implode(' K<br>', $values)) . '</td>';
             }
             $output[] = '</tr>';
         }
