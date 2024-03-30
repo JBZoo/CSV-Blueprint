@@ -138,30 +138,32 @@ final class ReadmeTest extends TestCase
 
     public function testBenchmarkTable(): void
     {
+        $columns = ['Quickest', 'Minimum', 'Realistic', 'All aggregations at once'];
+
         $table = [
             'Columns: 1<br>Size: 8.48 MB' => [
-                'Quickest'  => [586, 802, 474, 52],
-                'Minimum'   => [320, 755, 274, 68],
-                'Realistic' => [171, 532, 142, 208],
-                'All Rules' => [794, 142, 121, 272],
+                [586, 802, 474, 52],
+                [320, 755, 274, 68],
+                [171, 532, 142, 208],
+                [794, 142, 121, 272],
             ],
             'Columns: 5<br>Size: 64.04 MB' => [
-                'Quickest'  => [443, 559, 375, 52],
-                'Minimum'   => [274, 526, 239, 68],
-                'Realistic' => [156, 406, 131, 208],
-                'All Rules' => [553, 139, 111, 272],
+                [443, 559, 375, 52],
+                [274, 526, 239, 68],
+                [156, 406, 131, 208],
+                [553, 139, 111, 272],
             ],
             'Columns: 10<br>Size: 220.02 MB' => [
-                'Quickest'  => [276, 314, 247, 52],
-                'Minimum'   => [197, 308, 178, 68],
-                'Realistic' => [129, 262, 111, 208],
-                'All Rules' => [311, 142, 97, 272],
+                [276, 314, 247, 52],
+                [197, 308, 178, 68],
+                [129, 262, 111, 208],
+                [311, 142, 97, 272],
             ],
             'Columns: 20<br>Size: 1.18 GB' => [
-                'Quickest'  => [102, 106, 95, 52],
-                'Minimum'   => [88, 103, 83, 68],
-                'Realistic' => [70, 97, 65, 208],
-                'All Rules' => [105, 144, 61, 272],
+                [102, 106, 95, 52],
+                [88, 103, 83, 68],
+                [70, 97, 65, 208],
+                [105, 144, 61, 272],
             ],
         ];
 
@@ -169,8 +171,8 @@ final class ReadmeTest extends TestCase
         $output[] = '<tr>';
         $output[] = '   <td align="left"><b>File / Schema</b></th>';
         $output[] = '   <td align="left"><b>Metric</b></th>';
-        foreach (\array_keys(\reset($table)) as $title) {
-            $output[] = "   <td align=\"left\"><b>{$title}</b></th>";
+        foreach ($columns as $column) {
+            $output[] = "   <td align=\"left\"><b>{$column}</b></th>";
         }
         $output[] = '</tr>';
 
