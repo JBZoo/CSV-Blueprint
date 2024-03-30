@@ -139,6 +139,13 @@ final class ReadmeTest extends TestCase
     public function testBenchmarkTable(): void
     {
         $nbsp = static fn (string $text): string => \str_replace(' ', '&nbsp', $text);
+        $timeFormat = static fn (float $time): string => \str_pad(
+            \number_format($time, 1) . ' sec',
+            8,
+            ' ',
+            \STR_PAD_LEFT,
+        );
+
         $numberOfLines = 2_000_000;
 
         $columns = [
@@ -149,25 +156,25 @@ final class ReadmeTest extends TestCase
         ];
 
         $table = [
-            'Columns: 1<br>Size: 8.48 MB' => [
+            'Columns: 1<br>Size: ~8 MB' => [
                 [586, 802, 474, 52],
                 [320, 755, 274, 68],
                 [171, 532, 142, 208],
                 [794, 142, 121, 272],
             ],
-            'Columns: 5<br>Size: 64.04 MB' => [
+            'Columns: 5<br>Size: 64 MB' => [
                 [443, 559, 375, 52],
                 [274, 526, 239, 68],
                 [156, 406, 131, 208],
                 [553, 139, 111, 272],
             ],
-            'Columns: 10<br>Size: 220.02 MB' => [
+            'Columns: 10<br>Size: 220 MB' => [
                 [276, 314, 247, 52],
                 [197, 308, 178, 68],
                 [129, 262, 111, 208],
                 [311, 142, 97, 272],
             ],
-            'Columns: 20<br>Size: 1.18 GB' => [
+            'Columns: 20<br>Size: 1.2 GB' => [
                 [102, 106, 95, 52],
                 [88, 103, 83, 68],
                 [70, 97, 65, 208],
@@ -199,8 +206,8 @@ final class ReadmeTest extends TestCase
                     if ($key === 3) {
                         $testRes = $value . ' MB';
                     } else {
-                        $execTime = \round($numberOfLines / ($value * 1000), 1);
-                        $testRes = $nbsp("{$value}K, {$execTime} sec<br>");
+                        $execTime = $timeFormat($numberOfLines / ($value * 1000));
+                        $testRes = $nbsp("{$value}K, {$execTime}<br>");
                     }
 
                     $output[] = $testRes;

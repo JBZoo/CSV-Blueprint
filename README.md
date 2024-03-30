@@ -96,6 +96,9 @@ This part of the readme is also covered by autotests, so these code are always u
 
 In any unclear situation, look into it first.
 
+<details>
+  <summary>CLICK HERE to see the most complete description of ALL features!</summary>
+
 <!-- full-yml -->
 ```yml
 # It's a complete example of the CSV schema file in YAML format.
@@ -649,6 +652,7 @@ columns:
 ```
 <!-- /full-yml -->
 
+</details>
 
 ### Extra checks
 
@@ -907,14 +911,13 @@ Optional format `text` with highlited keywords:
 Of course, you'll want to know how fast it works. The thing is, it depends very-very-very much on the following factors:
 
 * **The file size** - Width and height of the CSV file. The larger the dataset, the longer it will take to go through
-  it.
-  The dependence is linear and strongly depends on the speed of your hardware (CPU, SSD).
+  it. The dependence is linear and strongly depends on the speed of your hardware (CPU, SSD).
 * **Number of rules used** - Obviously, the more of them there are for one column, the more iterations you will have to
-  make.
-  Also remember that they do not depend on each other.
+  make. Also remember that they do not depend on each other. I.e. execution of one rule will not optimize or slow down
+  another rule in any way. In fact, it will be just summing up time and memory resources.
 * Some validation rules are very time or memory intensive. For the most part you won't notice this, but there are some
   that are dramatically slow. For example, `interquartile_mean` processes about 4k lines per second, while the rest of
-  the rules are about 0.3-1 million lines per second.
+  the rules are about 30+ millions lines per second.
 
 However, to get a rough picture, you can check out the table below.
 
@@ -927,7 +930,7 @@ However, to get a rough picture, you can check out the table below.
 * Software: Latest Ubuntu + Docker.
   Also [see detail about GA hardware](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-private-repositories).
 * The main metric is the number of lines per second. Please note that the table is thousands of lines per second
-  (`100 K` = `100,000 lines per second`).
+  (`100K` = `100,000 lines per second`).
 * An additional metric is the peak RAM consumption over the entire time of the test case.
 
 Since usage profiles can vary, I've prepared a few profiles to cover most cases.
@@ -937,17 +940,20 @@ Since usage profiles can vary, I've prepared a few profiles to cover most cases.
 * **[Minimum](tests/Benchmarks/bench_1_mini_combo.yml)** - Normal rules with average performance, but 2 of each.
 * **[Realistic](tests/Benchmarks/bench_2_realistic_combo.yml)** - A mix of rules that are most likely to be used in real
   life.
-* **[All aggregations at once](tests/Benchmarks/bench_3_all_agg.yml)** - All aggregation rules at once. This is the
+* **[All aggregations](tests/Benchmarks/bench_3_all_agg.yml)** - All aggregation rules at once. This is the
   worst-case scenario.
 
 Also, there is an additional division into
 
-* `Cell rules` - only rules applicable for each row/cell, 1000 lines per second.
-* `Agg rules` - only rules applicable for the whole column, 1000 lines per second.
-* `Cell + Agg` - a simultaneous combination of the previous two, 1000 lines per second.
-* `Peak Memory` - the maximum memory consumption during the test case, megabytes. **Important note:** This value is
-  only for the aggregation case. Since if you don't have aggregations, the peak memory usage will always be
-  no more than a couple megabytes.
+* `Cell rules` - only rules applicable for each row/cell.
+* `Agg rules` - only rules applicable for the whole column.
+* `Cell + Agg` - a simultaneous combination of the previous two.
+* `Peak Memory` - the maximum memory consumption during the test case.
+
+**Important note:** `Peak Memory` value is only for the aggregation case. Since if you don't have aggregations,
+the peak memory usage will always be no more than 2-4 megabytes. No memory leaks!
+It doesn't depend on the number of rules or the size of CSV file.
+
 
 <!-- benchmark-table -->
 <table>
@@ -960,91 +966,91 @@ Also, there is an additional division into
    <td align="left"><b>All&nbspaggregations</b></td>
 </tr>
 <tr>
-   <td>Columns:&nbsp1<br>Size:&nbsp8.48&nbspMB<br><br><br></td>
+   <td>Columns:&nbsp1<br>Size:&nbsp~8&nbspMB<br><br><br></td>
    <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
    <td align="right">
-586K,&nbsp3.4&nbspsec<br>
-802K,&nbsp2.5&nbspsec<br>
-474K,&nbsp4.2&nbspsec<br>
+586K,&nbsp&nbsp3.4&nbspsec<br>
+802K,&nbsp&nbsp2.5&nbspsec<br>
+474K,&nbsp&nbsp4.2&nbspsec<br>
 52 MB
 </td>
    <td align="right">
-320K,&nbsp6.3&nbspsec<br>
-755K,&nbsp2.6&nbspsec<br>
-274K,&nbsp7.3&nbspsec<br>
+320K,&nbsp&nbsp6.3&nbspsec<br>
+755K,&nbsp&nbsp2.6&nbspsec<br>
+274K,&nbsp&nbsp7.3&nbspsec<br>
 68 MB
 </td>
    <td align="right">
 171K,&nbsp11.7&nbspsec<br>
-532K,&nbsp3.8&nbspsec<br>
+532K,&nbsp&nbsp3.8&nbspsec<br>
 142K,&nbsp14.1&nbspsec<br>
 208 MB
 </td>
    <td align="right">
-794K,&nbsp2.5&nbspsec<br>
+794K,&nbsp&nbsp2.5&nbspsec<br>
 142K,&nbsp14.1&nbspsec<br>
 121K,&nbsp16.5&nbspsec<br>
 272 MB
 </td>
 </tr>
 <tr>
-   <td>Columns:&nbsp5<br>Size:&nbsp64.04&nbspMB<br><br><br></td>
+   <td>Columns:&nbsp5<br>Size:&nbsp64&nbspMB<br><br><br></td>
    <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
    <td align="right">
-443K,&nbsp4.5&nbspsec<br>
-559K,&nbsp3.6&nbspsec<br>
-375K,&nbsp5.3&nbspsec<br>
+443K,&nbsp&nbsp4.5&nbspsec<br>
+559K,&nbsp&nbsp3.6&nbspsec<br>
+375K,&nbsp&nbsp5.3&nbspsec<br>
 52 MB
 </td>
    <td align="right">
-274K,&nbsp7.3&nbspsec<br>
-526K,&nbsp3.8&nbspsec<br>
-239K,&nbsp8.4&nbspsec<br>
+274K,&nbsp&nbsp7.3&nbspsec<br>
+526K,&nbsp&nbsp3.8&nbspsec<br>
+239K,&nbsp&nbsp8.4&nbspsec<br>
 68 MB
 </td>
    <td align="right">
 156K,&nbsp12.8&nbspsec<br>
-406K,&nbsp4.9&nbspsec<br>
+406K,&nbsp&nbsp4.9&nbspsec<br>
 131K,&nbsp15.3&nbspsec<br>
 208 MB
 </td>
    <td align="right">
-553K,&nbsp3.6&nbspsec<br>
+553K,&nbsp&nbsp3.6&nbspsec<br>
 139K,&nbsp14.4&nbspsec<br>
-111K,&nbsp18&nbspsec<br>
+111K,&nbsp18.0&nbspsec<br>
 272 MB
 </td>
 </tr>
 <tr>
-   <td>Columns:&nbsp10<br>Size:&nbsp220.02&nbspMB<br><br><br></td>
+   <td>Columns:&nbsp10<br>Size:&nbsp220&nbspMB<br><br><br></td>
    <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
    <td align="right">
-276K,&nbsp7.2&nbspsec<br>
-314K,&nbsp6.4&nbspsec<br>
-247K,&nbsp8.1&nbspsec<br>
+276K,&nbsp&nbsp7.2&nbspsec<br>
+314K,&nbsp&nbsp6.4&nbspsec<br>
+247K,&nbsp&nbsp8.1&nbspsec<br>
 52 MB
 </td>
    <td align="right">
 197K,&nbsp10.2&nbspsec<br>
-308K,&nbsp6.5&nbspsec<br>
+308K,&nbsp&nbsp6.5&nbspsec<br>
 178K,&nbsp11.2&nbspsec<br>
 68 MB
 </td>
    <td align="right">
 129K,&nbsp15.5&nbspsec<br>
-262K,&nbsp7.6&nbspsec<br>
-111K,&nbsp18&nbspsec<br>
+262K,&nbsp&nbsp7.6&nbspsec<br>
+111K,&nbsp18.0&nbspsec<br>
 208 MB
 </td>
    <td align="right">
-311K,&nbsp6.4&nbspsec<br>
+311K,&nbsp&nbsp6.4&nbspsec<br>
 142K,&nbsp14.1&nbspsec<br>
 97K,&nbsp20.6&nbspsec<br>
 272 MB
 </td>
 </tr>
 <tr>
-   <td>Columns:&nbsp20<br>Size:&nbsp1.18&nbspGB<br><br><br></td>
+   <td>Columns:&nbsp20<br>Size:&nbsp1.2&nbspGB<br><br><br></td>
    <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
    <td align="right">
 102K,&nbsp19.6&nbspsec<br>
@@ -1065,7 +1071,7 @@ Also, there is an additional division into
 208 MB
 </td>
    <td align="right">
-105K,&nbsp19&nbspsec<br>
+105K,&nbsp19.0&nbspsec<br>
 144K,&nbsp13.9&nbspsec<br>
 61K,&nbsp32.8&nbspsec<br>
 272 MB
@@ -1074,28 +1080,39 @@ Also, there is an additional division into
 </table>
 <!-- /benchmark-table -->
 
+Btw, if you run the same tests on a MacBook 14" M2 Max 2023, the results are ~2 times better. On MacBook 2019 Intel
+2.4Gz about the same as on GitHub Actions. So I think the table can be considered an average (but too far from the best)
+hardware at the regular engineer.
+
 ### Brief conclusions
 
 * Cell rules are very CPU demanding, but use almost no RAM (always about 1-2 MB at peak).
   The more of them there are, the longer it will take to validate a column, as they are additional actions per(!) value.
 
 * Aggregation rules - work lightning fast (from 10 millions to billions of rows per second), but require a lot of RAM.
-  On the other hand, if you add 20 different aggregation rules, the amount of memory consumed will not increase.
+  On the other hand, if you add 100+ different aggregation rules, the amount of memory consumed will not increase too
+  much.
+
+* Unfortunately, not all PHP array functions can work by reference (`&$var`).
+  This is a very individual thing that depends on the algorithm.
+  So if a dataset in a column is 20 MB sometimes it is copied and the peak value becomes 40 (this is just an example).
+  That's why link optimization doesn't work most of the time.
 
 * In fact, if you are willing to wait 30-60 seconds for a 1 GB file, and you have 200-500 MB of RAM,
   I don't see the point in thinking about it at all.
 
 * No memory leaks have been detected.
 
-Btw, if you run the same tests on a MacBook 14" M2 Max 2023, the results are ~2 times better. On MacBook 2019 Intel
-2.4Gz about the same as on GitHub Actions. So I think the table can be considered an average (but too far from the best)
-hardware at the regular engineer.
 
 ### Examples of CSV files
 
 Below you will find examples of CSV files that were used for the benchmarks. They were created
 with [PHP Faker](tests/Benchmarks/Commands/CreateCsv.php) (the first 2000 lines) and then
-copied [1000 times into themselves](tests/Benchmarks/create-csv.sh).
+copied [1000 times into themselves](tests/Benchmarks/create-csv.sh). So we can create a really huge random files in
+seconds.
+
+The basic principle is that the more columns there are, the longer the values in them. I.e. something like exponential
+growth.
 
 <details>
   <summary>Columns: 1, Size: 8.48 MB</summary>
@@ -1110,7 +1127,7 @@ id
 
 
 <details>
-  <summary>Columns: 5, Size: 64.04 MB</summary>
+  <summary>Columns: 5, Size: 64 MB</summary>
 
 ```csv
 id,bool_int,bool_str,number,float
@@ -1122,7 +1139,7 @@ id,bool_int,bool_str,number,float
 
 
 <details>
-  <summary>Columns: 10, Size: 220.02 MB</summary>
+  <summary>Columns: 10, Size: 220 MB</summary>
 
 ```csv
 id,bool_int,bool_str,number,float,date,datetime,domain,email,ip4
@@ -1134,7 +1151,7 @@ id,bool_int,bool_str,number,float,date,datetime,domain,email,ip4
 
 
 <details>
-  <summary>Columns: 20, Size: 1.18 GB</summary>
+  <summary>Columns: 20, Size: 12 GB</summary>
 
 ```csv
 id,bool_int,bool_str,number,float,date,datetime,domain,email,ip4,uuid,address,postcode,latitude,longitude,ip6,sentence_tiny,sentence_small,sentence_medium,sentence_huge
@@ -1144,7 +1161,7 @@ id,bool_int,bool_str,number,float,date,datetime,domain,email,ip4,uuid,address,po
 
 </details>
 
-### Run the benchmark locally
+### Run benchmark locally
 
 Make sure you have PHP 8.1+ and Dooker installed.
 
@@ -1274,7 +1291,7 @@ I'm not sure if I will implement all of them. But I will try to do my best.
 ## Contributing
 If you have any ideas or suggestions, feel free to open an issue or create a pull request.
 
-```sh
+```shell
 # Fork the repo and build project
 git clone git@github.com:jbzoo/csv-blueprint.git ./jbzoo-csv-blueprint
 cd ./jbzoo-csv-blueprint
