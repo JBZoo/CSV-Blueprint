@@ -96,6 +96,9 @@ This part of the readme is also covered by autotests, so these code are always u
 
 In any unclear situation, look into it first.
 
+<details>
+  <summary>CLICK HERE to see the most complete description of ALL features!</summary>
+
 <!-- full-yml -->
 ```yml
 # It's a complete example of the CSV schema file in YAML format.
@@ -649,6 +652,7 @@ columns:
 ```
 <!-- /full-yml -->
 
+</details>
 
 ### Extra checks
 
@@ -937,7 +941,7 @@ Since usage profiles can vary, I've prepared a few profiles to cover most cases.
 * **[Minimum](tests/Benchmarks/bench_1_mini_combo.yml)** - Normal rules with average performance, but 2 of each.
 * **[Realistic](tests/Benchmarks/bench_2_realistic_combo.yml)** - A mix of rules that are most likely to be used in real
   life.
-* **[All aggregations at once](tests/Benchmarks/bench_3_all_agg.yml)** - All aggregation rules at once. This is the
+* **[All aggregations](tests/Benchmarks/bench_3_all_agg.yml)** - All aggregation rules at once. This is the
   worst-case scenario.
 
 Also, there is an additional division into
