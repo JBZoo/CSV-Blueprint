@@ -945,7 +945,9 @@ Also, there is an additional division into
 * `Cell rules` - only rules applicable for each row/cell, 1000 lines per second.
 * `Agg rules` - only rules applicable for the whole column, 1000 lines per second.
 * `Cell + Agg` - a simultaneous combination of the previous two, 1000 lines per second.
-* `Peak Memory` - the maximum memory consumption during the test case, megabytes.
+* `Peak Memory` - the maximum memory consumption during the test case, megabytes. **Important note:** This value is
+  only for the aggregation case. Since if you don't have aggregations, the peak memory usage will always be
+  no more than a couple megabytes.
 
 <!-- benchmark-table -->
 <table>
@@ -1071,6 +1073,19 @@ Also, there is an additional division into
 </tr>
 </table>
 <!-- /benchmark-table -->
+
+### Brief conclusions
+
+* Cell rules are very CPU demanding, but use almost no RAM (always about 1-2 MB at peak).
+  The more of them there are, the longer it will take to validate a column, as they are additional actions per(!) value.
+
+* Aggregation rules - work lightning fast (from 10 millions to billions of rows per second), but require a lot of RAM.
+  On the other hand, if you add 20 different aggregation rules, the amount of memory consumed will not increase.
+
+* In fact, if you are willing to wait 30-60 seconds for a 1 GB file, and you have 200-500 MB of RAM,
+  I don't see the point in thinking about it at all.
+
+* No memory leaks have been detected.
 
 Btw, if you run the same tests on a MacBook 14" M2 Max 2023, the results are ~2 times better. On MacBook 2019 Intel
 2.4Gz about the same as on GitHub Actions. So I think the table can be considered an average (but too far from the best)
