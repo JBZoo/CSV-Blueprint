@@ -969,27 +969,27 @@ It doesn't depend on the number of rules or the size of CSV file.
    <td>Columns:&nbsp1<br>Size:&nbsp~8&nbspMB<br><br><br></td>
    <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
    <td align="right">
-586K,&nbsp&nbsp3.4&nbspsec<br>
-802K,&nbsp&nbsp2.5&nbspsec<br>
-474K,&nbsp&nbsp4.2&nbspsec<br>
+786K,&nbsp&nbsp2.5&nbspsec<br>
+1187K,&nbsp&nbsp1.7&nbspsec<br>
+762K,&nbsp&nbsp2.6&nbspsec<br>
 52 MB
 </td>
    <td align="right">
-320K,&nbsp&nbsp6.3&nbspsec<br>
-755K,&nbsp&nbsp2.6&nbspsec<br>
-274K,&nbsp&nbsp7.3&nbspsec<br>
+386K,&nbsp&nbsp5.2&nbspsec<br>
+1096K,&nbsp&nbsp1.8&nbspsec<br>
+373K,&nbsp&nbsp5.4&nbspsec<br>
 68 MB
 </td>
    <td align="right">
-171K,&nbsp11.7&nbspsec<br>
-532K,&nbsp&nbsp3.8&nbspsec<br>
-142K,&nbsp14.1&nbspsec<br>
+189K,&nbsp10.6&nbspsec<br>
+667K,&nbsp&nbsp3.0&nbspsec<br>
+167K,&nbsp12.0&nbspsec<br>
 208 MB
 </td>
    <td align="right">
-794K,&nbsp&nbsp2.5&nbspsec<br>
-142K,&nbsp14.1&nbspsec<br>
-121K,&nbsp16.5&nbspsec<br>
+184K,&nbsp10.9&nbspsec<br>
+96K,&nbsp20.8&nbspsec<br>
+63K,&nbsp31.7&nbspsec<br>
 272 MB
 </td>
 </tr>
@@ -997,27 +997,27 @@ It doesn't depend on the number of rules or the size of CSV file.
    <td>Columns:&nbsp5<br>Size:&nbsp64&nbspMB<br><br><br></td>
    <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
    <td align="right">
-443K,&nbsp&nbsp4.5&nbspsec<br>
-559K,&nbsp&nbsp3.6&nbspsec<br>
-375K,&nbsp&nbsp5.3&nbspsec<br>
+545K,&nbsp&nbsp3.7&nbspsec<br>
+714K,&nbsp&nbsp2.8&nbspsec<br>
+538K,&nbsp&nbsp3.7&nbspsec<br>
 52 MB
 </td>
    <td align="right">
-274K,&nbsp&nbsp7.3&nbspsec<br>
-526K,&nbsp&nbsp3.8&nbspsec<br>
-239K,&nbsp&nbsp8.4&nbspsec<br>
+319K,&nbsp&nbsp6.3&nbspsec<br>
+675K,&nbsp&nbsp3.0&nbspsec<br>
+308K,&nbsp&nbsp6.5&nbspsec<br>
 68 MB
 </td>
    <td align="right">
-156K,&nbsp12.8&nbspsec<br>
-406K,&nbsp&nbsp4.9&nbspsec<br>
-131K,&nbsp15.3&nbspsec<br>
+174K,&nbsp11.5&nbspsec<br>
+486K,&nbsp&nbsp4.1&nbspsec<br>
+154K,&nbsp13.0&nbspsec<br>
 208 MB
 </td>
    <td align="right">
-553K,&nbsp&nbsp3.6&nbspsec<br>
-139K,&nbsp14.4&nbspsec<br>
-111K,&nbsp18.0&nbspsec<br>
+168K,&nbsp11.9&nbspsec<br>
+96K,&nbsp20.8&nbspsec<br>
+61K,&nbsp32.8&nbspsec<br>
 272 MB
 </td>
 </tr>
@@ -1025,27 +1025,27 @@ It doesn't depend on the number of rules or the size of CSV file.
    <td>Columns:&nbsp10<br>Size:&nbsp220&nbspMB<br><br><br></td>
    <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
    <td align="right">
-276K,&nbsp&nbsp7.2&nbspsec<br>
-314K,&nbsp&nbsp6.4&nbspsec<br>
-247K,&nbsp&nbsp8.1&nbspsec<br>
+311K,&nbsp&nbsp6.4&nbspsec<br>
+362K,&nbsp&nbsp5.5&nbspsec<br>
+307K,&nbsp&nbsp6.5&nbspsec<br>
 52 MB
 </td>
    <td align="right">
-197K,&nbsp10.2&nbspsec<br>
-308K,&nbsp&nbsp6.5&nbspsec<br>
-178K,&nbsp11.2&nbspsec<br>
+221K,&nbsp&nbsp9.0&nbspsec<br>
+354K,&nbsp&nbsp5.6&nbspsec<br>
+215K,&nbsp&nbsp9.3&nbspsec<br>
 68 MB
 </td>
    <td align="right">
-129K,&nbsp15.5&nbspsec<br>
-262K,&nbsp&nbsp7.6&nbspsec<br>
-111K,&nbsp18.0&nbspsec<br>
+137K,&nbsp14.6&nbspsec<br>
+294K,&nbsp&nbsp6.8&nbspsec<br>
+125K,&nbsp16.0&nbspsec<br>
 208 MB
 </td>
    <td align="right">
-311K,&nbsp&nbsp6.4&nbspsec<br>
-142K,&nbsp14.1&nbspsec<br>
-97K,&nbsp20.6&nbspsec<br>
+135K,&nbsp14.8&nbspsec<br>
+96K,&nbsp20.8&nbspsec<br>
+56K,&nbsp35.7&nbspsec<br>
 272 MB
 </td>
 </tr>
@@ -1053,27 +1053,27 @@ It doesn't depend on the number of rules or the size of CSV file.
    <td>Columns:&nbsp20<br>Size:&nbsp1.2&nbspGB<br><br><br></td>
    <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
    <td align="right">
+103K,&nbsp19.4&nbspsec<br>
+108K,&nbsp18.5&nbspsec<br>
 102K,&nbsp19.6&nbspsec<br>
-106K,&nbsp18.9&nbspsec<br>
-95K,&nbsp21.1&nbspsec<br>
 52 MB
 </td>
    <td align="right">
-88K,&nbsp22.7&nbspsec<br>
-103K,&nbsp19.4&nbspsec<br>
-83K,&nbsp24.1&nbspsec<br>
+91K,&nbsp22.0&nbspsec<br>
+107K,&nbsp18.7&nbspsec<br>
+89K,&nbsp22.5&nbspsec<br>
 68 MB
 </td>
    <td align="right">
-70K,&nbsp28.6&nbspsec<br>
-97K,&nbsp20.6&nbspsec<br>
-65K,&nbsp30.8&nbspsec<br>
+72K,&nbsp27.8&nbspsec<br>
+101K,&nbsp19.8&nbspsec<br>
+69K,&nbsp29.0&nbspsec<br>
 208 MB
 </td>
    <td align="right">
-105K,&nbsp19.0&nbspsec<br>
-144K,&nbsp13.9&nbspsec<br>
-61K,&nbsp32.8&nbspsec<br>
+71K,&nbsp28.2&nbspsec<br>
+96K,&nbsp20.8&nbspsec<br>
+41K,&nbsp48.8&nbspsec<br>
 272 MB
 </td>
 </tr>
