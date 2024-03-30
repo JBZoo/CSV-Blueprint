@@ -139,6 +139,7 @@ final class ReadmeTest extends TestCase
     public function testBenchmarkTable(): void
     {
         $nbsp = static fn (string $text): string => \str_replace(' ', '&nbsp', $text);
+        $extraWidth = \str_repeat('&nbsp', 15);
 
         $columns = [
             'Quickest',
@@ -176,8 +177,8 @@ final class ReadmeTest extends TestCase
 
         $output = ['<table>'];
         $output[] = '<tr>';
-        $output[] = "   <td align=\"left\"><b>{$nbsp('File / Schema')}</b><br></th>";
-        $output[] = '   <td align="left"><b>Metric</b><br></th>';
+        $output[] = "   <td align=\"left\"><b>{$nbsp('File / Schema')}</b>{$extraWidth}<br></th>";
+        $output[] = "   <td align=\"left\"><b>Metric</b>{$extraWidth}<br></th>";
         foreach ($columns as $column) {
             $output[] = "   <td align=\"left\"><b>{$nbsp($column)}</b></th>";
         }

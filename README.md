@@ -949,8 +949,8 @@ Also, there is an additional division into
 <!-- benchmark-table -->
 <table>
 <tr>
-   <td align="left"><b>File&nbsp/&nbspSchema</b><br></th>
-   <td align="left"><b>Metric</b><br></th>
+   <td align="left"><b>File&nbsp/&nbspSchema</b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<br></th>
+   <td align="left"><b>Metric</b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<br></th>
    <td align="left"><b>Quickest</b></th>
    <td align="left"><b>Minimum</b></th>
    <td align="left"><b>Realistic</b></th>
