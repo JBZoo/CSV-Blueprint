@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
+use Ds\Vector;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 
 final class IsUnique extends AbstractAggregateRule
@@ -30,13 +31,13 @@ final class IsUnique extends AbstractAggregateRule
         ];
     }
 
-    public function validateRule(array $columnValues): ?string
+    public function validateRule(Vector $columnValues): ?string
     {
         if (\count($columnValues) === 0) {
             return null;
         }
 
-        $uValuesCount = \count(\array_unique($columnValues));
+        $uValuesCount = \count(\array_unique($columnValues->toArray()));
         $valuesCount = \count($columnValues);
 
         if ($uValuesCount !== $valuesCount) {

@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
+use Ds\Vector;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use JBZoo\CsvBlueprint\Rules\AbstarctRuleCombo;
 
@@ -23,7 +24,7 @@ abstract class AbstractAggregateRuleCombo extends AbstarctRuleCombo
 {
     public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_STRINGS;
 
-    abstract protected function getActualAggregate(array $colValues): ?float;
+    abstract protected function getActualAggregate(Vector $colValues): ?float;
 
     public function getRuleCode(?string $mode = null): string
     {
@@ -46,7 +47,7 @@ abstract class AbstractAggregateRuleCombo extends AbstarctRuleCombo
         return $this->getOptionAsFloat();
     }
 
-    protected function validateComboAggregate(array $colValues, string $mode): ?string
+    protected function validateComboAggregate(Vector $colValues, string $mode): ?string
     {
         $prefix = $mode === self::NOT ? 'not ' : '';
         $verb = static::VERBS[$mode];
@@ -54,13 +55,13 @@ abstract class AbstractAggregateRuleCombo extends AbstarctRuleCombo
 
         try {
             // TODO: Think about the performance optimization here
-            if (static::INPUT_TYPE === AbstarctRule::INPUT_TYPE_FLOATS) {
-                $colValues = \array_map('floatval', $colValues);
-            }
-
-            if (static::INPUT_TYPE === AbstarctRule::INPUT_TYPE_INTS) {
-                $colValues = \array_map('intval', $colValues);
-            }
+            // if (static::INPUT_TYPE === AbstarctRule::INPUT_TYPE_FLOATS) {
+            //     $colValues = \array_map('floatval', $colValues);
+            // }
+            //
+            // if (static::INPUT_TYPE === AbstarctRule::INPUT_TYPE_INTS) {
+            //     $colValues = \array_map('intval', $colValues);
+            // }
 
             $actual = $this->getActualAggregate($colValues); // Important to use the original method here!
         } catch (\Throwable $exception) {

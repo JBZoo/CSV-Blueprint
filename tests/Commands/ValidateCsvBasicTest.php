@@ -32,7 +32,7 @@ final class ValidateCsvBasicTest extends TestCase
             'schema' => Tools::DEMO_YML_VALID,
         ]);
 
-        $expected = $expected = <<<'TXT'
+        $expected = <<<'TXT'
             CSV Blueprint: Unknown version (PhpUnit)
             Found Schemas   : 1
             Found CSV files : 1

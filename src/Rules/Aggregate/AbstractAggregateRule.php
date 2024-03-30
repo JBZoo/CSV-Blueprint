@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
+use Ds\Vector;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 
 abstract class AbstractAggregateRule extends AbstarctRule
@@ -28,10 +29,8 @@ abstract class AbstractAggregateRule extends AbstarctRule
      * TODO: This method takes an array reference &$columnValues as input and returns a nullable string.
      * We use a reference to the array to avoid copying the array. Important memory optimization!
      * Please DO NOT change the array in this method!
-     *
-     * @param string[] $columnValues
      */
-    abstract public function validateRule(array $columnValues): ?string;
+    abstract public function validateRule(Vector $columnValues): ?string;
 
     public function test(array $cellValue, bool $isHtml = false): string
     {

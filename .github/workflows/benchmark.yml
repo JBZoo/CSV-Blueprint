@@ -80,6 +80,7 @@ jobs:
         with:
           php-version: 8.3
           coverage: none
+          extensions: ds
           ini-values: opcache.enable_cli=1, opcache.jit=1255
 
       - name: Build local Phar file

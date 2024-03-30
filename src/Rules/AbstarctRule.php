@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules;
 
+use Ds\Vector;
 use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\Error;
 use JBZoo\CsvBlueprint\Validators\ValidatorColumn;
@@ -61,7 +62,7 @@ abstract class AbstarctRule
         // TODO: Move resolving and validating expected value on this stage to make it only once (before validation).
     }
 
-    public function validate(array|string $cellValue, int $line = ValidatorColumn::FALLBACK_LINE): ?Error
+    public function validate(array|string|Vector $cellValue, int $line = ValidatorColumn::FALLBACK_LINE): ?Error
     {
         // TODO: Extract to abstract boolean cell/agregate rule
         if ($this->isEnabled($cellValue) === false) {
@@ -185,7 +186,7 @@ abstract class AbstarctRule
      * Optimize performance
      * There is no need to validate empty values for predicates or if it's disabled.
      */
-    protected function isEnabled(array|string $cellValue): bool
+    protected function isEnabled(string|Vector $cellValue): bool
     {
         // List of rules that should be checked for empty values
         $exclusions = [

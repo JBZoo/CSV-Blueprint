@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
+use Ds\Vector;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use MathPHP\Statistics\Average;
 
@@ -30,12 +31,12 @@ final class ComboAverage extends AbstractAggregateRuleCombo
         return [['Regular the arithmetic mean. The sum of the numbers divided by the count.'], []];
     }
 
-    protected function getActualAggregate(array $colValues): ?float
+    protected function getActualAggregate(Vector $colValues): ?float
     {
         if (\count($colValues) === 0) {
             return null;
         }
 
-        return Average::mean($colValues);
+        return Average::mean($colValues->toArray());
     }
 }

@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules;
 
+use Ds\Vector;
 use JBZoo\CsvBlueprint\Rules\Cell\AbstractCellRuleCombo;
 use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
@@ -43,7 +44,7 @@ final class Ruleset
         }
     }
 
-    public function validateRuleSet(array|string $cellValue, int $line, int $linesToAggregate = 0): ErrorSuite
+    public function validateRuleSet(string|Vector $cellValue, int $line, int $linesToAggregate = 0): ErrorSuite
     {
         $errors = new ErrorSuite();
 
