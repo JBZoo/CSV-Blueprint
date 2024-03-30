@@ -183,7 +183,7 @@ final class ReadmeTest extends TestCase
             $output[] = 'Peak Mem, MB<br>';
             $output[] = '</td>';
             foreach ($row as $values) {
-                $output[] = '<td style="text-align:right;">';
+                $output[] = '<td align="right">';
                 $output[] = "{$values[1]} K<br>";
                 $output[] = "{$values[2]} K<br>";
                 $output[] = "{$values[3]} K<br>";
