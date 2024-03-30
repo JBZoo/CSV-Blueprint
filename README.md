@@ -904,39 +904,144 @@ Optional format `text` with highlited keywords:
 ## Benchmarks
 
 <!-- benchmark-table -->
-
-<table>
-  <tr>
-    <th>Заголовок 1</th>
-    <th>Заголовок 2</th>
-  </tr>
-  <tr>
-    <td>
-      Строка 1<br>
-      Строка 2<br>
-      Строка 3
-    </td>
-    <td>
-      Строка 1<br>
-      Строка 2<br>
-      Строка 3
-    </td>
-  </tr>
-  <tr>
-    <td>
-      Строка 1<br>
-      Строка 2<br>
-      Строка 3
-    </td>
-    <td>
-      Строка 1<br>
-      Строка 2<br>
-      Строка 3
-    </td>
-  </tr>
+<table style="vertical-align: top;">
+<tr style="">
+<th>File / Schema</th>
+<th>Metric</th>
+<th valign="top">Quickest</th>
+<th valign="top">Minimum</th>
+<th valign="top">Realistic</th>
+<th valign="top">All Rules</th>
+<tr>
+<td>Columns: 1<br>Size: 8.48 MB</td>
+<td>
+Cell rules, l/s<br>
+Agg rules, l/s<br>
+Cell+Agg, l/s<br>
+Peak Mem, MB<br>
+</td>
+<td style="text-align:right;">
+802 K<br>
+474 K<br>
+52 K<br>
+586
+</td>
+<td style="text-align:right;">
+755 K<br>
+274 K<br>
+68 K<br>
+320
+</td>
+<td style="text-align:right;">
+532 K<br>
+142 K<br>
+208 K<br>
+171
+</td>
+<td style="text-align:right;">
+142 K<br>
+121 K<br>
+272 K<br>
+794
+</td>
+<tr>
+<td>Columns: 5<br>Size: 64.04 MB</td>
+<td>
+Cell rules, l/s<br>
+Agg rules, l/s<br>
+Cell+Agg, l/s<br>
+Peak Mem, MB<br>
+</td>
+<td style="text-align:right;">
+559 K<br>
+375 K<br>
+52 K<br>
+443
+</td>
+<td style="text-align:right;">
+526 K<br>
+239 K<br>
+68 K<br>
+274
+</td>
+<td style="text-align:right;">
+406 K<br>
+131 K<br>
+208 K<br>
+156
+</td>
+<td style="text-align:right;">
+139 K<br>
+111 K<br>
+272 K<br>
+553
+</td>
+<tr>
+<td>Columns: 10<br>Size: 220.02 MB</td>
+<td>
+Cell rules, l/s<br>
+Agg rules, l/s<br>
+Cell+Agg, l/s<br>
+Peak Mem, MB<br>
+</td>
+<td style="text-align:right;">
+314 K<br>
+247 K<br>
+52 K<br>
+276
+</td>
+<td style="text-align:right;">
+308 K<br>
+178 K<br>
+68 K<br>
+197
+</td>
+<td style="text-align:right;">
+262 K<br>
+111 K<br>
+208 K<br>
+129
+</td>
+<td style="text-align:right;">
+142 K<br>
+97 K<br>
+272 K<br>
+311
+</td>
+<tr>
+<td>Columns: 20<br>Size: 1.18 GB</td>
+<td>
+Cell rules, l/s<br>
+Agg rules, l/s<br>
+Cell+Agg, l/s<br>
+Peak Mem, MB<br>
+</td>
+<td style="text-align:right;">
+106 K<br>
+95 K<br>
+52 K<br>
+102
+</td>
+<td style="text-align:right;">
+103 K<br>
+83 K<br>
+68 K<br>
+88
+</td>
+<td style="text-align:right;">
+97 K<br>
+65 K<br>
+208 K<br>
+70
+</td>
+<td style="text-align:right;">
+144 K<br>
+61 K<br>
+272 K<br>
+105
+</td>
+</tr>
 </table>
-
-
 <!-- /benchmark-table -->
 
 ## Coming soon

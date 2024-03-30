@@ -130,10 +130,71 @@ final class ReadmeTest extends TestCase
 
     public function testAdditionalValidationRules(): void
     {
-        $list = self::EXTRA_RULES;
         $list[] = '';
 
         $text = \implode("\n", self::EXTRA_RULES);
         Tools::insertInReadme('extra-rules', "\n{$text}\n");
+    }
+
+    public function testBenchmarkTable(): void
+    {
+        $table = [
+            'Columns: 1<br>Size: 8.48 MB' => [
+                'Quickest'  => [586, 802, 474, 52],
+                'Minimum'   => [320, 755, 274, 68],
+                'Realistic' => [171, 532, 142, 208],
+                'All Rules' => [794, 142, 121, 272],
+            ],
+            'Columns: 5<br>Size: 64.04 MB' => [
+                'Quickest'  => [443, 559, 375, 52],
+                'Minimum'   => [274, 526, 239, 68],
+                'Realistic' => [156, 406, 131, 208],
+                'All Rules' => [553, 139, 111, 272],
+            ],
+            'Columns: 10<br>Size: 220.02 MB' => [
+                'Quickest'  => [276, 314, 247, 52],
+                'Minimum'   => [197, 308, 178, 68],
+                'Realistic' => [129, 262, 111, 208],
+                'All Rules' => [311, 142, 97, 272],
+            ],
+            'Columns: 20<br>Size: 1.18 GB' => [
+                'Quickest'  => [102, 106, 95, 52],
+                'Minimum'   => [88, 103, 83, 68],
+                'Realistic' => [70, 97, 65, 208],
+                'All Rules' => [105, 144, 61, 272],
+            ],
+        ];
+
+        $output = ['<table style="vertical-align: top;">'];
+        $output[] = '<tr style="">';
+        $output[] = '<th>File / Schema</th>';
+        $output[] = '<th>Metric</th>';
+        foreach (\array_keys(\reset($table)) as $title) {
+            $output[] = '<th valign="top">' . $title . '</th>';
+        }
+
+        foreach ($table as $rowName => $row) {
+            $output[] = '<tr>';
+            $output[] = "<td>{$rowName}</td>";
+            $output[] = '<td>';
+            $output[] = 'Cell rules, l/s<br>';
+            $output[] = 'Agg rules, l/s<br>';
+            $output[] = 'Cell+Agg, l/s<br>';
+            $output[] = 'Peak Mem, MB<br>';
+            $output[] = '</td>';
+            foreach ($row as $values) {
+                $output[] = '<td style="text-align:right;">';
+                $output[] = "{$values[1]} K<br>";
+                $output[] = "{$values[2]} K<br>";
+                $output[] = "{$values[3]} K<br>";
+                $output[] = "{$values[0]}";
+                $output[] = '</td>';
+            }
+        }
+
+        $output[] = '</tr>';
+        $output[] = '</table>';
+
+        Tools::insertInReadme('benchmark-table', \implode("\n", $output));
     }
 }
