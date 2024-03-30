@@ -901,6 +901,43 @@ Optional format `text` with highlited keywords:
 * Report format for GitHub Actions is `table` by default.
 * Tools uses [JBZoo/CI-Report-Converter](https://github.com/JBZoo/CI-Report-Converter) as SDK to convert reports to different formats. So you can easily integrate it with any CI system.
 
+## Benchmarks
+
+<!-- benchmark-table -->
+
+<table>
+  <tr>
+    <th>Заголовок 1</th>
+    <th>Заголовок 2</th>
+  </tr>
+  <tr>
+    <td>
+      Строка 1<br>
+      Строка 2<br>
+      Строка 3
+    </td>
+    <td>
+      Строка 1<br>
+      Строка 2<br>
+      Строка 3
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Строка 1<br>
+      Строка 2<br>
+      Строка 3
+    </td>
+    <td>
+      Строка 1<br>
+      Строка 2<br>
+      Строка 3
+    </td>
+  </tr>
+</table>
+
+
+<!-- /benchmark-table -->
 
 ## Coming soon
 
