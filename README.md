@@ -950,7 +950,7 @@ Also, there is an additional division into
 <!-- benchmark-table -->
 <table>
 <tr>
-   <td align="left"><b>File&nbsp/&nbspProfile</b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<br></td>
+   <td align="left"><b>File&nbsp/&nbspProfile</b><br></td>
    <td align="left"><b>Metric</b><br></td>
    <td align="left"><b>Quickest</b></td>
    <td align="left"><b>Minimum</b></td>

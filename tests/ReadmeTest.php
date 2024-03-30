@@ -139,7 +139,6 @@ final class ReadmeTest extends TestCase
     public function testBenchmarkTable(): void
     {
         $nbsp = static fn (string $text): string => \str_replace(' ', '&nbsp', $text);
-        $extraWidth = \str_repeat('&nbsp', 15);
         $numberOfLines = 2_000_000;
 
         $columns = [
@@ -178,7 +177,7 @@ final class ReadmeTest extends TestCase
 
         $output = ['<table>'];
         $output[] = '<tr>';
-        $output[] = "   <td align=\"left\"><b>{$nbsp('File / Profile')}</b>{$extraWidth}<br></td>";
+        $output[] = "   <td align=\"left\"><b>{$nbsp('File / Profile')}</b><br></td>";
         $output[] = '   <td align="left"><b>Metric</b><br></td>';
         foreach ($columns as $column) {
             $output[] = "   <td align=\"left\"><b>{$nbsp($column)}</b></td>";
