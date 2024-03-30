@@ -19,8 +19,7 @@ on:
     inputs:
       branch:
         description: 'Branch Name'
-        required: true
-        default: 'master'
+        required: false
 
 jobs:
   docker-benchmark:
