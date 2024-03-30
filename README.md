@@ -906,12 +906,12 @@ Optional format `text` with highlited keywords:
 <!-- benchmark-table -->
 <table>
 <tr>
-   <th>File / Schema</th>
-   <th><a href="http://asd.com">Metric</a></th>
-   <th>Quickest</th>
-   <th>Minimum</th>
-   <th>Realistic</th>
-   <th>All Rules</th>
+   <th align="left">File / Schema</th>
+   <th align="left"><a href="http://asd.com">Metric</a></th>
+   <th align="left">Quickest</th>
+   <th align="left">Minimum</th>
+   <th align="left">Realistic</th>
+   <th align="left">All Rules</th>
 </tr>
 <tr>
    <td>Columns: 1<br>Size: 8.48 MB<br><br><br></td>

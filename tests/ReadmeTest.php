@@ -167,10 +167,10 @@ final class ReadmeTest extends TestCase
 
         $output = ['<table>'];
         $output[] = '<tr>';
-        $output[] = '   <th>File / Schema</th>';
-        $output[] = '   <th><a href="http://asd.com">Metric</a></th>';
+        $output[] = '   <th align="left">File / Schema</th>';
+        $output[] = '   <th align="left"><a href="http://asd.com">Metric</a></th>';
         foreach (\array_keys(\reset($table)) as $title) {
-            $output[] = "   <th>{$title}</th>";
+            $output[] = "   <th align=\"left\">{$title}</th>";
         }
         $output[] = '</tr>';
 
