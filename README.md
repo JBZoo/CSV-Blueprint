@@ -1154,7 +1154,7 @@ git clone git@github.com:JBZoo/Csv-Blueprint.git csv-blueprint
 cd csv-blueprint
 
 # download dependencies and build the tool.
-make build              # We need it to build benchmark tool. See ./tests/Benchmarks
+make build              # We need it to build benchmark tool. See `./tests/Benchmarks` folder.
 make build-phar-file    # Optional. Only if you want to test it.
 make docker-build       # Recommended. local tag is "jbzoo/csv-blueprint:local"
 
@@ -1177,6 +1177,7 @@ make bench
 It is perceived that PHP is a slow language. I don't agree with that. You just need to know how to prepare it.
 See [Processing One Billion CSV rows in PHP!](https://dev.to/realflowcontrol/processing-one-billion-rows-in-php-3eg0).
 That is, if you do everything right, you can read, aggregate and calculate data from CSV at **~15 million lines per second**!
+Not all optimizations have been implemented at this time. But it already works fast enough.
 
 * Yeah-yeah. I know it's not the fastest tool in the world. But it's not the slowest either. See link above.
 * Yeah-yeah. I know it's PHP (not Python, Go, PySpark...). PHP is not the best language for such tasks.
@@ -1195,15 +1196,16 @@ So... as strictly as possible in today's PHP world. I think it works as expected
 
 ## Interesting fact
 
-I've set a personal record. The first version was written from scratch in about 3 days (with really frequent breaks to take care of 4 month baby).
-I'm looking at the first commit and the very first git tag. I'd say over the weekend, in my spare time on my personal laptop.
-Well... AI was only used for this Readme file because I'm not very good at English. 🤔
+I've set a personal record. The [first version](https://github.com/JBZoo/Csv-Blueprint/releases/tag/0.1) was written
+from scratch in about 3 days (with really frequent breaks to take care of 4 month baby).
+I'm looking at the first commit and the very first git tag. I'd say over the weekend, in my spare time on my personal
+laptop. Well... AI was only used for this Readme file because I'm not very good at English. 🤔
 
 I seem to be typing fast and I had really great inspiration. I hope my wife doesn't divorce me. 😅
 
 ## Coming soon
 
-It's random ideas and plans. No promises and deadlines. Feel free to help me.
+It's random ideas and plans. No promises and deadlines. Feel free to [help me!](#contributing).
 
 <details>
   <summary>Click to see the roadmap</summary>
