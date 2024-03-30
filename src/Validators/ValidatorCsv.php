@@ -106,15 +106,13 @@ final class ValidatorCsv
     private function validateLines(bool $quickStop = false): ErrorSuite
     {
         $errors = new ErrorSuite();
-        $realColumns = $this->schema->getColumnsMappedByHeader($this->csv->getHeader());
+        $mappedColumns = $this->csv->getColumnsMappedByHeader();
+        $isHeaderEnabled = $this->schema->getCsvStructure()->isHeader();
 
-        foreach ($realColumns as $column) {
+        foreach ($mappedColumns as $columnIndex => $column) {
+            $messPrefix = "<i>Column</i> \"{$column->getHumanName()}\" -"; // System message prefix. Debug only!
+
             $columValues = [];
-            if ($column === null) {
-                continue;
-            }
-
-            $messPrefix = "<i>Column</i> \"{$column->getHumanName()}\" -";
 
             Utils::debug("{$messPrefix} Column start");
             $colValidator = $column->getValidator();
@@ -138,21 +136,25 @@ final class ValidatorCsv
             $lineCounter = 0;
             $startTimer = \microtime(true);
             foreach ($this->csv->getRecords() as $line => $record) {
+                if ($isHeaderEnabled && $line === 0) {
+                    continue;
+                }
+
                 $lineCounter++;
                 $lineNum = (int)$line + 1;
 
                 if ($isRules) { // Time optimization
-                    if (!isset($record[$column->getKey()])) {
+                    if (!isset($record[$columnIndex])) {
                         $errors->addError(
                             new Error(
                                 'csv.column',
-                                "Column index:{$column->getKey()} not found",
+                                "Column index:{$columnIndex} not found",
                                 $column->getHumanName(),
                                 $lineNum,
                             ),
                         );
                     } else {
-                        $errors->addErrorSuit($colValidator->validateCell($record[$column->getKey()], $lineNum));
+                        $errors->addErrorSuit($colValidator->validateCell($record[$columnIndex], $lineNum));
                     }
 
                     if ($quickStop && $errors->count() > 0) {
@@ -160,8 +162,8 @@ final class ValidatorCsv
                     }
                 }
 
-                if ($isAggRules && isset($record[$column->getKey()])) {  // Time & memory optimization
-                    $columValues[] = ValidatorColumn::prepareValue($record[$column->getKey()], $aggInputType);
+                if ($isAggRules && isset($record[$columnIndex])) {  // Time & memory optimization
+                    $columValues[] = ValidatorColumn::prepareValue($record[$columnIndex], $aggInputType);
                 }
             }
             Utils::debug("{$messPrefix} Lines <yellow>" . \number_format($lineCounter) . '</yellow>');
@@ -213,10 +215,9 @@ final class ValidatorCsv
         $errors = new ErrorSuite();
 
         if ($this->schema->getCsvStructure()->isHeader()) {
-            $realColumns = $this->schema->getColumnsMappedByHeader($this->csv->getHeader());
-            $schemaColumns = $this->schema->getColumns();
-
-            $notFoundColums = \array_diff(\array_keys($schemaColumns), \array_keys($realColumns));
+            $realColumns = $this->csv->getHeader();
+            $schemaColumns = $this->schema->getSchemaHeader();
+            $notFoundColums = \array_diff($schemaColumns, $realColumns);
 
             if (\count($notFoundColums) > 0) {
                 $error = new Error(

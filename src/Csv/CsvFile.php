@@ -65,7 +65,9 @@ final class CsvFile
             if ($this->structure->isHeader() && !$this->isEmpty) {
                 // TODO: add handler for empty file
                 // League\Csv\SyntaxError : The header record does not exist or is empty at offset: `0
-                $this->header = $this->reader->getHeader();
+                $this->header = $this->getRecordsChunk(0, 1)->first();
+            } else {
+                $this->header = \range(0, \count($this->getRecordsChunk(0, 1)->first()) - 1);
             }
         }
 
@@ -74,12 +76,12 @@ final class CsvFile
 
     public function getRecords(): \Iterator
     {
-        return $this->reader->getRecords($this->getHeader());
+        return $this->reader->getRecords([]);
     }
 
     public function getRecordsChunk(int $offset = 0, int $limit = -1): TabularDataReader
     {
-        return Statement::create(null, $offset, $limit)->process($this->reader, $this->getHeader());
+        return Statement::create(null, $offset, $limit)->process($this->reader, []); // No headers is required!
     }
 
     public function validate(bool $quickStop = false): ErrorSuite
@@ -92,13 +94,38 @@ final class CsvFile
         return \count($this->getRecordsChunk(0, 1)->first());
     }
 
+    public function getSchema(): Schema
+    {
+        return $this->schema;
+    }
+
+    /**
+     * @return Column[]
+     */
+    public function getColumnsMappedByHeader(): array
+    {
+        $map = [];
+
+        $realHeader = $this->getHeader();
+        foreach ($realHeader as $realIndex => $realColumn) {
+            $schemaColumn = $this->schema->getColumn($realColumn);
+
+            if ($schemaColumn !== null) {
+                $schemaColumn->setId($realIndex);
+                $map[$realIndex] = $schemaColumn;
+            }
+        }
+
+        return $map;
+    }
+
     private function prepareReader(): LeagueReader
     {
         $reader = LeagueReader::createFromPath($this->csvFilename)
             ->setDelimiter($this->structure->getDelimiter())
             ->setEnclosure($this->structure->getEnclosure())
             ->setEscape($this->structure->getQuoteChar())
-            ->setHeaderOffset($this->structure->isHeader() ? 0 : null);
+            ->setHeaderOffset(null); // It's important to set it to null to optimize memory usage!
 
         if ($this->structure->isBom()) {
             $reader->includeInputBOM();

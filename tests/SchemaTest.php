@@ -115,18 +115,12 @@ final class SchemaTest extends TestCase
 
     public function testGetUndefinedColumnById(): void
     {
-        $this->expectExceptionMessage(
-            'Column "1000" not found in schema "' . Tools::SCHEMA_EXAMPLE_EMPTY . '"',
-        );
         $schemaFull = new Schema(Tools::SCHEMA_EXAMPLE_EMPTY);
         isNull($schemaFull->getColumn(1000));
     }
 
     public function testGetUndefinedColumnByName(): void
     {
-        $this->expectExceptionMessage(
-            'Column "undefined_column" not found in schema "' . Tools::SCHEMA_EXAMPLE_EMPTY . '"',
-        );
         $schemaFull = new Schema(Tools::SCHEMA_EXAMPLE_EMPTY);
         isNull($schemaFull->getColumn('undefined_column'));
     }

@@ -29,7 +29,7 @@ final class CsvFileTest extends TestCase
         $csv = new CsvFile(Tools::CSV_SIMPLE_NO_HEADER, Tools::SCHEMA_SIMPLE_NO_HEADER);
         isSame(Tools::CSV_SIMPLE_NO_HEADER, $csv->getCsvFilename());
 
-        isSame([], $csv->getHeader());
+        isSame([0, 1], $csv->getHeader());
 
         isSame([
             ['1', 'true'],
@@ -50,18 +50,19 @@ final class CsvFileTest extends TestCase
         isSame(['seq', 'bool', 'exact'], $csv->getHeader());
 
         isSame([
-            ['seq' => '1', 'bool' => 'true', 'exact' => '1'],
-            ['seq' => '2', 'bool' => 'true', 'exact' => '1'],
-            ['seq' => '3', 'bool' => 'false', 'exact' => '1'],
+            ['seq', 'bool', 'exact'],
+            ['1', 'true', '1'],
+            ['2', 'true', '1'],
+            ['3', 'false', '1'],
         ], $this->fetchRows($csv->getRecords()));
 
         isSame(
-            [['seq' => '2', 'bool' => 'true', 'exact' => '1']],
+            [['1', 'true', '1']],
             $this->fetchRows($csv->getRecordsChunk(1, 1)),
         );
 
         isSame(
-            [['seq' => '2', 'bool' => 'true', 'exact' => '1'], ['seq' => '3', 'bool' => 'false', 'exact' => '1']],
+            [['1', 'true', '1'], ['2', 'true', '1']],
             $this->fetchRows($csv->getRecordsChunk(1, 2)),
         );
     }
