@@ -906,59 +906,60 @@ Optional format `text` with highlited keywords:
 
 Of course, you'll want to know how fast it works. The thing is, it depends very-very-very much on the following factors:
 
-* The file size - width and height of the CSV file. The larger the dataset, the longer it will take to go through it.
-* The dependence is linear and strongly depends on the speed of your hardware (CPU, SSD).
-* Number of rules used. Obviously, the more of them there are for one column, the more iterations you will have to make.
+* **The file size** - Width and height of the CSV file. The larger the dataset, the longer it will take to go through
+  it.
+  The dependence is linear and strongly depends on the speed of your hardware (CPU, SSD).
+* **Number of rules used** - Obviously, the more of them there are for one column, the more iterations you will have to
+  make.
   Also remember that they do not depend on each other.
 * Some validation rules are very time or memory intensive. For the most part you won't notice this, but there are some
-  that are dramatically slow. For example, `interquartile_mean` processes about 4k lines per second, while the other
-  rules are about 0.3-1 million lines per second.
+  that are dramatically slow. For example, `interquartile_mean` processes about 4k lines per second, while the rest of
+  the rules are about 0.3-1 million lines per second.
 
 However, to get a rough picture, you can check out the table below.
 
 * All tests were run on a file size of `2 million lines` + 1 line for the header.
-* The data is based on the latest actual version using
+* The results are based on the latest actual version using
   [GitHub Actions](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/benchmark.yml) ([See workflow.yml](.github/workflows/benchmark.yml)).
   At the link you will see considerably more different builds. We need them for different testing options/experiments.
   Most representative values in `Docker (latest, XX)`.
-* Developer mode is used to display this information `-vvv --debug --profile`. It is not recommended to use it in
-  production!
+* Developer mode is used to display this information `-vvv --debug --profile`.
 * Software: Latest Ubuntu + Docker.
-  Also [see detail about GA hardware](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-private-repositories)
+  Also [see detail about GA hardware](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-private-repositories).
 * The main metric is the number of lines per second. Please note that the table is thousands of lines per second
-  (`100 K l/s` = `100,000 lines per second`).
+  (`100 K` = `100,000 lines per second`).
 * An additional metric is the peak RAM consumption over the entire time of the test case.
 
-Since usage profiles can vary, I've prepared a few diagrams to cover most cases.
+Since usage profiles can vary, I've prepared a few profiles to cover most cases.
 
 * **[Quickest](tests/Benchmarks/bench_0_quickest_combo.yml)** - It check only one of the rule (cell or aggregation). I
   picked the fastest rules.
 * **[Minimum](tests/Benchmarks/bench_1_mini_combo.yml)** - Normal rules with average performance, but 2 of each.
 * **[Realistic](tests/Benchmarks/bench_2_realistic_combo.yml)** - A mix of rules that are most likely to be used in real
   life.
-* **[All aggregations at once](tests/Benchmarks/bench_3_all_agg.yml)** - All aggregation rules at once are used in the
-  schema. This is the worst-case scenario.
+* **[All aggregations at once](tests/Benchmarks/bench_3_all_agg.yml)** - All aggregation rules at once. This is the
+  worst-case scenario.
 
 Also, there is an additional division into
 
 * `Cell rules` - only rules applicable for each row/cell, 1000 lines per second.
 * `Agg rules` - only rules applicable for the whole column, 1000 lines per second.
 * `Cell + Agg` - a simultaneous combination of the previous two, 1000 lines per second.
-* `Peak Mem` - the maximum memory consumption during the test case, megabytes.
+* `Peak Memory` - the maximum memory consumption during the test case, megabytes.
 
 <!-- benchmark-table -->
 <table>
 <tr>
-   <td align="left"><b>File&nbsp/&nbspSchema</b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<br></th>
-   <td align="left"><b>Metric</b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<br></th>
-   <td align="left"><b>Quickest</b></th>
-   <td align="left"><b>Minimum</b></th>
-   <td align="left"><b>Realistic</b></th>
-   <td align="left"><b>All&nbspaggregations</b></th>
+   <td align="left"><b>File&nbsp/&nbspProfile</b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<br></td>
+   <td align="left"><b>Metric</b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<br></td>
+   <td align="left"><b>Quickest</b></td>
+   <td align="left"><b>Minimum</b></td>
+   <td align="left"><b>Realistic</b></td>
+   <td align="left"><b>All&nbspaggregations</b></td>
 </tr>
 <tr>
    <td>Columns:&nbsp1<br>Size:&nbsp8.48&nbspMB<br><br><br></td>
-   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMem</td>
+   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
    <td align="right">586&nbspK<br>802&nbspK<br>474&nbspK<br>52</td>
    <td align="right">320&nbspK<br>755&nbspK<br>274&nbspK<br>68</td>
    <td align="right">171&nbspK<br>532&nbspK<br>142&nbspK<br>208</td>
@@ -966,7 +967,7 @@ Also, there is an additional division into
 </tr>
 <tr>
    <td>Columns:&nbsp5<br>Size:&nbsp64.04&nbspMB<br><br><br></td>
-   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMem</td>
+   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
    <td align="right">443&nbspK<br>559&nbspK<br>375&nbspK<br>52</td>
    <td align="right">274&nbspK<br>526&nbspK<br>239&nbspK<br>68</td>
    <td align="right">156&nbspK<br>406&nbspK<br>131&nbspK<br>208</td>
@@ -974,7 +975,7 @@ Also, there is an additional division into
 </tr>
 <tr>
    <td>Columns:&nbsp10<br>Size:&nbsp220.02&nbspMB<br><br><br></td>
-   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMem</td>
+   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
    <td align="right">276&nbspK<br>314&nbspK<br>247&nbspK<br>52</td>
    <td align="right">197&nbspK<br>308&nbspK<br>178&nbspK<br>68</td>
    <td align="right">129&nbspK<br>262&nbspK<br>111&nbspK<br>208</td>
@@ -982,7 +983,7 @@ Also, there is an additional division into
 </tr>
 <tr>
    <td>Columns:&nbsp20<br>Size:&nbsp1.18&nbspGB<br><br><br></td>
-   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMem</td>
+   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
    <td align="right">102&nbspK<br>106&nbspK<br>95&nbspK<br>52</td>
    <td align="right">88&nbspK<br>103&nbspK<br>83&nbspK<br>68</td>
    <td align="right">70&nbspK<br>97&nbspK<br>65&nbspK<br>208</td>
@@ -992,18 +993,17 @@ Also, there is an additional division into
 <!-- /benchmark-table -->
 
 Btw, if you run the same tests on a MacBook 14" M2 Max 2023, the results are ~2 times better. On MacBook 2019 Intel
-2.4Gz
-about the same as on GitHub Actions. So I think the table below can be considered an average (but far from the best)
+2.4Gz about the same as on GitHub Actions. So I think the table can be considered an average (but too far from the best)
 hardware at the regular engineer.
 
 ### Examples of CSV files
 
-Below you will find examples of CSV files that were used for the benchmarks.
-
-They were created with [PHP Faker](tests/Benchmarks/Commands/CreateCsv.php) (the first 2000 lines) and then
+Below you will find examples of CSV files that were used for the benchmarks. They were created
+with [PHP Faker](tests/Benchmarks/Commands/CreateCsv.php) (the first 2000 lines) and then
 copied [1000 times into themselves](tests/Benchmarks/create-csv.sh).
 
-Columns: `1`, Size: `8.48 MB`; Rows: 2,000,000 rows + header.
+<details>
+  <summary>Columns: 1, Size: 8.48 MB</summary>
 
 ```csv
 id
@@ -1011,7 +1011,11 @@ id
 2
 ```
 
-Columns: `5`, Size: `64.04 MB`; Rows: 2,000,000 rows + header.
+</details>
+
+
+<details>
+  <summary>Columns: 5, Size: 64.04 MB</summary>
 
 ```csv
 id,bool_int,bool_str,number,float
@@ -1019,7 +1023,11 @@ id,bool_int,bool_str,number,float
 2,1,true,366276,444761.71428571
 ```
 
-Columns: `10`, Size: `220.02 MB`; Rows: 2,000,000 rows + header.
+</details>
+
+
+<details>
+  <summary>Columns: 10, Size: 220.02 MB</summary>
 
 ```csv
 id,bool_int,bool_str,number,float,date,datetime,domain,email,ip4
@@ -1027,13 +1035,19 @@ id,bool_int,bool_str,number,float,date,datetime,domain,email,ip4
 2,0,true,405408,695839.42857143,1971-01-29,"1988-08-12 21:25:27",bode.com,tatyana.cremin@yahoo.com,76.79.155.73
 ```
 
-Columns: `20`, Size: `1.18 GB`; Rows: 2,000,000 rows + header.
+</details>
+
+
+<details>
+  <summary>Columns: 20, Size: 1.18 GB</summary>
 
 ```csv
 id,bool_int,bool_str,number,float,date,datetime,domain,email,ip4,uuid,address,postcode,latitude,longitude,ip6,sentence_tiny,sentence_small,sentence_medium,sentence_huge
 1,1,false,884798,1078489.5714286,2006-02-09,"2015-12-07 22:59:06",gerhold.com,alisa93@barrows.com,173.231.203.134,5a2b6f01-0bac-35b2-bef1-5be7bb3c2d78,"776 Moises Coves Apt. 531; Port Rylan, DC 80810",10794,-69.908375,136.780034,78cb:75d9:4dd:8248:f190:9f3c:b0e:9afc,"Ea iusto non.","Qui sapiente qui ut nihil sit.","Modi et voluptate blanditiis aliquid iure eveniet voluptas facilis ipsum omnis velit.","Minima in molestiae nam ullam voluptatem sapiente corporis sunt in ut aut alias exercitationem incidunt fugiat doloribus laudantium ducimus iusto nemo assumenda non ratione neque labore voluptatem."
 2,0,false,267823,408705.14285714,1985-07-19,"1996-11-18 08:21:44",keebler.net,wwolff@connelly.com,73.197.210.145,29e076ab-a769-3a1f-abd4-2bc73ab17c99,"909 Sabryna Island Apt. 815; West Matteoside, CO 54360-7141",80948,7.908256,123.666864,bf3b:abab:3dcb:c335:b1a:b5d6:60e9:107e,"Aut dolor distinctio quasi.","Alias sit ut perferendis quod at dolores.","Molestiae est eos dolore deserunt atque temporibus.","Quisquam velit aut saepe temporibus officia labore quam numquam eveniet velit aliquid aut autem quis voluptatem in ut iste sunt omnis iure laudantium aspernatur tenetur nemo consequatur aliquid sint nostrum aut nostrum."
 ```
+
+</details>
 
 ### Run the benchmark locally
 
@@ -1042,22 +1056,29 @@ Make sure you have PHP 8.1+ and Dooker installed.
 ```shell
 git clone git@github.com:JBZoo/Csv-Blueprint.git csv-blueprint
 cd csv-blueprint
-make build              # We need it to build benchmark tool. See ./tests/Benchmarks 
-make build-phar-file    # Optional. Only if you want to test it. 
-make docker-build       # Recommended. local tag is "jbzoo/csv-blueprint:local" 
+make build              # We need it to build benchmark tool. See ./tests/Benchmarks
+make build-phar-file    # Optional. Only if you want to test it.
+make docker-build       # Recommended. local tag is "jbzoo/csv-blueprint:local"
 
 # Create random CSV files with 5 columns (max: 20).
-BENCH_COLS=5 make bench-create-csv    
+BENCH_COLS=5 make bench-create-csv
 
 # Run the benchmark for the recent CSV file.
 BENCH_COLS=5 make bench-docker # Recommended
 BENCH_COLS=5 make bench-phar
 BENCH_COLS=5 make bench-php
+
+# It's a shortcut that combines CSV file creation and Docker run.
+# By default BENCH_COLS=10
+make bench
 ```
 
 ## Coming soon
 
 It's random ideas and plans. No orderings and deadlines. <u>But batch processing is the priority #1</u>.
+
+<details>
+  <summary>Click to see the roadmap</summary>
 
 * **Batch processing**
   * If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
@@ -1105,10 +1126,10 @@ It's random ideas and plans. No orderings and deadlines. <u>But batch processing
   * Add option `--error=[level]` to show only errors with a specific level. It's useful when you have a lot of warnings and you want to see only errors. 
   * S3 Storage support. Validate files in the S3 bucket? Hmm... Why not? But...
   * More examples and documentation.
-
  
 PS. [There is a file](tests/schemas/todo.yml) with my ideas and imagination. It's not valid schema file, just a draft.
 I'm not sure if I will implement all of them. But I will try to do my best.
+</details>
 
 
 ## Disadvantages?

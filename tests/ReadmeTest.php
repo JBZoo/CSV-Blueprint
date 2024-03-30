@@ -177,10 +177,10 @@ final class ReadmeTest extends TestCase
 
         $output = ['<table>'];
         $output[] = '<tr>';
-        $output[] = "   <td align=\"left\"><b>{$nbsp('File / Schema')}</b>{$extraWidth}<br></th>";
-        $output[] = "   <td align=\"left\"><b>Metric</b>{$extraWidth}<br></th>";
+        $output[] = "   <td align=\"left\"><b>{$nbsp('File / Profile')}</b>{$extraWidth}<br></td>";
+        $output[] = "   <td align=\"left\"><b>Metric</b>{$extraWidth}<br></td>";
         foreach ($columns as $column) {
-            $output[] = "   <td align=\"left\"><b>{$nbsp($column)}</b></th>";
+            $output[] = "   <td align=\"left\"><b>{$nbsp($column)}</b></td>";
         }
         $output[] = '</tr>';
 
@@ -191,7 +191,7 @@ final class ReadmeTest extends TestCase
                 $nbsp('Cell rules'),
                 $nbsp('Agg rules'),
                 $nbsp('Cell + Agg'),
-                $nbsp('Peak Mem'),
+                $nbsp('Peak Memory'),
             ]) . '</td>';
             foreach ($row as $values) {
                 $output[] = '   <td align="right">' . $nbsp(\implode(' K<br>', $values)) . '</td>';

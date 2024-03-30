@@ -101,14 +101,14 @@ bench: ##@Benchmarks Run all benchmarks
 	@make bench-docker
 
 bench-create-csv: ##@Benchmarks Create CSV file
-	$(call title,"Benchmark - Create CSV file. Cols=${BENCH_COLS} Rows=${BENCH_ROWS_SRC}_000")
+	@echo "::group::Creating random CSV file with ${BENCH_COLS} columns and ${BENCH_ROWS_SRC}_000 rows"
 	@mkdir -pv ./build/bench/
 	@rm -fv    ./build/bench/*.csv
 	@time bash ./tests/Benchmarks/create-csv.sh
+	@echo "::endgroup::"
 
 
 bench-docker: ##@Benchmarks Run CSV file with Docker
-	$(call title,"Benchmark - CSV file with Docker. Cols=${BENCH_COLS} Rows=${BENCH_ROWS_SRC}_000")
 	@echo "::group::Quickest"
 	-$(BLUEPRINT_DOCKER) $(BENCH_CSV) --schema='./tests/Benchmarks/bench_0_*.yml' $(BENCH_FLAGS)
 	@echo "::endgroup::"
@@ -118,16 +118,14 @@ bench-docker: ##@Benchmarks Run CSV file with Docker
 	@echo "::group::Realistic"
 	-$(BLUEPRINT_DOCKER) $(BENCH_CSV) --schema='./tests/Benchmarks/bench_2_*.yml' $(BENCH_FLAGS)
 	@echo "::endgroup::"
-	@echo "::group::All aggregations"
+	@echo "::group::All aggregations at once"
 	-$(BLUEPRINT_DOCKER) $(BENCH_CSV) --schema='./tests/Benchmarks/bench_3_*.yml' $(BENCH_FLAGS)
 	@echo "::endgroup::"
 
 
 bench-phar: ##@Benchmarks Run CSV file with Phar
-	$(call title,"Benchmark - CSV file with Phar. Cols=${BENCH_COLS} Rows=${BENCH_ROWS_SRC}_000")
 	-$(BLUEPRINT_PHAR) $(BENCH_CSV) $(BENCH_SCHEMAS) $(BENCH_FLAGS)
 
 
 bench-php: ##@Benchmarks Run CSV file with classic PHP binary
-	$(call title,"Benchmark - CSV file with classic PHP binary. Cols=${BENCH_COLS} Rows=${BENCH_ROWS_SRC}_000")
 	-$(BLUEPRINT) $(BENCH_CSV) $(BENCH_SCHEMAS) $(BENCH_FLAGS)
