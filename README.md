@@ -766,10 +766,10 @@ make build
     --schema=./tests/schemas/demo_invalid.yml
 ```
 
+### Complete CLI Help Message
 
-## Complete CLI Help Message
-
-Here you can see all available options and commands.  Tool uses [JBZoo/Cli](https://github.com/JBZoo/Cli) package for the CLI interface.
+Here you can see all available options and commands. Tool uses [JBZoo/Cli](https://github.com/JBZoo/Cli) package for the
+CLI interface.
 So there are options here for all occasions.
 
 
@@ -950,44 +950,124 @@ Also, there is an additional division into
 <!-- benchmark-table -->
 <table>
 <tr>
-   <td align="left"><b>File&nbsp/&nbspProfile</b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<br></td>
+   <td align="left"><b>File / Profile</b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<br></td>
    <td align="left"><b>Metric</b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<br></td>
    <td align="left"><b>Quickest</b></td>
    <td align="left"><b>Minimum</b></td>
    <td align="left"><b>Realistic</b></td>
-   <td align="left"><b>All&nbspaggregations</b></td>
+   <td align="left"><b>All aggregations</b></td>
 </tr>
 <tr>
-   <td>Columns:&nbsp1<br>Size:&nbsp8.48&nbspMB<br><br><br></td>
-   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
-   <td align="right">586&nbspK<br>802&nbspK<br>474&nbspK<br>52</td>
-   <td align="right">320&nbspK<br>755&nbspK<br>274&nbspK<br>68</td>
-   <td align="right">171&nbspK<br>532&nbspK<br>142&nbspK<br>208</td>
-   <td align="right">794&nbspK<br>142&nbspK<br>121&nbspK<br>272</td>
+   <td>Columns: 1<br>Size: 8.48 MB<br><br><br></td>
+   <td>Cell rules<br>Agg rules<br>Cell + Agg<br>Peak Memory</td>
+   <td align="right">
+586K, 3 sec<br>
+802K, 2 sec<br>
+474K, 4 sec<br>
+52 MB
+</td>
+   <td align="right">
+320K, 6 sec<br>
+755K, 3 sec<br>
+274K, 7 sec<br>
+68 MB
+</td>
+   <td align="right">
+171K, 12 sec<br>
+532K, 4 sec<br>
+142K, 14 sec<br>
+208 MB
+</td>
+   <td align="right">
+794K, 3 sec<br>
+142K, 14 sec<br>
+121K, 17 sec<br>
+272 MB
+</td>
 </tr>
 <tr>
-   <td>Columns:&nbsp5<br>Size:&nbsp64.04&nbspMB<br><br><br></td>
-   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
-   <td align="right">443&nbspK<br>559&nbspK<br>375&nbspK<br>52</td>
-   <td align="right">274&nbspK<br>526&nbspK<br>239&nbspK<br>68</td>
-   <td align="right">156&nbspK<br>406&nbspK<br>131&nbspK<br>208</td>
-   <td align="right">553&nbspK<br>139&nbspK<br>111&nbspK<br>272</td>
+   <td>Columns: 5<br>Size: 64.04 MB<br><br><br></td>
+   <td>Cell rules<br>Agg rules<br>Cell + Agg<br>Peak Memory</td>
+   <td align="right">
+443K, 5 sec<br>
+559K, 4 sec<br>
+375K, 5 sec<br>
+52 MB
+</td>
+   <td align="right">
+274K, 7 sec<br>
+526K, 4 sec<br>
+239K, 8 sec<br>
+68 MB
+</td>
+   <td align="right">
+156K, 13 sec<br>
+406K, 5 sec<br>
+131K, 15 sec<br>
+208 MB
+</td>
+   <td align="right">
+553K, 4 sec<br>
+139K, 14 sec<br>
+111K, 18 sec<br>
+272 MB
+</td>
 </tr>
 <tr>
-   <td>Columns:&nbsp10<br>Size:&nbsp220.02&nbspMB<br><br><br></td>
-   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
-   <td align="right">276&nbspK<br>314&nbspK<br>247&nbspK<br>52</td>
-   <td align="right">197&nbspK<br>308&nbspK<br>178&nbspK<br>68</td>
-   <td align="right">129&nbspK<br>262&nbspK<br>111&nbspK<br>208</td>
-   <td align="right">311&nbspK<br>142&nbspK<br>97&nbspK<br>272</td>
+   <td>Columns: 10<br>Size: 220.02 MB<br><br><br></td>
+   <td>Cell rules<br>Agg rules<br>Cell + Agg<br>Peak Memory</td>
+   <td align="right">
+276K, 7 sec<br>
+314K, 6 sec<br>
+247K, 8 sec<br>
+52 MB
+</td>
+   <td align="right">
+197K, 10 sec<br>
+308K, 6 sec<br>
+178K, 11 sec<br>
+68 MB
+</td>
+   <td align="right">
+129K, 16 sec<br>
+262K, 8 sec<br>
+111K, 18 sec<br>
+208 MB
+</td>
+   <td align="right">
+311K, 6 sec<br>
+142K, 14 sec<br>
+97K, 21 sec<br>
+272 MB
+</td>
 </tr>
 <tr>
-   <td>Columns:&nbsp20<br>Size:&nbsp1.18&nbspGB<br><br><br></td>
-   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
-   <td align="right">102&nbspK<br>106&nbspK<br>95&nbspK<br>52</td>
-   <td align="right">88&nbspK<br>103&nbspK<br>83&nbspK<br>68</td>
-   <td align="right">70&nbspK<br>97&nbspK<br>65&nbspK<br>208</td>
-   <td align="right">105&nbspK<br>144&nbspK<br>61&nbspK<br>272</td>
+   <td>Columns: 20<br>Size: 1.18 GB<br><br><br></td>
+   <td>Cell rules<br>Agg rules<br>Cell + Agg<br>Peak Memory</td>
+   <td align="right">
+102K, 20 sec<br>
+106K, 19 sec<br>
+95K, 21 sec<br>
+52 MB
+</td>
+   <td align="right">
+88K, 23 sec<br>
+103K, 19 sec<br>
+83K, 24 sec<br>
+68 MB
+</td>
+   <td align="right">
+70K, 29 sec<br>
+97K, 21 sec<br>
+65K, 31 sec<br>
+208 MB
+</td>
+   <td align="right">
+105K, 19 sec<br>
+144K, 14 sec<br>
+61K, 33 sec<br>
+272 MB
+</td>
 </tr>
 </table>
 <!-- /benchmark-table -->
@@ -1054,8 +1134,11 @@ id,bool_int,bool_str,number,float,date,datetime,domain,email,ip4,uuid,address,po
 Make sure you have PHP 8.1+ and Dooker installed.
 
 ```shell
+# Clone the latest version
 git clone git@github.com:JBZoo/Csv-Blueprint.git csv-blueprint
 cd csv-blueprint
+
+# download dependencies and build the tool.
 make build              # We need it to build benchmark tool. See ./tests/Benchmarks
 make build-phar-file    # Optional. Only if you want to test it.
 make docker-build       # Recommended. local tag is "jbzoo/csv-blueprint:local"
@@ -1072,64 +1155,6 @@ BENCH_COLS=5 make bench-php
 # By default BENCH_COLS=10
 make bench
 ```
-
-## Coming soon
-
-It's random ideas and plans. No orderings and deadlines. <u>But batch processing is the priority #1</u>.
-
-<details>
-  <summary>Click to see the roadmap</summary>
-
-* **Batch processing**
-  * If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
-  * Flag to ignore file name pattern. It's useful when you have a lot of files, and you don't want to validate the file name.
-
-* **Validation**
-  * `required` flag for the column.
-  * Multi values in one cell.
-  * Custom cell rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
-  * Custom agregate rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
-  * Configurable keyword for null/empty values. By default, it's an empty string. But you will use `null`, `nil`, `none`, `empty`, etc. Overridable on the column level.
-  * Handle empty files and files with only a header row, or only with one line of data. One column wthout header is also possible.
-  * Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas. Make it DRY and easy to maintain.
-  * If option `--schema` is not specified, then validate only super base level things (like "is it a CSV file?").
-  * Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
-  * Extending with custom rules and custom report formats. Plugins?
-  * Input encoding detection + `BOM` (right now it's experimental). It works but not so accurate... UTF-8/16/32 is the best choice for now.
-
-* **Performance and optimization**
-    * Using [PHP vectors](https://www.php.net/manual/en/class.ds-vector.php) instead of arrays to optimaze memory usage
-      and speed of access.
-    * Parallel validation of schema by columns. You won't believe this, but modern PHP has multithreading support.
-  * Parallel validation of multiple files at once.
-
-* **Mock data generation**
-  * Create CSV files based on the schema (like "create 1000 rows with random data based on schema and rules").
-  * Use [Faker](https://github.com/FakerPHP/Faker) for random data generation.
-  * [ReverseRegex](https://github.com/enso-media/ReverseRegex) to generate text from regex.
-
-* **Analize CSV dataset**
-    * Calculate statistics for the column (like min, max, average, median, etc).
-    * Generate valid schema file based on the CSV file.
-
-* **Reporting**
-  * More report formats (like JSON, XML, etc). Any ideas?
-  * Gitlab and JUnit reports must be as one structure. It's not so easy to implement. But it's a good idea.
-  * Merge reports from multiple CSV files into one report. It's useful when you have a lot of files and you want to see all errors in one place. Especially for GitLab and JUnit reports.
-
-* **Misc**
-    * Install via brew on MacOS.
-    * Install via apt on Ubuntu.
-  * Use it as PHP SDK. Examples in Readme.
-  * Warnings about deprecated options and features.
-  * Add option `--recomendation` to show a list of recommended rules for the schema or potential issues in the CSV file or schema. It's useful when you are not sure what rules to use.
-  * Add option `--error=[level]` to show only errors with a specific level. It's useful when you have a lot of warnings and you want to see only errors. 
-  * S3 Storage support. Validate files in the S3 bucket? Hmm... Why not? But...
-  * More examples and documentation.
- 
-PS. [There is a file](tests/schemas/todo.yml) with my ideas and imagination. It's not valid schema file, just a draft.
-I'm not sure if I will implement all of them. But I will try to do my best.
-</details>
 
 
 ## Disadvantages?
@@ -1161,6 +1186,73 @@ Well... AI was only used for this Readme file because I'm not very good at Engli
 
 I seem to be typing fast and I had really great inspiration. I hope my wife doesn't divorce me. 😅
 
+## Coming soon
+
+It's random ideas and plans. No promises and deadlines. Feel free to help me.
+
+<details>
+  <summary>Click to see the roadmap</summary>
+
+* **Batch processing**
+    * If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
+    * Flag to ignore file name pattern. It's useful when you have a lot of files, and you don't want to validate the
+      file name.
+
+* **Validation**
+    * `required` flag for the column.
+    * Multi values in one cell.
+    * Custom cell rule as a callback. It's useful when you have a complex rule that can't be described in the schema
+      file.
+    * Custom agregate rule as a callback. It's useful when you have a complex rule that can't be described in the schema
+      file.
+    * Configurable keyword for null/empty values. By default, it's an empty string. But you will
+      use `null`, `nil`, `none`, `empty`, etc. Overridable on the column level.
+    * Handle empty files and files with only a header row, or only with one line of data. One column wthout header is
+      also possible.
+    * Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas. Make
+      it DRY and easy to maintain.
+    * If option `--schema` is not specified, then validate only super base level things (like "is it a CSV file?").
+    * Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
+    * Extending with custom rules and custom report formats. Plugins?
+    * Input encoding detection + `BOM` (right now it's experimental). It works but not so accurate... UTF-8/16/32 is the
+      best choice for now.
+
+* **Performance and optimization**
+    * Using [vectors](https://www.php.net/manual/en/class.ds-vector.php) instead of arrays to optimaze memory usage
+      and speed of access.
+    * Parallel validation of schema by columns. You won't believe this, but modern PHP has multithreading support.
+    * Parallel validation of multiple files at once.
+
+* **Mock data generation**
+    * Create CSV files based on the schema (like "create 1000 rows with random data based on schema and rules").
+    * Use [Faker](https://github.com/FakerPHP/Faker) for random data generation.
+    * [ReverseRegex](https://github.com/enso-media/ReverseRegex) to generate text from regex.
+
+* **Analize CSV dataset**
+    * Calculate statistics for the column (like min, max, average, median, etc).
+    * Generate valid schema file based on the CSV file.
+
+* **Reporting**
+    * More report formats (like JSON, XML, etc). Any ideas?
+    * Gitlab and JUnit reports must be as one structure. It's not so easy to implement. But it's a good idea.
+    * Merge reports from multiple CSV files into one report. It's useful when you have a lot of files and you want to
+      see all errors in one place. Especially for GitLab and JUnit reports.
+
+* **Misc**
+    * Install via brew on MacOS.
+    * Install via apt on Ubuntu.
+    * Use it as PHP SDK. Examples in Readme.
+    * Warnings about deprecated options and features.
+    * Add option `--recomendation` to show a list of recommended rules for the schema or potential issues in the CSV
+      file or schema. It's useful when you are not sure what rules to use.
+    * Add option `--error=[level]` to show only errors with a specific level. It's useful when you have a lot of
+      warnings and you want to see only errors.
+    * S3 Storage support. Validate files in the S3 bucket? Hmm... Why not? But...
+    * More examples and documentation.
+
+PS. [There is a file](tests/schemas/todo.yml) with my ideas and imagination. It's not valid schema file, just a draft.
+I'm not sure if I will implement all of them. But I will try to do my best.
+</details>
 
 ## Contributing
 If you have any ideas or suggestions, feel free to open an issue or create a pull request.

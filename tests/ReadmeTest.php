@@ -138,8 +138,10 @@ final class ReadmeTest extends TestCase
 
     public function testBenchmarkTable(): void
     {
-        $nbsp = static fn (string $text): string => \str_replace(' ', '&nbsp', $text);
+        // $nbsp = static fn (string $text): string => \str_replace(' ', '&nbsp', $text);
+        $nbsp = static fn (string $text): string => \str_replace(' ', ' ', $text);
         $extraWidth = \str_repeat('&nbsp', 15);
+        $numberOfLines = 2_000_000;
 
         $columns = [
             'Quickest',
@@ -194,7 +196,19 @@ final class ReadmeTest extends TestCase
                 $nbsp('Peak Memory'),
             ]) . '</td>';
             foreach ($row as $values) {
-                $output[] = '   <td align="right">' . $nbsp(\implode(' K<br>', $values)) . '</td>';
+                $output[] = '   <td align="right">';
+                foreach ($values as $key => $value) {
+                    if ($key === 3) {
+                        $testRes = $value . ' MB';
+                    } else {
+                        $execTime = \round($numberOfLines / ($value * 1000));
+                        $testRes = $nbsp("{$value}K, {$execTime} sec<br>");
+                    }
+
+                    $output[] = $testRes;
+                }
+
+                $output[] = '</td>';
             }
             $output[] = '</tr>';
         }
