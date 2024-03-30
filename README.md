@@ -951,7 +951,7 @@ Also, there is an additional division into
 <table>
 <tr>
    <td align="left"><b>File&nbsp/&nbspProfile</b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<br></td>
-   <td align="left"><b>Metric</b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<br></td>
+   <td align="left"><b>Metric</b><br></td>
    <td align="left"><b>Quickest</b></td>
    <td align="left"><b>Minimum</b></td>
    <td align="left"><b>Realistic</b></td>
