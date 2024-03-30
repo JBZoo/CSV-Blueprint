@@ -904,142 +904,46 @@ Optional format `text` with highlited keywords:
 ## Benchmarks
 
 <!-- benchmark-table -->
-<table width="100%" style="width:100%">
-<tr valign="top">
-<th>File / Schema</th>
-<th>Metric</th>
-<th valign="top">Quickest</th>
-<th valign="top">Minimum</th>
-<th valign="top">Realistic</th>
-<th valign="top">All Rules</th>
+<table style="text-align: left; vertical-align: top; width:1000px">
 <tr>
-<td>Columns: 1<br>Size: 8.48 MB</td>
-<td>
-Cell rules, l/s<br>
-Agg rules, l/s<br>
-Cell+Agg, l/s<br>
-Peak Mem, MB<br>
-</td>
-<td align="right">
-802 K<br>
-474 K<br>
-52 K<br>
-586
-</td>
-<td align="right">
-755 K<br>
-274 K<br>
-68 K<br>
-320
-</td>
-<td align="right">
-532 K<br>
-142 K<br>
-208 K<br>
-171
-</td>
-<td align="right">
-142 K<br>
-121 K<br>
-272 K<br>
-794
-</td>
+   <th>File / Schema</th>
+   <th>Metric</th>
+   <th style="vertical-align: top;">Quickest</th>
+   <th style="vertical-align: top;">Minimum</th>
+   <th style="vertical-align: top;">Realistic</th>
+   <th style="vertical-align: top;">All Rules</th>
+</tr>
 <tr>
-<td>Columns: 5<br>Size: 64.04 MB</td>
-<td>
-Cell rules, l/s<br>
-Agg rules, l/s<br>
-Cell+Agg, l/s<br>
-Peak Mem, MB<br>
-</td>
-<td align="right">
-559 K<br>
-375 K<br>
-52 K<br>
-443
-</td>
-<td align="right">
-526 K<br>
-239 K<br>
-68 K<br>
-274
-</td>
-<td align="right">
-406 K<br>
-131 K<br>
-208 K<br>
-156
-</td>
-<td align="right">
-139 K<br>
-111 K<br>
-272 K<br>
-553
-</td>
+   <td>Columns: 1<br>Size: 8.48 MB</td>
+   <td>Cell rules, l/s<br>Agg rules, l/s<br>Cell+Agg, l/s<br>Peak Mem, MB</td>
+   <td style="text-align: right; vertical-align: top;">586K<br>802K<br>474K<br>52</td>
+   <td style="text-align: right; vertical-align: top;">320K<br>755K<br>274K<br>68</td>
+   <td style="text-align: right; vertical-align: top;">171K<br>532K<br>142K<br>208</td>
+   <td style="text-align: right; vertical-align: top;">794K<br>142K<br>121K<br>272</td>
+</tr>
 <tr>
-<td>Columns: 10<br>Size: 220.02 MB</td>
-<td>
-Cell rules, l/s<br>
-Agg rules, l/s<br>
-Cell+Agg, l/s<br>
-Peak Mem, MB<br>
-</td>
-<td align="right">
-314 K<br>
-247 K<br>
-52 K<br>
-276
-</td>
-<td align="right">
-308 K<br>
-178 K<br>
-68 K<br>
-197
-</td>
-<td align="right">
-262 K<br>
-111 K<br>
-208 K<br>
-129
-</td>
-<td align="right">
-142 K<br>
-97 K<br>
-272 K<br>
-311
-</td>
+   <td>Columns: 5<br>Size: 64.04 MB</td>
+   <td>Cell rules, l/s<br>Agg rules, l/s<br>Cell+Agg, l/s<br>Peak Mem, MB</td>
+   <td style="text-align: right; vertical-align: top;">443K<br>559K<br>375K<br>52</td>
+   <td style="text-align: right; vertical-align: top;">274K<br>526K<br>239K<br>68</td>
+   <td style="text-align: right; vertical-align: top;">156K<br>406K<br>131K<br>208</td>
+   <td style="text-align: right; vertical-align: top;">553K<br>139K<br>111K<br>272</td>
+</tr>
 <tr>
-<td>Columns: 20<br>Size: 1.18 GB</td>
-<td>
-Cell rules, l/s<br>
-Agg rules, l/s<br>
-Cell+Agg, l/s<br>
-Peak Mem, MB<br>
-</td>
-<td align="right">
-106 K<br>
-95 K<br>
-52 K<br>
-102
-</td>
-<td align="right">
-103 K<br>
-83 K<br>
-68 K<br>
-88
-</td>
-<td align="right">
-97 K<br>
-65 K<br>
-208 K<br>
-70
-</td>
-<td align="right">
-144 K<br>
-61 K<br>
-272 K<br>
-105
-</td>
+   <td>Columns: 10<br>Size: 220.02 MB</td>
+   <td>Cell rules, l/s<br>Agg rules, l/s<br>Cell+Agg, l/s<br>Peak Mem, MB</td>
+   <td style="text-align: right; vertical-align: top;">276K<br>314K<br>247K<br>52</td>
+   <td style="text-align: right; vertical-align: top;">197K<br>308K<br>178K<br>68</td>
+   <td style="text-align: right; vertical-align: top;">129K<br>262K<br>111K<br>208</td>
+   <td style="text-align: right; vertical-align: top;">311K<br>142K<br>97K<br>272</td>
+</tr>
+<tr>
+   <td>Columns: 20<br>Size: 1.18 GB</td>
+   <td>Cell rules, l/s<br>Agg rules, l/s<br>Cell+Agg, l/s<br>Peak Mem, MB</td>
+   <td style="text-align: right; vertical-align: top;">102K<br>106K<br>95K<br>52</td>
+   <td style="text-align: right; vertical-align: top;">88K<br>103K<br>83K<br>68</td>
+   <td style="text-align: right; vertical-align: top;">70K<br>97K<br>65K<br>208</td>
+   <td style="text-align: right; vertical-align: top;">105K<br>144K<br>61K<br>272</td>
 </tr>
 </table>
 <!-- /benchmark-table -->

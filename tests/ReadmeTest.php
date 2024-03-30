@@ -165,34 +165,26 @@ final class ReadmeTest extends TestCase
             ],
         ];
 
-        $output = ['<table width="100%" style="width:100%">'];
-        $output[] = '<tr valign="top">';
-        $output[] = '<th>File / Schema</th>';
-        $output[] = '<th>Metric</th>';
+        $output = ['<table style="text-align: left; vertical-align: top; width:1000px">'];
+        $output[] = '<tr>';
+        $output[] = '   <th>File / Schema</th>';
+        $output[] = '   <th>Metric</th>';
         foreach (\array_keys(\reset($table)) as $title) {
-            $output[] = '<th valign="top">' . $title . '</th>';
+            $output[] = '   <th style="vertical-align: top;">' . $title . '</th>';
         }
+        $output[] = '</tr>';
 
         foreach ($table as $rowName => $row) {
             $output[] = '<tr>';
-            $output[] = "<td>{$rowName}</td>";
-            $output[] = '<td>';
-            $output[] = 'Cell rules, l/s<br>';
-            $output[] = 'Agg rules, l/s<br>';
-            $output[] = 'Cell+Agg, l/s<br>';
-            $output[] = 'Peak Mem, MB<br>';
-            $output[] = '</td>';
+            $output[] = "   <td>{$rowName}</td>";
+            $output[] = '   <td>Cell rules, l/s<br>Agg rules, l/s<br>Cell+Agg, l/s<br>Peak Mem, MB</td>';
             foreach ($row as $values) {
-                $output[] = '<td align="right">';
-                $output[] = "{$values[1]} K<br>";
-                $output[] = "{$values[2]} K<br>";
-                $output[] = "{$values[3]} K<br>";
-                $output[] = "{$values[0]}";
-                $output[] = '</td>';
+                $output[] = '   <td style="text-align: right; vertical-align: top;">'
+                    . \implode('K<br>', $values) . '</td>';
             }
+            $output[] = '</tr>';
         }
 
-        $output[] = '</tr>';
         $output[] = '</table>';
 
         Tools::insertInReadme('benchmark-table', \implode("\n", $output));
