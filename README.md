@@ -1144,7 +1144,7 @@ id,bool_int,bool_str,number,float,date,datetime,domain,email,ip4,uuid,address,po
 
 </details>
 
-### Run the benchmark locally
+### Run benchmark locally
 
 Make sure you have PHP 8.1+ and Dooker installed.
 
