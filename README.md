@@ -1127,7 +1127,7 @@ id
 
 
 <details>
-  <summary>Columns: 5, Size: 64.04 MB</summary>
+  <summary>Columns: 5, Size: 64 MB</summary>
 
 ```csv
 id,bool_int,bool_str,number,float
@@ -1139,7 +1139,7 @@ id,bool_int,bool_str,number,float
 
 
 <details>
-  <summary>Columns: 10, Size: 220.02 MB</summary>
+  <summary>Columns: 10, Size: 220 MB</summary>
 
 ```csv
 id,bool_int,bool_str,number,float,date,datetime,domain,email,ip4
@@ -1151,7 +1151,7 @@ id,bool_int,bool_str,number,float,date,datetime,domain,email,ip4
 
 
 <details>
-  <summary>Columns: 20, Size: 1.18 GB</summary>
+  <summary>Columns: 20, Size: 12 GB</summary>
 
 ```csv
 id,bool_int,bool_str,number,float,date,datetime,domain,email,ip4,uuid,address,postcode,latitude,longitude,ip6,sentence_tiny,sentence_small,sentence_medium,sentence_huge
