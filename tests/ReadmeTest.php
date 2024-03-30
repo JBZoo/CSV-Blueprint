@@ -138,7 +138,7 @@ final class ReadmeTest extends TestCase
 
     public function testBenchmarkTable(): void
     {
-        $columns = ['Quickest', 'Minimum', 'Realistic', 'All aggregations at once'];
+        $columns = ['Quickest', 'Minimum', 'Realistic', 'All agg at once'];
 
         $table = [
             'Columns: 1<br>Size: 8.48 MB' => [

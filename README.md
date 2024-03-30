@@ -941,9 +941,10 @@ Since usage profiles can vary, I've prepared a few diagrams to cover most cases.
 
 Also, there is an additional division into
 
-* `Cell` - only rules applicable for each row/cell.
-* `Agg` - only rules applicable for the whole column.
-* `Cell + Agg` - a simultaneous combination of the previous two.
+* `Cell rules` - only rules applicable for each row/cell, 1000 lines per second.
+* `Agg rules` - only rules applicable for the whole column, 1000 lines per second.
+* `Cell + Agg` - a simultaneous combination of the previous two, 1000 lines per second.
+* `Peak Mem` - the maximum memory consumption during the test case, megabytes.
 
 <!-- benchmark-table -->
 <table>
@@ -953,7 +954,7 @@ Also, there is an additional division into
    <td align="left"><b>Quickest</b></th>
    <td align="left"><b>Minimum</b></th>
    <td align="left"><b>Realistic</b></th>
-   <td align="left"><b>All aggregations at once</b></th>
+   <td align="left"><b>All agg at once</b></th>
 </tr>
 <tr>
    <td>Columns: 1<br>Size: 8.48 MB<br><br><br></td>
@@ -1034,7 +1035,7 @@ id,bool_int,bool_str,number,float,date,datetime,domain,email,ip4,uuid,address,po
 2,0,false,267823,408705.14285714,1985-07-19,"1996-11-18 08:21:44",keebler.net,wwolff@connelly.com,73.197.210.145,29e076ab-a769-3a1f-abd4-2bc73ab17c99,"909 Sabryna Island Apt. 815; West Matteoside, CO 54360-7141",80948,7.908256,123.666864,bf3b:abab:3dcb:c335:b1a:b5d6:60e9:107e,"Aut dolor distinctio quasi.","Alias sit ut perferendis quod at dolores.","Molestiae est eos dolore deserunt atque temporibus.","Quisquam velit aut saepe temporibus officia labore quam numquam eveniet velit aliquid aut autem quis voluptatem in ut iste sunt omnis iure laudantium aspernatur tenetur nemo consequatur aliquid sint nostrum aut nostrum."
 ```
 
-#### Run the benchmark locally
+### Run the benchmark locally
 
 Make sure you have PHP 8.1+ and Dooker installed.
 
