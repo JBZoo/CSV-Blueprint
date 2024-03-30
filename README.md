@@ -1080,6 +1080,10 @@ It doesn't depend on the number of rules or the size of CSV file.
 </table>
 <!-- /benchmark-table -->
 
+Btw, if you run the same tests on a MacBook 14" M2 Max 2023, the results are ~2 times better. On MacBook 2019 Intel
+2.4Gz about the same as on GitHub Actions. So I think the table can be considered an average (but too far from the best)
+hardware at the regular engineer.
+
 ### Brief conclusions
 
 * Cell rules are very CPU demanding, but use almost no RAM (always about 1-2 MB at peak).
@@ -1099,15 +1103,13 @@ It doesn't depend on the number of rules or the size of CSV file.
 
 * No memory leaks have been detected.
 
-Btw, if you run the same tests on a MacBook 14" M2 Max 2023, the results are ~2 times better. On MacBook 2019 Intel
-2.4Gz about the same as on GitHub Actions. So I think the table can be considered an average (but too far from the best)
-hardware at the regular engineer.
 
 ### Examples of CSV files
 
 Below you will find examples of CSV files that were used for the benchmarks. They were created
 with [PHP Faker](tests/Benchmarks/Commands/CreateCsv.php) (the first 2000 lines) and then
-copied [1000 times into themselves](tests/Benchmarks/create-csv.sh).
+copied [1000 times into themselves](tests/Benchmarks/create-csv.sh). So we can create a really huge random files in
+seconds.
 
 The basic principle is that the more columns there are, the longer the values in them. I.e. something like exponential
 growth.
