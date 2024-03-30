@@ -13,7 +13,8 @@
 filename_pattern: /.csv$/i
 
 columns:
-  - rules:
+  - name: id
+    rules:
       not_empty: true
     aggregate_rules:
       count: 0
