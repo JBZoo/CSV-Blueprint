@@ -90,6 +90,12 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
         success('It uses different workflows for CI');
     }
 
+    public function testComposerType(): void
+    {
+        $composer = json(PROJECT_ROOT . '/composer.json');
+        isSame('project', $composer->find('type'));
+    }
+
     protected function checkBadgeGithubActionsDemo(): ?string
     {
         $path = 'https://github.com/__VENDOR_ORIG__/__PACKAGE_ORIG__/actions/workflows';
@@ -152,11 +158,5 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
     protected function getTitle(): string
     {
         return '# JBZoo / CSV Blueprint';
-    }
-
-    public function testComposerType(): void
-    {
-        $composer = json(PROJECT_ROOT . '/composer.json');
-        isSame('project', $composer->find('type'));
     }
 }
