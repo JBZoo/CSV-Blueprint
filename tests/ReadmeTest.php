@@ -138,8 +138,7 @@ final class ReadmeTest extends TestCase
 
     public function testBenchmarkTable(): void
     {
-        // $nbsp = static fn (string $text): string => \str_replace(' ', '&nbsp', $text);
-        $nbsp = static fn (string $text): string => \str_replace(' ', ' ', $text);
+        $nbsp = static fn (string $text): string => \str_replace(' ', '&nbsp', $text);
         $extraWidth = \str_repeat('&nbsp', 15);
         $numberOfLines = 2_000_000;
 
