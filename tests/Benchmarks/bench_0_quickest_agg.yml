@@ -12,9 +12,7 @@
 
 filename_pattern: /.csv$/i
 
-csv:
-  header: false
-
 columns:
-  - aggregate_rules:
+  - name: id
+    aggregate_rules:
       count: 0

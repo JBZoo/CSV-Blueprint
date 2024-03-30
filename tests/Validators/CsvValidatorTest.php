@@ -42,9 +42,6 @@ final class CsvValidatorTest extends TestCase
         isSame(
             <<<'TEXT'
                 "csv.header" at line 1. Real number of columns is less than schema: 2 < 3.
-                "csv.column" at line 1, column "2:". Column index:2 not found.
-                "csv.column" at line 2, column "2:". Column index:2 not found.
-                "csv.column" at line 3, column "2:". Column index:2 not found.
                 
                 TEXT,
             \strip_tags((string)$csv->validate()),
@@ -82,7 +79,7 @@ final class CsvValidatorTest extends TestCase
 
         $csv = new CsvFile(Tools::CSV_COMPLEX, Tools::getRule('integer', 'not_empty', true));
         isSame(
-            '"not_empty" at line 19, column "0:integer". Value is empty.' . "\n",
+            '"not_empty" at line 19, column "3:integer". Value is empty.' . "\n",
             \strip_tags((string)$csv->validate()),
         );
     }
@@ -94,7 +91,7 @@ final class CsvValidatorTest extends TestCase
 
         $csv = new CsvFile(Tools::DEMO_CSV, Tools::getAggregateRule('City', 'is_unique', true));
         isSame(
-            '"ag:is_unique" at line 1, column "0:City". Column has non-unique values. Unique: 9, total: 10.' . "\n",
+            '"ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 9, total: 10.' . "\n",
             \strip_tags((string)$csv->validate()),
         );
 
@@ -109,7 +106,7 @@ final class CsvValidatorTest extends TestCase
 
         $csv = new CsvFile(Tools::DEMO_CSV, Tools::getAggregateRule('Float', 'sum', 20));
         isSame(
-            '"ag:sum" at line <red>1</red>, column "0:Float". The sum of numbers in the column is ' .
+            '"ag:sum" at line <red>1</red>, column "2:Float". The sum of numbers in the column is ' .
             '"<c>4691.3235</c>", which is not equal than the expected "<green>20</green>".' . "\n",
             (string)$csv->validate(),
         );
@@ -143,10 +140,12 @@ final class CsvValidatorTest extends TestCase
     public function testErrorToArray(): void
     {
         $csv = new CsvFile(Tools::CSV_COMPLEX, Tools::getRule('yn', 'is_email', true));
+        //        dump($csv);
+
         isSame([
             'ruleCode'   => 'is_email',
             'message'    => 'Value "<c>N</c>" is not a valid email',
-            'columnName' => '0:yn',
+            'columnName' => '2:yn',
             'line'       => 2,
         ], $csv->validate(true)->get(0)->toArray());
     }
@@ -168,5 +167,73 @@ final class CsvValidatorTest extends TestCase
 
         $csv = new CsvFile(Tools::CSV_COMPLEX, ['filename_pattern' => '/.*\.csv$/']);
         isSame('', (string)$csv->validate());
+    }
+
+    public function testHeaderMatchingIfHeaderEnabled(): void
+    {
+        $columns = [
+            ['name' => 'Name'],
+            ['name' => 'City'],
+            ['name' => 'Float'],
+            // ['name' => 'Birthday'], // We skip it for tests
+            ['name' => 'Favorite color'],
+        ];
+
+        $csv = new CsvFile(Tools::DEMO_CSV, ['csv' => ['header' => true], 'columns' => $columns]);
+
+        isSame(['Name', 'City', 'Float', 'Birthday', 'Favorite color'], $csv->getHeader());
+        isSame(['Name', 'City', 'Float', 'Favorite color'], $csv->getSchema()->getSchemaHeader());
+
+        $mappedColumns = $csv->getColumnsMappedByHeader();
+        isSame('not_set', $mappedColumns[3] ?? 'not_set');
+
+        isSame([0, 1, 2, 4], \array_keys($mappedColumns));
+
+        $names = [];
+        foreach ($mappedColumns as $columnIndex => $column) {
+            isSame($columnIndex, $column->getId());
+            $names[] = [$column->getName(), $column->getHumanName()];
+        }
+
+        isSame([
+            ['Name', '0:Name'],
+            ['City', '1:City'],
+            ['Float', '2:Float'],
+            ['Favorite color', '4:Favorite color'], // 4 is important here
+        ], $names);
+    }
+
+    public function testHeaderMatchingIfHeaderDisabled(): void
+    {
+        $columns = [
+            ['name' => 'Name'],
+            ['name' => 'City'],
+            ['name' => 'Float'],
+            // ['name' => 'Birthday'], // We skip it for tests
+            ['name' => 'Favorite color'],
+        ];
+
+        $csv = new CsvFile(Tools::DEMO_CSV, ['csv' => ['header' => false], 'columns' => $columns]);
+
+        isSame([0, 1, 2, 3, 4], $csv->getHeader());
+        isSame(['Name', 'City', 'Float', 'Favorite color'], $csv->getSchema()->getSchemaHeader());
+
+        $mappedColumns = $csv->getColumnsMappedByHeader();
+        isSame('not_set', $mappedColumns[4] ?? 'not_set');
+
+        isSame([0, 1, 2, 3], \array_keys($mappedColumns));
+
+        $names = [];
+        foreach ($mappedColumns as $columnIndex => $column) {
+            isSame($columnIndex, $column->getId());
+            $names[] = [$column->getName(), $column->getHumanName()];
+        }
+
+        isSame([
+            ['Name', '0:Name'],
+            ['City', '1:City'],
+            ['Float', '2:Float'],
+            ['Favorite color', '3:Favorite color'], // 3 is important here
+        ], $names);
     }
 }

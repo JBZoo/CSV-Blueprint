@@ -86,35 +86,12 @@ final class Schema
         return $this->columns;
     }
 
-    /**
-     * @return Column[]|null[]
-     * @phan-suppress PhanPartialTypeMismatchReturn
-     */
-    public function getColumnsMappedByHeader(array $header): array
-    {
-        $map = [];
-
-        if ($this->getCsvStructure()->isHeader()) {
-            foreach ($header as $headerName) {
-                $map[$headerName] = $this->columns[$headerName] ?? null;
-            }
-        } else {
-            return $this->getColumns();
-        }
-
-        return $map;
-    }
-
     public function getColumn(int|string $columNameOrId): ?Column
     {
         if (\is_int($columNameOrId)) {
             $column = \array_values($this->getColumns())[$columNameOrId] ?? null;
         } else {
             $column = $this->getColumns()[$columNameOrId] ?? null;
-        }
-
-        if ($column === null) {
-            throw new Exception("Column \"{$columNameOrId}\" not found in schema \"{$this->filename}\"");
         }
 
         return $column;
@@ -152,6 +129,11 @@ final class Schema
     public function getData(): AbstractData
     {
         return clone $this->data;
+    }
+
+    public function getSchemaHeader(): array
+    {
+        return \array_keys($this->getColumns());
     }
 
     /**

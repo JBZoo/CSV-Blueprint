@@ -107,6 +107,11 @@ final class Column
         return $this->getValidator()->validateCell($cellValue, $line);
     }
 
+    public function setId(int $realIndex): void
+    {
+        $this->id = $realIndex;
+    }
+
     private function prepareRuleSet(string $schemaKey): array
     {
         $rules = [];
