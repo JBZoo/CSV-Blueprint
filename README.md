@@ -911,14 +911,13 @@ Optional format `text` with highlited keywords:
 Of course, you'll want to know how fast it works. The thing is, it depends very-very-very much on the following factors:
 
 * **The file size** - Width and height of the CSV file. The larger the dataset, the longer it will take to go through
-  it.
-  The dependence is linear and strongly depends on the speed of your hardware (CPU, SSD).
+  it. The dependence is linear and strongly depends on the speed of your hardware (CPU, SSD).
 * **Number of rules used** - Obviously, the more of them there are for one column, the more iterations you will have to
   make. Also remember that they do not depend on each other. I.e. execution of one rule will not optimize or slow down
   another rule in any way. In fact, it will be just summing up time and memory resources.
 * Some validation rules are very time or memory intensive. For the most part you won't notice this, but there are some
   that are dramatically slow. For example, `interquartile_mean` processes about 4k lines per second, while the rest of
-  the rules are about 0.3-1 million lines per second.
+  the rules are about 30+ millions lines per second.
 
 However, to get a rough picture, you can check out the table below.
 
@@ -1087,7 +1086,13 @@ It doesn't depend on the number of rules or the size of CSV file.
   The more of them there are, the longer it will take to validate a column, as they are additional actions per(!) value.
 
 * Aggregation rules - work lightning fast (from 10 millions to billions of rows per second), but require a lot of RAM.
-  On the other hand, if you add 20 different aggregation rules, the amount of memory consumed will not increase.
+  On the other hand, if you add 100+ different aggregation rules, the amount of memory consumed will not increase too
+  much.
+
+* Unfortunately, not all PHP array functions can work by reference (`&$var`).
+  This is a very individual thing that depends on the algorithm.
+  So if a dataset in a column is 20 MB sometimes it is copied and the peak value becomes 40 (this is just an example).
+  That's why link optimization doesn't work most of the time.
 
 * In fact, if you are willing to wait 30-60 seconds for a 1 GB file, and you have 200-500 MB of RAM,
   I don't see the point in thinking about it at all.
