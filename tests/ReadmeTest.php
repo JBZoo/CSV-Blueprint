@@ -179,7 +179,7 @@ final class ReadmeTest extends TestCase
         $output = ['<table>'];
         $output[] = '<tr>';
         $output[] = "   <td align=\"left\"><b>{$nbsp('File / Profile')}</b>{$extraWidth}<br></td>";
-        $output[] = "   <td align=\"left\"><b>Metric</b>{$extraWidth}<br></td>";
+        $output[] = '   <td align="left"><b>Metric</b><br></td>';
         foreach ($columns as $column) {
             $output[] = "   <td align=\"left\"><b>{$nbsp($column)}</b></td>";
         }
