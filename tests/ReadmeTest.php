@@ -138,7 +138,12 @@ final class ReadmeTest extends TestCase
 
     public function testBenchmarkTable(): void
     {
-        $columns = ['Quickest', 'Minimum', 'Realistic', 'All agg at once'];
+        $columns = [
+            'Fast<br>1 quickest rule',
+            'Minimum<br>2 regular rules',
+            'Close to<br>real life',
+            'All aggregations<br>at once',
+        ];
 
         $table = [
             'Columns: 1<br>Size: 8.48 MB' => [
@@ -169,8 +174,8 @@ final class ReadmeTest extends TestCase
 
         $output = ['<table>'];
         $output[] = '<tr>';
-        $output[] = '   <td align="left"><b>File / Schema</b></th>';
-        $output[] = '   <td align="left"><b>Metric</b></th>';
+        $output[] = '   <td align="left"><b>File / Schema</b><br></th>';
+        $output[] = '   <td align="left"><b>Metric</b><br></th>';
         foreach ($columns as $column) {
             $output[] = "   <td align=\"left\"><b>{$column}</b></th>";
         }
@@ -179,9 +184,9 @@ final class ReadmeTest extends TestCase
         foreach ($table as $rowName => $row) {
             $output[] = '<tr>';
             $output[] = "   <td>{$rowName}<br><br><br></td>";
-            $output[] = '   <td>Cell rules, l/sec<br>Agg rules, l/s<br>Cell + Agg, l/s<br>Peak Mem, MB</td>';
+            $output[] = '   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMem</td>';
             foreach ($row as $values) {
-                $output[] = '   <td align="right">' . \implode('K<br>', $values) . '</td>';
+                $output[] = '   <td align="right">' . \implode('&nbspK<br>', $values) . '</td>';
             }
             $output[] = '</tr>';
         }

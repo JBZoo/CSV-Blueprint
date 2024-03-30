@@ -906,7 +906,7 @@ Optional format `text` with highlited keywords:
 
 Of course, you'll want to know how fast it works. The thing is, it depends very-very-very much on the following factors:
 
-* The size - width and height of the CSV file. The larger the dataset, the longer it will take to go through it.
+* The file size - width and height of the CSV file. The larger the dataset, the longer it will take to go through it.
 * The dependence is linear and strongly depends on the speed of your hardware (CPU, SSD).
 * Number of rules used. Obviously, the more of them there are for one column, the more iterations you will have to make.
   Also remember that they do not depend on each other.
@@ -931,7 +931,7 @@ However, to get a rough picture, you can check out the table below.
 
 Since usage profiles can vary, I've prepared a few diagrams to cover most cases.
 
-* **[Quickest](tests/Benchmarks/bench_0_quickest_combo.yml)** - It check only one of the rule (cell or aggregation). I
+* **[Fast](tests/Benchmarks/bench_0_quickest_combo.yml)** - It check only one of the rule (cell or aggregation). I
   picked the fastest rules.
 * **[Minimum](tests/Benchmarks/bench_1_mini_combo.yml)** - Normal rules with average performance, but 2 of each.
 * **[Realistic](tests/Benchmarks/bench_2_realistic_combo.yml)** - A mix of rules that are most likely to be used in real
@@ -949,44 +949,44 @@ Also, there is an additional division into
 <!-- benchmark-table -->
 <table>
 <tr>
-   <td align="left"><b>File / Schema</b></th>
-   <td align="left"><b>Metric</b></th>
-   <td align="left"><b>Quickest</b></th>
-   <td align="left"><b>Minimum</b></th>
-   <td align="left"><b>Realistic</b></th>
-   <td align="left"><b>All agg at once</b></th>
+   <td align="left"><b>File / Schema</b><br></th>
+   <td align="left"><b>Metric</b><br></th>
+   <td align="left"><b>Fast<br>1 quickest rule</b></th>
+   <td align="left"><b>Minimum<br>2 regular rules</b></th>
+   <td align="left"><b>Close to<br>real life</b></th>
+   <td align="left"><b>All aggregations<br>at once</b></th>
 </tr>
 <tr>
    <td>Columns: 1<br>Size: 8.48 MB<br><br><br></td>
-   <td>Cell rules, l/sec<br>Agg rules, l/s<br>Cell + Agg, l/s<br>Peak Mem, MB</td>
-   <td align="right">586K<br>802K<br>474K<br>52</td>
-   <td align="right">320K<br>755K<br>274K<br>68</td>
-   <td align="right">171K<br>532K<br>142K<br>208</td>
-   <td align="right">794K<br>142K<br>121K<br>272</td>
+   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMem</td>
+   <td align="right">586&nbspK<br>802&nbspK<br>474&nbspK<br>52</td>
+   <td align="right">320&nbspK<br>755&nbspK<br>274&nbspK<br>68</td>
+   <td align="right">171&nbspK<br>532&nbspK<br>142&nbspK<br>208</td>
+   <td align="right">794&nbspK<br>142&nbspK<br>121&nbspK<br>272</td>
 </tr>
 <tr>
    <td>Columns: 5<br>Size: 64.04 MB<br><br><br></td>
-   <td>Cell rules, l/sec<br>Agg rules, l/s<br>Cell + Agg, l/s<br>Peak Mem, MB</td>
-   <td align="right">443K<br>559K<br>375K<br>52</td>
-   <td align="right">274K<br>526K<br>239K<br>68</td>
-   <td align="right">156K<br>406K<br>131K<br>208</td>
-   <td align="right">553K<br>139K<br>111K<br>272</td>
+   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMem</td>
+   <td align="right">443&nbspK<br>559&nbspK<br>375&nbspK<br>52</td>
+   <td align="right">274&nbspK<br>526&nbspK<br>239&nbspK<br>68</td>
+   <td align="right">156&nbspK<br>406&nbspK<br>131&nbspK<br>208</td>
+   <td align="right">553&nbspK<br>139&nbspK<br>111&nbspK<br>272</td>
 </tr>
 <tr>
    <td>Columns: 10<br>Size: 220.02 MB<br><br><br></td>
-   <td>Cell rules, l/sec<br>Agg rules, l/s<br>Cell + Agg, l/s<br>Peak Mem, MB</td>
-   <td align="right">276K<br>314K<br>247K<br>52</td>
-   <td align="right">197K<br>308K<br>178K<br>68</td>
-   <td align="right">129K<br>262K<br>111K<br>208</td>
-   <td align="right">311K<br>142K<br>97K<br>272</td>
+   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMem</td>
+   <td align="right">276&nbspK<br>314&nbspK<br>247&nbspK<br>52</td>
+   <td align="right">197&nbspK<br>308&nbspK<br>178&nbspK<br>68</td>
+   <td align="right">129&nbspK<br>262&nbspK<br>111&nbspK<br>208</td>
+   <td align="right">311&nbspK<br>142&nbspK<br>97&nbspK<br>272</td>
 </tr>
 <tr>
    <td>Columns: 20<br>Size: 1.18 GB<br><br><br></td>
-   <td>Cell rules, l/sec<br>Agg rules, l/s<br>Cell + Agg, l/s<br>Peak Mem, MB</td>
-   <td align="right">102K<br>106K<br>95K<br>52</td>
-   <td align="right">88K<br>103K<br>83K<br>68</td>
-   <td align="right">70K<br>97K<br>65K<br>208</td>
-   <td align="right">105K<br>144K<br>61K<br>272</td>
+   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMem</td>
+   <td align="right">102&nbspK<br>106&nbspK<br>95&nbspK<br>52</td>
+   <td align="right">88&nbspK<br>103&nbspK<br>83&nbspK<br>68</td>
+   <td align="right">70&nbspK<br>97&nbspK<br>65&nbspK<br>208</td>
+   <td align="right">105&nbspK<br>144&nbspK<br>61&nbspK<br>272</td>
 </tr>
 </table>
 <!-- /benchmark-table -->
