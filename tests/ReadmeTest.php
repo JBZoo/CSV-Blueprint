@@ -139,6 +139,13 @@ final class ReadmeTest extends TestCase
     public function testBenchmarkTable(): void
     {
         $nbsp = static fn (string $text): string => \str_replace(' ', '&nbsp', $text);
+        $timeFormat = static fn (float $time): string => \str_pad(
+            \number_format($time, 1) . ' sec',
+            8,
+            ' ',
+            \STR_PAD_LEFT,
+        );
+
         $numberOfLines = 2_000_000;
 
         $columns = [
@@ -199,8 +206,8 @@ final class ReadmeTest extends TestCase
                     if ($key === 3) {
                         $testRes = $value . ' MB';
                     } else {
-                        $execTime = \round($numberOfLines / ($value * 1000), 1);
-                        $testRes = $nbsp("{$value}K, {$execTime} sec<br>");
+                        $execTime = $timeFormat($numberOfLines / ($value * 1000));
+                        $testRes = $nbsp("{$value}K, {$execTime}<br>");
                     }
 
                     $output[] = $testRes;
