@@ -165,7 +165,7 @@ final class ReadmeTest extends TestCase
             ],
         ];
 
-        $output = ['<table width="100%" style="wifth:100%">'];
+        $output = ['<table width="100%" style="width:100%">'];
         $output[] = '<tr valign="top">';
         $output[] = '<th>File / Schema</th>';
         $output[] = '<th>Metric</th>';
