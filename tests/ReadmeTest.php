@@ -200,7 +200,7 @@ final class ReadmeTest extends TestCase
                     if ($key === 3) {
                         $testRes = $value . ' MB';
                     } else {
-                        $execTime = \round($numberOfLines / ($value * 1000));
+                        $execTime = \round($numberOfLines / ($value * 1000), 1);
                         $testRes = $nbsp("{$value}K, {$execTime} sec<br>");
                     }
 

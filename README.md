@@ -961,27 +961,27 @@ Also, there is an additional division into
    <td>Columns:&nbsp1<br>Size:&nbsp8.48&nbspMB<br><br><br></td>
    <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
    <td align="right">
-586K,&nbsp3&nbspsec<br>
-802K,&nbsp2&nbspsec<br>
-474K,&nbsp4&nbspsec<br>
+586K,&nbsp3.4&nbspsec<br>
+802K,&nbsp2.5&nbspsec<br>
+474K,&nbsp4.2&nbspsec<br>
 52 MB
 </td>
    <td align="right">
-320K,&nbsp6&nbspsec<br>
-755K,&nbsp3&nbspsec<br>
-274K,&nbsp7&nbspsec<br>
+320K,&nbsp6.3&nbspsec<br>
+755K,&nbsp2.6&nbspsec<br>
+274K,&nbsp7.3&nbspsec<br>
 68 MB
 </td>
    <td align="right">
-171K,&nbsp12&nbspsec<br>
-532K,&nbsp4&nbspsec<br>
-142K,&nbsp14&nbspsec<br>
+171K,&nbsp11.7&nbspsec<br>
+532K,&nbsp3.8&nbspsec<br>
+142K,&nbsp14.1&nbspsec<br>
 208 MB
 </td>
    <td align="right">
-794K,&nbsp3&nbspsec<br>
-142K,&nbsp14&nbspsec<br>
-121K,&nbsp17&nbspsec<br>
+794K,&nbsp2.5&nbspsec<br>
+142K,&nbsp14.1&nbspsec<br>
+121K,&nbsp16.5&nbspsec<br>
 272 MB
 </td>
 </tr>
@@ -989,26 +989,26 @@ Also, there is an additional division into
    <td>Columns:&nbsp5<br>Size:&nbsp64.04&nbspMB<br><br><br></td>
    <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
    <td align="right">
-443K,&nbsp5&nbspsec<br>
-559K,&nbsp4&nbspsec<br>
-375K,&nbsp5&nbspsec<br>
+443K,&nbsp4.5&nbspsec<br>
+559K,&nbsp3.6&nbspsec<br>
+375K,&nbsp5.3&nbspsec<br>
 52 MB
 </td>
    <td align="right">
-274K,&nbsp7&nbspsec<br>
-526K,&nbsp4&nbspsec<br>
-239K,&nbsp8&nbspsec<br>
+274K,&nbsp7.3&nbspsec<br>
+526K,&nbsp3.8&nbspsec<br>
+239K,&nbsp8.4&nbspsec<br>
 68 MB
 </td>
    <td align="right">
-156K,&nbsp13&nbspsec<br>
-406K,&nbsp5&nbspsec<br>
-131K,&nbsp15&nbspsec<br>
+156K,&nbsp12.8&nbspsec<br>
+406K,&nbsp4.9&nbspsec<br>
+131K,&nbsp15.3&nbspsec<br>
 208 MB
 </td>
    <td align="right">
-553K,&nbsp4&nbspsec<br>
-139K,&nbsp14&nbspsec<br>
+553K,&nbsp3.6&nbspsec<br>
+139K,&nbsp14.4&nbspsec<br>
 111K,&nbsp18&nbspsec<br>
 272 MB
 </td>
@@ -1017,27 +1017,27 @@ Also, there is an additional division into
    <td>Columns:&nbsp10<br>Size:&nbsp220.02&nbspMB<br><br><br></td>
    <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
    <td align="right">
-276K,&nbsp7&nbspsec<br>
-314K,&nbsp6&nbspsec<br>
-247K,&nbsp8&nbspsec<br>
+276K,&nbsp7.2&nbspsec<br>
+314K,&nbsp6.4&nbspsec<br>
+247K,&nbsp8.1&nbspsec<br>
 52 MB
 </td>
    <td align="right">
-197K,&nbsp10&nbspsec<br>
-308K,&nbsp6&nbspsec<br>
-178K,&nbsp11&nbspsec<br>
+197K,&nbsp10.2&nbspsec<br>
+308K,&nbsp6.5&nbspsec<br>
+178K,&nbsp11.2&nbspsec<br>
 68 MB
 </td>
    <td align="right">
-129K,&nbsp16&nbspsec<br>
-262K,&nbsp8&nbspsec<br>
+129K,&nbsp15.5&nbspsec<br>
+262K,&nbsp7.6&nbspsec<br>
 111K,&nbsp18&nbspsec<br>
 208 MB
 </td>
    <td align="right">
-311K,&nbsp6&nbspsec<br>
-142K,&nbsp14&nbspsec<br>
-97K,&nbsp21&nbspsec<br>
+311K,&nbsp6.4&nbspsec<br>
+142K,&nbsp14.1&nbspsec<br>
+97K,&nbsp20.6&nbspsec<br>
 272 MB
 </td>
 </tr>
@@ -1045,27 +1045,27 @@ Also, there is an additional division into
    <td>Columns:&nbsp20<br>Size:&nbsp1.18&nbspGB<br><br><br></td>
    <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
    <td align="right">
-102K,&nbsp20&nbspsec<br>
-106K,&nbsp19&nbspsec<br>
-95K,&nbsp21&nbspsec<br>
+102K,&nbsp19.6&nbspsec<br>
+106K,&nbsp18.9&nbspsec<br>
+95K,&nbsp21.1&nbspsec<br>
 52 MB
 </td>
    <td align="right">
-88K,&nbsp23&nbspsec<br>
-103K,&nbsp19&nbspsec<br>
-83K,&nbsp24&nbspsec<br>
+88K,&nbsp22.7&nbspsec<br>
+103K,&nbsp19.4&nbspsec<br>
+83K,&nbsp24.1&nbspsec<br>
 68 MB
 </td>
    <td align="right">
-70K,&nbsp29&nbspsec<br>
-97K,&nbsp21&nbspsec<br>
-65K,&nbsp31&nbspsec<br>
+70K,&nbsp28.6&nbspsec<br>
+97K,&nbsp20.6&nbspsec<br>
+65K,&nbsp30.8&nbspsec<br>
 208 MB
 </td>
    <td align="right">
 105K,&nbsp19&nbspsec<br>
-144K,&nbsp14&nbspsec<br>
-61K,&nbsp33&nbspsec<br>
+144K,&nbsp13.9&nbspsec<br>
+61K,&nbsp32.8&nbspsec<br>
 272 MB
 </td>
 </tr>
