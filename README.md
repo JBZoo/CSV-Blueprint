@@ -1291,7 +1291,7 @@ I'm not sure if I will implement all of them. But I will try to do my best.
 ## Contributing
 If you have any ideas or suggestions, feel free to open an issue or create a pull request.
 
-```sh
+```shell
 # Fork the repo and build project
 git clone git@github.com:jbzoo/csv-blueprint.git ./jbzoo-csv-blueprint
 cd ./jbzoo-csv-blueprint
