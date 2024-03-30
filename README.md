@@ -960,7 +960,7 @@ Also, there is an additional division into
    <td align="left"><b>All&nbspaggregations</b></td>
 </tr>
 <tr>
-   <td>Columns:&nbsp1<br>Size:&nbsp8.48&nbspMB<br><br><br></td>
+   <td>Columns:&nbsp1<br>Size:&nbsp~8&nbspMB<br><br><br></td>
    <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
    <td align="right">
 586K,&nbsp&nbsp3.4&nbspsec<br>
@@ -988,7 +988,7 @@ Also, there is an additional division into
 </td>
 </tr>
 <tr>
-   <td>Columns:&nbsp5<br>Size:&nbsp64.04&nbspMB<br><br><br></td>
+   <td>Columns:&nbsp5<br>Size:&nbsp64&nbspMB<br><br><br></td>
    <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
    <td align="right">
 443K,&nbsp&nbsp4.5&nbspsec<br>
@@ -1016,7 +1016,7 @@ Also, there is an additional division into
 </td>
 </tr>
 <tr>
-   <td>Columns:&nbsp10<br>Size:&nbsp220.02&nbspMB<br><br><br></td>
+   <td>Columns:&nbsp10<br>Size:&nbsp220&nbspMB<br><br><br></td>
    <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
    <td align="right">
 276K,&nbsp&nbsp7.2&nbspsec<br>
@@ -1044,7 +1044,7 @@ Also, there is an additional division into
 </td>
 </tr>
 <tr>
-   <td>Columns:&nbsp20<br>Size:&nbsp1.18&nbspGB<br><br><br></td>
+   <td>Columns:&nbsp20<br>Size:&nbsp1.2&nbspGB<br><br><br></td>
    <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
    <td align="right">
 102K,&nbsp19.6&nbspsec<br>
