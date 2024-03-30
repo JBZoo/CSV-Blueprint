@@ -904,46 +904,46 @@ Optional format `text` with highlited keywords:
 ## Benchmarks
 
 <!-- benchmark-table -->
-<table style="text-align: left; vertical-align: top; width:1000px">
+<table>
 <tr>
    <th>File / Schema</th>
-   <th>Metric</th>
-   <th style="vertical-align: top;">Quickest</th>
-   <th style="vertical-align: top;">Minimum</th>
-   <th style="vertical-align: top;">Realistic</th>
-   <th style="vertical-align: top;">All Rules</th>
+   <th><a href="http://asd.com">Metric</a></th>
+   <th>Quickest</th>
+   <th>Minimum</th>
+   <th>Realistic</th>
+   <th>All Rules</th>
 </tr>
 <tr>
-   <td>Columns: 1<br>Size: 8.48 MB</td>
+   <td>Columns: 1<br>Size: 8.48 MB<br><br><br></td>
    <td>Cell rules, l/s<br>Agg rules, l/s<br>Cell+Agg, l/s<br>Peak Mem, MB</td>
-   <td style="text-align: right; vertical-align: top;">586K<br>802K<br>474K<br>52</td>
-   <td style="text-align: right; vertical-align: top;">320K<br>755K<br>274K<br>68</td>
-   <td style="text-align: right; vertical-align: top;">171K<br>532K<br>142K<br>208</td>
-   <td style="text-align: right; vertical-align: top;">794K<br>142K<br>121K<br>272</td>
+   <td align="right">586K<br>802K<br>474K<br>52</td>
+   <td align="right">320K<br>755K<br>274K<br>68</td>
+   <td align="right">171K<br>532K<br>142K<br>208</td>
+   <td align="right">794K<br>142K<br>121K<br>272</td>
 </tr>
 <tr>
-   <td>Columns: 5<br>Size: 64.04 MB</td>
+   <td>Columns: 5<br>Size: 64.04 MB<br><br><br></td>
    <td>Cell rules, l/s<br>Agg rules, l/s<br>Cell+Agg, l/s<br>Peak Mem, MB</td>
-   <td style="text-align: right; vertical-align: top;">443K<br>559K<br>375K<br>52</td>
-   <td style="text-align: right; vertical-align: top;">274K<br>526K<br>239K<br>68</td>
-   <td style="text-align: right; vertical-align: top;">156K<br>406K<br>131K<br>208</td>
-   <td style="text-align: right; vertical-align: top;">553K<br>139K<br>111K<br>272</td>
+   <td align="right">443K<br>559K<br>375K<br>52</td>
+   <td align="right">274K<br>526K<br>239K<br>68</td>
+   <td align="right">156K<br>406K<br>131K<br>208</td>
+   <td align="right">553K<br>139K<br>111K<br>272</td>
 </tr>
 <tr>
-   <td>Columns: 10<br>Size: 220.02 MB</td>
+   <td>Columns: 10<br>Size: 220.02 MB<br><br><br></td>
    <td>Cell rules, l/s<br>Agg rules, l/s<br>Cell+Agg, l/s<br>Peak Mem, MB</td>
-   <td style="text-align: right; vertical-align: top;">276K<br>314K<br>247K<br>52</td>
-   <td style="text-align: right; vertical-align: top;">197K<br>308K<br>178K<br>68</td>
-   <td style="text-align: right; vertical-align: top;">129K<br>262K<br>111K<br>208</td>
-   <td style="text-align: right; vertical-align: top;">311K<br>142K<br>97K<br>272</td>
+   <td align="right">276K<br>314K<br>247K<br>52</td>
+   <td align="right">197K<br>308K<br>178K<br>68</td>
+   <td align="right">129K<br>262K<br>111K<br>208</td>
+   <td align="right">311K<br>142K<br>97K<br>272</td>
 </tr>
 <tr>
-   <td>Columns: 20<br>Size: 1.18 GB</td>
+   <td>Columns: 20<br>Size: 1.18 GB<br><br><br></td>
    <td>Cell rules, l/s<br>Agg rules, l/s<br>Cell+Agg, l/s<br>Peak Mem, MB</td>
-   <td style="text-align: right; vertical-align: top;">102K<br>106K<br>95K<br>52</td>
-   <td style="text-align: right; vertical-align: top;">88K<br>103K<br>83K<br>68</td>
-   <td style="text-align: right; vertical-align: top;">70K<br>97K<br>65K<br>208</td>
-   <td style="text-align: right; vertical-align: top;">105K<br>144K<br>61K<br>272</td>
+   <td align="right">102K<br>106K<br>95K<br>52</td>
+   <td align="right">88K<br>103K<br>83K<br>68</td>
+   <td align="right">70K<br>97K<br>65K<br>208</td>
+   <td align="right">105K<br>144K<br>61K<br>272</td>
 </tr>
 </table>
 <!-- /benchmark-table -->
