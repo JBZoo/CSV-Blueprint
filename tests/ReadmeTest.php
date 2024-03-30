@@ -165,8 +165,8 @@ final class ReadmeTest extends TestCase
             ],
         ];
 
-        $output = ['<table style="vertical-align: top;">'];
-        $output[] = '<tr style="">';
+        $output = ['<table width="100%" style="wifth:100%">'];
+        $output[] = '<tr valign="top">';
         $output[] = '<th>File / Schema</th>';
         $output[] = '<th>Metric</th>';
         foreach (\array_keys(\reset($table)) as $title) {
