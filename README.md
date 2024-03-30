@@ -906,16 +906,16 @@ Optional format `text` with highlited keywords:
 <!-- benchmark-table -->
 <table>
 <tr>
-   <th align="left">File / Schema</th>
-   <th align="left"><a href="http://asd.com">Metric</a></th>
-   <th align="left">Quickest</th>
-   <th align="left">Minimum</th>
-   <th align="left">Realistic</th>
-   <th align="left">All Rules</th>
+   <td align="left"><b>File / Schema</b></th>
+   <td align="left"><b>Metric</b></th>
+   <td align="left"><b>Quickest</b></th>
+   <td align="left"><b>Minimum</b></th>
+   <td align="left"><b>Realistic</b></th>
+   <td align="left"><b>All Rules</b></th>
 </tr>
 <tr>
    <td>Columns: 1<br>Size: 8.48 MB<br><br><br></td>
-   <td>Cell rules, l/s<br>Agg rules, l/s<br>Cell+Agg, l/s<br>Peak Mem, MB</td>
+   <td>Cell rules, l/sec<br>Agg rules, l/s<br>Cell + Agg, l/s<br>Peak Mem, MB</td>
    <td align="right">586K<br>802K<br>474K<br>52</td>
    <td align="right">320K<br>755K<br>274K<br>68</td>
    <td align="right">171K<br>532K<br>142K<br>208</td>
@@ -923,7 +923,7 @@ Optional format `text` with highlited keywords:
 </tr>
 <tr>
    <td>Columns: 5<br>Size: 64.04 MB<br><br><br></td>
-   <td>Cell rules, l/s<br>Agg rules, l/s<br>Cell+Agg, l/s<br>Peak Mem, MB</td>
+   <td>Cell rules, l/sec<br>Agg rules, l/s<br>Cell + Agg, l/s<br>Peak Mem, MB</td>
    <td align="right">443K<br>559K<br>375K<br>52</td>
    <td align="right">274K<br>526K<br>239K<br>68</td>
    <td align="right">156K<br>406K<br>131K<br>208</td>
@@ -931,7 +931,7 @@ Optional format `text` with highlited keywords:
 </tr>
 <tr>
    <td>Columns: 10<br>Size: 220.02 MB<br><br><br></td>
-   <td>Cell rules, l/s<br>Agg rules, l/s<br>Cell+Agg, l/s<br>Peak Mem, MB</td>
+   <td>Cell rules, l/sec<br>Agg rules, l/s<br>Cell + Agg, l/s<br>Peak Mem, MB</td>
    <td align="right">276K<br>314K<br>247K<br>52</td>
    <td align="right">197K<br>308K<br>178K<br>68</td>
    <td align="right">129K<br>262K<br>111K<br>208</td>
@@ -939,7 +939,7 @@ Optional format `text` with highlited keywords:
 </tr>
 <tr>
    <td>Columns: 20<br>Size: 1.18 GB<br><br><br></td>
-   <td>Cell rules, l/s<br>Agg rules, l/s<br>Cell+Agg, l/s<br>Peak Mem, MB</td>
+   <td>Cell rules, l/sec<br>Agg rules, l/s<br>Cell + Agg, l/s<br>Peak Mem, MB</td>
    <td align="right">102K<br>106K<br>95K<br>52</td>
    <td align="right">88K<br>103K<br>83K<br>68</td>
    <td align="right">70K<br>97K<br>65K<br>208</td>

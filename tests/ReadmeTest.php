@@ -167,17 +167,17 @@ final class ReadmeTest extends TestCase
 
         $output = ['<table>'];
         $output[] = '<tr>';
-        $output[] = '   <th align="left">File / Schema</th>';
-        $output[] = '   <th align="left"><a href="http://asd.com">Metric</a></th>';
+        $output[] = '   <td align="left"><b>File / Schema</b></th>';
+        $output[] = '   <td align="left"><b>Metric</b></th>';
         foreach (\array_keys(\reset($table)) as $title) {
-            $output[] = "   <th align=\"left\">{$title}</th>";
+            $output[] = "   <td align=\"left\"><b>{$title}</b></th>";
         }
         $output[] = '</tr>';
 
         foreach ($table as $rowName => $row) {
             $output[] = '<tr>';
             $output[] = "   <td>{$rowName}<br><br><br></td>";
-            $output[] = '   <td>Cell rules, l/s<br>Agg rules, l/s<br>Cell+Agg, l/s<br>Peak Mem, MB</td>';
+            $output[] = '   <td>Cell rules, l/sec<br>Agg rules, l/s<br>Cell + Agg, l/s<br>Peak Mem, MB</td>';
             foreach ($row as $values) {
                 $output[] = '   <td align="right">' . \implode('K<br>', $values) . '</td>';
             }
