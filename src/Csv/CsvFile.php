@@ -108,6 +108,7 @@ final class CsvFile
 
         $realHeader = $this->getHeader();
         foreach ($realHeader as $realIndex => $realColumn) {
+            $realIndex = (int)$realIndex;
             $schemaColumn = $this->schema->getColumn($realColumn);
 
             if ($schemaColumn !== null) {
