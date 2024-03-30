@@ -914,8 +914,8 @@ Of course, you'll want to know how fast it works. The thing is, it depends very-
   it.
   The dependence is linear and strongly depends on the speed of your hardware (CPU, SSD).
 * **Number of rules used** - Obviously, the more of them there are for one column, the more iterations you will have to
-  make.
-  Also remember that they do not depend on each other.
+  make. Also remember that they do not depend on each other. I.e. execution of one rule will not optimize or slow down
+  another rule in any way. In fact, it will be just summing up time and memory resources.
 * Some validation rules are very time or memory intensive. For the most part you won't notice this, but there are some
   that are dramatically slow. For example, `interquartile_mean` processes about 4k lines per second, while the rest of
   the rules are about 0.3-1 million lines per second.
@@ -931,7 +931,7 @@ However, to get a rough picture, you can check out the table below.
 * Software: Latest Ubuntu + Docker.
   Also [see detail about GA hardware](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-private-repositories).
 * The main metric is the number of lines per second. Please note that the table is thousands of lines per second
-  (`100 K` = `100,000 lines per second`).
+  (`100K` = `100,000 lines per second`).
 * An additional metric is the peak RAM consumption over the entire time of the test case.
 
 Since usage profiles can vary, I've prepared a few profiles to cover most cases.
@@ -946,12 +946,15 @@ Since usage profiles can vary, I've prepared a few profiles to cover most cases.
 
 Also, there is an additional division into
 
-* `Cell rules` - only rules applicable for each row/cell, 1000 lines per second.
-* `Agg rules` - only rules applicable for the whole column, 1000 lines per second.
-* `Cell + Agg` - a simultaneous combination of the previous two, 1000 lines per second.
-* `Peak Memory` - the maximum memory consumption during the test case, megabytes. **Important note:** This value is
-  only for the aggregation case. Since if you don't have aggregations, the peak memory usage will always be
-  no more than a couple megabytes.
+* `Cell rules` - only rules applicable for each row/cell.
+* `Agg rules` - only rules applicable for the whole column.
+* `Cell + Agg` - a simultaneous combination of the previous two.
+* `Peak Memory` - the maximum memory consumption during the test case.
+
+**Important note:** `Peak Memory` value is only for the aggregation case. Since if you don't have aggregations,
+the peak memory usage will always be no more than 2-4 megabytes. No memory leaks!
+It doesn't depend on the number of rules or the size of CSV file.
+
 
 <!-- benchmark-table -->
 <table>
@@ -1100,6 +1103,9 @@ hardware at the regular engineer.
 Below you will find examples of CSV files that were used for the benchmarks. They were created
 with [PHP Faker](tests/Benchmarks/Commands/CreateCsv.php) (the first 2000 lines) and then
 copied [1000 times into themselves](tests/Benchmarks/create-csv.sh).
+
+The basic principle is that the more columns there are, the longer the values in them. I.e. something like exponential
+growth.
 
 <details>
   <summary>Columns: 1, Size: 8.48 MB</summary>
