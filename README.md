@@ -208,21 +208,32 @@ Define your CSV validation schema in a [YAML](schema-examples/full.yml). Other f
 This example defines a simple schema for a CSV file with a header row, specifying that the `id` column must not be empty and must contain integer values.
 Also, it checks that the `name` column has a minimum length of 3 characters.
 
+
+<!-- readme-sample-yml -->
 ```yml
+name: Simple CSV Schema
+filename_pattern: /my-favorite-csv-\d+\.csv$/i
 csv:
-  delimiter: ;
+  delimiter: ';'
 
 columns:
   - name: id
     rules:
       not_empty: true
       is_int: true
+    aggregate_rules:
+      is_unique: true
+      sorted: [ asc, numeric ]
 
   - name: name
     rules:
-      min_length: 3
+      length_min: 3
+    aggregate_rules:
+      count: 10
 
 ```
+
+<!-- /readme-sample-yml -->
 
 
 ### Full description of the schema
@@ -259,13 +270,11 @@ description: |                          # Any description of the CSV file. Not u
   supporting a wide range of data validation rules from basic type checks to complex regex validations.
   This example serves as a comprehensive guide for creating robust CSV file validations.
 
-
 # Regular expression to match the file name. If not set, then no pattern check.
 # This allows you to pre-validate the file name before processing its contents.
 # Feel free to check parent directories as well.
-# See https://www.php.net/manual/en/reference.pcre.pattern.syntax.php
+# See: https://www.php.net/manual/en/reference.pcre.pattern.syntax.php
 filename_pattern: /demo(-\d+)?\.csv$/i
-
 
 # Here are default values to parse CSV file.
 # You can skip this section if you don't need to override the default values.
@@ -277,14 +286,12 @@ csv:
   encoding: utf-8                       # (Experimental) Only utf-8, utf-16, utf-32.
   bom: false                            # (Experimental) If the file has a BOM (Byte Order Mark) at the beginning.
 
-
 # Structural rules for the CSV file. These rules are applied to the entire CSV file.
 # They are not(!) related to the data in the columns.
 # You can skip this section if you don't need to override the default values.
-structural_rules:
+structural_rules: # Here are default values.
   strict_column_order: true             # Ensure columns in CSV follow the same order as defined in this YML schema. It works only if "csv.header" is true.
   allow_extra_columns: false            # Allow CSV files to have more columns than specified in this YML schema.
-
 
 # Description of each column in CSV.
 # It is recommended to present each column in the same order as presented in the CSV file.
@@ -319,7 +326,7 @@ columns:
       allow_values: [ y, n, "" ]        # Strict set of values that are allowed.
       not_allow_values: [ invalid ]     # Strict set of values that are NOT allowed.
 
-      # Any valid regex pattern. See https://www.php.net/manual/en/reference.pcre.pattern.syntax.php
+      # Any valid regex pattern. See: https://www.php.net/manual/en/reference.pcre.pattern.syntax.php
       # Of course it's a super powerful tool to verify any sort of string data.
       # Please, be careful. Regex is a powerful tool, but it can be very dangerous if used incorrectly.
       # Remember that if you want to solve a problem with regex, you now have two problems.
@@ -652,7 +659,7 @@ columns:
       contraharmonic_mean_max: 9.0      # x <= 9.0
 
       # Root mean square (quadratic mean) The square root of the arithmetic mean of the squares of a set of numbers.
-      # See https://en.wikipedia.org/wiki/Root_mean_square
+      # See: https://en.wikipedia.org/wiki/Root_mean_square
       root_mean_square_min: 1.0         # x >= 1.0
       root_mean_square_greater: 2.0     # x >  2.0
       root_mean_square_not: 5.0         # x != 5.0
