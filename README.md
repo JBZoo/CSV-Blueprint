@@ -242,19 +242,33 @@ In the [example Yml file](schema-examples/full.yml) you can find a detailed desc
 It's also covered by tests, so it's always up-to-date.
 
 **Important notes**
+
 * I have deliberately refused typing of columns (like `type: integer`) and replaced them with rules,
   which can be combined in any sequence and completely at your discretion.
   This gives you great flexibility when validating CSV files.
-* All fields (unless explicitly stated otherwise) are optional, and you can choose not to declare them. Up to you.
-* If you specify a wrong rule name, non-existent values (which are not in the example below) or a different variable 
-  type for any of the options, you will get a schema validation error. At your own risk, you can use the `skip-schema`
+* All options (unless explicitly stated otherwise) are optional, and you can choose not to declare them. Up to you.
+* If you specify a wrong rule name, non-existent values (which are not in the example below) or a different variable
+  type for any of the options, you will get a schema validation error. At your own risk, you can use the `--skip-schema`
   option to avoid seeing these errors and use your keys in the schema.
-
+* All rules except `not_empty` ignored for empty strings (length 0). If the value must be non-empty,
+  use `not_empty: true` as extra rule. Keep in mind that a space (` `) is also a character. In this case the string
+  length
+  will be `1`. If you want to avoid such situations, add the `is_trimmed: true` rule.
+* All rules don't depend on each other. They know nothing about each other and cannot influence each other.
+* You can use the rules in any combination. Or not use any of them. They are grouped below simply for ease of navigation
+  and reading.
+* If you see the value for the rule is `is_some_rule: true` - that's just an enable flag. In other cases, these are rule
+  parameters.
+* The order of rules execution is the same as in the schema. But in reality it will only change the order of errors in
+  the report.
+* Most of the rules are case-sensitive. Unless otherwise specified.
+* As backup plan, you always can use the `regex` rule. But it is much more reliable to use clear combinations of rules.
+  That way it will be more obvious what went wrong.
 
 Below you'll find the full list of rules and a brief commentary and example for context.
 This part of the readme is also covered by autotests, so these code are always up-to-date.
 
-In any unclear situation, look into it first.
+In any unclear situation, look into it first ;)
 
 <!-- full-yml -->
 ```yml
@@ -342,7 +356,7 @@ columns:
       length_max: 9                     # x <= 9
 
       # Basic string checks
-      is_trimmed: true                  # Only trimmed strings. Example: "Hello World" (not " Hello World ").
+      is_trimmed                  # Only trimmed strings. Example: "Hello World" (not " Hello World ").
       is_lowercase: true                # String is only lower-case. Example: "hello world".
       is_uppercase: true                # String is only upper-case. Example: "HELLO WORLD".
       is_capitalize: true               # String is only capitalized. Example: "Hello World".
@@ -1284,7 +1298,6 @@ It's random ideas and plans. No promises and deadlines. Feel free to [help me!](
       file name.
 
 * **Validation**
-    * `required` flag for the column.
     * Multi values in one cell.
     * Custom cell rule as a callback. It's useful when you have a complex rule that can't be described in the schema
       file.

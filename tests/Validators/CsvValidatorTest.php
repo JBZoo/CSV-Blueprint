@@ -323,4 +323,44 @@ final class CsvValidatorTest extends TestCase
             $csv->validate()->render(),
         );
     }
+
+    public function testRequiredColumnValid(): void
+    {
+        $csv = new CsvFile(Tools::DEMO_CSV, [
+            'columns' => [
+                ['name' => 'Name', 'required' => true],
+                ['name' => 'City', 'required' => true],
+                ['name' => 'Float', 'required' => true],
+                ['name' => 'Birthday', 'required' => true],
+                ['name' => 'Favorite color', 'required' => true],
+            ],
+        ]);
+        isSame(null, $csv->validate()->render());
+
+        $csv = new CsvFile(Tools::DEMO_CSV, [
+            'columns' => [
+                ['name' => 'Name', 'required' => false],
+                ['name' => 'City', 'required' => false],
+                ['name' => 'Float', 'required' => false],
+                ['name' => 'Birthday', 'required' => false],
+                ['name' => 'Favorite color', 'required' => false],
+            ],
+        ]);
+        isSame(null, $csv->validate()->render());
+    }
+
+    public function testRequiredColumnInvalid(): void
+    {
+        $columns = [
+            ['name' => 'Name', 'required' => true],
+            ['name' => 'City', 'required' => true],
+            ['name' => 'Float', 'required' => true],
+            ['name' => 'Birthday', 'required' => true],
+            ['name' => 'Favorite color', 'required' => true],
+        ];
+
+        $csv = new CsvFile(Tools::DEMO_CSV, ['columns' => $columns]);
+
+        isSame(null, $csv->validate()->render());
+    }
 }

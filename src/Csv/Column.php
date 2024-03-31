@@ -24,13 +24,9 @@ use JBZoo\Data\Data;
 final class Column
 {
     private const FALLBACK_VALUES = [
-        'inherit'         => '',
         'name'            => '',
         'description'     => '',
-        'type'            => 'base', // TODO: class
-        'required'        => false,
-        'allow_empty'     => false,
-        'regex'           => null,
+        'required'        => true,
         'rules'           => [],
         'aggregate_rules' => [],
     ];
@@ -90,11 +86,6 @@ final class Column
     public function getAggregateRules(): array
     {
         return $this->aggRules;
-    }
-
-    public function getInherit(): string
-    {
-        return $this->column->getString('inherit', self::FALLBACK_VALUES['inherit']);
     }
 
     public function getValidator(): ValidatorColumn

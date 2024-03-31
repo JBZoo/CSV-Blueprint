@@ -25,7 +25,8 @@ final class ReadmeTest extends TestCase
 {
     private const EXTRA_RULES = [
         '* With `filename_pattern` rule, you can check if the file name matches the pattern.',
-        '* Property `name` is not defined in a column. If `csv.header: true`.',
+        '* Checks if property `name` is not defined in a column. Only if `csv.header: true`.',
+        '* If property `required` is set to `true`, the column must must be present in CSV. Only if `csv.header: true`',
         '* Check that each row matches the number of columns.',
         '* With `strict_column_order` rule, you can check that the columns are in the correct order.',
         '* With `allow_extra_columns` rule, you can check that there are no extra columns in the CSV file.',
