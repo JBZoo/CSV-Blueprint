@@ -1,7 +1,14 @@
 # JBZoo / CSV Blueprint
 
-[![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml?query=branch%3Amaster)    [![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml/badge.svg)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml)    [![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/publish.yml/badge.svg)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/publish.yml)    [![Coverage Status](https://coveralls.io/repos/github/JBZoo/Csv-Blueprint/badge.svg?branch=master)](https://coveralls.io/github/JBZoo/Csv-Blueprint?branch=master)    [![Psalm Coverage](https://shepherd.dev/github/JBZoo/Csv-Blueprint/coverage.svg)](https://shepherd.dev/github/JBZoo/Csv-Blueprint)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)    
-[![GitHub Release](https://img.shields.io/github/v/release/jbzoo/csv-blueprint?label=Latest)](https://github.com/jbzoo/csv-blueprint/releases)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)    [![Docker Image Size](https://img.shields.io/docker/image-size/jbzoo/csv-blueprint)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)
+<!-- top-badges -->
+[![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml?query=branch%3Amaster)
+[![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml/badge.svg)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml)
+[![Coverage Status](https://coveralls.io/repos/github/JBZoo/Csv-Blueprint/badge.svg?branch=master)](https://coveralls.io/github/JBZoo/Csv-Blueprint?branch=master)
+[![Psalm Coverage](https://shepherd.dev/github/JBZoo/Csv-Blueprint/coverage.svg)](https://shepherd.dev/github/JBZoo/Csv-Blueprint)
+[![GitHub Release](https://img.shields.io/github/v/release/jbzoo/csv-blueprint?label=Latest)](https://github.com/jbzoo/csv-blueprint/releases)
+[![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)
+[![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)
+<!-- /top-badges -->
 
 <!-- rules-counter -->
 [![Static Badge](https://img.shields.io/badge/Rules-366-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
@@ -15,6 +22,37 @@ A console utility designed for validating CSV files against a strictly defined s
 in [YAML files](#schema-definition) serves an essential purpose in ensuring data integrity and conformity.
 This utility facilitates automated checks to verify that the structure and content of CSV files adhere to predefined
 specifications, making it invaluable in scenarios where data quality and consistency are critical.
+
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [Introduction](#introduction)
+    - [Why?](#why)
+    - [Features](#features)
+    - [Live Demo](#live-demo)
+- [Usage](#usage)
+    - [GitHub Action](#github-action)
+    - [Docker container](#docker-container)
+    - [PHP binary](#php-binary)
+- [Schema definition](#schema-definition)
+    - [Full description of the schema](#full-description-of-the-schema)
+    - [Extra checks](#extra-checks)
+- [Complete CLI Help Message](#complete-cli-help-message)
+- [Report examples](#report-examples)
+- [Benchmarks](#benchmarks)
+    - [Brief conclusions](#brief-conclusions)
+    - [Examples of CSV files](#examples-of-csv-files)
+    - [Run benchmark locally](#run-benchmark-locally)
+- [Disadvantages?](#disadvantages)
+- [Coming soon](#coming-soon)
+- [Contributing](#contributing)
+- [License](#license)
+- [See Also](#see-also)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Introduction
 
 ### Why?
 
@@ -56,6 +94,117 @@ specifications, making it invaluable in scenarios where data quality and consist
 * [demo_valid.yml](tests/schemas/demo_valid.yml)
 * [demo.csv](tests/fixtures/demo.csv)
 
+## Usage
+
+You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml).
+
+### GitHub Action
+
+<!-- github-actions-yml -->
+
+```yml
+- uses: jbzoo/csv-blueprint@master # See the specific version on releases page
+  with:
+    # Path(s) to validate. You can specify path in which CSV files will be searched. Feel free to use glob pattrens. Usage examples: /full/path/file.csv, p/file.csv, p/*.csv, p/**/*.csv, p/**/name-*.csv, **/*.csv, etc.
+    # Required: true
+    csv: './tests/**/*.csv'
+
+    # Schema filepath. It can be a YAML, JSON or PHP. See examples on GitHub.
+    # Required: true
+    schema: './tests/**/*.yml'
+
+    # Report format. Available options: text, table, github, gitlab, teamcity, junit.
+    # Default value: table
+    # You can skip it
+    report: table
+
+    # Quick mode. It will not validate all rows. It will stop after the first error.
+    # Default value: no
+    # You can skip it
+    quick: no
+
+    # Skip schema validation. If you are sure that the schema is correct, you can skip this check.
+    # Default value: no
+    # You can skip it
+    skip-schema: no
+```
+
+<!-- /github-actions-yml -->
+
+**Note**. GitHub Actions report format is `table` by default.
+
+But you can specify `report: github` to see friendly error output in your PRs
+using [annotations](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message).
+This allows you to see bugs in the GitHub interface at the PR level.
+See [the PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files).
+That is, the error will be shown in a specific place in the CSV file right in diff of your Pull Requests!
+
+![GitHub Actions - PR](.github/assets/github-actions-pr.png)
+
+<details>
+  <summary>Click to see example in GitHub Actions terminal</summary>
+
+![GitHub Actions - Terminal](.github/assets/github-actions-termintal.png)
+
+</details>
+
+### Docker container
+
+Ensure you have Docker installed on your machine.
+
+```sh
+# Pull the Docker image
+docker pull jbzoo/csv-blueprint:latest
+
+# Run the tool inside Docker
+docker run --rm                                  \
+    --workdir=/parent-host                       \
+    -v $(pwd):/parent-host                       \
+    jbzoo/csv-blueprint:latest                   \
+    validate:csv                                 \
+    --csv=./tests/fixtures/demo.csv              \
+    --schema=./tests/schemas/demo_invalid.yml    \
+    --ansi -vvv
+
+# OR build it from source.
+git clone git@github.com:JBZoo/Csv-Blueprint.git csv-blueprint
+cd csv-blueprint
+make docker-build  # local tag is "jbzoo/csv-blueprint:local"
+```
+
+### PHP binary
+
+<details>
+  <summary>Click to see PHAR and PHP binary ways</summary>
+
+Ensure you have PHP installed on your machine.
+
+```sh
+# download the latest version
+
+wget https://github.com/JBZoo/Csv-Blueprint/releases/latest/download/csv-blueprint.phar
+chmod +x ./csv-blueprint.phar
+./csv-blueprint.phar validate:csv               \
+   --csv=./tests/fixtures/demo.csv              \
+   --schema=./tests/schemas/demo_invalid.yml
+
+# OR create project via Composer (--no-dev is optional)
+composer create-project --no-dev jbzoo/csv-blueprint
+cd ./csv-blueprint
+./csv-blueprint validate:csv                    \
+    --csv=./tests/fixtures/demo.csv             \
+    --schema=./tests/schemas/demo_invalid.yml
+
+# OR build from source
+git clone git@github.com:jbzoo/csv-blueprint.git csv-blueprint
+cd csv-blueprint 
+make build
+./csv-blueprint validate:csv                    \
+    --csv=./tests/fixtures/demo.csv             \
+    --schema=./tests/schemas/demo_invalid.yml
+```
+
+</details>
 
 ## Schema definition
 Define your CSV validation schema in a [YAML](schema-examples/full.yml). Other formats are also available: [JSON](schema-examples/full.json), [PHP](schema-examples/full.php).
@@ -678,109 +827,7 @@ Behind the scenes to what is outlined in the yml above, there are additional che
 
 <!-- /extra-rules -->
 
-
-
-## Usage
-
-You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml).
-
-
-### GitHub Action
-
-<!-- github-actions-yml -->
-```yml
-- uses: jbzoo/csv-blueprint@master # See the specific version on releases page
-  with:
-    # Path(s) to validate. You can specify path in which CSV files will be searched. Feel free to use glob pattrens. Usage examples: /full/path/file.csv, p/file.csv, p/*.csv, p/**/*.csv, p/**/name-*.csv, **/*.csv, etc.
-    # Required: true
-    csv: './tests/**/*.csv'
-
-    # Schema filepath. It can be a YAML, JSON or PHP. See examples on GitHub.
-    # Required: true
-    schema: './tests/**/*.yml'
-
-    # Report format. Available options: text, table, github, gitlab, teamcity, junit.
-    # Default value: table
-    # You can skip it
-    report: table
-
-    # Quick mode. It will not validate all rows. It will stop after the first error.
-    # Default value: no
-    # You can skip it
-    quick: no
-
-    # Skip schema validation. If you are sure that the schema is correct, you can skip this check.
-    # Default value: no
-    # You can skip it
-    skip-schema: no
-
-```
-<!-- /github-actions-yml -->
-
-**Note**. GitHub Actions report format is `table` by default.
-
-But you can specify `report: github` to see friendly error output in your PRs using [annotations](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message).
-This allows you to see bugs in the GitHub interface at the PR level. See [the PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files).
-That is, the error will be shown in a specific place in the CSV file right in diff of your Pull Requests!
-
-![GitHub Actions - PR](.github/assets/github-actions-pr.png)
-
-<details>
-  <summary>Click to see example in GitHub Actions terminal</summary>
-
-  ![GitHub Actions - Terminal](.github/assets/github-actions-termintal.png)
-
-</details>
-
-
-### Docker container
-Ensure you have Docker installed on your machine.
-
-```sh
-# Pull the Docker image
-docker pull jbzoo/csv-blueprint:latest
-
-# Run the tool inside Docker
-docker run --rm                                  \
-    --workdir=/parent-host                       \
-    -v $(pwd):/parent-host                       \
-    jbzoo/csv-blueprint:latest                   \
-    validate:csv                                 \
-    --csv=./tests/fixtures/demo.csv              \
-    --schema=./tests/schemas/demo_invalid.yml    \
-    --ansi -vvv
-
-
-# OR build it from source.
-git clone git@github.com:JBZoo/Csv-Blueprint.git csv-blueprint
-cd csv-blueprint
-make docker-build  # local tag is "jbzoo/csv-blueprint:local"
-```
-
-
-### PHP binary
-Ensure you have PHP installed on your machine.
-
-```sh
-# download the latest version
-
-wget https://github.com/JBZoo/Csv-Blueprint/releases/latest/download/csv-blueprint.phar
-chmod +x ./csv-blueprint.phar
-./csv-blueprint.phar validate:csv               \
-   --csv=./tests/fixtures/demo.csv              \
-   --schema=./tests/schemas/demo_invalid.yml
-
-
-# OR build from source
-git clone git@github.com:jbzoo/csv-blueprint.git csv-blueprint
-cd csv-blueprint 
-make build
-./csv-blueprint validate:csv                    \
-    --csv=./tests/fixtures/demo.csv             \
-    --schema=./tests/schemas/demo_invalid.yml
-```
-
-### Complete CLI Help Message
+## Complete CLI Help Message
 
 Here you can see all available options and commands. Tool uses [JBZoo/Cli](https://github.com/JBZoo/Cli) package for the
 CLI interface.
@@ -1221,15 +1268,6 @@ Since I don't know under what conditions the code will be used, everything I can
 So... as strictly as possible in today's PHP world. I think it works as expected.
 
 
-## Interesting fact
-
-I've set a personal record. The [first version](https://github.com/JBZoo/Csv-Blueprint/releases/tag/0.1) was written
-from scratch in about 3 days (with really frequent breaks to take care of 4 month baby).
-I'm looking at the first commit and the very first git tag. I'd say over the weekend, in my spare time on my personal
-laptop. Well... AI was only used for this Readme file because I'm not very good at English. 🤔
-
-I seem to be typing fast and I had really great inspiration. I hope my wife doesn't divorce me. 😅
-
 ## Coming soon
 
 It's random ideas and plans. No promises and deadlines. Feel free to [help me!](#contributing).
@@ -1338,3 +1376,15 @@ make codestyle
 - [Image](https://github.com/JBZoo/Image) - Package provides object-oriented way to manipulate with images as simple as possible.
 - [Data](https://github.com/JBZoo/Data) - Extended implementation of ArrayObject. Use Yml/PHP/JSON/INI files as config. Forget about arrays.
 - [Retry](https://github.com/JBZoo/Retry) - Tiny PHP library providing retry/backoff functionality with strategies and jitter.
+
+<details>
+  <summary>Click to see interesting fact</summary>
+
+I've set a personal record. The [first version](https://github.com/JBZoo/Csv-Blueprint/releases/tag/0.1) was written
+from scratch in about 3 days (with really frequent breaks to take care of 4 month baby).
+I'm looking at the first commit and the very first git tag. I'd say over the weekend, in my spare time on my personal
+laptop. Well... AI was only used for this Readme file because I'm not very good at English. 🤔
+
+I seem to be typing fast and I had really great inspiration. I hope my wife doesn't divorce me. 😅
+
+</details>

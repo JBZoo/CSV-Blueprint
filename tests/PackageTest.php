@@ -64,18 +64,11 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
     protected array $badgesTemplate = [
         'github_actions',
         'github_actions_demo',
-        'github_actions_release_docker',
         'coveralls',
         'psalm_coverage',
-        'psalm_level',
-        'codefactor',
-        'github_license',
-        '__BR__',
         'github_latest_release',
         'packagist_downloads_total',
         'docker_pulls',
-        'docker_image_size',
-        'packagist_dependents',
     ];
 
     protected function setUp(): void
@@ -94,6 +87,32 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
     {
         $composer = json(PROJECT_ROOT . '/composer.json');
         isSame('project', $composer->find('type'));
+    }
+
+    public function testReadmeHeader(): void
+    {
+        $expectedBadges = [];
+
+        foreach ($this->badgesTemplate as $badgeName) {
+            if ($badgeName === '__BR__') {
+                $expectedBadges[$badgeName] = ' ';
+            } else {
+                $testMethod = 'checkBadge' . \str_replace('_', '', \ucwords($badgeName, '_'));
+
+                if (\method_exists($this, $testMethod)) {
+                    $tmpBadge = $this->{$testMethod}();
+                    if ($tmpBadge !== null) {
+                        $expectedBadges[$badgeName] = $tmpBadge;
+                    }
+                } else {
+                    fail("Method not found: '{$testMethod}'");
+                }
+            }
+        }
+
+        $expectedBadgeLine = \implode("\n", $expectedBadges);
+
+        Tools::insertInReadme('top-badges', $expectedBadgeLine);
     }
 
     protected function checkBadgeGithubActionsDemo(): ?string
