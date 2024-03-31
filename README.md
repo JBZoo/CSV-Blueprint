@@ -1,16 +1,58 @@
 # JBZoo / CSV Blueprint
 
-[![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml?query=branch%3Amaster)    [![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml/badge.svg)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml)    [![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/publish.yml/badge.svg)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/publish.yml)    [![Coverage Status](https://coveralls.io/repos/github/JBZoo/Csv-Blueprint/badge.svg?branch=master)](https://coveralls.io/github/JBZoo/Csv-Blueprint?branch=master)    [![Psalm Coverage](https://shepherd.dev/github/JBZoo/Csv-Blueprint/coverage.svg)](https://shepherd.dev/github/JBZoo/Csv-Blueprint)    [![GitHub License](https://img.shields.io/github/license/jbzoo/csv-blueprint)](https://github.com/JBZoo/Csv-Blueprint/blob/master/LICENSE)    
-[![GitHub Release](https://img.shields.io/github/v/release/jbzoo/csv-blueprint?label=Latest)](https://github.com/jbzoo/csv-blueprint/releases)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)    [![Docker Image Size](https://img.shields.io/docker/image-size/jbzoo/csv-blueprint)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)
+<!-- top-badges -->
+[![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml?query=branch%3Amaster)
+[![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml/badge.svg)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml)
+[![Coverage Status](https://coveralls.io/repos/github/JBZoo/Csv-Blueprint/badge.svg?branch=master)](https://coveralls.io/github/JBZoo/Csv-Blueprint?branch=master)
+[![Psalm Coverage](https://shepherd.dev/github/JBZoo/Csv-Blueprint/coverage.svg)](https://shepherd.dev/github/JBZoo/Csv-Blueprint)
+[![GitHub Release](https://img.shields.io/github/v/release/jbzoo/csv-blueprint?label=Latest)](https://github.com/jbzoo/csv-blueprint/releases)
+[![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)
+[![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)
+<!-- /top-badges -->
 
 <!-- rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-364-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-153-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-5-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-32/54/8-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-366-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-153-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
+[![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)
+[![Static Badge](https://img.shields.io/badge/Rules-7-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)
+[![Static Badge](https://img.shields.io/badge/Rules-32/54/13-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- /rules-counter -->
 
 A console utility designed for validating CSV files against a strictly defined schema and validation rules outlined
 in [YAML files](#schema-definition) serves an essential purpose in ensuring data integrity and conformity.
 This utility facilitates automated checks to verify that the structure and content of CSV files adhere to predefined
 specifications, making it invaluable in scenarios where data quality and consistency are critical.
+
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [Introduction](#introduction)
+    - [Why?](#why)
+    - [Features](#features)
+    - [Live Demo](#live-demo)
+- [Usage](#usage)
+    - [GitHub Action](#github-action)
+    - [Docker container](#docker-container)
+    - [PHP binary](#php-binary)
+- [Schema definition](#schema-definition)
+    - [Full description of the schema](#full-description-of-the-schema)
+    - [Extra checks](#extra-checks)
+- [Complete CLI Help Message](#complete-cli-help-message)
+- [Report examples](#report-examples)
+- [Benchmarks](#benchmarks)
+    - [Brief conclusions](#brief-conclusions)
+    - [Examples of CSV files](#examples-of-csv-files)
+    - [Run benchmark locally](#run-benchmark-locally)
+- [Disadvantages?](#disadvantages)
+- [Coming soon](#coming-soon)
+- [Contributing](#contributing)
+- [License](#license)
+- [See Also](#see-also)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Introduction
 
 ### Why?
 
@@ -52,6 +94,113 @@ specifications, making it invaluable in scenarios where data quality and consist
 * [demo_valid.yml](tests/schemas/demo_valid.yml)
 * [demo.csv](tests/fixtures/demo.csv)
 
+## Usage
+
+You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml).
+
+### GitHub Action
+
+<!-- github-actions-yml -->
+```yml
+- uses: jbzoo/csv-blueprint@master # See the specific version on releases page
+  with:
+    # Path(s) to validate. You can specify path in which CSV files will be searched. Feel free to use glob pattrens. Usage examples: /full/path/file.csv, p/file.csv, p/*.csv, p/**/*.csv, p/**/name-*.csv, **/*.csv, etc.
+    # Required: true
+    csv: './tests/**/*.csv'
+
+    # Schema filepath. It can be a YAML, JSON or PHP. See examples on GitHub.
+    # Required: true
+    schema: './tests/**/*.yml'
+
+    # Report format. Available options: text, table, github, gitlab, teamcity, junit.
+    # Default value: table
+    # You can skip it
+    report: table
+
+    # Quick mode. It will not validate all rows. It will stop after the first error.
+    # Default value: no
+    # You can skip it
+    quick: no
+
+    # Skip schema validation. If you are sure that the schema is correct, you can skip this check.
+    # Default value: no
+    # You can skip it
+    skip-schema: no
+```
+<!-- /github-actions-yml -->
+
+You can specify `report: github` to see friendly error output in your PRs
+using [annotations](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message).
+This allows you to see bugs in the GitHub interface at the PR level.
+See [the PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files). That is, the error will be shown
+in a specific place in the CSV file right in diff of your Pull Requests!
+
+![GitHub Actions - PR](.github/assets/github-actions-pr.png)
+
+<details>
+  <summary>Click to see example in GitHub Actions terminal</summary>
+
+![GitHub Actions - Terminal](.github/assets/github-actions-termintal.png)
+
+</details>
+
+### Docker container
+
+Ensure you have Docker installed on your machine.
+
+```sh
+# Pull the Docker image
+docker pull jbzoo/csv-blueprint:latest
+
+# Run the tool inside Docker
+docker run --rm                                  \
+    --workdir=/parent-host                       \
+    -v $(pwd):/parent-host                       \
+    jbzoo/csv-blueprint:latest                   \
+    validate:csv                                 \
+    --csv=./tests/fixtures/demo.csv              \
+    --schema=./tests/schemas/demo_invalid.yml    \
+    --ansi -vvv
+
+# OR build it from source.
+git clone git@github.com:JBZoo/Csv-Blueprint.git csv-blueprint
+cd csv-blueprint
+make docker-build  # local tag is "jbzoo/csv-blueprint:local"
+```
+
+### PHP binary
+
+<details>
+  <summary>Click to see PHAR and PHP binary ways</summary>
+
+Ensure you have PHP installed on your machine.
+
+```sh
+# download the latest version
+
+wget https://github.com/JBZoo/Csv-Blueprint/releases/latest/download/csv-blueprint.phar
+chmod +x ./csv-blueprint.phar
+./csv-blueprint.phar validate:csv               \
+   --csv=./tests/fixtures/demo.csv              \
+   --schema=./tests/schemas/demo_invalid.yml
+
+# OR create project via Composer (--no-dev is optional)
+composer create-project --no-dev jbzoo/csv-blueprint
+cd ./csv-blueprint
+./csv-blueprint validate:csv                    \
+    --csv=./tests/fixtures/demo.csv             \
+    --schema=./tests/schemas/demo_invalid.yml
+
+# OR build from source
+git clone git@github.com:jbzoo/csv-blueprint.git csv-blueprint
+cd csv-blueprint 
+make build
+./csv-blueprint validate:csv                    \
+    --csv=./tests/fixtures/demo.csv             \
+    --schema=./tests/schemas/demo_invalid.yml
+```
+
+</details>
 
 ## Schema definition
 Define your CSV validation schema in a [YAML](schema-examples/full.yml). Other formats are also available: [JSON](schema-examples/full.json), [PHP](schema-examples/full.php).
@@ -59,21 +208,32 @@ Define your CSV validation schema in a [YAML](schema-examples/full.yml). Other f
 This example defines a simple schema for a CSV file with a header row, specifying that the `id` column must not be empty and must contain integer values.
 Also, it checks that the `name` column has a minimum length of 3 characters.
 
+
+<!-- readme-sample-yml -->
 ```yml
+name: Simple CSV Schema
+filename_pattern: /my-favorite-csv-\d+\.csv$/i
 csv:
-  delimiter: ;
+  delimiter: ';'
 
 columns:
   - name: id
     rules:
       not_empty: true
       is_int: true
+    aggregate_rules:
+      is_unique: true
+      sorted: [ asc, numeric ]
 
   - name: name
     rules:
-      min_length: 3
+      length_min: 3
+    aggregate_rules:
+      count: 10
 
 ```
+
+<!-- /readme-sample-yml -->
 
 
 ### Full description of the schema
@@ -96,9 +256,6 @@ This part of the readme is also covered by autotests, so these code are always u
 
 In any unclear situation, look into it first.
 
-<details>
-  <summary>CLICK HERE to see the most complete description of ALL features!</summary>
-
 <!-- full-yml -->
 ```yml
 # It's a complete example of the CSV schema file in YAML format.
@@ -113,13 +270,11 @@ description: |                          # Any description of the CSV file. Not u
   supporting a wide range of data validation rules from basic type checks to complex regex validations.
   This example serves as a comprehensive guide for creating robust CSV file validations.
 
-
 # Regular expression to match the file name. If not set, then no pattern check.
 # This allows you to pre-validate the file name before processing its contents.
 # Feel free to check parent directories as well.
-# See https://www.php.net/manual/en/reference.pcre.pattern.syntax.php
+# See: https://www.php.net/manual/en/reference.pcre.pattern.syntax.php
 filename_pattern: /demo(-\d+)?\.csv$/i
-
 
 # Here are default values to parse CSV file.
 # You can skip this section if you don't need to override the default values.
@@ -131,6 +286,12 @@ csv:
   encoding: utf-8                       # (Experimental) Only utf-8, utf-16, utf-32.
   bom: false                            # (Experimental) If the file has a BOM (Byte Order Mark) at the beginning.
 
+# Structural rules for the CSV file. These rules are applied to the entire CSV file.
+# They are not(!) related to the data in the columns.
+# You can skip this section if you don't need to override the default values.
+structural_rules: # Here are default values.
+  strict_column_order: true             # Ensure columns in CSV follow the same order as defined in this YML schema. It works only if "csv.header" is true.
+  allow_extra_columns: false            # Allow CSV files to have more columns than specified in this YML schema.
 
 # Description of each column in CSV.
 # It is recommended to present each column in the same order as presented in the CSV file.
@@ -165,7 +326,7 @@ columns:
       allow_values: [ y, n, "" ]        # Strict set of values that are allowed.
       not_allow_values: [ invalid ]     # Strict set of values that are NOT allowed.
 
-      # Any valid regex pattern. See https://www.php.net/manual/en/reference.pcre.pattern.syntax.php
+      # Any valid regex pattern. See: https://www.php.net/manual/en/reference.pcre.pattern.syntax.php
       # Of course it's a super powerful tool to verify any sort of string data.
       # Please, be careful. Regex is a powerful tool, but it can be very dangerous if used incorrectly.
       # Remember that if you want to solve a problem with regex, you now have two problems.
@@ -498,7 +659,7 @@ columns:
       contraharmonic_mean_max: 9.0      # x <= 9.0
 
       # Root mean square (quadratic mean) The square root of the arithmetic mean of the squares of a set of numbers.
-      # See https://en.wikipedia.org/wiki/Root_mean_square
+      # See: https://en.wikipedia.org/wiki/Root_mean_square
       root_mean_square_min: 1.0         # x >= 1.0
       root_mean_square_greater: 2.0     # x >  2.0
       root_mean_square_not: 5.0         # x != 5.0
@@ -652,7 +813,6 @@ columns:
 ```
 <!-- /full-yml -->
 
-</details>
 
 ### Extra checks
 
@@ -663,114 +823,14 @@ Behind the scenes to what is outlined in the yml above, there are additional che
 * With `filename_pattern` rule, you can check if the file name matches the pattern.
 * Property `name` is not defined in a column. If `csv.header: true`.
 * Check that each row matches the number of columns.
-* If `csv.header: true`. Schema contains an unknown column `name` that is not found in the CSV file.
-* If `csv.header: false`. Compare the number of columns in the schema and the CSV file.
+* With `strict_column_order` rule, you can check that the columns are in the correct order.
+* With `allow_extra_columns` rule, you can check that there are no extra columns in the CSV file.
+    * If `csv.header: true`. Schema contains an unknown column `name` that is not found in the CSV file.
+    * If `csv.header: false`. Compare the number of columns in the schema and the CSV file.
 
 <!-- /extra-rules -->
 
-
-
-## Usage
-
-You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml).
-
-
-### GitHub Action
-
-<!-- github-actions-yml -->
-```yml
-- uses: jbzoo/csv-blueprint@master # See the specific version on releases page
-  with:
-    # Path(s) to validate. You can specify path in which CSV files will be searched. Feel free to use glob pattrens. Usage examples: /full/path/file.csv, p/file.csv, p/*.csv, p/**/*.csv, p/**/name-*.csv, **/*.csv, etc.
-    # Required: true
-    csv: './tests/**/*.csv'
-
-    # Schema filepath. It can be a YAML, JSON or PHP. See examples on GitHub.
-    # Required: true
-    schema: './tests/**/*.yml'
-
-    # Report format. Available options: text, table, github, gitlab, teamcity, junit.
-    # Default value: table
-    # You can skip it
-    report: table
-
-    # Quick mode. It will not validate all rows. It will stop after the first error.
-    # Default value: no
-    # You can skip it
-    quick: no
-
-    # Skip schema validation. If you are sure that the schema is correct, you can skip this check.
-    # Default value: no
-    # You can skip it
-    skip-schema: no
-
-```
-<!-- /github-actions-yml -->
-
-**Note**. GitHub Actions report format is `table` by default.
-
-But you can specify `report: github` to see friendly error output in your PRs using [annotations](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message).
-This allows you to see bugs in the GitHub interface at the PR level. See [the PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files).
-That is, the error will be shown in a specific place in the CSV file right in diff of your Pull Requests!
-
-![GitHub Actions - PR](.github/assets/github-actions-pr.png)
-
-<details>
-  <summary>Click to see example in GitHub Actions terminal</summary>
-
-  ![GitHub Actions - Terminal](.github/assets/github-actions-termintal.png)
-
-</details>
-
-
-### Docker container
-Ensure you have Docker installed on your machine.
-
-```sh
-# Pull the Docker image
-docker pull jbzoo/csv-blueprint:latest
-
-# Run the tool inside Docker
-docker run --rm                                  \
-    --workdir=/parent-host                       \
-    -v $(pwd):/parent-host                       \
-    jbzoo/csv-blueprint:latest                   \
-    validate:csv                                 \
-    --csv=./tests/fixtures/demo.csv              \
-    --schema=./tests/schemas/demo_invalid.yml    \
-    --ansi -vvv
-
-
-# OR build it from source.
-git clone git@github.com:JBZoo/Csv-Blueprint.git csv-blueprint
-cd csv-blueprint
-make docker-build  # local tag is "jbzoo/csv-blueprint:local"
-```
-
-
-### PHP binary
-Ensure you have PHP installed on your machine.
-
-```sh
-# download the latest version
-
-wget https://github.com/JBZoo/Csv-Blueprint/releases/latest/download/csv-blueprint.phar
-chmod +x ./csv-blueprint.phar
-./csv-blueprint.phar validate:csv               \
-   --csv=./tests/fixtures/demo.csv              \
-   --schema=./tests/schemas/demo_invalid.yml
-
-
-# OR build from source
-git clone git@github.com:jbzoo/csv-blueprint.git csv-blueprint
-cd csv-blueprint 
-make build
-./csv-blueprint validate:csv                    \
-    --csv=./tests/fixtures/demo.csv             \
-    --schema=./tests/schemas/demo_invalid.yml
-```
-
-### Complete CLI Help Message
+## Complete CLI Help Message
 
 Here you can see all available options and commands. Tool uses [JBZoo/Cli](https://github.com/JBZoo/Cli) package for the
 CLI interface.
@@ -863,23 +923,23 @@ CSV file validation: 1
 (1/1) Schema: ./tests/schemas/demo_invalid.yml
 (1/1) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
 (1/1) Issues: 10
-+------+------------------+--------------+------------------------- demo.csv -------------------------------------------------------------------+
-| Line | id:Column        | Rule         | Message                                                                                              |
-+------+------------------+--------------+------------------------------------------------------------------------------------------------------+
-| 1    |                  | csv.header   | Columns not found in CSV: "wrong_column_name"                                                        |
-| 6    | 0:Name           | length_min   | The length of the value "Carl" is 4, which is less than the expected "5"                             |
-| 11   | 0:Name           | length_min   | The length of the value "Lois" is 4, which is less than the expected "5"                             |
-| 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 9, total: 10                                                   |
-| 2    | 2:Float          | num_max      | The value "4825.185" is greater than the expected "4825.184"                                         |
-| 1    | 2:Float          | ag:nth_num   | The N-th value in the column is "74", which is not equal than the expected "0.001"                   |
-| 6    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
-|      |                  |              | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
-| 8    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
-|      |                  |              | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
-| 9    | 3:Birthday       | date_max     | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
-|      |                  |              | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
-| 5    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
-+------+------------------+--------------+------------------------- demo.csv -------------------------------------------------------------------+
++------+------------------+---------------------+---------------------- demo.csv ----------------------------------------------------------------------+
+| Line | id:Column        | Rule                | Message                                                                                              |
++------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
+| 1    |                  | allow_extra_columns | Column(s) not found in CSV: "wrong_column_name"                                                      |
+| 6    | 0:Name           | length_min          | The length of the value "Carl" is 4, which is less than the expected "5"                             |
+| 11   | 0:Name           | length_min          | The length of the value "Lois" is 4, which is less than the expected "5"                             |
+| 1    | 1:City           | ag:is_unique        | Column has non-unique values. Unique: 9, total: 10                                                   |
+| 2    | 2:Float          | num_max             | The value "4825.185" is greater than the expected "4825.184"                                         |
+| 1    | 2:Float          | ag:nth_num          | The N-th value in the column is "74", which is not equal than the expected "0.001"                   |
+| 6    | 3:Birthday       | date_min            | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
+|      |                  |                     | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
+| 8    | 3:Birthday       | date_min            | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
+|      |                  |                     | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
+| 9    | 3:Birthday       | date_max            | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
+|      |                  |                     | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
+| 5    | 4:Favorite color | allow_values        | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
++------+------------------+---------------------+---------------------- demo.csv ----------------------------------------------------------------------+
 
 
 Summary:
@@ -1211,15 +1271,6 @@ Since I don't know under what conditions the code will be used, everything I can
 So... as strictly as possible in today's PHP world. I think it works as expected.
 
 
-## Interesting fact
-
-I've set a personal record. The [first version](https://github.com/JBZoo/Csv-Blueprint/releases/tag/0.1) was written
-from scratch in about 3 days (with really frequent breaks to take care of 4 month baby).
-I'm looking at the first commit and the very first git tag. I'd say over the weekend, in my spare time on my personal
-laptop. Well... AI was only used for this Readme file because I'm not very good at English. 🤔
-
-I seem to be typing fast and I had really great inspiration. I hope my wife doesn't divorce me. 😅
-
 ## Coming soon
 
 It's random ideas and plans. No promises and deadlines. Feel free to [help me!](#contributing).
@@ -1328,3 +1379,15 @@ make codestyle
 - [Image](https://github.com/JBZoo/Image) - Package provides object-oriented way to manipulate with images as simple as possible.
 - [Data](https://github.com/JBZoo/Data) - Extended implementation of ArrayObject. Use Yml/PHP/JSON/INI files as config. Forget about arrays.
 - [Retry](https://github.com/JBZoo/Retry) - Tiny PHP library providing retry/backoff functionality with strategies and jitter.
+
+<details>
+  <summary>Click to see interesting fact</summary>
+
+I've set a personal record. The [first version](https://github.com/JBZoo/Csv-Blueprint/releases/tag/0.1) was written
+from scratch in about 3 days (with really frequent breaks to take care of 4 month baby).
+I'm looking at the first commit and the very first git tag. I'd say over the weekend, in my spare time on my personal
+laptop. Well... AI was only used for this Readme file because I'm not very good at English. 🤔
+
+I seem to be typing fast and I had really great inspiration. I hope my wife doesn't divorce me. 😅
+
+</details>

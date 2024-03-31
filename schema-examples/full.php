@@ -34,6 +34,11 @@ This example serves as a comprehensive guide for creating robust CSV file valida
         'bom'        => false,
     ],
 
+    'structural_rules' => [
+        'strict_column_order' => true,
+        'allow_extra_columns' => false,
+    ],
+
     'columns' => [
         [
             'name'        => 'Column Name (header)',

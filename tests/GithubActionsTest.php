@@ -87,9 +87,7 @@ final class GithubActionsTest extends TestCase
             $expectedMessage[] = '';
         }
 
-        $expectedMessage[] = '```';
-
-        $text = \implode("\n", $expectedMessage);
+        $text = \trim(\implode("\n", $expectedMessage)) . "\n```";
         Tools::insertInReadme('github-actions-yml', $text);
     }
 }

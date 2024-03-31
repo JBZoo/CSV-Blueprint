@@ -31,6 +31,10 @@ csv:
   encoding: utf-8
   bom: false
 
+structural_rules:
+  strict_column_order: true
+  allow_extra_columns: false
+
 columns:
   - name: 'Column Name (header)'
     description: 'Lorem ipsum'

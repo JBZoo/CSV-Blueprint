@@ -47,23 +47,23 @@ final class ValidateCsvReportsTest extends TestCase
             (1/1) Schema: ./tests/schemas/demo_invalid.yml
             (1/1) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
             (1/1) Issues: 10
-            +------+------------------+--------------+------------------------- demo.csv -------------------------------------------------------------------+
-            | Line | id:Column        | Rule         | Message                                                                                              |
-            +------+------------------+--------------+------------------------------------------------------------------------------------------------------+
-            | 1    |                  | csv.header   | Columns not found in CSV: "wrong_column_name"                                                        |
-            | 6    | 0:Name           | length_min   | The length of the value "Carl" is 4, which is less than the expected "5"                             |
-            | 11   | 0:Name           | length_min   | The length of the value "Lois" is 4, which is less than the expected "5"                             |
-            | 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 9, total: 10                                                   |
-            | 2    | 2:Float          | num_max      | The value "4825.185" is greater than the expected "4825.184"                                         |
-            | 1    | 2:Float          | ag:nth_num   | The N-th value in the column is "74", which is not equal than the expected "0.001"                   |
-            | 6    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
-            |      |                  |              | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
-            | 8    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
-            |      |                  |              | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
-            | 9    | 3:Birthday       | date_max     | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
-            |      |                  |              | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
-            | 5    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
-            +------+------------------+--------------+------------------------- demo.csv -------------------------------------------------------------------+
+            +------+------------------+---------------------+---------------------- demo.csv ----------------------------------------------------------------------+
+            | Line | id:Column        | Rule                | Message                                                                                              |
+            +------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
+            | 1    |                  | allow_extra_columns | Column(s) not found in CSV: "wrong_column_name"                                                      |
+            | 6    | 0:Name           | length_min          | The length of the value "Carl" is 4, which is less than the expected "5"                             |
+            | 11   | 0:Name           | length_min          | The length of the value "Lois" is 4, which is less than the expected "5"                             |
+            | 1    | 1:City           | ag:is_unique        | Column has non-unique values. Unique: 9, total: 10                                                   |
+            | 2    | 2:Float          | num_max             | The value "4825.185" is greater than the expected "4825.184"                                         |
+            | 1    | 2:Float          | ag:nth_num          | The N-th value in the column is "74", which is not equal than the expected "0.001"                   |
+            | 6    | 3:Birthday       | date_min            | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
+            |      |                  |                     | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
+            | 8    | 3:Birthday       | date_min            | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
+            |      |                  |                     | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
+            | 9    | 3:Birthday       | date_max            | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
+            |      |                  |                     | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
+            | 5    | 4:Favorite color | allow_values        | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
+            +------+------------------+---------------------+---------------------- demo.csv ----------------------------------------------------------------------+
             
             
             Summary:
@@ -96,7 +96,7 @@ final class ValidateCsvReportsTest extends TestCase
             (1/1) Schema: ./tests/schemas/demo_invalid.yml
             (1/1) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
             (1/1) Issues: 10
-            "csv.header" at line 1. Columns not found in CSV: "wrong_column_name".
+            "allow_extra_columns" at line 1. Column(s) not found in CSV: "wrong_column_name".
             "length_min" at line 6, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".
             "length_min" at line 11, column "0:Name". The length of the value "Lois" is 4, which is less than the expected "5".
             "ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 9, total: 10.
@@ -139,7 +139,7 @@ final class ValidateCsvReportsTest extends TestCase
             (1/1) Schema: ./tests/schemas/demo_invalid.yml
             (1/1) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
             (1/1) Issues: 10
-            ::error file=<root>/tests/fixtures/demo.csv,line=1::csv.header at column%0A"csv.header" at line 1. Columns not found in CSV: "wrong_column_name".
+            ::error file=<root>/tests/fixtures/demo.csv,line=1::allow_extra_columns at column%0A"allow_extra_columns" at line 1. Column(s) not found in CSV: "wrong_column_name".
             
             ::error file=<root>/tests/fixtures/demo.csv,line=6::length_min at column 0:Name%0A"length_min" at line 6, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".
             
@@ -194,9 +194,9 @@ final class ValidateCsvReportsTest extends TestCase
             
             ##teamcity[testSuiteStarted name='demo.csv' flowId='42']
             
-            ##teamcity[testStarted name='csv.header at column' locationHint='php_qn://<root>/tests/fixtures/demo.csv' flowId='42']
-            "csv.header" at line 1. Columns not found in CSV: "wrong_column_name".
-            ##teamcity[testFinished name='csv.header at column' flowId='42']
+            ##teamcity[testStarted name='allow_extra_columns at column' locationHint='php_qn://<root>/tests/fixtures/demo.csv' flowId='42']
+            "allow_extra_columns" at line 1. Column(s) not found in CSV: "wrong_column_name".
+            ##teamcity[testFinished name='allow_extra_columns at column' flowId='42']
             
             ##teamcity[testStarted name='length_min at column 0:Name' locationHint='php_qn://<root>/tests/fixtures/demo.csv' flowId='42']
             "length_min" at line 6, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".
@@ -261,8 +261,8 @@ final class ValidateCsvReportsTest extends TestCase
             <?xml version="1.0" encoding="UTF-8"?>
             <testsuites>
               <testsuite name="demo.csv" tests="10">
-                <testcase name="csv.header at column" file="<root>/tests/fixtures/demo.csv" line="1">
-                  <system-out>"csv.header" at line 1. Columns not found in CSV: "wrong_column_name".</system-out>
+                <testcase name="allow_extra_columns at column" file="<root>/tests/fixtures/demo.csv" line="1">
+                  <system-out>"allow_extra_columns" at line 1. Column(s) not found in CSV: "wrong_column_name".</system-out>
                 </testcase>
                 <testcase name="length_min at column 0:Name" file="<root>/tests/fixtures/demo.csv" line="6">
                   <system-out>"length_min" at line 6, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".</system-out>
@@ -331,7 +331,7 @@ final class ValidateCsvReportsTest extends TestCase
             
             [
                 {
-                    "description": "csv.header at column\n\"csv.header\" at line 1. Columns not found in CSV: \"wrong_column_name\".",
+                    "description": "allow_extra_columns at column\n\"allow_extra_columns\" at line 1. Column(s) not found in CSV: \"wrong_column_name\".",
                     "fingerprint": "_replaced_",
                     "severity": "major",
                     "location": {

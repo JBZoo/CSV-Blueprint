@@ -29,6 +29,22 @@ final class Utils
 {
     public const MAX_DIRECTORY_DEPTH = 10;
 
+    public static function isArrayInOrder(array $array, array $correctOrder): bool
+    {
+        $orderIndex = 0;
+
+        foreach ($array as $element) {
+            $foundIndex = \array_search($element, \array_slice($correctOrder, $orderIndex), true);
+            if ($foundIndex !== false) {
+                $orderIndex += (int)$foundIndex + 1;
+            } elseif (\in_array($element, $correctOrder, true)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public static function printList(null|array|bool|float|int|string $items, string $color = ''): string
     {
         if (!\is_array($items)) {

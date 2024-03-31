@@ -41,7 +41,7 @@ final class CsvValidatorTest extends TestCase
         $csv = new CsvFile(Tools::CSV_SIMPLE_NO_HEADER, Tools::SCHEMA_SIMPLE_NO_HEADER);
         isSame(
             <<<'TEXT'
-                "csv.header" at line 1. Real number of columns is less than schema: 2 < 3.
+                "allow_extra_columns" at line 1. Schema number of columns "3" greater than real "2".
                 
                 TEXT,
             \strip_tags((string)$csv->validate()),
@@ -118,7 +118,7 @@ final class CsvValidatorTest extends TestCase
         isSame(
             <<<'TXT'
                 "csv.header" at line 1, column "0:". Property "name" is not defined in schema: "_custom_array_".
-                "csv.header" at line 1. Columns not found in CSV: "0".
+                "allow_extra_columns" at line 1. Column(s) not found in CSV: "0".
                 
                 TXT,
             \strip_tags((string)$csv->validate()),
@@ -235,5 +235,92 @@ final class CsvValidatorTest extends TestCase
             ['Float', '2:Float'],
             ['Favorite color', '3:Favorite color'], // 3 is important here
         ], $names);
+    }
+
+    public function testStrictColumnOrderValid(): void
+    {
+        $csv = new CsvFile(Tools::DEMO_CSV, [
+            'columns' => [
+                ['name' => 'Name'],
+                ['name' => 'City'],
+                ['name' => 'Float'],
+                ['name' => 'Birthday'],
+                ['name' => 'Favorite color'],
+            ],
+        ]);
+        isSame(null, $csv->validate()->render());
+
+        $csv = new CsvFile(Tools::DEMO_CSV, [
+            'columns' => [
+                ['name' => 'Name'],
+                ['name' => 'City'],
+                ['name' => 'Float'],
+                ['name' => 'Birthday'],
+            ],
+        ]);
+        isSame(null, $csv->validate()->render());
+
+        $csv = new CsvFile(Tools::DEMO_CSV, [
+            'columns' => [
+                ['name' => 'City'],
+                ['name' => 'Float'],
+                ['name' => 'Birthday'],
+                ['name' => 'Favorite color'],
+            ],
+        ]);
+        isSame(null, $csv->validate()->render());
+
+        $csv = new CsvFile(
+            Tools::DEMO_CSV,
+            ['columns' => [['name' => 'City'], ['name' => 'Float'], ['name' => 'Birthday']]],
+        );
+        isSame(null, $csv->validate()->render());
+
+        $csv = new CsvFile(Tools::DEMO_CSV, ['columns' => [['name' => 'City'], ['name' => 'Birthday']]]);
+        isSame(null, $csv->validate()->render());
+
+        $csv = new CsvFile(Tools::DEMO_CSV, ['columns' => [['name' => 'City']]]);
+        isSame(null, $csv->validate()->render());
+
+        $csv = new CsvFile(Tools::DEMO_CSV);
+        isSame(null, $csv->validate()->render());
+    }
+
+    public function testStrictColumnOrderInvalid(): void
+    {
+        $columns = [
+            ['name' => 'City'],
+            ['name' => 'Name'], // Wrong order here
+            ['name' => 'Float'],
+            ['name' => 'Birthday'],
+            ['name' => 'Favorite color'],
+        ];
+
+        $csv = new CsvFile(Tools::DEMO_CSV, ['columns' => $columns]);
+
+        isSame(
+            '"strict_column_order" at line <red>1</red>. Real columns order doesn\'t match schema. ' .
+            'Expected: <c>["Name", "City", "Float", "Birthday", "Favorite color"]</c>. ' .
+            'Actual: <green>["City", "Name", "Float", "Birthday", "Favorite color"]</green>.' . "\n",
+            $csv->validate()->render(),
+        );
+
+        $columns = [
+            ['name' => 'City'],
+            ['name' => 'Name'], // Wrong order here
+            ['name' => 'Float'],
+            ['name' => 'Favorite color'],
+            ['name' => 'Birthday'],
+            ['name' => 'Birthday'],
+        ];
+
+        $csv = new CsvFile(Tools::DEMO_CSV, ['columns' => $columns]);
+
+        isSame(
+            '"strict_column_order" at line <red>1</red>. Real columns order doesn\'t match schema. ' .
+            'Expected: <c>["Name", "City", "Float", "Birthday", "Favorite color"]</c>. ' .
+            'Actual: <green>["City", "Name", "Float", "Favorite color", "Birthday"]</green>.' . "\n",
+            $csv->validate()->render(),
+        );
     }
 }

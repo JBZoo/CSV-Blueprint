@@ -25,15 +25,17 @@ final class ParseConfig
     public const ENCODING_UTF32 = 'utf-32';
 
     private const FALLBACK_VALUES = [
-        'inherit'                => null,
-        'bom'                    => false,
-        'delimiter'              => ',',
-        'quote_char'             => '\\',
-        'enclosure'              => '"',
-        'encoding'               => 'utf-8',
-        'header'                 => true,
-        'strict_column_order'    => false,
-        'other_columns_possible' => false,
+        'inherit'    => null,
+        'bom'        => false,
+        'delimiter'  => ',',
+        'quote_char' => '\\',
+        'enclosure'  => '"',
+        'encoding'   => 'utf-8',
+        'header'     => true,
+
+        // Global validation rules
+        'strict_column_order' => true,
+        'allow_extra_columns' => false,
     ];
 
     private Data $structure;
@@ -109,12 +111,18 @@ final class ParseConfig
 
     public function isStrictColumnOrder(): bool
     {
-        return $this->structure->getBool('strict_column_order', self::FALLBACK_VALUES['strict_column_order']);
+        return $this->structure->findBool(
+            'structural_rules.strict_column_order',
+            self::FALLBACK_VALUES['strict_column_order'],
+        );
     }
 
-    public function isOtherColumnsPossible(): bool
+    public function isAllowExtraColumns(): bool
     {
-        return $this->structure->getBool('other_columns_possible', self::FALLBACK_VALUES['other_columns_possible']);
+        return $this->structure->findBool(
+            'structural_rules.allow_extra_columns',
+            self::FALLBACK_VALUES['allow_extra_columns'],
+        );
     }
 
     public function getArrayCopy(): array

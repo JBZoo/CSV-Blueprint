@@ -1,0 +1,31 @@
+#
+# JBZoo Toolbox - Csv-Blueprint.
+#
+# This file is part of the JBZoo Toolbox project.
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# @license    MIT
+# @copyright  Copyright (C) JBZoo.com, All rights reserved.
+# @see        https://github.com/JBZoo/Csv-Blueprint
+#
+
+name: Simple CSV Schema
+filename_pattern: /my-favorite-csv-\d+\.csv$/i
+csv:
+  delimiter: ';'
+
+columns:
+  - name: id
+    rules:
+      not_empty: true
+      is_int: true
+    aggregate_rules:
+      is_unique: true
+      sorted: [ asc, numeric ]
+
+  - name: name
+    rules:
+      length_min: 3
+    aggregate_rules:
+      count: 10

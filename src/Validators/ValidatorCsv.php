@@ -97,6 +97,27 @@ final class ValidatorCsv
             }
         }
 
+        if ($this->schema->getCsvStructure()->isStrictColumnOrder()) {
+            $realColumns = $this->csv->getHeader();
+            $schemaColumns = $this->schema->getSchemaHeader();
+
+            if (!Utils::isArrayInOrder($schemaColumns, $realColumns)) {
+                $error = new Error(
+                    'strict_column_order',
+                    "Real columns order doesn't match schema. " .
+                    'Expected: <c>' . Utils::printList($realColumns) . '</c>. ' .
+                    'Actual: <green>' . Utils::printList($schemaColumns) . '</green>',
+                    '',
+                    ValidatorColumn::FALLBACK_LINE,
+                );
+
+                $errors->addError($error);
+                if ($quickStop && $errors->count() > 0) {
+                    return $errors;
+                }
+            }
+        }
+
         return $errors;
     }
 
@@ -196,8 +217,6 @@ final class ValidatorCsv
                 'filename_pattern',
                 'Filename "<c>' . Utils::cutPath($this->csv->getCsvFilename()) . '</c>" ' .
                 "does not match pattern: \"<c>{$filenamePattern}</c>\"",
-                '',
-                Error::UNDEFINED_LINE,
             );
 
             $errors->addError($error);
@@ -214,38 +233,41 @@ final class ValidatorCsv
     {
         $errors = new ErrorSuite();
 
-        if ($this->schema->getCsvStructure()->isHeader()) {
-            $realColumns = $this->csv->getHeader();
-            $schemaColumns = $this->schema->getSchemaHeader();
-            $notFoundColums = \array_diff($schemaColumns, $realColumns);
+        if (!$this->schema->getCsvStructure()->isAllowExtraColumns()) {
+            if ($this->schema->getCsvStructure()->isHeader()) {
+                $realColumns = $this->csv->getHeader();
+                $schemaColumns = $this->schema->getSchemaHeader();
+                $notFoundColums = \array_diff($schemaColumns, $realColumns);
 
-            if (\count($notFoundColums) > 0) {
-                $error = new Error(
-                    'csv.header',
-                    'Columns not found in CSV: ' . Utils::printList($notFoundColums, 'c'),
-                    '',
-                    ValidatorColumn::FALLBACK_LINE,
-                );
+                if (\count($notFoundColums) > 0) {
+                    $error = new Error(
+                        'allow_extra_columns',
+                        'Column(s) not found in CSV: ' . Utils::printList($notFoundColums, 'c'),
+                        '',
+                        ValidatorColumn::FALLBACK_LINE,
+                    );
 
-                $errors->addError($error);
-                if ($quickStop) {
-                    return $errors;
+                    $errors->addError($error);
+                    if ($quickStop) {
+                        return $errors;
+                    }
                 }
-            }
-        } else {
-            $schemaColumns = \count($this->schema->getColumns());
-            $realColumns = $this->csv->getRealColumNumber();
-            if ($realColumns < $schemaColumns) {
-                $error = new Error(
-                    'csv.header',
-                    'Real number of columns is less than schema: ' . $realColumns . ' < ' . $schemaColumns,
-                    '',
-                    ValidatorColumn::FALLBACK_LINE,
-                );
+            } else {
+                $schemaColumns = \count($this->schema->getColumns());
+                $realColumns = $this->csv->getRealColumNumber();
+                if ($realColumns < $schemaColumns) {
+                    $error = new Error(
+                        'allow_extra_columns',
+                        "Schema number of columns \"<c>{$schemaColumns}</c>\" greater " .
+                        "than real \"<green>{$realColumns}</green>\"",
+                        '',
+                        ValidatorColumn::FALLBACK_LINE,
+                    );
 
-                $errors->addError($error);
-                if ($quickStop) {
-                    return $errors;
+                    $errors->addError($error);
+                    if ($quickStop) {
+                        return $errors;
+                    }
                 }
             }
         }
