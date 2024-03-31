@@ -46,7 +46,7 @@ csv:
 # You can skip this section if you don't need to override the default values.
 structural_rules:
   strict_column_order: true             # Ensure columns in CSV follow the same order as defined in this YML schema. It works only if "csv.header" is true.
-  allow_extra_columns: false             # Allow CSV files to have more columns than specified in this YML schema.
+  allow_extra_columns: false            # Allow CSV files to have more columns than specified in this YML schema.
 
 
 # Description of each column in CSV.
