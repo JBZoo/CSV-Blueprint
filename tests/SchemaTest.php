@@ -132,8 +132,7 @@ final class SchemaTest extends TestCase
 
         isSame('Column Name (header)', $column->getName());
         isSame('Lorem ipsum', $column->getDescription());
-        isSame('', $column->getInherit());
-        isFalse($column->isRequired());
+        isTrue($column->isRequired());
 
         isTrue(\is_array($column->getRules()));
         isNotEmpty($column->getRules());
@@ -150,7 +149,7 @@ final class SchemaTest extends TestCase
         isSame('Column Name (header)', $column->getName());
         isSame('Lorem ipsum', $column->getDescription());
 
-        isFalse($column->isRequired());
+        isTrue($column->isRequired());
 
         isTrue(\is_array($column->getRules()));
         isNotEmpty($column->getRules());

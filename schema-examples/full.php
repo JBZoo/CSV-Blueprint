@@ -44,6 +44,7 @@ This example serves as a comprehensive guide for creating robust CSV file valida
             'name'        => 'Column Name (header)',
             'description' => 'Lorem ipsum',
             'example'     => 'Some example',
+            'required'    => true,
 
             'rules' => [
                 'not_empty'        => true,

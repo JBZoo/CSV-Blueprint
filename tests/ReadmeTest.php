@@ -86,14 +86,10 @@ final class ReadmeTest extends TestCase
         $planToAdd = \count($todoYml->findArray('columns.0.rules')) . '/' .
             (\count($todoYml->findArray('columns.0.aggregate_rules')) * 6) . '/' .
             (\count([
-                'required',
                 'null_values',
                 'multiple + separator',
-                'strict_column_order',
-                'other_columns_possible',
                 'complex_rules. one example',
                 'inherit',
-                'rule not found',
             ]) + \count($todoYml->findArray('structural_rules')));
 
         $badge = static function (string $label, int|string $count, string $url, string $color): string {

@@ -39,6 +39,7 @@ columns:
   - name: 'Column Name (header)'
     description: 'Lorem ipsum'
     example: 'Some example'
+    required: true
 
     rules:
       not_empty: true

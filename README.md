@@ -11,11 +11,11 @@
 <!-- /top-badges -->
 
 <!-- rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-366-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-367-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
 [![Static Badge](https://img.shields.io/badge/Rules-153-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
 [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)
-[![Static Badge](https://img.shields.io/badge/Rules-7-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)
-[![Static Badge](https://img.shields.io/badge/Rules-32/54/13-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-8-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)
+[![Static Badge](https://img.shields.io/badge/Rules-32/54/9-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- /rules-counter -->
 
 A console utility designed for validating CSV files against a strictly defined schema and validation rules outlined
@@ -232,7 +232,6 @@ columns:
       count: 10
 
 ```
-
 <!-- /readme-sample-yml -->
 
 
@@ -316,22 +315,13 @@ columns:
     description: Lorem ipsum            # Description of the column. Not used in the validation process.
     example: Some example               # Example of the column value. Schema will also check this value on its own.
 
-    # Important notes about the validation rules.
-    # 1. All rules except "not_empty" ignored for empty strings (length 0).
-    #    If the value must be non-empty, use "not_empty" as extra rule!
-    # 2. All rules don't depend on each other. They are independent.
-    #    They know nothing about each other and cannot influence each other.
-    # 3. You can use the rules in any combination. Or not use any of them.
-    #    They are grouped below simply for ease of navigation and reading.
-    # 4. If you see the value for the rule is "true" - that's just an enable flag.
-    #    In other cases, these are rule parameters.
-    # 5. The order of rules execution is the same as in the schema. But it doesn't matter.
-    #    The result will be the same in any order.
-    # 6. Most of the rules are case-sensitive. Unless otherwise specified.
-    # 7. As backup plan, you always can use the "regex" rule. ON YOUR OWN RISK!
+    # If the column is required. If true, the column must be present in the CSV file. If false, the column can be missing in the CSV file.
+    # So, if you want to make the column optional, set this value to false, and it will validate the column only if it is present.
+    # By default, the column is required. It works only if "csv.header" is true.
+    required: true
 
     ####################################################################################################################
-    # Data validation for each(!) value in the column.
+    # Data validation for each(!) value in the column. Please, see notes in README.md
     # Every rule is optional.
     rules:
       # General rules
@@ -356,7 +346,7 @@ columns:
       length_max: 9                     # x <= 9
 
       # Basic string checks
-      is_trimmed                  # Only trimmed strings. Example: "Hello World" (not " Hello World ").
+      is_trimmed: true                  # Only trimmed strings. Example: "Hello World" (not " Hello World ").
       is_lowercase: true                # String is only lower-case. Example: "hello world".
       is_uppercase: true                # String is only upper-case. Example: "HELLO WORLD".
       is_capitalize: true               # String is only capitalized. Example: "Hello World".
@@ -835,7 +825,8 @@ Behind the scenes to what is outlined in the yml above, there are additional che
 <!-- extra-rules -->
 
 * With `filename_pattern` rule, you can check if the file name matches the pattern.
-* Property `name` is not defined in a column. If `csv.header: true`.
+* Checks if property `name` is not defined in a column. Only if `csv.header: true`.
+* If property `required` is set to `true`, the column must must be present in CSV. Only if `csv.header: true`
 * Check that each row matches the number of columns.
 * With `strict_column_order` rule, you can check that the columns are in the correct order.
 * With `allow_extra_columns` rule, you can check that there are no extra columns in the CSV file.
