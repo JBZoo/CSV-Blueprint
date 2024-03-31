@@ -123,8 +123,6 @@ final class CsvFile
             }
         }
 
-
-
         /*
         $isHeader = $this->schema->getCsvParserConfig()->isHeader();
         $isExtra = $this->schema->isAllowExtraColumns();

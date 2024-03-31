@@ -151,7 +151,7 @@ final class ValidatorCsv
 
             if (!$isAggRules && !$isRules) { // Time optimization
                 Utils::debug("{$messPrefix} Skipped (no rules)");
-                //continue;
+                // continue;
             }
 
             $lineCounter = 0;
