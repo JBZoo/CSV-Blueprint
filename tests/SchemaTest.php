@@ -216,6 +216,8 @@ final class SchemaTest extends TestCase
     {
         $schemas = (new Finder())
             ->in(PROJECT_ROOT . '/tests/schemas')
+            ->in(PROJECT_ROOT . '/tests/Benchmarks')
+            ->name('*.yml')
             ->notName([
                 'todo.yml',
                 'invalid_schema.yml',
