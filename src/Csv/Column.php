@@ -31,14 +31,15 @@ final class Column
         'aggregate_rules' => [],
     ];
 
-    private int   $id;
+    private ?int  $csvOffset = null;
+    private int   $schemaId;
     private Data  $column;
     private array $rules;
     private array $aggRules;
 
-    public function __construct(int $id, array $config)
+    public function __construct(int $schemaId, array $config)
     {
-        $this->id = $id;
+        $this->schemaId = $schemaId;
         $this->column = new Data($config);
         $this->rules = $this->prepareRuleSet('rules');
         $this->aggRules = $this->prepareRuleSet('aggregate_rules');
@@ -49,9 +50,18 @@ final class Column
         return $this->column->getString('name', self::FALLBACK_VALUES['name']);
     }
 
-    public function getId(): int
+    public function getCsvOffset(): int
     {
-        return $this->id;
+        if ($this->csvOffset === null) {
+            throw new \RuntimeException('CSV offset is not defined');
+        }
+
+        return $this->csvOffset;
+    }
+
+    public function getSchemaId(): int
+    {
+        return $this->schemaId;
     }
 
     public function getDescription(): string
@@ -61,16 +71,7 @@ final class Column
 
     public function getHumanName(): string
     {
-        return $this->getId() . ':' . \trim($this->getName());
-    }
-
-    public function getKey(): string
-    {
-        if ($this->getName() !== '') {
-            return $this->getName();
-        }
-
-        return (string)$this->getId();
+        return $this->getSchemaId() . ':' . \trim($this->getName());
     }
 
     public function isRequired(): bool
@@ -98,9 +99,9 @@ final class Column
         return $this->getValidator()->validateCell($cellValue, $line);
     }
 
-    public function setId(int $realIndex): void
+    public function setCsvOffset(int $csvOffset): void
     {
-        $this->id = $realIndex;
+        $this->csvOffset = $csvOffset;
     }
 
     private function prepareRuleSet(string $schemaKey): array

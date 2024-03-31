@@ -25,12 +25,12 @@ use League\Csv\TabularDataReader;
 
 final class CsvFile
 {
-    private string       $csvFilename;
-    private ParseConfig  $structure;
-    private LeagueReader $reader;
-    private Schema       $schema;
-    private bool         $isEmpty;
-    private ?array       $header = null;
+    private string          $csvFilename;
+    private CsvParserConfig $csvParserConfig;
+    private LeagueReader    $reader;
+    private Schema          $schema;
+    private bool            $isEmpty;
+    private ?array          $header = null;
 
     public function __construct(string $csvFilename, null|array|string $csvSchemaFilenameOrArray = null)
     {
@@ -41,7 +41,7 @@ final class CsvFile
         $this->csvFilename = $csvFilename;
         $this->isEmpty = \filesize($this->csvFilename) <= 1;
         $this->schema = new Schema($csvSchemaFilenameOrArray);
-        $this->structure = $this->schema->getCsvStructure();
+        $this->csvParserConfig = $this->schema->getCsvParserConfig();
         $this->reader = $this->prepareReader();
     }
 
@@ -50,9 +50,9 @@ final class CsvFile
         return $this->csvFilename;
     }
 
-    public function getCsvStructure(): ParseConfig
+    public function getCsvStructure(): CsvParserConfig
     {
-        return $this->structure;
+        return $this->csvParserConfig;
     }
 
     /**
@@ -62,7 +62,7 @@ final class CsvFile
     {
         if ($this->header === null) {
             $this->header = [];
-            if ($this->structure->isHeader() && !$this->isEmpty) {
+            if ($this->csvParserConfig->isHeader() && !$this->isEmpty) {
                 // TODO: add handler for empty file
                 // League\Csv\SyntaxError : The header record does not exist or is empty at offset: `0
                 $this->header = $this->getRecordsChunk(0, 1)->first();
@@ -74,9 +74,15 @@ final class CsvFile
         return $this->header;
     }
 
-    public function getRecords(): \Iterator
+    public function getRecords(?int $offset = null): \Iterator
     {
-        return $this->reader->getRecords([]);
+        if ($offset !== null) {
+            $records = $this->reader->fetchColumnByOffset($offset);
+        } else {
+            $records = $this->reader->getRecords();
+        }
+
+        return $records;
     }
 
     public function getRecordsChunk(int $offset = 0, int $limit = -1): TabularDataReader
@@ -112,10 +118,29 @@ final class CsvFile
             $schemaColumn = $this->schema->getColumn($realColumn);
 
             if ($schemaColumn !== null) {
-                $schemaColumn->setId($realIndex);
+                $schemaColumn->setCsvOffset($realIndex);
                 $map[$realIndex] = $schemaColumn;
             }
         }
+
+
+
+        /*
+        $isHeader = $this->schema->getCsvParserConfig()->isHeader();
+        $isExtra = $this->schema->isAllowExtraColumns();
+        if ($isHeader && !$isExtra) {
+            foreach ($this->schema->getColumns() as $extraColumn) {
+                if ($extraColumn->isRequired()) {
+                    foreach ($map as $mapItem) {
+                        if ($mapItem->getName() === $extraColumn->getName()) {
+                            continue;
+                        }
+                        // $map
+                    }
+                }
+            }
+        }
+        */
 
         return $map;
     }
@@ -123,12 +148,12 @@ final class CsvFile
     private function prepareReader(): LeagueReader
     {
         $reader = LeagueReader::createFromPath($this->csvFilename)
-            ->setDelimiter($this->structure->getDelimiter())
-            ->setEnclosure($this->structure->getEnclosure())
-            ->setEscape($this->structure->getQuoteChar())
+            ->setDelimiter($this->csvParserConfig->getDelimiter())
+            ->setEnclosure($this->csvParserConfig->getEnclosure())
+            ->setEscape($this->csvParserConfig->getQuoteChar())
             ->setHeaderOffset(null); // It's important to set it to null to optimize memory usage!
 
-        if ($this->structure->isBom()) {
+        if ($this->csvParserConfig->isBom()) {
             $reader->includeInputBOM();
         } else {
             $reader->skipInputBOM();

@@ -49,29 +49,23 @@ final class SchemaTest extends TestCase
     {
         $schemaEmpty = new Schema(Tools::SCHEMA_EXAMPLE_EMPTY);
         isSame([
-            // 'inherit'                => null,
             'header'     => true,
             'delimiter'  => ',',
             'quote_char' => '\\',
             'enclosure'  => '"',
             'encoding'   => 'utf-8',
             'bom'        => false,
-            // 'strict_column_order'    => false,
-            // 'other_columns_possible' => false,
-        ], $schemaEmpty->getCsvStructure()->getArrayCopy());
+        ], $schemaEmpty->getCsvParserConfig()->getArrayCopy());
 
         $schemaFull = new Schema(Tools::SCHEMA_FULL_YML);
         isSame([
-            // 'inherit'                => 'alias_1',
             'header'     => true,
             'delimiter'  => ',',
             'quote_char' => '\\',
             'enclosure'  => '"',
             'encoding'   => 'utf-8',
             'bom'        => false,
-            // 'strict_column_order'    => true,
-            // 'other_columns_possible' => true,
-        ], $schemaFull->getCsvStructure()->getArrayCopy());
+        ], $schemaFull->getCsvParserConfig()->getArrayCopy());
     }
 
     public function testColumns(): void

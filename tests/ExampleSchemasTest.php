@@ -87,9 +87,9 @@ final class ExampleSchemasTest extends TestCase
         $defaultsInDoc = yml(Tools::SCHEMA_FULL_YML)->findArray('csv');
 
         $schema = new Schema([]);
-        $schema->getCsvStructure()->getArrayCopy();
+        $schema->getCsvParserConfig()->getArrayCopy();
 
-        isSame($defaultsInDoc, $schema->getCsvStructure()->getArrayCopy());
+        isSame($defaultsInDoc, $schema->getCsvParserConfig()->getArrayCopy());
     }
 
     public function testCheckPhpExample(): void

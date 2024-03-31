@@ -33,7 +33,7 @@ final class ValidatorSchema
     {
         $this->filename = $schema->getFilename();
         $this->data = $schema->getData();
-        $this->isHeader = $schema->getCsvStructure()->isHeader();
+        $this->isHeader = $schema->getCsvParserConfig()->isHeader();
     }
 
     public function validate(bool $quickStop = false): ErrorSuite
@@ -125,14 +125,14 @@ final class ValidatorSchema
         return null;
     }
 
-    private static function validateColumnExample(array $actualColumn, int $columnKey): ?ErrorSuite
+    private static function validateColumnExample(array $actualColumn, int $schemaColumnId): ?ErrorSuite
     {
         $exclude = [
             'Some example', // I.e. this value is taken from full.yml, then it will be invalid in advance.
         ];
 
         if (isset($actualColumn['example']) && !\in_array($actualColumn['example'], $exclude, true)) {
-            return (new Column($columnKey, $actualColumn))->validateCell((string)$actualColumn['example']);
+            return (new Column($schemaColumnId, $actualColumn))->validateCell((string)$actualColumn['example']);
         }
 
         return null;

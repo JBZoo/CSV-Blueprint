@@ -56,7 +56,7 @@ columns:
 
     # If the column is required. If true, the column must be present in the CSV file. If false, the column can be missing in the CSV file.
     # So, if you want to make the column optional, set this value to false, and it will validate the column only if it is present.
-    # By default, the column is required. It works only if "csv.header" is true.
+    # By default, the column is required. It works only if "csv.header" is true and "structural_rules.allow_extra_columns" is false.
     required: true
 
     ####################################################################################################################

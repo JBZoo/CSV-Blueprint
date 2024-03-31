@@ -75,7 +75,7 @@ final class ValidatorCsv
     {
         $errors = new ErrorSuite();
 
-        if (!$this->schema->getCsvStructure()->isHeader()) {
+        if (!$this->schema->getCsvParserConfig()->isHeader()) {
             return $errors;
         }
 
@@ -97,7 +97,7 @@ final class ValidatorCsv
             }
         }
 
-        if ($this->schema->getCsvStructure()->isStrictColumnOrder()) {
+        if ($this->schema->isStrictColumnOrder()) {
             $realColumns = $this->csv->getHeader();
             $schemaColumns = $this->schema->getSchemaHeader();
 
@@ -128,7 +128,7 @@ final class ValidatorCsv
     {
         $errors = new ErrorSuite();
         $mappedColumns = $this->csv->getColumnsMappedByHeader();
-        $isHeaderEnabled = $this->schema->getCsvStructure()->isHeader();
+        $isHeaderEnabled = $this->schema->getCsvParserConfig()->isHeader();
 
         foreach ($mappedColumns as $columnIndex => $column) {
             $messPrefix = "<i>Column</i> \"{$column->getHumanName()}\" -"; // System message prefix. Debug only!
@@ -151,12 +151,12 @@ final class ValidatorCsv
 
             if (!$isAggRules && !$isRules) { // Time optimization
                 Utils::debug("{$messPrefix} Skipped (no rules)");
-                continue;
+                //continue;
             }
 
             $lineCounter = 0;
             $startTimer = \microtime(true);
-            foreach ($this->csv->getRecords() as $line => $record) {
+            foreach ($this->csv->getRecords($columnIndex) as $line => $recordValue) {
                 if ($isHeaderEnabled && $line === 0) {
                     continue;
                 }
@@ -165,26 +165,26 @@ final class ValidatorCsv
                 $lineNum = (int)$line + 1;
 
                 if ($isRules) { // Time optimization
-                    if (!isset($record[$columnIndex])) {
-                        $errors->addError(
-                            new Error(
-                                'csv.column',
-                                "Column index:{$columnIndex} not found",
-                                $column->getHumanName(),
-                                $lineNum,
-                            ),
-                        );
-                    } else {
-                        $errors->addErrorSuit($colValidator->validateCell($record[$columnIndex], $lineNum));
-                    }
+                    // if (!isset($recordValue[$columnIndex])) {
+                    //     $errors->addError(
+                    //         new Error(
+                    //             'csv.column',
+                    //             "Column index:{$columnIndex} not found",
+                    //             $column->getHumanName(),
+                    //             $lineNum,
+                    //         ),
+                    //     );
+                    // } else {
+                    $errors->addErrorSuit($colValidator->validateCell($recordValue, $lineNum));
+                    // }
 
                     if ($quickStop && $errors->count() > 0) {
                         return $errors;
                     }
                 }
 
-                if ($isAggRules && isset($record[$columnIndex])) {  // Time & memory optimization
-                    $columValues[] = ValidatorColumn::prepareValue($record[$columnIndex], $aggInputType);
+                if ($isAggRules) {  // Time & memory optimization
+                    $columValues[] = ValidatorColumn::prepareValue($recordValue, $aggInputType);
                 }
             }
             Utils::debug("{$messPrefix} Lines <yellow>" . \number_format($lineCounter) . '</yellow>');
@@ -233,8 +233,8 @@ final class ValidatorCsv
     {
         $errors = new ErrorSuite();
 
-        if (!$this->schema->getCsvStructure()->isAllowExtraColumns()) {
-            if ($this->schema->getCsvStructure()->isHeader()) {
+        if (!$this->schema->isAllowExtraColumns()) {
+            if ($this->schema->getCsvParserConfig()->isHeader()) {
                 $realColumns = $this->csv->getHeader();
                 $schemaColumns = $this->schema->getSchemaHeader();
                 $notFoundColums = \array_diff($schemaColumns, $realColumns);

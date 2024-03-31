@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint;
 
 use JBZoo\CsvBlueprint\Csv\Column;
-use JBZoo\CsvBlueprint\Csv\ParseConfig;
+use JBZoo\CsvBlueprint\Csv\CsvParserConfig;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use JBZoo\CsvBlueprint\Validators\ValidatorSchema;
 use JBZoo\Data\AbstractData;
@@ -73,9 +73,9 @@ final class Schema
         return $this->filename;
     }
 
-    public function getCsvStructure(): ParseConfig
+    public function getCsvParserConfig(): CsvParserConfig
     {
-        return new ParseConfig($this->data->getArray('csv'));
+        return new CsvParserConfig($this->data->getArray('csv'));
     }
 
     /**
@@ -136,6 +136,16 @@ final class Schema
         return \array_keys($this->getColumns());
     }
 
+    public function isStrictColumnOrder(): bool
+    {
+        return $this->data->findBool('structural_rules.strict_column_order', true);
+    }
+
+    public function isAllowExtraColumns(): bool
+    {
+        return $this->data->findBool('structural_rules.allow_extra_columns', false);
+    }
+
     /**
      * @return Column[]
      */
@@ -144,9 +154,9 @@ final class Schema
         $result = [];
 
         foreach ($this->data->getArray('columns') as $columnId => $columnPreferences) {
-            $column = new Column((int)$columnId, $columnPreferences);
+            $column = new Column($columnId, $columnPreferences);
 
-            $result[$column->getKey()] = $column;
+            $result[$column->getSchemaId()] = $column;
         }
 
         return $result;
