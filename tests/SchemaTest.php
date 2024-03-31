@@ -78,7 +78,7 @@ final class SchemaTest extends TestCase
             0 => 'Column Name (header)',
             1 => 'another_column',
             2 => 'third_column',
-        ], \array_keys($schemaFull->getColumns()));
+        ], $schemaFull->getSchemaHeader());
     }
 
     public function testColumnByNameAndId(): void

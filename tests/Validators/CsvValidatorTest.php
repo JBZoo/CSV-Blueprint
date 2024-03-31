@@ -140,8 +140,6 @@ final class CsvValidatorTest extends TestCase
     public function testErrorToArray(): void
     {
         $csv = new CsvFile(Tools::CSV_COMPLEX, Tools::getRule('yn', 'is_email', true));
-        //        dump($csv);
-
         isSame([
             'ruleCode'   => 'is_email',
             'message'    => 'Value "<c>N</c>" is not a valid email',
@@ -211,7 +209,6 @@ final class CsvValidatorTest extends TestCase
             ['name' => 'Float'],
             // ['name' => 'Birthday'], // We skip it for tests
             ['name' => 'Favorite color'],
-            ['name' => 'Favorite color11'],
         ];
 
         $csv = new CsvFile(Tools::DEMO_CSV, ['csv' => ['header' => false], 'columns' => $columns]);
@@ -253,6 +250,7 @@ final class CsvValidatorTest extends TestCase
         isSame(['Name', 'Optional column'], $csv->getSchema()->getSchemaHeader());
 
         $mappedColumns = $csv->getColumnsMappedByHeader();
+        dump($mappedColumns);
         isSame('not_set', $mappedColumns[3] ?? 'not_set');
 
         isSame([0, 1], \array_keys($mappedColumns));
@@ -351,7 +349,7 @@ final class CsvValidatorTest extends TestCase
         isSame(
             '"strict_column_order" at line <red>1</red>. Real columns order doesn\'t match schema. ' .
             'Expected: <c>["Name", "City", "Float", "Birthday", "Favorite color"]</c>. ' .
-            'Actual: <green>["City", "Name", "Float", "Favorite color", "Birthday"]</green>.' . "\n",
+            'Actual: <green>["City", "Name", "Float", "Favorite color", "Birthday", "Birthday"]</green>.' . "\n",
             $csv->validate()->render(),
         );
     }

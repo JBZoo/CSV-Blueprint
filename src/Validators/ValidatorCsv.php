@@ -131,6 +131,7 @@ final class ValidatorCsv
         $isHeaderEnabled = $this->schema->getCsvParserConfig()->isHeader();
 
         foreach ($mappedColumns as $columnIndex => $column) {
+            $columnIndex = (int)$columnIndex;
             $messPrefix = "<i>Column</i> \"{$column->getHumanName()}\" -"; // System message prefix. Debug only!
 
             $columValues = [];
@@ -151,12 +152,12 @@ final class ValidatorCsv
 
             if (!$isAggRules && !$isRules) { // Time optimization
                 Utils::debug("{$messPrefix} Skipped (no rules)");
-                // continue;
+                continue;
             }
 
             $lineCounter = 0;
             $startTimer = \microtime(true);
-            foreach ($this->csv->getRecords($columnIndex) as $line => $recordValue) {
+            foreach ($this->csv->getRecords() as $line => $record) {
                 if ($isHeaderEnabled && $line === 0) {
                     continue;
                 }
@@ -165,26 +166,26 @@ final class ValidatorCsv
                 $lineNum = (int)$line + 1;
 
                 if ($isRules) { // Time optimization
-                    // if (!isset($recordValue[$columnIndex])) {
-                    //     $errors->addError(
-                    //         new Error(
-                    //             'csv.column',
-                    //             "Column index:{$columnIndex} not found",
-                    //             $column->getHumanName(),
-                    //             $lineNum,
-                    //         ),
-                    //     );
-                    // } else {
-                    $errors->addErrorSuit($colValidator->validateCell($recordValue, $lineNum));
-                    // }
+                    if (!isset($record[$columnIndex])) {
+                        $errors->addError(
+                            new Error(
+                                'csv.column',
+                                "Column index:{$columnIndex} not found",
+                                $column->getHumanName(),
+                                $lineNum,
+                            ),
+                        );
+                    } else {
+                        $errors->addErrorSuit($colValidator->validateCell($record[$columnIndex], $lineNum));
+                    }
 
                     if ($quickStop && $errors->count() > 0) {
                         return $errors;
                     }
                 }
 
-                if ($isAggRules) {  // Time & memory optimization
-                    $columValues[] = ValidatorColumn::prepareValue($recordValue, $aggInputType);
+                if ($isAggRules && isset($record[$columnIndex])) {  // Time & memory optimization
+                    $columValues[] = ValidatorColumn::prepareValue($record[$columnIndex], $aggInputType);
                 }
             }
             Utils::debug("{$messPrefix} Lines <yellow>" . \number_format($lineCounter) . '</yellow>');

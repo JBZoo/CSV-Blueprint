@@ -89,12 +89,16 @@ final class Schema
     public function getColumn(int|string $columNameOrId): ?Column
     {
         if (\is_int($columNameOrId)) {
-            $column = \array_values($this->getColumns())[$columNameOrId] ?? null;
-        } else {
-            $column = $this->getColumns()[$columNameOrId] ?? null;
+            return \array_values($this->getColumns())[$columNameOrId] ?? null;
         }
 
-        return $column;
+        foreach ($this->getColumns() as $schemaColumn) {
+            if ($schemaColumn->getName() === $columNameOrId) {
+                return $schemaColumn;
+            }
+        }
+
+        return null;
     }
 
     public function getFilenamePattern(): ?string
@@ -133,7 +137,11 @@ final class Schema
 
     public function getSchemaHeader(): array
     {
-        return \array_keys($this->getColumns());
+        $schemaColumns = $this->getColumns();
+        return \array_reduce($schemaColumns, static function (array $carry, Column $column) {
+            $carry[] = $column->getName();
+            return $carry;
+        }, []);
     }
 
     public function isStrictColumnOrder(): bool

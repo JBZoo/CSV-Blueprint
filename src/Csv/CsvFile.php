@@ -110,35 +110,24 @@ final class CsvFile
      */
     public function getColumnsMappedByHeader(): array
     {
+        $isHeader = $this->schema->getCsvParserConfig()->isHeader();
+
         $map = [];
 
         $realHeader = $this->getHeader();
-        foreach ($realHeader as $realIndex => $realColumn) {
+        foreach ($realHeader as $realIndex => $realColumnName) {
             $realIndex = (int)$realIndex;
-            $schemaColumn = $this->schema->getColumn($realColumn);
+            if ($isHeader) {
+                $schemaColumn = $this->schema->getColumn($realColumnName);
+            } else {
+                $schemaColumn = $this->schema->getColumn($realIndex);
+            }
 
             if ($schemaColumn !== null) {
                 $schemaColumn->setCsvOffset($realIndex);
                 $map[$realIndex] = $schemaColumn;
             }
         }
-
-        /*
-        $isHeader = $this->schema->getCsvParserConfig()->isHeader();
-        $isExtra = $this->schema->isAllowExtraColumns();
-        if ($isHeader && !$isExtra) {
-            foreach ($this->schema->getColumns() as $extraColumn) {
-                if ($extraColumn->isRequired()) {
-                    foreach ($map as $mapItem) {
-                        if ($mapItem->getName() === $extraColumn->getName()) {
-                            continue;
-                        }
-                        // $map
-                    }
-                }
-            }
-        }
-        */
 
         return $map;
     }

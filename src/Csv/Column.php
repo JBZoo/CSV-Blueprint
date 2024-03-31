@@ -71,7 +71,13 @@ final class Column
 
     public function getHumanName(): string
     {
-        return $this->getSchemaId() . ':' . \trim($this->getName());
+        if ($this->csvOffset !== null) {
+            $prefix = $this->csvOffset;
+        } else {
+            $prefix = $this->schemaId;
+        }
+
+        return $prefix . ':' . \trim($this->getName());
     }
 
     public function isRequired(): bool
@@ -109,7 +115,6 @@ final class Column
         $rules = [];
 
         $ruleSetConfig = $this->column->getSelf($schemaKey, [])->getArrayCopy();
-
         foreach ($ruleSetConfig as $ruleName => $ruleValue) {
             $rules[$ruleName] = $ruleValue;
         }
