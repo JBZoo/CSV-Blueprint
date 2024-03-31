@@ -156,7 +156,7 @@ final class ValidatorCsv
 
             $lineCounter = 0;
             $startTimer = \microtime(true);
-            foreach ($this->csv->getRecords() as $line => $record) {
+            foreach ($this->csv->getRecords($columnIndex) as $line => $recordValue) {
                 if ($isHeaderEnabled && $line === 0) {
                     continue;
                 }
@@ -165,26 +165,14 @@ final class ValidatorCsv
                 $lineNum = (int)$line + 1;
 
                 if ($isRules) { // Time optimization
-                    if (!isset($record[$columnIndex])) {
-                        $errors->addError(
-                            new Error(
-                                'csv.column',
-                                "Column index:{$columnIndex} not found",
-                                $column->getHumanName(),
-                                $lineNum,
-                            ),
-                        );
-                    } else {
-                        $errors->addErrorSuit($colValidator->validateCell($record[$columnIndex], $lineNum));
-                    }
-
+                    $errors->addErrorSuit($colValidator->validateCell($recordValue, $lineNum));
                     if ($quickStop && $errors->count() > 0) {
                         return $errors;
                     }
                 }
 
-                if ($isAggRules && isset($record[$columnIndex])) {  // Time & memory optimization
-                    $columValues[] = ValidatorColumn::prepareValue($record[$columnIndex], $aggInputType);
+                if ($isAggRules) {  // Time & memory optimization
+                    $columValues[] = ValidatorColumn::prepareValue($recordValue, $aggInputType);
                 }
             }
             Utils::debug("{$messPrefix} Lines <yellow>" . \number_format($lineCounter) . '</yellow>');

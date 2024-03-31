@@ -74,9 +74,13 @@ final class CsvFile
         return $this->header;
     }
 
-    public function getRecords(): \Iterator
+    public function getRecords(?int $columnOffset = null): \Iterator
     {
-        return $this->reader->getRecords([]);
+        if ($columnOffset === null) {
+            return $this->reader->getRecords([]);
+        }
+
+        return $this->reader->fetchColumnByOffset($columnOffset);
     }
 
     public function getRecordsChunk(int $offset = 0, int $limit = -1): TabularDataReader

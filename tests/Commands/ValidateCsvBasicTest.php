@@ -55,8 +55,8 @@ final class ValidateCsvBasicTest extends TestCase
             
             TXT;
 
-        isSame(0, $exitCode, $actual);
         isSame($expected, $actual);
+        isSame(0, $exitCode, $actual);
     }
 
     public function testValidateOneCsvNegative(): void

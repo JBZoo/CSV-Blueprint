@@ -232,7 +232,6 @@ columns:
       count: 10
 
 ```
-
 <!-- /readme-sample-yml -->
 
 

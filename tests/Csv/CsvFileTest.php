@@ -31,6 +31,7 @@ final class CsvFileTest extends TestCase
 
         isSame([0, 1], $csv->getHeader());
 
+        // All records
         isSame([
             ['1', 'true'],
             ['2', 'true'],
@@ -38,8 +39,13 @@ final class CsvFileTest extends TestCase
         ], $this->fetchRows($csv->getRecords()));
 
         isSame([['2', 'true']], $this->fetchRows($csv->getRecordsChunk(1, 1)));
-
         isSame([['2', 'true'], ['3', 'false']], $this->fetchRows($csv->getRecordsChunk(1)));
+
+        // By offset
+        isSame(['1', '2', '3'], $this->fetchRows($csv->getRecords(0)));
+        isSame(['true', 'true', 'false'], $this->fetchRows($csv->getRecords(1)));
+        isSame([], $this->fetchRows($csv->getRecords(2)));
+        isSame([], $this->fetchRows($csv->getRecords(10000)));
     }
 
     public function testReadCsvFileWithHeader(): void
@@ -56,15 +62,15 @@ final class CsvFileTest extends TestCase
             ['3', 'false', '1'],
         ], $this->fetchRows($csv->getRecords()));
 
-        isSame(
-            [['1', 'true', '1']],
-            $this->fetchRows($csv->getRecordsChunk(1, 1)),
-        );
+        isSame([['1', 'true', '1']], $this->fetchRows($csv->getRecordsChunk(1, 1)));
+        isSame([['1', 'true', '1'], ['2', 'true', '1']], $this->fetchRows($csv->getRecordsChunk(1, 2)));
 
-        isSame(
-            [['1', 'true', '1'], ['2', 'true', '1']],
-            $this->fetchRows($csv->getRecordsChunk(1, 2)),
-        );
+        // By offset
+        isSame(['seq', '1', '2', '3'], $this->fetchRows($csv->getRecords(0)));
+        isSame(['bool', 'true', 'true', 'false'], $this->fetchRows($csv->getRecords(1)));
+        isSame(['exact', '1', '1', '1'], $this->fetchRows($csv->getRecords(2)));
+        isSame([], $this->fetchRows($csv->getRecords(3)));
+        isSame([], $this->fetchRows($csv->getRecords(10000)));
     }
 
     private function fetchRows(iterable $records): array
