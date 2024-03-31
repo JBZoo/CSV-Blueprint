@@ -101,7 +101,6 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
 ### GitHub Action
 
 <!-- github-actions-yml -->
-
 ```yml
 - uses: jbzoo/csv-blueprint@master # See the specific version on releases page
   with:
@@ -128,16 +127,13 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
     # You can skip it
     skip-schema: no
 ```
-
 <!-- /github-actions-yml -->
 
-**Note**. GitHub Actions report format is `table` by default.
-
-But you can specify `report: github` to see friendly error output in your PRs
+You can specify `report: github` to see friendly error output in your PRs
 using [annotations](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message).
 This allows you to see bugs in the GitHub interface at the PR level.
-See [the PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files).
-That is, the error will be shown in a specific place in the CSV file right in diff of your Pull Requests!
+See [the PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files). That is, the error will be shown
+in a specific place in the CSV file right in diff of your Pull Requests!
 
 ![GitHub Actions - PR](.github/assets/github-actions-pr.png)
 
