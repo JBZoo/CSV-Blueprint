@@ -4,7 +4,11 @@
 [![GitHub Release](https://img.shields.io/github/v/release/jbzoo/csv-blueprint?label=Latest)](https://github.com/jbzoo/csv-blueprint/releases)    [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)    [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)    [![Docker Image Size](https://img.shields.io/docker/image-size/jbzoo/csv-blueprint)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)
 
 <!-- rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-364-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)    [![Static Badge](https://img.shields.io/badge/Rules-153-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)    [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)    [![Static Badge](https://img.shields.io/badge/Rules-5-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)    [![Static Badge](https://img.shields.io/badge/Rules-32/54/8-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-366-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-153-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
+[![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)
+[![Static Badge](https://img.shields.io/badge/Rules-7-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)
+[![Static Badge](https://img.shields.io/badge/Rules-32/54/13-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- /rules-counter -->
 
 A console utility designed for validating CSV files against a strictly defined schema and validation rules outlined
@@ -96,9 +100,6 @@ This part of the readme is also covered by autotests, so these code are always u
 
 In any unclear situation, look into it first.
 
-<details>
-  <summary>CLICK HERE to see the most complete description of ALL features!</summary>
-
 <!-- full-yml -->
 ```yml
 # It's a complete example of the CSV schema file in YAML format.
@@ -130,6 +131,14 @@ csv:
   enclosure: '"'                        # Enclosure for each field in CSV file.
   encoding: utf-8                       # (Experimental) Only utf-8, utf-16, utf-32.
   bom: false                            # (Experimental) If the file has a BOM (Byte Order Mark) at the beginning.
+
+
+# Structural rules for the CSV file. These rules are applied to the entire CSV file.
+# They are not(!) related to the data in the columns.
+# You can skip this section if you don't need to override the default values.
+structural_rules:
+  strict_column_order: true             # Ensure columns in CSV follow the same order as defined in this YML schema. It works only if "csv.header" is true.
+  allow_extra_columns: false             # Allow CSV files to have more columns than specified in this YML schema.
 
 
 # Description of each column in CSV.
@@ -652,7 +661,6 @@ columns:
 ```
 <!-- /full-yml -->
 
-</details>
 
 ### Extra checks
 
@@ -663,8 +671,10 @@ Behind the scenes to what is outlined in the yml above, there are additional che
 * With `filename_pattern` rule, you can check if the file name matches the pattern.
 * Property `name` is not defined in a column. If `csv.header: true`.
 * Check that each row matches the number of columns.
-* If `csv.header: true`. Schema contains an unknown column `name` that is not found in the CSV file.
-* If `csv.header: false`. Compare the number of columns in the schema and the CSV file.
+* With `strict_column_order` rule, you can check that the columns are in the correct order.
+* With `allow_extra_columns` rule, you can check that there are no extra columns in the CSV file.
+    * If `csv.header: true`. Schema contains an unknown column `name` that is not found in the CSV file.
+    * If `csv.header: false`. Compare the number of columns in the schema and the CSV file.
 
 <!-- /extra-rules -->
 
@@ -863,23 +873,23 @@ CSV file validation: 1
 (1/1) Schema: ./tests/schemas/demo_invalid.yml
 (1/1) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
 (1/1) Issues: 10
-+------+------------------+--------------+------------------------- demo.csv -------------------------------------------------------------------+
-| Line | id:Column        | Rule         | Message                                                                                              |
-+------+------------------+--------------+------------------------------------------------------------------------------------------------------+
-| 1    |                  | csv.header   | Columns not found in CSV: "wrong_column_name"                                                        |
-| 6    | 0:Name           | length_min   | The length of the value "Carl" is 4, which is less than the expected "5"                             |
-| 11   | 0:Name           | length_min   | The length of the value "Lois" is 4, which is less than the expected "5"                             |
-| 1    | 1:City           | ag:is_unique | Column has non-unique values. Unique: 9, total: 10                                                   |
-| 2    | 2:Float          | num_max      | The value "4825.185" is greater than the expected "4825.184"                                         |
-| 1    | 2:Float          | ag:nth_num   | The N-th value in the column is "74", which is not equal than the expected "0.001"                   |
-| 6    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
-|      |                  |              | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
-| 8    | 3:Birthday       | date_min     | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
-|      |                  |              | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
-| 9    | 3:Birthday       | date_max     | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
-|      |                  |              | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
-| 5    | 4:Favorite color | allow_values | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
-+------+------------------+--------------+------------------------- demo.csv -------------------------------------------------------------------+
++------+------------------+---------------------+---------------------- demo.csv ----------------------------------------------------------------------+
+| Line | id:Column        | Rule                | Message                                                                                              |
++------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
+| 1    |                  | allow_extra_columns | Column(s) not found in CSV: "wrong_column_name"                                                      |
+| 6    | 0:Name           | length_min          | The length of the value "Carl" is 4, which is less than the expected "5"                             |
+| 11   | 0:Name           | length_min          | The length of the value "Lois" is 4, which is less than the expected "5"                             |
+| 1    | 1:City           | ag:is_unique        | Column has non-unique values. Unique: 9, total: 10                                                   |
+| 2    | 2:Float          | num_max             | The value "4825.185" is greater than the expected "4825.184"                                         |
+| 1    | 2:Float          | ag:nth_num          | The N-th value in the column is "74", which is not equal than the expected "0.001"                   |
+| 6    | 3:Birthday       | date_min            | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
+|      |                  |                     | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
+| 8    | 3:Birthday       | date_min            | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
+|      |                  |                     | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
+| 9    | 3:Birthday       | date_max            | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
+|      |                  |                     | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
+| 5    | 4:Favorite color | allow_values        | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
++------+------------------+---------------------+---------------------- demo.csv ----------------------------------------------------------------------+
 
 
 Summary:

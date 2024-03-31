@@ -41,6 +41,14 @@ csv:
   bom: false                            # (Experimental) If the file has a BOM (Byte Order Mark) at the beginning.
 
 
+# Structural rules for the CSV file. These rules are applied to the entire CSV file.
+# They are not(!) related to the data in the columns.
+# You can skip this section if you don't need to override the default values.
+structural_rules:
+  strict_column_order: true             # Ensure columns in CSV follow the same order as defined in this YML schema. It works only if "csv.header" is true.
+  allow_extra_columns: false             # Allow CSV files to have more columns than specified in this YML schema.
+
+
 # Description of each column in CSV.
 # It is recommended to present each column in the same order as presented in the CSV file.
 # This will not affect the validator, but will make it easier for you to navigate.

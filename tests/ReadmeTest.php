@@ -27,8 +27,10 @@ final class ReadmeTest extends TestCase
         '* With `filename_pattern` rule, you can check if the file name matches the pattern.',
         '* Property `name` is not defined in a column. If `csv.header: true`.',
         '* Check that each row matches the number of columns.',
-        '* If `csv.header: true`. Schema contains an unknown column `name` that is not found in the CSV file.',
-        '* If `csv.header: false`. Compare the number of columns in the schema and the CSV file.',
+        '* With `strict_column_order` rule, you can check that the columns are in the correct order.',
+        '* With `allow_extra_columns` rule, you can check that there are no extra columns in the CSV file.',
+        '   * If `csv.header: true`. Schema contains an unknown column `name` that is not found in the CSV file.',
+        '   * If `csv.header: false`. Compare the number of columns in the schema and the CSV file.',
     ];
 
     public function testCreateCsvHelp(): void
@@ -82,7 +84,7 @@ final class ReadmeTest extends TestCase
         $todoYml = yml(Tools::SCHEMA_TODO);
         $planToAdd = \count($todoYml->findArray('columns.0.rules')) . '/' .
             (\count($todoYml->findArray('columns.0.aggregate_rules')) * 6) . '/' .
-            \count([
+            (\count([
                 'required',
                 'null_values',
                 'multiple + separator',
@@ -91,7 +93,7 @@ final class ReadmeTest extends TestCase
                 'complex_rules. one example',
                 'inherit',
                 'rule not found',
-            ]);
+            ]) + \count($todoYml->findArray('structural_rules')));
 
         $badge = static function (string $label, int|string $count, string $url, string $color): string {
             $label = \str_replace(' ', '%20', $label);
@@ -105,7 +107,7 @@ final class ReadmeTest extends TestCase
             return $badge;
         };
 
-        $text = \implode('    ', [
+        $text = \implode("\n", [
             $badge('Total number of rules', $totalRules, 'schema-examples/full.yml', 'darkgreen'),
             $badge('Cell rules', $cellRules, 'src/Rules/Cell', 'blue'),
             $badge('Aggregate rules', $aggRules, 'src/Rules/Aggregate', 'blue'),

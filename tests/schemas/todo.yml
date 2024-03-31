@@ -21,9 +21,16 @@ includes: # Alias is always required
 
 csv: # How to parse file before validation
   inherit: alias_1                    # Inherited from another schema. Options above will overwrite inherited options.
-  strict_column_order: true           # true - columns must be in the same order as in the schema, false - no strict
-  other_columns_possible: true        # true - other columns are allowed, false - no other columns
   null_values: [ "none", "nil" ]      # List of values that will be treated as empty
+
+
+structural_rules:
+  duplicate_column_names: false       # Allow duplicate rows in the CSV file.
+  columns_count_min: 3                # Minimum number of columns in the file. By default, it is equal to the number of columns in the schema.
+  columns_count: 5                    # Exact number of columns in the file. By default, it is equal to the number of columns in the schema.
+  columns_count_max: 5                # Minimum number of columns in the file. By default, it is equal to the number of columns in the schema.
+  ignore_duplicate_rows: false        # If true, then duplicate rows will be ignored. Duplicate rows are rows that have the same values in all columns - 100% match.
+
 
 columns:
   - required: true                    # If true, then column must be present in the file

@@ -235,6 +235,24 @@ final class UtilsTest extends TestCase
         }
     }
 
+    public function testIsArrayInOrder(): void
+    {
+        isTrue(Utils::isArrayInOrder(['a', 'b', 'c'], ['a', 'b', 'c']));
+        isTrue(Utils::isArrayInOrder(['a', 'b'], ['a', 'b', 'c']));
+        isTrue(Utils::isArrayInOrder(['b', 'c'], ['a', 'b', 'c']));
+        isTrue(Utils::isArrayInOrder(['a', 'c'], ['a', 'b', 'c']));
+        isTrue(Utils::isArrayInOrder(['a'], ['a', 'b', 'c']));
+        isTrue(Utils::isArrayInOrder(['b'], ['a', 'b', 'c']));
+        isTrue(Utils::isArrayInOrder(['c'], ['a', 'b', 'c']));
+        isTrue(Utils::isArrayInOrder([], ['a', 'b', 'c']));
+
+        isTrue(Utils::isArrayInOrder(['d'], ['a', 'b', 'c'])); // ignore extra
+
+        isFalse(Utils::isArrayInOrder(['a', 'c', 'b'], ['a', 'b', 'c']));
+        isFalse(Utils::isArrayInOrder(['c', 'a', 'b'], ['a', 'b', 'c']));
+        isFalse(Utils::isArrayInOrder(['b', 'a'], ['a', 'b', 'c']));
+    }
+
     /**
      * @param  SplFileInfo[] $files
      * @return string[]
