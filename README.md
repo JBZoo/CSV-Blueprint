@@ -278,7 +278,7 @@ In any unclear situation, look into it first ;)
 name: CSV Blueprint Schema Example      # Name of a CSV file. Not used in the validation process.
 description: |                          # Any description of the CSV file. Not used in the validation process.
   This YAML file provides a detailed description and validation rules for CSV files
-  to be processed by JBZoo/Csv-Blueprint tool. It includes specifications for file name patterns,
+  to be processed by CSV Blueprint tool. It includes specifications for file name patterns,
   CSV formatting options, and extensive validation criteria for individual columns and their values,
   supporting a wide range of data validation rules from basic type checks to complex regex validations.
   This example serves as a comprehensive guide for creating robust CSV file validations.
@@ -311,7 +311,7 @@ structural_rules: # Here are default values.
 # This will not affect the validator, but will make it easier for you to navigate.
 # For convenience, use the first line as a header (if possible).
 columns:
-  - name: Column Name (header)          # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
+  - name: Column Name (header)          # Any custom name of the column in the CSV file (first row). Required if "csv.header" is true.
     description: Lorem ipsum            # Description of the column. Not used in the validation process.
     example: Some example               # Example of the column value. Schema will also check this value on its own.
 
@@ -491,7 +491,7 @@ columns:
 
       # Check if the column is sorted in a specific order.
       #  - Direction: ["asc", "desc"].
-      #  - Method: ["natural", "regular", "numeric", "string"].
+      #  - Method:    ["natural", "regular", "numeric", "string"].
       # See: https://www.php.net/manual/en/function.sort.php
       sorted: [ asc, natural ]          # Expected ascending order, natural sorting.
 

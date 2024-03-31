@@ -17,7 +17,7 @@ declare(strict_types=1);
 return [
     'name'        => 'CSV Blueprint Schema Example',
     'description' => 'This YAML file provides a detailed description and validation rules for CSV files
-to be processed by JBZoo/Csv-Blueprint tool. It includes specifications for file name patterns,
+to be processed by CSV Blueprint tool. It includes specifications for file name patterns,
 CSV formatting options, and extensive validation criteria for individual columns and their values,
 supporting a wide range of data validation rules from basic type checks to complex regex validations.
 This example serves as a comprehensive guide for creating robust CSV file validations.

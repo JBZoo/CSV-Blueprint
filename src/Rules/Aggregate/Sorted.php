@@ -41,7 +41,7 @@ final class Sorted extends AbstractAggregateRule
             [
                 'Check if the column is sorted in a specific order.',
                 ' - Direction: ' . Utils::printList(self::DIRS) . '.',
-                ' - Method: ' . Utils::printList(\array_keys(self::METHODS)) . '.',
+                ' - Method:    ' . Utils::printList(\array_keys(self::METHODS)) . '.',
                 'See: https://www.php.net/manual/en/function.sort.php',
             ],
             [
