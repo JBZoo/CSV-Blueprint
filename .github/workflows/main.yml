@@ -60,6 +60,8 @@ jobs:
           php-version: 8.3
           coverage: xdebug
           extensions: ast, ${{ matrix.ext-parallel }}
+        env:
+          phpts: zts
 
       - name: Build project
         run: make build --no-print-directory
