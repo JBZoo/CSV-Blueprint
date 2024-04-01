@@ -44,7 +44,8 @@
         "respect/validation"                  : "^2.3.6",
         "giggsey/libphonenumber-for-php-lite" : "^8.13.33",
         "giggsey/locale"                      : "^2.5",
-        "hds-solutions/parallel-sdk" : "^2.1.4"
+        "hds-solutions/parallel-sdk" : "^2.1.4",
+        "amphp/parallel"             : "^1.4"
     },
 
     "require-dev"       : {
