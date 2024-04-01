@@ -25,5 +25,5 @@ if ($autoload = \dirname(__DIR__) . '/vendor/autoload.php') {
 }
 
 if (\extension_loaded('parallel')) {
-    parallel\bootstrap(__DIR__ . '/vendor/autoload.php');
+    \parallel\bootstrap(__DIR__ . '/vendor/autoload.php');
 }
