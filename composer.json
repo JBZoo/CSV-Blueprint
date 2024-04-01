@@ -37,15 +37,15 @@
         "symfony/yaml"                        : ">=6.4.3",
         "symfony/filesystem"                  : ">=6.4.3",
         "symfony/finder"                      : ">=6.4.0",
-        "symfony/polyfill-mbstring"  : "^1.29.0",
+        "symfony/polyfill-mbstring"           : "^1.29.0",
 
-        "league/csv"                 : "^9.15.0",
+        "league/csv"                          : "^9.15.0",
         "markrogoyski/math-php"               : "^2.9.0",
         "respect/validation"                  : "^2.3.6",
         "giggsey/libphonenumber-for-php-lite" : "^8.13.33",
         "giggsey/locale"                      : "^2.5",
-        "hds-solutions/parallel-sdk" : "^2.1.4",
-        "amphp/parallel"             : "^1.4.3"
+        "hds-solutions/parallel-sdk"          : "^2.1.4",
+        "amphp/parallel"                      : "^1.4.3"
     },
 
     "require-dev"       : {
