@@ -33,8 +33,7 @@ structural_rules:
 
 
 columns:
-  - required: true                    # If true, then column must be present in the file
-    null_values: # (Override csv\empty_values) List of values that will be treated as empty
+  - null_values: # (Override csv\empty_values) List of values that will be treated as empty
       - ""
       - null
       - none

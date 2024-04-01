@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint;
 
 use JBZoo\CsvBlueprint\Csv\Column;
-use JBZoo\CsvBlueprint\Csv\ParseConfig;
+use JBZoo\CsvBlueprint\Csv\CsvParserConfig;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use JBZoo\CsvBlueprint\Validators\ValidatorSchema;
 use JBZoo\Data\AbstractData;
@@ -73,9 +73,9 @@ final class Schema
         return $this->filename;
     }
 
-    public function getCsvStructure(): ParseConfig
+    public function getCsvParserConfig(): CsvParserConfig
     {
-        return new ParseConfig($this->data->getArray('csv'));
+        return new CsvParserConfig($this->data->getArray('csv'));
     }
 
     /**
@@ -89,12 +89,16 @@ final class Schema
     public function getColumn(int|string $columNameOrId): ?Column
     {
         if (\is_int($columNameOrId)) {
-            $column = \array_values($this->getColumns())[$columNameOrId] ?? null;
-        } else {
-            $column = $this->getColumns()[$columNameOrId] ?? null;
+            return \array_values($this->getColumns())[$columNameOrId] ?? null;
         }
 
-        return $column;
+        foreach ($this->getColumns() as $schemaColumn) {
+            if ($schemaColumn->getName() === $columNameOrId) {
+                return $schemaColumn;
+            }
+        }
+
+        return null;
     }
 
     public function getFilenamePattern(): ?string
@@ -133,7 +137,21 @@ final class Schema
 
     public function getSchemaHeader(): array
     {
-        return \array_keys($this->getColumns());
+        $schemaColumns = $this->getColumns();
+        return \array_reduce($schemaColumns, static function (array $carry, Column $column) {
+            $carry[] = $column->getName();
+            return $carry;
+        }, []);
+    }
+
+    public function isStrictColumnOrder(): bool
+    {
+        return $this->data->findBool('structural_rules.strict_column_order', true);
+    }
+
+    public function isAllowExtraColumns(): bool
+    {
+        return $this->data->findBool('structural_rules.allow_extra_columns', false);
     }
 
     /**
@@ -146,7 +164,7 @@ final class Schema
         foreach ($this->data->getArray('columns') as $columnId => $columnPreferences) {
             $column = new Column((int)$columnId, $columnPreferences);
 
-            $result[$column->getKey()] = $column;
+            $result[$column->getSchemaId()] = $column;
         }
 
         return $result;

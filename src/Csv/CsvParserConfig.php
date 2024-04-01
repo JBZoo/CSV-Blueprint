@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Csv;
 
 use JBZoo\Data\Data;
 
-final class ParseConfig
+final class CsvParserConfig
 {
     public const ENCODING_UTF8 = 'utf-8';
     public const ENCODING_UTF16 = 'utf-16';
@@ -109,37 +109,15 @@ final class ParseConfig
         return $this->structure->getBool('header', self::FALLBACK_VALUES['header']);
     }
 
-    public function isStrictColumnOrder(): bool
-    {
-        return $this->structure->findBool(
-            'structural_rules.strict_column_order',
-            self::FALLBACK_VALUES['strict_column_order'],
-        );
-    }
-
-    public function isAllowExtraColumns(): bool
-    {
-        return $this->structure->findBool(
-            'structural_rules.allow_extra_columns',
-            self::FALLBACK_VALUES['allow_extra_columns'],
-        );
-    }
-
     public function getArrayCopy(): array
     {
         return [
-            // System rules
-            // 'inherit' => $this->getInherit(), // TODO Implement me
-            // Reading rules
             'header'     => $this->isHeader(),
             'delimiter'  => $this->getDelimiter(),
             'quote_char' => $this->getQuoteChar(),
             'enclosure'  => $this->getEnclosure(),
             'encoding'   => $this->getEncoding(),
             'bom'        => $this->isBom(),
-            // Global validation rules
-            // 'strict_column_order'    => $this->isStrictColumnOrder(),  // TODO Implement me
-            // 'other_columns_possible' => $this->isOtherColumnsPossible(),  // TODO Implement me
         ];
     }
 }

@@ -17,7 +17,7 @@
 name: CSV Blueprint Schema Example      # Name of a CSV file. Not used in the validation process.
 description: |                          # Any description of the CSV file. Not used in the validation process.
   This YAML file provides a detailed description and validation rules for CSV files
-  to be processed by JBZoo/Csv-Blueprint tool. It includes specifications for file name patterns,
+  to be processed by CSV Blueprint tool. It includes specifications for file name patterns,
   CSV formatting options, and extensive validation criteria for individual columns and their values,
   supporting a wide range of data validation rules from basic type checks to complex regex validations.
   This example serves as a comprehensive guide for creating robust CSV file validations.
@@ -50,26 +50,17 @@ structural_rules: # Here are default values.
 # This will not affect the validator, but will make it easier for you to navigate.
 # For convenience, use the first line as a header (if possible).
 columns:
-  - name: Column Name (header)          # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
+  - name: Column Name (header)          # Any custom name of the column in the CSV file (first row). Required if "csv.header" is true.
     description: Lorem ipsum            # Description of the column. Not used in the validation process.
     example: Some example               # Example of the column value. Schema will also check this value on its own.
 
-    # Important notes about the validation rules.
-    # 1. All rules except "not_empty" ignored for empty strings (length 0).
-    #    If the value must be non-empty, use "not_empty" as extra rule!
-    # 2. All rules don't depend on each other. They are independent.
-    #    They know nothing about each other and cannot influence each other.
-    # 3. You can use the rules in any combination. Or not use any of them.
-    #    They are grouped below simply for ease of navigation and reading.
-    # 4. If you see the value for the rule is "true" - that's just an enable flag.
-    #    In other cases, these are rule parameters.
-    # 5. The order of rules execution is the same as in the schema. But it doesn't matter.
-    #    The result will be the same in any order.
-    # 6. Most of the rules are case-sensitive. Unless otherwise specified.
-    # 7. As backup plan, you always can use the "regex" rule. ON YOUR OWN RISK!
+    # If the column is required. If true, the column must be present in the CSV file. If false, the column can be missing in the CSV file.
+    # So, if you want to make the column optional, set this value to false, and it will validate the column only if it is present.
+    # By default, the column is required. It works only if "csv.header" is true and "structural_rules.allow_extra_columns" is false.
+    required: true
 
     ####################################################################################################################
-    # Data validation for each(!) value in the column.
+    # Data validation for each(!) value in the column. Please, see notes in README.md
     # Every rule is optional.
     rules:
       # General rules
@@ -239,7 +230,7 @@ columns:
 
       # Check if the column is sorted in a specific order.
       #  - Direction: ["asc", "desc"].
-      #  - Method: ["natural", "regular", "numeric", "string"].
+      #  - Method:    ["natural", "regular", "numeric", "string"].
       # See: https://www.php.net/manual/en/function.sort.php
       sorted: [ asc, natural ]          # Expected ascending order, natural sorting.
 

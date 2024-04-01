@@ -24,25 +24,22 @@ use JBZoo\Data\Data;
 final class Column
 {
     private const FALLBACK_VALUES = [
-        'inherit'         => '',
         'name'            => '',
         'description'     => '',
-        'type'            => 'base', // TODO: class
-        'required'        => false,
-        'allow_empty'     => false,
-        'regex'           => null,
+        'required'        => true,
         'rules'           => [],
         'aggregate_rules' => [],
     ];
 
-    private int   $id;
+    private ?int  $csvOffset = null;
+    private int   $schemaId;
     private Data  $column;
     private array $rules;
     private array $aggRules;
 
-    public function __construct(int $id, array $config)
+    public function __construct(int $schemaId, array $config)
     {
-        $this->id = $id;
+        $this->schemaId = $schemaId;
         $this->column = new Data($config);
         $this->rules = $this->prepareRuleSet('rules');
         $this->aggRules = $this->prepareRuleSet('aggregate_rules');
@@ -53,9 +50,14 @@ final class Column
         return $this->column->getString('name', self::FALLBACK_VALUES['name']);
     }
 
-    public function getId(): int
+    public function getCsvOffset(): ?int
     {
-        return $this->id;
+        return $this->csvOffset;
+    }
+
+    public function getSchemaId(): int
+    {
+        return $this->schemaId;
     }
 
     public function getDescription(): string
@@ -65,16 +67,13 @@ final class Column
 
     public function getHumanName(): string
     {
-        return $this->getId() . ':' . \trim($this->getName());
-    }
-
-    public function getKey(): string
-    {
-        if ($this->getName() !== '') {
-            return $this->getName();
+        if ($this->csvOffset !== null) {
+            $prefix = $this->csvOffset;
+        } else {
+            $prefix = $this->schemaId;
         }
 
-        return (string)$this->getId();
+        return $prefix . ':' . \trim($this->getName());
     }
 
     public function isRequired(): bool
@@ -92,11 +91,6 @@ final class Column
         return $this->aggRules;
     }
 
-    public function getInherit(): string
-    {
-        return $this->column->getString('inherit', self::FALLBACK_VALUES['inherit']);
-    }
-
     public function getValidator(): ValidatorColumn
     {
         return new ValidatorColumn($this);
@@ -107,9 +101,9 @@ final class Column
         return $this->getValidator()->validateCell($cellValue, $line);
     }
 
-    public function setId(int $realIndex): void
+    public function setCsvOffset(int $csvOffset): void
     {
-        $this->id = $realIndex;
+        $this->csvOffset = $csvOffset;
     }
 
     private function prepareRuleSet(string $schemaKey): array
@@ -117,7 +111,6 @@ final class Column
         $rules = [];
 
         $ruleSetConfig = $this->column->getSelf($schemaKey, [])->getArrayCopy();
-
         foreach ($ruleSetConfig as $ruleName => $ruleValue) {
             $rules[$ruleName] = $ruleValue;
         }

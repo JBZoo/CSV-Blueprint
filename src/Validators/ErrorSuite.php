@@ -51,7 +51,7 @@ final class ErrorSuite
         return (string)$this->render(self::REPORT_TEXT);
     }
 
-    public function render(string $mode = self::REPORT_TEXT): ?string
+    public function render(string $mode = self::REPORT_TEXT, bool $cleanOutput = false): ?string
     {
         if ($this->count() === 0) {
             return null;
@@ -71,7 +71,13 @@ final class ErrorSuite
         ];
 
         if (isset($map[$mode])) {
-            return $map[$mode]();
+            $output = $map[$mode]();
+
+            if ($cleanOutput) {
+                return \trim(\strip_tags($output));
+            }
+
+            return $output;
         }
 
         throw new Exception("Unknown error render mode: {$mode}");

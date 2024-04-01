@@ -75,7 +75,7 @@ final class ValidatorCsv
     {
         $errors = new ErrorSuite();
 
-        if (!$this->schema->getCsvStructure()->isHeader()) {
+        if (!$this->schema->getCsvParserConfig()->isHeader()) {
             return $errors;
         }
 
@@ -97,7 +97,7 @@ final class ValidatorCsv
             }
         }
 
-        if ($this->schema->getCsvStructure()->isStrictColumnOrder()) {
+        if ($this->schema->isStrictColumnOrder()) {
             $realColumns = $this->csv->getHeader();
             $schemaColumns = $this->schema->getSchemaHeader();
 
@@ -127,10 +127,11 @@ final class ValidatorCsv
     private function validateLines(bool $quickStop = false): ErrorSuite
     {
         $errors = new ErrorSuite();
-        $mappedColumns = $this->csv->getColumnsMappedByHeader();
-        $isHeaderEnabled = $this->schema->getCsvStructure()->isHeader();
+        $mappedColumns = $this->csv->getColumnsMappedByHeader($errors);
+        $isHeaderEnabled = $this->schema->getCsvParserConfig()->isHeader();
 
         foreach ($mappedColumns as $columnIndex => $column) {
+            $columnIndex = (int)$columnIndex;
             $messPrefix = "<i>Column</i> \"{$column->getHumanName()}\" -"; // System message prefix. Debug only!
 
             $columValues = [];
@@ -166,7 +167,7 @@ final class ValidatorCsv
 
                 if ($isRules) { // Time optimization
                     if (!isset($record[$columnIndex])) {
-                        $errors->addError(
+                        $errors->addError( // Something really went wrong. See debug getColumnsMappedByHeader().
                             new Error(
                                 'csv.column',
                                 "Column index:{$columnIndex} not found",
@@ -233,11 +234,15 @@ final class ValidatorCsv
     {
         $errors = new ErrorSuite();
 
-        if (!$this->schema->getCsvStructure()->isAllowExtraColumns()) {
-            if ($this->schema->getCsvStructure()->isHeader()) {
+        if (!$this->schema->isAllowExtraColumns()) {
+            if ($this->schema->getCsvParserConfig()->isHeader()) {
                 $realColumns = $this->csv->getHeader();
                 $schemaColumns = $this->schema->getSchemaHeader();
-                $notFoundColums = \array_diff($schemaColumns, $realColumns);
+
+                $notFoundColums = \array_filter( // Filter to exclude duplicate error. See test testCellRuleNoName
+                    \array_diff($schemaColumns, $realColumns),
+                    static fn ($name) => $name !== '',
+                );
 
                 if (\count($notFoundColums) > 0) {
                     $error = new Error(

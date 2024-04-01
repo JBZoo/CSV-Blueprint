@@ -11,11 +11,11 @@
 <!-- /top-badges -->
 
 <!-- rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-366-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-367-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
 [![Static Badge](https://img.shields.io/badge/Rules-153-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
 [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)
-[![Static Badge](https://img.shields.io/badge/Rules-7-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)
-[![Static Badge](https://img.shields.io/badge/Rules-32/54/13-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-8-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)
+[![Static Badge](https://img.shields.io/badge/Rules-32/54/9-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- /rules-counter -->
 
 A console utility designed for validating CSV files against a strictly defined schema and validation rules outlined
@@ -232,7 +232,6 @@ columns:
       count: 10
 
 ```
-
 <!-- /readme-sample-yml -->
 
 
@@ -242,19 +241,33 @@ In the [example Yml file](schema-examples/full.yml) you can find a detailed desc
 It's also covered by tests, so it's always up-to-date.
 
 **Important notes**
+
 * I have deliberately refused typing of columns (like `type: integer`) and replaced them with rules,
   which can be combined in any sequence and completely at your discretion.
   This gives you great flexibility when validating CSV files.
-* All fields (unless explicitly stated otherwise) are optional, and you can choose not to declare them. Up to you.
-* If you specify a wrong rule name, non-existent values (which are not in the example below) or a different variable 
-  type for any of the options, you will get a schema validation error. At your own risk, you can use the `skip-schema`
+* All options (unless explicitly stated otherwise) are optional, and you can choose not to declare them. Up to you.
+* If you specify a wrong rule name, non-existent values (which are not in the example below) or a different variable
+  type for any of the options, you will get a schema validation error. At your own risk, you can use the `--skip-schema`
   option to avoid seeing these errors and use your keys in the schema.
-
+* All rules except `not_empty` ignored for empty strings (length 0). If the value must be non-empty,
+  use `not_empty: true` as extra rule. Keep in mind that a space (` `) is also a character. In this case the string
+  length
+  will be `1`. If you want to avoid such situations, add the `is_trimmed: true` rule.
+* All rules don't depend on each other. They know nothing about each other and cannot influence each other.
+* You can use the rules in any combination. Or not use any of them. They are grouped below simply for ease of navigation
+  and reading.
+* If you see the value for the rule is `is_some_rule: true` - that's just an enable flag. In other cases, these are rule
+  parameters.
+* The order of rules execution is the same as in the schema. But in reality it will only change the order of errors in
+  the report.
+* Most of the rules are case-sensitive. Unless otherwise specified.
+* As backup plan, you always can use the `regex` rule. But it is much more reliable to use clear combinations of rules.
+  That way it will be more obvious what went wrong.
 
 Below you'll find the full list of rules and a brief commentary and example for context.
 This part of the readme is also covered by autotests, so these code are always up-to-date.
 
-In any unclear situation, look into it first.
+In any unclear situation, look into it first ;)
 
 <!-- full-yml -->
 ```yml
@@ -265,7 +278,7 @@ In any unclear situation, look into it first.
 name: CSV Blueprint Schema Example      # Name of a CSV file. Not used in the validation process.
 description: |                          # Any description of the CSV file. Not used in the validation process.
   This YAML file provides a detailed description and validation rules for CSV files
-  to be processed by JBZoo/Csv-Blueprint tool. It includes specifications for file name patterns,
+  to be processed by CSV Blueprint tool. It includes specifications for file name patterns,
   CSV formatting options, and extensive validation criteria for individual columns and their values,
   supporting a wide range of data validation rules from basic type checks to complex regex validations.
   This example serves as a comprehensive guide for creating robust CSV file validations.
@@ -298,26 +311,17 @@ structural_rules: # Here are default values.
 # This will not affect the validator, but will make it easier for you to navigate.
 # For convenience, use the first line as a header (if possible).
 columns:
-  - name: Column Name (header)          # Any custom name of the column in the CSV file (first row). Required if "csv_structure.header" is true.
+  - name: Column Name (header)          # Any custom name of the column in the CSV file (first row). Required if "csv.header" is true.
     description: Lorem ipsum            # Description of the column. Not used in the validation process.
     example: Some example               # Example of the column value. Schema will also check this value on its own.
 
-    # Important notes about the validation rules.
-    # 1. All rules except "not_empty" ignored for empty strings (length 0).
-    #    If the value must be non-empty, use "not_empty" as extra rule!
-    # 2. All rules don't depend on each other. They are independent.
-    #    They know nothing about each other and cannot influence each other.
-    # 3. You can use the rules in any combination. Or not use any of them.
-    #    They are grouped below simply for ease of navigation and reading.
-    # 4. If you see the value for the rule is "true" - that's just an enable flag.
-    #    In other cases, these are rule parameters.
-    # 5. The order of rules execution is the same as in the schema. But it doesn't matter.
-    #    The result will be the same in any order.
-    # 6. Most of the rules are case-sensitive. Unless otherwise specified.
-    # 7. As backup plan, you always can use the "regex" rule. ON YOUR OWN RISK!
+    # If the column is required. If true, the column must be present in the CSV file. If false, the column can be missing in the CSV file.
+    # So, if you want to make the column optional, set this value to false, and it will validate the column only if it is present.
+    # By default, the column is required. It works only if "csv.header" is true and "structural_rules.allow_extra_columns" is false.
+    required: true
 
     ####################################################################################################################
-    # Data validation for each(!) value in the column.
+    # Data validation for each(!) value in the column. Please, see notes in README.md
     # Every rule is optional.
     rules:
       # General rules
@@ -487,7 +491,7 @@ columns:
 
       # Check if the column is sorted in a specific order.
       #  - Direction: ["asc", "desc"].
-      #  - Method: ["natural", "regular", "numeric", "string"].
+      #  - Method:    ["natural", "regular", "numeric", "string"].
       # See: https://www.php.net/manual/en/function.sort.php
       sorted: [ asc, natural ]          # Expected ascending order, natural sorting.
 
@@ -821,7 +825,8 @@ Behind the scenes to what is outlined in the yml above, there are additional che
 <!-- extra-rules -->
 
 * With `filename_pattern` rule, you can check if the file name matches the pattern.
-* Property `name` is not defined in a column. If `csv.header: true`.
+* Checks if property `name` is not defined in a column. Only if `csv.header: true`.
+* If property `required` is set to `true`, the column must must be present in CSV. Only if `csv.header: true`
 * Check that each row matches the number of columns.
 * With `strict_column_order` rule, you can check that the columns are in the correct order.
 * With `allow_extra_columns` rule, you can check that there are no extra columns in the CSV file.
@@ -1284,7 +1289,6 @@ It's random ideas and plans. No promises and deadlines. Feel free to [help me!](
       file name.
 
 * **Validation**
-    * `required` flag for the column.
     * Multi values in one cell.
     * Custom cell rule as a callback. It's useful when you have a complex rule that can't be described in the schema
       file.
