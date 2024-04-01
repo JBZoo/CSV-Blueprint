@@ -62,22 +62,7 @@ jobs:
           coverage: xdebug
           extensions: ast, ${{ matrix.ext-parallel }}
         env:
-          phpts: ts
-
-      - name: Print PHP version
-        run: echo ${{ steps.setup-php.outputs.php-version }}
-
-      - name: Print PHP info
-        run: php -i
-
-      - name: lscpu
-        run: lscpu
-
-      - name: nproc
-        run: nproc
-
-      - name: cpuinfo
-        run: cat /proc/cpuinfo
+          phpts: zts
 
       - name: Build project
         run: make build --no-print-directory
