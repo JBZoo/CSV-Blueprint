@@ -162,7 +162,7 @@ final class Schema
         $result = [];
 
         foreach ($this->data->getArray('columns') as $columnId => $columnPreferences) {
-            $column = new Column($columnId, $columnPreferences);
+            $column = new Column((int)$columnId, $columnPreferences);
 
             $result[$column->getSchemaId()] = $column;
         }

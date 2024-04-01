@@ -17,7 +17,9 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Csv;
 
 use JBZoo\CsvBlueprint\Schema;
+use JBZoo\CsvBlueprint\Validators\Error;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
+use JBZoo\CsvBlueprint\Validators\ValidatorColumn;
 use JBZoo\CsvBlueprint\Validators\ValidatorCsv;
 use League\Csv\Reader as LeagueReader;
 use League\Csv\Statement;
@@ -108,11 +110,12 @@ final class CsvFile
     /**
      * @return Column[]
      */
-    public function getColumnsMappedByHeader(): array
+    public function getColumnsMappedByHeader(?ErrorSuite $errors = null): array
     {
         $isHeader = $this->schema->getCsvParserConfig()->isHeader();
 
         $map = [];
+        $errors ??= new ErrorSuite();
 
         $realHeader = $this->getHeader();
         foreach ($realHeader as $realIndex => $realColumnName) {
@@ -129,7 +132,35 @@ final class CsvFile
             }
         }
 
+        if ($this->schema->isAllowExtraColumns()) {
+            $unusedSchemaColumns = \array_filter(
+                $this->schema->getColumns(),
+                static fn ($column) => $column->getCsvOffset() === null,
+            );
+
+            foreach ($unusedSchemaColumns as $unusedSchemaColumn) {
+                if ($unusedSchemaColumn->isRequired()) {
+                    $errors->addError(
+                        new Error(
+                            'required',
+                            'Required column not found in CSV',
+                            "Schema Col Id: {$unusedSchemaColumn->getSchemaId()}",
+                            ValidatorColumn::FALLBACK_LINE,
+                        ),
+                    );
+                }
+            }
+        }
+
         return $map;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getColumnsMappedByHeaderNamesOnly(?ErrorSuite $errors = null): array
+    {
+        return \array_map(static fn (Column $column) => $column->getName(), $this->getColumnsMappedByHeader($errors));
     }
 
     private function prepareReader(): LeagueReader

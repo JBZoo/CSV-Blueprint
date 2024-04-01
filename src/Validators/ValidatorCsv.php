@@ -127,7 +127,7 @@ final class ValidatorCsv
     private function validateLines(bool $quickStop = false): ErrorSuite
     {
         $errors = new ErrorSuite();
-        $mappedColumns = $this->csv->getColumnsMappedByHeader();
+        $mappedColumns = $this->csv->getColumnsMappedByHeader($errors);
         $isHeaderEnabled = $this->schema->getCsvParserConfig()->isHeader();
 
         foreach ($mappedColumns as $columnIndex => $column) {
@@ -167,7 +167,7 @@ final class ValidatorCsv
 
                 if ($isRules) { // Time optimization
                     if (!isset($record[$columnIndex])) {
-                        $errors->addError(
+                        $errors->addError( // Something really went wrong. See debug getColumnsMappedByHeader().
                             new Error(
                                 'csv.column',
                                 "Column index:{$columnIndex} not found",
@@ -238,7 +238,11 @@ final class ValidatorCsv
             if ($this->schema->getCsvParserConfig()->isHeader()) {
                 $realColumns = $this->csv->getHeader();
                 $schemaColumns = $this->schema->getSchemaHeader();
-                $notFoundColums = \array_diff($schemaColumns, $realColumns);
+
+                $notFoundColums = \array_filter( // Filter to exclude duplicate error. See test testCellRuleNoName
+                    \array_diff($schemaColumns, $realColumns),
+                    static fn ($name) => $name !== '',
+                );
 
                 if (\count($notFoundColums) > 0) {
                     $error = new Error(

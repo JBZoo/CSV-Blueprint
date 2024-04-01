@@ -50,12 +50,8 @@ final class Column
         return $this->column->getString('name', self::FALLBACK_VALUES['name']);
     }
 
-    public function getCsvOffset(): int
+    public function getCsvOffset(): ?int
     {
-        if ($this->csvOffset === null) {
-            throw new \RuntimeException('CSV offset is not defined');
-        }
-
         return $this->csvOffset;
     }
 

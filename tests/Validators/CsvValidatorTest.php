@@ -116,12 +116,8 @@ final class CsvValidatorTest extends TestCase
     {
         $csv = new CsvFile(Tools::CSV_COMPLEX, Tools::getRule(null, 'not_empty', true));
         isSame(
-            <<<'TXT'
-                "csv.header" at line 1, column "0:". Property "name" is not defined in schema: "_custom_array_".
-                "allow_extra_columns" at line 1. Column(s) not found in CSV: "0".
-                
-                TXT,
-            \strip_tags((string)$csv->validate()),
+            '"csv.header" at line 1, column "0:". Property "name" is not defined in schema: "_custom_array_".',
+            $csv->validate()->render(cleanOutput: true),
         );
     }
 
@@ -182,23 +178,12 @@ final class CsvValidatorTest extends TestCase
         isSame(['Name', 'City', 'Float', 'Birthday', 'Favorite color'], $csv->getHeader());
         isSame(['Name', 'City', 'Float', 'Favorite color'], $csv->getSchema()->getSchemaHeader());
 
-        $mappedColumns = $csv->getColumnsMappedByHeader();
-        isSame('not_set', $mappedColumns[3] ?? 'not_set');
-
-        isSame([0, 1, 2, 4], \array_keys($mappedColumns));
-
-        $names = [];
-        foreach ($mappedColumns as $columnIndex => $column) {
-            isSame($columnIndex, $column->getCsvOffset());
-            $names[] = [$column->getName(), $column->getHumanName()];
-        }
-
         isSame([
-            ['Name', '0:Name'],
-            ['City', '1:City'],
-            ['Float', '2:Float'],
-            ['Favorite color', '4:Favorite color'], // 4 is important here
-        ], $names);
+            0 => 'Name',
+            1 => 'City',
+            2 => 'Float',
+            4 => 'Favorite color', // 4 important here
+        ], $csv->getColumnsMappedByHeaderNamesOnly());
     }
 
     public function testHeaderMatchingIfHeaderDisabled(): void
@@ -216,23 +201,12 @@ final class CsvValidatorTest extends TestCase
         isSame([0, 1, 2, 3, 4], $csv->getHeader());
         isSame(['Name', 'City', 'Float', 'Favorite color'], $csv->getSchema()->getSchemaHeader());
 
-        $mappedColumns = $csv->getColumnsMappedByHeader();
-        isSame('not_set', $mappedColumns[4] ?? 'not_set');
-
-        isSame([0, 1, 2, 3], \array_keys($mappedColumns));
-
-        $names = [];
-        foreach ($mappedColumns as $columnIndex => $column) {
-            isSame($columnIndex, $column->getCsvOffset());
-            $names[] = [$column->getName(), $column->getHumanName()];
-        }
-
         isSame([
-            ['Name', '0:Name'],
-            ['City', '1:City'],
-            ['Float', '2:Float'],
-            ['Favorite color', '3:Favorite color'], // 3 is important here
-        ], $names);
+            0 => 'Name',
+            1 => 'City',
+            2 => 'Float',
+            3 => 'Favorite color', // 3 important here
+        ], $csv->getColumnsMappedByHeaderNamesOnly());
     }
 
     public function testHeaderMatchingIfHeaderEnabledExtraColumn(): void
@@ -249,22 +223,7 @@ final class CsvValidatorTest extends TestCase
         isSame(['Name', 'City', 'Float', 'Birthday', 'Favorite color'], $csv->getHeader());
         isSame(['Name', 'Optional column'], $csv->getSchema()->getSchemaHeader());
 
-        $mappedColumns = $csv->getColumnsMappedByHeader();
-        dump($mappedColumns);
-        isSame('not_set', $mappedColumns[3] ?? 'not_set');
-
-        isSame([0, 1], \array_keys($mappedColumns));
-
-        $names = [];
-        foreach ($mappedColumns as $columnIndex => $column) {
-            isSame($columnIndex, $column->getCsvOffset());
-            $names[] = [$column->getName(), $column->getHumanName()];
-        }
-
-        isSame([
-            ['Name', '0:Name'],
-            ['Optional column', '1:Optional column'],
-        ], $names);
+        isSame([0 => 'Name'], $csv->getColumnsMappedByHeaderNamesOnly());
     }
 
     public function testStrictColumnOrderValid(): void
@@ -378,7 +337,24 @@ final class CsvValidatorTest extends TestCase
                 ['name' => 'Optional column'],
             ],
         ]);
-        isSame(null, $csv->validate()->render());
+        isSame(
+            '"required" at line 1, column "Schema Col Id: 5". Required column not found in CSV.',
+            $csv->validate()->render(cleanOutput: true),
+        );
+
+        $csv = new CsvFile(Tools::DEMO_CSV, [
+            'csv'              => ['header' => false],
+            'structural_rules' => ['allow_extra_columns' => true],
+            'columns'          => [
+                ['name' => 'Name'],
+                ['name' => 'City'],
+                ['name' => 'Float'],
+                ['name' => 'Birthday'],
+                ['name' => 'Favorite color'],
+                ['name' => 'Optional column', 'required' => false],
+            ],
+        ]);
+        isSame(null, $csv->validate()->render(cleanOutput: true));
 
         $csv = new CsvFile(Tools::DEMO_CSV, [
             'structural_rules' => ['allow_extra_columns' => false],
@@ -440,7 +416,24 @@ final class CsvValidatorTest extends TestCase
                 ['name' => 'Optional column'],
             ],
         ]);
-        isSame(null, $csv->validate()->render());
+        isSame(
+            '"required" at line 1, column "Schema Col Id: 5". Required column not found in CSV.',
+            $csv->validate()->render(cleanOutput: true),
+        );
+
+        $csv = new CsvFile(Tools::DEMO_CSV, [
+            'csv'              => ['header' => false],
+            'structural_rules' => ['allow_extra_columns' => true],
+            'columns'          => [
+                ['name' => 'Name'],
+                ['name' => 'City'],
+                ['name' => 'Float'],
+                ['name' => 'Birthday'],
+                ['name' => 'Favorite color'],
+                ['name' => 'Optional column', 'required' => false],
+            ],
+        ]);
+        isSame(null, $csv->validate()->render(cleanOutput: true));
 
         $csv = new CsvFile(Tools::DEMO_CSV, [
             'csv'              => ['header' => false],
@@ -512,13 +505,21 @@ final class CsvValidatorTest extends TestCase
                 ['name' => 'Birthday', 'required' => true],
                 ['name' => 'Favorite color', 'required' => true],
                 ['name' => 'Optional column', 'required' => true],
+                ['name' => 'Optional column 2', 'required' => true],
             ],
         ]);
-        isSame(null, $csv->validate()->render());
+        isSame(
+            <<<'TEXT'
+                "required" at line 1, column "Schema Col Id: 5". Required column not found in CSV.
+                "required" at line 1, column "Schema Col Id: 6". Required column not found in CSV.
+                TEXT,
+            $csv->validate()->render(cleanOutput: true),
+        );
     }
 
     public function testRequiredColumnInvalid(): void
     {
+        // Extra. Required.
         $csv = new CsvFile(Tools::DEMO_CSV, [
             'structural_rules' => ['allow_extra_columns' => true],
             'columns'          => [
@@ -530,12 +531,55 @@ final class CsvValidatorTest extends TestCase
                 ],
             ],
         ]);
+        isSame([0 => 'Name'], $csv->getColumnsMappedByHeaderNamesOnly());
+        isSame(
+            '"required" at line 1, column "Schema Col Id: 1". Required column not found in CSV.',
+            $csv->validate()->render(cleanOutput: true),
+        );
 
-        dump(\array_reduce($csv->getColumnsMappedByHeader(), static function ($carry, $column) {
-            $carry[$column->getName()] = $column->isRequired();
-            return $carry;
-        }, []));
+        // Extra. Not required.
+        $csv = new CsvFile(Tools::DEMO_CSV, [
+            'structural_rules' => ['allow_extra_columns' => true],
+            'columns'          => [
+                ['name' => 'Name'],
+                [
+                    'name'     => 'Optinal column',
+                    'required' => false,
+                    'rules'    => ['not_empty' => true],
+                ],
+            ],
+        ]);
+        isSame([0 => 'Name'], $csv->getColumnsMappedByHeaderNamesOnly());
+        isSame(null, $csv->validate()->render(cleanOutput: true));
 
-        dump($csv->validate()->render(cleanOutput: true));
+        // Real. Required.
+        $csv = new CsvFile(Tools::DEMO_CSV, [
+            'structural_rules' => ['allow_extra_columns' => true],
+            'columns'          => [
+                ['name' => 'Name'],
+                [
+                    'name'     => 'Birthday',
+                    'required' => false,
+                    'rules'    => ['not_empty' => true],
+                ],
+            ],
+        ]);
+        isSame([0 => 'Name', 3 => 'Birthday'], $csv->getColumnsMappedByHeaderNamesOnly());
+        isSame(null, $csv->validate()->render(cleanOutput: true));
+
+        // Real. Not required.
+        $csv = new CsvFile(Tools::DEMO_CSV, [
+            'structural_rules' => ['allow_extra_columns' => true],
+            'columns'          => [
+                ['name' => 'Name'],
+                [
+                    'name'     => 'Birthday',
+                    'required' => false,
+                    'rules'    => ['not_empty' => true],
+                ],
+            ],
+        ]);
+        isSame([0 => 'Name', 3 => 'Birthday'], $csv->getColumnsMappedByHeaderNamesOnly());
+        isSame(null, $csv->validate()->render(cleanOutput: true));
     }
 }
