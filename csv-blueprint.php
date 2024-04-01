@@ -19,6 +19,11 @@ namespace JBZoo\CsvBlueprint;
 \define('PATH_ROOT', __DIR__);
 require_once __DIR__ . '/vendor/autoload.php';
 
+if (\extension_loaded('parallel')) {
+    // set the path to composer's autoloader
+    parallel\bootstrap(__DIR__ . '/vendor/autoload.php');
+}
+
 // Fix for GitHub actions. See action.yml
 $_SERVER['argv'] = Utils::fixArgv($_SERVER['argv'] ?? []);
 $_SERVER['argc'] = \count($_SERVER['argv']);

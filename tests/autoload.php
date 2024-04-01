@@ -23,3 +23,7 @@ if ($autoload = \dirname(__DIR__) . '/vendor/autoload.php') {
     echo 'Please execute "composer update" !' . \PHP_EOL;
     exit(1);
 }
+
+if (\extension_loaded('parallel')) {
+    parallel\bootstrap(__DIR__ . '/vendor/autoload.php');
+}
