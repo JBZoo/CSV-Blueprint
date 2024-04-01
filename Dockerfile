@@ -17,11 +17,11 @@ COPY . /tmp
 RUN make build-version
 
 ########################################################################################
-FROM php:8.3-cli-alpine
+FROM php:8.3-zts-alpine
 
 # Install PHP extensions
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
-RUN install-php-extensions opcache @composer
+RUN install-php-extensions opcache parallel @composer
 
 # Install application
 # run `make build-version` before!

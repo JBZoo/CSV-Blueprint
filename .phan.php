@@ -23,14 +23,17 @@ return \array_merge($default, [
     'directory_list' => [
         'src',
 
-        'vendor/jbzoo/ci-report-converter/src',
-        'vendor/jbzoo/cli/src',
         'vendor/jbzoo/data/src',
+        'vendor/jbzoo/cli/src',
         'vendor/jbzoo/utils/src',
-        'vendor/league/csv/src',
+        'vendor/jbzoo/ci-report-converter/src',
+
         'vendor/symfony/console',
         'vendor/symfony/finder',
+
+        'vendor/league/csv/src',
         'vendor/markrogoyski/math-php/src',
         'vendor/respect/validation',
+        'vendor/hds-solutions/parallel-sdk',
     ],
 ]);
