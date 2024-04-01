@@ -43,7 +43,7 @@ env:
 
 jobs:
   test-current-versions:
-    name: Tests - Current
+    name: Tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -61,7 +61,7 @@ jobs:
           coverage: xdebug
           extensions: ast, ${{ matrix.ext-parallel }}
         env:
-          phpts: zts
+          phpts: ts
 
       - name: Build project
         run: make build --no-print-directory
