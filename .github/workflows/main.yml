@@ -76,6 +76,9 @@ jobs:
       - name: nproc
         run: nproc
 
+      - name: cpuinfo
+        run: cat /proc/cpuinfo
+
       - name: Build project
         run: make build --no-print-directory
 
