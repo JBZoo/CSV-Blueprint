@@ -30,8 +30,8 @@ final class ReadmeTest extends TestCase
         '* Check that each row matches the number of columns.',
         '* With `strict_column_order` rule, you can check that the columns are in the correct order.',
         '* With `allow_extra_columns` rule, you can check that there are no extra columns in the CSV file.',
-        '  * If `csv.header: true`. Schema contains an unknown column `name` that is not found in the CSV file.',
-        '  * If `csv.header: false`. Compare the number of columns in the schema and the CSV file.',
+        '   * If `csv.header: true`. Schema contains an unknown column `name` that is not found in the CSV file.',
+        '   * If `csv.header: false`. Compare the number of columns in the schema and the CSV file.',
     ];
 
     public function testCreateCsvHelp(): void
