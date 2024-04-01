@@ -59,7 +59,7 @@ jobs:
         with:
           php-version: 8.3
           coverage: xdebug
-          extensions: ast, {{ matrix.ext-parallel }}
+          extensions: ast, ${{ matrix.ext-parallel }}
 
       - name: Build project
         run: make build --no-print-directory
