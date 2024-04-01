@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
+use Ds\Vector;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 
 final class NthNot extends AbstractAggregateRule
@@ -39,7 +40,7 @@ final class NthNot extends AbstractAggregateRule
         ];
     }
 
-    public function validateRule(array $columnValues): ?string
+    public function validateRule(Vector $columnValues): ?string
     {
         if (\count($columnValues) === 0) {
             return null;

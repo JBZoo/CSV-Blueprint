@@ -32,6 +32,7 @@ jobs:
         with:
           php-version: 8.3
           tools: composer
+          extensions: ds
 
       - name: Build project in production mode
         run: make build-prod build-phar-file --no-print-directory

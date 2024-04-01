@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules;
 
+use Ds\Vector;
 use JBZoo\CsvBlueprint\Rules\Aggregate\AbstractAggregateRuleCombo;
 use JBZoo\CsvBlueprint\Rules\Cell\AbstractCellRuleCombo;
 use JBZoo\CsvBlueprint\Validators\Error;
@@ -38,7 +39,7 @@ abstract class AbstarctRuleCombo extends AbstarctRule
 
     abstract protected function getActual(array|string $value): float;
 
-    public function validate(array|string $cellValue, int $line = ValidatorColumn::FALLBACK_LINE): ?Error
+    public function validate(string|Vector $cellValue, int $line = ValidatorColumn::FALLBACK_LINE): ?Error
     {
         $error = $this->validateCombo($cellValue);
 
@@ -51,7 +52,7 @@ abstract class AbstarctRuleCombo extends AbstarctRule
 
     public function test(array|string $cellValue, bool $isHtml = false): string
     {
-        $errorMessage = (string)$this->validateCombo($cellValue);
+        $errorMessage = (string)$this->validateCombo(new Vector($cellValue));
 
         return $isHtml ? $errorMessage : \strip_tags($errorMessage);
     }
@@ -96,7 +97,7 @@ abstract class AbstarctRuleCombo extends AbstarctRule
         };
     }
 
-    private function validateCombo(array|string $cellValue): ?string
+    private function validateCombo(string|Vector $cellValue): ?string
     {
         if ($this instanceof AbstractCellRuleCombo) {
             if (!\is_string($cellValue)) {
@@ -107,7 +108,7 @@ abstract class AbstarctRuleCombo extends AbstarctRule
         }
 
         if ($this instanceof AbstractAggregateRuleCombo) {
-            if (!\is_array($cellValue)) {
+            if (!$cellValue instanceof Vector) {
                 throw new \InvalidArgumentException('The value should be an array of numbers/strings');
             }
 

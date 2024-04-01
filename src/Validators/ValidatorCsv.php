@@ -134,7 +134,7 @@ final class ValidatorCsv
             $columnIndex = (int)$columnIndex;
             $messPrefix = "<i>Column</i> \"{$column->getHumanName()}\" -"; // System message prefix. Debug only!
 
-            $columValues = [];
+            $columValues = new \Ds\Vector();
 
             Utils::debug("{$messPrefix} Column start");
             $colValidator = $column->getValidator();

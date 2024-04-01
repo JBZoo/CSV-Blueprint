@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Validators;
 
+use Ds\Vector;
 use JBZoo\CsvBlueprint\Csv\Column;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use JBZoo\CsvBlueprint\Rules\Ruleset;
@@ -40,7 +41,7 @@ final class ValidatorColumn
         return $this->cellRuleset->validateRuleSet($cellValue, $line);
     }
 
-    public function validateList(array $cellValue, int $linesToAggregate): ErrorSuite
+    public function validateList(Vector $cellValue, int $linesToAggregate): ErrorSuite
     {
         return $this->aggRuleset->validateRuleSet($cellValue, self::FALLBACK_LINE, $linesToAggregate);
     }

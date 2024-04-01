@@ -56,7 +56,7 @@ jobs:
         with:
           php-version: 8.3
           coverage: xdebug
-          extensions: ast
+          extensions: ast, ds
 
       - name: Build project
         run: make build --no-print-directory
@@ -100,7 +100,7 @@ jobs:
         with:
           php-version: 8.1
           coverage: none
-          extensions: ast
+          extensions: ast, ds
 
       - name: Install project
         run: make build --no-print-directory
@@ -142,7 +142,7 @@ jobs:
         with:
           php-version: highest
           coverage: none
-          extensions: ast
+          extensions: ast, ds
 
       - name: Install project
         run: make build --no-print-directory
@@ -182,6 +182,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.3
+          extensions: ds
 
       - name: Build project in production mode
         run: make build-prod --no-print-directory
@@ -214,6 +215,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
+          extensions: ds
 
       - name: Build project in production mode
         run: make build-prod build-phar-file --no-print-directory

@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
+use Ds\Vector;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 
 final class ComboFirstNum extends AbstractAggregateRuleCombo
@@ -29,7 +30,7 @@ final class ComboFirstNum extends AbstractAggregateRuleCombo
         return [['First number in the column. Expected value is float or integer.'], []];
     }
 
-    protected function getActualAggregate(array $colValues): ?float
+    protected function getActualAggregate(Vector $colValues): ?float
     {
         if (!isset($colValues[0])) {
             return null;

@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
+use Ds\Vector;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use MathPHP\Statistics\Descriptive;
 
@@ -59,7 +60,7 @@ final class ComboPercentile extends AbstractAggregateRuleCombo
         return float($this->getParams()[self::VAL]);
     }
 
-    protected function getActualAggregate(array $colValues): ?float
+    protected function getActualAggregate(Vector $colValues): ?float
     {
         if (\count($colValues) === 0) {
             return null;

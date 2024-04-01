@@ -1,6 +1,6 @@
 {
     "name"              : "jbzoo/csv-blueprint",
-    "type" : "project",
+    "type"              : "project",
     "description"       : "CLI Utility for Validating and Generating CSV Files Based on Custom Rules. It ensures your data meets specified criteria, streamlining data management and integrity checks.",
     "license"           : "MIT",
     "keywords"          : [
@@ -29,6 +29,7 @@
     "require"           : {
         "php"                                 : "^8.1",
         "ext-mbstring"                        : "*",
+        "ext-ds" : "*",
 
         "league/csv"                          : "^9.15.0",
         "jbzoo/data"                          : "^7.1.1",

@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
+use Ds\Vector;
 use JBZoo\CsvBlueprint\Rules\AbstarctRule;
 use Respect\Validation\Validator;
 
@@ -30,7 +31,7 @@ final class ComboCountPrime extends AbstractAggregateRuleCombo
         return [['Number of prime values.'], []];
     }
 
-    protected function getActualAggregate(array $colValues): ?float
+    protected function getActualAggregate(Vector $colValues): ?float
     {
         if (\count($colValues) === 0) {
             return null;
