@@ -847,7 +847,6 @@ columns:
 Behind the scenes to what is outlined in the yml above, there are additional checks that will examine your files by default.
 
 <!-- extra-rules -->
-
 * With `filename_pattern` rule, you can check if the file name matches the pattern.
 * Checks if property `name` is not defined in a column. Only if `csv.header: true`.
 * If property `required` is set to `true`, the column must must be present in CSV. Only if `csv.header: true`
@@ -856,7 +855,6 @@ Behind the scenes to what is outlined in the yml above, there are additional che
 * With `allow_extra_columns` rule, you can check that there are no extra columns in the CSV file.
   * If `csv.header: true`. Schema contains an unknown column `name` that is not found in the CSV file.
   * If `csv.header: false`. Compare the number of columns in the schema and the CSV file.
-
 <!-- /extra-rules -->
 
 ## Complete CLI Help Message
@@ -975,8 +973,6 @@ Summary:
   1 pairs (schema to csv) were found based on `filename_pattern`.
   Found 2 issues in 1 schemas.
   Found 10 issues in 1 out of 1 CSV files.
-
-
 ```
 <!-- /output-table -->
 
@@ -1369,7 +1365,6 @@ I'm not sure if I will implement all of them. But I will try to do my best.
 
 ## Contributing
 <!-- contributing -->
-
 If you have any ideas or suggestions, feel free to open an issue or create a pull request.
 
 ```sh
@@ -1391,7 +1386,6 @@ make codestyle
 # ???
 # Profit!
 ```
-
 <!-- /contributing -->
 
 ## License

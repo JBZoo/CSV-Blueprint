@@ -108,15 +108,11 @@ final class Tools
 
     public static function insertInReadme(string $code, string $content): void
     {
-        isFileContains("<!-- {$code} -->", self::README, false, "Add \"<!-- {$code} -->\" to README.md");
-        isFileContains("<!-- /{$code} -->", self::README, false, "Add \"<!-- /{$code} -->\" to README.md");
         isFile(self::README);
+        isFileContains("<!-- {$code} -->", self::README,);
+        isFileContains("<!-- /{$code} -->", self::README,);
 
-        $replacement = \implode("\n", [
-            "<!-- {$code} -->",
-            $content,
-            "<!-- /{$code} -->",
-        ]);
+        $replacement = \implode("\n", ["<!-- {$code} -->", \trim($content), "<!-- /{$code} -->"]);
 
         $result = \preg_replace(
             '/<\!-- ' . $code . ' -->(.*?)<\!-- \/' . $code . ' -->/s',

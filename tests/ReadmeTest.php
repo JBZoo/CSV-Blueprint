@@ -64,7 +64,7 @@ final class ReadmeTest extends TestCase
             "./csv-blueprint validate:csv {$optionsAsString}",
             '',
             '',
-            $actual,
+            \trim($actual),
             '```',
         ]);
 
