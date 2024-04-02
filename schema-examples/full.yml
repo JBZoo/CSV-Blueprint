@@ -172,6 +172,7 @@ columns:
       # Specific formats
       is_bool: true                     # Allow only boolean values "true" and "false", case-insensitive.
       is_binary: true                   # Both: with or without "0b" prefix. Example: "0b10" or "10"
+      is_octal: true                    # Validates octal numbers in the format "0o123" or "0123".
       is_hex: true                      # Both: with or without "0x" prefix. Example: "0x1A" or "1A"
       is_uuid: true                     # Validates whether the input is a valid UUID. It also supports validation of specific versions 1, 3, 4 and 5.
       is_slug: true                     # Only slug format. Example: "my-slug-123". It can contain letters, numbers, and dashes.

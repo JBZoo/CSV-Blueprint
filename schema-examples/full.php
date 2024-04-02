@@ -126,6 +126,7 @@ This example serves as a comprehensive guide for creating robust CSV file valida
 
                 'is_bool'          => true,
                 'is_binary'        => true,
+                'is_octal'         => true,
                 'is_hex'           => true,
                 'is_uuid'          => true,
                 'is_slug'          => true,
