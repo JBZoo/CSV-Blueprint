@@ -159,10 +159,6 @@ final class ErrorSuite
             ->setColumnMaxWidth(2, $floatingSizes['rule'])
             ->setColumnMaxWidth(3, $floatingSizes['message']);
 
-        if (Utils::isAnsi()) {
-            $table->setStyle('box');
-        }
-
         foreach ($this->errors as $error) {
             $table->addRow([
                 $error->getLine(),
