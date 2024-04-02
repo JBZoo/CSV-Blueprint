@@ -90,27 +90,6 @@ abstract class AbstractValidate extends CliCommand
         return $value === '' || bool($value);
     }
 
-    protected function out(null|array|string $messge, int $indent = 0): void
-    {
-        if ($this->isHumanReadableMode()) {
-            $indent = \str_repeat(' ', $indent);
-            $messges = \is_string($messge) ? \explode("\n", $messge) : $messge;
-
-            foreach ($messges as $line) {
-                $this->_($indent . $line);
-            }
-        }
-    }
-
-    protected function outReport(ErrorSuite $errorSuite, int $indet = 2): void
-    {
-        if ($this->isHumanReadableMode()) {
-            $this->out($errorSuite->render($this->getReportType()), $indet);
-        } else {
-            $this->_($errorSuite->render($this->getReportType()));
-        }
-    }
-
     /**
      * @return SplFileInfo[]
      */
@@ -124,5 +103,43 @@ abstract class AbstractValidate extends CliCommand
         }
 
         return $filenames;
+    }
+
+    protected function out(null|array|string $messge, int $indent = 0): void
+    {
+        if ($messge === null) {
+            return;
+        }
+
+        if ($this->isHumanReadableMode()) {
+            $indent = \str_repeat(' ', $indent);
+            $messges = \is_string($messge) ? \explode("\n", $messge) : $messge;
+
+            foreach ($messges as $line) {
+                $this->_($indent . $line);
+            }
+        }
+    }
+
+    protected function outReport(ErrorSuite $errorSuite, int $indet = 2): void
+    {
+        if ($this->getReportType() === ErrorSuite::REPORT_GITHUB) {
+            $indet = 0;
+        }
+
+        if ($this->isHumanReadableMode()) {
+            $this->out($errorSuite->render($this->getReportType()), $indet);
+        } else {
+            $this->_($errorSuite->render($this->getReportType()));
+        }
+    }
+
+    protected function renderPrefix(int $index, int $totalFiles): string
+    {
+        return \sprintf(
+            '(%s/%s)',
+            \str_pad((string)$index, \strlen((string)$totalFiles), ' ', \STR_PAD_LEFT),
+            $totalFiles,
+        );
     }
 }

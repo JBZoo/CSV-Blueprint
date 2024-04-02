@@ -33,38 +33,34 @@ final class ValidateCsvReportsTest extends TestCase
             Pairs by pattern: 1
             
             Check schema syntax: 1
-            (1/1) Schema: ./tests/schemas/demo_invalid.yml
-            (1/1) Issues: 2
-            +-------+------------------+------------- tests/schemas/demo_invalid.yml ----------------------------------------+
-            | Line  | id:Column        | Rule         | Message                                                              |
-            +-------+------------------+--------------+----------------------------------------------------------------------+
-            | undef | 2:Float          | is_float     | Value "Qwerty" is not a float number                                 |
-            | undef | 4:Favorite color | allow_values | Value "123" is not allowed. Allowed values: ["red", "green", "Blue"] |
-            +-------+------------------+------------- tests/schemas/demo_invalid.yml ----------------------------------------+
-            
+              (1/1) Issues: 2 in ./tests/schemas/demo_invalid.yml
+                +-------+------------------+--------------+----------------------------------------------------------------------+
+                | Line  | id:Column        | Rule         | Message                                                              |
+                +-------+------------------+--------------+----------------------------------------------------------------------+
+                | undef | 2:Float          | is_float     | Value "Qwerty" is not a float number                                 |
+                | undef | 4:Favorite color | allow_values | Value "123" is not allowed. Allowed values: ["red", "green", "Blue"] |
+                +-------+------------------+--------------+----------------------------------------------------------------------+
             
             CSV file validation: 1
-            (1/1) Schema: ./tests/schemas/demo_invalid.yml
-            (1/1) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
-            (1/1) Issues: 10
-            +------+------------------+---------------------+-------------- tests/fixtures/demo.csv ---------------------------------------------------------------+
-            | Line | id:Column        | Rule                | Message                                                                                              |
-            +------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
-            | 1    |                  | allow_extra_columns | Column(s) not found in CSV: "wrong_column_name"                                                      |
-            | 6    | 0:Name           | length_min          | The length of the value "Carl" is 4, which is less than the expected "5"                             |
-            | 11   | 0:Name           | length_min          | The length of the value "Lois" is 4, which is less than the expected "5"                             |
-            | 1    | 1:City           | ag:is_unique        | Column has non-unique values. Unique: 9, total: 10                                                   |
-            | 2    | 2:Float          | num_max             | The value "4825.185" is greater than the expected "4825.184"                                         |
-            | 1    | 2:Float          | ag:nth_num          | The N-th value in the column is "74", which is not equal than the expected "0.001"                   |
-            | 6    | 3:Birthday       | date_min            | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
-            |      |                  |                     | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
-            | 8    | 3:Birthday       | date_min            | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
-            |      |                  |                     | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
-            | 9    | 3:Birthday       | date_max            | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
-            |      |                  |                     | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
-            | 5    | 4:Favorite color | allow_values        | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
-            +------+------------------+---------------------+-------------- tests/fixtures/demo.csv ---------------------------------------------------------------+
-            
+            Schema: ./tests/schemas/demo_invalid.yml
+              (1/1) Issues: 10 in ./tests/fixtures/demo.csv; Size: 123.34 MB
+                +------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
+                | Line | id:Column        | Rule                | Message                                                                                              |
+                +------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
+                | 1    |                  | allow_extra_columns | Column(s) not found in CSV: "wrong_column_name"                                                      |
+                | 6    | 0:Name           | length_min          | The length of the value "Carl" is 4, which is less than the expected "5"                             |
+                | 11   | 0:Name           | length_min          | The length of the value "Lois" is 4, which is less than the expected "5"                             |
+                | 1    | 1:City           | ag:is_unique        | Column has non-unique values. Unique: 9, total: 10                                                   |
+                | 2    | 2:Float          | num_max             | The value "4825.185" is greater than the expected "4825.184"                                         |
+                | 1    | 2:Float          | ag:nth_num          | The N-th value in the column is "74", which is not equal than the expected "0.001"                   |
+                | 6    | 3:Birthday       | date_min            | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
+                |      |                  |                     | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
+                | 8    | 3:Birthday       | date_min            | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
+                |      |                  |                     | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
+                | 9    | 3:Birthday       | date_max            | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
+                |      |                  |                     | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
+                | 5    | 4:Favorite color | allow_values        | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
+                +------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
             
             Summary:
               1 pairs (schema to csv) were found based on `filename_pattern`.
@@ -86,27 +82,25 @@ final class ValidateCsvReportsTest extends TestCase
             Pairs by pattern: 1
             
             Check schema syntax: 1
-            (1/1) Schema: ./tests/schemas/demo_invalid.yml
-            (1/1) Issues: 2
-            "is_float", column "2:Float". Value "Qwerty" is not a float number.
-            "allow_values", column "4:Favorite color". Value "123" is not allowed. Allowed values: ["red", "green", "Blue"].
-            
+              (1/1) Issues: 2 in ./tests/schemas/demo_invalid.yml
+                "is_float", column "2:Float". Value "Qwerty" is not a float number.
+                "allow_values", column "4:Favorite color". Value "123" is not allowed. Allowed values: ["red", "green", "Blue"].
+                
             
             CSV file validation: 1
-            (1/1) Schema: ./tests/schemas/demo_invalid.yml
-            (1/1) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
-            (1/1) Issues: 10
-            "allow_extra_columns" at line 1. Column(s) not found in CSV: "wrong_column_name".
-            "length_min" at line 6, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".
-            "length_min" at line 11, column "0:Name". The length of the value "Lois" is 4, which is less than the expected "5".
-            "ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 9, total: 10.
-            "num_max" at line 2, column "2:Float". The value "4825.185" is greater than the expected "4825.184".
-            "ag:nth_num" at line 1, column "2:Float". The N-th value in the column is "74", which is not equal than the expected "0.001".
-            "date_min" at line 6, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
-            "date_min" at line 8, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
-            "date_max" at line 9, column "3:Birthday". The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)".
-            "allow_values" at line 5, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].
-            
+            Schema: ./tests/schemas/demo_invalid.yml
+              (1/1) Issues: 10 in ./tests/fixtures/demo.csv; Size: 123.34 MB
+                "allow_extra_columns" at line 1. Column(s) not found in CSV: "wrong_column_name".
+                "length_min" at line 6, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".
+                "length_min" at line 11, column "0:Name". The length of the value "Lois" is 4, which is less than the expected "5".
+                "ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 9, total: 10.
+                "num_max" at line 2, column "2:Float". The value "4825.185" is greater than the expected "4825.184".
+                "ag:nth_num" at line 1, column "2:Float". The N-th value in the column is "74", which is not equal than the expected "0.001".
+                "date_min" at line 6, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
+                "date_min" at line 8, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
+                "date_max" at line 9, column "3:Birthday". The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)".
+                "allow_values" at line 5, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].
+                
             
             Summary:
               1 pairs (schema to csv) were found based on `filename_pattern`.
@@ -128,17 +122,15 @@ final class ValidateCsvReportsTest extends TestCase
             Pairs by pattern: 1
             
             Check schema syntax: 1
-            (1/1) Schema: ./tests/schemas/demo_invalid.yml
-            (1/1) Issues: 2
+              (1/1) Issues: 2 in ./tests/schemas/demo_invalid.yml
             ::error file=./tests/schemas/demo_invalid.yml::is_float at column 2:Float%0A"is_float", column "2:Float". Value "Qwerty" is not a float number.
             
             ::error file=./tests/schemas/demo_invalid.yml::allow_values at column 4:Favorite color%0A"allow_values", column "4:Favorite color". Value "123" is not allowed. Allowed values: ["red", "green", "Blue"].
             
             
             CSV file validation: 1
-            (1/1) Schema: ./tests/schemas/demo_invalid.yml
-            (1/1) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
-            (1/1) Issues: 10
+            Schema: ./tests/schemas/demo_invalid.yml
+              (1/1) Issues: 10 in ./tests/fixtures/demo.csv; Size: 123.34 MB
             ::error file=<root>/tests/fixtures/demo.csv,line=1::allow_extra_columns at column%0A"allow_extra_columns" at line 1. Column(s) not found in CSV: "wrong_column_name".
             
             ::error file=<root>/tests/fixtures/demo.csv,line=6::length_min at column 0:Name%0A"length_min" at line 6, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".

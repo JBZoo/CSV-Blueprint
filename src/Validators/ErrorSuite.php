@@ -157,8 +157,11 @@ final class ErrorSuite
             ->setColumnMaxWidth(0, $floatingSizes['line'])
             ->setColumnMaxWidth(1, $floatingSizes['column'])
             ->setColumnMaxWidth(2, $floatingSizes['rule'])
-            ->setColumnMaxWidth(3, $floatingSizes['message'])
-            ->setStyle('box');
+            ->setColumnMaxWidth(3, $floatingSizes['message']);
+
+        if (Utils::isAnsi()) {
+            $table->setStyle('box');
+        }
 
         foreach ($this->errors as $error) {
             $table->addRow([
@@ -171,7 +174,7 @@ final class ErrorSuite
 
         $table->render();
 
-        return \trim($buffer->fetch()) . "\n";
+        return \trim($buffer->fetch());
     }
 
     private function prepareSourceSuite(): SourceSuite
