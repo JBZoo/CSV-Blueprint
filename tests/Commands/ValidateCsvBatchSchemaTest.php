@@ -100,7 +100,7 @@ final class ValidateCsvBatchSchemaTest extends TestCase
               Found 10 issues in 3 schemas.
               Found 10 issues in 1 out of 1 CSV files.
               Not used schemas:
-                - ./tests/schemas/invalid_schema.yml
+                * ./tests/schemas/invalid_schema.yml
             
             
             TXT;
@@ -151,7 +151,7 @@ final class ValidateCsvBatchSchemaTest extends TestCase
               No issues in 2 schemas.
               Found 2 issues in 1 out of 1 CSV files.
               Schemas have no filename_pattern and are applied to all CSV files found:
-                - ./tests/schemas/demo_invalid_no_pattern.yml
+                * ./tests/schemas/demo_invalid_no_pattern.yml
             
             
             TXT;

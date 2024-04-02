@@ -38,8 +38,7 @@ final class ValidateSchema extends AbstractValidate
                 's',
                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
                 \implode('', [
-                    "Path(s) to schema file(s).\n",
-                    'It can be a YAML, JSON or PHP. See examples on GitHub.',
+                    "Path(s) to schema file(s). It can be a YAML, JSON or PHP. See examples on GitHub.\n",
                     'Also, you can specify path in which schema files will be searched ',
                     '(max depth is ' . Utils::MAX_DIRECTORY_DEPTH . ").\n",
                     "Feel free to use glob pattrens. Usage examples: \n",
@@ -49,7 +48,7 @@ final class ValidateSchema extends AbstractValidate
                     '<info>p/**/*.yml</info>, ',
                     '<info>p/**/name-*.json</info>, ',
                     '<info>**/*.php</info>, ',
-                    'etc.',
+                    "etc.\n",
                 ]),
             );
 

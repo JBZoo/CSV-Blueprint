@@ -153,13 +153,12 @@ final class ErrorSuite
 
         $buffer = new BufferedOutput();
         $table = (new Table($buffer))
-            ->setHeaderTitle($this->getTestcaseName())
-            ->setFooterTitle($this->getTestcaseName())
             ->setHeaders(['Line', 'id:Column', 'Rule', 'Message'])
             ->setColumnMaxWidth(0, $floatingSizes['line'])
             ->setColumnMaxWidth(1, $floatingSizes['column'])
             ->setColumnMaxWidth(2, $floatingSizes['rule'])
-            ->setColumnMaxWidth(3, $floatingSizes['message']);
+            ->setColumnMaxWidth(3, $floatingSizes['message'])
+            ->setStyle('box');
 
         foreach ($this->errors as $error) {
             $table->addRow([

@@ -199,9 +199,9 @@ final class ValidateCsvBasicTest extends TestCase
               Found 8 issues in 1 schemas.
               No issues in 1 CSV files.
               No schema was applied to the CSV files (filename_pattern didn't match):
-                - ./tests/fixtures/demo.csv
+                * ./tests/fixtures/demo.csv
               Not used schemas:
-                - ./tests/schemas/invalid_schema.yml
+                * ./tests/schemas/invalid_schema.yml
             
             
             TXT;
@@ -249,7 +249,7 @@ final class ValidateCsvBasicTest extends TestCase
               Found 8 issues in 1 schemas.
               No issues in 0 CSV files.
               Not used schemas:
-                - ./tests/schemas/invalid_schema.yml
+                * ./tests/schemas/invalid_schema.yml
             
             
             TXT;
@@ -291,7 +291,7 @@ final class ValidateCsvBasicTest extends TestCase
               No issues in 1 schemas.
               Found 2 issues in 1 out of 1 CSV files.
               Schemas have no filename_pattern and are applied to all CSV files found:
-                - ./tests/schemas/simple_no_header.yml
+                * ./tests/schemas/simple_no_header.yml
             
             
             TXT;

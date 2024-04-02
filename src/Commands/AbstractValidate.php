@@ -90,10 +90,24 @@ abstract class AbstractValidate extends CliCommand
         return $value === '' || bool($value);
     }
 
-    protected function out(null|array|string $messge): void
+    protected function out(null|array|string $messge, int $indent = 0): void
     {
         if ($this->isHumanReadableMode()) {
-            $this->_($messge);
+            $indent = \str_repeat(' ', $indent);
+            $messges = \is_string($messge) ? \explode("\n", $messge) : $messge;
+
+            foreach ($messges as $line) {
+                $this->_($indent . $line);
+            }
+        }
+    }
+
+    protected function outReport(ErrorSuite $errorSuite, int $indet = 2): void
+    {
+        if ($this->isHumanReadableMode()) {
+            $this->out($errorSuite->render($this->getReportType()), $indet);
+        } else {
+            $this->_($errorSuite->render($this->getReportType()));
         }
     }
 

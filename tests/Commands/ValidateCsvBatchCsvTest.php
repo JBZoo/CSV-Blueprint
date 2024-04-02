@@ -79,6 +79,7 @@ final class ValidateCsvBatchCsvTest extends TestCase
         $options = [
             'csv'    => './tests/fixtures/batch/*.csv',
             'schema' => Tools::DEMO_YML_INVALID,
+            'report' => 'text',
         ];
         $optionsAsString = new StringInput(Cli::build('', $options));
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $options);
