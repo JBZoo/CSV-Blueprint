@@ -135,24 +135,24 @@ final class ValidateCsv extends AbstractValidate
                 $schemaPath = Utils::printFile($schemaFilename->getPathname());
 
                 if ($quickCheck && $schemaErrors !== null && $schemaErrors->count() > 0) {
-                    $this->out("{$prefix} <yellow>Skipped (Quick mode)</yellow> {$schemaPath}", 2);
+                    $this->out("{$prefix}<yellow>Skipped (Quick mode)</yellow> {$schemaPath}", 2);
                     continue;
                 }
 
                 try {
                     $schemaErrors = (new Schema($schemaFilename->getPathname()))->validate($quickCheck);
                     if ($schemaErrors->count() > 0) {
-                        $this->out("{$prefix} <yellow>Issues:</yellow> {$schemaErrors->count()} in {$schemaPath}", 2);
+                        $this->renderIssues($prefix, $schemaErrors->count(), $schemaPath, 2);
                         $this->outReport($schemaErrors, 4);
 
                         $totalSchemaErrors->addErrorSuit($schemaErrors);
                     } else {
-                        $this->out("{$prefix} <green>OK</green> {$schemaPath}", 2);
+                        $this->out("{$prefix}<green>OK</green> {$schemaPath}", 2);
                     }
                 } catch (Exception $e) {
                     $this->out([
-                        "{$prefix} Schema: {$schemaPath}",
-                        "{$prefix} Exception: <yellow>{$e->getMessage()}</yellow>",
+                        "{$prefix}Schema: {$schemaPath}",
+                        "{$prefix}Exception: <yellow>{$e->getMessage()}</yellow>",
                     ], 2);
                 }
             }
@@ -199,10 +199,10 @@ final class ValidateCsv extends AbstractValidate
                     $invalidFiles++;
                     $errorCounter += $errorSuite->count();
 
-                    $this->out("{$prefix} <yellow>Issues:</yellow> {$errorSuite->count()} in {$currentCsvTitle}", 2);
+                    $this->renderIssues($prefix, $errorSuite->count(), $currentCsvTitle, 2);
                     $this->outReport($errorSuite, 4);
                 } else {
-                    $this->out("{$prefix} <green>OK</green> {$currentCsvTitle}", 2);
+                    $this->out("{$prefix}<green>OK</green> {$currentCsvTitle}", 2);
                 }
             }
         }

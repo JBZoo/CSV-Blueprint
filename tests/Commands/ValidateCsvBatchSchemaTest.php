@@ -43,7 +43,7 @@ final class ValidateCsvBatchSchemaTest extends TestCase
             Pairs by pattern: 2
             
             Check schema syntax: 3
-              (1/3) Issues: 2 in ./tests/schemas/demo_invalid.yml
+              (1/3) 2 issues in ./tests/schemas/demo_invalid.yml
                 +-------+------------------+--------------+----------------------------------------------------------------------+
                 | Line  | id:Column        | Rule         | Message                                                              |
                 +-------+------------------+--------------+----------------------------------------------------------------------+
@@ -51,7 +51,7 @@ final class ValidateCsvBatchSchemaTest extends TestCase
                 | undef | 4:Favorite color | allow_values | Value "123" is not allowed. Allowed values: ["red", "green", "Blue"] |
                 +-------+------------------+--------------+----------------------------------------------------------------------+
               (2/3) OK ./tests/schemas/demo_valid.yml
-              (3/3) Issues: 8 in ./tests/schemas/invalid_schema.yml
+              (3/3) 8 issues in ./tests/schemas/invalid_schema.yml
                 +-------+------------+--------+-------------------------------------------------------------------------+
                 | Line  | id:Column  | Rule   | Message                                                                 |
                 +-------+------------+--------+-------------------------------------------------------------------------+
@@ -67,7 +67,7 @@ final class ValidateCsvBatchSchemaTest extends TestCase
             
             CSV file validation: 2
             Schema: ./tests/schemas/demo_invalid.yml
-              (1/2) Issues: 10 in ./tests/fixtures/demo.csv; Size: 123.34 MB
+              (1/2) 10 issues in ./tests/fixtures/demo.csv; Size: 123.34 MB
                 +------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
                 | Line | id:Column        | Rule                | Message                                                                                              |
                 +------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
@@ -127,7 +127,7 @@ final class ValidateCsvBatchSchemaTest extends TestCase
             
             CSV file validation: 2
             Schema: ./tests/schemas/demo_invalid_no_pattern.yml
-              (1/2) Issues: 2 in ./tests/fixtures/demo.csv; Size: 123.34 MB
+              (1/2) 2 issues in ./tests/fixtures/demo.csv; Size: 123.34 MB
                 +------+-----------+---------+---------------------------------------------------+
                 | Line | id:Column | Rule    | Message                                           |
                 +------+-----------+---------+---------------------------------------------------+

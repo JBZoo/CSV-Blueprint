@@ -39,11 +39,11 @@ final class ValidateCsvBasicTest extends TestCase
             Pairs by pattern: 1
             
             Check schema syntax: 1
-              (1/1) OK ./tests/schemas/demo_valid.yml
+              OK ./tests/schemas/demo_valid.yml
             
             CSV file validation: 1
             Schema: ./tests/schemas/demo_valid.yml
-              (1/1) OK ./tests/fixtures/demo.csv; Size: 123.34 MB
+              OK ./tests/fixtures/demo.csv; Size: 123.34 MB
             
             Summary:
               1 pairs (schema to csv) were found based on `filename_pattern`.
@@ -72,11 +72,11 @@ final class ValidateCsvBasicTest extends TestCase
             Pairs by pattern: 1
             
             Check schema syntax: 1
-              (1/1) OK ./tests/schemas/demo_valid.yml
+              OK ./tests/schemas/demo_valid.yml
             
             CSV file validation: 1
             Schema: ./tests/schemas/demo_valid.yml
-              (1/1) Issues: 2 in ./tests/fixtures/demo_invalid.csv; Size: 123.34 MB
+              2 issues in ./tests/fixtures/demo_invalid.csv; Size: 123.34 MB
                 +------+------------------+--------------+----------------------------------------------------------------------------------------+
                 | Line | id:Column        | Rule         | Message                                                                                |
                 +------+------------------+--------------+----------------------------------------------------------------------------------------+
@@ -110,7 +110,7 @@ final class ValidateCsvBasicTest extends TestCase
             Pairs by pattern: 1
             
             Check schema syntax: 1
-              (1/1) Issues: 2 in ./tests/schemas/demo_invalid.yml
+              2 issues in ./tests/schemas/demo_invalid.yml
                 +-------+------------------+--------------+----------------------------------------------------------------------+
                 | Line  | id:Column        | Rule         | Message                                                              |
                 +-------+------------------+--------------+----------------------------------------------------------------------+
@@ -120,7 +120,7 @@ final class ValidateCsvBasicTest extends TestCase
             
             CSV file validation: 1
             Schema: ./tests/schemas/demo_invalid.yml
-              (1/1) Issues: 10 in ./tests/fixtures/demo.csv; Size: 123.34 MB
+              10 issues in ./tests/fixtures/demo.csv; Size: 123.34 MB
                 +------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
                 | Line | id:Column        | Rule                | Message                                                                                              |
                 +------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
@@ -169,7 +169,7 @@ final class ValidateCsvBasicTest extends TestCase
             Pairs by pattern: 0
             
             Check schema syntax: 1
-              (1/1) Issues: 8 in ./tests/schemas/invalid_schema.yml
+              8 issues in ./tests/schemas/invalid_schema.yml
                 +-------+------------+--------+-------------------------------------------------------------------------+
                 | Line  | id:Column  | Rule   | Message                                                                 |
                 +-------+------------+--------+-------------------------------------------------------------------------+
@@ -217,7 +217,7 @@ final class ValidateCsvBasicTest extends TestCase
             Pairs by pattern: 0
             
             Check schema syntax: 1
-              (1/1) Issues: 8 in ./tests/schemas/invalid_schema.yml
+              8 issues in ./tests/schemas/invalid_schema.yml
                 +-------+------------+--------+-------------------------------------------------------------------------+
                 | Line  | id:Column  | Rule   | Message                                                                 |
                 +-------+------------+--------+-------------------------------------------------------------------------+
@@ -261,11 +261,11 @@ final class ValidateCsvBasicTest extends TestCase
             Pairs by pattern: 1
             
             Check schema syntax: 1
-              (1/1) OK ./tests/schemas/simple_no_header.yml
+              OK ./tests/schemas/simple_no_header.yml
             
             CSV file validation: 1
             Schema: ./tests/schemas/simple_no_header.yml
-              (1/1) Issues: 2 in ./tests/fixtures/demo.csv; Size: 123.34 MB
+              2 issues in ./tests/fixtures/demo.csv; Size: 123.34 MB
                 +------+-----------+------------------+------------------------------+
                 | Line | id:Column | Rule             | Message                      |
                 +------+-----------+------------------+------------------------------+

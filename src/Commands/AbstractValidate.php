@@ -134,10 +134,20 @@ abstract class AbstractValidate extends CliCommand
         }
     }
 
+    protected function renderIssues(string $prefix, int $number, string $filepath, int $indent = 0): void
+    {
+        $issues = $number === 1 ? 'issue' : 'issues';
+        $this->out("{$prefix}<yellow>{$number} {$issues}</yellow> in {$filepath}", $indent);
+    }
+
     protected static function renderPrefix(int $index, int $totalFiles): string
     {
+        if ($totalFiles <= 1) {
+            return '';
+        }
+
         return \sprintf(
-            '(%s/%s)',
+            '(%s/%s) ',
             \str_pad((string)$index, \strlen((string)$totalFiles), ' ', \STR_PAD_LEFT),
             (string)$totalFiles,
         );

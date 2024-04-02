@@ -33,7 +33,7 @@ final class ValidateCsvReportsTest extends TestCase
             Pairs by pattern: 1
             
             Check schema syntax: 1
-              (1/1) Issues: 2 in ./tests/schemas/demo_invalid.yml
+              2 issues in ./tests/schemas/demo_invalid.yml
                 +-------+------------------+--------------+----------------------------------------------------------------------+
                 | Line  | id:Column        | Rule         | Message                                                              |
                 +-------+------------------+--------------+----------------------------------------------------------------------+
@@ -43,7 +43,7 @@ final class ValidateCsvReportsTest extends TestCase
             
             CSV file validation: 1
             Schema: ./tests/schemas/demo_invalid.yml
-              (1/1) Issues: 10 in ./tests/fixtures/demo.csv; Size: 123.34 MB
+              10 issues in ./tests/fixtures/demo.csv; Size: 123.34 MB
                 +------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
                 | Line | id:Column        | Rule                | Message                                                                                              |
                 +------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
@@ -82,14 +82,14 @@ final class ValidateCsvReportsTest extends TestCase
             Pairs by pattern: 1
             
             Check schema syntax: 1
-              (1/1) Issues: 2 in ./tests/schemas/demo_invalid.yml
+              2 issues in ./tests/schemas/demo_invalid.yml
                 "is_float", column "2:Float". Value "Qwerty" is not a float number.
                 "allow_values", column "4:Favorite color". Value "123" is not allowed. Allowed values: ["red", "green", "Blue"].
                 
             
             CSV file validation: 1
             Schema: ./tests/schemas/demo_invalid.yml
-              (1/1) Issues: 10 in ./tests/fixtures/demo.csv; Size: 123.34 MB
+              10 issues in ./tests/fixtures/demo.csv; Size: 123.34 MB
                 "allow_extra_columns" at line 1. Column(s) not found in CSV: "wrong_column_name".
                 "length_min" at line 6, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".
                 "length_min" at line 11, column "0:Name". The length of the value "Lois" is 4, which is less than the expected "5".
@@ -122,7 +122,7 @@ final class ValidateCsvReportsTest extends TestCase
             Pairs by pattern: 1
             
             Check schema syntax: 1
-              (1/1) Issues: 2 in ./tests/schemas/demo_invalid.yml
+              2 issues in ./tests/schemas/demo_invalid.yml
             ::error file=./tests/schemas/demo_invalid.yml::is_float at column 2:Float%0A"is_float", column "2:Float". Value "Qwerty" is not a float number.
             
             ::error file=./tests/schemas/demo_invalid.yml::allow_values at column 4:Favorite color%0A"allow_values", column "4:Favorite color". Value "123" is not allowed. Allowed values: ["red", "green", "Blue"].
@@ -130,7 +130,7 @@ final class ValidateCsvReportsTest extends TestCase
             
             CSV file validation: 1
             Schema: ./tests/schemas/demo_invalid.yml
-              (1/1) Issues: 10 in ./tests/fixtures/demo.csv; Size: 123.34 MB
+              10 issues in ./tests/fixtures/demo.csv; Size: 123.34 MB
             ::error file=<root>/tests/fixtures/demo.csv,line=1::allow_extra_columns at column%0A"allow_extra_columns" at line 1. Column(s) not found in CSV: "wrong_column_name".
             
             ::error file=<root>/tests/fixtures/demo.csv,line=6::length_min at column 0:Name%0A"length_min" at line 6, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".

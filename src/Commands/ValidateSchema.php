@@ -66,8 +66,10 @@ final class ValidateSchema extends AbstractValidate
         $this->out('');
 
         $foundIssues = 0;
-
+        $index = 0;
         foreach ($this->findFiles('schema') as $file) {
+            $index++;
+            $prefix = self::renderPrefix($index, $totalFiles);
             $filename = (string)$file->getRealPath();
             $coloredPath = Utils::printFile($filename);
             $schemaErrors = new ErrorSuite($filename);
@@ -81,10 +83,10 @@ final class ValidateSchema extends AbstractValidate
             }
 
             if ($schemaErrors->count() > 0) {
-                $this->out(["<yellow>Issues:</yellow> {$coloredPath}"]);
-                $this->_($schemaErrors->render($this->getReportType()));
+                $this->renderIssues($prefix, $schemaErrors->count(), $coloredPath);
+                $this->outReport($schemaErrors, 2);
             } else {
-                $this->out("<green>OK:</green> {$coloredPath}");
+                $this->out("{$prefix}<green>OK</green> {$coloredPath}");
             }
 
             $foundIssues += $schemaErrors->count();

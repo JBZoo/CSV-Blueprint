@@ -987,7 +987,7 @@ Found CSV files : 1
 Pairs by pattern: 1
 
 Check schema syntax: 1
-  (1/1) Issues: 2 in ./tests/schemas/demo_invalid.yml
+  2 issues in ./tests/schemas/demo_invalid.yml
     +-------+------------------+--------------+----------------------------------------------------------------------+
     | Line  | id:Column        | Rule         | Message                                                              |
     +-------+------------------+--------------+----------------------------------------------------------------------+
@@ -997,7 +997,7 @@ Check schema syntax: 1
 
 CSV file validation: 1
 Schema: ./tests/schemas/demo_invalid.yml
-  (1/1) Issues: 10 in ./tests/fixtures/demo.csv; Size: 123.34 MB
+  10 issues in ./tests/fixtures/demo.csv; Size: 123.34 MB
     +------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
     | Line | id:Column        | Rule                | Message                                                                                              |
     +------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
