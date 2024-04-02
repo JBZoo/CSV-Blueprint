@@ -49,10 +49,6 @@ columns:
       is_bool_value: true             # https://github.com/Respect/Validation/blob/main/docs/rules/BoolVal.md
       is_null: true                   # see empty_values
 
-      # Dates
-      age: 35
-      dateperiod: 1
-
       # Codes
       subdivision_code: [ ]           # https://github.com/Respect/Validation/blob/main/docs/rules/SubdivisionCode.md
 

@@ -11,11 +11,11 @@
 <!-- /top-badges -->
 
 <!-- rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-373-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
-[![Static Badge](https://img.shields.io/badge/Rules-159-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
+[![Static Badge](https://img.shields.io/badge/Rules-379-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-165-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
 [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)
 [![Static Badge](https://img.shields.io/badge/Rules-8-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)
-[![Static Badge](https://img.shields.io/badge/Rules-31/54/9-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-30/54/9-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- /rules-counter -->
 
 A console utility designed for validating CSV files against a strictly defined schema and validation rules outlined
@@ -418,6 +418,17 @@ columns:
       date_interval: P2W                # Exactly 2 weeks
       date_interval_less: PT23H59M59S   # 23 hours, 59 minutes, and 59 seconds
       date_interval_max: P1Y            # 1 year
+
+      # Check an arbitrary date in a CSV cell for age (years).
+      # Actually it calculates the difference between the date and the current date.
+      # Convenient to use for age restrictions based on birthday.
+      # See the description of `date_*` functions for details on date formats.
+      date_age_min: 1                   # x >= 1
+      date_age_greater: 14              # x >  14
+      date_age_not: 18                  # x != 18
+      date_age: 21                      # x == 21
+      date_age_less: 99                 # x <  99
+      date_age_max: 100                 # x <= 100
 
       # Specific formats
       is_bool: true                     # Allow only boolean values "true" and "false", case-insensitive.

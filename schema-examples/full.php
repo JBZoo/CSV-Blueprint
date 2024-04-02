@@ -117,6 +117,13 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'date_interval_less'    => 'PT23H59M59S',
                 'date_interval_max'     => 'P1Y',
 
+                'date_age_min'     => 1,
+                'date_age_greater' => 14,
+                'date_age_not'     => 18,
+                'date_age'         => 21,
+                'date_age_less'    => 99,
+                'date_age_max'     => 100,
+
                 'is_bool'          => true,
                 'is_uuid'          => true,
                 'is_slug'          => true,
