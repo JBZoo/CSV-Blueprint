@@ -115,6 +115,19 @@ final class ReadmeTest extends TestCase
         Tools::insertInReadme('rules-counter', $text);
     }
 
+    public function testContributingBlock(): void
+    {
+        $file = PROJECT_ROOT . '/CONTRIBUTING.md';
+        isFile($file);
+
+        $text = \implode(
+            "\n",
+            \array_slice(\explode("\n", \file_get_contents($file)), 1),
+        );
+
+        Tools::insertInReadme('contributing', $text);
+    }
+
     public function testCheckYmlSchemaExampleInReadme(): void
     {
         $ymlContent = \implode(

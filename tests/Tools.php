@@ -49,7 +49,7 @@ final class Tools
     public const DEMO_INVALID_CSV = './tests/fixtures/demo_invalid.csv';
     public const DEMO_CSV_FULL = PROJECT_ROOT . '/tests/fixtures/demo.csv';
 
-    public const README = './README.md';
+    public const README = PROJECT_ROOT . '/README.md';
 
     public static function virtualExecution(string $action, array|string $params = []): array
     {
@@ -108,6 +108,10 @@ final class Tools
 
     public static function insertInReadme(string $code, string $content): void
     {
+        isFileContains("<!-- {$code} -->", self::README, false, "Add \"<!-- {$code} -->\" to README.md");
+        isFileContains("<!-- /{$code} -->", self::README, false, "Add \"<!-- /{$code} -->\" to README.md");
+        isFile(self::README);
+
         $replacement = \implode("\n", [
             "<!-- {$code} -->",
             $content,
@@ -120,8 +124,12 @@ final class Tools
             \file_get_contents(self::README),
         );
 
+        $sizeBefore = \filesize(self::README);
+        \clearstatcache(true, self::README);
         isTrue(\file_put_contents(self::README, $result) > 0);
+        $sizeAfter = \filesize(self::README);
 
+        isSame($sizeAfter, $sizeBefore, "README.md was not updated. Code: {$code}");
         isFileContains($result, self::README);
     }
 
