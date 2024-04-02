@@ -131,7 +131,7 @@ final class ValidateCsv extends AbstractValidate
             $this->out("Check schema syntax: {$totalFiles}");
 
             foreach ($schemaFilenames as $index => $schemaFilename) {
-                $prefix = $this->renderPrefix((int)$index + 1, $totalFiles);
+                $prefix = AbstractValidate::renderPrefix((int)$index + 1, $totalFiles);
                 $schemaPath = Utils::printFile($schemaFilename->getPathname());
 
                 if ($quickCheck && $schemaErrors !== null && $schemaErrors->count() > 0) {
@@ -184,7 +184,7 @@ final class ValidateCsv extends AbstractValidate
             $this->out('Schema: ' . Utils::printFile($schema));
             foreach ($csvs as $csv) {
                 $index++;
-                $prefix = $this->renderPrefix($index, $totalFiles);
+                $prefix = AbstractValidate::renderPrefix($index, $totalFiles);
 
                 $currentCsvTitle = Utils::printFile($csv, 'blue') . '; Size: ' . Utils::getFileSize($csv);
 
@@ -301,7 +301,6 @@ final class ValidateCsv extends AbstractValidate
     /**
      * @param SplFileInfo[] $csvFilenames
      * @param SplFileInfo[] $schemaFilenames
-     * @param array[]       $matchedFiles
      */
     private function printHeaderInfo(array $csvFilenames, array $schemaFilenames, array $matchedFiles): void
     {

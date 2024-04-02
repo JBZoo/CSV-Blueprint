@@ -134,12 +134,12 @@ abstract class AbstractValidate extends CliCommand
         }
     }
 
-    protected function renderPrefix(int $index, int $totalFiles): string
+    protected static function renderPrefix(int $index, int $totalFiles): string
     {
         return \sprintf(
             '(%s/%s)',
             \str_pad((string)$index, \strlen((string)$totalFiles), ' ', \STR_PAD_LEFT),
-            $totalFiles,
+            (string)$totalFiles,
         );
     }
 }
