@@ -109,17 +109,18 @@ final class Tools
     public static function insertInReadme(string $code, string $content): void
     {
         isFile(self::README);
-        isFileContains("<!-- auto-update:{$code} -->", self::README);
-        isFileContains("<!-- auto-update:/{$code} -->", self::README);
+        $prefix = 'auto-update:';
+        isFileContains("<!-- {$prefix}{$code} -->", self::README);
+        isFileContains("<!-- {$prefix}/{$code} -->", self::README);
 
         $replacement = \implode("\n", [
-            "<!-- auto-update:{$code} -->",
+            "<!-- {$prefix}{$code} -->",
             \trim($content),
-            "<!-- auto-update:/{$code} -->",
+            "<!-- {$prefix}/{$code} -->",
         ]);
 
         $result = \preg_replace(
-            '/<\!-- auto-update:' . $code . ' -->(.*?)<\!-- auto-update:\/' . $code . ' -->/s',
+            "/<\\!-- {$prefix}{$code} -->(.*?)<\\!-- {$prefix}\\/{$code} -->/s",
             $replacement,
             \file_get_contents(self::README),
         );
