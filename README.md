@@ -11,11 +11,11 @@
 <!-- /top-badges -->
 
 <!-- rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-367-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
-[![Static Badge](https://img.shields.io/badge/Rules-153-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
+[![Static Badge](https://img.shields.io/badge/Rules-373-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-159-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
 [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)
 [![Static Badge](https://img.shields.io/badge/Rules-8-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)
-[![Static Badge](https://img.shields.io/badge/Rules-32/54/9-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-31/54/9-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- /rules-counter -->
 
 A console utility designed for validating CSV files against a strictly defined schema and validation rules outlined
@@ -408,6 +408,16 @@ columns:
       is_timezone_offset: true          # Allow only timezone offsets. Example: "+03:00".
       is_time: true                     # Check if the cell value is a valid time in the format "HH:MM:SS AM/PM" / "HH:MM:SS" / "HH:MM". Case-insensitive.
       is_leap_year: true                # Check if the cell value is a leap year. Example: "2008", "2008-02-29 23:59:59 UTC".
+
+      # Date Intervals. Under the hood, the strings are converted to seconds and compared.
+      # See: https://www.php.net/manual/en/class.dateinterval.php
+      # See: https://www.php.net/manual/en/dateinterval.createfromdatestring.php
+      date_interval_min: PT0S           # 0 seconds
+      date_interval_greater: 1day 1sec  # 1 day and 1 second
+      date_interval_not: 100 days       # Except for the 100 days
+      date_interval: P2W                # Exactly 2 weeks
+      date_interval_less: PT23H59M59S   # 23 hours, 59 minutes, and 59 seconds
+      date_interval_max: P1Y            # 1 year
 
       # Specific formats
       is_bool: true                     # Allow only boolean values "true" and "false", case-insensitive.
@@ -830,8 +840,8 @@ Behind the scenes to what is outlined in the yml above, there are additional che
 * Check that each row matches the number of columns.
 * With `strict_column_order` rule, you can check that the columns are in the correct order.
 * With `allow_extra_columns` rule, you can check that there are no extra columns in the CSV file.
-    * If `csv.header: true`. Schema contains an unknown column `name` that is not found in the CSV file.
-    * If `csv.header: false`. Compare the number of columns in the schema and the CSV file.
+  * If `csv.header: true`. Schema contains an unknown column `name` that is not found in the CSV file.
+  * If `csv.header: false`. Compare the number of columns in the schema and the CSV file.
 
 <!-- /extra-rules -->
 

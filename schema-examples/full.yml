@@ -148,6 +148,16 @@ columns:
       is_time: true                     # Check if the cell value is a valid time in the format "HH:MM:SS AM/PM" / "HH:MM:SS" / "HH:MM". Case-insensitive.
       is_leap_year: true                # Check if the cell value is a leap year. Example: "2008", "2008-02-29 23:59:59 UTC".
 
+      # Date Intervals. Under the hood, the strings are converted to seconds and compared.
+      # See: https://www.php.net/manual/en/class.dateinterval.php
+      # See: https://www.php.net/manual/en/dateinterval.createfromdatestring.php
+      date_interval_min: PT0S           # 0 seconds
+      date_interval_greater: 1day 1sec  # 1 day and 1 second
+      date_interval_not: 100 days       # Except for the 100 days
+      date_interval: P2W                # Exactly 2 weeks
+      date_interval_less: PT23H59M59S   # 23 hours, 59 minutes, and 59 seconds
+      date_interval_max: P1Y            # 1 year
+
       # Specific formats
       is_bool: true                     # Allow only boolean values "true" and "false", case-insensitive.
       is_uuid: true                     # Validates whether the input is a valid UUID. It also supports validation of specific versions 1, 3, 4 and 5.

@@ -52,7 +52,6 @@ columns:
       # Dates
       age: 35
       dateperiod: 1
-      dateinterval: 1
 
       # Codes
       subdivision_code: [ ]           # https://github.com/Respect/Validation/blob/main/docs/rules/SubdivisionCode.md
