@@ -38,7 +38,7 @@ final class ValidateCsvBatchCsvTest extends TestCase
 
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $optionsAsString);
 
-        $expected = $expected = <<<'TXT'
+        $expected = <<<'TXT'
             CSV Blueprint: Unknown version (PhpUnit)
             Found Schemas   : 1
             Found CSV files : 4
@@ -92,19 +92,19 @@ final class ValidateCsvBatchCsvTest extends TestCase
             Check schema syntax: 1
             (1/1) Schema: ./tests/schemas/demo_invalid.yml
             (1/1) Issues: 2
-            +-------+------------------+--------------+----- demo_invalid.yml -----------------------------------------------+
+            +-------+------------------+------------- tests/schemas/demo_invalid.yml ----------------------------------------+
             | Line  | id:Column        | Rule         | Message                                                              |
             +-------+------------------+--------------+----------------------------------------------------------------------+
             | undef | 2:Float          | is_float     | Value "Qwerty" is not a float number                                 |
             | undef | 4:Favorite color | allow_values | Value "123" is not allowed. Allowed values: ["red", "green", "Blue"] |
-            +-------+------------------+--------------+----- demo_invalid.yml -----------------------------------------------+
+            +-------+------------------+------------- tests/schemas/demo_invalid.yml ----------------------------------------+
             
             
             CSV file validation: 3
             (1/3) Schema: ./tests/schemas/demo_invalid.yml
             (1/3) CSV   : ./tests/fixtures/batch/demo-1.csv; Size: 123.34 MB
             (1/3) Issues: 5
-            +------+------------------+---------------------+--------------------- demo-1.csv ---------------------------------------------------------------------+
+            +------+------------------+---------------------+---------- tests/fixtures/batch/demo-1.csv -----------------------------------------------------------+
             | Line | id:Column        | Rule                | Message                                                                                              |
             +------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
             | 1    |                  | allow_extra_columns | Column(s) not found in CSV: "wrong_column_name"                                                      |
@@ -112,12 +112,12 @@ final class ValidateCsvBatchCsvTest extends TestCase
             | 1    | 2:Float          | ag:nth_num          | The column does not have a line 4, so the value cannot be checked.                                   |
             | 1    | 3:Birthday       | ag:nth              | The value on line 2 in the column is "1998-02-28", which is not equal than the expected "2000-12-01" |
             | 3    | 4:Favorite color | allow_values        | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
-            +------+------------------+---------------------+--------------------- demo-1.csv ---------------------------------------------------------------------+
+            +------+------------------+---------------------+---------- tests/fixtures/batch/demo-1.csv -----------------------------------------------------------+
             
             (2/3) Schema: ./tests/schemas/demo_invalid.yml
             (2/3) CSV   : ./tests/fixtures/batch/demo-2.csv; Size: 123.34 MB
             (2/3) Issues: 7
-            +------+------------+---------------------+------------------------ demo-2.csv ------------------------------------------------------------------+
+            +------+------------+---------------------+------------- tests/fixtures/batch/demo-2.csv --------------------------------------------------------+
             | Line | id:Column  | Rule                | Message                                                                                              |
             +------+------------+---------------------+------------------------------------------------------------------------------------------------------+
             | 1    |            | allow_extra_columns | Column(s) not found in CSV: "wrong_column_name"                                                      |
@@ -130,16 +130,16 @@ final class ValidateCsvBatchCsvTest extends TestCase
             | 5    | 3:Birthday | date_max            | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
             |      |            |                     | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
             | 1    | 3:Birthday | ag:nth              | The value on line 2 in the column is "1989-05-15", which is not equal than the expected "2000-12-01" |
-            +------+------------+---------------------+------------------------ demo-2.csv ------------------------------------------------------------------+
+            +------+------------+---------------------+------------- tests/fixtures/batch/demo-2.csv --------------------------------------------------------+
             
             (3/3) Schema: ./tests/schemas/demo_invalid.yml
             (3/3) CSV   : ./tests/fixtures/batch/sub/demo-3.csv; Size: 123.34 MB
             (3/3) Issues: 1
-            +------+-----------+-------------------- demo-3.csv ---------------------------------------+
+            +------+-----------+------- tests/fixtures/batch/sub/demo-3.csv ---------------------------+
             | Line | id:Column | Rule                | Message                                         |
             +------+-----------+---------------------+-------------------------------------------------+
             | 1    |           | allow_extra_columns | Column(s) not found in CSV: "wrong_column_name" |
-            +------+-----------+-------------------- demo-3.csv ---------------------------------------+
+            +------+-----------+------- tests/fixtures/batch/sub/demo-3.csv ---------------------------+
             
             
             Summary:

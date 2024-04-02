@@ -32,7 +32,7 @@ final class ValidateCsvBasicTest extends TestCase
             'schema' => Tools::DEMO_YML_VALID,
         ]);
 
-        $expected = $expected = <<<'TXT'
+        $expected = <<<'TXT'
             CSV Blueprint: Unknown version (PhpUnit)
             Found Schemas   : 1
             Found CSV files : 1
@@ -79,12 +79,12 @@ final class ValidateCsvBasicTest extends TestCase
             (1/1) Schema: ./tests/schemas/demo_valid.yml
             (1/1) CSV   : ./tests/fixtures/demo_invalid.csv; Size: 123.34 MB
             (1/1) Issues: 2
-            +------+------------------+--------------+-------------- demo_invalid.csv --------------------------------------------------------+
+            +------+------------------+--------------+------- tests/fixtures/demo_invalid.csv ------------------------------------------------+
             | Line | id:Column        | Rule         | Message                                                                                |
             +------+------------------+--------------+----------------------------------------------------------------------------------------+
             | 6    | 0:Name           | length_max   | The length of the value "Long-long-name" is 14, which is greater than the expected "7" |
             | 11   | 4:Favorite color | allow_values | Value "YELLOW" is not allowed. Allowed values: ["red", "green", "blue"]                |
-            +------+------------------+--------------+-------------- demo_invalid.csv --------------------------------------------------------+
+            +------+------------------+--------------+------- tests/fixtures/demo_invalid.csv ------------------------------------------------+
             
             
             Summary:
@@ -115,19 +115,19 @@ final class ValidateCsvBasicTest extends TestCase
             Check schema syntax: 1
             (1/1) Schema: ./tests/schemas/demo_invalid.yml
             (1/1) Issues: 2
-            +-------+------------------+--------------+----- demo_invalid.yml -----------------------------------------------+
+            +-------+------------------+------------- tests/schemas/demo_invalid.yml ----------------------------------------+
             | Line  | id:Column        | Rule         | Message                                                              |
             +-------+------------------+--------------+----------------------------------------------------------------------+
             | undef | 2:Float          | is_float     | Value "Qwerty" is not a float number                                 |
             | undef | 4:Favorite color | allow_values | Value "123" is not allowed. Allowed values: ["red", "green", "Blue"] |
-            +-------+------------------+--------------+----- demo_invalid.yml -----------------------------------------------+
+            +-------+------------------+------------- tests/schemas/demo_invalid.yml ----------------------------------------+
             
             
             CSV file validation: 1
             (1/1) Schema: ./tests/schemas/demo_invalid.yml
             (1/1) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
             (1/1) Issues: 10
-            +------+------------------+---------------------+---------------------- demo.csv ----------------------------------------------------------------------+
+            +------+------------------+---------------------+-------------- tests/fixtures/demo.csv ---------------------------------------------------------------+
             | Line | id:Column        | Rule                | Message                                                                                              |
             +------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
             | 1    |                  | allow_extra_columns | Column(s) not found in CSV: "wrong_column_name"                                                      |
@@ -143,7 +143,7 @@ final class ValidateCsvBasicTest extends TestCase
             | 9    | 3:Birthday       | date_max            | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
             |      |                  |                     | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
             | 5    | 4:Favorite color | allow_values        | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
-            +------+------------------+---------------------+---------------------- demo.csv ----------------------------------------------------------------------+
+            +------+------------------+---------------------+-------------- tests/fixtures/demo.csv ---------------------------------------------------------------+
             
             
             Summary:
@@ -178,7 +178,7 @@ final class ValidateCsvBasicTest extends TestCase
             Check schema syntax: 1
             (1/1) Schema: ./tests/schemas/invalid_schema.yml
             (1/1) Issues: 8
-            +-------+------------+--------+----------- invalid_schema.yml ------------------------------------------+
+            +-------+------------+--------+---- tests/schemas/invalid_schema.yml -----------------------------------+
             | Line  | id:Column  | Rule   | Message                                                                 |
             +-------+------------+--------+-------------------------------------------------------------------------+
             | undef | meta       | schema | Unknown key: .unknow_root_option                                        |
@@ -189,7 +189,7 @@ final class ValidateCsvBasicTest extends TestCase
             | undef | 4:         | schema | The key "name" must be non-empty because the option "csv.header" = true |
             | undef | 4:         | schema | Expected type "boolean", actual "string" in .columns.4.rules.not_empty  |
             | undef | 4:         | schema | Expected type "array", actual "string" in .columns.4.rules.allow_values |
-            +-------+------------+--------+----------- invalid_schema.yml ------------------------------------------+
+            +-------+------------+--------+---- tests/schemas/invalid_schema.yml -----------------------------------+
             
             
             CSV file validation: 0
@@ -228,7 +228,7 @@ final class ValidateCsvBasicTest extends TestCase
             Check schema syntax: 1
             (1/1) Schema: ./tests/schemas/invalid_schema.yml
             (1/1) Issues: 8
-            +-------+------------+--------+----------- invalid_schema.yml ------------------------------------------+
+            +-------+------------+--------+---- tests/schemas/invalid_schema.yml -----------------------------------+
             | Line  | id:Column  | Rule   | Message                                                                 |
             +-------+------------+--------+-------------------------------------------------------------------------+
             | undef | meta       | schema | Unknown key: .unknow_root_option                                        |
@@ -239,7 +239,7 @@ final class ValidateCsvBasicTest extends TestCase
             | undef | 4:         | schema | The key "name" must be non-empty because the option "csv.header" = true |
             | undef | 4:         | schema | Expected type "boolean", actual "string" in .columns.4.rules.not_empty  |
             | undef | 4:         | schema | Expected type "array", actual "string" in .columns.4.rules.allow_values |
-            +-------+------------+--------+----------- invalid_schema.yml ------------------------------------------+
+            +-------+------------+--------+---- tests/schemas/invalid_schema.yml -----------------------------------+
             
             
             CSV file validation: 0
@@ -265,7 +265,7 @@ final class ValidateCsvBasicTest extends TestCase
             'schema' => './tests/schemas/simple_no_header.yml',
         ]);
 
-        $expected = $expected = <<<'TXT'
+        $expected = <<<'TXT'
             CSV Blueprint: Unknown version (PhpUnit)
             Found Schemas   : 1
             Found CSV files : 1
@@ -278,12 +278,12 @@ final class ValidateCsvBasicTest extends TestCase
             (1/1) Schema: ./tests/schemas/simple_no_header.yml
             (1/1) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
             (1/1) Issues: 2
-            +------+-----------+---------- demo.csv -----------------------------+
+            +------+-----------+-- tests/fixtures/demo.csv ----------------------+
             | Line | id:Column | Rule             | Message                      |
             +------+-----------+------------------+------------------------------+
             | 2    | 0:        | not_allow_values | Value "Clyde" is not allowed |
             | 5    | 2:        | not_allow_values | Value "74" is not allowed    |
-            +------+-----------+---------- demo.csv -----------------------------+
+            +------+-----------+-- tests/fixtures/demo.csv ----------------------+
             
             
             Summary:
@@ -300,12 +300,33 @@ final class ValidateCsvBasicTest extends TestCase
         isSame($expected, $actual);
     }
 
-    public function testSchemaNotFound(): void
+    public function testNothingFound(): void
     {
-        $this->expectExceptionMessage('Schema file(s) not found: "invalid_schema_path.yml"');
-        Tools::virtualExecution('validate:csv', [
+        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
             'csv'    => './tests/fixtures/no-found-file.csv',
             'schema' => 'invalid_schema_path.yml',
         ]);
+
+        $expected = <<<'TXT'
+            CSV Blueprint: Unknown version (PhpUnit)
+            Found Schemas   : 0
+            Found CSV files : 0
+            Pairs by pattern: 0
+            
+            Check schema syntax: 0
+            
+            CSV file validation: 0
+            
+            Summary:
+              No schema files found!
+              0 pairs (schema to csv) were found based on `filename_pattern`.
+              No issues in 0 schemas.
+              No issues in 0 CSV files.
+            
+            
+            TXT;
+
+        isSame(1, $exitCode, $actual);
+        isSame($expected, $actual);
     }
 }

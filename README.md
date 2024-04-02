@@ -857,17 +857,18 @@ Behind the scenes to what is outlined in the yml above, there are additional che
 ## Complete CLI Help Message
 
 Here you can see all available options and commands. Tool uses [JBZoo/Cli](https://github.com/JBZoo/Cli) package for the
-CLI interface.
-So there are options here for all occasions.
+CLI interface. So there are options here for all occasions.
 
+
+`./csv-blueprint validate:csv --help`
+
+<details>
+  <summary>CLICK to see validate:csv help messege</summary>
 
 <!-- auto-update:validate-csv-help -->
-```
-./csv-blueprint validate:csv --help
-
-
+```text
 Description:
-  Validate CSV file(s) by schema.
+  Validate CSV file(s) by schema(s).
 
 Usage:
   validate:csv [options]
@@ -881,14 +882,14 @@ Options:
                                    It can be a YAML, JSON or PHP. See examples on GitHub.Also, you can specify path in which schema files will be searched (max depth is 10).
                                    Feel free to use glob pattrens. Usage examples:
                                    /full/path/file.yml, p/file.yml, p/*.yml, p/**/*.yml, p/**/name-*.json, **/*.php, etc. (multiple values allowed)
+  -S, --skip-schema[=SKIP-SCHEMA]  Skip schema validation.
+                                   If you are sure that the schema is correct, you can skip this check.
+                                   Empty value or "yes" will be treated as "true". [default: "no"]
   -r, --report=REPORT              Report output format. Available options:
                                    ["text", "table", "github", "gitlab", "teamcity", "junit"] [default: "table"]
   -Q, --quick[=QUICK]              Immediately terminate the check at the first error found.
                                    Of course it will speed up the check, but you will get only 1 message out of many.
                                    If any error is detected, the utility will return a non-zero exit code.
-                                   Empty value or "yes" will be treated as "true". [default: "no"]
-  -S, --skip-schema[=SKIP-SCHEMA]  Skip schema validation.
-                                   If you are sure that the schema is correct, you can skip this check.
                                    Empty value or "yes" will be treated as "true". [default: "no"]
       --debug                      It's ONLY for debugging and advanced profiling!
       --no-progress                Disable progress bar animation for logs. It will be used only for text output format.
@@ -914,6 +915,58 @@ Options:
 ```
 <!-- auto-update:/validate-csv-help -->
 
+</details>
+
+
+`./csv-blueprint validate:schema --help`
+
+<details>
+  <summary>CLICK to see validate:schema help messege</summary>
+
+<!-- auto-update:validate-schema-help -->
+```text
+Description:
+  Validate syntax in schema file(s).
+
+Usage:
+  validate:schema [options]
+
+Options:
+  -s, --schema=SCHEMA            Path(s) to schema file(s).
+                                 It can be a YAML, JSON or PHP. See examples on GitHub.Also, you can specify path in which schema files will be searched (max depth is 10).
+                                 Feel free to use glob pattrens. Usage examples:
+                                 /full/path/file.yml, p/file.yml, p/*.yml, p/**/*.yml, p/**/name-*.json, **/*.php, etc. (multiple values allowed)
+  -r, --report=REPORT            Report output format. Available options:
+                                 ["text", "table", "github", "gitlab", "teamcity", "junit"] [default: "table"]
+  -Q, --quick[=QUICK]            Immediately terminate the check at the first error found.
+                                 Of course it will speed up the check, but you will get only 1 message out of many.
+                                 If any error is detected, the utility will return a non-zero exit code.
+                                 Empty value or "yes" will be treated as "true". [default: "no"]
+      --debug                    It's ONLY for debugging and advanced profiling!
+      --no-progress              Disable progress bar animation for logs. It will be used only for text output format.
+      --mute-errors              Mute any sort of errors. So exit code will be always "0" (if it's possible).
+                                 It has major priority then --non-zero-on-error. It's on your own risk!
+      --stdout-only              For any errors messages application will use StdOut instead of StdErr. It's on your own risk!
+      --non-zero-on-error        None-zero exit code on any StdErr message.
+      --timestamp                Show timestamp at the beginning of each message.It will be used only for text output format.
+      --profile                  Display timing and memory usage information.
+      --output-mode=OUTPUT-MODE  Output format. Available options:
+                                 text - Default text output format, userfriendly and easy to read.
+                                 cron - Shortcut for crontab. It's basically focused on human-readable logs output.
+                                 It's combination of --timestamp --profile --stdout-only --no-progress -vv.
+                                 logstash - Logstash output format, for integration with ELK stack.
+                                  [default: "text"]
+      --cron                     Alias for --output-mode=cron. Deprecated!
+  -h, --help                     Display help for the given command. When no command is given display help for the list command
+  -q, --quiet                    Do not output any message
+  -V, --version                  Display this application version
+      --ansi|--no-ansi           Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction           Do not ask any interactive question
+  -v|vv|vvv, --verbose           Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+```
+<!-- auto-update:/validate-schema-help -->
+
+</details>
 
 ## Report examples
 
@@ -934,19 +987,19 @@ Pairs by pattern: 1
 Check schema syntax: 1
 (1/1) Schema: ./tests/schemas/demo_invalid.yml
 (1/1) Issues: 2
-+-------+------------------+--------------+----- demo_invalid.yml -----------------------------------------------+
++-------+------------------+------------- tests/schemas/demo_invalid.yml ----------------------------------------+
 | Line  | id:Column        | Rule         | Message                                                              |
 +-------+------------------+--------------+----------------------------------------------------------------------+
 | undef | 2:Float          | is_float     | Value "Qwerty" is not a float number                                 |
 | undef | 4:Favorite color | allow_values | Value "123" is not allowed. Allowed values: ["red", "green", "Blue"] |
-+-------+------------------+--------------+----- demo_invalid.yml -----------------------------------------------+
++-------+------------------+------------- tests/schemas/demo_invalid.yml ----------------------------------------+
 
 
 CSV file validation: 1
 (1/1) Schema: ./tests/schemas/demo_invalid.yml
 (1/1) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
 (1/1) Issues: 10
-+------+------------------+---------------------+---------------------- demo.csv ----------------------------------------------------------------------+
++------+------------------+---------------------+-------------- tests/fixtures/demo.csv ---------------------------------------------------------------+
 | Line | id:Column        | Rule                | Message                                                                                              |
 +------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
 | 1    |                  | allow_extra_columns | Column(s) not found in CSV: "wrong_column_name"                                                      |
@@ -962,7 +1015,7 @@ CSV file validation: 1
 | 9    | 3:Birthday       | date_max            | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
 |      |                  |                     | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
 | 5    | 4:Favorite color | allow_values        | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
-+------+------------------+---------------------+---------------------- demo.csv ----------------------------------------------------------------------+
++------+------------------+---------------------+-------------- tests/fixtures/demo.csv ---------------------------------------------------------------+
 
 
 Summary:

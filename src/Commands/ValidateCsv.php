@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Commands;
 
-use JBZoo\Cli\CliCommand;
 use JBZoo\CsvBlueprint\Csv\CsvFile;
 use JBZoo\CsvBlueprint\Exception;
 use JBZoo\CsvBlueprint\Schema;
@@ -30,13 +29,13 @@ use function JBZoo\Utils\bool;
 /**
  * @psalm-suppress PropertyNotSetInConstructor
  */
-final class ValidateCsv extends CliCommand
+final class ValidateCsv extends AbstractValidate
 {
     protected function configure(): void
     {
         $this
             ->setName('validate:csv')
-            ->setDescription('Validate CSV file(s) by schema.')
+            ->setDescription('Validate CSV file(s) by schema(s).')
             ->addOption(
                 'csv',
                 'c',
@@ -75,24 +74,6 @@ final class ValidateCsv extends CliCommand
                 ]),
             )
             ->addOption(
-                'report',
-                'r',
-                InputOption::VALUE_REQUIRED,
-                "Report output format. Available options:\n" .
-                Utils::printList(ErrorSuite::getAvaiableRenderFormats(), 'info'),
-                ErrorSuite::REPORT_DEFAULT,
-            )
-            ->addOption(
-                'quick',
-                'Q',
-                InputOption::VALUE_OPTIONAL,
-                "Immediately terminate the check at the first error found.\n" .
-                "Of course it will speed up the check, but you will get only 1 message out of many.\n" .
-                "If any error is detected, the utility will return a non-zero exit code.\n" .
-                'Empty value or "yes" will be treated as "true".',
-                'no',
-            )
-            ->addOption(
                 'skip-schema',
                 'S',
                 InputOption::VALUE_OPTIONAL,
@@ -100,12 +81,6 @@ final class ValidateCsv extends CliCommand
                 "If you are sure that the schema is correct, you can skip this check.\n" .
                 'Empty value or "yes" will be treated as "true".',
                 'no',
-            )
-            ->addOption(
-                'debug',
-                null,
-                InputOption::VALUE_NONE,
-                "It's ONLY for debugging and advanced profiling!",
             );
 
         parent::configure();
@@ -113,16 +88,10 @@ final class ValidateCsv extends CliCommand
 
     protected function executeAction(): int
     {
-        if ($this->isHumanReadableMode()) {
-            $this->_('CSV Blueprint: ' . Utils::getVersion(true));
-        }
+        $this->preparation();
 
-        if ($this->getOptBool('debug')) {
-            \define('DEBUG_MODE', true);
-        }
-
-        $csvFilenames = $this->getCsvFilepaths();
-        $schemaFilenames = $this->getSchemaFilepaths();
+        $csvFilenames = $this->findFiles('csv', false);
+        $schemaFilenames = $this->findFiles('schema', false);
         $matchedFiles = Utils::matchSchemaAndCsvFiles($csvFilenames, $schemaFilenames);
 
         $this->printHeaderInfo($csvFilenames, $schemaFilenames, $matchedFiles);
@@ -141,48 +110,9 @@ final class ValidateCsv extends CliCommand
         );
     }
 
-    /**
-     * @return SplFileInfo[]
-     */
-    private function getCsvFilepaths(): array
-    {
-        return \array_values(Utils::findFiles($this->getOptArray('csv')));
-    }
-
-    private function getSchemaFilepaths(): array
-    {
-        $schemaFilenames = \array_values(Utils::findFiles($this->getOptArray('schema')));
-
-        if (\count($schemaFilenames) === 0) {
-            throw new Exception('Schema file(s) not found: ' . Utils::printList($this->getOptArray('schema')));
-        }
-
-        return $schemaFilenames;
-    }
-
-    private function isHumanReadableMode(): bool
-    {
-        return $this->getReportType() !== ErrorSuite::REPORT_GITLAB
-            && $this->getReportType() !== ErrorSuite::REPORT_JUNIT
-            && $this->getReportType() !== ErrorSuite::REPORT_TEAMCITY;
-    }
-
-    private function getReportType(): string
-    {
-        return $this->getOptString('report', ErrorSuite::RENDER_TABLE, ErrorSuite::getAvaiableRenderFormats());
-    }
-
-    private function isQuickMode(): bool
-    {
-        $value = $this->getOptString('quick');
-
-        return $value === '' || bool($value);
-    }
-
     private function isCheckingSchema(): bool
     {
         $value = $this->getOptString('skip-schema');
-
         return !($value === '' || bool($value));
     }
 
@@ -382,12 +312,5 @@ final class ValidateCsv extends CliCommand
         }
 
         $this->out('');
-    }
-
-    private function out(null|array|string $messge): void
-    {
-        if ($this->isHumanReadableMode()) {
-            $this->_($messge);
-        }
     }
 }
