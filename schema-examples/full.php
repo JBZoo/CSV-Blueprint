@@ -125,6 +125,7 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'date_age_max'     => 100,
 
                 'is_bool'          => true,
+                'is_hex'           => true,
                 'is_uuid'          => true,
                 'is_slug'          => true,
                 'is_currency_code' => true,
