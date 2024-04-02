@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class IsHex extends AbstractCellRule
+final class IsBinary extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {
@@ -25,7 +25,7 @@ final class IsHex extends AbstractCellRule
             [
                 self::DEFAULT => [
                     'true',
-                    'Both: with or without "0x" prefix. Example: "0x1A" or "1A"',
+                    'Both: with or without "0b" prefix. Example: "0b10" or "10"',
                 ],
             ],
         ];
@@ -34,11 +34,10 @@ final class IsHex extends AbstractCellRule
     public function validateRule(string $cellValue): ?string
     {
         if (
-            \preg_match('/^[0-9a-fA-F]+$/i', $cellValue) === 0
-            && \preg_match('/^0x[0-9a-fA-F]+$/i', $cellValue) === 0
+            \preg_match('/^[01]+(_[01]+)*$/', $cellValue) === 0
+            && \preg_match('/^0[bB][01]+(_[01]+)*$/', $cellValue) === 0
         ) {
-            return "Value \"<c>{$cellValue}</c>\" is not a valid hexadecimal number. " .
-                "Example: \"0x1A\" or \"1A\"";
+            return "Value \"<c>{$cellValue}</c>\" is not a valid binary number. Example: \"0b10\" or \"10\"";
         }
 
         return null;
