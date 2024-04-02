@@ -33,7 +33,7 @@ final class ValidateSchemaTest extends TestCase
             CSV Blueprint: Unknown version (PhpUnit)
             Found schemas: 1
             
-            OK: ./tests/schemas/demo_valid.yml
+            OK ./tests/schemas/demo_valid.yml
             
             TXT;
 
@@ -51,13 +51,12 @@ final class ValidateSchemaTest extends TestCase
             CSV Blueprint: Unknown version (PhpUnit)
             Found schemas: 1
             
-            Issues: ./tests/schemas/broken/syntax.yml
-            +------+-----------+------- tests/schemas/broken/syntax.yml ---------------------------+
-            | Line | id:Column | Rule          | Message                                           |
-            +------+-----------+---------------+---------------------------------------------------+
-            | 15   |           | schema.syntax | Unable to parse at line 15 (near "(*$#)@(@$*)("). |
-            +------+-----------+------- tests/schemas/broken/syntax.yml ---------------------------+
-            
+            1 issue in ./tests/schemas/broken/syntax.yml
+              +------+-----------+---------------+---------------------------------------------------+
+              | Line | id:Column | Rule          | Message                                           |
+              +------+-----------+---------------+---------------------------------------------------+
+              | 15   |           | schema.syntax | Unable to parse at line 15 (near "(*$#)@(@$*)("). |
+              +------+-----------+---------------+---------------------------------------------------+
             
             TXT;
 
@@ -75,20 +74,18 @@ final class ValidateSchemaTest extends TestCase
             CSV Blueprint: Unknown version (PhpUnit)
             Found schemas: 2
 
-            Issues: ./tests/schemas/broken/invalid_schema.yml
-            +-------+--- tests/schemas/broken/invalid_schema.yml -----------+
-            | Line  | id:Column | Rule   | Message                          |
-            +-------+-----------+--------+----------------------------------+
-            | undef | meta      | schema | Unknown key: .unknow_root_option |
-            +-------+--- tests/schemas/broken/invalid_schema.yml -----------+
-            
-            Issues: ./tests/schemas/broken/syntax.yml
-            +------+-----------+------- tests/schemas/broken/syntax.yml ---------------------------+
-            | Line | id:Column | Rule          | Message                                           |
-            +------+-----------+---------------+---------------------------------------------------+
-            | 15   |           | schema.syntax | Unable to parse at line 15 (near "(*$#)@(@$*)("). |
-            +------+-----------+------- tests/schemas/broken/syntax.yml ---------------------------+
-            
+            (1/2) 1 issue in ./tests/schemas/broken/invalid_schema.yml
+              +-------+-----------+--------+----------------------------------+
+              | Line  | id:Column | Rule   | Message                          |
+              +-------+-----------+--------+----------------------------------+
+              | undef | meta      | schema | Unknown key: .unknow_root_option |
+              +-------+-----------+--------+----------------------------------+
+            (2/2) 1 issue in ./tests/schemas/broken/syntax.yml
+              +------+-----------+---------------+---------------------------------------------------+
+              | Line | id:Column | Rule          | Message                                           |
+              +------+-----------+---------------+---------------------------------------------------+
+              | 15   |           | schema.syntax | Unable to parse at line 15 (near "(*$#)@(@$*)("). |
+              +------+-----------+---------------+---------------------------------------------------+
             
             TXT;
 
@@ -107,12 +104,12 @@ final class ValidateSchemaTest extends TestCase
             CSV Blueprint: Unknown version (PhpUnit)
             Found schemas: 2
 
-            Issues: ./tests/schemas/broken/invalid_schema.yml
-            "schema", column "meta". Unknown key: .unknow_root_option.
-            
-            Issues: ./tests/schemas/broken/syntax.yml
-            "schema.syntax" at line 15. Unable to parse at line 15 (near "(*$#)@(@$*)(").
-            
+            (1/2) 1 issue in ./tests/schemas/broken/invalid_schema.yml
+              "schema", column "meta". Unknown key: .unknow_root_option.
+              
+            (2/2) 1 issue in ./tests/schemas/broken/syntax.yml
+              "schema.syntax" at line 15. Unable to parse at line 15 (near "(*$#)@(@$*)(").
+              
             
             TXT;
 

@@ -292,6 +292,7 @@ final class Utils
         $schemas = self::makeFileMap($schemaFiles);
         $result = [
             'found_pairs'    => [],
+            'count_pairs'    => 0,
             'global_schemas' => [], // there is no filename_pattern in schema.
         ];
 
@@ -311,7 +312,11 @@ final class Utils
                 $csv = (string)$csv;
 
                 if (!self::testRegex($filePattern, $csv)) {
-                    $result['found_pairs'][] = [$schema, $csv];
+                    if (!isset($result['found_pairs'][$schema])) {
+                        $result['found_pairs'][$schema] = [];
+                    }
+                    $result['found_pairs'][$schema][] = $csv;
+                    $result['count_pairs']++;
 
                     // Mark as used
                     $schemas[$schema] = true;
@@ -326,12 +331,12 @@ final class Utils
         return $result;
     }
 
-    public static function printFile(string $fullpath): string
+    public static function printFile(string $fullpath, string $tag = 'bright-blue'): string
     {
         $relPath = self::cutPath($fullpath);
         $basename = \pathinfo($relPath, \PATHINFO_BASENAME);
         $directory = \str_replace($basename, '', $relPath);
-        return "{$directory}<blue>{$basename}</blue>";
+        return "{$directory}<{$tag}>{$basename}</{$tag}>";
     }
 
     public static function getVersion(bool $showFull): string

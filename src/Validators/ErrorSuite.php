@@ -153,8 +153,6 @@ final class ErrorSuite
 
         $buffer = new BufferedOutput();
         $table = (new Table($buffer))
-            ->setHeaderTitle($this->getTestcaseName())
-            ->setFooterTitle($this->getTestcaseName())
             ->setHeaders(['Line', 'id:Column', 'Rule', 'Message'])
             ->setColumnMaxWidth(0, $floatingSizes['line'])
             ->setColumnMaxWidth(1, $floatingSizes['column'])
@@ -172,7 +170,7 @@ final class ErrorSuite
 
         $table->render();
 
-        return \trim($buffer->fetch()) . "\n";
+        return \trim($buffer->fetch());
     }
 
     private function prepareSourceSuite(): SourceSuite

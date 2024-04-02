@@ -38,8 +38,7 @@ final class ValidateSchema extends AbstractValidate
                 's',
                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
                 \implode('', [
-                    "Path(s) to schema file(s).\n",
-                    'It can be a YAML, JSON or PHP. See examples on GitHub.',
+                    "Path(s) to schema file(s). It can be a YAML, JSON or PHP. See examples on GitHub.\n",
                     'Also, you can specify path in which schema files will be searched ',
                     '(max depth is ' . Utils::MAX_DIRECTORY_DEPTH . ").\n",
                     "Feel free to use glob pattrens. Usage examples: \n",
@@ -49,7 +48,7 @@ final class ValidateSchema extends AbstractValidate
                     '<info>p/**/*.yml</info>, ',
                     '<info>p/**/name-*.json</info>, ',
                     '<info>**/*.php</info>, ',
-                    'etc.',
+                    "etc.\n",
                 ]),
             );
 
@@ -67,8 +66,10 @@ final class ValidateSchema extends AbstractValidate
         $this->out('');
 
         $foundIssues = 0;
-
+        $index = 0;
         foreach ($this->findFiles('schema') as $file) {
+            $index++;
+            $prefix = self::renderPrefix($index, $totalFiles);
             $filename = (string)$file->getRealPath();
             $coloredPath = Utils::printFile($filename);
             $schemaErrors = new ErrorSuite($filename);
@@ -82,10 +83,10 @@ final class ValidateSchema extends AbstractValidate
             }
 
             if ($schemaErrors->count() > 0) {
-                $this->out(["<yellow>Issues:</yellow> {$coloredPath}"]);
-                $this->_($schemaErrors->render($this->getReportType()));
+                $this->renderIssues($prefix, $schemaErrors->count(), $coloredPath);
+                $this->outReport($schemaErrors, 2);
             } else {
-                $this->out("<green>OK:</green> {$coloredPath}");
+                $this->out("{$prefix}<green>OK</green> {$coloredPath}");
             }
 
             $foundIssues += $schemaErrors->count();

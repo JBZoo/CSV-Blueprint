@@ -90,13 +90,6 @@ abstract class AbstractValidate extends CliCommand
         return $value === '' || bool($value);
     }
 
-    protected function out(null|array|string $messge): void
-    {
-        if ($this->isHumanReadableMode()) {
-            $this->_($messge);
-        }
-    }
-
     /**
      * @return SplFileInfo[]
      */
@@ -110,5 +103,53 @@ abstract class AbstractValidate extends CliCommand
         }
 
         return $filenames;
+    }
+
+    protected function out(null|array|string $messge, int $indent = 0): void
+    {
+        if ($messge === null) {
+            return;
+        }
+
+        if ($this->isHumanReadableMode()) {
+            $indent = \str_repeat(' ', $indent);
+            $messges = \is_string($messge) ? \explode("\n", $messge) : $messge;
+
+            foreach ($messges as $line) {
+                $this->_($indent . $line);
+            }
+        }
+    }
+
+    protected function outReport(ErrorSuite $errorSuite, int $indet = 2): void
+    {
+        if ($this->getReportType() === ErrorSuite::REPORT_GITHUB) {
+            $indet = 0;
+        }
+
+        if ($this->isHumanReadableMode()) {
+            $this->out($errorSuite->render($this->getReportType()), $indet);
+        } else {
+            $this->_($errorSuite->render($this->getReportType()));
+        }
+    }
+
+    protected function renderIssues(string $prefix, int $number, string $filepath, int $indent = 0): void
+    {
+        $issues = $number === 1 ? 'issue' : 'issues';
+        $this->out("{$prefix}<yellow>{$number} {$issues}</yellow> in {$filepath}", $indent);
+    }
+
+    protected static function renderPrefix(int $index, int $totalFiles): string
+    {
+        if ($totalFiles <= 1) {
+            return '';
+        }
+
+        return \sprintf(
+            '(%s/%s) ',
+            \str_pad((string)$index, \strlen((string)$totalFiles), ' ', \STR_PAD_LEFT),
+            (string)$totalFiles,
+        );
     }
 }

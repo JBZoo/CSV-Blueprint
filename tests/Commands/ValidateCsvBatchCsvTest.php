@@ -45,21 +45,14 @@ final class ValidateCsvBatchCsvTest extends TestCase
             Pairs by pattern: 4
             
             Check schema syntax: 1
-            (1/1) OK: ./tests/schemas/demo_valid.yml
+              OK ./tests/schemas/demo_valid.yml
             
             CSV file validation: 4
-            (1/4) Schema: ./tests/schemas/demo_valid.yml
-            (1/4) CSV   : ./tests/fixtures/batch/demo-1.csv; Size: 123.34 MB
-            (1/4) OK
-            (2/4) Schema: ./tests/schemas/demo_valid.yml
-            (2/4) CSV   : ./tests/fixtures/batch/demo-2.csv; Size: 123.34 MB
-            (2/4) OK
-            (3/4) Schema: ./tests/schemas/demo_valid.yml
-            (3/4) CSV   : ./tests/fixtures/batch/sub/demo-3.csv; Size: 123.34 MB
-            (3/4) OK
-            (4/4) Schema: ./tests/schemas/demo_valid.yml
-            (4/4) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
-            (4/4) OK
+            Schema: ./tests/schemas/demo_valid.yml
+              (1/4) OK ./tests/fixtures/batch/demo-1.csv; Size: 123.34 MB
+              (2/4) OK ./tests/fixtures/batch/demo-2.csv; Size: 123.34 MB
+              (3/4) OK ./tests/fixtures/batch/sub/demo-3.csv; Size: 123.34 MB
+              (4/4) OK ./tests/fixtures/demo.csv; Size: 123.34 MB
             
             Summary:
               4 pairs (schema to csv) were found based on `filename_pattern`.
@@ -79,6 +72,7 @@ final class ValidateCsvBatchCsvTest extends TestCase
         $options = [
             'csv'    => './tests/fixtures/batch/*.csv',
             'schema' => Tools::DEMO_YML_INVALID,
+            'report' => 'text',
         ];
         $optionsAsString = new StringInput(Cli::build('', $options));
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $options);
@@ -90,57 +84,32 @@ final class ValidateCsvBatchCsvTest extends TestCase
             Pairs by pattern: 3
             
             Check schema syntax: 1
-            (1/1) Schema: ./tests/schemas/demo_invalid.yml
-            (1/1) Issues: 2
-            +-------+------------------+------------- tests/schemas/demo_invalid.yml ----------------------------------------+
-            | Line  | id:Column        | Rule         | Message                                                              |
-            +-------+------------------+--------------+----------------------------------------------------------------------+
-            | undef | 2:Float          | is_float     | Value "Qwerty" is not a float number                                 |
-            | undef | 4:Favorite color | allow_values | Value "123" is not allowed. Allowed values: ["red", "green", "Blue"] |
-            +-------+------------------+------------- tests/schemas/demo_invalid.yml ----------------------------------------+
-            
+              2 issues in ./tests/schemas/demo_invalid.yml
+                "is_float", column "2:Float". Value "Qwerty" is not a float number.
+                "allow_values", column "4:Favorite color". Value "123" is not allowed. Allowed values: ["red", "green", "Blue"].
+                
             
             CSV file validation: 3
-            (1/3) Schema: ./tests/schemas/demo_invalid.yml
-            (1/3) CSV   : ./tests/fixtures/batch/demo-1.csv; Size: 123.34 MB
-            (1/3) Issues: 5
-            +------+------------------+---------------------+---------- tests/fixtures/batch/demo-1.csv -----------------------------------------------------------+
-            | Line | id:Column        | Rule                | Message                                                                                              |
-            +------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
-            | 1    |                  | allow_extra_columns | Column(s) not found in CSV: "wrong_column_name"                                                      |
-            | 1    | 1:City           | ag:is_unique        | Column has non-unique values. Unique: 1, total: 2                                                    |
-            | 1    | 2:Float          | ag:nth_num          | The column does not have a line 4, so the value cannot be checked.                                   |
-            | 1    | 3:Birthday       | ag:nth              | The value on line 2 in the column is "1998-02-28", which is not equal than the expected "2000-12-01" |
-            | 3    | 4:Favorite color | allow_values        | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
-            +------+------------------+---------------------+---------- tests/fixtures/batch/demo-1.csv -----------------------------------------------------------+
-            
-            (2/3) Schema: ./tests/schemas/demo_invalid.yml
-            (2/3) CSV   : ./tests/fixtures/batch/demo-2.csv; Size: 123.34 MB
-            (2/3) Issues: 7
-            +------+------------+---------------------+------------- tests/fixtures/batch/demo-2.csv --------------------------------------------------------+
-            | Line | id:Column  | Rule                | Message                                                                                              |
-            +------+------------+---------------------+------------------------------------------------------------------------------------------------------+
-            | 1    |            | allow_extra_columns | Column(s) not found in CSV: "wrong_column_name"                                                      |
-            | 2    | 0:Name     | length_min          | The length of the value "Carl" is 4, which is less than the expected "5"                             |
-            | 7    | 0:Name     | length_min          | The length of the value "Lois" is 4, which is less than the expected "5"                             |
-            | 2    | 3:Birthday | date_min            | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
-            |      |            |                     | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
-            | 4    | 3:Birthday | date_min            | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
-            |      |            |                     | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
-            | 5    | 3:Birthday | date_max            | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
-            |      |            |                     | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
-            | 1    | 3:Birthday | ag:nth              | The value on line 2 in the column is "1989-05-15", which is not equal than the expected "2000-12-01" |
-            +------+------------+---------------------+------------- tests/fixtures/batch/demo-2.csv --------------------------------------------------------+
-            
-            (3/3) Schema: ./tests/schemas/demo_invalid.yml
-            (3/3) CSV   : ./tests/fixtures/batch/sub/demo-3.csv; Size: 123.34 MB
-            (3/3) Issues: 1
-            +------+-----------+------- tests/fixtures/batch/sub/demo-3.csv ---------------------------+
-            | Line | id:Column | Rule                | Message                                         |
-            +------+-----------+---------------------+-------------------------------------------------+
-            | 1    |           | allow_extra_columns | Column(s) not found in CSV: "wrong_column_name" |
-            +------+-----------+------- tests/fixtures/batch/sub/demo-3.csv ---------------------------+
-            
+            Schema: ./tests/schemas/demo_invalid.yml
+              (1/3) 5 issues in ./tests/fixtures/batch/demo-1.csv; Size: 123.34 MB
+                "allow_extra_columns" at line 1. Column(s) not found in CSV: "wrong_column_name".
+                "ag:is_unique" at line 1, column "1:City". Column has non-unique values. Unique: 1, total: 2.
+                "ag:nth_num" at line 1, column "2:Float". The column does not have a line 4, so the value cannot be checked.
+                "ag:nth" at line 1, column "3:Birthday". The value on line 2 in the column is "1998-02-28", which is not equal than the expected "2000-12-01".
+                "allow_values" at line 3, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].
+                
+              (2/3) 7 issues in ./tests/fixtures/batch/demo-2.csv; Size: 123.34 MB
+                "allow_extra_columns" at line 1. Column(s) not found in CSV: "wrong_column_name".
+                "length_min" at line 2, column "0:Name". The length of the value "Carl" is 4, which is less than the expected "5".
+                "length_min" at line 7, column "0:Name". The length of the value "Lois" is 4, which is less than the expected "5".
+                "date_min" at line 2, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
+                "date_min" at line 4, column "3:Birthday". The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the expected "1955-05-15 00:00:00 +00:00 (1955-05-15)".
+                "date_max" at line 5, column "3:Birthday". The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)".
+                "ag:nth" at line 1, column "3:Birthday". The value on line 2 in the column is "1989-05-15", which is not equal than the expected "2000-12-01".
+                
+              (3/3) 1 issue in ./tests/fixtures/batch/sub/demo-3.csv; Size: 123.34 MB
+                "allow_extra_columns" at line 1. Column(s) not found in CSV: "wrong_column_name".
+                
             
             Summary:
               3 pairs (schema to csv) were found based on `filename_pattern`.
