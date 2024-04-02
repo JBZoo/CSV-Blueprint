@@ -34,18 +34,26 @@ final class ReadmeTest extends TestCase
         '  * If `csv.header: false`. Compare the number of columns in the schema and the CSV file.',
     ];
 
-    public function testCreateCsvHelp(): void
+    public function testCalidateCsvHelp(): void
     {
         $text = \implode("\n", [
-            '```',
-            './csv-blueprint validate:csv --help',
-            '',
-            '',
+            '```text',
             \trim(Tools::realExecution('validate:csv', ['help' => null])),
             '```',
         ]);
 
         Tools::insertInReadme('validate-csv-help', $text);
+    }
+
+    public function testCalidateSchemaHelp(): void
+    {
+        $text = \implode("\n", [
+            '```text',
+            \trim(Tools::realExecution('validate:schema', ['help' => null])),
+            '```',
+        ]);
+
+        Tools::insertInReadme('validate-schema-help', $text);
     }
 
     public function testTableOutputExample(): void

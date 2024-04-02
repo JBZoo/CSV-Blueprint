@@ -192,11 +192,17 @@ final class ErrorSuite
 
     private function getTestcaseName(): string
     {
-        if ((string)$this->csvFilename === '') {
+        $csvFilename = \trim((string)$this->csvFilename);
+
+        if ($csvFilename === '') {
             return '';
         }
 
-        return FS::getRelative(($file = new \SplFileInfo($this->csvFilename))->getRealPath());
+        if (!\file_exists($csvFilename)) {
+            return $csvFilename;
+        }
+
+        return FS::getRelative((string)(new \SplFileInfo($csvFilename))->getRealPath());
     }
 
     /**

@@ -30,6 +30,7 @@ return \array_merge($default, [
         'vendor/league/csv/src',
         'vendor/symfony/console',
         'vendor/symfony/finder',
+        'vendor/symfony/yaml',
         'vendor/markrogoyski/math-php/src',
         'vendor/respect/validation',
     ],

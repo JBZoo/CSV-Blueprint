@@ -68,10 +68,8 @@ final class ValidateSchema extends AbstractValidate
 
         $foundIssues = 0;
 
-        foreach ($this->findFiles('schema') as $index => $file) {
-            $prefix = '(' . ((int)$index + 1) . "/{$totalFiles})";
-
-            $filename = $file->getRealPath();
+        foreach ($this->findFiles('schema') as $file) {
+            $filename = (string)$file->getRealPath();
             $coloredPath = Utils::printFile($filename);
             $schemaErrors = new ErrorSuite($filename);
 
