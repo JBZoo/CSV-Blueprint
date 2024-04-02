@@ -75,7 +75,6 @@ columns:
       is_card_number: true
 
       # Strings
-      is_binary: true
       is_charset: true
       is_hex_rgb_color: true
       no_whitespace: true
