@@ -41,7 +41,7 @@ final class ReadmeTest extends TestCase
             './csv-blueprint validate:csv --help',
             '',
             '',
-            Tools::realExecution('validate:csv', ['help' => null]),
+            \trim(Tools::realExecution('validate:csv', ['help' => null])),
             '```',
         ]);
 
@@ -135,7 +135,7 @@ final class ReadmeTest extends TestCase
             \array_slice(\explode("\n", \file_get_contents(Tools::SCHEMA_FULL_YML)), 12),
         );
 
-        $text = \implode("\n", ['```yml', $ymlContent, '```']);
+        $text = \implode("\n", ['```yml', \trim($ymlContent), '```']);
 
         Tools::insertInReadme('full-yml', $text);
     }
@@ -147,7 +147,7 @@ final class ReadmeTest extends TestCase
             \array_slice(\explode("\n", \file_get_contents('./schema-examples/readme_sample.yml')), 12),
         );
 
-        $text = \implode("\n", ['```yml', $ymlContent, '```']);
+        $text = \implode("\n", ['```yml', \trim($ymlContent), '```']);
 
         Tools::insertInReadme('readme-sample-yml', $text);
     }
@@ -157,7 +157,7 @@ final class ReadmeTest extends TestCase
         $list[] = '';
 
         $text = \implode("\n", self::EXTRA_RULES);
-        Tools::insertInReadme('extra-rules', "\n{$text}\n");
+        Tools::insertInReadme('extra-rules', $text);
     }
 
     public function testBenchmarkTable(): void

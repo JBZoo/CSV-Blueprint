@@ -229,7 +229,6 @@ columns:
       length_min: 3
     aggregate_rules:
       count: 10
-
 ```
 <!-- auto-update:/readme-sample-yml -->
 
@@ -836,7 +835,6 @@ columns:
   - name: third_column
     rules:
       not_empty: true
-
 ```
 <!-- auto-update:/full-yml -->
 
@@ -913,7 +911,6 @@ Options:
       --ansi|--no-ansi             Force (or disable --no-ansi) ANSI output
   -n, --no-interaction             Do not ask any interactive question
   -v|vv|vvv, --verbose             Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
-
 ```
 <!-- auto-update:/validate-csv-help -->
 
