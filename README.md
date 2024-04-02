@@ -1,6 +1,6 @@
 # JBZoo / CSV Blueprint
 
-<!-- top-badges -->
+<!-- auto-update:top-badges -->
 [![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml?query=branch%3Amaster)
 [![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml/badge.svg)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml)
 [![Coverage Status](https://coveralls.io/repos/github/JBZoo/Csv-Blueprint/badge.svg?branch=master)](https://coveralls.io/github/JBZoo/Csv-Blueprint?branch=master)
@@ -8,15 +8,15 @@
 [![GitHub Release](https://img.shields.io/github/v/release/jbzoo/csv-blueprint?label=Latest)](https://github.com/jbzoo/csv-blueprint/releases)
 [![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)
 [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)
-<!-- /top-badges -->
+<!-- auto-update:/top-badges -->
 
-<!-- rules-counter -->
+<!-- auto-update:rules-counter -->
 [![Static Badge](https://img.shields.io/badge/Rules-382-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
 [![Static Badge](https://img.shields.io/badge/Rules-168-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
 [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)
 [![Static Badge](https://img.shields.io/badge/Rules-8-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)
 [![Static Badge](https://img.shields.io/badge/Rules-27/54/9-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
-<!-- /rules-counter -->
+<!-- auto-update:/rules-counter -->
 
 A console utility designed for validating CSV files against a strictly defined schema and validation rules outlined
 in [YAML files](#schema-definition) serves an essential purpose in ensuring data integrity and conformity.
@@ -28,22 +28,22 @@ specifications, making it invaluable in scenarios where data quality and consist
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 - [Introduction](#introduction)
-    - [Why?](#why)
-    - [Features](#features)
-    - [Live Demo](#live-demo)
+  - [Why?](#why)
+  - [Features](#features)
+  - [Live Demo](#live-demo)
 - [Usage](#usage)
-    - [GitHub Action](#github-action)
-    - [Docker container](#docker-container)
-    - [PHP binary](#php-binary)
+  - [GitHub Action](#github-action)
+  - [Docker container](#docker-container)
+  - [PHP binary](#php-binary)
 - [Schema definition](#schema-definition)
-    - [Full description of the schema](#full-description-of-the-schema)
-    - [Extra checks](#extra-checks)
+  - [Full description of the schema](#full-description-of-the-schema)
+  - [Extra checks](#extra-checks)
 - [Complete CLI Help Message](#complete-cli-help-message)
 - [Report examples](#report-examples)
 - [Benchmarks](#benchmarks)
-    - [Brief conclusions](#brief-conclusions)
-    - [Examples of CSV files](#examples-of-csv-files)
-    - [Run benchmark locally](#run-benchmark-locally)
+  - [Brief conclusions](#brief-conclusions)
+  - [Examples of CSV files](#examples-of-csv-files)
+  - [Run benchmark locally](#run-benchmark-locally)
 - [Disadvantages?](#disadvantages)
 - [Coming soon](#coming-soon)
 - [Contributing](#contributing)
@@ -100,7 +100,7 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
 
 ### GitHub Action
 
-<!-- github-actions-yml -->
+<!-- auto-update:github-actions-yml -->
 ```yml
 - uses: jbzoo/csv-blueprint@master # See the specific version on releases page
   with:
@@ -127,7 +127,7 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
     # You can skip it
     skip-schema: no
 ```
-<!-- /github-actions-yml -->
+<!-- auto-update:/github-actions-yml -->
 
 You can specify `report: github` to see friendly error output in your PRs
 using [annotations](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message).
@@ -209,7 +209,7 @@ This example defines a simple schema for a CSV file with a header row, specifyin
 Also, it checks that the `name` column has a minimum length of 3 characters.
 
 
-<!-- readme-sample-yml -->
+<!-- auto-update:readme-sample-yml -->
 ```yml
 name: Simple CSV Schema
 filename_pattern: /my-favorite-csv-\d+\.csv$/i
@@ -232,7 +232,7 @@ columns:
       count: 10
 
 ```
-<!-- /readme-sample-yml -->
+<!-- auto-update:/readme-sample-yml -->
 
 
 ### Full description of the schema
@@ -269,7 +269,7 @@ This part of the readme is also covered by autotests, so these code are always u
 
 In any unclear situation, look into it first ;)
 
-<!-- full-yml -->
+<!-- auto-update:full-yml -->
 ```yml
 # It's a complete example of the CSV schema file in YAML format.
 # See copy of the file without comments here ./schema-examples/full_clean.yml
@@ -839,15 +839,14 @@ columns:
       not_empty: true
 
 ```
-<!-- /full-yml -->
+<!-- auto-update:/full-yml -->
 
 
 ### Extra checks
 
 Behind the scenes to what is outlined in the yml above, there are additional checks that will examine your files by default.
 
-<!-- extra-rules -->
-
+<!-- auto-update:extra-rules -->
 * With `filename_pattern` rule, you can check if the file name matches the pattern.
 * Checks if property `name` is not defined in a column. Only if `csv.header: true`.
 * If property `required` is set to `true`, the column must must be present in CSV. Only if `csv.header: true`
@@ -856,8 +855,7 @@ Behind the scenes to what is outlined in the yml above, there are additional che
 * With `allow_extra_columns` rule, you can check that there are no extra columns in the CSV file.
   * If `csv.header: true`. Schema contains an unknown column `name` that is not found in the CSV file.
   * If `csv.header: false`. Compare the number of columns in the schema and the CSV file.
-
-<!-- /extra-rules -->
+<!-- auto-update:/extra-rules -->
 
 ## Complete CLI Help Message
 
@@ -866,7 +864,7 @@ CLI interface.
 So there are options here for all occasions.
 
 
-<!-- validate-csv-help -->
+<!-- auto-update:validate-csv-help -->
 ```
 ./csv-blueprint validate:csv --help
 
@@ -918,7 +916,7 @@ Options:
   -v|vv|vvv, --verbose             Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
 ```
-<!-- /validate-csv-help -->
+<!-- auto-update:/validate-csv-help -->
 
 
 ## Report examples
@@ -927,7 +925,7 @@ As a result of the validation process, you will receive a human-readable table w
 
 Default report format is `table`:
 
-<!-- output-table -->
+<!-- auto-update:output-table -->
 ```
 ./csv-blueprint validate:csv --csv='./tests/fixtures/demo.csv' --schema='./tests/schemas/demo_invalid.yml'
 
@@ -975,10 +973,8 @@ Summary:
   1 pairs (schema to csv) were found based on `filename_pattern`.
   Found 2 issues in 1 schemas.
   Found 10 issues in 1 out of 1 CSV files.
-
-
 ```
-<!-- /output-table -->
+<!-- auto-update:/output-table -->
 
 
 Optional format `text` with highlited keywords:
@@ -1044,7 +1040,7 @@ the peak memory usage will always be no more than 2-4 megabytes. No memory leaks
 It doesn't depend on the number of rules or the size of CSV file.
 
 
-<!-- benchmark-table -->
+<!-- auto-update:benchmark-table -->
 <table>
 <tr>
    <td align="left"><b>File&nbsp/&nbspProfile</b><br></td>
@@ -1167,7 +1163,7 @@ It doesn't depend on the number of rules or the size of CSV file.
 </td>
 </tr>
 </table>
-<!-- /benchmark-table -->
+<!-- auto-update:/benchmark-table -->
 
 Btw, if you run the same tests on a MacBook 14" M2 Max 2023, the results are ~2 times better. On MacBook 2019 Intel
 2.4Gz about the same as on GitHub Actions. So I think the table can be considered an average (but too far from the best)
@@ -1368,9 +1364,10 @@ I'm not sure if I will implement all of them. But I will try to do my best.
 </details>
 
 ## Contributing
+<!-- auto-update:contributing -->
 If you have any ideas or suggestions, feel free to open an issue or create a pull request.
 
-```shell
+```sh
 # Fork the repo and build project
 git clone git@github.com:jbzoo/csv-blueprint.git ./jbzoo-csv-blueprint
 cd ./jbzoo-csv-blueprint
@@ -1389,7 +1386,7 @@ make codestyle
 # ???
 # Profit!
 ```
-
+<!-- auto-update:/contributing -->
 
 ## License
 
