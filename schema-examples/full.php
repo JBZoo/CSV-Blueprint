@@ -110,6 +110,13 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'is_time'            => true,
                 'is_leap_year'       => true,
 
+                'date_interval_min'     => 'PT0S',
+                'date_interval_greater' => '1day 1sec',
+                'date_interval_not'     => '100 days',
+                'date_interval'         => 'P2W',
+                'date_interval_less'    => 'PT23H59M59S',
+                'date_interval_max'     => 'P1Y',
+
                 'is_bool'          => true,
                 'is_uuid'          => true,
                 'is_slug'          => true,
