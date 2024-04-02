@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint;
 
-use JBZoo\Cli\CliHelper;
 use JBZoo\Utils\Cli;
 use JBZoo\Utils\Env;
 use JBZoo\Utils\FS;
@@ -429,11 +428,6 @@ final class Utils
         }
 
         return $newArgumens;
-    }
-
-    public static function isAnsi(): bool
-    {
-        return CliHelper::getInstance()->getOutput()->isDecorated();
     }
 
     /**
