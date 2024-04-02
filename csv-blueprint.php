@@ -28,6 +28,7 @@ $_SERVER['argc'] = \count($_SERVER['argv']);
 
 // Convert all errors to exceptions. Looks like we have critical case, and we need to stop or handle it.
 // We have to do it becase tool uses 3rd-party libraries, and we can't trust them.
+// So, we need to catch all errors and handle them.
 \set_error_handler(static function ($severity, $message, $file, $line): void {
     throw new \ErrorException($message, 0, $severity, $file, $line);
 });
