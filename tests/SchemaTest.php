@@ -212,6 +212,7 @@ final class SchemaTest extends TestCase
             ->in(PROJECT_ROOT . '/tests/Benchmarks')
             ->in(PROJECT_ROOT . '/schema-examples')
             ->name('*.yml')
+            ->depth(0)
             ->notName([
                 'todo.yml',
                 'invalid_schema.yml',
@@ -230,7 +231,7 @@ final class SchemaTest extends TestCase
         $schema = new Schema(Tools::SCHEMA_INVALID);
         isSame(
             <<<'TABLE'
-                +-------+------------+--------+----------- invalid_schema.yml ------------------------------------------+
+                +-------+------------+--------+---- tests/schemas/invalid_schema.yml -----------------------------------+
                 | Line  | id:Column  | Rule   | Message                                                                 |
                 +-------+------------+--------+-------------------------------------------------------------------------+
                 | undef | meta       | schema | Unknown key: .unknow_root_option                                        |
@@ -241,7 +242,7 @@ final class SchemaTest extends TestCase
                 | undef | 4:         | schema | The key "name" must be non-empty because the option "csv.header" = true |
                 | undef | 4:         | schema | Expected type "boolean", actual "string" in .columns.4.rules.not_empty  |
                 | undef | 4:         | schema | Expected type "array", actual "string" in .columns.4.rules.allow_values |
-                +-------+------------+--------+----------- invalid_schema.yml ------------------------------------------+
+                +-------+------------+--------+---- tests/schemas/invalid_schema.yml -----------------------------------+
                 
                 TABLE,
             $schema->validate()->render(ErrorSuite::RENDER_TABLE),

@@ -45,17 +45,17 @@ final class ValidateCsvBatchSchemaTest extends TestCase
             Check schema syntax: 3
             (1/3) Schema: ./tests/schemas/demo_invalid.yml
             (1/3) Issues: 2
-            +-------+------------------+--------------+----- demo_invalid.yml -----------------------------------------------+
+            +-------+------------------+------------- tests/schemas/demo_invalid.yml ----------------------------------------+
             | Line  | id:Column        | Rule         | Message                                                              |
             +-------+------------------+--------------+----------------------------------------------------------------------+
             | undef | 2:Float          | is_float     | Value "Qwerty" is not a float number                                 |
             | undef | 4:Favorite color | allow_values | Value "123" is not allowed. Allowed values: ["red", "green", "Blue"] |
-            +-------+------------------+--------------+----- demo_invalid.yml -----------------------------------------------+
+            +-------+------------------+------------- tests/schemas/demo_invalid.yml ----------------------------------------+
             
             (2/3) OK: ./tests/schemas/demo_valid.yml
             (3/3) Schema: ./tests/schemas/invalid_schema.yml
             (3/3) Issues: 8
-            +-------+------------+--------+----------- invalid_schema.yml ------------------------------------------+
+            +-------+------------+--------+---- tests/schemas/invalid_schema.yml -----------------------------------+
             | Line  | id:Column  | Rule   | Message                                                                 |
             +-------+------------+--------+-------------------------------------------------------------------------+
             | undef | meta       | schema | Unknown key: .unknow_root_option                                        |
@@ -66,14 +66,14 @@ final class ValidateCsvBatchSchemaTest extends TestCase
             | undef | 4:         | schema | The key "name" must be non-empty because the option "csv.header" = true |
             | undef | 4:         | schema | Expected type "boolean", actual "string" in .columns.4.rules.not_empty  |
             | undef | 4:         | schema | Expected type "array", actual "string" in .columns.4.rules.allow_values |
-            +-------+------------+--------+----------- invalid_schema.yml ------------------------------------------+
+            +-------+------------+--------+---- tests/schemas/invalid_schema.yml -----------------------------------+
             
             
             CSV file validation: 2
             (1/2) Schema: ./tests/schemas/demo_invalid.yml
             (1/2) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
             (1/2) Issues: 10
-            +------+------------------+---------------------+---------------------- demo.csv ----------------------------------------------------------------------+
+            +------+------------------+---------------------+-------------- tests/fixtures/demo.csv ---------------------------------------------------------------+
             | Line | id:Column        | Rule                | Message                                                                                              |
             +------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
             | 1    |                  | allow_extra_columns | Column(s) not found in CSV: "wrong_column_name"                                                      |
@@ -89,7 +89,7 @@ final class ValidateCsvBatchSchemaTest extends TestCase
             | 9    | 3:Birthday       | date_max            | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
             |      |                  |                     | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
             | 5    | 4:Favorite color | allow_values        | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
-            +------+------------------+---------------------+---------------------- demo.csv ----------------------------------------------------------------------+
+            +------+------------------+---------------------+-------------- tests/fixtures/demo.csv ---------------------------------------------------------------+
             
             (2/2) Schema: ./tests/schemas/demo_valid.yml
             (2/2) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
@@ -135,12 +135,12 @@ final class ValidateCsvBatchSchemaTest extends TestCase
             (1/2) Schema: ./tests/schemas/demo_invalid_no_pattern.yml
             (1/2) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
             (1/2) Issues: 2
-            +------+-----------+---------+------ demo.csv -----------------------------------+
+            +------+-----------+-------- tests/fixtures/demo.csv ----------------------------+
             | Line | id:Column | Rule    | Message                                           |
             +------+-----------+---------+---------------------------------------------------+
             | 4    | 2:Float   | num_min | The value "-177.90" is less than the expected "0" |
             | 11   | 2:Float   | num_min | The value "-200.1" is less than the expected "0"  |
-            +------+-----------+---------+------ demo.csv -----------------------------------+
+            +------+-----------+-------- tests/fixtures/demo.csv ----------------------------+
             
             (2/2) Schema: ./tests/schemas/demo_valid.yml
             (2/2) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB

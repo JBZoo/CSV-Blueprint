@@ -18,6 +18,7 @@ namespace JBZoo\PHPUnit;
 
 use JBZoo\Cli\CliApplication;
 use JBZoo\CsvBlueprint\Commands\ValidateCsv;
+use JBZoo\CsvBlueprint\Commands\ValidateSchema;
 use JBZoo\Utils\Cli;
 use JBZoo\Utils\Sys;
 use Symfony\Component\Console\Input\StringInput;
@@ -55,6 +56,7 @@ final class Tools
     {
         $application = new CliApplication();
         $application->add(new ValidateCsv());
+        $application->add(new ValidateSchema());
         $command = $application->find($action);
 
         $buffer = new BufferedOutput();

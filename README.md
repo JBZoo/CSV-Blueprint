@@ -867,7 +867,7 @@ So there are options here for all occasions.
 
 
 Description:
-  Validate CSV file(s) by schema.
+  Validate CSV file(s) by schema(s).
 
 Usage:
   validate:csv [options]
@@ -881,14 +881,14 @@ Options:
                                    It can be a YAML, JSON or PHP. See examples on GitHub.Also, you can specify path in which schema files will be searched (max depth is 10).
                                    Feel free to use glob pattrens. Usage examples:
                                    /full/path/file.yml, p/file.yml, p/*.yml, p/**/*.yml, p/**/name-*.json, **/*.php, etc. (multiple values allowed)
+  -S, --skip-schema[=SKIP-SCHEMA]  Skip schema validation.
+                                   If you are sure that the schema is correct, you can skip this check.
+                                   Empty value or "yes" will be treated as "true". [default: "no"]
   -r, --report=REPORT              Report output format. Available options:
                                    ["text", "table", "github", "gitlab", "teamcity", "junit"] [default: "table"]
   -Q, --quick[=QUICK]              Immediately terminate the check at the first error found.
                                    Of course it will speed up the check, but you will get only 1 message out of many.
                                    If any error is detected, the utility will return a non-zero exit code.
-                                   Empty value or "yes" will be treated as "true". [default: "no"]
-  -S, --skip-schema[=SKIP-SCHEMA]  Skip schema validation.
-                                   If you are sure that the schema is correct, you can skip this check.
                                    Empty value or "yes" will be treated as "true". [default: "no"]
       --debug                      It's ONLY for debugging and advanced profiling!
       --no-progress                Disable progress bar animation for logs. It will be used only for text output format.
@@ -934,19 +934,19 @@ Pairs by pattern: 1
 Check schema syntax: 1
 (1/1) Schema: ./tests/schemas/demo_invalid.yml
 (1/1) Issues: 2
-+-------+------------------+--------------+----- demo_invalid.yml -----------------------------------------------+
++-------+------------------+------------- tests/schemas/demo_invalid.yml ----------------------------------------+
 | Line  | id:Column        | Rule         | Message                                                              |
 +-------+------------------+--------------+----------------------------------------------------------------------+
 | undef | 2:Float          | is_float     | Value "Qwerty" is not a float number                                 |
 | undef | 4:Favorite color | allow_values | Value "123" is not allowed. Allowed values: ["red", "green", "Blue"] |
-+-------+------------------+--------------+----- demo_invalid.yml -----------------------------------------------+
++-------+------------------+------------- tests/schemas/demo_invalid.yml ----------------------------------------+
 
 
 CSV file validation: 1
 (1/1) Schema: ./tests/schemas/demo_invalid.yml
 (1/1) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
 (1/1) Issues: 10
-+------+------------------+---------------------+---------------------- demo.csv ----------------------------------------------------------------------+
++------+------------------+---------------------+-------------- tests/fixtures/demo.csv ---------------------------------------------------------------+
 | Line | id:Column        | Rule                | Message                                                                                              |
 +------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
 | 1    |                  | allow_extra_columns | Column(s) not found in CSV: "wrong_column_name"                                                      |
@@ -962,7 +962,7 @@ CSV file validation: 1
 | 9    | 3:Birthday       | date_max            | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
 |      |                  |                     | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
 | 5    | 4:Favorite color | allow_values        | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
-+------+------------------+---------------------+---------------------- demo.csv ----------------------------------------------------------------------+
++------+------------------+---------------------+-------------- tests/fixtures/demo.csv ---------------------------------------------------------------+
 
 
 Summary:

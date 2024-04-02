@@ -35,19 +35,19 @@ final class ValidateCsvReportsTest extends TestCase
             Check schema syntax: 1
             (1/1) Schema: ./tests/schemas/demo_invalid.yml
             (1/1) Issues: 2
-            +-------+------------------+--------------+----- demo_invalid.yml -----------------------------------------------+
+            +-------+------------------+------------- tests/schemas/demo_invalid.yml ----------------------------------------+
             | Line  | id:Column        | Rule         | Message                                                              |
             +-------+------------------+--------------+----------------------------------------------------------------------+
             | undef | 2:Float          | is_float     | Value "Qwerty" is not a float number                                 |
             | undef | 4:Favorite color | allow_values | Value "123" is not allowed. Allowed values: ["red", "green", "Blue"] |
-            +-------+------------------+--------------+----- demo_invalid.yml -----------------------------------------------+
+            +-------+------------------+------------- tests/schemas/demo_invalid.yml ----------------------------------------+
             
             
             CSV file validation: 1
             (1/1) Schema: ./tests/schemas/demo_invalid.yml
             (1/1) CSV   : ./tests/fixtures/demo.csv; Size: 123.34 MB
             (1/1) Issues: 10
-            +------+------------------+---------------------+---------------------- demo.csv ----------------------------------------------------------------------+
+            +------+------------------+---------------------+-------------- tests/fixtures/demo.csv ---------------------------------------------------------------+
             | Line | id:Column        | Rule                | Message                                                                                              |
             +------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
             | 1    |                  | allow_extra_columns | Column(s) not found in CSV: "wrong_column_name"                                                      |
@@ -63,7 +63,7 @@ final class ValidateCsvReportsTest extends TestCase
             | 9    | 3:Birthday       | date_max            | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
             |      |                  |                     | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
             | 5    | 4:Favorite color | allow_values        | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
-            +------+------------------+---------------------+---------------------- demo.csv ----------------------------------------------------------------------+
+            +------+------------------+---------------------+-------------- tests/fixtures/demo.csv ---------------------------------------------------------------+
             
             
             Summary:
@@ -177,7 +177,7 @@ final class ValidateCsvReportsTest extends TestCase
             
             ##teamcity[testCount count='2' flowId='42']
             
-            ##teamcity[testSuiteStarted name='demo_invalid.yml' flowId='42']
+            ##teamcity[testSuiteStarted name='tests/schemas/demo_invalid.yml' flowId='42']
             
             ##teamcity[testStarted name='is_float at column 2:Float' locationHint='php_qn://./tests/schemas/demo_invalid.yml' flowId='42']
             "is_float", column "2:Float". Value "Qwerty" is not a float number.
@@ -187,12 +187,12 @@ final class ValidateCsvReportsTest extends TestCase
             "allow_values", column "4:Favorite color". Value "123" is not allowed. Allowed values: ["red", "green", "Blue"].
             ##teamcity[testFinished name='allow_values at column 4:Favorite color' flowId='42']
             
-            ##teamcity[testSuiteFinished name='demo_invalid.yml' flowId='42']
+            ##teamcity[testSuiteFinished name='tests/schemas/demo_invalid.yml' flowId='42']
             
             
             ##teamcity[testCount count='10' flowId='42']
             
-            ##teamcity[testSuiteStarted name='demo.csv' flowId='42']
+            ##teamcity[testSuiteStarted name='tests/fixtures/demo.csv' flowId='42']
             
             ##teamcity[testStarted name='allow_extra_columns at column' locationHint='php_qn://<root>/tests/fixtures/demo.csv' flowId='42']
             "allow_extra_columns" at line 1. Column(s) not found in CSV: "wrong_column_name".
@@ -234,7 +234,7 @@ final class ValidateCsvReportsTest extends TestCase
             "allow_values" at line 5, column "4:Favorite color". Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"].
             ##teamcity[testFinished name='allow_values at column 4:Favorite color' flowId='42']
             
-            ##teamcity[testSuiteFinished name='demo.csv' flowId='42']
+            ##teamcity[testSuiteFinished name='tests/fixtures/demo.csv' flowId='42']
             
             
             TXT;
@@ -248,7 +248,7 @@ final class ValidateCsvReportsTest extends TestCase
         $expected = <<<'TXT'
             <?xml version="1.0" encoding="UTF-8"?>
             <testsuites>
-              <testsuite name="demo_invalid.yml" tests="2">
+              <testsuite name="tests/schemas/demo_invalid.yml" tests="2">
                 <testcase name="is_float at column 2:Float" file="./tests/schemas/demo_invalid.yml" line="0">
                   <system-out>"is_float", column "2:Float". Value "Qwerty" is not a float number.</system-out>
                 </testcase>
@@ -260,7 +260,7 @@ final class ValidateCsvReportsTest extends TestCase
             
             <?xml version="1.0" encoding="UTF-8"?>
             <testsuites>
-              <testsuite name="demo.csv" tests="10">
+              <testsuite name="tests/fixtures/demo.csv" tests="10">
                 <testcase name="allow_extra_columns at column" file="<root>/tests/fixtures/demo.csv" line="1">
                   <system-out>"allow_extra_columns" at line 1. Column(s) not found in CSV: "wrong_column_name".</system-out>
                 </testcase>

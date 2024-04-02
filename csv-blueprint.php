@@ -16,6 +16,10 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint;
 
+if ('cli' !== \PHP_SAPI) {
+    throw new \RuntimeException('This script must be run from the command line.');
+}
+
 \define('PATH_ROOT', __DIR__);
 require_once __DIR__ . '/vendor/autoload.php';
 

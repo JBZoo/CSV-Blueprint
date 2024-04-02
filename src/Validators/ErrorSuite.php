@@ -22,6 +22,7 @@ use JBZoo\CIReportConverter\Converters\JUnitConverter;
 use JBZoo\CIReportConverter\Converters\TeamCityTestsConverter;
 use JBZoo\CIReportConverter\Formats\Source\SourceSuite;
 use JBZoo\CsvBlueprint\Utils;
+use JBZoo\Utils\FS;
 use JBZoo\Utils\Vars;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -191,7 +192,11 @@ final class ErrorSuite
 
     private function getTestcaseName(): string
     {
-        return \pathinfo((string)\realpath((string)$this->csvFilename), \PATHINFO_BASENAME);
+        if ((string)$this->csvFilename === '') {
+            return '';
+        }
+
+        return FS::getRelative(($file = new \SplFileInfo($this->csvFilename))->getRealPath());
     }
 
     /**
