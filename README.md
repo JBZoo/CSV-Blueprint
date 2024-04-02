@@ -11,11 +11,11 @@
 <!-- /top-badges -->
 
 <!-- rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-379-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
-[![Static Badge](https://img.shields.io/badge/Rules-165-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
+[![Static Badge](https://img.shields.io/badge/Rules-380-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-166-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
 [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)
 [![Static Badge](https://img.shields.io/badge/Rules-8-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)
-[![Static Badge](https://img.shields.io/badge/Rules-29/54/9-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-28/54/9-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- /rules-counter -->
 
 A console utility designed for validating CSV files against a strictly defined schema and validation rules outlined
@@ -432,6 +432,7 @@ columns:
 
       # Specific formats
       is_bool: true                     # Allow only boolean values "true" and "false", case-insensitive.
+      is_hex: true                      # Both: with or without "0x" prefix. Example: "0x1A" or "1A"
       is_uuid: true                     # Validates whether the input is a valid UUID. It also supports validation of specific versions 1, 3, 4 and 5.
       is_slug: true                     # Only slug format. Example: "my-slug-123". It can contain letters, numbers, and dashes.
       is_currency_code: true            # Validates an ISO 4217 currency code like GBP or EUR. Case-sensitive. See: https://en.wikipedia.org/wiki/ISO_4217.
