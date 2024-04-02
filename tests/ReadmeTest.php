@@ -41,7 +41,7 @@ final class ReadmeTest extends TestCase
             './csv-blueprint validate:csv --help',
             '',
             '',
-            Tools::realExecution('validate:csv', ['help' => null]),
+            \trim(Tools::realExecution('validate:csv', ['help' => null])),
             '```',
         ]);
 
@@ -135,7 +135,7 @@ final class ReadmeTest extends TestCase
             \array_slice(\explode("\n", \file_get_contents(Tools::SCHEMA_FULL_YML)), 12),
         );
 
-        $text = \implode("\n", ['```yml', $ymlContent, '```']);
+        $text = \implode("\n", ['```yml', \trim($ymlContent), '```']);
 
         Tools::insertInReadme('full-yml', $text);
     }
@@ -147,7 +147,7 @@ final class ReadmeTest extends TestCase
             \array_slice(\explode("\n", \file_get_contents('./schema-examples/readme_sample.yml')), 12),
         );
 
-        $text = \implode("\n", ['```yml', $ymlContent, '```']);
+        $text = \implode("\n", ['```yml', \trim($ymlContent), '```']);
 
         Tools::insertInReadme('readme-sample-yml', $text);
     }
@@ -157,12 +157,12 @@ final class ReadmeTest extends TestCase
         $list[] = '';
 
         $text = \implode("\n", self::EXTRA_RULES);
-        Tools::insertInReadme('extra-rules', "\n{$text}\n");
+        Tools::insertInReadme('extra-rules', $text);
     }
 
     public function testBenchmarkTable(): void
     {
-        $nbsp = static fn (string $text): string => \str_replace(' ', '&nbsp', $text);
+        $nbsp = static fn (string $text): string => \str_replace(' ', '&nbsp;', $text);
         $timeFormat = static fn (float $time): string => \str_pad(
             \number_format($time, 1) . ' sec',
             8,
@@ -227,19 +227,17 @@ final class ReadmeTest extends TestCase
                 $nbsp('Peak Memory'),
             ]) . '</td>';
             foreach ($row as $values) {
-                $output[] = '   <td align="right">';
+                $testRes = '';
                 foreach ($values as $key => $value) {
                     if ($key === 3) {
-                        $testRes = $value . ' MB';
+                        $testRes .= $value . ' MB';
                     } else {
                         $execTime = $timeFormat($numberOfLines / ($value * 1000));
-                        $testRes = $nbsp("{$value}K, {$execTime}<br>");
+                        $testRes .= $nbsp("{$value}K, {$execTime}<br>");
                     }
-
-                    $output[] = $testRes;
                 }
 
-                $output[] = '</td>';
+                $output[] = "   <td align=\"right\">{$testRes}</td>";
             }
             $output[] = '</tr>';
         }

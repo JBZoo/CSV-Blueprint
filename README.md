@@ -176,8 +176,7 @@ make docker-build  # local tag is "jbzoo/csv-blueprint:local"
 Ensure you have PHP installed on your machine.
 
 ```sh
-# download the latest version
-
+# Just download the latest version
 wget https://github.com/JBZoo/Csv-Blueprint/releases/latest/download/csv-blueprint.phar
 chmod +x ./csv-blueprint.phar
 ./csv-blueprint.phar validate:csv               \
@@ -230,7 +229,6 @@ columns:
       length_min: 3
     aggregate_rules:
       count: 10
-
 ```
 <!-- auto-update:/readme-sample-yml -->
 
@@ -837,7 +835,6 @@ columns:
   - name: third_column
     rules:
       not_empty: true
-
 ```
 <!-- auto-update:/full-yml -->
 
@@ -914,7 +911,6 @@ Options:
       --ansi|--no-ansi             Force (or disable --no-ansi) ANSI output
   -n, --no-interaction             Do not ask any interactive question
   -v|vv|vvv, --verbose             Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
-
 ```
 <!-- auto-update:/validate-csv-help -->
 
@@ -997,9 +993,11 @@ Of course, you'll want to know how fast it works. The thing is, it depends very-
 
 * **The file size** - Width and height of the CSV file. The larger the dataset, the longer it will take to go through
   it. The dependence is linear and strongly depends on the speed of your hardware (CPU, SSD).
+
 * **Number of rules used** - Obviously, the more of them there are for one column, the more iterations you will have to
   make. Also remember that they do not depend on each other. I.e. execution of one rule will not optimize or slow down
   another rule in any way. In fact, it will be just summing up time and memory resources.
+
 * Some validation rules are very time or memory intensive. For the most part you won't notice this, but there are some
   that are dramatically slow. For example, `interquartile_mean` processes about 4k lines per second, while the rest of
   the rules are about 30+ millions lines per second.
@@ -1012,21 +1010,16 @@ However, to get a rough picture, you can check out the table below.
   At the link you will see considerably more different builds. We need them for different testing options/experiments.
   Most representative values in `Docker (latest, XX)`.
 * Developer mode is used to display this information `-vvv --debug --profile`.
-* Software: Latest Ubuntu + Docker.
-  Also [see detail about GA hardware](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-private-repositories).
-* The main metric is the number of lines per second. Please note that the table is thousands of lines per second
-  (`100K` = `100,000 lines per second`).
+* Software: Latest Ubuntu + Docker. Also [see detail about GA hardware](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-private-repositories).
+* The main metric is the number of lines per second. Please note that the table is thousands of lines per second (`100K` = `100,000 lines per second`).
 * An additional metric is the peak RAM consumption over the entire time of the test case.
 
 Since usage profiles can vary, I've prepared a few profiles to cover most cases.
 
-* **[Quickest](tests/Benchmarks/bench_0_quickest_combo.yml)** - It check only one of the rule (cell or aggregation). I
-  picked the fastest rules.
+* **[Quickest](tests/Benchmarks/bench_0_quickest_combo.yml)** - It check only one of the rule (cell or aggregation). I picked the fastest rules.
 * **[Minimum](tests/Benchmarks/bench_1_mini_combo.yml)** - Normal rules with average performance, but 2 of each.
-* **[Realistic](tests/Benchmarks/bench_2_realistic_combo.yml)** - A mix of rules that are most likely to be used in real
-  life.
-* **[All aggregations](tests/Benchmarks/bench_3_all_agg.yml)** - All aggregation rules at once. This is the
-  worst-case scenario.
+* **[Realistic](tests/Benchmarks/bench_2_realistic_combo.yml)** - A mix of rules that are most likely to be used in real life.
+* **[All aggregations](tests/Benchmarks/bench_3_all_agg.yml)** - All aggregation rules at once. This is the worst-case scenario.
 
 Also, there is an additional division into
 
@@ -1043,124 +1036,44 @@ It doesn't depend on the number of rules or the size of CSV file.
 <!-- auto-update:benchmark-table -->
 <table>
 <tr>
-   <td align="left"><b>File&nbsp/&nbspProfile</b><br></td>
+   <td align="left"><b>File&nbsp;/&nbsp;Profile</b><br></td>
    <td align="left"><b>Metric</b><br></td>
    <td align="left"><b>Quickest</b></td>
    <td align="left"><b>Minimum</b></td>
    <td align="left"><b>Realistic</b></td>
-   <td align="left"><b>All&nbspaggregations</b></td>
+   <td align="left"><b>All&nbsp;aggregations</b></td>
 </tr>
 <tr>
-   <td>Columns:&nbsp1<br>Size:&nbsp~8&nbspMB<br><br><br></td>
-   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
-   <td align="right">
-786K,&nbsp&nbsp2.5&nbspsec<br>
-1187K,&nbsp&nbsp1.7&nbspsec<br>
-762K,&nbsp&nbsp2.6&nbspsec<br>
-52 MB
-</td>
-   <td align="right">
-386K,&nbsp&nbsp5.2&nbspsec<br>
-1096K,&nbsp&nbsp1.8&nbspsec<br>
-373K,&nbsp&nbsp5.4&nbspsec<br>
-68 MB
-</td>
-   <td align="right">
-189K,&nbsp10.6&nbspsec<br>
-667K,&nbsp&nbsp3.0&nbspsec<br>
-167K,&nbsp12.0&nbspsec<br>
-208 MB
-</td>
-   <td align="right">
-184K,&nbsp10.9&nbspsec<br>
-96K,&nbsp20.8&nbspsec<br>
-63K,&nbsp31.7&nbspsec<br>
-272 MB
-</td>
+   <td>Columns:&nbsp;1<br>Size:&nbsp;~8&nbsp;MB<br><br><br></td>
+   <td>Cell&nbsp;rules<br>Agg&nbsp;rules<br>Cell&nbsp;+&nbsp;Agg<br>Peak&nbsp;Memory</td>
+   <td align="right">786K,&nbsp;&nbsp;2.5&nbsp;sec<br>1187K,&nbsp;&nbsp;1.7&nbsp;sec<br>762K,&nbsp;&nbsp;2.6&nbsp;sec<br>52 MB</td>
+   <td align="right">386K,&nbsp;&nbsp;5.2&nbsp;sec<br>1096K,&nbsp;&nbsp;1.8&nbsp;sec<br>373K,&nbsp;&nbsp;5.4&nbsp;sec<br>68 MB</td>
+   <td align="right">189K,&nbsp;10.6&nbsp;sec<br>667K,&nbsp;&nbsp;3.0&nbsp;sec<br>167K,&nbsp;12.0&nbsp;sec<br>208 MB</td>
+   <td align="right">184K,&nbsp;10.9&nbsp;sec<br>96K,&nbsp;20.8&nbsp;sec<br>63K,&nbsp;31.7&nbsp;sec<br>272 MB</td>
 </tr>
 <tr>
-   <td>Columns:&nbsp5<br>Size:&nbsp64&nbspMB<br><br><br></td>
-   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
-   <td align="right">
-545K,&nbsp&nbsp3.7&nbspsec<br>
-714K,&nbsp&nbsp2.8&nbspsec<br>
-538K,&nbsp&nbsp3.7&nbspsec<br>
-52 MB
-</td>
-   <td align="right">
-319K,&nbsp&nbsp6.3&nbspsec<br>
-675K,&nbsp&nbsp3.0&nbspsec<br>
-308K,&nbsp&nbsp6.5&nbspsec<br>
-68 MB
-</td>
-   <td align="right">
-174K,&nbsp11.5&nbspsec<br>
-486K,&nbsp&nbsp4.1&nbspsec<br>
-154K,&nbsp13.0&nbspsec<br>
-208 MB
-</td>
-   <td align="right">
-168K,&nbsp11.9&nbspsec<br>
-96K,&nbsp20.8&nbspsec<br>
-61K,&nbsp32.8&nbspsec<br>
-272 MB
-</td>
+   <td>Columns:&nbsp;5<br>Size:&nbsp;64&nbsp;MB<br><br><br></td>
+   <td>Cell&nbsp;rules<br>Agg&nbsp;rules<br>Cell&nbsp;+&nbsp;Agg<br>Peak&nbsp;Memory</td>
+   <td align="right">545K,&nbsp;&nbsp;3.7&nbsp;sec<br>714K,&nbsp;&nbsp;2.8&nbsp;sec<br>538K,&nbsp;&nbsp;3.7&nbsp;sec<br>52 MB</td>
+   <td align="right">319K,&nbsp;&nbsp;6.3&nbsp;sec<br>675K,&nbsp;&nbsp;3.0&nbsp;sec<br>308K,&nbsp;&nbsp;6.5&nbsp;sec<br>68 MB</td>
+   <td align="right">174K,&nbsp;11.5&nbsp;sec<br>486K,&nbsp;&nbsp;4.1&nbsp;sec<br>154K,&nbsp;13.0&nbsp;sec<br>208 MB</td>
+   <td align="right">168K,&nbsp;11.9&nbsp;sec<br>96K,&nbsp;20.8&nbsp;sec<br>61K,&nbsp;32.8&nbsp;sec<br>272 MB</td>
 </tr>
 <tr>
-   <td>Columns:&nbsp10<br>Size:&nbsp220&nbspMB<br><br><br></td>
-   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
-   <td align="right">
-311K,&nbsp&nbsp6.4&nbspsec<br>
-362K,&nbsp&nbsp5.5&nbspsec<br>
-307K,&nbsp&nbsp6.5&nbspsec<br>
-52 MB
-</td>
-   <td align="right">
-221K,&nbsp&nbsp9.0&nbspsec<br>
-354K,&nbsp&nbsp5.6&nbspsec<br>
-215K,&nbsp&nbsp9.3&nbspsec<br>
-68 MB
-</td>
-   <td align="right">
-137K,&nbsp14.6&nbspsec<br>
-294K,&nbsp&nbsp6.8&nbspsec<br>
-125K,&nbsp16.0&nbspsec<br>
-208 MB
-</td>
-   <td align="right">
-135K,&nbsp14.8&nbspsec<br>
-96K,&nbsp20.8&nbspsec<br>
-56K,&nbsp35.7&nbspsec<br>
-272 MB
-</td>
+   <td>Columns:&nbsp;10<br>Size:&nbsp;220&nbsp;MB<br><br><br></td>
+   <td>Cell&nbsp;rules<br>Agg&nbsp;rules<br>Cell&nbsp;+&nbsp;Agg<br>Peak&nbsp;Memory</td>
+   <td align="right">311K,&nbsp;&nbsp;6.4&nbsp;sec<br>362K,&nbsp;&nbsp;5.5&nbsp;sec<br>307K,&nbsp;&nbsp;6.5&nbsp;sec<br>52 MB</td>
+   <td align="right">221K,&nbsp;&nbsp;9.0&nbsp;sec<br>354K,&nbsp;&nbsp;5.6&nbsp;sec<br>215K,&nbsp;&nbsp;9.3&nbsp;sec<br>68 MB</td>
+   <td align="right">137K,&nbsp;14.6&nbsp;sec<br>294K,&nbsp;&nbsp;6.8&nbsp;sec<br>125K,&nbsp;16.0&nbsp;sec<br>208 MB</td>
+   <td align="right">135K,&nbsp;14.8&nbsp;sec<br>96K,&nbsp;20.8&nbsp;sec<br>56K,&nbsp;35.7&nbsp;sec<br>272 MB</td>
 </tr>
 <tr>
-   <td>Columns:&nbsp20<br>Size:&nbsp1.2&nbspGB<br><br><br></td>
-   <td>Cell&nbsprules<br>Agg&nbsprules<br>Cell&nbsp+&nbspAgg<br>Peak&nbspMemory</td>
-   <td align="right">
-103K,&nbsp19.4&nbspsec<br>
-108K,&nbsp18.5&nbspsec<br>
-102K,&nbsp19.6&nbspsec<br>
-52 MB
-</td>
-   <td align="right">
-91K,&nbsp22.0&nbspsec<br>
-107K,&nbsp18.7&nbspsec<br>
-89K,&nbsp22.5&nbspsec<br>
-68 MB
-</td>
-   <td align="right">
-72K,&nbsp27.8&nbspsec<br>
-101K,&nbsp19.8&nbspsec<br>
-69K,&nbsp29.0&nbspsec<br>
-208 MB
-</td>
-   <td align="right">
-71K,&nbsp28.2&nbspsec<br>
-96K,&nbsp20.8&nbspsec<br>
-41K,&nbsp48.8&nbspsec<br>
-272 MB
-</td>
+   <td>Columns:&nbsp;20<br>Size:&nbsp;1.2&nbsp;GB<br><br><br></td>
+   <td>Cell&nbsp;rules<br>Agg&nbsp;rules<br>Cell&nbsp;+&nbsp;Agg<br>Peak&nbsp;Memory</td>
+   <td align="right">103K,&nbsp;19.4&nbsp;sec<br>108K,&nbsp;18.5&nbsp;sec<br>102K,&nbsp;19.6&nbsp;sec<br>52 MB</td>
+   <td align="right">91K,&nbsp;22.0&nbsp;sec<br>107K,&nbsp;18.7&nbsp;sec<br>89K,&nbsp;22.5&nbsp;sec<br>68 MB</td>
+   <td align="right">72K,&nbsp;27.8&nbsp;sec<br>101K,&nbsp;19.8&nbsp;sec<br>69K,&nbsp;29.0&nbsp;sec<br>208 MB</td>
+   <td align="right">71K,&nbsp;28.2&nbsp;sec<br>96K,&nbsp;20.8&nbsp;sec<br>41K,&nbsp;48.8&nbsp;sec<br>272 MB</td>
 </tr>
 </table>
 <!-- auto-update:/benchmark-table -->
@@ -1305,30 +1218,22 @@ It's random ideas and plans. No promises and deadlines. Feel free to [help me!](
 
 * **Batch processing**
     * If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
-    * Flag to ignore file name pattern. It's useful when you have a lot of files, and you don't want to validate the
-      file name.
+    * Flag to ignore file name pattern. It's useful when you have a lot of files, and you don't want to validate the file name.
 
 * **Validation**
     * Multi values in one cell.
-    * Custom cell rule as a callback. It's useful when you have a complex rule that can't be described in the schema
-      file.
-    * Custom agregate rule as a callback. It's useful when you have a complex rule that can't be described in the schema
-      file.
-    * Configurable keyword for null/empty values. By default, it's an empty string. But you will
-      use `null`, `nil`, `none`, `empty`, etc. Overridable on the column level.
-    * Handle empty files and files with only a header row, or only with one line of data. One column wthout header is
-      also possible.
-    * Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas. Make
-      it DRY and easy to maintain.
+    * Custom cell rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
+    * Custom agregate rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
+    * Configurable keyword for null/empty values. By default, it's an empty string. But you will use `null`, `nil`, `none`, `empty`, etc. Overridable on the column level.
+    * Handle empty files and files with only a header row, or only with one line of data. One column wthout header is also possible.
+    * Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas. Make it DRY and easy to maintain.
     * If option `--schema` is not specified, then validate only super base level things (like "is it a CSV file?").
     * Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
     * Extending with custom rules and custom report formats. Plugins?
-    * Input encoding detection + `BOM` (right now it's experimental). It works but not so accurate... UTF-8/16/32 is the
-      best choice for now.
+    * Input encoding detection + `BOM` (right now it's experimental). It works but not so accurate... UTF-8 is the best choice for now.
 
 * **Performance and optimization**
-    * Using [vectors](https://www.php.net/manual/en/class.ds-vector.php) instead of arrays to optimaze memory usage
-      and speed of access.
+    * Using [vectors](https://www.php.net/manual/en/class.ds-vector.php) instead of arrays to optimaze memory usage and speed of access.
     * Parallel validation of schema by columns. You won't believe this, but modern PHP has multithreading support.
     * Parallel validation of multiple files at once.
 
@@ -1352,10 +1257,8 @@ It's random ideas and plans. No promises and deadlines. Feel free to [help me!](
     * Install via apt on Ubuntu.
     * Use it as PHP SDK. Examples in Readme.
     * Warnings about deprecated options and features.
-    * Add option `--recomendation` to show a list of recommended rules for the schema or potential issues in the CSV
-      file or schema. It's useful when you are not sure what rules to use.
-    * Add option `--error=[level]` to show only errors with a specific level. It's useful when you have a lot of
-      warnings and you want to see only errors.
+    * Add option `--recomendation` to show a list of recommended rules for the schema or potential issues in the CSV file or schema. It's useful when you are not sure what rules to use.
+    * Add option `--error=[level]` to show only errors with a specific level. It's useful when you have a lot of warnings and you want to see only errors.
     * S3 Storage support. Validate files in the S3 bucket? Hmm... Why not? But...
     * More examples and documentation.
 
