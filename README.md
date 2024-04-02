@@ -409,7 +409,7 @@ columns:
       is_time: true                     # Check if the cell value is a valid time in the format "HH:MM:SS AM/PM" / "HH:MM:SS" / "HH:MM". Case-insensitive.
       is_leap_year: true                # Check if the cell value is a leap year. Example: "2008", "2008-02-29 23:59:59 UTC".
 
-      # Date Intervals. Under the hood, the strings are converted to microseconds and compared.
+      # Date Intervals. Under the hood, the strings are converted to seconds and compared.
       # See: https://www.php.net/manual/en/class.dateinterval.php
       # See: https://www.php.net/manual/en/dateinterval.createfromdatestring.php
       date_interval_min: PT0S           # 0 seconds

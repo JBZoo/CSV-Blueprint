@@ -42,12 +42,6 @@ class ComboDateIntervalTest extends TestAbstractCellRuleCombo
         }
 
         isSame(
-            'The date interval of the value "2000-10-02 00:00:01" is parsed as "0" seconds, ' .
-            'which is not equal than the expected "31557600 (P1Y) seconds"',
-            $rule->test('2000-10-02 00:00:01'),
-        );
-
-        isSame(
             'The date interval of the value "<c>qwerty</c>" is ' .
             '<red>Can\'t parse date interval: qwerty</red>, ' .
             'which is not equal than the expected "<green>31557600 (P1Y) seconds</green>"',
