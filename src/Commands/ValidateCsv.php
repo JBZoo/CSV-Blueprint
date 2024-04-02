@@ -59,8 +59,7 @@ final class ValidateCsv extends AbstractValidate
                 's',
                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
                 \implode('', [
-                    "Path(s) to schema file(s).\n",
-                    'It can be a YAML, JSON or PHP. See examples on GitHub.',
+                    "Path(s) to schema file(s). It can be a YAML, JSON or PHP. See examples on GitHub.\n",
                     'Also, you can specify path in which schema files will be searched ',
                     '(max depth is ' . Utils::MAX_DIRECTORY_DEPTH . ").\n",
                     "Feel free to use glob pattrens. Usage examples: \n",
@@ -70,7 +69,7 @@ final class ValidateCsv extends AbstractValidate
                     '<info>p/**/*.yml</info>, ',
                     '<info>p/**/name-*.json</info>, ',
                     '<info>**/*.php</info>, ',
-                    'etc.',
+                    "etc.\n",
                 ]),
             )
             ->addOption(
@@ -133,28 +132,26 @@ final class ValidateCsv extends AbstractValidate
 
             foreach ($schemaFilenames as $index => $schemaFilename) {
                 $prefix = '(' . ((int)$index + 1) . "/{$totalFiles})";
-                $path = Utils::printFile($schemaFilename->getPathname());
+                $schemaPath = Utils::printFile($schemaFilename->getPathname());
 
                 if ($quickCheck && $schemaErrors !== null && $schemaErrors->count() > 0) {
-                    $this->out("{$prefix} <yellow>Skipped (Quick mode)</yellow>");
+                    $this->out("{$prefix} <yellow>Skipped (Quick mode)</yellow> {$schemaPath}");
                     continue;
                 }
 
                 try {
                     $schemaErrors = (new Schema($schemaFilename->getPathname()))->validate($quickCheck);
                     if ($schemaErrors->count() > 0) {
-                        $this->out([
-                            "{$prefix} Schema: {$path}",
-                            "{$prefix} <yellow>Issues:</yellow> {$schemaErrors->count()}",
-                        ]);
-                        $this->_($schemaErrors->render($this->getReportType()));
+                        $this->out("{$prefix} <yellow>Issues:</yellow> {$schemaErrors->count()} in {$schemaPath}");
+                        $this->outReport($schemaErrors, 2);
+
                         $totalSchemaErrors->addErrorSuit($schemaErrors);
                     } else {
-                        $this->out("{$prefix} <green>OK:</green> {$path}");
+                        $this->out("{$prefix} <green>OK</green> {$schemaPath}");
                     }
                 } catch (Exception $e) {
                     $this->out([
-                        "{$prefix} Schema: {$path}",
+                        "{$prefix} Schema: {$schemaPath}",
                         "{$prefix} Exception: <yellow>{$e->getMessage()}</yellow>",
                     ]);
                 }
@@ -168,7 +165,7 @@ final class ValidateCsv extends AbstractValidate
 
     private function validateCsvFiles(array $matchedFiles): array
     {
-        $totalFiles = \count($matchedFiles['found_pairs']);
+        $totalFiles = $matchedFiles['count_pairs'];
         $invalidFiles = 0;
         $errorCounter = 0;
         $errorSuite = null;
@@ -176,32 +173,31 @@ final class ValidateCsv extends AbstractValidate
 
         $this->out("CSV file validation: {$totalFiles}");
 
-        foreach ($matchedFiles['found_pairs'] as $index => $pair) {
-            [$schema, $csv] = $pair;
+        $index = 0;
+        foreach ($matchedFiles['found_pairs'] as $schema => $csvs) {
+            $this->out("Schema: " . Utils::printFile($schema));
+            foreach ($csvs as $csv) {
+                $index++;
+                $prefix = "({$index}/{$totalFiles})";
 
-            $prefix = '(' . ((int)$index + 1) . "/{$totalFiles})";
+                $currentCsvTitle = Utils::printFile($csv, 'blue') . '; Size: ' . Utils::getFileSize($csv);
 
-            $this->out([
-                "{$prefix} Schema: " . Utils::printFile($schema),
-                "{$prefix} CSV   : " . Utils::printFile($csv) . ';' .
-                ' Size: ' . Utils::getFileSize($csv),
-            ]);
+                if ($quickCheck && $errorSuite !== null && $errorSuite->count() > 0) {
+                    $this->out("<yellow>Skipped (Quick mode)</yellow> {$currentCsvTitle}", 2);
+                    continue;
+                }
 
-            if ($quickCheck && $errorSuite !== null && $errorSuite->count() > 0) {
-                $this->out("{$prefix} <yellow>Skipped (Quick mode)</yellow>");
-                continue;
-            }
+                $errorSuite = (new CsvFile($csv, $schema))->validate($quickCheck);
 
-            $csvFile = new CsvFile($csv, $schema);
-            $errorSuite = $csvFile->validate($quickCheck);
+                if ($errorSuite->count() > 0) {
+                    $invalidFiles++;
+                    $errorCounter += $errorSuite->count();
 
-            if ($errorSuite->count() > 0) {
-                $invalidFiles++;
-                $errorCounter += $errorSuite->count();
-                $this->out("{$prefix} <yellow>Issues:</yellow> {$errorSuite->count()}");
-                $this->_($errorSuite->render($this->getOptString('report')));
-            } else {
-                $this->out("{$prefix} <green>OK</green>");
+                    $this->out("{$prefix} <yellow>Issues:</yellow> {$errorSuite->count()} in {$currentCsvTitle}", 2);
+                    $this->outReport($errorSuite, 4);
+                } else {
+                    $this->out("{$prefix} <green>OK</green> {$currentCsvTitle}", 2);
+                }
             }
         }
 
@@ -226,67 +222,70 @@ final class ValidateCsv extends AbstractValidate
             || $errorInSchemaCounter > 0
             || \count($matchedFiles['schema_without_csv']) > 0
             || \count($matchedFiles['csv_without_schema']) > 0
-            || \count($matchedFiles['found_pairs']) === 0
         ) {
             $exitCode = self::FAILURE;
         }
 
+        $indent = 2;
         $this->out(['', 'Summary:']);
 
         if ($totalSchemaFiles === 0) {
-            $this->out('  <red>No schema files found!</red>');
+            $this->out('<red>No schema files found!</red>', $indent);
         }
 
         $this->out(
-            '  ' . \count($matchedFiles['found_pairs']) . ' ' .
-            'pairs (schema to csv) were found based on `filename_pattern`.',
+            "{$matchedFiles['count_pairs']} pairs (schema to csv) were found based on `filename_pattern`.",
+            $indent,
         );
 
         if ($errorInSchemaCounter > 0) {
-            $this->out("  Found <c>{$errorInSchemaCounter}</c> issues in {$totalSchemaFiles} schemas.");
+            $this->out("Found <c>{$errorInSchemaCounter}</c> issues in {$totalSchemaFiles} schemas.", $indent);
         } else {
-            $this->out("  <green>No issues in {$totalSchemaFiles} schemas.</green>");
+            $this->out("<green>No issues in {$totalSchemaFiles} schemas.</green>", $indent);
         }
 
         if ($errorInCsvCounter > 0) {
             $this->out(
-                "  Found <c>{$errorInCsvCounter}</c> issues in {$invalidCsvFiles} " .
+                "Found <c>{$errorInCsvCounter}</c> issues in {$invalidCsvFiles} " .
                 "out of {$totalCsvFiles} CSV files.",
+                $indent,
             );
         } else {
-            $this->out("  <green>No issues in {$totalCsvFiles} CSV files.</green>");
+            $this->out("<green>No issues in {$totalCsvFiles} CSV files.</green>", $indent);
         }
 
         if (\count($matchedFiles['global_schemas']) > 0) {
             $this->out(
-                '  <yellow>Schemas have no filename_pattern and are applied to all CSV files found:</yellow>',
+                '<yellow>Schemas have no filename_pattern and are applied to all CSV files found:</yellow>',
+                $indent,
             );
 
             foreach ($matchedFiles['global_schemas'] as $file) {
-                $this->out('    - ' . Utils::printFile($file));
+                $this->out('  * ' . Utils::printFile($file), $indent);
             }
         }
 
         if (isset($matchedFiles['csv_without_schema']) && \count($matchedFiles['csv_without_schema']) > 0) {
             $this->out(
-                "  <yellow>No schema was applied to the CSV files (filename_pattern didn't match):</yellow>",
+                "<yellow>No schema was applied to the CSV files (filename_pattern didn't match):</yellow>",
+                $indent
             );
 
             foreach ($matchedFiles['csv_without_schema'] as $file) {
-                $this->out('    - ' . Utils::printFile($file));
+                $this->out('  * ' . Utils::printFile($file), $indent);
             }
         }
 
         if (isset($matchedFiles['schema_without_csv']) && \count($matchedFiles['schema_without_csv']) > 0) {
-            $this->out('  <yellow>Not used schemas:</yellow>');
+            $this->out('<yellow>Not used schemas:</yellow>', $indent);
 
             foreach ($matchedFiles['schema_without_csv'] as $file) {
-                $this->out('    - ' . Utils::printFile($file));
+                $this->out('  * ' . Utils::printFile($file, 'blue'), $indent);
             }
         }
 
         if ($exitCode === self::SUCCESS) {
-            $this->out('  <green>Looks good!</green>');
+            $this->out('<green>Looks good!</green>', $indent);
         }
         $this->out('');
 
@@ -304,7 +303,7 @@ final class ValidateCsv extends AbstractValidate
         $this->out([
             'Found Schemas   : ' . \count($schemaFilenames) . $validationFlag,
             'Found CSV files : ' . \count($csvFilenames),
-            'Pairs by pattern: ' . \count($matchedFiles['found_pairs']),
+            'Pairs by pattern: ' . $matchedFiles['count_pairs'],
         ]);
 
         if ($this->isQuickMode()) {
