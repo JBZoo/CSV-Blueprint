@@ -993,9 +993,11 @@ Of course, you'll want to know how fast it works. The thing is, it depends very-
 
 * **The file size** - Width and height of the CSV file. The larger the dataset, the longer it will take to go through
   it. The dependence is linear and strongly depends on the speed of your hardware (CPU, SSD).
+
 * **Number of rules used** - Obviously, the more of them there are for one column, the more iterations you will have to
   make. Also remember that they do not depend on each other. I.e. execution of one rule will not optimize or slow down
   another rule in any way. In fact, it will be just summing up time and memory resources.
+
 * Some validation rules are very time or memory intensive. For the most part you won't notice this, but there are some
   that are dramatically slow. For example, `interquartile_mean` processes about 4k lines per second, while the rest of
   the rules are about 30+ millions lines per second.
@@ -1008,21 +1010,16 @@ However, to get a rough picture, you can check out the table below.
   At the link you will see considerably more different builds. We need them for different testing options/experiments.
   Most representative values in `Docker (latest, XX)`.
 * Developer mode is used to display this information `-vvv --debug --profile`.
-* Software: Latest Ubuntu + Docker.
-  Also [see detail about GA hardware](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-private-repositories).
-* The main metric is the number of lines per second. Please note that the table is thousands of lines per second
-  (`100K` = `100,000 lines per second`).
+* Software: Latest Ubuntu + Docker. Also [see detail about GA hardware](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-private-repositories).
+* The main metric is the number of lines per second. Please note that the table is thousands of lines per second (`100K` = `100,000 lines per second`).
 * An additional metric is the peak RAM consumption over the entire time of the test case.
 
 Since usage profiles can vary, I've prepared a few profiles to cover most cases.
 
-* **[Quickest](tests/Benchmarks/bench_0_quickest_combo.yml)** - It check only one of the rule (cell or aggregation). I
-  picked the fastest rules.
+* **[Quickest](tests/Benchmarks/bench_0_quickest_combo.yml)** - It check only one of the rule (cell or aggregation). I picked the fastest rules.
 * **[Minimum](tests/Benchmarks/bench_1_mini_combo.yml)** - Normal rules with average performance, but 2 of each.
-* **[Realistic](tests/Benchmarks/bench_2_realistic_combo.yml)** - A mix of rules that are most likely to be used in real
-  life.
-* **[All aggregations](tests/Benchmarks/bench_3_all_agg.yml)** - All aggregation rules at once. This is the
-  worst-case scenario.
+* **[Realistic](tests/Benchmarks/bench_2_realistic_combo.yml)** - A mix of rules that are most likely to be used in real life.
+* **[All aggregations](tests/Benchmarks/bench_3_all_agg.yml)** - All aggregation rules at once. This is the worst-case scenario.
 
 Also, there is an additional division into
 
