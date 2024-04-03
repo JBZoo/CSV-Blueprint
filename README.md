@@ -83,6 +83,38 @@ specifications, making it invaluable in scenarios where data quality and consist
 * **Flexible Reporting:** Offers integration capabilities with GitHub, Gitlab, TeamCity, and more. Outputs include a
   human-readable table for ease of understanding. [View Live Demo](https://github.com/JBZoo/Csv-Blueprint-Demo).
 
+
+<details>
+  <summary>CLICK to see typical workflow</summary>
+
+1. **Data Preparation:** Team A generates CSV data adhering to a predefined format and places the file in a shared
+   location accessible to Team B (e.g., a shared repository or cloud storage).
+
+2. **Notification:** Team A notifies Team B that the data is ready via corporate communication channels (email, chat,
+   task management system).
+
+3. **Validation:** Team B uses predefined validation rules stored in the repository to check the CSV file for accuracy
+   and integrity before importing. This includes verifying date formats, numerical values, and the presence of required
+   columns.
+
+4. **Data Import:** After successful validation, Team B imports the data from the CSV file into their system for further
+   processing.
+
+5. **Error Handling:** If validation identifies errors, the process halts, and Team B provides feedback to Team A for
+   data correction.
+
+**Why Validation is Necessary:**
+
+- **Reduce Errors:** Validating data before import minimizes the likelihood of errors, enhancing data quality.
+- **Efficiency:** Prevents time loss on manual error correction post-import.
+- **Data Consistency:** Ensures data meets the expectations and requirements of Team B, facilitating accurate processing
+  and analysis.
+- **Automation:** Storing validation rules in the repository eases the process of checking automation and simplifies
+  updating validation criteria.
+
+</details>
+
+
 ### Live Demo
 
 As a live demonstration of how the tool works, you can explore the super minimal repository
