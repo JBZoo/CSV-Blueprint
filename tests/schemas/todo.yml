@@ -53,7 +53,6 @@ columns:
       subdivision_code: [ ]           # https://github.com/Respect/Validation/blob/main/docs/rules/SubdivisionCode.md
 
       # ids
-      is_credit_card: brands[]        # https://github.com/Respect/Validation/blob/main/docs/rules/CreditCard.md
       is_postal_code: country code       # https://github.com/Respect/Validation/blob/main/docs/rules/PostalCode.md
       is_bsn: true
       is_cnh: true
@@ -72,7 +71,6 @@ columns:
       is_portuguese_nif: true
       is_bic: true
       is_iban: true
-      is_card_number: true
 
       # Strings
       is_hex_rgb_color: true

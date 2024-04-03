@@ -176,6 +176,8 @@ This example serves as a comprehensive guide for creating robust CSV file valida
 
                 'hash'    => 'set_algo',
                 'charset' => 'charset_code',
+
+                'credit_card' => 'Any',
             ],
 
             'aggregate_rules' => [

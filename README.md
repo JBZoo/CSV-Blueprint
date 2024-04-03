@@ -11,11 +11,11 @@
 <!-- auto-update:/top-badges -->
 
 <!-- auto-update:rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-324-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
-[![Static Badge](https://img.shields.io/badge/Rules-110-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
+[![Static Badge](https://img.shields.io/badge/Rules-325-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-111-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
 [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)
 [![Static Badge](https://img.shields.io/badge/Rules-8-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)
-[![Static Badge](https://img.shields.io/badge/Rules-26/54/9-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-24/54/9-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- auto-update:/rules-counter -->
 
 A console utility designed for validating CSV files against a strictly defined schema and validation rules outlined
@@ -553,6 +553,10 @@ columns:
       #  - UTF-32BE, UTF-32LE, UTF7-IMAP, UUENCODE, Windows-1251, Windows-1252, Windows-1254, eucJP-win
       charset: charset_code             # Validates if a string is in a specific charset. Example: "UTF-8".
 
+      # Validates whether the input is a credit card number.
+      # Available credit card brands: "Any", "American Express", "Diners Club", "Discover", "JCB", "MasterCard", "Visa", "RuPay".
+      credit_card: Any                  # Example: "5376-7473-9720-8720"
+
     ####################################################################################################################
     # Data validation for the entire(!) column using different data aggregation methods.
     # Every rule is optional.
@@ -932,7 +936,7 @@ Usage:
 Options:
   -c, --csv=CSV                    Specify the path(s) to the CSV files you want to validate.
                                    This can include a direct path to a file or a directory to search with a maximum depth of 10 levels.
-                                   Examples: :/full/path/name.csv; p/file.csv; p/*.csv; p/**/*.csv; p/**/name-*.csv; **/*.csv
+                                   Examples: /full/path/name.csv; p/file.csv; p/*.csv; p/**/*.csv; p/**/name-*.csv; **/*.csv
                                     (multiple values allowed)
   -s, --schema=SCHEMA              Specify the path(s) to the schema file(s), supporting YAML, JSON, or PHP formats.
                                    Similar to CSV paths, you can direct to specific files or search directories with glob patterns.

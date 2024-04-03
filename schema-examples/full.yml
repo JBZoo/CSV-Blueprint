@@ -256,6 +256,10 @@ columns:
       #  - UTF-32BE, UTF-32LE, UTF7-IMAP, UUENCODE, Windows-1251, Windows-1252, Windows-1254, eucJP-win
       charset: charset_code             # Validates if a string is in a specific charset. Example: "UTF-8".
 
+      # Validates whether the input is a credit card number.
+      # Available credit card brands: "Any", "American Express", "Diners Club", "Discover", "JCB", "MasterCard", "Visa", "RuPay".
+      credit_card: Any                  # Example: "5376-7473-9720-8720"
+
     ####################################################################################################################
     # Data validation for the entire(!) column using different data aggregation methods.
     # Every rule is optional.

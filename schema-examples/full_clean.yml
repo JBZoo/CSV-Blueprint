@@ -186,6 +186,8 @@ columns:
 
       charset: charset_code
 
+      credit_card: Any
+
     aggregate_rules:
       is_unique: true
       sorted: [ asc, natural ]

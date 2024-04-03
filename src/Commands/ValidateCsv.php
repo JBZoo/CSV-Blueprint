@@ -44,7 +44,7 @@ final class ValidateCsv extends AbstractValidate
                     'Specify the path(s) to the CSV files you want to validate.',
                     'This can include a direct path to a file or a directory to search with a maximum depth of ' .
                     Utils::MAX_DIRECTORY_DEPTH . ' levels.',
-                    'Examples: :<info>' . \implode('</info>; <info>', [
+                    'Examples: <info>' . \implode('</info>; <info>', [
                         '/full/path/name.csv',
                         'p/file.csv',
                         'p/*.csv',

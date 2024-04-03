@@ -154,7 +154,8 @@
                 "is_alnum"                : true,
                 "is_alpha"                : true,
                 "hash"                    : "set_algo",
-                "charset"                 : "charset_code"
+                "charset"                 : "charset_code",
+                "credit_card"             : "Any"
             },
             "aggregate_rules" : {
                 "is_unique"                   : true,
