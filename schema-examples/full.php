@@ -164,6 +164,7 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'is_even'         => true,
                 'is_odd'          => true,
                 'is_roman'        => true,
+                'is_luhn'         => true,
 
                 'phone' => 'ALL',
 

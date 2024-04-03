@@ -224,6 +224,7 @@ columns:
       is_even: true                     # Check if the value is an even number. Example: "2", "4", "6".
       is_odd: true                      # Check if the value is an odd number. Example: "1", "7", "11".
       is_roman: true                    # Validates if the input is a Roman numeral. Example: "I", "IV", "XX".
+      is_luhn: true                     # Luhn algorithm. See https://en.wikipedia.org/wiki/Luhn_algorithm
 
       # Identifications
       phone: ALL                        # Validates if the input is a phone number. Specify the country code to validate the phone number for a specific country. Example: "ALL", "US", "BR".".
