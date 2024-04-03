@@ -54,7 +54,9 @@ final class Charset extends AbstractCellRule
     private static function getHelpTitle(): array
     {
         $maxOnLine = 10;
-        $lines = \array_chunk(\mb_list_encodings(), $maxOnLine);
+        $list = \mb_list_encodings();
+        sort($list, SORT_NATURAL);
+        $lines = \array_chunk($list, $maxOnLine);
 
         $result = ['Check if a string is in a specific charset. Available charsets:'];
         foreach ($lines as $line) {
