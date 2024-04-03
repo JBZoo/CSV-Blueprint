@@ -11,11 +11,11 @@
 <!-- auto-update:/top-badges -->
 
 <!-- auto-update:rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-382-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
-[![Static Badge](https://img.shields.io/badge/Rules-168-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
+[![Static Badge](https://img.shields.io/badge/Rules-383-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-169-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
 [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)
 [![Static Badge](https://img.shields.io/badge/Rules-8-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)
-[![Static Badge](https://img.shields.io/badge/Rules-27/54/9-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-26/54/9-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- auto-update:/rules-counter -->
 
 A console utility designed for validating CSV files against a strictly defined schema and validation rules outlined
@@ -504,6 +504,16 @@ columns:
       #  - haval128,4, haval160,4, haval192,4, haval224,4, haval256,4, haval128,5, haval160,5, haval192,5, haval224,5, haval256,5
       hash: set_algo                    # Example: "1234567890abcdef".
 
+      # Check if a string is in a specific charset. Available charsets:
+      #  - BASE64, UUENCODE, HTML-ENTITIES, Quoted-Printable, 7bit, 8bit, UCS-4, UCS-4BE, UCS-4LE, UCS-2
+      #  - UCS-2BE, UCS-2LE, UTF-32, UTF-32BE, UTF-32LE, UTF-16, UTF-16BE, UTF-16LE, UTF-8, UTF-7
+      #  - UTF7-IMAP, ASCII, EUC-JP, SJIS, eucJP-win, EUC-JP-2004, SJIS-Mobile#DOCOMO, SJIS-Mobile#KDDI, SJIS-Mobile#SOFTBANK, SJIS-mac
+      #  - SJIS-2004, UTF-8-Mobile#DOCOMO, UTF-8-Mobile#KDDI-A, UTF-8-Mobile#KDDI-B, UTF-8-Mobile#SOFTBANK, CP932, SJIS-win, CP51932, JIS, ISO-2022-JP
+      #  - ISO-2022-JP-MS, GB18030, Windows-1252, Windows-1254, ISO-8859-1, ISO-8859-2, ISO-8859-3, ISO-8859-4, ISO-8859-5, ISO-8859-6
+      #  - ISO-8859-7, ISO-8859-8, ISO-8859-9, ISO-8859-10, ISO-8859-13, ISO-8859-14, ISO-8859-15, ISO-8859-16, EUC-CN, CP936
+      #  - HZ, EUC-TW, BIG-5, CP950, EUC-KR, UHC, ISO-2022-KR, Windows-1251, CP866, KOI8-R
+      #  - KOI8-U, ArmSCII-8, CP850, ISO-2022-JP-2004, ISO-2022-JP-MOBILE#KDDI, CP50220, CP50221, CP50222
+      charset: charset_code             # Validates if a string is in a specific charset. Example: "UTF-8".
 
     ####################################################################################################################
     # Data validation for the entire(!) column using different data aggregation methods.

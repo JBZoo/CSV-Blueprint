@@ -153,7 +153,8 @@
                 "is_consonant"            : true,
                 "is_alnum"                : true,
                 "is_alpha"                : true,
-                "hash"                    : "set_algo"
+                "hash"                    : "set_algo",
+                "charset"                 : "charset_code"
             },
             "aggregate_rules" : {
                 "is_unique"                   : true,
