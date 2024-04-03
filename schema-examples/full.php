@@ -166,9 +166,10 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'is_roman'        => true,
                 'is_luhn'         => true,
 
-                'phone'   => 'ALL',
-                'is_iban' => true,
-                'is_bic'  => true,
+                'phone'       => 'ALL',
+                'is_iban'     => true,
+                'is_bic'      => true,
+                'postal_code' => 'US',
 
                 'is_version'   => true,
                 'is_punct'     => true,
