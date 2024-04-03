@@ -176,6 +176,7 @@ columns:
 
       phone: ALL
       is_iban: true
+      is_bic: true
 
       is_version: true
       is_punct: true

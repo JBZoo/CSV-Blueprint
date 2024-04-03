@@ -16,9 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-use Respect\Validation\Validator;
-
-final class IsLuhn extends AbstractCellRule
+final class IsBic extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {
@@ -27,7 +25,8 @@ final class IsLuhn extends AbstractCellRule
             [
                 self::DEFAULT => [
                     'true',
-                    'Luhn algorithm. See: https://en.wikipedia.org/wiki/Luhn_algorithm',
+                    'Validates a Bank Identifier Code (BIC) according to ISO 9362 standards. ' .
+                    'See: https://en.wikipedia.org/wiki/ISO_9362',
                 ],
             ],
         ];
@@ -39,8 +38,8 @@ final class IsLuhn extends AbstractCellRule
             return null;
         }
 
-        if (!Validator::luhn()->validate($cellValue)) {
-            return "The value \"<c>{$cellValue}</c>\" is not a valid Luhn number.";
+        if (\preg_match('/^[A-Za-z]{4}[A-Za-z]{2}[A-Za-z0-9]{2}([A-Za-z0-9]{3})?$/', $cellValue) === 0) {
+            return "The value \"<c>{$cellValue}</c>\" is not a valid BIC number (ISO 9362).";
         }
 
         return null;
