@@ -43,7 +43,7 @@ final class ReadmeTest extends TestCase
         'CSV file, ensuring schema conformity.',
     ];
 
-    public function testCalidateCsvHelp(): void
+    public function testValidateCsvHelp(): void
     {
         $text = \implode("\n", [
             '```text',
