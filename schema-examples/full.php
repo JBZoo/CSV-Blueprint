@@ -171,6 +171,7 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'is_bic'      => true,
                 'postal_code' => 'US',
                 'is_imei'     => true,
+                'is_isbn'     => true,
 
                 'is_version'   => true,
                 'is_punct'     => true,

@@ -30,6 +30,7 @@ structural_rules:
   columns_count: 5                    # Exact number of columns in the file. By default, it is equal to the number of columns in the schema.
   columns_count_max: 5                # Minimum number of columns in the file. By default, it is equal to the number of columns in the schema.
   ignore_duplicate_rows: false        # If true, then duplicate rows will be ignored. Duplicate rows are rows that have the same values in all columns - 100% match.
+  ends_with_newline: false            # If true, then the file must end with a newline character (\n).
 
 
 columns:
@@ -53,8 +54,6 @@ columns:
       subdivision_code: [ ]           # https://github.com/Respect/Validation/blob/main/docs/rules/SubdivisionCode.md
 
       # ids
-      is_isbn: true                   # Validates an International Standard Book Number (ISBN).
-
       is_bsn: true                    # Validates a Dutch citizen service number (BSN).
       is_cnh: true                    # Validates a Brazilian national health card number (CNH).
       is_cnpj: true                   # Validates a Brazilian company identifier (CNPJ).
