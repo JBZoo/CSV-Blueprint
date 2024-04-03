@@ -210,7 +210,7 @@ make docker-build  # local tag is "jbzoo/csv-blueprint:local"
 ### PHP binary
 
 <details>
-  <summary>Click to see PHAR and PHP binary ways</summary>
+  <summary>Click to see using PHAR file</summary>
 
 Ensure you have PHP installed on your machine.
 
