@@ -147,6 +147,7 @@
                 "is_luhn"                 : true,
 
                 "phone"                   : "ALL",
+                "is_iban"                 : true,
 
                 "is_version"              : true,
                 "is_punct"                : true,

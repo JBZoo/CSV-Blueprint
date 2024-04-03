@@ -69,7 +69,6 @@ columns:
       is_polish_id_card: true
       is_portuguese_nif: true
       is_bic: true
-      is_iban: true
 
       # Strings
       is_hex_rgb_color: true
