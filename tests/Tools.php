@@ -127,12 +127,12 @@ final class Tools
             \file_get_contents(self::README),
         );
 
-        $sizeBefore = \filesize(self::README);
+        $hashBefore = \hash_file('md5', self::README);
         \clearstatcache(true, self::README);
         isTrue(\file_put_contents(self::README, $result) > 0);
-        $sizeAfter = \filesize(self::README);
+        $hashAfter = \hash_file('md5', self::README);
 
-        isSame($sizeAfter, $sizeBefore, "README.md was not updated. Code: {$code}");
+        isSame($hashAfter, $hashBefore, "README.md was not updated. Code: {$code}");
         isFileContains($result, self::README);
     }
 

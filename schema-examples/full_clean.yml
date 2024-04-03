@@ -184,6 +184,8 @@ columns:
 
       hash: set_algo
 
+      charset: charset_code
+
     aggregate_rules:
       is_unique: true
       sorted: [ asc, natural ]
