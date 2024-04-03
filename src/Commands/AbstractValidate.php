@@ -37,25 +37,38 @@ abstract class AbstractValidate extends CliCommand
                 'report',
                 'r',
                 InputOption::VALUE_REQUIRED,
-                "Report output format. Available options:\n" .
-                Utils::printList(ErrorSuite::getAvaiableRenderFormats(), 'info'),
+                \implode("\n", [
+                    "Determines the report's output format.",
+                    'Available options: <info>' . \implode(
+                        '</info>, <info>',
+                        ErrorSuite::getAvaiableRenderFormats(),
+                    ) . '</info>',
+                    '',
+                ]),
                 ErrorSuite::REPORT_DEFAULT,
             )
             ->addOption(
                 'quick',
                 'Q',
                 InputOption::VALUE_OPTIONAL,
-                "Immediately terminate the check at the first error found.\n" .
-                "Of course it will speed up the check, but you will get only 1 message out of many.\n" .
-                "If any error is detected, the utility will return a non-zero exit code.\n" .
-                'Empty value or "yes" will be treated as "true".',
+                \implode("\n", [
+                    'Stops the validation process upon encountering the first error,',
+                    'accelerating the check but limiting error visibility.',
+                    'Returns a non-zero exit code if any error is detected.',
+                    'Enable by setting to any non-empty value or "yes".',
+                    '',
+                ]),
                 'no',
             )
             ->addOption(
                 'debug',
                 null,
                 InputOption::VALUE_NONE,
-                "It's ONLY for debugging and advanced profiling!",
+                \implode("\n", [
+                    'Intended solely for debugging and advanced profiling purposes.',
+                    'Activating this option provides detailed process insights,',
+                    'useful for troubleshooting and performance analysis.',
+                ]),
             );
 
         parent::configure();
