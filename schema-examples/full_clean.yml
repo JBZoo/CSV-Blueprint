@@ -177,6 +177,7 @@ columns:
       phone: ALL
       is_iban: true
       is_bic: true
+      postal_code: US
 
       is_version: true
       is_punct: true
