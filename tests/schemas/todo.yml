@@ -61,7 +61,6 @@ columns:
       is_hetu: true
       is_imei: true
       is_isbn: true
-      is_luhn: true
       is_nfe_access_key: true
       is_nif: true
       is_nip: true

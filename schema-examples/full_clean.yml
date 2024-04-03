@@ -172,6 +172,7 @@ columns:
       is_even: true
       is_odd: true
       is_roman: true
+      is_luhn: true
 
       phone: ALL
 
