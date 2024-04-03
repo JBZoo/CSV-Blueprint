@@ -1106,16 +1106,16 @@ However, to gain a general understanding of performance, refer to the table belo
 * Peak RAM usage throughout the duration of each test case serves as an additional performance metric.
 
 
-### Profiles
+Profiles:
 
-- **Quickest:** Focuses on the fastest rules, either cell or aggregation, providing a baseline for maximum throughput.
-- **Minimum:** Uses a set of normal performance rules, with two instances of each, to simulate a lightweight validation
+- **[Quickest:](tests/Benchmarks/bench_0_quickest_combo.yml)** Focuses on the fastest rules, either cell or aggregation, providing a baseline for maximum throughput.
+- **[Minimum:](tests/Benchmarks/bench_1_mini_combo.yml)** Uses a set of normal performance rules, with two instances of each, to simulate a lightweight validation
   scenario.
-- **Realistic:** Represents a mix of rules likely encountered in typical use cases, offering a balanced view of
+- **[Realistic:](tests/Benchmarks/bench_2_realistic_combo.yml)** Represents a mix of rules likely encountered in typical use cases, offering a balanced view of
   performance.
-- **All Aggregations:** Tests all aggregation rules simultaneously, illustrating the tool's behavior under maximum load.
+- **[All Aggregations:](tests/Benchmarks/bench_3_all_agg.yml)** Tests all aggregation rules simultaneously, illustrating the tool's behavior under maximum load.
 
-### Divisions
+Divisions:
 
 - **Cell Rules:** Tests only individual cell validation rules.
 - **Agg Rules:** Focuses solely on column-wide aggregation rules.
