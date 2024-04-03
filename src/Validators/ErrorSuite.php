@@ -25,6 +25,7 @@ use JBZoo\CsvBlueprint\Utils;
 use JBZoo\Utils\FS;
 use JBZoo\Utils\Vars;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\TableStyle;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 final class ErrorSuite
@@ -157,7 +158,8 @@ final class ErrorSuite
             ->setColumnMaxWidth(0, $floatingSizes['line'])
             ->setColumnMaxWidth(1, $floatingSizes['column'])
             ->setColumnMaxWidth(2, $floatingSizes['rule'])
-            ->setColumnMaxWidth(3, $floatingSizes['message']);
+            ->setColumnMaxWidth(3, $floatingSizes['message'])
+            ->setColumnStyle(0, (new TableStyle())->setPadType(\STR_PAD_LEFT));
 
         foreach ($this->errors as $error) {
             $table->addRow([
