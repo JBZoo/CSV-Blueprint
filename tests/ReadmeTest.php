@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit;
 
 use JBZoo\Utils\Cli;
+use JBZoo\Utils\Str;
 use Symfony\Component\Console\Input\StringInput;
 
 use function JBZoo\Data\yml;
@@ -259,5 +260,38 @@ final class ReadmeTest extends TestCase
         $output[] = '</table>';
 
         Tools::insertInReadme('benchmark-table', \implode("\n", $output));
+    }
+
+    public function testGenerateTOC(): void
+    {
+        $markdown = \file_get_contents(PROJECT_ROOT . '/README.md');
+
+        // Split the content by code block delimiters
+        $splitContent = \preg_split('/(```.*?```)/s', $markdown, -1, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
+
+        $toc = '';
+        $currentContent = '';
+
+        foreach ($splitContent as $section) {
+            // If the section is a code block, skip it
+            if (\preg_match('/^```/', $section)) {
+                continue;
+            }
+
+            $currentContent .= $section;
+            // Match headers outside of code blocks
+            \preg_match_all('/^(#{2,6})\s*(.*)$/m', $currentContent, $matches, \PREG_SET_ORDER);
+
+            foreach ($matches as $match) {
+                $level = \strlen($match[1]) - 2; // Subtract 1 to start level from 0
+                $title = \trim($match[2]);
+                $slug = Str::slug($title);
+                $toc .= \str_repeat('  ', $level) . "- [{$title}](#{$slug})\n";
+            }
+            // Reset the current content to prevent duplicate entries
+            $currentContent = '';
+        }
+
+        Tools::insertInReadme('toc', $toc);
     }
 }

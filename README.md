@@ -24,9 +24,7 @@ This utility facilitates automated checks to verify that the structure and conte
 specifications, making it invaluable in scenarios where data quality and consistency are critical.
 
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
+<!-- auto-update:toc -->
 - [Introduction](#introduction)
   - [Why?](#why)
   - [Features](#features)
@@ -42,8 +40,6 @@ specifications, making it invaluable in scenarios where data quality and consist
 - [Complete CLI Help Message](#complete-cli-help-message)
 - [Report Examples](#report-examples)
 - [Benchmarks](#benchmarks)
-  - [Profiles](#profiles)
-  - [Divisions](#divisions)
   - [Brief Conclusions](#brief-conclusions)
   - [Examples of CSV Files](#examples-of-csv-files)
   - [Run benchmark locally](#run-benchmark-locally)
@@ -52,8 +48,8 @@ specifications, making it invaluable in scenarios where data quality and consist
 - [Contributing](#contributing)
 - [License](#license)
 - [See Also](#see-also)
+<!-- auto-update:/toc -->
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Introduction
 
