@@ -42,7 +42,7 @@ columns:
     # Multi prop
     multiple: true
     multiple_separator: "|"           # Separator for multiple values
-    faker: [faker_method arg1 arg2]   # Faker method with arguments
+    faker: [ faker_method arg1 arg2 ]   # Faker method with arguments
 
     rules:
       # https://github.com/Respect/Validation/blob/main/docs/08-list-of-rules-by-category.md
@@ -53,20 +53,19 @@ columns:
       subdivision_code: [ ]           # https://github.com/Respect/Validation/blob/main/docs/rules/SubdivisionCode.md
 
       # ids
-      is_bsn: true
-      is_cnh: true
-      is_cnpj: true
-      is_cpf: true
-      is_hetu: true
-      is_imei: true
-      is_isbn: true
-      is_nfe_access_key: true
-      is_nif: true
-      is_nip: true
-      is_pesel: true
-      is_pis: true
-      is_polish_id_card: true
-      is_portuguese_nif: true
+      is_isbn: true                   # Validates an International Standard Book Number (ISBN).
+
+      is_bsn: true                    # Validates a Dutch citizen service number (BSN).
+      is_cnh: true                    # Validates a Brazilian national health card number (CNH).
+      is_cnpj: true                   # Validates a Brazilian company identifier (CNPJ).
+      is_cpf: true                    # Validates a Brazilian individual taxpayer identifier (CPF).
+      is_nfe_access_key: true         # Validates a Brazilian Nota Fiscal Eletronica (NFe) access key.
+      is_pis: true                    # Validates a Brazilian individual social security number (PIS).
+      is_hetu: true                   # Validates a Finnish personal identity code (HETU).
+      is_nip: true                    # Validates a Polish taxpayer identification number (NIP).
+      is_pesel: true                  # Validates a Polish national identification number (PESEL).
+      is_polish_id_card: true         # Validates a Polish identity card number.
+      is_portuguese_nif: true         # Validates a Portuguese taxpayer number (NIF).
 
       # Strings
       is_hex_rgb_color: true
