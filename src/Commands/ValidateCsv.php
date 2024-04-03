@@ -40,45 +40,48 @@ final class ValidateCsv extends AbstractValidate
                 'csv',
                 'c',
                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-                \implode('', [
-                    "Path(s) to validate.\n" .
-                    'You can specify path in which CSV files will be searched ',
-                    '(max depth is ' . Utils::MAX_DIRECTORY_DEPTH . ").\n",
-                    "Feel free to use glob pattrens. Usage examples: \n",
-                    '<info>/full/path/file.csv</info>, ',
-                    '<info>p/file.csv</info>, ',
-                    '<info>p/*.csv</info>, ',
-                    '<info>p/**/*.csv</info>, ',
-                    '<info>p/**/name-*.csv</info>, ',
-                    '<info>**/*.csv</info>, ',
-                    'etc.',
+                \implode("\n", [
+                    'Specify the path(s) to the CSV files you want to validate.',
+                    'This can include a direct path to a file or a directory to search with a maximum depth of ' .
+                    Utils::MAX_DIRECTORY_DEPTH . ' levels.',
+                    'Examples: :<info>' . \implode('</info>; <info>', [
+                        '/full/path/name.csv',
+                        'p/file.csv',
+                        'p/*.csv',
+                        'p/**/*.csv',
+                        'p/**/name-*.csv',
+                        '**/*.csv',
+                    ]) . '</info>',
+                    '',
                 ]),
             )
             ->addOption(
                 'schema',
                 's',
                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-                \implode('', [
-                    "Path(s) to schema file(s). It can be a YAML, JSON or PHP. See examples on GitHub.\n",
-                    'Also, you can specify path in which schema files will be searched ',
-                    '(max depth is ' . Utils::MAX_DIRECTORY_DEPTH . ").\n",
-                    "Feel free to use glob pattrens. Usage examples: \n",
-                    '<info>/full/path/file.yml</info>, ',
-                    '<info>p/file.yml</info>, ',
-                    '<info>p/*.yml</info>, ',
-                    '<info>p/**/*.yml</info>, ',
-                    '<info>p/**/name-*.json</info>, ',
-                    '<info>**/*.php</info>, ',
-                    "etc.\n",
+                \implode("\n", [
+                    'Specify the path(s) to the schema file(s), supporting YAML, JSON, or PHP formats. ',
+                    'Similar to CSV paths, you can direct to specific files or search directories with glob patterns.',
+                    'Examples: <info>' . \implode('</info>; <info>', [
+                        '/full/path/name.yml',
+                        'p/file.yml',
+                        'p/*.yml',
+                        'p/**/*.yml',
+                        'p/**/name-*.yml',
+                        '**/*.yml',
+                    ]) . '</info>',
+                    '',
                 ]),
             )
             ->addOption(
                 'skip-schema',
                 'S',
                 InputOption::VALUE_OPTIONAL,
-                "Skip schema validation.\n" .
-                "If you are sure that the schema is correct, you can skip this check.\n" .
-                'Empty value or "yes" will be treated as "true".',
+                \implode("\n", [
+                    "Skips schema validation for quicker checks when the schema's correctness is certain.",
+                    'Use any non-empty value or "yes" to activate',
+                    '',
+                ]),
                 'no',
             );
 

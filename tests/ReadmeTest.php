@@ -24,14 +24,22 @@ use function JBZoo\Data\yml;
 final class ReadmeTest extends TestCase
 {
     private const EXTRA_RULES = [
-        '* With `filename_pattern` rule, you can check if the file name matches the pattern.',
-        '* Checks if property `name` is not defined in a column. Only if `csv.header: true`.',
-        '* If property `required` is set to `true`, the column must must be present in CSV. Only if `csv.header: true`',
-        '* Check that each row matches the number of columns.',
-        '* With `strict_column_order` rule, you can check that the columns are in the correct order.',
-        '* With `allow_extra_columns` rule, you can check that there are no extra columns in the CSV file.',
-        '  * If `csv.header: true`. Schema contains an unknown column `name` that is not found in the CSV file.',
-        '  * If `csv.header: false`. Compare the number of columns in the schema and the CSV file.',
+        '* The `filename_pattern` rule verifies that the file name adheres to the specified regex pattern, ' .
+        'ensuring file naming conventions are followed.',
+        '* Ensures that the `name` property is defined for each column, applicable only when `csv.header` ' .
+        'is set to `true`, to guarantee header integrity.',
+        '* The `required` property, when set to `true`, mandates the presence of the specified column in ' .
+        'the CSV file, enhancing data completeness. This is only relevant if `csv.header` is true.',
+        "* Validates that each row contains the correct number of columns, aligning with the schema's defined " .
+        'structure, to prevent data misalignment.',
+        '* The `strict_column_order` rule checks for the correct sequential order of columns as defined in ' .
+        'the schema, ensuring structural consistency.',
+        '* The `allow_extra_columns` rule asserts no additional columns are present in the CSV file beyond ' .
+        'those specified in the schema, maintaining strict data fidelity.',
+        '  * For `csv.header: true`, it checks if the schema contains any column `name` not found in the ' .
+        'CSV file, addressing header discrepancies.',
+        '  * For `csv.header: false`, it compares the number of columns in the schema against those in the ' .
+        'CSV file, ensuring schema conformity.',
     ];
 
     public function testCalidateCsvHelp(): void

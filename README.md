@@ -56,36 +56,40 @@ specifications, making it invaluable in scenarios where data quality and consist
 
 ### Why?
 
-* **Data Integration:** When integrating data from multiple sources, ensuring that incoming CSV files meet expected
-  formats and data types.
-* **Automated Data Pipelines:** In automated ETL processes, validating CSV files against a predefined schema can
-  significantly reduce the risk of errors and data quality issues in downstream applications.
-* **Data Quality Assurance:** Ensuring the quality of data before it enters analysis workflows or databases can save
-  significant time and resources.
-* **Development and Testing:** During software development, especially in applications that import or export CSV data,
-  having a tool to validate test data ensures consistency and reliability of test cases.
-* **Collaboration Across Teams:** By defining CSV formats and validation rules in YAML files, teams can share and
-  collaborate on data specifications more easily, ensuring consistency across different parts of an organization.
-  Documentation as code!
-
+* **Data Integration:** Ensures incoming CSV files from multiple sources meet the expected formats and data types,
+  facilitating smoother data integration.
+* **Automated Data Pipelines:** Validates CSV files against a predefined schema in automated ETL processes, reducing the
+  risk of errors and enhancing data quality in downstream applications.
+* **Data Quality Assurance:** Improves data quality before it enters analysis workflows or databases, saving time and
+  resources.
+* **Development and Testing:** Aids in software development, especially for applications dealing with CSV data
+  import/export, by validating test data for consistency and reliability.
+* **Collaboration Across Teams:** Allows teams to define and share CSV formats and validation rules through YAML files,
+  promoting data specification consistency organization-wide. Emphasizes the principle of "documentation as code."
 
 ### Features
 
-* **Schema-based Validation**: Define the structure and rules for your CSV files in an
-  intuitive [YAML format](schema-examples/full.yml), enabling precise validation against your data's expected format.
-* **Comprehensive Rule Set**: Includes a broad set of validation rules, such as non-empty fields, exact values, regular
-  expressions, numeric constraints, date formats, and more, catering to various data validation needs.
-* **Docker Support**: Easily integrate into any workflow with Docker, providing a seamless experience for development,
-  testing, and production environments.
-* **GitHub Actions Integration**: Automate CSV validation in your CI/CD pipeline, enhancing the quality control of your
-  data in pull requests and deployments.
-* **Various ways of reporting:** You can be easily integrated with GitHub, Gitlab, TeamCity, etc. The default
-  output is a human-readable table. [See Live Demo](https://github.com/JBZoo/Csv-Blueprint-Demo).
+* **Schema-based Validation:** Allows the definition of CSV file structure and rules in an intuitive YAML format,
+  enabling precise validation against the expected data format. [YAML Format Example](schema-examples/full.yml).
+* **Comprehensive Rule Set:** Offers a wide range of validation rules, including non-empty fields, exact values, regular
+  expressions, numeric constraints, date formats, and more, to meet diverse data validation requirements.
+* **Docker Support:** Facilitates easy integration into any workflow with Docker support, ensuring a seamless experience
+  across development, testing, and production environments.
+* **GitHub Actions Integration:** Enables CSV validation automation within CI/CD pipelines to improve data quality
+  control in pull requests and deployments.
+* **Flexible Reporting:** Offers integration capabilities with GitHub, Gitlab, TeamCity, and more. Outputs include a
+  human-readable table for ease of understanding. [View Live Demo](https://github.com/JBZoo/Csv-Blueprint-Demo).
 
 ### Live Demo
 
-* As a live demonstration of how the tool works you can take a look at the super minimal repository - [JBZoo/Csv-Blueprint-Demo](https://github.com/JBZoo/Csv-Blueprint-Demo). Feel free to fork it and play with the tool.
-* You can see more complex examples and different ways of reporting by looking at the [last Demo pipeline](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml) (please open the logs). There you'll find the basic ways to get started. And also the `All Report Types` (left sidebar) link with the different report types.
+As a live demonstration of how the tool works, you can explore the super minimal repository
+at [JBZoo/Csv-Blueprint-Demo](https://github.com/JBZoo/Csv-Blueprint-Demo). You're encouraged to fork it and experiment
+with the tool.
+
+For more complex examples and various reporting methods, take a look at
+the [last Demo pipeline](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml). Opening the logs will
+reveal basic starting points. Additionally, the `All Report Types` link (located in the left sidebar) provides access to
+different types of reports.
 
 **See also**
 * [PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files)
@@ -129,11 +133,11 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
 ```
 <!-- auto-update:/github-actions-yml -->
 
-You can specify `report: github` to see friendly error output in your PRs
-using [annotations](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message).
-This allows you to see bugs in the GitHub interface at the PR level.
-See [the PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files). That is, the error will be shown
-in a specific place in the CSV file right in diff of your Pull Requests!
+To see user-friendly error outputs in your pull requests (PRs), specify `report: github`. This
+utilizes [annotations](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message)
+to highlight bugs directly within the GitHub interface at the PR level. This feature allows errors to be displayed in
+the exact location within the CSV file, right in the diff of your Pull Requests. For a practical example,
+view [this live demo PR](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files).
 
 ![GitHub Actions - PR](.github/assets/github-actions-pr.png)
 
@@ -201,12 +205,17 @@ make build
 
 </details>
 
-## Schema definition
-Define your CSV validation schema in a [YAML](schema-examples/full.yml). Other formats are also available: [JSON](schema-examples/full.json), [PHP](schema-examples/full.php).
+## Schema Definition
 
-This example defines a simple schema for a CSV file with a header row, specifying that the `id` column must not be empty and must contain integer values.
-Also, it checks that the `name` column has a minimum length of 3 characters.
+Define your CSV validation schema in YAML for clear and structured configuration. Alternative formats are also
+supported: [JSON](schema-examples/full.json) and [PHP](schema-examples/full.php), accommodating various preferences and
+workflow requirements.
 
+The provided example illustrates a straightforward schema for a CSV file with a header row. It mandates that the `id`
+column must not be empty and should only contain integer values. Additionally, the `name` column is required to have a
+minimum length of 3 characters, ensuring basic data integrity and usefulness.
+
+### Example Schema in YAML
 
 <!-- auto-update:readme-sample-yml -->
 ```yml
@@ -233,37 +242,35 @@ columns:
 <!-- auto-update:/readme-sample-yml -->
 
 
-### Full description of the schema
+### Full Schema Description
 
-In the [example Yml file](schema-examples/full.yml) you can find a detailed description of all features.
-It's also covered by tests, so it's always up-to-date.
+In the [example YAML file](schema-examples/full.yml), a detailed description of all features is provided. This
+documentation is verified through automated tests, ensuring it remains current.
 
-**Important notes**
+**Important Notes:**
 
-* I have deliberately refused typing of columns (like `type: integer`) and replaced them with rules,
-  which can be combined in any sequence and completely at your discretion.
-  This gives you great flexibility when validating CSV files.
-* All options (unless explicitly stated otherwise) are optional, and you can choose not to declare them. Up to you.
-* If you specify a wrong rule name, non-existent values (which are not in the example below) or a different variable
-  type for any of the options, you will get a schema validation error. At your own risk, you can use the `--skip-schema`
-  option to avoid seeing these errors and use your keys in the schema.
-* All rules except `not_empty` ignored for empty strings (length 0). If the value must be non-empty,
-  use `not_empty: true` as extra rule. Keep in mind that a space (` `) is also a character. In this case the string
-  length
-  will be `1`. If you want to avoid such situations, add the `is_trimmed: true` rule.
-* All rules don't depend on each other. They know nothing about each other and cannot influence each other.
-* You can use the rules in any combination. Or not use any of them. They are grouped below simply for ease of navigation
-  and reading.
-* If you see the value for the rule is `is_some_rule: true` - that's just an enable flag. In other cases, these are rule
+- The traditional typing of columns (e.g., `type: integer`) has been intentionally omitted in favor of rules. These
+  rules can be sequenced and combined freely, offering extensive flexibility for CSV file validation.
+- All options are optional unless stated otherwise. You have the liberty to include or omit them as you see fit.
+- Specifying an incorrect rule name, using non-existent values (not listed below), or assigning an incompatible variable
+  type for any option will result in a schema validation error. To bypass these errors, you may opt to use
+  the `--skip-schema` flag at your discretion, allowing the use of your custom keys in the schema.
+- The rule `not_empty` is the sole exception; it does not ignore empty strings (length 0). To enforce a non-empty value,
+  apply `not_empty: true`. Note that a single space (` `) counts as a character, making the string length `1`. To
+  prevent such scenarios, include `is_trimmed: true`.
+- Rules operate independently; they have no knowledge of or influence over one another.
+- You are free to combine rules in any manner or opt not to use them at all. They are grouped below for easier
+  navigation and understanding.
+- When a rule's value is `is_some_rule: true`, it merely serves as an activation toggle. Other values represent rule
   parameters.
-* The order of rules execution is the same as in the schema. But in reality it will only change the order of errors in
-  the report.
-* Most of the rules are case-sensitive. Unless otherwise specified.
-* As backup plan, you always can use the `regex` rule. But it is much more reliable to use clear combinations of rules.
-  That way it will be more obvious what went wrong.
+- The sequence of rule execution follows their order in the schema, affecting only the order of error messages in the
+  report.
+- Unless explicitly stated, most rules are case-sensitive.
+- As a fallback, the `regex` rule is available. However, using clear rule combinations is recommended for greater
+  clarity on validation errors.
 
-Below you'll find the full list of rules and a brief commentary and example for context.
-This part of the readme is also covered by autotests, so these code are always up-to-date.
+Below is a comprehensive list of rules, each accompanied by a brief explanation and example for clarity. This section is
+also validated through automated tests, ensuring the information is consistently accurate.
 
 In any unclear situation, look into it first ;)
 
@@ -849,26 +856,34 @@ columns:
 <!-- auto-update:/full-yml -->
 
 
-### Extra checks
+### Extra Checks
 
-Behind the scenes to what is outlined in the yml above, there are additional checks that will examine your files by default.
+In addition to the schema outlined in the YAML configuration, the tool performs several underlying checks by default to
+ensure thorough validation of your CSV files.
 
 <!-- auto-update:extra-rules -->
-* With `filename_pattern` rule, you can check if the file name matches the pattern.
-* Checks if property `name` is not defined in a column. Only if `csv.header: true`.
-* If property `required` is set to `true`, the column must must be present in CSV. Only if `csv.header: true`
-* Check that each row matches the number of columns.
-* With `strict_column_order` rule, you can check that the columns are in the correct order.
-* With `allow_extra_columns` rule, you can check that there are no extra columns in the CSV file.
-  * If `csv.header: true`. Schema contains an unknown column `name` that is not found in the CSV file.
-  * If `csv.header: false`. Compare the number of columns in the schema and the CSV file.
+* The `filename_pattern` rule verifies that the file name adheres to the specified regex pattern, ensuring file naming conventions are followed.
+* Ensures that the `name` property is defined for each column, applicable only when `csv.header` is set to `true`, to guarantee header integrity.
+* The `required` property, when set to `true`, mandates the presence of the specified column in the CSV file, enhancing data completeness. This is only relevant if `csv.header` is true.
+* Validates that each row contains the correct number of columns, aligning with the schema's defined structure, to prevent data misalignment.
+* The `strict_column_order` rule checks for the correct sequential order of columns as defined in the schema, ensuring structural consistency.
+* The `allow_extra_columns` rule asserts no additional columns are present in the CSV file beyond those specified in the schema, maintaining strict data fidelity.
+  * For `csv.header: true`, it checks if the schema contains any column `name` not found in the CSV file, addressing header discrepancies.
+  * For `csv.header: false`, it compares the number of columns in the schema against those in the CSV file, ensuring schema conformity.
 <!-- auto-update:/extra-rules -->
+
+These additional checks further secure the integrity and consistency of your CSV data against the defined validation schema.
+
 
 ## Complete CLI Help Message
 
-Here you can see all available options and commands. Tool uses [JBZoo/Cli](https://github.com/JBZoo/Cli) package for the
-CLI interface. So there are options here for all occasions.
+This section outlines all available options and commands provided by the tool, leveraging the JBZoo/Cli package for its
+CLI. The tool offers a comprehensive set of options to cater to various needs and scenarios, ensuring flexibility and
+efficiency in CSV file validation and manipulation.
 
+For detailed information on each command and option, refer to
+the [JBZoo/Cli documentation](https://github.com/JBZoo/Cli). This resource provides insights into the functionality and
+application of the CLI commands, helping users make the most out of the tool's capabilities.
 
 `./csv-blueprint validate:csv --help`
 
@@ -884,25 +899,28 @@ Usage:
   validate:csv [options]
 
 Options:
-  -c, --csv=CSV                    Path(s) to validate.
-                                   You can specify path in which CSV files will be searched (max depth is 10).
-                                   Feel free to use glob pattrens. Usage examples:
-                                   /full/path/file.csv, p/file.csv, p/*.csv, p/**/*.csv, p/**/name-*.csv, **/*.csv, etc. (multiple values allowed)
-  -s, --schema=SCHEMA              Path(s) to schema file(s). It can be a YAML, JSON or PHP. See examples on GitHub.
-                                   Also, you can specify path in which schema files will be searched (max depth is 10).
-                                   Feel free to use glob pattrens. Usage examples:
-                                   /full/path/file.yml, p/file.yml, p/*.yml, p/**/*.yml, p/**/name-*.json, **/*.php, etc.
+  -c, --csv=CSV                    Specify the path(s) to the CSV files you want to validate.
+                                   This can include a direct path to a file or a directory to search with a maximum depth of 10 levels.
+                                   Examples: :/full/path/name.csv; p/file.csv; p/*.csv; p/**/*.csv; p/**/name-*.csv; **/*.csv
                                     (multiple values allowed)
-  -S, --skip-schema[=SKIP-SCHEMA]  Skip schema validation.
-                                   If you are sure that the schema is correct, you can skip this check.
-                                   Empty value or "yes" will be treated as "true". [default: "no"]
-  -r, --report=REPORT              Report output format. Available options:
-                                   ["text", "table", "github", "gitlab", "teamcity", "junit"] [default: "table"]
-  -Q, --quick[=QUICK]              Immediately terminate the check at the first error found.
-                                   Of course it will speed up the check, but you will get only 1 message out of many.
-                                   If any error is detected, the utility will return a non-zero exit code.
-                                   Empty value or "yes" will be treated as "true". [default: "no"]
-      --debug                      It's ONLY for debugging and advanced profiling!
+  -s, --schema=SCHEMA              Specify the path(s) to the schema file(s), supporting YAML, JSON, or PHP formats.
+                                   Similar to CSV paths, you can direct to specific files or search directories with glob patterns.
+                                   Examples: /full/path/name.yml; p/file.yml; p/*.yml; p/**/*.yml; p/**/name-*.yml; **/*.yml
+                                    (multiple values allowed)
+  -S, --skip-schema[=SKIP-SCHEMA]  Skips schema validation for quicker checks when the schema's correctness is certain.
+                                   Use any non-empty value or "yes" to activate
+                                    [default: "no"]
+  -r, --report=REPORT              Determines the report's output format.
+                                   Available options: text, table, github, gitlab, teamcity, junit
+                                    [default: "table"]
+  -Q, --quick[=QUICK]              Stops the validation process upon encountering the first error,
+                                   accelerating the check but limiting error visibility.
+                                   Returns a non-zero exit code if any error is detected.
+                                   Enable by setting to any non-empty value or "yes".
+                                    [default: "no"]
+      --debug                      Intended solely for debugging and advanced profiling purposes.
+                                   Activating this option provides detailed process insights,
+                                   useful for troubleshooting and performance analysis.
       --no-progress                Disable progress bar animation for logs. It will be used only for text output format.
       --mute-errors                Mute any sort of errors. So exit code will be always "0" (if it's possible).
                                    It has major priority then --non-zero-on-error. It's on your own risk!
@@ -943,18 +961,21 @@ Usage:
   validate:schema [options]
 
 Options:
-  -s, --schema=SCHEMA            Path(s) to schema file(s). It can be a YAML, JSON or PHP. See examples on GitHub.
-                                 Also, you can specify path in which schema files will be searched (max depth is 10).
-                                 Feel free to use glob pattrens. Usage examples:
-                                 /full/path/file.yml, p/file.yml, p/*.yml, p/**/*.yml, p/**/name-*.json, **/*.php, etc.
+  -s, --schema=SCHEMA            Specify the path(s) to the schema file(s), supporting YAML, JSON, or PHP formats.
+                                 Similar to CSV paths, you can direct to specific files or search directories with glob patterns.
+                                 Examples: /full/path/name.yml; p/file.yml; p/*.yml; p/**/*.yml; p/**/name-*.yml; **/*.yml
                                   (multiple values allowed)
-  -r, --report=REPORT            Report output format. Available options:
-                                 ["text", "table", "github", "gitlab", "teamcity", "junit"] [default: "table"]
-  -Q, --quick[=QUICK]            Immediately terminate the check at the first error found.
-                                 Of course it will speed up the check, but you will get only 1 message out of many.
-                                 If any error is detected, the utility will return a non-zero exit code.
-                                 Empty value or "yes" will be treated as "true". [default: "no"]
-      --debug                    It's ONLY for debugging and advanced profiling!
+  -r, --report=REPORT            Determines the report's output format.
+                                 Available options: text, table, github, gitlab, teamcity, junit
+                                  [default: "table"]
+  -Q, --quick[=QUICK]            Stops the validation process upon encountering the first error,
+                                 accelerating the check but limiting error visibility.
+                                 Returns a non-zero exit code if any error is detected.
+                                 Enable by setting to any non-empty value or "yes".
+                                  [default: "no"]
+      --debug                    Intended solely for debugging and advanced profiling purposes.
+                                 Activating this option provides detailed process insights,
+                                 useful for troubleshooting and performance analysis.
       --no-progress              Disable progress bar animation for logs. It will be used only for text output format.
       --mute-errors              Mute any sort of errors. So exit code will be always "0" (if it's possible).
                                  It has major priority then --non-zero-on-error. It's on your own risk!
@@ -980,11 +1001,14 @@ Options:
 
 </details>
 
-## Report examples
+## Report Examples
 
-As a result of the validation process, you will receive a human-readable table with a list of errors found in the CSV file. By defualt, the output format is a table, but you can choose from a variety of formats, such as text, GitHub, GitLab, TeamCity, JUnit, and more.  For example, the following output is generated using the `table` format.
+The validation process culminates in a human-readable report detailing any errors identified within the CSV file. While
+the default report format is a table, the tool supports various output formats, including text, GitHub, GitLab,
+TeamCity, JUnit, among others, to best suit your project's needs and your personal or team preferences.
 
-Default report format is `table`:
+When using the `table` format (default), the output is organized in a clear, easily interpretable table that lists all
+discovered errors. This format is ideal for quick reviews and sharing with team members for further action.
 
 <!-- auto-update:output-table -->
 ```
@@ -1050,49 +1074,56 @@ Optional format `text` with highlited keywords:
 
 ## Benchmarks
 
-Of course, you'll want to know how fast it works. The thing is, it depends very-very-very much on the following factors:
+Understanding the performance of this tool is crucial, but it's important to note that its efficiency is influenced by
+several key factors:
 
-* **The file size** - Width and height of the CSV file. The larger the dataset, the longer it will take to go through
-  it. The dependence is linear and strongly depends on the speed of your hardware (CPU, SSD).
+* **File Size:** The dimensions of the CSV file, both in terms of rows and columns, directly impact processing time.
+  Performance scales linearly with file size and is dependent on the capabilities of your hardware, such as CPU and SSD
+  speed.
 
-* **Number of rules used** - Obviously, the more of them there are for one column, the more iterations you will have to
-  make. Also remember that they do not depend on each other. I.e. execution of one rule will not optimize or slow down
-  another rule in any way. In fact, it will be just summing up time and memory resources.
+* **Number of Rules:** More validation rules per column mean more iterations for processing. Each rule operates
+  independently, so the total time and memory consumption are cumulative across all rules.
 
-* Some validation rules are very time or memory intensive. For the most part you won't notice this, but there are some
-  that are dramatically slow. For example, `interquartile_mean` processes about 4k lines per second, while the rest of
-  the rules are about 30+ millions lines per second.
+* **Rule Intensity:** While most validation rules are optimized for speed and low memory usage, some,
+  like `interquartile_mean`, can be significantly slower. For instance, `interquartile_mean` might process around 4,000
+  lines per second, whereas other rules can handle upwards of 50 million lines per second.
 
-However, to get a rough picture, you can check out the table below.
+However, to gain a general understanding of performance, refer to the table below.
 
-* All tests were run on a file size of `2 million lines` + 1 line for the header.
-* The results are based on the latest actual version using
-  [GitHub Actions](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/benchmark.yml) ([See workflow.yml](.github/workflows/benchmark.yml)).
-  At the link you will see considerably more different builds. We need them for different testing options/experiments.
-  Most representative values in `Docker (latest, XX)`.
-* Developer mode is used to display this information `-vvv --debug --profile`.
-* Software: Latest Ubuntu + Docker. Also [see detail about GA hardware](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-private-repositories).
-* The main metric is the number of lines per second. Please note that the table is thousands of lines per second (`100K` = `100,000 lines per second`).
-* An additional metric is the peak RAM consumption over the entire time of the test case.
+* All tests were conducted on a dataset comprising `2 million lines` plus an additional line for the header.
+* These results are derived from the most current version, as verified by tests run
+  using [GitHub Actions](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/benchmark.yml) ([See workflow.yml](.github/workflows/benchmark.yml)).
+  The link provides access to a variety of builds, which are essential for different testing scenarios and experiments.
+  The most representative data can be found under `Docker (latest, XX)`.
+* Developer mode was activated for these tests, using the flags `-vvv --debug --profile`.
+* Testing environment included the latest Ubuntu + Docker. For more information about the GitHub Actions (GA) hardware
+  used, please [see details about GA hardware](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-private-repositories).
+* The primary performance indicator is the processing speed, measured in lines per second. Note that speeds are
+  presented in thousands of lines per second (`100K` equals `100,000 lines per second`).
+* Peak RAM usage throughout the duration of each test case serves as an additional performance metric.
 
-Since usage profiles can vary, I've prepared a few profiles to cover most cases.
 
-* **[Quickest](tests/Benchmarks/bench_0_quickest_combo.yml)** - It check only one of the rule (cell or aggregation). I picked the fastest rules.
-* **[Minimum](tests/Benchmarks/bench_1_mini_combo.yml)** - Normal rules with average performance, but 2 of each.
-* **[Realistic](tests/Benchmarks/bench_2_realistic_combo.yml)** - A mix of rules that are most likely to be used in real life.
-* **[All aggregations](tests/Benchmarks/bench_3_all_agg.yml)** - All aggregation rules at once. This is the worst-case scenario.
+### Profiles
 
-Also, there is an additional division into
+- **Quickest:** Focuses on the fastest rules, either cell or aggregation, providing a baseline for maximum throughput.
+- **Minimum:** Uses a set of normal performance rules, with two instances of each, to simulate a lightweight validation
+  scenario.
+- **Realistic:** Represents a mix of rules likely encountered in typical use cases, offering a balanced view of
+  performance.
+- **All Aggregations:** Tests all aggregation rules simultaneously, illustrating the tool's behavior under maximum load.
 
-* `Cell rules` - only rules applicable for each row/cell.
-* `Agg rules` - only rules applicable for the whole column.
-* `Cell + Agg` - a simultaneous combination of the previous two.
-* `Peak Memory` - the maximum memory consumption during the test case.
+### Divisions
 
-**Important note:** `Peak Memory` value is only for the aggregation case. Since if you don't have aggregations,
-the peak memory usage will always be no more than 2-4 megabytes. No memory leaks!
-It doesn't depend on the number of rules or the size of CSV file.
+- **Cell Rules:** Tests only individual cell validation rules.
+- **Agg Rules:** Focuses solely on column-wide aggregation rules.
+- **Cell + Agg:** Combines cell and aggregation rules for comprehensive validation.
+- **Peak Memory:** Indicates the maximum RAM usage, particularly relevant in scenarios with aggregation rules.
 
+**Note:** The `Peak Memory` metric is primarily of interest when aggregation rules are used, as non-aggregation
+scenarios typically require no more than 2-4 megabytes of memory, regardless of file size or rule count.
+
+These benchmarks offer a snapshot of the tool's capabilities across a range of scenarios, helping you gauge its
+suitability for your specific CSV validation needs.
 
 <!-- auto-update:benchmark-table -->
 <table>
@@ -1139,39 +1170,46 @@ It doesn't depend on the number of rules or the size of CSV file.
 </table>
 <!-- auto-update:/benchmark-table -->
 
-Btw, if you run the same tests on a MacBook 14" M2 Max 2023, the results are ~2 times better. On MacBook 2019 Intel
-2.4Gz about the same as on GitHub Actions. So I think the table can be considered an average (but too far from the best)
-hardware at the regular engineer.
+**Additional Benchmark Insights:**
 
-### Brief conclusions
+When running the same validation tests on different hardware configurations, the performance of the tool can vary
+significantly. Notably, testing on a **MacBook 14" M2 Max (2023)** yields results that are approximately twice as fast
+as those observed on the GitHub Actions hardware. This indicates the tool's exceptional performance on modern, high-spec
+devices.
 
-* Cell rules are very CPU demanding, but use almost no RAM (always about 1-2 MB at peak).
-  The more of them there are, the longer it will take to validate a column, as they are additional actions per(!) value.
+Conversely, tests conducted on a **MacBook Pro (2019) with an Intel 2.4 GHz processor** align closely with the GitHub
+Actions results, suggesting that the benchmark table provided reflects an average performance level for typical
+engineering hardware. However, it's important to understan
 
-* Aggregation rules - work lightning fast (from 10 millions to billions of rows per second), but require a lot of RAM.
-  On the other hand, if you add 100+ different aggregation rules, the amount of memory consumed will not increase too
-  much.
+### Brief Conclusions
 
-* Unfortunately, not all PHP array functions can work by reference (`&$var`).
-  This is a very individual thing that depends on the algorithm.
-  So if a dataset in a column is 20 MB sometimes it is copied and the peak value becomes 40 (this is just an example).
-  That's why link optimization doesn't work most of the time.
+* **Cell Rules**: These rules are highly CPU-intensive but require minimal RAM, typically around 1-2 MB at peak. The
+  more cell rules applied to a column, the longer the validation process takes due to the additional actions performed
+  on each value.
 
-* In fact, if you are willing to wait 30-60 seconds for a 1 GB file, and you have 200-500 MB of RAM,
-  I don't see the point in thinking about it at all.
+* **Aggregation Rules**: These rules operate at incredible speeds, processing anywhere from 10 million to billions of
+  rows per second. However, they are significantly more RAM-intensive. Interestingly, adding over 100 different
+  aggregation rules does not substantially increase memory consumption.
 
-* No memory leaks have been detected.
+* **PHP Array Functions**: Not all PHP array functions can operate by reference (`&$var`). Whether or not a dataset in a
+  column can be manipulated in this way is highly dependent on the specific algorithm used. For example, a 20 MB dataset
+  might be duplicated during processing, leading to a peak memory usage of 40 MB. Consequently, optimization techniques
+  that rely on passing data by reference are often ineffective.
 
+* **Practical Implications**: If processing a 1 GB file within 30-60 seconds is acceptable, and if there is 200-500 MB
+  of RAM available, there may be little need to overly concern oneself with these performance considerations.
 
-### Examples of CSV files
+* **Memory Management**: Throughout testing, no memory leaks were observed.
 
-Below you will find examples of CSV files that were used for the benchmarks. They were created
-with [PHP Faker](tests/Benchmarks/Commands/CreateCsv.php) (the first 2000 lines) and then
-copied [1000 times into themselves](tests/Benchmarks/create-csv.sh). So we can create a really huge random files in
-seconds.
+### Examples of CSV Files
 
-The basic principle is that the more columns there are, the longer the values in them. I.e. something like exponential
-growth.
+The CSV files utilized for benchmark testing are described below. These files were initially generated
+using [PHP Faker](tests/Benchmarks/Commands/CreateCsv.php) to create the first 2000 lines. Subsequently, they were
+replicated [1000 times within themselves](tests/Benchmarks/create-csv.sh), allowing for the creation of significantly
+large random files in a matter of seconds.
+
+A key principle observed in these files is that as the number of columns increases, the length of the values within
+these columns also tends to increase, following a pattern akin to exponential growth.
 
 <details>
   <summary>Columns: 1, Size: 8.48 MB</summary>
@@ -1250,24 +1288,28 @@ make bench
 
 ## Disadvantages?
 
-It is perceived that PHP is a slow language. I don't agree with that. You just need to know how to prepare it.
-See [Processing One Billion CSV rows in PHP!](https://dev.to/realflowcontrol/processing-one-billion-rows-in-php-3eg0).
-That is, if you do everything right, you can read, aggregate and calculate data from CSV at **~15 million lines per second**!
-Not all optimizations have been implemented at this time. But it already works fast enough.
+The perception that PHP is inherently slow is a common misconception. However, with the right optimization strategies,
+PHP can perform exceptionally well. For evidence, refer to the article [Processing One Billion CSV Rows in PHP!](https://dev.to/realflowcontrol/processing-one-billion-rows-in-php-3eg0),
+which demonstrates that PHP can process, aggregate, and calculate data from CSV files at approximately **15 million
+lines per second**! While not all optimizations are currently implemented, the performance is already quite impressive.
 
-* Yeah-yeah. I know it's not the fastest tool in the world. But it's not the slowest either. See link above.
-* Yeah-yeah. I know it's PHP (not Python, Go, PySpark...). PHP is not the best language for such tasks.
-* Yeah-yeah. It looks like a standalone binary. Right. Just use it, don't think about how it works.
-* Yeah-yeah. I know you can't use as Python SDK as part of a pipeline.
+* Yes, it's acknowledged that this tool might not be the fastest available, but it's also far from the slowest. For more
+  details, see the link provided above.
+* Yes, the tool is built with PHP—not Python, Go, or PySpark—which may not be the first choice for such tasks.
+* Yes, it functions like a standalone binary. The recommendation is simply to use it without overthinking its internal
+  workings.
+* Yes, it's recognized that this cannot be used as a Python SDK within a pipeline.
 
-But... it's not a problem for most cases. And it solves the problem of validating CSV files in CI. 👍
+However, for the majority of scenarios, these are not deal-breakers. The utility effectively addresses the challenge of
+validating CSV files in continuous integration (CI) environments. 👍
 
-The utility is made to just pick up and use and not think about how it works internally.
-Moreover, everything is covered as strictly as possible by tests, strict typing of variables + `~7` linters and static analyzers (max level of rules). 
-Also, if you look, you'll see that any PR goes through about `~10` different checks on GitHub Actions (matrix of PHP versions and mods).
-Since I don't know under what conditions the code will be used, everything I can think of is covered. The wonderful world of Open Source.
+This utility is designed for immediate use without necessitating a deep understanding of its inner mechanics. It adheres
+to rigorous testing standards, including strict typing, approximately seven linters and static analyzers at the highest
+rule level. Furthermore, every pull request is subjected to around ten different checks on GitHub Actions, spanning a
+matrix of PHP versions and modes, ensuring robustness. The extensive coverage and precautions are due to the
+unpredictability of usage conditions, embodying the spirit of the Open Source community.
 
-So... as strictly as possible in today's PHP world. I think it works as expected.
+In summary, the tool is developed with the highest standards of modern PHP practices, ensuring it performs as expected.
 
 
 ## Coming soon
@@ -1372,11 +1414,14 @@ make codestyle
 <details>
   <summary>Click to see interesting fact</summary>
 
-I've set a personal record. The [first version](https://github.com/JBZoo/Csv-Blueprint/releases/tag/0.1) was written
-from scratch in about 3 days (with really frequent breaks to take care of 4 month baby).
-I'm looking at the first commit and the very first git tag. I'd say over the weekend, in my spare time on my personal
-laptop. Well... AI was only used for this Readme file because I'm not very good at English. 🤔
+I've achieved a personal milestone. The [initial release](https://github.com/JBZoo/Csv-Blueprint/releases/tag/0.1) of
+the project was crafted from the ground up in approximately 3 days, interspersed with regular breaks to care for a
+4-month-old baby. Reflecting on the first commit and the earliest git tag, it's clear that this was accomplished over a
+weekend, utilizing spare moments on my personal laptop. Interestingly, AI was only employed for crafting this README
+file, as English isn't my strongest suit. 🤔
 
-I seem to be typing fast and I had really great inspiration. I hope my wife doesn't divorce me. 😅
+The rapid development pace can be attributed to both efficient typing skills and a surge of inspiration. I just hope
+this endeavor doesn't lead to any marital discord. 😅
+
 
 </details>
