@@ -67,8 +67,7 @@ columns:
       is_portuguese_nif: true         # Validates a Portuguese taxpayer number (NIF).
 
       # Strings
-      is_hex_rgb_color: true
-      no_whitespace: true
+      no_whitespace: t rue
 
       custom_func: callbak function
 

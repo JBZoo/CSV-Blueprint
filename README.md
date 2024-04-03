@@ -11,11 +11,11 @@
 <!-- auto-update:/top-badges -->
 
 <!-- auto-update:rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-331-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
-[![Static Badge](https://img.shields.io/badge/Rules-117-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
+[![Static Badge](https://img.shields.io/badge/Rules-332-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-118-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
 [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)
 [![Static Badge](https://img.shields.io/badge/Rules-8-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)
-[![Static Badge](https://img.shields.io/badge/Rules-17/54/10-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-16/54/10-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- auto-update:/rules-counter -->
 
 A console utility designed for validating CSV files against a strictly defined schema and validation rules outlined
@@ -538,6 +538,7 @@ columns:
       is_consonant: true                # Validates if the input contains only consonants. Example: "bcd".
       is_alnum: true                    # Validates whether the input is only alphanumeric. Example: "aBc123".
       is_alpha: true                    # This is similar to `is_alnum`, but it does not allow numbers. Example: "aBc".
+      is_hex_rgb_color: true            # Validates weather the input is a hex RGB color or not. Examples: "#FF0000", "#123", "ffffff", "fff".
 
       # Check if the value is a valid hash. Supported algorithms:
       #  - md2, md4, md5, sha1, sha224, sha256, sha384, sha512/224, sha512/256, sha512

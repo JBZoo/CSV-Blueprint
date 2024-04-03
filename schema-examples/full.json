@@ -159,6 +159,8 @@
                 "is_consonant"            : true,
                 "is_alnum"                : true,
                 "is_alpha"                : true,
+                "is_hex_rgb_color"        : true,
+
                 "hash"                    : "set_algo",
                 "charset"                 : "charset_code",
                 "credit_card"             : "Any"
