@@ -241,6 +241,7 @@ columns:
       is_consonant: true                # Validates if the input contains only consonants. Example: "bcd".
       is_alnum: true                    # Validates whether the input is only alphanumeric. Example: "aBc123".
       is_alpha: true                    # This is similar to `is_alnum`, but it does not allow numbers. Example: "aBc".
+      is_hex_rgb_color: true            # Validates weather the input is a hex RGB color or not. Examples: "#FF0000", "#123", "ffffff", "fff".
 
       # Check if the value is a valid hash. Supported algorithms:
       #  - md2, md4, md5, sha1, sha224, sha256, sha384, sha512/224, sha512/256, sha512
