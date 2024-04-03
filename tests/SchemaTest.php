@@ -232,7 +232,7 @@ final class SchemaTest extends TestCase
         isSame(
             <<<'TABLE'
                 +-------+------------+--------+-------------------------------------------------------------------------+
-                | Line  | id:Column  | Rule   | Message                                                                 |
+                |  Line | id:Column  | Rule   | Message                                                                 |
                 +-------+------------+--------+-------------------------------------------------------------------------+
                 | undef | meta       | schema | Unknown key: .unknow_root_option                                        |
                 | undef | meta       | schema | Unknown key: .csv.unknow_csv_param                                      |

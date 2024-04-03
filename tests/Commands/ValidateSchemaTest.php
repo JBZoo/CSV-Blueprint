@@ -55,7 +55,7 @@ final class ValidateSchemaTest extends TestCase
               +------+-----------+---------------+---------------------------------------------------+
               | Line | id:Column | Rule          | Message                                           |
               +------+-----------+---------------+---------------------------------------------------+
-              | 15   |           | schema.syntax | Unable to parse at line 15 (near "(*$#)@(@$*)("). |
+              |   15 |           | schema.syntax | Unable to parse at line 15 (near "(*$#)@(@$*)("). |
               +------+-----------+---------------+---------------------------------------------------+
             
             TXT;
@@ -73,10 +73,10 @@ final class ValidateSchemaTest extends TestCase
         $expected = <<<'TXT'
             CSV Blueprint: Unknown version (PhpUnit)
             Found schemas: 2
-
+            
             (1/2) 1 issue in ./tests/schemas/broken/invalid_schema.yml
               +-------+-----------+--------+----------------------------------+
-              | Line  | id:Column | Rule   | Message                          |
+              |  Line | id:Column | Rule   | Message                          |
               +-------+-----------+--------+----------------------------------+
               | undef | meta      | schema | Unknown key: .unknow_root_option |
               +-------+-----------+--------+----------------------------------+
@@ -84,7 +84,7 @@ final class ValidateSchemaTest extends TestCase
               +------+-----------+---------------+---------------------------------------------------+
               | Line | id:Column | Rule          | Message                                           |
               +------+-----------+---------------+---------------------------------------------------+
-              | 15   |           | schema.syntax | Unable to parse at line 15 (near "(*$#)@(@$*)("). |
+              |   15 |           | schema.syntax | Unable to parse at line 15 (near "(*$#)@(@$*)("). |
               +------+-----------+---------------+---------------------------------------------------+
             
             TXT;
