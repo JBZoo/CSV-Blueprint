@@ -11,11 +11,11 @@
 <!-- auto-update:/top-badges -->
 
 <!-- auto-update:rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-326-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
-[![Static Badge](https://img.shields.io/badge/Rules-112-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
+[![Static Badge](https://img.shields.io/badge/Rules-327-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-113-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
 [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)
 [![Static Badge](https://img.shields.io/badge/Rules-8-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)
-[![Static Badge](https://img.shields.io/badge/Rules-23/54/9-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-22/54/9-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- auto-update:/rules-counter -->
 
 A console utility designed for validating CSV files against a strictly defined schema and validation rules outlined
@@ -525,6 +525,7 @@ columns:
 
       # Identifications
       phone: ALL                        # Validates if the input is a phone number. Specify the country code to validate the phone number for a specific country. Example: "ALL", "US", "BR".".
+      is_iban: true                     # IBAN - International Bank Account Number. See: https://en.wikipedia.org/wiki/International_Bank_Account_Number
 
       # Misc
       is_version: true                  # Validates the string as version numbers using Semantic Versioning. Example: "1.2.3".
