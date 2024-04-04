@@ -289,10 +289,12 @@ final class ReadmeTest extends TestCase
             \preg_match_all('/^(#{2,6})\s*(.*)$/m', $currentContent, $matches, \PREG_SET_ORDER);
 
             foreach ($matches as $match) {
-                $level = \strlen($match[1]) - 2; // Subtract 1 to start level from 0
-                $title = \trim($match[2]);
-                $slug = Str::slug($title);
-                $toc .= \str_repeat('  ', $level) . "- [{$title}](#{$slug})\n";
+                $level = \strlen($match[1]);
+                if ($level === 2) {
+                    $title = \trim($match[2]);
+                    $slug = Str::slug($title);
+                    $toc .= \str_repeat('  ', $level - 2) . "- [{$title}](#{$slug})\n";
+                }
             }
             // Reset the current content to prevent duplicate entries
             $currentContent = '';

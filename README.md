@@ -26,23 +26,11 @@ specifications, making it invaluable in scenarios where data quality and consist
 
 <!-- auto-update:toc -->
 - [Introduction](#introduction)
-  - [Why?](#why)
-  - [Features](#features)
-  - [Live demo](#live-demo)
 - [Usage](#usage)
-  - [GitHub Action](#github-action)
-  - [Docker container](#docker-container)
-  - [Phar binary](#phar-binary)
 - [Schema definition](#schema-definition)
-  - [Example Schema in YAML](#example-schema-in-yaml)
-  - [Full schema description](#full-schema-description)
-  - [Extra checks](#extra-checks)
 - [Complete CLI help message](#complete-cli-help-message)
 - [Report examples](#report-examples)
 - [Benchmarks](#benchmarks)
-  - [Brief conclusions](#brief-conclusions)
-  - [Examples of CSV Files](#examples-of-csv-files)
-  - [Run benchmark locally](#run-benchmark-locally)
 - [Disadvantages?](#disadvantages)
 - [Coming soon](#coming-soon)
 - [Contributing](#contributing)
@@ -246,7 +234,7 @@ The provided example illustrates a straightforward schema for a CSV file with a 
 column must not be empty and should only contain integer values. Additionally, the `name` column is required to have a
 minimum length of 3 characters, ensuring basic data integrity and usefulness.
 
-### Example Schema in YAML
+### Example schema in YAML
 
 <!-- auto-update:readme-sample-yml -->
 ```yml

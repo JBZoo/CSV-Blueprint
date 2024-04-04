@@ -24,7 +24,7 @@ csv: # How to parse file before validation
   auto_detect: false                  # If true, then the cintrol chars will be detected automatically.
   end_of_line: LF                     # End of line character. LF => \n, CRLF => \r\n, CR => \r
   empty_values:                       # List of values that will be treated as empty
-    - ""                              # By default, only empty string is treated as empty.
+    - ""                              # By default, only empty string is treated as empty (string length = 0).
     - null
     - none
     - empty

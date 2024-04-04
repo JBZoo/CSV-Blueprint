@@ -55,7 +55,7 @@ final class SchemaTest extends TestCase
             'enclosure'  => '"',
             'encoding'   => 'utf-8',
             'bom'        => false,
-        ], $schemaEmpty->getCsvParserConfig()->getArrayCopy());
+        ], $schemaEmpty->getCsvParams());
 
         $schemaFull = new Schema(Tools::SCHEMA_FULL_YML);
         isSame([
@@ -65,7 +65,7 @@ final class SchemaTest extends TestCase
             'enclosure'  => '"',
             'encoding'   => 'utf-8',
             'bom'        => false,
-        ], $schemaFull->getCsvParserConfig()->getArrayCopy());
+        ], $schemaFull->getCsvParams());
     }
 
     public function testColumns(): void
@@ -92,20 +92,6 @@ final class SchemaTest extends TestCase
             $schemaFull->getColumn('Column Name (header)'),
         );
     }
-
-    // public function testIncludes(): void
-    // {
-    //     skip('Implement me!');
-    //     $schemaEmpty = new Schema(Tools::SCHEMA_EXAMPLE_EMPTY);
-    //     isSame([], $schemaEmpty->getIncludes());
-    //
-    //     $schemaFull = new Schema(Tools::SCHEMA_FULL_YML);
-    //     isSame([
-    //         'alias_1' => '/path/schema_1.yml',
-    //         'alias_2' => './path/schema_2.yml',
-    //         'alias_3' => '../path/schema_3.yml',
-    //     ], $schemaFull->getIncludes());
-    // }
 
     public function testGetUndefinedColumnById(): void
     {

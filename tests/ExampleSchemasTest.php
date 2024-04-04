@@ -82,14 +82,17 @@ final class ExampleSchemasTest extends TestCase
         );
     }
 
-    public function testCsvStrutureDefaultValues(): void
+    public function testCsvDefaultValues(): void
     {
-        $defaultsInDoc = yml(Tools::SCHEMA_FULL_YML)->findArray('csv');
+        isSame(yml(Tools::SCHEMA_FULL_YML)->findArray('csv'), (new Schema([]))->getCsvParams());
+    }
 
-        $schema = new Schema([]);
-        $schema->getCsvParserConfig()->getArrayCopy();
-
-        isSame($defaultsInDoc, $schema->getCsvParserConfig()->getArrayCopy());
+    public function testStructuralRules(): void
+    {
+        isSame(
+            yml(Tools::SCHEMA_FULL_YML)->findArray('structural_rules'),
+            (new Schema([]))->getStructuralRulesParams(),
+        );
     }
 
     public function testCheckPhpExample(): void
