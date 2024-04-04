@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint;
 
 use JBZoo\CsvBlueprint\Csv\Column;
-use JBZoo\CsvBlueprint\Csv\CsvParserConfig;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use JBZoo\CsvBlueprint\Validators\ValidatorSchema;
 use JBZoo\Data\AbstractData;
@@ -29,11 +28,32 @@ use function JBZoo\Data\yml;
 
 final class Schema
 {
-    private ?string      $filename;
-    private AbstractData $data;
+    public const ENCODING_UTF8 = 'utf-8';
+    public const ENCODING_UTF16 = 'utf-16';
+    public const ENCODING_UTF32 = 'utf-32';
+
+    private const FALLBACK_VALUES = [
+        'csv' => [
+            'inherit'    => null,
+            'header'     => true,
+            'delimiter'  => ',',
+            'quote_char' => '\\',
+            'enclosure'  => '"',
+            'encoding'   => 'utf-8',
+            'bom'        => false,
+        ],
+
+        'structural_rules' => [
+            'strict_column_order' => true,
+            'allow_extra_columns' => false,
+        ],
+    ];
 
     /** @var Column[] */
-    private array $columns;
+    private array        $columns;
+    private string       $basepath = '.';
+    private ?string      $filename;
+    private AbstractData $data;
 
     public function __construct(null|array|string $csvSchemaFilenameOrArray = null)
     {
@@ -65,17 +85,16 @@ final class Schema
             $this->data = new Data();
         }
 
+        if ((string)$this->filename !== '') {
+            $this->basepath = \dirname((string)$this->filename);
+        }
+
         $this->columns = $this->prepareColumns();
     }
 
     public function getFilename(): ?string
     {
         return $this->filename;
-    }
-
-    public function getCsvParserConfig(): CsvParserConfig
-    {
-        return new CsvParserConfig($this->data->getArray('csv'));
     }
 
     /**
@@ -110,13 +129,14 @@ final class Schema
     {
         $result = [];
 
-        foreach ($this->data->getArray('includes') as $includedPath) {
-            [$schemaPath, $alias] = \explode(' as ', $includedPath);
+        foreach ($this->data->getArray('includes') as $alias => $includedPath) {
+            if (\file_exists($includedPath)) {
+                $path = $includedPath;
+            } else {
+                $path = $this->basepath . \DIRECTORY_SEPARATOR . $includedPath;
+            }
 
-            $schemaPath = \trim($schemaPath);
-            $alias = \trim($alias);
-
-            $result[$alias] = $schemaPath;
+            $result[$alias] = new self($path);
         }
 
         return $result;
@@ -127,12 +147,9 @@ final class Schema
         return (new ValidatorSchema($this))->validate($quickStop);
     }
 
-    /**
-     * Clone data to avoid any external side effects.
-     */
     public function getData(): AbstractData
     {
-        return clone $this->data;
+        return clone $this->data; // Clone data to avoid any external side effects.
     }
 
     public function getSchemaHeader(): array
@@ -152,6 +169,87 @@ final class Schema
     public function isAllowExtraColumns(): bool
     {
         return $this->data->findBool('structural_rules.allow_extra_columns', false);
+    }
+
+    public function csvHasBOM(): bool
+    {
+        return $this->data->findBool('csv.bom', self::FALLBACK_VALUES['csv']['bom']);
+    }
+
+    public function getCsvDelimiter(): string
+    {
+        $value = $this->data->findString('csv.delimiter', self::FALLBACK_VALUES['csv']['delimiter']);
+        if (\strlen($value) === 1) {
+            return $value;
+        }
+
+        throw new \InvalidArgumentException('Delimiter must be a single character');
+    }
+
+    public function getCsvQuoteChar(): string
+    {
+        $value = $this->data->findString('csv.quote_char', self::FALLBACK_VALUES['csv']['quote_char']);
+        if (\strlen($value) === 1) {
+            return $value;
+        }
+
+        throw new \InvalidArgumentException('Quote char must be a single character');
+    }
+
+    public function getCsvEnclosure(): string
+    {
+        $value = $this->data->findString('csv.enclosure', self::FALLBACK_VALUES['csv']['enclosure']);
+
+        if (\strlen($value) === 1) {
+            return $value;
+        }
+
+        throw new \InvalidArgumentException('Enclosure must be a single character');
+    }
+
+    public function getCsvEncoding(): string
+    {
+        $encoding = \strtolower(
+            \trim($this->data->findString('csv.encoding', self::FALLBACK_VALUES['csv']['encoding'])),
+        );
+
+        $availableOptions = [ // TODO: add flexible handler for this
+            self::ENCODING_UTF8,
+            self::ENCODING_UTF16,
+            self::ENCODING_UTF32,
+        ];
+
+        $result = \in_array($encoding, $availableOptions, true) ? $encoding : null;
+        if ($result !== null) {
+            return $result;
+        }
+
+        throw new \InvalidArgumentException("Invalid encoding: {$encoding}");
+    }
+
+    public function csvHasHeader(): bool
+    {
+        return $this->data->findBool('csv.header', self::FALLBACK_VALUES['csv']['header']);
+    }
+
+    public function getCsvParams(): array
+    {
+        return [
+            'header'     => $this->csvHasHeader(),
+            'delimiter'  => $this->getCsvDelimiter(),
+            'quote_char' => $this->getCsvQuoteChar(),
+            'enclosure'  => $this->getCsvEnclosure(),
+            'encoding'   => $this->getCsvEncoding(),
+            'bom'        => $this->csvHasBOM(),
+        ];
+    }
+
+    public function getStructuralRulesParams(): array
+    {
+        return [
+            'strict_column_order' => $this->isStrictColumnOrder(),
+            'allow_extra_columns' => $this->isAllowExtraColumns(),
+        ];
     }
 
     /**

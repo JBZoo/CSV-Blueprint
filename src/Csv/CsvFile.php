@@ -28,7 +28,6 @@ use League\Csv\TabularDataReader;
 final class CsvFile
 {
     private string          $csvFilename;
-    private CsvParserConfig $csvParserConfig;
     private LeagueReader    $reader;
     private Schema          $schema;
     private bool            $isEmpty;
@@ -43,18 +42,12 @@ final class CsvFile
         $this->csvFilename = $csvFilename;
         $this->isEmpty = \filesize($this->csvFilename) <= 1;
         $this->schema = new Schema($csvSchemaFilenameOrArray);
-        $this->csvParserConfig = $this->schema->getCsvParserConfig();
         $this->reader = $this->prepareReader();
     }
 
     public function getCsvFilename(): string
     {
         return $this->csvFilename;
-    }
-
-    public function getCsvStructure(): CsvParserConfig
-    {
-        return $this->csvParserConfig;
     }
 
     /**
@@ -64,7 +57,7 @@ final class CsvFile
     {
         if ($this->header === null) {
             $this->header = [];
-            if ($this->csvParserConfig->isHeader() && !$this->isEmpty) {
+            if ($this->schema->csvHasHeader() && !$this->isEmpty) {
                 // TODO: add handler for empty file
                 // League\Csv\SyntaxError : The header record does not exist or is empty at offset: `0
                 $this->header = $this->getRecordsChunk(0, 1)->first();
@@ -112,7 +105,7 @@ final class CsvFile
      */
     public function getColumnsMappedByHeader(?ErrorSuite $errors = null): array
     {
-        $isHeader = $this->schema->getCsvParserConfig()->isHeader();
+        $isHeader = $this->schema->csvHasHeader();
 
         $map = [];
         $errors ??= new ErrorSuite();
@@ -166,12 +159,12 @@ final class CsvFile
     private function prepareReader(): LeagueReader
     {
         $reader = LeagueReader::createFromPath($this->csvFilename)
-            ->setDelimiter($this->csvParserConfig->getDelimiter())
-            ->setEnclosure($this->csvParserConfig->getEnclosure())
-            ->setEscape($this->csvParserConfig->getQuoteChar())
+            ->setDelimiter($this->schema->getCsvDelimiter())
+            ->setEnclosure($this->schema->getCsvEnclosure())
+            ->setEscape($this->schema->getCsvQuoteChar())
             ->setHeaderOffset(null); // It's important to set it to null to optimize memory usage!
 
-        if ($this->csvParserConfig->isBom()) {
+        if ($this->schema->csvHasBOM()) {
             $reader->includeInputBOM();
         } else {
             $reader->skipInputBOM();

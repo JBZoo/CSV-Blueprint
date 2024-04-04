@@ -33,7 +33,7 @@ final class ValidatorSchema
     {
         $this->filename = $schema->getFilename();
         $this->data = $schema->getData();
-        $this->isHeader = $schema->getCsvParserConfig()->isHeader();
+        $this->isHeader = $schema->csvHasHeader();
     }
 
     public function validate(bool $quickStop = false): ErrorSuite
