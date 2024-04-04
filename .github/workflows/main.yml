@@ -35,7 +35,7 @@ env:
 
 jobs:
   test-current-versions:
-    name: Tests - Current
+    name: Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
