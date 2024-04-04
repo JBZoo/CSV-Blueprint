@@ -15,7 +15,7 @@
 [![Static Badge](https://img.shields.io/badge/Rules-118-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
 [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)
 [![Static Badge](https://img.shields.io/badge/Rules-8-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)
-[![Static Badge](https://img.shields.io/badge/Rules-16/54/10-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-17/11/25-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- auto-update:/rules-counter -->
 
 A console utility designed for validating CSV files against a strictly defined schema and validation rules outlined
@@ -28,26 +28,26 @@ specifications, making it invaluable in scenarios where data quality and consist
 - [Introduction](#introduction)
   - [Why?](#why)
   - [Features](#features)
-  - [Live Demo](#live-demo)
+  - [Live demo](#live-demo)
 - [Usage](#usage)
   - [GitHub Action](#github-action)
   - [Docker container](#docker-container)
-  - [PHP binary](#php-binary)
-- [Schema Definition](#schema-definition)
+  - [Phar binary](#phar-binary)
+- [Schema definition](#schema-definition)
   - [Example Schema in YAML](#example-schema-in-yaml)
-  - [Full Schema Description](#full-schema-description)
-  - [Extra Checks](#extra-checks)
-- [Complete CLI Help Message](#complete-cli-help-message)
-- [Report Examples](#report-examples)
+  - [Full schema description](#full-schema-description)
+  - [Extra checks](#extra-checks)
+- [Complete CLI help message](#complete-cli-help-message)
+- [Report examples](#report-examples)
 - [Benchmarks](#benchmarks)
-  - [Brief Conclusions](#brief-conclusions)
+  - [Brief conclusions](#brief-conclusions)
   - [Examples of CSV Files](#examples-of-csv-files)
   - [Run benchmark locally](#run-benchmark-locally)
 - [Disadvantages?](#disadvantages)
 - [Coming soon](#coming-soon)
 - [Contributing](#contributing)
 - [License](#license)
-- [See Also](#see-also)
+- [See also](#see-also)
 <!-- auto-update:/toc -->
 
 
@@ -111,7 +111,7 @@ specifications, making it invaluable in scenarios where data quality and consist
 </details>
 
 
-### Live Demo
+### Live demo
 
 As a live demonstration of how the tool works, you can explore the super minimal repository
 at [JBZoo/Csv-Blueprint-Demo](https://github.com/JBZoo/Csv-Blueprint-Demo). You're encouraged to fork it and experiment
@@ -203,7 +203,7 @@ cd csv-blueprint
 make docker-build  # local tag is "jbzoo/csv-blueprint:local"
 ```
 
-### PHP binary
+### Phar binary
 
 <details>
   <summary>Click to see using PHAR file</summary>
@@ -236,7 +236,7 @@ make build
 
 </details>
 
-## Schema Definition
+## Schema definition
 
 Define your CSV validation schema in YAML for clear and structured configuration. Alternative formats are also
 supported: [JSON](schema-examples/full.json) and [PHP](schema-examples/full.php), accommodating various preferences and
@@ -273,7 +273,7 @@ columns:
 <!-- auto-update:/readme-sample-yml -->
 
 
-### Full Schema Description
+### Full schema description
 
 In the [example YAML file](schema-examples/full.yml), a detailed description of all features is provided. This
 documentation is verified through automated tests, ensuring it remains current.
@@ -898,7 +898,7 @@ columns:
 <!-- auto-update:/full-yml -->
 
 
-### Extra Checks
+### Extra checks
 
 In addition to the schema outlined in the YAML configuration, the tool performs several underlying checks by default to
 ensure thorough validation of your CSV files.
@@ -917,7 +917,7 @@ ensure thorough validation of your CSV files.
 These additional checks further secure the integrity and consistency of your CSV data against the defined validation schema.
 
 
-## Complete CLI Help Message
+## Complete CLI help message
 
 This section outlines all available options and commands provided by the tool, leveraging the JBZoo/Cli package for its
 CLI. The tool offers a comprehensive set of options to cater to various needs and scenarios, ensuring flexibility and
@@ -933,7 +933,7 @@ application of the CLI commands, helping users make the most out of the tool's c
   <summary>CLICK to see validate:csv help messege</summary>
 
 <!-- auto-update:validate-csv-help -->
-```text
+```
 Description:
   Validate CSV file(s) by schema(s).
 
@@ -995,7 +995,7 @@ Options:
   <summary>CLICK to see validate:schema help messege</summary>
 
 <!-- auto-update:validate-schema-help -->
-```text
+```
 Description:
   Validate syntax in schema file(s).
 
@@ -1043,7 +1043,7 @@ Options:
 
 </details>
 
-## Report Examples
+## Report examples
 
 The validation process culminates in a human-readable report detailing any errors identified within the CSV file. While
 the default report format is a table, the tool supports various output formats, including text, GitHub, GitLab,
@@ -1221,9 +1221,9 @@ devices.
 
 Conversely, tests conducted on a **MacBook Pro (2019) with an Intel 2.4 GHz processor** align closely with the GitHub
 Actions results, suggesting that the benchmark table provided reflects an average performance level for typical
-engineering hardware. However, it's important to understan
+engineering hardware.
 
-### Brief Conclusions
+### Brief conclusions
 
 * **Cell Rules**: These rules are highly CPU-intensive but require minimal RAM, typically around 1-2 MB at peak. The
   more cell rules applied to a column, the longer the validation process takes due to the additional actions performed
@@ -1441,7 +1441,7 @@ make codestyle
 [MIT License](LICENSE): It's like free pizza - enjoy it, share it, just don't sell it as your own. And remember, no warranty for stomach aches! 😅
 
 
-## See Also
+## See also
 
 - [Cli](https://github.com/JBZoo/Cli) - Framework helps create complex CLI apps and provides new tools for Symfony/Console.
 - [CI-Report-Converter](https://github.com/JBZoo/CI-Report-Converter) - It converts different error reporting standards for popular CI systems.

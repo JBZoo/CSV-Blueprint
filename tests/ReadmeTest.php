@@ -46,7 +46,7 @@ final class ReadmeTest extends TestCase
     public function testValidateCsvHelp(): void
     {
         $text = \implode("\n", [
-            '```text',
+            '```',
             \trim(Tools::realExecution('validate:csv', ['help' => null])),
             '```',
         ]);
@@ -57,7 +57,7 @@ final class ReadmeTest extends TestCase
     public function testCalidateSchemaHelp(): void
     {
         $text = \implode("\n", [
-            '```text',
+            '```',
             \trim(Tools::realExecution('validate:schema', ['help' => null])),
             '```',
         ]);
@@ -98,25 +98,31 @@ final class ReadmeTest extends TestCase
         $totalRules = $cellRules + $aggRules + $extraRules;
 
         $todoYml = yml(Tools::SCHEMA_TODO);
-        $planToAdd = \count($todoYml->findArray('columns.0.rules')) . '/' .
-            (\count($todoYml->findArray('columns.0.aggregate_rules')) * 6) . '/' .
-            (\count([
-                'null_values',
-                'multiple + separator',
-                'complex_rules. one example',
-                'inherit',
-            ]) + \count($todoYml->findArray('structural_rules')));
+        $planToAdd = \implode('/', [
+            \count($todoYml->findArray('columns.0.rules')),
+            \count($todoYml->findArray('columns.0.aggregate_rules')),
+            \count([
+                'csv.auto_detect',
+                'csv.end_of_line',
+                'csv.null_values',
+                'column.faker',
+                'column.null_values',
+                'column.multiple + column.multiple_separator',
+                'inherit.',
+                'inherit.csv',
+                'inherit.structural_rules',
+                'inherit.rules',
+                'inherit.aggregate_rules',
+                'inherit.complex_rules',
+            ]) + \count($todoYml->findArray('structural_rules'))
+            + \count($todoYml->findArray('complex_rules')),
+        ]);
 
         $badge = static function (string $label, int|string $count, string $url, string $color): string {
             $label = \str_replace(' ', '%20', $label);
             $badge = "![Static Badge](https://img.shields.io/badge/Rules-{$count}-green" .
                 "?label={$label}&labelColor={$color}&color=gray)";
-
-            if ($url) {
-                return "[{$badge}]({$url})";
-            }
-
-            return $badge;
+            return $url ? "[{$badge}]({$url})" : $badge;
         };
 
         $text = \implode("\n", [

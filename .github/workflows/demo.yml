@@ -15,6 +15,11 @@ name: Demo
 on:
   release:
     types: [ created ]
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch Name'
+        required: false
   workflow_run:
     workflows: [ "Publish Docker" ]
     types:

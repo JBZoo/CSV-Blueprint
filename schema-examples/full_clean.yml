@@ -44,12 +44,8 @@ columns:
     rules:
       not_empty: true
       exact_value: 'Some string'
-      allow_values:
-        - 'y'
-        - 'n'
-        - ''
-      not_allow_values:
-        - invalid
+      allow_values: [ 'y', 'n', '' ]
+      not_allow_values: [ 'invalid' ]
 
       regex: '/^[\d]{2}$/'
 
@@ -73,18 +69,10 @@ columns:
       word_count_max: 9
 
       contains: World
-      contains_none:
-        - a
-        - b
-      contains_one:
-        - a
-        - b
-      contains_any:
-        - a
-        - b
-      contains_all:
-        - a
-        - b
+      contains_none: [ a, b ]
+      contains_one: [ a, b ]
+      contains_any: [ a, b ]
+      contains_all: [ a, b ]
       starts_with: 'prefix '
       ends_with: ' suffix'
 
@@ -146,9 +134,7 @@ columns:
       is_ip_v6: true
       is_ip_private: true
       is_ip_reserved: true
-      ip_v4_range:
-        - 127.0.0.1-127.0.0.5
-        - 127.0.0.0/21
+      ip_v4_range: [ '127.0.0.1-127.0.0.5', '127.0.0.0/21' ]
       is_mac_address: true
       is_domain: true
       is_public_domain_suffix: true
@@ -214,12 +200,8 @@ columns:
       nth_num_less: [ 42, 8.0 ]
       nth_num_max: [ 42, 9.0 ]
 
-      nth:
-        - 2
-        - Expected
-      nth_not:
-        - 2
-        - Not expected
+      nth: [ 2, Expected ]
+      nth_not: [ 2,Not expected ]
 
       last_num_min: 1.0
       last_num_greater: 2.0
@@ -363,49 +345,19 @@ columns:
       cubic_mean_less: 8.0
       cubic_mean_max: 9.0
 
-      percentile_min:
-        - 95.0
-        - 1.0
-      percentile_greater:
-        - 95.0
-        - 2.0
-      percentile_not:
-        - 95.0
-        - 5.0
-      percentile:
-        - 95.0
-        - 7.0
-      percentile_less:
-        - 95.0
-        - 8.0
-      percentile_max:
-        - 95.0
-        - 9.0
+      percentile_min: [ 95.0, 1.0 ]
+      percentile_greater: [ 95.0, 2.0 ]
+      percentile_not: [ 95.0, 5.0 ]
+      percentile: [ 95.0, 7.0 ]
+      percentile_less: [ 95.0, 8.0 ]
+      percentile_max: [ 95.0, 9.0 ]
 
-      quartiles_min:
-        - exclusive
-        - 0%
-        - 1.0
-      quartiles_greater:
-        - inclusive
-        - Q1
-        - 2.0
-      quartiles_not:
-        - exclusive
-        - Q2
-        - 5.0
-      quartiles:
-        - inclusive
-        - Q3
-        - 7.0
-      quartiles_less:
-        - exclusive
-        - 100%
-        - 8.0
-      quartiles_max:
-        - inclusive
-        - IQR
-        - 9.0
+      quartiles_min: [ exclusive, 0%, 1.0 ]
+      quartiles_greater: [ inclusive, Q1, 2.0 ]
+      quartiles_not: [ exclusive, Q2, 5.0 ]
+      quartiles: [ inclusive, Q3, 7.0 ]
+      quartiles_less: [ exclusive, 100%, 8.0 ]
+      quartiles_max: [ inclusive, IQR, 9.0 ]
 
       midhinge_min: 1.0
       midhinge_greater: 2.0
