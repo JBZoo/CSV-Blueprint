@@ -67,9 +67,6 @@ jobs:
       - name: 👍 Code Quality
         run: make codestyle --no-print-directory
 
-      - name: 📝 Build Reports
-        run: make report-all --no-print-directory
-
       - name: Uploading coverage to coveralls
         continue-on-error: true
         env:
@@ -115,9 +112,6 @@ jobs:
       - name: 👍 Code Quality
         run: make codestyle --no-print-directory
 
-      - name: 📝 Build Reports
-        run: make report-all --no-print-directory
-
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         continue-on-error: true
@@ -157,6 +151,33 @@ jobs:
       - name: 👍 Code Quality
         run: make codestyle --no-print-directory
 
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with:
+          name: Tests - Latest
+          path: build/
+
+
+  reports:
+    name: Reports
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          coverage: xdebug
+          extensions: ast
+
+      - name: Install project
+        run: make build --no-print-directory
+
       - name: 📝 Build Reports
         run: make report-all --no-print-directory
 
@@ -164,7 +185,7 @@ jobs:
         uses: actions/upload-artifact@v4
         continue-on-error: true
         with:
-          name: Tests - Latest
+          name: Reports
           path: build/
 
 
