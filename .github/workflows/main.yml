@@ -22,24 +22,16 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
-# We want to avoid copy-pasting the same commands and add control over the environment
+
+# To avoid copy-pasting the same commands and add control over the environment
 env:
   COLUMNS: 300
   BLUEPRINT: time ./csv-blueprint
   BLUEPRINT_PHAR: time ./build/csv-blueprint.phar
-  BLUEPRINT_DOCKER: |
-    time docker run --rm
-    --workdir=/parent-host
-    -v .:/parent-host
-    jbzoo/csv-blueprint:local
+  BLUEPRINT_DOCKER: time docker run --rm --workdir=/parent-host -v .:/parent-host jbzoo/csv-blueprint:local
   CMD_VALIDATE: validate:csv --ansi -vvv
-  VALID_TEST: |
-    --csv=./tests/fixtures/batch/*.csv
-    --schema=./tests/schemas/demo_valid.yml
-  INVALID_TEST: |
-    --csv=./tests/fixtures/batch/*.csv
-    --schema=./tests/schemas/demo_*.yml
-    --schema=./tests/schemas/invalid_schema.yml
+  VALID_TEST: --csv=./tests/fixtures/batch/*.csv --schema=./tests/schemas/demo_valid.yml
+  INVALID_TEST: --csv=./tests/fixtures/batch/*.csv --schema=./tests/schemas/demo_*.yml --schema=./tests/schemas/invalid_schema.yml
 
 jobs:
   test-current-versions:
@@ -156,36 +148,6 @@ jobs:
         continue-on-error: true
         with:
           name: Tests - Latest
-          path: build/
-
-
-  reports:
-    name: Reports
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.3
-          coverage: xdebug
-          extensions: ast
-
-      - name: Install project
-        run: make build --no-print-directory
-
-      - name: 📝 Build Reports
-        run: make report-all --no-print-directory
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        continue-on-error: true
-        with:
-          name: Reports
           path: build/
 
 
@@ -322,3 +284,33 @@ jobs:
           csv: ./tests/fixtures/batch/*.csv
           schema: ./tests/schemas/demo_*.yml
         continue-on-error: true
+
+
+  reports:
+    name: Reports
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          coverage: xdebug
+          extensions: ast
+
+      - name: Install project
+        run: make build --no-print-directory
+
+      - name: 📝 Build Reports
+        run: make report-all --no-print-directory
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with:
+          name: Reports
+          path: build/
