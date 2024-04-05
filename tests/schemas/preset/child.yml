@@ -14,50 +14,49 @@
 
 
 name: Child schema
-description: Testing inheritance from parent schema.
 
 includes:
-  parent: ./../inherit/parent.yml
+  preset: ./../preset/parent.yml
 
 
 filename_pattern:
-  inherit: parent
+  preset: preset
 
 
 csv:
-  inherit: parent
+  preset: preset
   header: true
 
 
 structural_rules:
-  inherit: parent
+  preset: preset
   strict_column_order: true
 
 
 columns:
   # 0
-  - inherit: parent/Name
+  - preset: preset/Name
 
   # 1
-  - inherit: parent/Name
+  - preset: preset/Name
     name: Overridden name by column name
 
   # 2
-  - inherit: 'parent/0:'
+  - preset: 'preset/0:'
     name: Overridden name by column index
 
   # 3
-  - inherit: parent/0:Name
+  - preset: preset/0:Name
     name: Overridden name by column index and column name
 
   # 4
-  - inherit: parent/0:Name
+  - preset: preset/0:Name
     name: Overridden name by column index and column name + added rules
     rules:
       length_min: 1
 
   # 5
-  - inherit: parent/0:Name
+  - preset: preset/0:Name
     name: Overridden name by column index and column name + added aggregate rules
     aggregate_rules:
       nth_num: [ 10, 0.05 ]
@@ -65,12 +64,12 @@ columns:
   # 6
   - name: Overridden only rules
     rules:
-      inherit: parent/0:Name
+      preset: preset/0:Name
 
   # 7
   - name: Overridden only aggregation rules
     aggregate_rules:
-      inherit: parent/0:Name
+      preset: preset/0:Name
 
   # 8
-  - inherit: parent/Second Column
+  - preset: preset/Second Column

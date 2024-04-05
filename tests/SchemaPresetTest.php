@@ -18,7 +18,7 @@ namespace JBZoo\PHPUnit;
 
 use JBZoo\CsvBlueprint\Schema;
 
-final class SchemaInheritTest extends TestCase
+final class SchemaPresetTest extends TestCase
 {
     public function testDefaults(): void
     {
@@ -118,7 +118,7 @@ final class SchemaInheritTest extends TestCase
                 'parent' => ['filename_pattern' => '/.*/i'],
             ],
             'filename_pattern' => [
-                'inherit' => 'parent',
+                'preset' => 'parent',
             ],
         ]);
 
@@ -141,7 +141,7 @@ final class SchemaInheritTest extends TestCase
                     ],
                 ],
             ],
-            'csv' => ['inherit' => 'parent'],
+            'csv' => ['preset' => 'parent'],
         ]);
 
         isSame([
@@ -170,7 +170,7 @@ final class SchemaInheritTest extends TestCase
                 ],
             ],
             'csv' => [
-                'inherit'  => 'parent',
+                'preset'   => 'parent',
                 'encoding' => 'utf-32',
             ],
         ]);
@@ -199,7 +199,7 @@ final class SchemaInheritTest extends TestCase
                 ],
             ],
             'structural_rules' => [
-                'inherit' => 'parent',
+                'preset' => 'parent',
             ],
         ]);
 
@@ -223,7 +223,7 @@ final class SchemaInheritTest extends TestCase
                 ],
             ],
             'structural_rules' => [
-                'inherit'             => 'parent',
+                'preset'              => 'parent',
                 'allow_extra_columns' => true,
             ],
         ]);
@@ -240,7 +240,7 @@ final class SchemaInheritTest extends TestCase
         $schema = new Schema([
             'includes'         => ['parent' => ['structural_rules' => []]],
             'structural_rules' => [
-                'inherit'             => 'parent',
+                'preset'              => 'parent',
                 'allow_extra_columns' => true,
             ],
         ]);
@@ -275,13 +275,13 @@ final class SchemaInheritTest extends TestCase
         $schema = new Schema([
             'includes' => ['parent' => ['columns' => [$parentColum0, $parentColum1]]],
             'columns'  => [
-                ['inherit' => 'parent/0'],
-                ['inherit' => 'parent/1'],
-                ['inherit' => 'parent/0:'],
-                ['inherit' => 'parent/1:'],
-                ['inherit' => 'parent/Name'],
-                ['inherit' => 'parent/0:Name'],
-                ['inherit' => 'parent/1:Name'],
+                ['preset' => 'parent/0'],
+                ['preset' => 'parent/1'],
+                ['preset' => 'parent/0:'],
+                ['preset' => 'parent/1:'],
+                ['preset' => 'parent/Name'],
+                ['preset' => 'parent/0:Name'],
+                ['preset' => 'parent/1:Name'],
             ],
         ]);
 
@@ -315,9 +315,9 @@ final class SchemaInheritTest extends TestCase
             'includes' => ['parent' => ['columns' => [$parentColum]]],
             'columns'  => [
                 [
-                    'inherit' => 'parent/Name',
-                    'name'    => 'Child name',
-                    'rules'   => [
+                    'preset' => 'parent/Name',
+                    'name'   => 'Child name',
+                    'rules'  => [
                         'is_int'       => true,
                         'length_min'   => 2,
                         'length'       => 5,
@@ -366,7 +366,7 @@ final class SchemaInheritTest extends TestCase
             'columns'  => [
                 [
                     'name'  => 'Child name',
-                    'rules' => ['inherit' => 'parent/0:'],
+                    'rules' => ['preset' => 'parent/0:'],
                 ],
             ],
         ]);
@@ -410,7 +410,7 @@ final class SchemaInheritTest extends TestCase
                 [
                     'name'  => 'Child name',
                     'rules' => [
-                        'inherit'      => 'parent/0:',
+                        'preset'       => 'parent/0:',
                         'allow_values' => ['d', 'c'],
                         'length_max'   => 100,
                     ],
@@ -456,7 +456,7 @@ final class SchemaInheritTest extends TestCase
             'columns'  => [
                 [
                     'name'            => 'Child name',
-                    'aggregate_rules' => ['inherit' => 'parent/0:'],
+                    'aggregate_rules' => ['preset' => 'parent/0:'],
                 ],
             ],
         ]);
@@ -498,7 +498,7 @@ final class SchemaInheritTest extends TestCase
                 [
                     'name'            => 'Child name',
                     'aggregate_rules' => [
-                        'inherit' => 'parent/0:',
+                        'preset'  => 'parent/0:',
                         'sum_max' => 4200,
                         'sum_min' => 1,
                     ],
@@ -525,12 +525,12 @@ final class SchemaInheritTest extends TestCase
 
     public function testRealParent(): void
     {
-        $schema = new Schema('./tests/schemas/inherit/parent.yml');
+        $schema = new Schema('./tests/schemas/preset/parent.yml');
         isSame([
             'name'             => 'Parent schema',
-            'description'      => 'Testing inheritance.',
+            'description'      => '',
             'includes'         => [],
-            'filename_pattern' => '/parent-\d.csv$/i',
+            'filename_pattern' => '/preset-\d.csv$/i',
             'csv'              => [
                 'header'     => false,
                 'delimiter'  => 'd',
@@ -578,14 +578,14 @@ final class SchemaInheritTest extends TestCase
 
     public function testRealChild(): void
     {
-        $schema = new Schema('./tests/schemas/inherit/child.yml');
+        $schema = new Schema('./tests/schemas/preset/child.yml');
         isSame([
             'name'        => 'Child schema',
-            'description' => 'Testing inheritance from parent schema.',
+            'description' => '',
             'includes'    => [
-                'parent' => PROJECT_ROOT . '/tests/schemas/inherit/parent.yml',
+                'preset' => PROJECT_ROOT . '/tests/schemas/preset/parent.yml',
             ],
-            'filename_pattern' => '/parent-\d.csv$/i',
+            'filename_pattern' => '/preset-\d.csv$/i',
             'csv'              => [
                 'header'     => true,
                 'delimiter'  => 'd',
@@ -709,12 +709,12 @@ final class SchemaInheritTest extends TestCase
 
     public function testRealChildOfChild(): void
     {
-        $schema = new Schema('./tests/schemas/inherit/child-of-child.yml');
+        $schema = new Schema('./tests/schemas/preset/child-of-child.yml');
         isSame([
             'name'        => 'Child of child schema',
-            'description' => 'Testing inheritance from child schema.',
+            'description' => '',
             'includes'    => [
-                'parent-1_0' => PROJECT_ROOT . '/tests/schemas/inherit/child.yml',
+                'preset-1' => PROJECT_ROOT . '/tests/schemas/preset/child.yml',
             ],
             'filename_pattern' => '/child-of-child-\d.csv$/i',
             'csv'              => [

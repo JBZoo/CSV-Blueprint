@@ -14,17 +14,16 @@
 
 
 name: Child of child schema
-description: Testing inheritance from child schema.
 
 includes:
-  parent-1_0: child.yml
+  preset-1: child.yml
 
 
 filename_pattern: /child-of-child-\d.csv$/i
 
 
 csv:
-  inherit: parent-1_0
+  preset: preset-1
   delimiter: dd
   quote_char: qq
   enclosure: ee
@@ -33,8 +32,8 @@ csv:
 
 
 structural_rules:
-  inherit: parent-1_0
+  preset: preset-1
   allow_extra_columns: false
 
 columns:
-  - inherit: parent-1_0/Second Column
+  - preset: preset-1/Second Column

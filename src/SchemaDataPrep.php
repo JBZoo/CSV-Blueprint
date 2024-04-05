@@ -53,8 +53,8 @@ final class SchemaDataPrep
             'aggregate_rules' => [],
         ],
 
-        'rules'           => ['inherit' => ''],
-        'aggregate_rules' => ['inherit' => ''],
+        'rules'           => ['preset' => ''],
+        'aggregate_rules' => ['preset' => ''],
     ];
 
     private AbstractData $data;
@@ -166,17 +166,17 @@ final class SchemaDataPrep
 
     private function buildByKey(string $key = 'structural_rules'): array
     {
-        $inherit = $this->data->findString("{$key}.inherit");
+        $preset = $this->data->findString("{$key}.preset");
 
         $parentConfig = [];
-        if ($inherit !== '') {
-            $inheritParts = self::parseAliasParts($inherit);
-            $parent = $this->getParentSchema($inheritParts['alias']);
+        if ($preset !== '') {
+            $presetParts = self::parseAliasParts($preset);
+            $parent = $this->getParentSchema($presetParts['alias']);
             $parentConfig = $parent->getData()->getArray($key);
         }
 
         $result = Utils::mergeConfigs((array)self::DEFAULTS[$key], $parentConfig, $this->data->getArray($key));
-        unset($result['inherit']);
+        unset($result['preset']);
 
         return $result;
     }
@@ -187,16 +187,16 @@ final class SchemaDataPrep
 
         foreach ($this->data->getArray('columns') as $columnIndex => $column) {
             $columnData = new Data($column);
-            $columnInherit = $columnData->getString('inherit');
+            $columnpreset = $columnData->getString('preset');
 
             $parentConfig = [];
-            if ($columnInherit !== '') {
-                $inheritParts = self::parseAliasParts($columnInherit);
-                $parent = $this->getParentSchema($inheritParts['alias']);
-                $parentColumn = $parent->getColumn($inheritParts['column']);
+            if ($columnpreset !== '') {
+                $presetParts = self::parseAliasParts($columnpreset);
+                $parent = $this->getParentSchema($presetParts['alias']);
+                $parentColumn = $parent->getColumn($presetParts['column']);
                 if ($parentColumn === null) {
                     throw new \InvalidArgumentException(
-                        "Unknown column: \"{$inheritParts['column']}\" by alias: \"{$inheritParts['alias']}\"",
+                        "Unknown column: \"{$presetParts['column']}\" by alias: \"{$presetParts['alias']}\"",
                     );
                 }
 
@@ -207,7 +207,7 @@ final class SchemaDataPrep
             $actualColumn['rules'] = $this->buildRules($actualColumn['rules'], 'rules');
             $actualColumn['aggregate_rules'] = $this->buildRules($actualColumn['aggregate_rules'], 'aggregate_rules');
 
-            unset($actualColumn['inherit']);
+            unset($actualColumn['preset']);
 
             $columns[$columnIndex] = $actualColumn;
         }
@@ -217,29 +217,29 @@ final class SchemaDataPrep
 
     private function buildRules(array $rules, string $typeOfRules): array
     {
-        $inherit = $rules['inherit'] ?? '';
+        $preset = $rules['preset'] ?? '';
 
         $parentConfig = [];
-        if ($inherit !== '') {
-            $inheritParts = self::parseAliasParts($inherit);
-            $parent = $this->getParentSchema($inheritParts['alias']);
-            $parentColumn = $parent->getColumn($inheritParts['column']);
+        if ($preset !== '') {
+            $presetParts = self::parseAliasParts($preset);
+            $parent = $this->getParentSchema($presetParts['alias']);
+            $parentColumn = $parent->getColumn($presetParts['column']);
             if ($parentColumn === null) {
-                throw new \InvalidArgumentException("Unknown column: \"{$inheritParts['column']}\"");
+                throw new \InvalidArgumentException("Unknown column: \"{$presetParts['column']}\"");
             }
 
             $parentConfig = $parentColumn->getData()->getArray($typeOfRules);
         }
 
         $actualRules = Utils::mergeConfigs((array)self::DEFAULTS[$typeOfRules], $parentConfig, $rules);
-        unset($actualRules['inherit']);
+        unset($actualRules['preset']);
 
         return $actualRules;
     }
 
-    private static function parseAliasParts(string $inherit): array
+    private static function parseAliasParts(string $preset): array
     {
-        $parts = \explode('/', $inherit);
+        $parts = \explode('/', $preset);
         self::validateAlias($parts[0]);
 
         if (\count($parts) === 1) {

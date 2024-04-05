@@ -13,9 +13,8 @@
 # This schema is invalid because does not match the CSV file (tests/fixtures/demo.csv).
 
 name: Parent schema
-description: Testing inheritance.
 
-filename_pattern: /parent-\d.csv$/i
+filename_pattern: /preset-\d.csv$/i
 
 csv:
   header: false
