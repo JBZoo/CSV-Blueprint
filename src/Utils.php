@@ -432,7 +432,7 @@ final class Utils
 
     public static function mergeConfigs(array ...$configs): array
     {
-        $merged = \array_shift($configs); // Start with the first array
+        $merged = (array)\array_shift($configs); // Start with the first array
 
         foreach ($configs as $config) {
             foreach ($config as $key => $value) {

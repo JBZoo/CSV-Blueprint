@@ -34,7 +34,6 @@ final class Schema
 
     /** @var Column[] */
     private array        $columns;
-    private string       $basepath = '.';
     private ?string      $filename;
     private AbstractData $data;
 
@@ -69,9 +68,10 @@ final class Schema
         }
 
         $basepath = '.';
-        if ((string)$this->filename !== '' && $this->filename !== '_custom_array_') {
-            $this->filename = realpath($this->filename);
-            $basepath = \dirname((string)$this->filename);
+        $filename = (string)$this->filename;
+        if ($filename !== '' && \file_exists($filename)) {
+            $this->filename = (string)\realpath($filename);
+            $basepath = \dirname($filename);
         }
 
         $this->data = (new SchemaDataPrep($data, $basepath))->buildData();
@@ -94,7 +94,7 @@ final class Schema
     public function getColumn(int|string $columNameOrId, ?string $forceName = null): ?Column
     {
         // By "index"
-        if (\is_numeric($columNameOrId) || \is_int($columNameOrId)) {
+        if (\is_numeric($columNameOrId)) {
             return \array_values($this->getColumns())[$columNameOrId] ?? null;
         }
 

@@ -105,7 +105,7 @@ final class SchemaDataPrep
             throw new \InvalidArgumentException('Empty alias');
         }
 
-        if (!\preg_match(self::getAliasRegex(), $alias)) {
+        if (\preg_match(self::getAliasRegex(), $alias) === 0) {
             throw new \InvalidArgumentException("Invalid alias: \"{$alias}\"");
         }
     }
@@ -185,7 +185,7 @@ final class SchemaDataPrep
         $inherit = $this->data->findString("{$key}.inherit");
 
         $parentConfig = [];
-        if (\preg_match('/' . self::ALIAS_REGEX . '\/' . $key . '$/i', $inherit)) {
+        if (\preg_match('/' . self::ALIAS_REGEX . '\/' . $key . '$/i', $inherit) === 1) {
             $inheritParts = $this->parseAliasParts($inherit);
             $parent = $this->getParentSchema($inheritParts['alias']);
             $parentConfig = $parent->getData()->getArray($key);
@@ -206,7 +206,7 @@ final class SchemaDataPrep
             $columnInherit = $columnData->getString('inherit');
 
             $parentConfig = [];
-            if (\preg_match('/' . self::ALIAS_REGEX . '\/columns\/[^\/]+$/i', $columnInherit)) {
+            if (\preg_match('/' . self::ALIAS_REGEX . '\/columns\/[^\/]+$/i', $columnInherit) === 1) {
                 $inheritParts = $this->parseAliasParts($columnInherit);
                 $parent = $this->getParentSchema($inheritParts['alias']);
                 $parentColumn = $parent->getColumn($inheritParts['column']);
@@ -254,7 +254,7 @@ final class SchemaDataPrep
         $inherit = $rules['inherit'] ?? '';
 
         $parentConfig = [];
-        if (\preg_match('/' . self::ALIAS_REGEX . '\/columns\/[^\/]+\/' . $typeOfRules . '$/i', $inherit)) {
+        if (\preg_match('/' . self::ALIAS_REGEX . '\/columns\/[^\/]+\/' . $typeOfRules . '$/i', $inherit) === 1) {
             $inheritParts = $this->parseAliasParts($inherit);
             $parent = $this->getParentSchema($inheritParts['alias']);
             $parentColumn = $parent->getColumn($inheritParts['column']);

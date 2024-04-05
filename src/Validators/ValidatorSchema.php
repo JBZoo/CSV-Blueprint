@@ -152,7 +152,7 @@ final class ValidatorSchema
 
         $metaErrors = Utils::compareArray($expectedMeta, $actualMetaAsArray, 'meta', '.');
 
-        foreach($actualIncludes as $alias => $includedFile) {
+        foreach ($actualIncludes as $alias => $includedFile) {
             if ($alias === '') {
                 $errors->addError(new Error('includes', 'Defined alias is empty'));
             }
