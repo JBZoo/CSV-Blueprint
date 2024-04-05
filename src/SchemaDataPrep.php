@@ -31,7 +31,6 @@ final class SchemaDataPrep
         'inlcudes' => [],
 
         'csv' => [
-            'inherit'    => null,
             'header'     => true,
             'delimiter'  => ',',
             'quote_char' => '\\',
@@ -46,7 +45,6 @@ final class SchemaDataPrep
         ],
 
         'column' => [
-            'inherit'         => '',
             'name'            => '',
             'description'     => '',
             'example'         => null,
@@ -78,7 +76,7 @@ final class SchemaDataPrep
             'name'             => $this->buildName(),
             'description'      => $this->buildDescription(),
             'includes'         => $this->buildIncludes(),
-            'filename_pattern' => $this->buildFilenamePattern(),
+            'filename_pattern' => $this->buildByKey('filename_pattern')[0],
             'csv'              => $this->buildByKey('csv'),
             'structural_rules' => $this->buildByKey('structural_rules'),
             'columns'          => $this->buildColumns(),
@@ -146,17 +144,24 @@ final class SchemaDataPrep
         throw new \InvalidArgumentException("Unknown included alias: \"{$alias}\"");
     }
 
-    private function buildFilenamePattern(): string
+    private function buildIncludes(): array
     {
-        $inherit = $this->data->findString('filename_pattern.inherit');
-
-        if ($inherit !== '') {
-            $inheritParts = self::parseAliasParts($inherit);
-            $parent = $this->getParentSchema($inheritParts['alias']);
-            return $parent->getData()->get('filename_pattern');
+        $result = [];
+        foreach ($this->aliases as $alias => $schema) {
+            $result[$alias] = $schema->getFilename();
         }
 
-        return $this->data->getString('filename_pattern', self::DEFAULTS['filename_pattern']);
+        return $result;
+    }
+
+    private function buildName(): string
+    {
+        return $this->data->getString('name', self::DEFAULTS['name']);
+    }
+
+    private function buildDescription(): string
+    {
+        return $this->data->getString('description', self::DEFAULTS['description']);
     }
 
     private function buildByKey(string $key = 'structural_rules'): array
@@ -190,7 +195,9 @@ final class SchemaDataPrep
                 $parent = $this->getParentSchema($inheritParts['alias']);
                 $parentColumn = $parent->getColumn($inheritParts['column']);
                 if ($parentColumn === null) {
-                    throw new \InvalidArgumentException("Unknown column: \"{$inheritParts['column']}\"");
+                    throw new \InvalidArgumentException(
+                        "Unknown column: \"{$inheritParts['column']}\" by alias: \"{$inheritParts['alias']}\"",
+                    );
                 }
 
                 $parentConfig = $parentColumn->getData()->getArrayCopy();
@@ -206,26 +213,6 @@ final class SchemaDataPrep
         }
 
         return $columns;
-    }
-
-    private function buildIncludes(): array
-    {
-        $result = [];
-        foreach ($this->aliases as $alias => $schema) {
-            $result[$alias] = $schema->getFilename();
-        }
-
-        return $result;
-    }
-
-    private function buildName(): string
-    {
-        return $this->data->getString('name', self::DEFAULTS['name']);
-    }
-
-    private function buildDescription(): string
-    {
-        return $this->data->getString('description', self::DEFAULTS['description']);
     }
 
     private function buildRules(array $rules, string $typeOfRules): array

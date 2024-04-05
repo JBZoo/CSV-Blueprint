@@ -105,15 +105,10 @@ final class ReadmeTest extends TestCase
                 'csv.auto_detect',
                 'csv.end_of_line',
                 'csv.null_values',
+                'filename_pattern - multiple',
                 'column.faker',
                 'column.null_values',
                 'column.multiple + column.multiple_separator',
-                'inherit.',
-                'inherit.csv',
-                'inherit.structural_rules',
-                'inherit.rules',
-                'inherit.aggregate_rules',
-                'inherit.complex_rules',
             ]) + \count($todoYml->findArray('structural_rules'))
             + \count($todoYml->findArray('complex_rules')),
         ]);

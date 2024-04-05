@@ -15,7 +15,7 @@
 [![Static Badge](https://img.shields.io/badge/Rules-118-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
 [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)
 [![Static Badge](https://img.shields.io/badge/Rules-8-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)
-[![Static Badge](https://img.shields.io/badge/Rules-17/11/25-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-17/11/20-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- auto-update:/rules-counter -->
 
 A console utility designed for validating CSV files against a strictly defined schema and validation rules outlined
@@ -1364,12 +1364,12 @@ It's random ideas and plans. No promises and deadlines. Feel free to [help me!](
     * Flag to ignore file name pattern. It's useful when you have a lot of files, and you don't want to validate the file name.
 
 * **Validation**
+    * Multi `filename_pattern`. Support list of regexs.
     * Multi values in one cell.
     * Custom cell rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
     * Custom agregate rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
     * Configurable keyword for null/empty values. By default, it's an empty string. But you will use `null`, `nil`, `none`, `empty`, etc. Overridable on the column level.
     * Handle empty files and files with only a header row, or only with one line of data. One column wthout header is also possible.
-    * Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas. Make it DRY and easy to maintain.
     * If option `--schema` is not specified, then validate only super base level things (like "is it a CSV file?").
     * Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
     * Extending with custom rules and custom report formats. Plugins?
