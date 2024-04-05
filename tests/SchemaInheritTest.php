@@ -118,7 +118,7 @@ final class SchemaInheritTest extends TestCase
                 'parent' => ['filename_pattern' => '/.*/i'],
             ],
             'filename_pattern' => [
-                'inherit' => 'parent/filename_pattern',
+                'inherit' => 'parent',
             ],
         ]);
 
@@ -141,7 +141,7 @@ final class SchemaInheritTest extends TestCase
                     ],
                 ],
             ],
-            'csv' => ['inherit' => 'parent/csv'],
+            'csv' => ['inherit' => 'parent'],
         ]);
 
         isSame([
@@ -170,7 +170,7 @@ final class SchemaInheritTest extends TestCase
                 ],
             ],
             'csv' => [
-                'inherit'  => 'parent/csv',
+                'inherit'  => 'parent',
                 'encoding' => 'utf-32',
             ],
         ]);
@@ -199,7 +199,7 @@ final class SchemaInheritTest extends TestCase
                 ],
             ],
             'structural_rules' => [
-                'inherit' => 'parent/structural_rules',
+                'inherit' => 'parent',
             ],
         ]);
 
@@ -223,7 +223,7 @@ final class SchemaInheritTest extends TestCase
                 ],
             ],
             'structural_rules' => [
-                'inherit'             => 'parent/structural_rules',
+                'inherit'             => 'parent',
                 'allow_extra_columns' => true,
             ],
         ]);
@@ -240,7 +240,7 @@ final class SchemaInheritTest extends TestCase
         $schema = new Schema([
             'includes'         => ['parent' => ['structural_rules' => []]],
             'structural_rules' => [
-                'inherit'             => 'parent/structural_rules',
+                'inherit'             => 'parent',
                 'allow_extra_columns' => true,
             ],
         ]);
@@ -275,13 +275,13 @@ final class SchemaInheritTest extends TestCase
         $schema = new Schema([
             'includes' => ['parent' => ['columns' => [$parentColum0, $parentColum1]]],
             'columns'  => [
-                ['inherit' => 'parent/columns/0'],
-                ['inherit' => 'parent/columns/1'],
-                ['inherit' => 'parent/columns/0:'],
-                ['inherit' => 'parent/columns/1:'],
-                ['inherit' => 'parent/columns/Name'],
-                ['inherit' => 'parent/columns/0:Name'],
-                ['inherit' => 'parent/columns/1:Name'],
+                ['inherit' => 'parent/0'],
+                ['inherit' => 'parent/1'],
+                ['inherit' => 'parent/0:'],
+                ['inherit' => 'parent/1:'],
+                ['inherit' => 'parent/Name'],
+                ['inherit' => 'parent/0:Name'],
+                ['inherit' => 'parent/1:Name'],
             ],
         ]);
 
@@ -315,7 +315,7 @@ final class SchemaInheritTest extends TestCase
             'includes' => ['parent' => ['columns' => [$parentColum]]],
             'columns'  => [
                 [
-                    'inherit' => 'parent/columns/Name',
+                    'inherit' => 'parent/Name',
                     'name'    => 'Child name',
                     'rules'   => [
                         'is_int'       => true,
@@ -366,7 +366,7 @@ final class SchemaInheritTest extends TestCase
             'columns'  => [
                 [
                     'name'  => 'Child name',
-                    'rules' => ['inherit' => 'parent/columns/0:/rules'],
+                    'rules' => ['inherit' => 'parent/0:'],
                 ],
             ],
         ]);
@@ -410,7 +410,7 @@ final class SchemaInheritTest extends TestCase
                 [
                     'name'  => 'Child name',
                     'rules' => [
-                        'inherit'      => 'parent/columns/0:/rules',
+                        'inherit'      => 'parent/0:',
                         'allow_values' => ['d', 'c'],
                         'length_max'   => 100,
                     ],
@@ -456,7 +456,7 @@ final class SchemaInheritTest extends TestCase
             'columns'  => [
                 [
                     'name'            => 'Child name',
-                    'aggregate_rules' => ['inherit' => 'parent/columns/0:/aggregate_rules'],
+                    'aggregate_rules' => ['inherit' => 'parent/0:'],
                 ],
             ],
         ]);
@@ -498,7 +498,7 @@ final class SchemaInheritTest extends TestCase
                 [
                     'name'            => 'Child name',
                     'aggregate_rules' => [
-                        'inherit' => 'parent/columns/0:/aggregate_rules',
+                        'inherit' => 'parent/0:',
                         'sum_max' => 4200,
                         'sum_min' => 1,
                     ],

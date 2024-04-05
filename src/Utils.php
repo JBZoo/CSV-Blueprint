@@ -430,6 +430,9 @@ final class Utils
         return $newArgumens;
     }
 
+    /**
+     * @param array<string, null|array|bool|string>|int[]|string[] ...$configs
+     */
     public static function mergeConfigs(array ...$configs): array
     {
         $merged = (array)\array_shift($configs); // Start with the first array

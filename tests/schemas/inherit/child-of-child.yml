@@ -24,17 +24,17 @@ filename_pattern: /child-of-child-\d.csv$/i
 
 
 csv:
-  inherit: 'parent-1_0/csv'
-  delimiter: 'dd'
-  quote_char: 'qq'
-  enclosure: 'ee'
+  inherit: parent-1_0
+  delimiter: dd
+  quote_char: qq
+  enclosure: ee
   encoding: utf-32
   bom: false
 
 
 structural_rules:
-  inherit: 'parent-1_0/structural_rules'
+  inherit: parent-1_0
   allow_extra_columns: false
 
 columns:
-  - inherit: 'parent-1_0/columns/Second Column'
+  - inherit: parent-1_0/Second Column

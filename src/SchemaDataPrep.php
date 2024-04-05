@@ -105,33 +105,10 @@ final class SchemaDataPrep
             throw new \InvalidArgumentException('Empty alias');
         }
 
-        if (\preg_match(self::getAliasRegex(), $alias) === 0) {
+        $regex = self::getAliasRegex();
+        if ($regex !== '' && \preg_match($regex, $alias) === 0) {
             throw new \InvalidArgumentException("Invalid alias: \"{$alias}\"");
         }
-    }
-
-    private function parseAliasParts(string $inherit): array
-    {
-        $alias = null;
-        $keyword = null;
-        $columnName = null;
-        $rules = null;
-
-        $parts = \explode('/', $inherit);
-        if (\count($parts) === 2) {
-            [$alias, $keyword] = $parts;
-        } elseif (\count($parts) === 3) {
-            [$alias, $keyword, $columnName] = $parts;
-        } elseif (\count($parts) === 4) {
-            [$alias, $keyword, $columnName, $rules] = $parts;
-        }
-
-        return [
-            'alias'   => $alias,
-            'keyword' => $keyword,
-            'column'  => $columnName,
-            'rules'   => $rules,
-        ];
     }
 
     /**
@@ -142,6 +119,8 @@ final class SchemaDataPrep
         $includes = [];
 
         foreach ($data->getArray('includes') as $alias => $includedPathOrArray) {
+            $alias = (string)$alias;
+
             self::validateAlias($alias);
 
             if (\is_array($includedPathOrArray)) {
@@ -171,8 +150,8 @@ final class SchemaDataPrep
     {
         $inherit = $this->data->findString('filename_pattern.inherit');
 
-        if (\str_ends_with($inherit, '/filename_pattern')) {
-            $inheritParts = $this->parseAliasParts($inherit);
+        if ($inherit !== '') {
+            $inheritParts = self::parseAliasParts($inherit);
             $parent = $this->getParentSchema($inheritParts['alias']);
             return $parent->getData()->get('filename_pattern');
         }
@@ -185,13 +164,13 @@ final class SchemaDataPrep
         $inherit = $this->data->findString("{$key}.inherit");
 
         $parentConfig = [];
-        if (\preg_match('/' . self::ALIAS_REGEX . '\/' . $key . '$/i', $inherit) === 1) {
-            $inheritParts = $this->parseAliasParts($inherit);
+        if ($inherit !== '') {
+            $inheritParts = self::parseAliasParts($inherit);
             $parent = $this->getParentSchema($inheritParts['alias']);
             $parentConfig = $parent->getData()->getArray($key);
         }
 
-        $result = Utils::mergeConfigs(self::DEFAULTS[$key], $parentConfig, $this->data->getArray($key));
+        $result = Utils::mergeConfigs((array)self::DEFAULTS[$key], $parentConfig, $this->data->getArray($key));
         unset($result['inherit']);
 
         return $result;
@@ -206,8 +185,8 @@ final class SchemaDataPrep
             $columnInherit = $columnData->getString('inherit');
 
             $parentConfig = [];
-            if (\preg_match('/' . self::ALIAS_REGEX . '\/columns\/[^\/]+$/i', $columnInherit) === 1) {
-                $inheritParts = $this->parseAliasParts($columnInherit);
+            if ($columnInherit !== '') {
+                $inheritParts = self::parseAliasParts($columnInherit);
                 $parent = $this->getParentSchema($inheritParts['alias']);
                 $parentColumn = $parent->getColumn($inheritParts['column']);
                 if ($parentColumn === null) {
@@ -254,8 +233,8 @@ final class SchemaDataPrep
         $inherit = $rules['inherit'] ?? '';
 
         $parentConfig = [];
-        if (\preg_match('/' . self::ALIAS_REGEX . '\/columns\/[^\/]+\/' . $typeOfRules . '$/i', $inherit) === 1) {
-            $inheritParts = $this->parseAliasParts($inherit);
+        if ($inherit !== '') {
+            $inheritParts = self::parseAliasParts($inherit);
             $parent = $this->getParentSchema($inheritParts['alias']);
             $parentColumn = $parent->getColumn($inheritParts['column']);
             if ($parentColumn === null) {
@@ -265,9 +244,21 @@ final class SchemaDataPrep
             $parentConfig = $parentColumn->getData()->getArray($typeOfRules);
         }
 
-        $actualRules = Utils::mergeConfigs(self::DEFAULTS[$typeOfRules], $parentConfig, $rules);
+        $actualRules = Utils::mergeConfigs((array)self::DEFAULTS[$typeOfRules], $parentConfig, $rules);
         unset($actualRules['inherit']);
 
         return $actualRules;
+    }
+
+    private static function parseAliasParts(string $inherit): array
+    {
+        $parts = \explode('/', $inherit);
+        self::validateAlias($parts[0]);
+
+        if (\count($parts) === 1) {
+            return ['alias' => $parts[0]];
+        }
+
+        return ['alias' => $parts[0], 'column' => $parts[1]];
     }
 }

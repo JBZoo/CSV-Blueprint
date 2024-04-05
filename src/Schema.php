@@ -48,7 +48,6 @@ final class Schema
             && \file_exists($csvSchemaFilenameOrArray)
         ) {
             $this->filename = $csvSchemaFilenameOrArray;
-            $data = new Data();
             $fileExtension = \pathinfo($csvSchemaFilenameOrArray, \PATHINFO_EXTENSION);
 
             if ($fileExtension === 'yml' || $fileExtension === 'yaml') {

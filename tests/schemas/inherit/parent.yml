@@ -19,9 +19,9 @@ filename_pattern: /parent-\d.csv$/i
 
 csv:
   header: false
-  delimiter: 'd'
-  quote_char: 'q'
-  enclosure: 'e'
+  delimiter: d
+  quote_char: q
+  enclosure: e
   encoding: utf-16
   bom: true
 
