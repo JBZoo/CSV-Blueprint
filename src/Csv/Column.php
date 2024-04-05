@@ -33,21 +33,21 @@ final class Column
 
     private ?int  $csvOffset = null;
     private int   $schemaId;
-    private Data  $column;
+    private Data  $data;
     private array $rules;
     private array $aggRules;
 
     public function __construct(int $schemaId, array $config)
     {
         $this->schemaId = $schemaId;
-        $this->column = new Data($config);
+        $this->data = new Data($config);
         $this->rules = $this->prepareRuleSet('rules');
         $this->aggRules = $this->prepareRuleSet('aggregate_rules');
     }
 
     public function getName(): string
     {
-        return $this->column->getString('name', self::FALLBACK_VALUES['name']);
+        return $this->data->getString('name', self::FALLBACK_VALUES['name']);
     }
 
     public function getCsvOffset(): ?int
@@ -62,7 +62,7 @@ final class Column
 
     public function getDescription(): string
     {
-        return $this->column->getString('description', self::FALLBACK_VALUES['description']);
+        return $this->data->getString('description', self::FALLBACK_VALUES['description']);
     }
 
     public function getHumanName(): string
@@ -78,7 +78,7 @@ final class Column
 
     public function isRequired(): bool
     {
-        return $this->column->getBool('required', self::FALLBACK_VALUES['required']);
+        return $this->data->getBool('required', self::FALLBACK_VALUES['required']);
     }
 
     public function getRules(): array
@@ -106,11 +106,16 @@ final class Column
         $this->csvOffset = $csvOffset;
     }
 
+    public function getData(): Data
+    {
+        return clone $this->data;
+    }
+
     private function prepareRuleSet(string $schemaKey): array
     {
         $rules = [];
 
-        $ruleSetConfig = $this->column->getSelf($schemaKey, [])->getArrayCopy();
+        $ruleSetConfig = $this->data->getSelf($schemaKey, [])->getArrayCopy();
         foreach ($ruleSetConfig as $ruleName => $ruleValue) {
             $rules[$ruleName] = $ruleValue;
         }

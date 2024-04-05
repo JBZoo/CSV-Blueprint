@@ -22,6 +22,10 @@ description: |                          # Any description of the CSV file. Not u
   supporting a wide range of data validation rules from basic type checks to complex regex validations.
   This example serves as a comprehensive guide for creating robust CSV file validations.
 
+includes:
+  parent-alias: ./readme_sample.yml   # Include another schema and define an alias for it.
+
+
 # Regular expression to match the file name. If not set, then no pattern check.
 # This allows you to pre-validate the file name before processing its contents.
 # Feel free to check parent directories as well.
@@ -228,9 +232,9 @@ columns:
 
       # Identifications
       phone: ALL                        # Validates if the input is a phone number. Specify the country code to validate the phone number for a specific country. Example: "ALL", "US", "BR".".
+      postal_code: US                   # Validate postal code by country code (alpha-2). Example: "02179". Extracted from https://www.geonames.org
       is_iban: true                     # IBAN - International Bank Account Number. See: https://en.wikipedia.org/wiki/International_Bank_Account_Number
       is_bic: true                      # Validates a Bank Identifier Code (BIC) according to ISO 9362 standards. See: https://en.wikipedia.org/wiki/ISO_9362
-      postal_code: US                   # Validate postal code by country code (alpha-2). Example: "02179". Extracted from https://www.geonames.org
       is_imei: true                     # Validates an International Mobile Equipment Identity (IMEI). See: https://en.wikipedia.org/wiki/International_Mobile_Station_Equipment_Identity
       is_isbn: true                     # Validates an International Standard Book Number (ISBN). See: https://www.isbn-international.org/content/what-isbn
 

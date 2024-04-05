@@ -123,9 +123,9 @@ final class ValidateCsvReportsTest extends TestCase
             
             Check schema syntax: 1
               2 issues in ./tests/schemas/demo_invalid.yml
-            ::error file=./tests/schemas/demo_invalid.yml::is_float at column 2:Float%0A"is_float", column "2:Float". Value "Qwerty" is not a float number.
+            ::error file=<root>/tests/schemas/demo_invalid.yml::is_float at column 2:Float%0A"is_float", column "2:Float". Value "Qwerty" is not a float number.
             
-            ::error file=./tests/schemas/demo_invalid.yml::allow_values at column 4:Favorite color%0A"allow_values", column "4:Favorite color". Value "123" is not allowed. Allowed values: ["red", "green", "Blue"].
+            ::error file=<root>/tests/schemas/demo_invalid.yml::allow_values at column 4:Favorite color%0A"allow_values", column "4:Favorite color". Value "123" is not allowed. Allowed values: ["red", "green", "Blue"].
             
             
             CSV file validation: 1
@@ -171,11 +171,11 @@ final class ValidateCsvReportsTest extends TestCase
             
             ##teamcity[testSuiteStarted name='tests/schemas/demo_invalid.yml' flowId='42']
             
-            ##teamcity[testStarted name='is_float at column 2:Float' locationHint='php_qn://./tests/schemas/demo_invalid.yml' flowId='42']
+            ##teamcity[testStarted name='is_float at column 2:Float' locationHint='php_qn://<root>/tests/schemas/demo_invalid.yml' flowId='42']
             "is_float", column "2:Float". Value "Qwerty" is not a float number.
             ##teamcity[testFinished name='is_float at column 2:Float' flowId='42']
             
-            ##teamcity[testStarted name='allow_values at column 4:Favorite color' locationHint='php_qn://./tests/schemas/demo_invalid.yml' flowId='42']
+            ##teamcity[testStarted name='allow_values at column 4:Favorite color' locationHint='php_qn://<root>/tests/schemas/demo_invalid.yml' flowId='42']
             "allow_values", column "4:Favorite color". Value "123" is not allowed. Allowed values: ["red", "green", "Blue"].
             ##teamcity[testFinished name='allow_values at column 4:Favorite color' flowId='42']
             
@@ -241,10 +241,10 @@ final class ValidateCsvReportsTest extends TestCase
             <?xml version="1.0" encoding="UTF-8"?>
             <testsuites>
               <testsuite name="tests/schemas/demo_invalid.yml" tests="2">
-                <testcase name="is_float at column 2:Float" file="./tests/schemas/demo_invalid.yml" line="0">
+                <testcase name="is_float at column 2:Float" file="<root>/tests/schemas/demo_invalid.yml" line="0">
                   <system-out>"is_float", column "2:Float". Value "Qwerty" is not a float number.</system-out>
                 </testcase>
-                <testcase name="allow_values at column 4:Favorite color" file="./tests/schemas/demo_invalid.yml" line="0">
+                <testcase name="allow_values at column 4:Favorite color" file="<root>/tests/schemas/demo_invalid.yml" line="0">
                   <system-out>"allow_values", column "4:Favorite color". Value "123" is not allowed. Allowed values: ["red", "green", "Blue"].</system-out>
                 </testcase>
               </testsuite>
@@ -302,7 +302,7 @@ final class ValidateCsvReportsTest extends TestCase
                     "fingerprint": "_replaced_",
                     "severity": "major",
                     "location": {
-                        "path": ".\/tests\/schemas\/demo_invalid.yml",
+                        "path": "<root>\/tests\/schemas\/demo_invalid.yml",
                         "lines": {
                             "begin": 0
                         }
@@ -313,7 +313,7 @@ final class ValidateCsvReportsTest extends TestCase
                     "fingerprint": "_replaced_",
                     "severity": "major",
                     "location": {
-                        "path": ".\/tests\/schemas\/demo_invalid.yml",
+                        "path": "<root>\/tests\/schemas\/demo_invalid.yml",
                         "lines": {
                             "begin": 0
                         }

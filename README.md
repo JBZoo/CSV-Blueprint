@@ -152,21 +152,6 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
 ```
 <!-- auto-update:/github-actions-yml -->
 
-To see user-friendly error outputs in your pull requests (PRs), specify `report: github`. This
-utilizes [annotations](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message)
-to highlight bugs directly within the GitHub interface at the PR level. This feature allows errors to be displayed in
-the exact location within the CSV file, right in the diff of your Pull Requests. For a practical example,
-view [this live demo PR](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files).
-
-![GitHub Actions - PR](.github/assets/github-actions-pr.png)
-
-<details>
-  <summary>Click to see example in GitHub Actions terminal</summary>
-
-![GitHub Actions - Terminal](.github/assets/github-actions-termintal.png)
-
-</details>
-
 ### Docker container
 
 Ensure you have Docker installed on your machine.
@@ -306,6 +291,10 @@ description: |                          # Any description of the CSV file. Not u
   CSV formatting options, and extensive validation criteria for individual columns and their values,
   supporting a wide range of data validation rules from basic type checks to complex regex validations.
   This example serves as a comprehensive guide for creating robust CSV file validations.
+
+includes:
+  parent-alias: ./readme_sample.yml   # Include another schema and define an alias for it.
+
 
 # Regular expression to match the file name. If not set, then no pattern check.
 # This allows you to pre-validate the file name before processing its contents.
@@ -513,9 +502,9 @@ columns:
 
       # Identifications
       phone: ALL                        # Validates if the input is a phone number. Specify the country code to validate the phone number for a specific country. Example: "ALL", "US", "BR".".
+      postal_code: US                   # Validate postal code by country code (alpha-2). Example: "02179". Extracted from https://www.geonames.org
       is_iban: true                     # IBAN - International Bank Account Number. See: https://en.wikipedia.org/wiki/International_Bank_Account_Number
       is_bic: true                      # Validates a Bank Identifier Code (BIC) according to ISO 9362 standards. See: https://en.wikipedia.org/wiki/ISO_9362
-      postal_code: US                   # Validate postal code by country code (alpha-2). Example: "02179". Extracted from https://www.geonames.org
       is_imei: true                     # Validates an International Mobile Equipment Identity (IMEI). See: https://en.wikipedia.org/wiki/International_Mobile_Station_Equipment_Identity
       is_isbn: true                     # Validates an International Standard Book Number (ISBN). See: https://www.isbn-international.org/content/what-isbn
 
@@ -1037,6 +1026,8 @@ The validation process culminates in a human-readable report detailing any error
 the default report format is a table, the tool supports various output formats, including text, GitHub, GitLab,
 TeamCity, JUnit, among others, to best suit your project's needs and your personal or team preferences.
 
+### Table format
+
 When using the `table` format (default), the output is organized in a clear, easily interpretable table that lists all
 discovered errors. This format is ideal for quick reviews and sharing with team members for further action.
 
@@ -1088,11 +1079,29 @@ Summary:
 <!-- auto-update:/output-table -->
 
 
+### GitHub Action format
+
+To see user-friendly error outputs in your pull requests (PRs), specify `report: github`. This
+utilizes [annotations](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message)
+to highlight bugs directly within the GitHub interface at the PR level. This feature allows errors to be displayed in
+the exact location within the CSV file, right in the diff of your Pull Requests. For a practical example,
+view [this live demo PR](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files).
+
+![GitHub Actions - PR](.github/assets/github-actions-pr.png)
+
+<details>
+  <summary>Click to see example in GitHub Actions terminal</summary>
+
+![GitHub Actions - Terminal](.github/assets/github-actions-termintal.png)
+
+</details>
+
+
+### Text format
 Optional format `text` with highlited keywords:
 ```sh
 ./csv-blueprint validate:csv --report=text
 ```
-
 
 ![Report - Text](.github/assets/output-text.png)
 
@@ -1101,6 +1110,7 @@ Optional format `text` with highlited keywords:
 * Report format for GitHub Actions is `table` by default.
 * Tools uses [JBZoo/CI-Report-Converter](https://github.com/JBZoo/CI-Report-Converter) as SDK to convert reports to
   different formats. So you can easily integrate it with any CI system.
+
 
 ## Benchmarks
 

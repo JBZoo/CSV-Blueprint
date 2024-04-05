@@ -246,12 +246,12 @@ final class Utils
         $actualType = \gettype($actual);
 
         $mapOfValidConvertions = [
-            'NULL'    => [],
+            'NULL'    => ['string', 'integer', 'double', 'boolean'],
             'array'   => [],
             'boolean' => [],
-            'double'  => ['string', 'integer'],
-            'integer' => [],
-            'string'  => ['double', 'integer'],
+            'double'  => ['NULL', 'string', 'integer'],
+            'integer' => ['NULL'],
+            'string'  => ['NULL', 'double', 'integer'],
         ];
 
         if ($expectedType === $actualType) {
@@ -428,6 +428,33 @@ final class Utils
         }
 
         return $newArgumens;
+    }
+
+    public static function mergeConfigs(array ...$configs): array
+    {
+        $merged = \array_shift($configs); // Start with the first array
+
+        foreach ($configs as $config) {
+            foreach ($config as $key => $value) {
+                // If both values are arrays
+                if (isset($merged[$key]) && \is_array($merged[$key]) && \is_array($value)) {
+                    // Check if arrays are associative (assuming keys are consistent across values for simplicity)
+                    $isAssoc = \array_keys($value) !== \range(0, \count($value) - 1);
+                    if ($isAssoc) {
+                        // Merge associative arrays recursively
+                        $merged[$key] = self::mergeConfigs($merged[$key], $value);
+                    } else {
+                        // Replace non-associative arrays entirely
+                        $merged[$key] = $value;
+                    }
+                } else {
+                    // Replace the value entirely
+                    $merged[$key] = $value;
+                }
+            }
+        }
+
+        return $merged;
     }
 
     /**

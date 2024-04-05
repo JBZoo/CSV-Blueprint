@@ -1,0 +1,40 @@
+#
+# JBZoo Toolbox - Csv-Blueprint.
+#
+# This file is part of the JBZoo Toolbox project.
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# @license    MIT
+# @copyright  Copyright (C) JBZoo.com, All rights reserved.
+# @see        https://github.com/JBZoo/Csv-Blueprint
+#
+
+# This schema is invalid because does not match the CSV file (tests/fixtures/demo.csv).
+
+
+name: Child of child schema
+description: Testing inheritance from child schema.
+
+includes:
+  parent-1_0: child.yml
+
+
+filename_pattern: /child-of-child-\d.csv$/i
+
+
+csv:
+  inherit: 'parent-1_0/csv'
+  delimiter: 'dd'
+  quote_char: 'qq'
+  enclosure: 'ee'
+  encoding: utf-32
+  bom: false
+
+
+structural_rules:
+  inherit: 'parent-1_0/structural_rules'
+  allow_extra_columns: false
+
+columns:
+  - inherit: 'parent-1_0/columns/Second Column'
