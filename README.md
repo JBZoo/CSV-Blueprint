@@ -981,6 +981,9 @@ framework(!) that will be targeted to the specifics of your project, especially 
 of CSV files and rules. It will be much easier to achieve consistency. Very often it's quite important.
 
 [Database preset](schema-examples/preset_database.yml)
+<details>
+  <summary>Click to see source code</summary>
+
 <!-- auto-update:preset-database-yml -->
 ```yml
 name: Presets for database columns
@@ -1008,7 +1011,14 @@ columns:
 ```
 <!-- auto-update:/preset-database-yml -->
 
+</details>
+
+
 [User data preset](schema-examples/preset_users.yml)
+
+<details>
+  <summary>Click to see source code</summary>
+
 <!-- auto-update:preset-users-yml -->
 ```yml
 name: Common presets for user data
@@ -1116,6 +1126,161 @@ columns:
 ```
 <!-- auto-update:/preset-users-yml -->
 
+This short and clear Yaml under the hood as roughly as follows. As you can see it simplifies your work a lot.
+
+<details>
+  <summary>Click to see source code</summary>
+
+<!-- auto-update:preset-usage-real-yml -->
+```yml
+name: 'Schema uses presets and add new columns + specific rules.'
+description: 'This schema uses presets. Also, it demonstrates how to override preset values.'
+presets:
+  users: ./schema-examples/preset_users.yml
+  db: ./schema-examples/preset_database.yml
+filename_pattern: ''
+csv:
+  header: true
+  delimiter: ;
+  quote_char: \
+  enclosure: '|'
+  encoding: utf-8
+  bom: false
+structural_rules:
+  strict_column_order: true
+  allow_extra_columns: false
+columns:
+  -
+    name: id
+    description: 'Unique identifier, usually used to denote a primary key in databases.'
+    example: 12345
+    required: true
+    rules:
+      not_empty: true
+      is_trimmed: true
+      is_int: true
+      num_min: 1
+    aggregate_rules:
+      is_unique: true
+      sorted:
+        - asc
+        - numeric
+  -
+    name: status
+    description: 'Status in database'
+    example: active
+    required: true
+    rules:
+      not_empty: true
+      allow_values:
+        - active
+        - inactive
+        - pending
+        - deleted
+    aggregate_rules: []
+  -
+    name: login
+    description: "User's login name"
+    example: johndoe
+    required: true
+    rules:
+      not_empty: true
+      is_trimmed: true
+      is_lowercase: true
+      is_slug: true
+      length_min: 3
+      length_max: 20
+      is_alnum: true
+    aggregate_rules:
+      is_unique: true
+  -
+    name: email
+    description: "User's email address"
+    example: user@example.com
+    required: true
+    rules:
+      not_empty: true
+      is_trimmed: true
+      is_email: true
+      is_lowercase: true
+    aggregate_rules:
+      is_unique: true
+  -
+    name: full_name
+    description: "User's full name"
+    example: 'John Doe Smith'
+    required: true
+    rules:
+      not_empty: true
+      is_trimmed: true
+      charset: UTF-8
+      contains: ' '
+      word_count_min: 2
+      word_count_max: 8
+      is_capitalize: true
+    aggregate_rules:
+      is_unique: true
+  -
+    name: birthday
+    description: "Validates the user's birthday."
+    example: '1990-01-01'
+    required: true
+    rules:
+      not_empty: true
+      is_trimmed: true
+      date_format: Y-m-d
+      is_date: true
+      date_age_greater: 0
+      date_age_less: 150
+      date_max: now
+    aggregate_rules: []
+  -
+    name: phone
+    description: "User's phone number in US"
+    example: '+1 650 253 00 00'
+    required: true
+    rules:
+      not_empty: true
+      is_trimmed: true
+      starts_with: '+1'
+      phone: US
+    aggregate_rules: []
+  -
+    name: password
+    description: "User's password"
+    example: 9RfzENKD
+    required: true
+    rules:
+      not_empty: true
+      is_trimmed: true
+      regex: '/^[a-zA-Z\d!@#$%^&*()_+\-=\[\]{};'':"\|,.<>\/?~]{6,}$/'
+      contains_none:
+        - password
+        - '123456'
+        - qwerty
+        - ' '
+      charset: UTF-8
+      length_min: 10
+      length_max: 20
+    aggregate_rules: []
+  -
+    name: admin_note
+    description: 'Admin note'
+    example: ~
+    required: true
+    rules:
+      not_empty: true
+      length_min: 1
+      length_max: 10
+    aggregate_rules:
+      is_unique: true
+      sorted:
+        - asc
+        - numeric
+```
+<!-- auto-update:/preset-usage-real-yml -->
+
+</details>
 
 [Usage of presets](schema-examples/preset_usage.yml)
 <!-- auto-update:preset-usage-yml -->
@@ -1154,6 +1319,9 @@ columns:
       is_unique: true             # Added new specific aggregate rule.
 ```
 <!-- auto-update:/preset-usage-yml -->
+
+<details>
+
 
 As a result, readability and maintainability became dramatically easier.
 You can easily add new rules, change existing, etc.

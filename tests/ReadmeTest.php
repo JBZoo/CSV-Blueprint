@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
+use JBZoo\CsvBlueprint\Schema;
 use JBZoo\CsvBlueprint\SchemaDataPrep;
 use JBZoo\Utils\Cli;
 use JBZoo\Utils\Str;
@@ -221,6 +222,16 @@ final class ReadmeTest extends TestCase
         $text = \implode("\n", ['```yml', \trim($ymlContent), '```']);
 
         Tools::insertInReadme('preset-usage-yml', $text);
+    }
+
+    public function testCheckPresetUsageRealExampleInReadme(): void
+    {
+        $schema = new Schema('./schema-examples/preset_usage.yml');
+
+        $text = \implode("\n", ['```yml', \trim($schema->dumpAsYamlString()), '```']);
+        $text = \str_replace(PROJECT_ROOT, '.', $text);
+
+        Tools::insertInReadme('preset-usage-real-yml', $text);
     }
 
     public function testAdditionalValidationRules(): void
