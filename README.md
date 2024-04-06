@@ -949,7 +949,7 @@ used in a wide variety of CSV files.
 In order not to care about integrity and not to suffer from copy and paste, you can reuse ANY(!) existing schema.
 In fact, this can be considered as partial inheritance.
 
-Important notes
+**Important notes**
  - You can make the chain of inheritance infinitely long.
    I.e. make chains of the form `grant-parent.yml` -> `parent.yml` -> `child.yml` -> `grandchild.yml` -> `great-grandchild.yml` -> etc.
    Of course if you like to take risks ;).
@@ -960,6 +960,14 @@ Important notes
  - Alias in presets must match the regex pattern
    <!-- auto-update:preset-regex -->"/^[a-z0-9-_]+$/i"<!-- auto-update:/preset-regex -->.
    Otherwise, it might break the syntax.
+
+**If something went wrong**
+If you're having trouble working with presets and don't understand how the CSV Blueprint under the hood understands 
+it, just add `--dump-schema` to see it. Also, there is a separate CLI command for validating schema:
+
+```shell
+./csv-blueprint validate:schema --dump-schema --schema=./your/schema.yml
+```
 
 
 Let's take a look at what this looks like in code.
