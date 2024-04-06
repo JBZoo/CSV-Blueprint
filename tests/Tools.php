@@ -118,7 +118,7 @@ final class Tools
         if ($isInline) {
             $replacement = \implode('', [
                 "<!-- {$prefix}{$code} -->",
-                \trim($content),
+                $content,
                 "<!-- {$prefix}/{$code} -->",
             ]);
         } else {
