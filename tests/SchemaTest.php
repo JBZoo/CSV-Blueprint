@@ -195,6 +195,7 @@ final class SchemaTest extends TestCase
     {
         $schemas = (new Finder())
             ->in(PROJECT_ROOT . '/tests/schemas')
+            ->in(PROJECT_ROOT . '/tests/schemas/preset')
             ->in(PROJECT_ROOT . '/tests/Benchmarks')
             ->in(PROJECT_ROOT . '/schema-examples')
             ->name('*.yml')
@@ -208,7 +209,8 @@ final class SchemaTest extends TestCase
 
         foreach ($schemas as $schemaFile) {
             $filepath = $schemaFile->getPathname();
-            isSame('', (string)(new Schema($filepath))->validate(), $filepath);
+            $validated = (new Schema($filepath))->validate()->render(ErrorSuite::RENDER_TABLE);
+            isSame('', (string)$validated, "{$filepath}\n----------\n{$validated}");
         }
     }
 
@@ -220,8 +222,8 @@ final class SchemaTest extends TestCase
                 +-------+------------+--------+-------------------------------------------------------------------------+
                 |  Line | id:Column  | Rule   | Message                                                                 |
                 +-------+------------+--------+-------------------------------------------------------------------------+
-                | undef | meta       | schema | Unknown key: .unknow_root_option                                        |
                 | undef | meta       | schema | Unknown key: .csv.unknow_csv_param                                      |
+                | undef | meta       | schema | Unknown key: .unknow_root_option                                        |
                 | undef | 0:Name     | schema | Unknown key: .columns.0.rules.unknow_rule                               |
                 | undef | 1:City     | schema | Unknown key: .columns.1.unknow_colum_option                             |
                 | undef | 3:Birthday | schema | Expected type "string", actual "boolean" in .columns.3.rules.date_max   |
@@ -235,8 +237,8 @@ final class SchemaTest extends TestCase
 
         isSame(
             <<<'TEXT'
-                "schema", column "meta". Unknown key: .unknow_root_option.
                 "schema", column "meta". Unknown key: .csv.unknow_csv_param.
+                "schema", column "meta". Unknown key: .unknow_root_option.
                 "schema", column "0:Name". Unknown key: .columns.0.rules.unknow_rule.
                 "schema", column "1:City". Unknown key: .columns.1.unknow_colum_option.
                 "schema", column "3:Birthday". Expected type "<c>string</c>", actual "<green>boolean</green>" in .columns.3.rules.date_max.

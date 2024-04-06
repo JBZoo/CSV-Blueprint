@@ -129,6 +129,7 @@ final class ValidatorSchema
     {
         $exclude = [
             'Some example', // I.e. this value is taken from full.yml, then it will be invalid in advance.
+            null,
         ];
 
         if (isset($actualColumn['example']) && !\in_array($actualColumn['example'], $exclude, true)) {
@@ -144,7 +145,22 @@ final class ValidatorSchema
         bool $quickStop = false,
     ): ErrorSuite {
         $errors = new ErrorSuite();
-        $metaErrors = Utils::compareArray($expectedMeta, $actualMeta->getArrayCopy(), 'meta', '.');
+
+        $actualMetaAsArray = $actualMeta->getArrayCopy();
+        $actualPresets = $actualMetaAsArray['presets'] ?? [];
+        unset($expectedMeta['presets'], $actualMetaAsArray['presets']);
+
+        $metaErrors = Utils::compareArray($expectedMeta, $actualMetaAsArray, 'meta', '.');
+
+        foreach ($actualPresets as $alias => $includedFile) {
+            if ($alias === '') {
+                $errors->addError(new Error('presets', 'Defined alias is empty'));
+            }
+
+            if (!\is_string($includedFile)) {
+                $errors->addError(new Error('presets', 'Included filepath must be a string'));
+            }
+        }
 
         foreach ($metaErrors as $metaError) {
             $errors->addError(new Error('schema', $metaError[1], $metaError[0]));

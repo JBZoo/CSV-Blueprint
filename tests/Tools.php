@@ -34,9 +34,9 @@ final class Tools
     public const SCHEMA_SIMPLE_NO_HEADER = './tests/schemas/simple_no_header.yml';
     public const SCHEMA_SIMPLE_HEADER_PHP = './tests/schemas/simple_header.php';
     public const SCHEMA_SIMPLE_HEADER_JSON = './tests/schemas/simple_header.json';
-    public const SCHEMA_EXAMPLE_EMPTY = './tests/schemas/example_empty.yml';
+    public const SCHEMA_EXAMPLE_EMPTY = PROJECT_ROOT . '/tests/schemas/example_empty.yml';
 
-    public const SCHEMA_FULL_YML = './schema-examples/full.yml';
+    public const SCHEMA_FULL_YML = PROJECT_ROOT . '/schema-examples/full.yml';
     public const SCHEMA_FULL_YML_CLEAN = './schema-examples/full_clean.yml';
     public const SCHEMA_FULL_JSON = './schema-examples/full.json';
     public const SCHEMA_FULL_PHP = './schema-examples/full.php';
@@ -108,18 +108,26 @@ final class Tools
         return ['columns' => [['name' => $columnName, 'aggregate_rules' => [$ruleName => $options]]]];
     }
 
-    public static function insertInReadme(string $code, string $content): void
+    public static function insertInReadme(string $code, string $content, bool $isInline = false): void
     {
         isFile(self::README);
         $prefix = 'auto-update:';
         isFileContains("<!-- {$prefix}{$code} -->", self::README);
         isFileContains("<!-- {$prefix}/{$code} -->", self::README);
 
-        $replacement = \implode("\n", [
-            "<!-- {$prefix}{$code} -->",
-            \trim($content),
-            "<!-- {$prefix}/{$code} -->",
-        ]);
+        if ($isInline) {
+            $replacement = \implode('', [
+                "<!-- {$prefix}{$code} -->",
+                $content,
+                "<!-- {$prefix}/{$code} -->",
+            ]);
+        } else {
+            $replacement = \implode("\n", [
+                "<!-- {$prefix}{$code} -->",
+                \trim($content),
+                "<!-- {$prefix}/{$code} -->",
+            ]);
+        }
 
         $result = \preg_replace(
             "/<\\!-- {$prefix}{$code} -->(.*?)<\\!-- {$prefix}\\/{$code} -->/s",
@@ -132,7 +140,11 @@ final class Tools
         isTrue(\file_put_contents(self::README, $result) > 0);
         $hashAfter = \hash_file('md5', self::README);
 
-        isSame($hashAfter, $hashBefore, "README.md was not updated. Code: {$code}");
+        isSame(
+            $hashAfter,
+            $hashBefore,
+            "README.md was not updated. Code: {$code}\n\n---------\n{$replacement}\n---------",
+        );
         isFileContains($result, self::README);
     }
 

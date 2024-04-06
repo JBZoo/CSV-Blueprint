@@ -12,17 +12,9 @@
 
 # File contains just ideas. It's invalid!
 
-# Include another schemas
-includes: # Alias is always required
-  - /path/schema_1.yml   as alias_1   # Full path to another schema.
-  - ./path/schema_2.yml  as alias_2   # Relative path based on the current schema path.
-  - ../path/schema_3.yml as alias_3   # Relative path based on the current schema path. Go up one level.
-
 
 csv: # How to parse file before validation
-  inherit: alias_1                    # Inherited from another schema. Options above will overwrite inherited options.
-  auto_detect: false                  # If true, then the cintrol chars will be detected automatically.
-  end_of_line: LF                     # End of line character. LF => \n, CRLF => \r\n, CR => \r
+  auto_detect: false                  # If true, then the control chars will be detected automatically.
   empty_values:                       # List of values that will be treated as empty
     - ""                              # By default, only empty string is treated as empty (string length = 0).
     - null
@@ -41,8 +33,7 @@ structural_rules:
 
 
 columns:
-  - inherit: alias_1\Column Name
-    empty_values: ['']                # Override csv.empty_values. List of values that will be treated as empty.
+  - empty_values: ['']                # Override csv.empty_values. List of values that will be treated as empty.
 
     # Multi prop
     multiple: true
@@ -51,6 +42,9 @@ columns:
 
     rules:
       is_null: true                   # see csv.empty_values and column.empty_values
+      password_strength: 3            # 0-4
+      is_password: true               # /^[a-zA-Z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]{8,}$/
+      _list: true                     # Example: starts_with_list: [ 'a', 'b', 'c' ]
 
       # identifier
       is_bsn: true                    # Validates a Dutch citizen service number (BSN).

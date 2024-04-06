@@ -125,10 +125,11 @@ final class UtilsTest extends TestCase
 
         $tags = \explode(
             '|',
-            '|i|c|q|e' .
+            'i|c|q|e' .
             '|comment|info|error|question' .
             '|black|red|green|yellow|blue|magenta|cyan|white|default' .
-            '|bl|b|u|r|bg',
+            '|bl|b|u|r|bg' .
+            '|details|summary',
         );
 
         foreach ($packs as $files) {
@@ -157,20 +158,26 @@ final class UtilsTest extends TestCase
 
         isSame(
             ['cmd', '-h', '--ansi'],
-            Utils::fixArgv(['cmd', '', ' -h ', 'extra: --ansi']),
+            Utils::fixArgv(['cmd', '', ' -h ', 'options: --ansi']),
         );
         isSame(
             ['cmd', '-h'],
-            Utils::fixArgv(['cmd', '', ' -h ', 'extra:']),
+            Utils::fixArgv(['cmd', '', ' -h ', 'options:']),
         );
         isSame(
             ['cmd', '-h'],
-            Utils::fixArgv(['cmd', '', ' -h ', ' extra: ']),
+            Utils::fixArgv(['cmd', '', ' -h ', ' options: ']),
         );
         isSame(
             ['cmd', '-h', '--ansi', '--no'],
-            Utils::fixArgv(['cmd', '', ' -h ', 'extra: --ansi --no']),
+            Utils::fixArgv(['cmd', '', ' -h ', 'options: --ansi --no']),
         );
+        isSame(
+            ['cmd', '-h', '--ansi', '--no'],
+            Utils::fixArgv(['cmd', '', ' -h ', 'options: --ansi   --no  ']),
+        );
+
+        // Test legacy "extra:"
         isSame(
             ['cmd', '-h', '--ansi', '--no'],
             Utils::fixArgv(['cmd', '', ' -h ', 'extra: --ansi   --no  ']),

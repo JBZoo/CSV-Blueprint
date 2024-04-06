@@ -173,8 +173,8 @@ final class ValidateCsvBasicTest extends TestCase
                 +-------+------------+--------+-------------------------------------------------------------------------+
                 |  Line | id:Column  | Rule   | Message                                                                 |
                 +-------+------------+--------+-------------------------------------------------------------------------+
-                | undef | meta       | schema | Unknown key: .unknow_root_option                                        |
                 | undef | meta       | schema | Unknown key: .csv.unknow_csv_param                                      |
+                | undef | meta       | schema | Unknown key: .unknow_root_option                                        |
                 | undef | 0:Name     | schema | Unknown key: .columns.0.rules.unknow_rule                               |
                 | undef | 1:City     | schema | Unknown key: .columns.1.unknow_colum_option                             |
                 | undef | 3:Birthday | schema | Expected type "string", actual "boolean" in .columns.3.rules.date_max   |
@@ -221,8 +221,8 @@ final class ValidateCsvBasicTest extends TestCase
                 +-------+------------+--------+-------------------------------------------------------------------------+
                 |  Line | id:Column  | Rule   | Message                                                                 |
                 +-------+------------+--------+-------------------------------------------------------------------------+
-                | undef | meta       | schema | Unknown key: .unknow_root_option                                        |
                 | undef | meta       | schema | Unknown key: .csv.unknow_csv_param                                      |
+                | undef | meta       | schema | Unknown key: .unknow_root_option                                        |
                 | undef | 0:Name     | schema | Unknown key: .columns.0.rules.unknow_rule                               |
                 | undef | 1:City     | schema | Unknown key: .columns.1.unknow_colum_option                             |
                 | undef | 3:Birthday | schema | Expected type "string", actual "boolean" in .columns.3.rules.date_max   |

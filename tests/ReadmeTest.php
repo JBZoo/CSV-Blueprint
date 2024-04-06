@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
+use JBZoo\CsvBlueprint\Schema;
+use JBZoo\CsvBlueprint\SchemaDataPrep;
 use JBZoo\Utils\Cli;
 use JBZoo\Utils\Str;
 use Symfony\Component\Console\Input\StringInput;
@@ -92,8 +94,8 @@ final class ReadmeTest extends TestCase
 
     public function testBadgeOfRules(): void
     {
-        $cellRules = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.rules'));
-        $aggRules = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.aggregate_rules'));
+        $cellRules = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.rules')) - 1;
+        $aggRules = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.aggregate_rules')) - 1;
         $extraRules = \count(self::EXTRA_RULES);
         $totalRules = $cellRules + $aggRules + $extraRules;
 
@@ -105,15 +107,10 @@ final class ReadmeTest extends TestCase
                 'csv.auto_detect',
                 'csv.end_of_line',
                 'csv.null_values',
+                'filename_pattern - multiple',
                 'column.faker',
                 'column.null_values',
                 'column.multiple + column.multiple_separator',
-                'inherit.',
-                'inherit.csv',
-                'inherit.structural_rules',
-                'inherit.rules',
-                'inherit.aggregate_rules',
-                'inherit.complex_rules',
             ]) + \count($todoYml->findArray('structural_rules'))
             + \count($todoYml->findArray('complex_rules')),
         ]);
@@ -171,6 +168,70 @@ final class ReadmeTest extends TestCase
         $text = \implode("\n", ['```yml', \trim($ymlContent), '```']);
 
         Tools::insertInReadme('readme-sample-yml', $text);
+    }
+
+    public function testCheckPresetUsersExampleInReadme(): void
+    {
+        $ymlContent = \implode(
+            "\n",
+            \array_slice(\explode("\n", \file_get_contents('./schema-examples/preset_users.yml')), 12),
+        );
+
+        $text = \implode("\n", ['```yml', \trim($ymlContent), '```']);
+
+        Tools::insertInReadme('preset-users-yml', $text);
+    }
+
+    public function testCheckPresetFeaturesExampleInReadme(): void
+    {
+        $ymlContent = \implode(
+            "\n",
+            \array_slice(\explode("\n", \file_get_contents('./schema-examples/preset_features.yml')), 12),
+        );
+
+        $text = \implode("\n", ['```yml', \trim($ymlContent), '```']);
+
+        Tools::insertInReadme('preset-features-yml', $text);
+    }
+
+    public function testCheckPresetRegexInReadme(): void
+    {
+        $text = '`' . SchemaDataPrep::getAliasRegex() . '`';
+        isFileContains($text, PROJECT_ROOT . '/README.md');
+    }
+
+    public function testCheckPresetDatabaseExampleInReadme(): void
+    {
+        $ymlContent = \implode(
+            "\n",
+            \array_slice(\explode("\n", \file_get_contents('./schema-examples/preset_database.yml')), 12),
+        );
+
+        $text = \implode("\n", ['```yml', \trim($ymlContent), '```']);
+
+        Tools::insertInReadme('preset-database-yml', $text);
+    }
+
+    public function testCheckPresetUsageExampleInReadme(): void
+    {
+        $ymlContent = \implode(
+            "\n",
+            \array_slice(\explode("\n", \file_get_contents('./schema-examples/preset_usage.yml')), 12),
+        );
+
+        $text = \implode("\n", ['```yml', \trim($ymlContent), '```']);
+
+        Tools::insertInReadme('preset-usage-yml', $text);
+    }
+
+    public function testCheckPresetUsageRealExampleInReadme(): void
+    {
+        $schema = new Schema('./schema-examples/preset_usage.yml');
+
+        $text = \implode("\n", ['```yml', \trim($schema->dumpAsYamlString()), '```']);
+        $text = \str_replace(PROJECT_ROOT, '.', $text);
+
+        Tools::insertInReadme('preset-usage-real-yml', $text);
     }
 
     public function testAdditionalValidationRules(): void

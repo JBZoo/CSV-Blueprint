@@ -142,8 +142,11 @@ final class ValidateCsv extends AbstractValidate
                     continue;
                 }
 
+                $schema = null;
+
                 try {
-                    $schemaErrors = (new Schema($schemaFilename->getPathname()))->validate($quickCheck);
+                    $schema = new Schema($schemaFilename->getPathname());
+                    $schemaErrors = $schema->validate($quickCheck);
                     if ($schemaErrors->count() > 0) {
                         $this->renderIssues($prefix, $schemaErrors->count(), $schemaPath, 2);
                         $this->outReport($schemaErrors, 4);
@@ -158,6 +161,7 @@ final class ValidateCsv extends AbstractValidate
                         "{$prefix}Exception: <yellow>{$e->getMessage()}</yellow>",
                     ], 2);
                 }
+                $this->printDumpOfSchema($schema);
             }
 
             $this->out('');

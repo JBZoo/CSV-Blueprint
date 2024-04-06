@@ -15,7 +15,7 @@
 [![Static Badge](https://img.shields.io/badge/Rules-118-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
 [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)
 [![Static Badge](https://img.shields.io/badge/Rules-8-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)
-[![Static Badge](https://img.shields.io/badge/Rules-17/11/25-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-20/11/20-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- auto-update:/rules-counter -->
 
 A console utility designed for validating CSV files against a strictly defined schema and validation rules outlined
@@ -28,6 +28,7 @@ specifications, making it invaluable in scenarios where data quality and consist
 - [Introduction](#introduction)
 - [Usage](#usage)
 - [Schema definition](#schema-definition)
+- [Presets and reusable schemas](#presets-and-reusable-schemas)
 - [Complete CLI help message](#complete-cli-help-message)
 - [Report examples](#report-examples)
 - [Benchmarks](#benchmarks)
@@ -125,47 +126,47 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
 
 <!-- auto-update:github-actions-yml -->
 ```yml
-- uses: jbzoo/csv-blueprint@master # See the specific version on releases page
+- uses: jbzoo/csv-blueprint@master # See the specific version on releases page. `@master` is latest.
   with:
-    # Path(s) to validate. You can specify path in which CSV files will be searched. Feel free to use glob pattrens. Usage examples: /full/path/file.csv, p/file.csv, p/*.csv, p/**/*.csv, p/**/name-*.csv, **/*.csv, etc.
+    # Specify the path(s) to the CSV files you want to validate.
+    #   This can include a direct path to a file or a directory to search with a maximum depth of 10 levels.
+    #   Examples: /full/path/name.csv; p/file.csv; p/*.csv; p/**/*.csv; p/**/name-*.csv; **/*.csv
     # Required: true
     csv: './tests/**/*.csv'
 
-    # Schema filepath. It can be a YAML, JSON or PHP. See examples on GitHub.
+    # Specify the path(s) to the schema file(s), supporting YAML, JSON, or PHP formats.
+    #   Similar to CSV paths, you can direct to specific files or search directories with glob patterns.
+    #   Examples: /full/path/name.yml; p/file.yml; p/*.yml; p/**/*.yml; p/**/name-*.yml; **/*.yml
     # Required: true
     schema: './tests/**/*.yml'
 
     # Report format. Available options: text, table, github, gitlab, teamcity, junit.
-    # Default value: table
-    # You can skip it
-    report: table
+    # Default value: 'table'
+    # Required: true
+    report: 'table'
 
     # Quick mode. It will not validate all rows. It will stop after the first error.
-    # Default value: no
-    # You can skip it
-    quick: no
+    # Default value: 'no'
+    # Required: true
+    quick: 'no'
 
     # Skip schema validation. If you are sure that the schema is correct, you can skip this check.
-    # Default value: no
-    # You can skip it
-    skip-schema: no
+    # Default value: 'no'
+    # Required: true
+    skip-schema: 'no'
+
+    # Extra options for the CSV Blueprint. Only for debbuging and profiling.
+    # Available options:
+    #   ANSI output. You can disable ANSI colors if you want with `--no-ansi`.
+    #   Verbosity level: Available options: `-v`, `-vv`, `-vvv`.
+    #   Add flag `--profile` if you want to see profiling info. Add details with `-vvv`.
+    #   Add flag `--debug` if you want to see more really deep details.
+    #   Add flag `--dump-schema` if you want to see the final schema after all includes and inheritance.
+    # Default value: 'options: --ansi'
+    # You can skip it.
+    extra: 'options: --ansi'
 ```
 <!-- auto-update:/github-actions-yml -->
-
-To see user-friendly error outputs in your pull requests (PRs), specify `report: github`. This
-utilizes [annotations](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message)
-to highlight bugs directly within the GitHub interface at the PR level. This feature allows errors to be displayed in
-the exact location within the CSV file, right in the diff of your Pull Requests. For a practical example,
-view [this live demo PR](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files).
-
-![GitHub Actions - PR](.github/assets/github-actions-pr.png)
-
-<details>
-  <summary>Click to see example in GitHub Actions terminal</summary>
-
-![GitHub Actions - Terminal](.github/assets/github-actions-termintal.png)
-
-</details>
 
 ### Docker container
 
@@ -194,7 +195,7 @@ make docker-build  # local tag is "jbzoo/csv-blueprint:local"
 ### Phar binary
 
 <details>
-  <summary>Click to see using PHAR file</summary>
+  <summary>CLICK to see using PHAR file</summary>
 
 Ensure you have PHP installed on your machine.
 
@@ -307,15 +308,20 @@ description: |                          # Any description of the CSV file. Not u
   supporting a wide range of data validation rules from basic type checks to complex regex validations.
   This example serves as a comprehensive guide for creating robust CSV file validations.
 
+presets:                                # Include another schema and define an alias for it.
+  my-preset: ./preset_users.yml         # Define preset alias "my-preset". See README.md for details.
+
 # Regular expression to match the file name. If not set, then no pattern check.
 # This allows you to pre-validate the file name before processing its contents.
 # Feel free to check parent directories as well.
 # See: https://www.php.net/manual/en/reference.pcre.pattern.syntax.php
 filename_pattern: /demo(-\d+)?\.csv$/i
+#  preset: my-preset                    # See README.md for details.
 
 # Here are default values to parse CSV file.
 # You can skip this section if you don't need to override the default values.
 csv:
+  preset: my-preset                     # See README.md for details.
   header: true                          # If the first row is a header. If true, name of each column is required.
   delimiter: ,                          # Delimiter character in CSV file.
   quote_char: \                         # Quote character in CSV file.
@@ -327,6 +333,7 @@ csv:
 # They are not(!) related to the data in the columns.
 # You can skip this section if you don't need to override the default values.
 structural_rules: # Here are default values.
+  preset: my-preset                     # See README.md for details.
   strict_column_order: true             # Ensure columns in CSV follow the same order as defined in this YML schema. It works only if "csv.header" is true.
   allow_extra_columns: false            # Allow CSV files to have more columns than specified in this YML schema.
 
@@ -335,7 +342,8 @@ structural_rules: # Here are default values.
 # This will not affect the validator, but will make it easier for you to navigate.
 # For convenience, use the first line as a header (if possible).
 columns:
-  - name: Column Name (header)          # Any custom name of the column in the CSV file (first row). Required if "csv.header" is true.
+  - preset: my-preset/login             # Add preset rules for the column. See README.md for details.
+    name: Column Name (header)          # Any custom name of the column in the CSV file (first row). Required if "csv.header" is true.
     description: Lorem ipsum            # Description of the column. Not used in the validation process.
     example: Some example               # Example of the column value. Schema will also check this value on its own.
 
@@ -348,6 +356,8 @@ columns:
     # Data validation for each(!) value in the column. Please, see notes in README.md
     # Every rule is optional.
     rules:
+      preset: my-preset/login           # Add preset rules for the column. See README.md for details.
+
       # General rules
       not_empty: true                   # Value is not an empty string. Actually checks if the string length is not 0.
       exact_value: Some string          # Exact value for string in the column.
@@ -513,9 +523,9 @@ columns:
 
       # Identifications
       phone: ALL                        # Validates if the input is a phone number. Specify the country code to validate the phone number for a specific country. Example: "ALL", "US", "BR".".
+      postal_code: US                   # Validate postal code by country code (alpha-2). Example: "02179". Extracted from https://www.geonames.org
       is_iban: true                     # IBAN - International Bank Account Number. See: https://en.wikipedia.org/wiki/International_Bank_Account_Number
       is_bic: true                      # Validates a Bank Identifier Code (BIC) according to ISO 9362 standards. See: https://en.wikipedia.org/wiki/ISO_9362
-      postal_code: US                   # Validate postal code by country code (alpha-2). Example: "02179". Extracted from https://www.geonames.org
       is_imei: true                     # Validates an International Mobile Equipment Identity (IMEI). See: https://en.wikipedia.org/wiki/International_Mobile_Station_Equipment_Identity
       is_isbn: true                     # Validates an International Standard Book Number (ISBN). See: https://www.isbn-international.org/content/what-isbn
 
@@ -556,6 +566,8 @@ columns:
     # Data validation for the entire(!) column using different data aggregation methods.
     # Every rule is optional.
     aggregate_rules:
+      preset: my-preset/login           # Add preset aggregate rules for the column. See README.md for details.
+
       is_unique: true                   # All values in the column are unique.
 
       # Check if the column is sorted in a specific order.
@@ -905,6 +917,479 @@ ensure thorough validation of your CSV files.
 These additional checks further secure the integrity and consistency of your CSV data against the defined validation schema.
 
 
+## Presets and reusable schemas
+
+Presets enhance the efficiency and reusability of schema definitions for CSV file validation, streamlining the
+validation process across various files and schemas. Their benefits include:
+
+- **Consistency Across Schemas:** Presets guarantee uniform validation rules for common fields like user IDs, email
+  addresses, and phone numbers across different CSV files. This consistency is crucial for maintaining data integrity
+  and reliability.
+- **Ease of Maintenance:** Centralized updates to presets automatically propagate changes to all schemas using them.
+  This approach eliminates the need to manually update each schema, significantly reducing maintenance efforts.
+- **Flexibility and Customization:** While offering a foundational set of validation rules, presets also allow for
+  field-specific rule overrides to meet the unique requirements of individual schemas. This ensures a balance between
+  consistency and customization.
+- **Rapid Development:** Presets facilitate quick schema setup for new CSV files by reusing established
+  validation rules. This allows for a faster development cycle, focusing on unique fields without redefining common
+  rules.
+- **Error Reduction:** Utilizing consistent and tested presets reduces the likelihood of errors in manual schema
+  definitions, leading to improved data quality and reliability.
+- **Efficiency in Large-scale Projects:** In large projects with extensive data volumes, presets provide a standardized
+  approach to applying common validation logic, simplifying data management and validation tasks.
+
+Overall, presets offer a compelling solution for anyone involved in CSV file validation, enhancing consistency, maintenance, flexibility, development speed, error minimization, and project efficiency.
+
+
+### Example with presets
+
+Let's look at a real life example. Suppose you have a "library" of different user profile validation rules that can be
+used in a wide variety of CSV files.
+
+In order not to care about integrity and not to suffer from copy and paste, you can reuse ANY(!) existing schema.
+In fact, this can be considered as partial inheritance.
+
+**Important notes**
+ - You can make the chain of inheritance infinitely long.
+   I.e. make chains of the form `grant-parent.yml` -> `parent.yml` -> `child.yml` -> `grandchild.yml` -> etc.
+   Of course if you like to take risks ;).
+ - Any(!) of the schema files can be used alone or as a library. The syntax is the same.
+ - Schemas with presets validate themselves and if there are any obvious issues, you will see them when you try to use
+   the schema. But logical conflicts between rules are not checked (It's almost impossible from a code perspective).
+   As mentioned above, rules work in isolation and are not aware of each other. So the set of rules is your responsibility as always.
+ - Alias in presets must match the regex pattern `/^[a-z0-9-_]+$/i`. Otherwise, it might break the syntax.
+
+**If something went wrong**
+
+If you're having trouble working with presets and don't understand how the CSV Blueprint under the hood understands it,
+just add `--dump-schema` to see it. Also, there is a separate CLI command for validating schema:
+
+```shell
+./csv-blueprint validate:schema --dump-schema --schema=./your/schema.yml
+```
+
+
+Let's take a look at what this looks like in code.
+- Define a couple of basic rules for [database columns](schema-examples/preset_database.yml).
+- Also, one of the files will contain rules specific only to the [users profile](schema-examples/preset_users.yml).
+- And of course, let's [make a schema](schema-examples/preset_usage.yml) that will simultaneously reuse the rules from these two files.
+
+As a result, you don't just get a bunch of schemas for validation, which is difficult to manage, but something like a
+framework(!) that will be targeted to the specifics of your project, especially when there are dozens or even hundreds
+of CSV files and rules. It will be much easier to achieve consistency. Very often it's quite important.
+
+[Database preset](schema-examples/preset_database.yml)
+<details>
+  <summary>CLICK to see source code</summary>
+
+<!-- auto-update:preset-database-yml -->
+```yml
+name: Presets for database columns
+description: This schema contains basic rules for database user data.
+
+columns:
+  - name: id
+    description: Unique identifier, usually used to denote a primary key in databases.
+    example: 12345
+    rules:
+      not_empty: true
+      is_trimmed: true
+      is_int: true
+      num_min: 1
+    aggregate_rules:
+      is_unique: true
+      sorted: [ asc, numeric ]
+
+  - name: status
+    description: Status in database
+    example: active
+    rules:
+      not_empty: true
+      allow_values: [ active, inactive, pending, deleted ]
+```
+<!-- auto-update:/preset-database-yml -->
+
+</details>
+
+
+[User data preset](schema-examples/preset_users.yml)
+
+<details>
+  <summary>CLICK to see source code</summary>
+
+<!-- auto-update:preset-users-yml -->
+```yml
+name: Common presets for user data
+description: >
+  This schema contains common presets for user data.
+  It can be used as a base for other schemas.
+
+filename_pattern: /users-.*\.csv$/i
+
+csv:
+  delimiter: ';'
+
+columns:
+  - name: login
+    description: User's login name
+    example: johndoe
+    rules:
+      not_empty: true
+      is_trimmed: true
+      is_lowercase: true
+      is_slug: true
+      length_min: 3
+      length_max: 20
+      is_alnum: true
+    aggregate_rules:
+      is_unique: true
+
+  - name: password
+    description: User's password
+    example: '9RfzENKD'
+    rules:
+      not_empty: true
+      is_trimmed: true
+      regex: /^[a-zA-Z\d!@#$%^&*()_+\-=\[\]{};':"\|,.<>\/?~]{6,}$/ # Safe list of special characters for passwords.
+      contains_none: [ "password", "123456", "qwerty", " " ]
+      charset: UTF-8
+      length_min: 6
+      length_max: 20
+
+  - name: full_name
+    description: User's full name
+    example: 'John Doe Smith'
+    rules:
+      not_empty: true
+      is_trimmed: true
+      charset: UTF-8
+      contains: " "
+      word_count_min: 2
+      word_count_max: 8
+      is_capitalize: true
+    aggregate_rules:
+      is_unique: true
+
+  - name: email
+    description: User's email address
+    example: user@example.com
+    rules:
+      not_empty: true
+      is_trimmed: true
+      is_email: true
+      is_lowercase: true
+    aggregate_rules:
+      is_unique: true
+
+  - name: birthday
+    description: Validates the user's birthday.
+    example: '1990-01-01'
+    rules:
+      not_empty: true            # The birthday field must not be empty.
+      is_trimmed: true           # Trims the value before validation.
+      date_format: Y-m-d         # Checks if the date matches the YYYY-MM-DD format.
+      is_date: true              # Validates if the value is a valid date.
+      date_age_greater: 0        # Ensures the date is in the past.
+      date_age_less: 150         # Ensures the user is not older than 150 years.
+      date_max: now              # Ensures the date is not in the future.
+
+  - name: phone_number
+    description: User's phone number in US
+    example: '+1 650 253 00 00'
+    rules:
+      not_empty: true
+      is_trimmed: true
+      starts_with: '+1'
+      phone: US
+
+  - name: balance
+    description: User's balance in USD
+    example: '100.00'
+    rules:
+      not_empty: true
+      is_trimmed: true
+      is_float: true
+      num_min: 0.00
+      num_max: 1000000000.00      # 1 billion is max amount in our system.
+      precision: 2
+
+  - name: short_description
+    description: A brief description of the item
+    example: 'Lorem ipsum dolor sit amet'
+    rules:
+      not_empty: true
+      contains: " "
+      length_max: 255
+      is_trimmed: true
+```
+<!-- auto-update:/preset-users-yml -->
+
+</details>
+
+[Usage of presets](schema-examples/preset_usage.yml) This short and clear Yaml under the hood as roughly as follows. As you can see it simplifies your work a lot.
+
+<!-- auto-update:preset-usage-yml -->
+```yml
+name: Schema uses presets and add new columns + specific rules.
+description: This schema uses presets. Also, it demonstrates how to override preset values.
+
+presets: # Include any other schemas and defined for each alias.
+  users: ./preset_users.yml       # Include the schema with common user data.
+  db: ./preset_database.yml       # Include the schema with basic database columns.
+
+csv:
+  preset: users                   # Take the CSV settings from the preset.
+  enclosure: '|'                  # Overridden enclosure only for this schema.
+
+columns:
+  # Grap only needed columns from the preset in specific order.
+  - preset: db/id
+  - preset: db/status
+  - preset: users/login
+  - preset: users/email
+  - preset: users/full_name
+  - preset: users/birthday
+  - preset: users/phone_number    # Rename the column. "phone_number" => "phone".
+    name: phone
+  - preset: users/password        # Overridden value to force a strong password.
+    rules: { length_min: 10 }
+  - name: admin_note              # New column specific only this schema.
+    description: Admin note
+    rules:
+      not_empty: true
+      length_min: 1
+      length_max: 10
+    aggregate_rules:              # In practice this will be a rare case, but the opportunity is there.
+      preset: db/id               # Take only aggregate rules from the preset.
+      is_unique: true             # Added new specific aggregate rule.
+```
+<!-- auto-update:/preset-usage-yml -->
+
+
+<details>
+  <summary>CLICK to see what it looks like in memory.</summary>
+
+<!-- auto-update:preset-usage-real-yml -->
+```yml
+name: 'Schema uses presets and add new columns + specific rules.'
+description: 'This schema uses presets. Also, it demonstrates how to override preset values.'
+presets:
+  users: ./schema-examples/preset_users.yml
+  db: ./schema-examples/preset_database.yml
+filename_pattern: ''
+csv:
+  header: true
+  delimiter: ;
+  quote_char: \
+  enclosure: '|'
+  encoding: utf-8
+  bom: false
+structural_rules:
+  strict_column_order: true
+  allow_extra_columns: false
+columns:
+  -
+    name: id
+    description: 'Unique identifier, usually used to denote a primary key in databases.'
+    example: 12345
+    required: true
+    rules:
+      not_empty: true
+      is_trimmed: true
+      is_int: true
+      num_min: 1
+    aggregate_rules:
+      is_unique: true
+      sorted:
+        - asc
+        - numeric
+  -
+    name: status
+    description: 'Status in database'
+    example: active
+    required: true
+    rules:
+      not_empty: true
+      allow_values:
+        - active
+        - inactive
+        - pending
+        - deleted
+    aggregate_rules: []
+  -
+    name: login
+    description: "User's login name"
+    example: johndoe
+    required: true
+    rules:
+      not_empty: true
+      is_trimmed: true
+      is_lowercase: true
+      is_slug: true
+      length_min: 3
+      length_max: 20
+      is_alnum: true
+    aggregate_rules:
+      is_unique: true
+  -
+    name: email
+    description: "User's email address"
+    example: user@example.com
+    required: true
+    rules:
+      not_empty: true
+      is_trimmed: true
+      is_email: true
+      is_lowercase: true
+    aggregate_rules:
+      is_unique: true
+  -
+    name: full_name
+    description: "User's full name"
+    example: 'John Doe Smith'
+    required: true
+    rules:
+      not_empty: true
+      is_trimmed: true
+      charset: UTF-8
+      contains: ' '
+      word_count_min: 2
+      word_count_max: 8
+      is_capitalize: true
+    aggregate_rules:
+      is_unique: true
+  -
+    name: birthday
+    description: "Validates the user's birthday."
+    example: '1990-01-01'
+    required: true
+    rules:
+      not_empty: true
+      is_trimmed: true
+      date_format: Y-m-d
+      is_date: true
+      date_age_greater: 0
+      date_age_less: 150
+      date_max: now
+    aggregate_rules: []
+  -
+    name: phone
+    description: "User's phone number in US"
+    example: '+1 650 253 00 00'
+    required: true
+    rules:
+      not_empty: true
+      is_trimmed: true
+      starts_with: '+1'
+      phone: US
+    aggregate_rules: []
+  -
+    name: password
+    description: "User's password"
+    example: 9RfzENKD
+    required: true
+    rules:
+      not_empty: true
+      is_trimmed: true
+      regex: '/^[a-zA-Z\d!@#$%^&*()_+\-=\[\]{};'':"\|,.<>\/?~]{6,}$/'
+      contains_none:
+        - password
+        - '123456'
+        - qwerty
+        - ' '
+      charset: UTF-8
+      length_min: 10
+      length_max: 20
+    aggregate_rules: []
+  -
+    name: admin_note
+    description: 'Admin note'
+    example: ~
+    required: true
+    rules:
+      not_empty: true
+      length_min: 1
+      length_max: 10
+    aggregate_rules:
+      is_unique: true
+      sorted:
+        - asc
+        - numeric
+```
+<!-- auto-update:/preset-usage-real-yml -->
+
+</details>
+
+As a result, readability and maintainability became dramatically easier.  You can easily add new rules, change existing, etc.
+
+
+### Complete example with all available syntax
+
+<!-- auto-update:preset-features-yml -->
+```yml
+name: Complite list of preset features
+description: This schema contains all the features of the presets.
+
+presets:
+  # The basepath for the preset is `.` (current directory of the current schema file).
+  # Define alias "db" for schema in `./preset_database.yml`.
+  db: preset_database.yml           # Or `db: ./preset_database.yml`. It's up to you.
+
+  # For example, you can use a relative path.
+  users: ./../schema-examples/preset_users.yml
+
+  # Or you can use an absolute path.
+  # db: /full/path/preset_database.yml
+
+filename_pattern: { preset: users } # Take the filename pattern from the preset.
+structural_rules: { preset: users } # Take the global rules from the preset.
+csv: { preset: users }              # Take the CSV settings from the preset.
+
+columns:
+  # Use name of column from the preset.
+  # "db" is alias. "id" is column `name` in `preset_database.yml`.
+  - preset: 'db/id'
+
+  # Use column index. "db" is alias. "0" is column index in `preset_database.yml`.
+  - preset: 'db/0'
+  - preset: 'db/0:'
+
+  # Use column index and column name. It useful if column name is not unique.
+  - preset: 'db/0:id'
+
+  # Use only `rules` of "status" column from the preset.
+  - name: My column
+    rules:
+      preset: 'db/status'
+
+  # Override only `aggregate_rules` from the preset.
+  # Use only `aggregate_rules` of "id" column from the preset.
+  # We strictly take only the very first column (index = 0).
+  - name: My column
+    aggregate_rules:
+      preset: 'db/0:id'
+
+  # Combo!!! If you're a risk-taker or have a high level of inner zen. :)
+  # Creating a column from three other columns.
+  # In fact, it will merge all three at once with key replacement.
+  - name: Crazy combo!
+    description: >                  # Just a great advice.
+      I like to take risks, too.
+      Be careful. Use your power wisely.
+    example: ~                      # Ignore inherited "example" value. Set it `null`.
+    preset: 'users/login'
+    rules:
+      preset: 'users/email'
+      not_empty: true               # Disable the rule from the preset.
+    aggregate_rules:
+      preset: 'db/0'
+```
+<!-- auto-update:/preset-features-yml -->
+
+**Note:** All provided YAML examples pass built-in validation, yet they may not make practical sense.
+These are intended solely for demonstration and to illustrate potential configurations and features.
+
+
 ## Complete CLI help message
 
 This section outlines all available options and commands provided by the tool, leveraging the JBZoo/Cli package for its
@@ -948,6 +1433,7 @@ Options:
                                    Returns a non-zero exit code if any error is detected.
                                    Enable by setting to any non-empty value or "yes".
                                     [default: "no"]
+      --dump-schema                Dumps the schema of the CSV file if you want to see the final schema after inheritance.
       --debug                      Intended solely for debugging and advanced profiling purposes.
                                    Activating this option provides detailed process insights,
                                    useful for troubleshooting and performance analysis.
@@ -1003,6 +1489,7 @@ Options:
                                  Returns a non-zero exit code if any error is detected.
                                  Enable by setting to any non-empty value or "yes".
                                   [default: "no"]
+      --dump-schema              Dumps the schema of the CSV file if you want to see the final schema after inheritance.
       --debug                    Intended solely for debugging and advanced profiling purposes.
                                  Activating this option provides detailed process insights,
                                  useful for troubleshooting and performance analysis.
@@ -1036,6 +1523,8 @@ Options:
 The validation process culminates in a human-readable report detailing any errors identified within the CSV file. While
 the default report format is a table, the tool supports various output formats, including text, GitHub, GitLab,
 TeamCity, JUnit, among others, to best suit your project's needs and your personal or team preferences.
+
+### Table format
 
 When using the `table` format (default), the output is organized in a clear, easily interpretable table that lists all
 discovered errors. This format is ideal for quick reviews and sharing with team members for further action.
@@ -1088,11 +1577,29 @@ Summary:
 <!-- auto-update:/output-table -->
 
 
+### GitHub Action format
+
+To see user-friendly error outputs in your pull requests (PRs), specify `report: github`. This
+utilizes [annotations](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message)
+to highlight bugs directly within the GitHub interface at the PR level. This feature allows errors to be displayed in
+the exact location within the CSV file, right in the diff of your Pull Requests. For a practical example,
+view [this live demo PR](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files).
+
+![GitHub Actions - PR](.github/assets/github-actions-pr.png)
+
+<details>
+  <summary>CLICK to see example in GitHub Actions terminal</summary>
+
+![GitHub Actions - Terminal](.github/assets/github-actions-termintal.png)
+
+</details>
+
+
+### Text format
 Optional format `text` with highlited keywords:
 ```sh
 ./csv-blueprint validate:csv --report=text
 ```
-
 
 ![Report - Text](.github/assets/output-text.png)
 
@@ -1101,6 +1608,7 @@ Optional format `text` with highlited keywords:
 * Report format for GitHub Actions is `table` by default.
 * Tools uses [JBZoo/CI-Report-Converter](https://github.com/JBZoo/CI-Report-Converter) as SDK to convert reports to
   different formats. So you can easily integrate it with any CI system.
+
 
 ## Benchmarks
 
@@ -1135,12 +1643,10 @@ However, to gain a general understanding of performance, refer to the table belo
 
 Profiles:
 
-- **[Quickest:](tests/Benchmarks/bench_0_quickest_combo.yml)** Focuses on the fastest rules, either cell or aggregation, providing a baseline for maximum throughput.
-- **[Minimum:](tests/Benchmarks/bench_1_mini_combo.yml)** Uses a set of normal performance rules, with two instances of each, to simulate a lightweight validation
-  scenario.
-- **[Realistic:](tests/Benchmarks/bench_2_realistic_combo.yml)** Represents a mix of rules likely encountered in typical use cases, offering a balanced view of
-  performance.
-- **[All Aggregations:](tests/Benchmarks/bench_3_all_agg.yml)** Tests all aggregation rules simultaneously, illustrating the tool's behavior under maximum load.
+- **[Quickest:](tests/Benchmarks/bench_0_quickest_combo.yml)** Focuses on the fastest rules, either cell or aggregation, providing a baseline.
+- **[Minimum:](tests/Benchmarks/bench_1_mini_combo.yml)** Uses a set of normal performance rules, with two instances of each.
+- **[Realistic:](tests/Benchmarks/bench_2_realistic_combo.yml)** Represents a mix of rules likely encountered in typical use cases.
+- **[All Aggregations:](tests/Benchmarks/bench_3_all_agg.yml)** Tests all aggregation rules simultaneously, illustrating maximum load.
 
 Divisions:
 
@@ -1347,19 +1853,19 @@ In summary, the tool is developed with the highest standards of modern PHP pract
 It's random ideas and plans. No promises and deadlines. Feel free to [help me!](#contributing).
 
 <details>
-  <summary>Click to see the roadmap</summary>
+  <summary>CLICK to see the roadmap</summary>
 
 * **Batch processing**
     * If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
     * Flag to ignore file name pattern. It's useful when you have a lot of files, and you don't want to validate the file name.
 
 * **Validation**
+    * Multi `filename_pattern`. Support list of regexs.
     * Multi values in one cell.
     * Custom cell rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
     * Custom agregate rule as a callback. It's useful when you have a complex rule that can't be described in the schema file.
     * Configurable keyword for null/empty values. By default, it's an empty string. But you will use `null`, `nil`, `none`, `empty`, etc. Overridable on the column level.
     * Handle empty files and files with only a header row, or only with one line of data. One column wthout header is also possible.
-    * Inheritance of schemas, rules and columns. Define parent schema and override some rules in the child schemas. Make it DRY and easy to maintain.
     * If option `--schema` is not specified, then validate only super base level things (like "is it a CSV file?").
     * Complex rules (like "if field `A` is not empty, then field `B` should be not empty too").
     * Extending with custom rules and custom report formats. Plugins?
@@ -1442,7 +1948,7 @@ make codestyle
 - [Retry](https://github.com/JBZoo/Retry) - Tiny PHP library providing retry/backoff functionality with strategies and jitter.
 
 <details>
-  <summary>Click to see interesting fact</summary>
+  <summary>CLICK to see interesting fact</summary>
 
 I've achieved a personal milestone. The [initial release](https://github.com/JBZoo/Csv-Blueprint/releases/tag/0.1) of
 the project was crafted from the ground up in approximately 3 days, interspersed with regular breaks to care for a

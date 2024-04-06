@@ -18,6 +18,7 @@ namespace JBZoo\CsvBlueprint\Commands;
 
 use JBZoo\Cli\CliCommand;
 use JBZoo\CsvBlueprint\Exception;
+use JBZoo\CsvBlueprint\Schema;
 use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use Symfony\Component\Console\Input\InputOption;
@@ -59,6 +60,12 @@ abstract class AbstractValidate extends CliCommand
                     '',
                 ]),
                 'no',
+            )
+            ->addOption(
+                'dump-schema',
+                null,
+                InputOption::VALUE_NONE,
+                'Dumps the schema of the CSV file if you want to see the final schema after inheritance.',
             )
             ->addOption(
                 'debug',
@@ -151,6 +158,22 @@ abstract class AbstractValidate extends CliCommand
     {
         $issues = $number === 1 ? 'issue' : 'issues';
         $this->out("{$prefix}<yellow>{$number} {$issues}</yellow> in {$filepath}", $indent);
+    }
+
+    protected function printDumpOfSchema(?Schema $schema): void
+    {
+        if ($schema === null) {
+            return;
+        }
+        $dump = $schema->dumpAsYamlString();
+        $dump = \preg_replace('/^([ \t]*)([^:\n]+:)/m', '$1<c>$2</c>', $dump);
+
+        if ($this->getOptBool('dump-schema')) {
+            $this->_('<blue>```yaml</blue>');
+            $this->_("# File: <blue>{$schema->getFilename()}</blue>");
+            $this->_($dump);
+            $this->_('<blue>```</blue>');
+        }
     }
 
     protected static function renderPrefix(int $index, int $totalFiles): string
