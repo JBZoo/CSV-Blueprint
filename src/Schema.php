@@ -73,7 +73,14 @@ final class Schema
             $basepath = \dirname($filename);
         }
 
-        $this->data = (new SchemaDataPrep($data, $basepath))->buildData();
+        try {
+            $this->data = (new SchemaDataPrep($data, $basepath))->buildData();
+        } catch (\Exception $e) {
+            throw new \InvalidArgumentException(
+                "Invalid schema \"{$this->filename}\" data.\nUnexpected error: \"{$e->getMessage()}\"",
+            );
+        }
+
         $this->columns = $this->prepareColumns();
     }
 

@@ -745,4 +745,14 @@ final class SchemaPresetTest extends TestCase
         ], $schema->getData()->getArrayCopy());
         isSame('', (string)$schema->validate());
     }
+
+    public function testInvalidPresetFile(): void
+    {
+        $this->expectExceptionMessage(
+            "Invalid schema \"_custom_array_\" data.\n" .
+            'Unexpected error: "Unknown included file: "invalid.yml""',
+        );
+
+        $schema = new Schema(['presets' => ['alias' => 'invalid.yml']]);
+    }
 }
