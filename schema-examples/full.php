@@ -142,6 +142,14 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'is_base64'        => true,
                 'is_angle'         => true,
 
+                'password_strength_min'     => 1,
+                'password_strength_greater' => 2,
+                'password_strength_not'     => 0,
+                'password_strength'         => 7,
+                'password_strength_less'    => 8,
+                'password_strength_max'     => 9,
+                'is_password_safe_chars'    => true,
+
                 'is_ip'                   => true,
                 'is_ip_v4'                => true,
                 'is_ip_v6'                => true,

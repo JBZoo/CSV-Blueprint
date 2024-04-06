@@ -11,11 +11,11 @@
 <!-- auto-update:/top-badges -->
 
 <!-- auto-update:rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-332-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
-[![Static Badge](https://img.shields.io/badge/Rules-118-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
+[![Static Badge](https://img.shields.io/badge/Rules-339-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-125-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
 [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)
 [![Static Badge](https://img.shields.io/badge/Rules-8-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)
-[![Static Badge](https://img.shields.io/badge/Rules-20/11/20-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-18/11/20-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- auto-update:/rules-counter -->
 
 A console utility designed for validating CSV files against a strictly defined schema and validation rules outlined
@@ -474,6 +474,20 @@ columns:
       is_currency_code: true            # Validates an ISO 4217 currency code like GBP or EUR. Case-sensitive. See: https://en.wikipedia.org/wiki/ISO_4217.
       is_base64: true                   # Validate if a string is Base64-encoded. Example: "cmVzcGVjdCE=".
       is_angle: true                    # Check if the cell value is a valid angle (0.0 to 360.0).
+
+      # Safity checks
+      # Password strength calculation criteria include: Length (max 5 points, +1 every 2 characters),
+      # presence of uppercase letters (+1), lowercase letters (+1), numbers (+1), special characters (+1),
+      # spaces (+1), and penalties for consecutive sequences of uppercase, lowercase, or
+      # numbers (-0.5 each), repetitive sequences (-0.75 each), common weak passwords like "qwerty",
+      # and passwords under 6 characters (-2). Adjust scores to a 0 to 10 scale, with a minimum score of 0.
+      password_strength_min: 1          # x >= 1
+      password_strength_greater: 2      # x >  2
+      password_strength_not: 0          # x != 0
+      password_strength: 7              # x == 7
+      password_strength_less: 8         # x <  8
+      password_strength_max: 9          # x <= 9
+      is_password_safe_chars: true      # Check that the cell value contains only safe characters for regular passwords. Allowed characters: a-z, A-Z, 0-9, !@#$%^&*()_+-=[]{};:'"|,.<>/?~.
 
       # Internet
       is_ip: true                       # Both: IPv4 or IPv6.
@@ -1050,7 +1064,8 @@ columns:
     rules:
       not_empty: true
       is_trimmed: true
-      regex: /^[a-zA-Z\d!@#$%^&*()_+\-=\[\]{};':"\|,.<>\/?~]{6,}$/ # Safe list of special characters for passwords.
+      is_password_safe_chars: true
+      password_strength_min: 7
       contains_none: [ "password", "123456", "qwerty", " " ]
       charset: UTF-8
       length_min: 6
@@ -1291,7 +1306,8 @@ columns:
     rules:
       not_empty: true
       is_trimmed: true
-      regex: '/^[a-zA-Z\d!@#$%^&*()_+\-=\[\]{};'':"\|,.<>\/?~]{6,}$/'
+      is_password_safe_chars: true
+      password_strength_min: 7
       contains_none:
         - password
         - '123456'
