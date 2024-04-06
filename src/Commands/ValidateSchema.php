@@ -77,7 +77,7 @@ final class ValidateSchema extends AbstractValidate
             try {
                 $schema = new Schema($filename);
                 $schemaErrors = $schema->validate($this->isQuickMode());
-                $this->printDumpOfSchema($schema);
+                $this->printDumpOfSchema(new Schema($filename));
             } catch (ParseException $e) {
                 $schemaErrors->addError(new Error('schema.syntax', $e->getMessage(), '', $e->getParsedLine()));
             } catch (\Throwable $e) {

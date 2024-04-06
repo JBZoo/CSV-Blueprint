@@ -962,8 +962,9 @@ In fact, this can be considered as partial inheritance.
    Otherwise, it might break the syntax.
 
 **If something went wrong**
-If you're having trouble working with presets and don't understand how the CSV Blueprint under the hood understands 
-it, just add `--dump-schema` to see it. Also, there is a separate CLI command for validating schema:
+
+If you're having trouble working with presets and don't understand how the CSV Blueprint under the hood understands it,
+just add `--dump-schema` to see it. Also, there is a separate CLI command for validating schema:
 
 ```shell
 ./csv-blueprint validate:schema --dump-schema --schema=./your/schema.yml
