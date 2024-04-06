@@ -83,6 +83,13 @@ final class ValidateCsv extends AbstractValidate
                     '',
                 ]),
                 'no',
+            )
+            ->addOption(
+                'apply-global',
+                'G',
+                InputOption::VALUE_OPTIONAL,
+                'Apply global schemas (without `filename_pattern`) to all CSV files found.',
+                'no',
             );
 
         parent::configure();
@@ -94,7 +101,7 @@ final class ValidateCsv extends AbstractValidate
 
         $csvFilenames = $this->findFiles('csv', false);
         $schemaFilenames = $this->findFiles('schema', false);
-        $matchedFiles = Utils::matchSchemaAndCsvFiles($csvFilenames, $schemaFilenames);
+        $matchedFiles = Utils::matchSchemaAndCsvFiles($csvFilenames, $schemaFilenames, $this->isApplyGlobal());
 
         $this->printHeaderInfo($csvFilenames, $schemaFilenames, $matchedFiles);
 
@@ -110,6 +117,12 @@ final class ValidateCsv extends AbstractValidate
             $errorInSchemaCounter,
             $matchedFiles,
         );
+    }
+
+    protected function isApplyGlobal(): bool
+    {
+        $value = $this->getOptString('apply-global');
+        return $value === '' || bool($value);
     }
 
     private function isCheckingSchema(): bool

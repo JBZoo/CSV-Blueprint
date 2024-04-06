@@ -35,6 +35,10 @@ inputs:
     description: 'Report format. Available options: text, table, github, gitlab, teamcity, junit.'
     default: table
     required: true
+  apply-global:
+    description: 'Apply global schemas (without `filename_pattern`) to all CSV files found.'
+    default: no
+    required: true
   quick:
     description: 'Quick mode. It will not validate all rows. It will stop after the first error.'
     default: no
@@ -67,6 +71,8 @@ runs:
     - ${{ inputs.schema }}
     - '--report'
     - ${{ inputs.report }}
+    - '--apply-global'
+    - ${{ inputs.apply-global }}
     - '--quick'
     - ${{ inputs.quick }}
     - '--skip-schema'
