@@ -10,10 +10,10 @@
 # @see        https://github.com/JBZoo/Csv-Blueprint
 #
 
-name:
+name: Real schema with presets for user profiles.
 description: |
-  This schema contains common presets for user data.
-  It can be used as a base for other schemas.
+  This schema uses presets for user data.
+  Also, it demonstrates how to override preset values.
 
 presets:
   users: ./preset_samples.yml
