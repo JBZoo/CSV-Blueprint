@@ -41,7 +41,7 @@ columns:
     rules:
       not_empty: true
       is_trimmed: true
-      regex: /^[a-zA-Z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]{6,}$/ # Safe list of special characters for passwords
+      regex: /^[a-zA-Z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]{6,}$/ # Safe list of special characters for passwords.
       contains_none: [ "password", "123456", "qwerty", " " ]
       charset: UTF-8
       length_min: 6
@@ -101,7 +101,7 @@ columns:
       is_trimmed: true
       is_float: true
       num_min: 0.00
-      num_max: 1000000000.00 # 1 billion
+      num_max: 1000000000.00      # 1 billion is max amount in our system.
       precision: 2
 
   - name: short_description

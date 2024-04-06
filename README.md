@@ -927,7 +927,7 @@ used in a wide variety of CSV files.
 In order not to care about integrity and not to suffer from copy and paste, you can reuse ANY(!) existing schema.
 In fact, this can be considered as partial inheritance.
 
-**Important notes**
+Important notes
  - You can make the chain of inheritance infinitely long.
    I.e. make chains of the form `grant-parent.yml` -> `parent.yml` -> `child.yml` -> `grandchild.yml` -> `great-grandchild.yml` -> etc.
    Of course if you like to take risks ;).
@@ -941,9 +941,9 @@ In fact, this can be considered as partial inheritance.
 
 
 Let's take a look at what this looks like in code.
-- Let's define a couple of basic rules for [database columns](schema-examples/preset_database.yml).
-- And also one of the files will contain rules specific only to the [users profile](schema-examples/preset_users.yml).
-- And of course let's [make a schema](schema-examples/preset_usage.yml) that will simultaneously reuse the rules from these two files.
+- Define a couple of basic rules for [database columns](schema-examples/preset_database.yml).
+- Also, one of the files will contain rules specific only to the [users profile](schema-examples/preset_users.yml).
+- And of course, let's [make a schema](schema-examples/preset_usage.yml) that will simultaneously reuse the rules from these two files.
 
 As a result, you don't just get a bunch of schemas for validation, which is difficult to manage, but something like a
 framework(!) that will be targeted to the specifics of your project, especially when there are dozens or even hundreds
@@ -1011,7 +1011,7 @@ columns:
     rules:
       not_empty: true
       is_trimmed: true
-      regex: /^[a-zA-Z\d!@#$%^&*()_+\-=\[\]{};':"\|,.<>\/?~]{6,}$/ # Safe list of special characters for passwords
+      regex: /^[a-zA-Z\d!@#$%^&*()_+\-=\[\]{};':"\|,.<>\/?~]{6,}$/ # Safe list of special characters for passwords.
       contains_none: [ "password", "123456", "qwerty", " " ]
       charset: UTF-8
       length_min: 6
@@ -1071,7 +1071,7 @@ columns:
       is_trimmed: true
       is_float: true
       num_min: 0.00
-      num_max: 1000000000.00 # 1 billion
+      num_max: 1000000000.00      # 1 billion is max amount in our system.
       precision: 2
 
   - name: short_description
@@ -1104,13 +1104,13 @@ csv:
   enclosure: '|'                  # Overridden value
 
 columns:
+  # Grap only needed columns from the preset in specific order
   - preset: db/id
   - preset: db/status
   - preset: users/login
   - preset: users/email
   - preset: users/full_name
   - preset: users/birthday
-
   - preset: users/password
     rules:
       length_min: 10              # Overridden value to force a strong password

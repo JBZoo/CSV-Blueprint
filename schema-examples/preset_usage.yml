@@ -25,13 +25,13 @@ csv:
   enclosure: '|'                  # Overridden value
 
 columns:
+  # Grap only needed columns from the preset in specific order
   - preset: db/id
   - preset: db/status
   - preset: users/login
   - preset: users/email
   - preset: users/full_name
   - preset: users/birthday
-
   - preset: users/password
     rules:
       length_min: 10              # Overridden value to force a strong password
