@@ -103,14 +103,49 @@ final class ValidateCsvBatchSchemaTest extends TestCase
         isSame($expected, $actual);
     }
 
-    public function testNoPattern(): void
+    public function testNoPatternNoApplyGlobal(): void
     {
         $optionsAsString = Tools::arrayToOptionString([
             'csv'    => './tests/fixtures/demo.csv',
-            'schema' => [
-                Tools::DEMO_YML_VALID,
-                './tests/schemas/demo_invalid_no_pattern.yml',
-            ],
+            'schema' => [Tools::DEMO_YML_VALID, './tests/schemas/demo_invalid_no_pattern.yml'],
+        ]);
+
+        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $optionsAsString);
+
+        $expected = <<<'TXT'
+            CSV Blueprint: Unknown version (PhpUnit)
+            Found Schemas   : 2
+            Found CSV files : 1
+            Pairs by pattern: 1
+            
+            Check schema syntax: 2
+              (1/2) OK ./tests/schemas/demo_invalid_no_pattern.yml
+              (2/2) OK ./tests/schemas/demo_valid.yml
+            
+            CSV file validation: 1
+            Schema: ./tests/schemas/demo_valid.yml
+              OK ./tests/fixtures/demo.csv; Size: 123.34 MB
+            
+            Summary:
+              1 pairs (schema to csv) were found based on `filename_pattern`.
+              No issues in 2 schemas.
+              No issues in 1 CSV files.
+              Not used schemas:
+                * ./tests/schemas/demo_invalid_no_pattern.yml
+            
+            
+            TXT;
+
+        isSame(1, $exitCode, $actual);
+        isSame($expected, $actual);
+    }
+
+    public function testNoPatternApplyGlobal(): void
+    {
+        $optionsAsString = Tools::arrayToOptionString([
+            'csv'          => './tests/fixtures/demo.csv',
+            'schema'       => [Tools::DEMO_YML_VALID, './tests/schemas/demo_invalid_no_pattern.yml'],
+            'apply-global' => 'yes',
         ]);
 
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $optionsAsString);
