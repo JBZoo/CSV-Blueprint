@@ -158,7 +158,7 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
     # Extra options for the CSV Blueprint. Only for debbuging and profiling.
     # Available options:
     #   ANSI output. You can disable ANSI colors if you want with `--no-ansi`.
-    #   Verbosity level: Available options: `-v`, `-vv`, `-vvv`
+    #   Verbosity level: Available options: `-v`, `-vv`, `-vvv`.
     #   Add flag `--profile` if you want to see profiling info. Add details with `-vvv`.
     #   Add flag `--debug` if you want to see more really deep details.
     #   Add flag `--dump-schema` if you want to see the final schema after all includes and inheritance.
