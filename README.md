@@ -1111,22 +1111,17 @@ columns:
   - preset: users/email
   - preset: users/full_name
   - preset: users/birthday
+
+  # Just a bit changed column from the preset
   - preset: users/password
     rules:
       length_min: 10              # Overridden value to force a strong password
 
-  - name: user_balance
-    rules:
-      preset: users/balance       # Take only rules from the preset
-
-  - preset: users/short_description
-    rules:
-      length_max: 255             # Overridden value
-
-  - name: phone                   # Overridden value
+  - name: phone                   # Overridden name of the column
     preset: users/phone_number
 
-  - name: admin_note              # New column specific only this schema
+  # New column specific only this schema
+  - name: admin_note
     description: Admin note
     rules:
       not_empty: true
@@ -1191,7 +1186,8 @@ columns:
       preset: 'db/0:id'
 
   # Combo!!! If you're a risk-taker or have a high level of inner zen. :)
-  # Creating a column from three other columns. In fact, it will merge all three at once with key replacement.
+  # Creating a column from three other columns.
+  # In fact, it will merge all three at once with key replacement.
   - name: Crazy combo!
     description: >                # Just a great advice.
       I like to take risks, too.

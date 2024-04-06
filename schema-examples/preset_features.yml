@@ -55,7 +55,8 @@ columns:
       preset: 'db/0:id'
 
   # Combo!!! If you're a risk-taker or have a high level of inner zen. :)
-  # Creating a column from three other columns. In fact, it will merge all three at once with key replacement.
+  # Creating a column from three other columns.
+  # In fact, it will merge all three at once with key replacement.
   - name: Crazy combo!
     description: >                # Just a great advice.
       I like to take risks, too.
