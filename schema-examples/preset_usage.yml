@@ -47,7 +47,7 @@ columns:
   - name: phone                   # Overridden value
     preset: users/phone_number
 
-  - name: admin_note
+  - name: admin_note              # New column specific only this schema
     description: Admin note
     rules:
       not_empty: true

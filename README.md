@@ -900,25 +900,20 @@ These additional checks further secure the integrity and consistency of your CSV
 Presets enhance the efficiency and reusability of schema definitions for CSV file validation, streamlining the
 validation process across various files and schemas. Their benefits include:
 
-- **Consistency Across Schemas**: Presets guarantee uniform validation rules for common fields like user IDs, email
+- **Consistency Across Schemas:** Presets guarantee uniform validation rules for common fields like user IDs, email
   addresses, and phone numbers across different CSV files. This consistency is crucial for maintaining data integrity
   and reliability.
-
-- **Ease of Maintenance**: Centralized updates to presets automatically propagate changes to all schemas using them.
+- **Ease of Maintenance:** Centralized updates to presets automatically propagate changes to all schemas using them.
   This approach eliminates the need to manually update each schema, significantly reducing maintenance efforts.
-
-- **Flexibility and Customization**: While offering a foundational set of validation rules, presets also allow for
+- **Flexibility and Customization:** While offering a foundational set of validation rules, presets also allow for
   field-specific rule overrides to meet the unique requirements of individual schemas. This ensures a balance between
   consistency and customization.
-
-- **Rapid Development**: Presets facilitate quick schema setup for new CSV files by reusing established
+- **Rapid Development:** Presets facilitate quick schema setup for new CSV files by reusing established
   validation rules. This allows for a faster development cycle, focusing on unique fields without redefining common
   rules.
-
-- **Error Reduction**: Utilizing consistent and tested presets reduces the likelihood of errors in manual schema
+- **Error Reduction:** Utilizing consistent and tested presets reduces the likelihood of errors in manual schema
   definitions, leading to improved data quality and reliability.
-
-- **Efficiency in Large-scale Projects**: In large projects with extensive data volumes, presets provide a standardized
+- **Efficiency in Large-scale Projects:** In large projects with extensive data volumes, presets provide a standardized
   approach to applying common validation logic, simplifying data management and validation tasks.
 
 Overall, presets offer a compelling solution for anyone involved in CSV file validation, enhancing consistency, maintenance, flexibility, development speed, error minimization, and project efficiency.
@@ -929,16 +924,19 @@ Overall, presets offer a compelling solution for anyone involved in CSV file val
 Let's look at a real life example. Suppose you have a "library" of different user profile validation rules that can be
 used in a wide variety of CSV files.
 
-In order not to care about integrity and not to suffer from copy and paste, you can reuse any existing schema.
+In order not to care about integrity and not to suffer from copy and paste, you can reuse ANY(!) existing schema.
 In fact, this can be considered as partial inheritance.
 
 **Important notes**
- - You can make the chain of inheritance infinitely long (of course if you like to take risks).
- - Any of the files can be used alone or as a library. The syntax is the same.
+ - You can make the chain of inheritance infinitely long.
+   I.e. make chains of the form `grant-parent.yml` -> `parent.yml` -> `child.yml` -> `grandchild.yml` -> `great-grandchild.yml` -> etc.
+   Of course if you like to take risks ;).
+ - Any(!) of the schema files can be used alone or as a library. The syntax is the same.
  - Schemas with presets validate themselves and if there are any obvious issues, you will see them when you try to use
-  the schema.
+   the schema. But logical conflicts between rules are not checked (It's almost impossible from a code perspective).
+   As mentioned above, rules work in isolation and are not aware of each other. So the set of rules is your responsibility as always.
  - Alias in presets must match the regex pattern
-   <!-- auto-update:preset-regex --> `"/^[a-z0-9-_]+$/i"` <!-- auto-update:/preset-regex -->.
+   <!-- auto-update:preset-regex -->"/^[a-z0-9-_]+$/i"<!-- auto-update:/preset-regex -->.
    Otherwise, it might break the syntax.
 
 
@@ -951,7 +949,7 @@ As a result, you don't just get a bunch of schemas for validation, which is diff
 framework(!) that will be targeted to the specifics of your project, especially when there are dozens or even hundreds
 of CSV files and rules. It will be much easier to achieve consistency. Very often it's quite important.
 
-[preset_database.yml](schema-examples/preset_database.yml)
+[Database preset](schema-examples/preset_database.yml)
 <!-- auto-update:preset-database-yml -->
 ```yml
 name: Presets for database columns
@@ -979,11 +977,13 @@ columns:
 ```
 <!-- auto-update:/preset-database-yml -->
 
-[preset_users.yml](schema-examples/preset_users.yml)
+[User data preset](schema-examples/preset_users.yml)
 <!-- auto-update:preset-users-yml -->
 ```yml
 name: Common presets for user data
-description: This schema contains common presets for user data. It can be used as a base for other schemas.
+description: >
+  This schema contains common presets for user data.
+  It can be used as a base for other schemas.
 
 filename_pattern: /users-.*\.csv$/i
 
@@ -1086,7 +1086,7 @@ columns:
 <!-- auto-update:/preset-users-yml -->
 
 
-[preset_usage.yml](schema-examples/preset_usage.yml)
+[Usage of presets](schema-examples/preset_usage.yml)
 <!-- auto-update:preset-usage-yml -->
 ```yml
 name: Schema uses presets and add new columns + specific rules.
@@ -1126,7 +1126,7 @@ columns:
   - name: phone                   # Overridden value
     preset: users/phone_number
 
-  - name: admin_note
+  - name: admin_note              # New column specific only this schema
     description: Admin note
     rules:
       not_empty: true
@@ -1142,7 +1142,7 @@ As a result, readability and maintainability became dramatically easier.
 You can easily add new rules, change existing, etc.
 
 
-### Complete example with all available syntax of presets
+### Complete example with all available syntax
 
 <!-- auto-update:preset-features-yml -->
 ```yml
@@ -1150,58 +1150,64 @@ name: Complite list of preset features
 description: This schema contains all the features of the presets.
 
 presets:
-  # The basepath for the preset is `.` (current directory)
-  # Define alias "db" for schema in `./preset_database.yml`
-  db: preset_database.yml         # Or just `db: preset_database.yml`. It's up to you.
+  # The basepath for the preset is `.` (current directory of the current schema file).
+  # Define alias "db" for schema in `./preset_database.yml`.
+  db: preset_database.yml         # Or `db: ./preset_database.yml`. It's up to you.
 
-  # For example, you can use a relative path
+  # For example, you can use a relative path.
   users: ./../schema-examples/preset_users.yml
 
-  # Or you can use an absolute path
-  # db-3: /full/path/preset_database.yml
-
-  # Or you can use an absolute path
+  # Or you can use an absolute path.
   # db: /full/path/preset_database.yml
 
 filename_pattern:
-  preset: users                   # Take the filename pattern from the preset
+  preset: users                   # Take the filename pattern from the preset.
 
 csv:
-  preset: users                   # Take the CSV settings from the preset
+  preset: users                   # Take the CSV settings from the preset.
 
 columns:
-  # Use name of column from the preset. "db" is alias. "id" is column `name` in `preset_database.yml`
+  # Use name of column from the preset.
+  # "db" is alias. "id" is column `name` in `preset_database.yml`.
   - preset: 'db/id'
 
-  # Use column index. "db" is alias. "0" is column index in `preset_database.yml`
+  # Use column index. "db" is alias. "0" is column index in `preset_database.yml`.
   - preset: 'db/0'
   - preset: 'db/0:'
 
   # Use column index and column name. It useful if column name is not unique.
   - preset: 'db/0:id'
 
-  # Override only `rules` from the preset
+  # Use only `rules` of "status" column from the preset.
   - name: My column
     rules:
       preset: 'db/status'
 
-  # Override only `aggregate_rules` from the preset
+  # Override only `aggregate_rules` from the preset.
+  # Use only `aggregate_rules` of "id" column from the preset.
+  # We strictly take only the very first column (index = 0).
   - name: My column
     aggregate_rules:
       preset: 'db/0:id'
 
-  # Combo.  If you're a risk-taker or have a high level of inner zen. :)
+  # Combo!!! If you're a risk-taker or have a high level of inner zen. :)
   # Creating a column from three other columns. In fact, it will merge all three at once with key replacement.
   - name: Crazy combo!
-    example: ~
+    description: >                # Just a great advice.
+      I like to take risks, too.
+      Be careful. Use your power wisely.
+    example: ~                    # Ignore inherited "example" value. Set it `null`.
     preset: 'users/login'
     rules:
       preset: 'users/email'
+      not_empty: true             # Disable the rule from the preset.
     aggregate_rules:
       preset: 'db/0'
 ```
 <!-- auto-update:/preset-features-yml -->
 
+**Note:** All provided YAML examples pass built-in validation, yet they may not make practical sense.
+These are intended solely for demonstration and to illustrate potential configurations and features.
 
 
 ## Complete CLI help message

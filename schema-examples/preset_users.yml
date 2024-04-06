@@ -11,7 +11,9 @@
 #
 
 name: Common presets for user data
-description: This schema contains common presets for user data. It can be used as a base for other schemas.
+description: >
+  This schema contains common presets for user data.
+  It can be used as a base for other schemas.
 
 filename_pattern: /users-.*\.csv$/i
 
