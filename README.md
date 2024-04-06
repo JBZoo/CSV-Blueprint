@@ -1128,6 +1128,45 @@ columns:
 
 </details>
 
+[Usage of presets](schema-examples/preset_usage.yml)
+<!-- auto-update:preset-usage-yml -->
+```yml
+name: Schema uses presets and add new columns + specific rules.
+description: This schema uses presets. Also, it demonstrates how to override preset values.
+
+presets: # Include any other schemas and defined for each alias.
+  users: ./preset_users.yml       # Include the schema with common user data.
+  db: ./preset_database.yml       # Include the schema with basic database columns.
+
+csv:
+  preset: users                   # Take the CSV settings from the preset.
+  enclosure: '|'                  # Overridden enclosure only for this schema.
+
+columns:
+  # Grap only needed columns from the preset in specific order.
+  - preset: db/id
+  - preset: db/status
+  - preset: users/login
+  - preset: users/email
+  - preset: users/full_name
+  - preset: users/birthday
+  - preset: users/phone_number    # Rename the column. "phone_number" => "phone".
+    name: phone
+  - preset: users/password        # Overridden value to force a strong password.
+    rules: { length_min: 10 }
+  - name: admin_note              # New column specific only this schema.
+    description: Admin note
+    rules:
+      not_empty: true
+      length_min: 1
+      length_max: 10
+    aggregate_rules: # In practice this will be a rare case, but the opportunity is there.
+      preset: db/id               # Take only aggregate rules from the preset.
+      is_unique: true             # Added new specific aggregate rule.
+```
+<!-- auto-update:/preset-usage-yml -->
+
+
 This short and clear Yaml under the hood as roughly as follows. As you can see it simplifies your work a lot.
 
 <details>
@@ -1284,47 +1323,7 @@ columns:
 
 </details>
 
-[Usage of presets](schema-examples/preset_usage.yml)
-<!-- auto-update:preset-usage-yml -->
-```yml
-name: Schema uses presets and add new columns + specific rules.
-description: This schema uses presets. Also, it demonstrates how to override preset values.
-
-presets: # Include any other schemas and defined for each alias.
-  users: ./preset_users.yml       # Include the schema with common user data.
-  db: ./preset_database.yml       # Include the schema with basic database columns.
-
-csv:
-  preset: users                   # Take the CSV settings from the preset.
-  enclosure: '|'                  # Overridden enclosure only for this schema.
-
-columns:
-  # Grap only needed columns from the preset in specific order.
-  - preset: db/id
-  - preset: db/status
-  - preset: users/login
-  - preset: users/email
-  - preset: users/full_name
-  - preset: users/birthday
-  - preset: users/phone_number    # Rename the column. "phone_number" => "phone".
-    name: phone
-  - preset: users/password        # Overridden value to force a strong password.
-    rules: { length_min: 10 }
-  - name: admin_note              # New column specific only this schema.
-    description: Admin note
-    rules:
-      not_empty: true
-      length_min: 1
-      length_max: 10
-    aggregate_rules: # In practice this will be a rare case, but the opportunity is there.
-      preset: db/id               # Take only aggregate rules from the preset.
-      is_unique: true             # Added new specific aggregate rule.
-```
-<!-- auto-update:/preset-usage-yml -->
-
-
-As a result, readability and maintainability became dramatically easier.
-You can easily add new rules, change existing, etc.
+As a result, readability and maintainability became dramatically easier.  You can easily add new rules, change existing, etc.
 
 
 ### Complete example with all available syntax
