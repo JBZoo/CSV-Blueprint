@@ -20,13 +20,16 @@ branding:
 
 inputs:
   csv:
-    description: >
-      Path(s) to validate. You can specify path in which CSV files will be searched.
-      Feel free to use glob pattrens. Usage examples:
-      /full/path/file.csv, p/file.csv, p/*.csv, p/**/*.csv, p/**/name-*.csv, **/*.csv, etc.
+    description: |
+      Specify the path(s) to the CSV files you want to validate.
+        This can include a direct path to a file or a directory to search with a maximum depth of 10 levels.
+        Examples: /full/path/name.csv; p/file.csv; p/*.csv; p/**/*.csv; p/**/name-*.csv; **/*.csv
     required: true
   schema:
-    description: 'Schema filepath. It can be a YAML, JSON or PHP. See examples on GitHub.'
+    description: |
+      Specify the path(s) to the schema file(s), supporting YAML, JSON, or PHP formats.
+        Similar to CSV paths, you can direct to specific files or search directories with glob patterns.
+        Examples: /full/path/name.yml; p/file.yml; p/*.yml; p/**/*.yml; p/**/name-*.yml; **/*.yml
     required: true
   report:
     description: 'Report format. Available options: text, table, github, gitlab, teamcity, junit.'
@@ -43,11 +46,14 @@ inputs:
 
   # Only for debbuging and profiling
   extra:
-    description: >
-      ANSI output. You can disable ANSI colors if you want with `--no-ansi`.
-      Verbosity level: Available options: `-v`, `-vv`, `-vvv`
-      Add flag `--profile` if you want to see profiling info. Add details with `-vvv`.
-      Add flag `--debug` if you want to see more really deep details.
+    description: |
+      Extra options for the CSV Blueprint. Only for debbuging and profiling.
+      Available options:
+        ANSI output. You can disable ANSI colors if you want with `--no-ansi`.
+        Verbosity level: Available options: `-v`, `-vv`, `-vvv`
+        Add flag `--profile` if you want to see profiling info. Add details with `-vvv`.
+        Add flag `--debug` if you want to see more really deep details.
+        Add flag `--dump-schema` if you want to see the final schema after all includes and inheritance.
     default: 'extra: --ansi'
 
 runs:

@@ -53,8 +53,8 @@ final class SchemaDataPrep
             'aggregate_rules' => [],
         ],
 
-        'rules'           => ['preset' => ''],
-        'aggregate_rules' => ['preset' => ''],
+        'rules'           => [],
+        'aggregate_rules' => [],
     ];
 
     private AbstractData $data;

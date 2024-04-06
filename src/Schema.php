@@ -21,6 +21,7 @@ use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use JBZoo\CsvBlueprint\Validators\ValidatorSchema;
 use JBZoo\Data\AbstractData;
 use JBZoo\Data\Data;
+use Symfony\Component\Yaml\Yaml;
 
 use function JBZoo\Data\json;
 use function JBZoo\Data\phpArray;
@@ -249,6 +250,20 @@ final class Schema
             'strict_column_order' => $this->isStrictColumnOrder(),
             'allow_extra_columns' => $this->isAllowExtraColumns(),
         ];
+    }
+
+    public function dumpAsYamlString(): string
+    {
+        return Yaml::dump(
+            $this->getData()->getArrayCopy(),
+            10,
+            2,
+            Yaml::DUMP_NULL_AS_TILDE
+            | Yaml::DUMP_NUMERIC_KEY_AS_STRING
+            | Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK
+            | Yaml::DUMP_EMPTY_ARRAY_AS_SEQUENCE
+            | Yaml::DUMP_EXCEPTION_ON_INVALID_TYPE,
+        );
     }
 
     /**

@@ -143,7 +143,10 @@ final class ValidateCsv extends AbstractValidate
                 }
 
                 try {
-                    $schemaErrors = (new Schema($schemaFilename->getPathname()))->validate($quickCheck);
+                    $schema = new Schema($schemaFilename->getPathname());
+                    $this->printDumpOfSchema($schema);
+
+                    $schemaErrors = $schema->validate($quickCheck);
                     if ($schemaErrors->count() > 0) {
                         $this->renderIssues($prefix, $schemaErrors->count(), $schemaPath, 2);
                         $this->outReport($schemaErrors, 4);

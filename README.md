@@ -126,30 +126,45 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
 
 <!-- auto-update:github-actions-yml -->
 ```yml
-- uses: jbzoo/csv-blueprint@master # See the specific version on releases page
+- uses: jbzoo/csv-blueprint@master # See the specific version on releases page. `@master` is latest.
   with:
-    # Path(s) to validate. You can specify path in which CSV files will be searched. Feel free to use glob pattrens. Usage examples: /full/path/file.csv, p/file.csv, p/*.csv, p/**/*.csv, p/**/name-*.csv, **/*.csv, etc.
+    # Specify the path(s) to the CSV files you want to validate.
+    #   This can include a direct path to a file or a directory to search with a maximum depth of 10 levels.
+    #   Examples: /full/path/name.csv; p/file.csv; p/*.csv; p/**/*.csv; p/**/name-*.csv; **/*.csv
     # Required: true
     csv: './tests/**/*.csv'
 
-    # Schema filepath. It can be a YAML, JSON or PHP. See examples on GitHub.
+    # Specify the path(s) to the schema file(s), supporting YAML, JSON, or PHP formats.
+    #   Similar to CSV paths, you can direct to specific files or search directories with glob patterns.
+    #   Examples: /full/path/name.yml; p/file.yml; p/*.yml; p/**/*.yml; p/**/name-*.yml; **/*.yml
     # Required: true
     schema: './tests/**/*.yml'
 
     # Report format. Available options: text, table, github, gitlab, teamcity, junit.
-    # Default value: table
-    # You can skip it
-    report: table
+    # Default value: 'table'
+    # Required: true
+    report: 'table'
 
     # Quick mode. It will not validate all rows. It will stop after the first error.
-    # Default value: no
-    # You can skip it
-    quick: no
+    # Default value: 'no'
+    # Required: true
+    quick: 'no'
 
     # Skip schema validation. If you are sure that the schema is correct, you can skip this check.
-    # Default value: no
-    # You can skip it
-    skip-schema: no
+    # Default value: 'no'
+    # Required: true
+    skip-schema: 'no'
+
+    # Extra options for the CSV Blueprint. Only for debbuging and profiling.
+    # Available options:
+    #   ANSI output. You can disable ANSI colors if you want with `--no-ansi`.
+    #   Verbosity level: Available options: `-v`, `-vv`, `-vvv`
+    #   Add flag `--profile` if you want to see profiling info. Add details with `-vvv`.
+    #   Add flag `--debug` if you want to see more really deep details.
+    #   Add flag `--dump-schema` if you want to see the final schema after all includes and inheritance.
+    # Default value: 'extra: --ansi'
+    # You can skip it.
+    extra: 'extra: --ansi'
 ```
 <!-- auto-update:/github-actions-yml -->
 
@@ -1254,6 +1269,7 @@ Options:
                                    Returns a non-zero exit code if any error is detected.
                                    Enable by setting to any non-empty value or "yes".
                                     [default: "no"]
+      --dump-schema                Dumps the schema of the CSV file if you want to see the final schema after inheritance.
       --debug                      Intended solely for debugging and advanced profiling purposes.
                                    Activating this option provides detailed process insights,
                                    useful for troubleshooting and performance analysis.
@@ -1309,6 +1325,7 @@ Options:
                                  Returns a non-zero exit code if any error is detected.
                                  Enable by setting to any non-empty value or "yes".
                                   [default: "no"]
+      --dump-schema              Dumps the schema of the CSV file if you want to see the final schema after inheritance.
       --debug                    Intended solely for debugging and advanced profiling purposes.
                                  Activating this option provides detailed process insights,
                                  useful for troubleshooting and performance analysis.

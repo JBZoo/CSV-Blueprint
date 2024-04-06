@@ -140,7 +140,11 @@ final class Tools
         isTrue(\file_put_contents(self::README, $result) > 0);
         $hashAfter = \hash_file('md5', self::README);
 
-        isSame($hashAfter, $hashBefore, "README.md was not updated. Code: {$code}");
+        isSame(
+            $hashAfter,
+            $hashBefore,
+            "README.md was not updated. Code: {$code}\n\n---------\n{$replacement}\n---------",
+        );
         isFileContains($result, self::README);
     }
 
