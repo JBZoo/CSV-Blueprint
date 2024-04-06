@@ -93,8 +93,8 @@ final class ReadmeTest extends TestCase
 
     public function testBadgeOfRules(): void
     {
-        $cellRules = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.rules'));
-        $aggRules = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.aggregate_rules'));
+        $cellRules = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.rules')) - 1;
+        $aggRules = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.aggregate_rules')) - 1;
         $extraRules = \count(self::EXTRA_RULES);
         $totalRules = $cellRules + $aggRules + $extraRules;
 

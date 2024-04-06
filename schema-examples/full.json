@@ -2,13 +2,14 @@
     "name"             : "CSV Blueprint Schema Example",
     "description"      : "This YAML file provides a detailed description and validation rules for CSV files\nto be processed by CSV Blueprint tool. It includes specifications for file name patterns,\nCSV formatting options, and extensive validation criteria for individual columns and their values,\nsupporting a wide range of data validation rules from basic type checks to complex regex validations.\nThis example serves as a comprehensive guide for creating robust CSV file validations.\n",
 
-    "presets"         : {
-        "preset-alias" : ".\/readme_sample.yml"
+    "presets"          : {
+        "my-preset" : ".\/preset_users.yml"
     },
 
     "filename_pattern" : "\/demo(-\\d+)?\\.csv$\/i",
 
     "csv"              : {
+        "preset"     : "my-preset",
         "header"     : true,
         "delimiter"  : ",",
         "quote_char" : "\\",
@@ -18,18 +19,21 @@
     },
 
     "structural_rules" : {
+        "preset"              : "my-preset",
         "strict_column_order" : true,
         "allow_extra_columns" : false
     },
 
     "columns"          : [
         {
+            "preset"          : "my-preset/login",
             "name"            : "Column Name (header)",
             "description"     : "Lorem ipsum",
             "example"         : "Some example",
             "required"        : true,
 
             "rules"           : {
+                "preset"                  : "my-preset/login",
                 "not_empty"               : true,
                 "exact_value"             : "Some string",
                 "allow_values"            : ["y", "n", ""],
@@ -170,6 +174,7 @@
                 "credit_card"             : "Any"
             },
             "aggregate_rules" : {
+                "preset"                      : "my-preset/login",
                 "is_unique"                   : true,
                 "sorted"                      : ["asc", "natural"],
 

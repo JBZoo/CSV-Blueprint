@@ -24,12 +24,13 @@ This example serves as a comprehensive guide for creating robust CSV file valida
 ',
 
     'presets' => [
-        'preset-alias' => './readme_sample.yml',
+        'my-preset' => './preset_users.yml',
     ],
 
     'filename_pattern' => '/demo(-\\d+)?\\.csv$/i',
 
     'csv' => [
+        'preset'     => 'my-preset',
         'header'     => true,
         'delimiter'  => ',',
         'quote_char' => '\\',
@@ -39,18 +40,21 @@ This example serves as a comprehensive guide for creating robust CSV file valida
     ],
 
     'structural_rules' => [
+        'preset'              => 'my-preset',
         'strict_column_order' => true,
         'allow_extra_columns' => false,
     ],
 
     'columns' => [
         [
+            'preset'      => 'my-preset/login',
             'name'        => 'Column Name (header)',
             'description' => 'Lorem ipsum',
             'example'     => 'Some example',
             'required'    => true,
 
             'rules' => [
+                'preset'           => 'my-preset/login',
                 'not_empty'        => true,
                 'exact_value'      => 'Some string',
                 'allow_values'     => ['y', 'n', ''],
@@ -192,6 +196,8 @@ This example serves as a comprehensive guide for creating robust CSV file valida
             ],
 
             'aggregate_rules' => [
+                'preset' => 'my-preset/login',
+
                 'is_unique' => true,
                 'sorted'    => ['asc', 'natural'],
 

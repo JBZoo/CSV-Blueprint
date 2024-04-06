@@ -293,19 +293,20 @@ description: |                          # Any description of the CSV file. Not u
   supporting a wide range of data validation rules from basic type checks to complex regex validations.
   This example serves as a comprehensive guide for creating robust CSV file validations.
 
-presets:
-  preset-alias: ./readme_sample.yml   # Include another schema and define an alias for it.
-
+presets:                                # Include another schema and define an alias for it.
+  my-preset: ./preset_users.yml         # Define preset alias "my-preset". See README.md for details.
 
 # Regular expression to match the file name. If not set, then no pattern check.
 # This allows you to pre-validate the file name before processing its contents.
 # Feel free to check parent directories as well.
 # See: https://www.php.net/manual/en/reference.pcre.pattern.syntax.php
 filename_pattern: /demo(-\d+)?\.csv$/i
+#  preset: my-preset                    # See README.md for details.
 
 # Here are default values to parse CSV file.
 # You can skip this section if you don't need to override the default values.
 csv:
+  preset: my-preset                     # See README.md for details.
   header: true                          # If the first row is a header. If true, name of each column is required.
   delimiter: ,                          # Delimiter character in CSV file.
   quote_char: \                         # Quote character in CSV file.
@@ -317,6 +318,7 @@ csv:
 # They are not(!) related to the data in the columns.
 # You can skip this section if you don't need to override the default values.
 structural_rules: # Here are default values.
+  preset: my-preset                     # See README.md for details.
   strict_column_order: true             # Ensure columns in CSV follow the same order as defined in this YML schema. It works only if "csv.header" is true.
   allow_extra_columns: false            # Allow CSV files to have more columns than specified in this YML schema.
 
@@ -325,7 +327,8 @@ structural_rules: # Here are default values.
 # This will not affect the validator, but will make it easier for you to navigate.
 # For convenience, use the first line as a header (if possible).
 columns:
-  - name: Column Name (header)          # Any custom name of the column in the CSV file (first row). Required if "csv.header" is true.
+  - preset: my-preset/login             # Add preset rules for the column. See README.md for details.
+    name: Column Name (header)          # Any custom name of the column in the CSV file (first row). Required if "csv.header" is true.
     description: Lorem ipsum            # Description of the column. Not used in the validation process.
     example: Some example               # Example of the column value. Schema will also check this value on its own.
 
@@ -338,6 +341,8 @@ columns:
     # Data validation for each(!) value in the column. Please, see notes in README.md
     # Every rule is optional.
     rules:
+      preset: my-preset/login           # Add preset rules for the column. See README.md for details.
+
       # General rules
       not_empty: true                   # Value is not an empty string. Actually checks if the string length is not 0.
       exact_value: Some string          # Exact value for string in the column.
@@ -546,6 +551,8 @@ columns:
     # Data validation for the entire(!) column using different data aggregation methods.
     # Every rule is optional.
     aggregate_rules:
+      preset: my-preset/login           # Add preset aggregate rules for the column. See README.md for details.
+
       is_unique: true                   # All values in the column are unique.
 
       # Check if the column is sorted in a specific order.
@@ -1092,36 +1099,34 @@ columns:
 name: Schema uses presets and add new columns + specific rules.
 description: This schema uses presets. Also, it demonstrates how to override preset values.
 
-presets: # Include any other schemas and defined for each alias
-  users: ./preset_users.yml       # Include the schema with common user data
-  db: ./preset_database.yml       # Include the schema with basic database columns
+presets: # Include any other schemas and defined for each alias.
+  users: ./preset_users.yml       # Include the schema with common user data.
+  db: ./preset_database.yml       # Include the schema with basic database columns.
 
 filename_pattern:
-  preset: users                   # Take the filename pattern from the preset
+  preset: users                   # Take the filename pattern from the preset.
+
+structural_rules:                 # Take the global rules from the preset.
+  preset: users
 
 csv:
-  preset: users                   # Take the CSV settings from the preset
-  enclosure: '|'                  # Overridden value
+  preset: users                   # Take the CSV settings from the preset.
+  enclosure: '|'                  # Overridden enclosure only for this schema.
 
 columns:
-  # Grap only needed columns from the preset in specific order
+  # Grap only needed columns from the preset in specific order.
   - preset: db/id
   - preset: db/status
   - preset: users/login
   - preset: users/email
   - preset: users/full_name
   - preset: users/birthday
-
-  # Just a bit changed column from the preset
+  - name: phone                   # Rename the column. "phone_number" => "phone".
+    preset: users/phone_number
   - preset: users/password
     rules:
-      length_min: 10              # Overridden value to force a strong password
-
-  - name: phone                   # Overridden name of the column
-    preset: users/phone_number
-
-  # New column specific only this schema
-  - name: admin_note
+      length_min: 10              # Overridden value to force a strong password.
+  - name: admin_note              # New column specific only this schema.
     description: Admin note
     rules:
       not_empty: true
@@ -1129,7 +1134,7 @@ columns:
       length_max: 10
     aggregate_rules:              # In practice this will be a rare case, but the opportunity is there.
       preset: db/id               # Take only aggregate rules from the preset.
-      is_unique: true             # Added new sprcific rule
+      is_unique: true             # Added new specific aggregate rule.
 ```
 <!-- auto-update:/preset-usage-yml -->
 

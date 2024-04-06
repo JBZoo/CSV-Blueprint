@@ -15,7 +15,7 @@ description: This schema contains basic rules for database user data.
 
 columns:
   - name: id
-    description: A unique identifier, usually used to denote a primary key in databases.
+    description: Unique identifier, usually used to denote a primary key in databases.
     example: 12345
     rules:
       not_empty: true
