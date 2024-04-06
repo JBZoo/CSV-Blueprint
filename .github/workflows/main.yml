@@ -263,30 +263,7 @@ jobs:
 
 
   verify-ga:
-    name: Verify GitHub Actions - Scratch
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.ref }}
-
-      - name: 👍 Valid CSV files
-        uses: Dockerfile
-        with:
-          csv: ./tests/fixtures/batch/*.csv
-          schema: ./tests/schemas/demo_valid.yml
-
-      - name: 👎 Invalid CSV files
-        uses: Dockerfile
-        with:
-          csv: ./tests/fixtures/batch/*.csv
-          schema: ./tests/schemas/demo_*.yml
-        continue-on-error: true
-
-  verify-ga-lates:
-    name: Verify GitHub Actions - Latest
+    name: Verify GitHub Actions
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
