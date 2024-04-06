@@ -209,7 +209,8 @@ final class SchemaTest extends TestCase
 
         foreach ($schemas as $schemaFile) {
             $filepath = $schemaFile->getPathname();
-            isSame('', (string)(new Schema($filepath))->validate(), $filepath);
+            $validated = (new Schema($filepath))->validate()->render(ErrorSuite::RENDER_TABLE);
+            isSame('', (string)$validated, "{$filepath}\n----------\n{$validated}");
         }
     }
 

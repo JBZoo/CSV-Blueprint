@@ -204,8 +204,32 @@ final class Utils
     ): array {
         $differences = [];
 
+        // Exclude array params for some rules because it's not necessary to compare them.
+        // They have random values, and it's hard to predict them.
+        $excludeArrayParamsFor = [
+            'rules.contains_none',
+            'rules.allow_values',
+            'rules.not_allow_values',
+            'rules.contains_none',
+            'rules.contains_one',
+            'rules.contains_any',
+            'rules.contains_all',
+            'rules.ip_v4_range',
+        ];
+
         foreach ($actualSchema as $key => $value) {
             $curPath = $path === '' ? (string)$key : "{$path}.{$key}";
+
+            if (\in_array($curPath, $excludeArrayParamsFor, true)) {
+                if (!\is_array($value)) {
+                    $differences[$columnId . '/' . $curPath] = [
+                        $columnId,
+                        'Expected type "<c>array</c>", actual "<green>' . \gettype($value) . '</green>" in ' .
+                        ".{$keyPrefix}.{$curPath}",
+                    ];
+                }
+                continue;
+            }
 
             if (!\array_key_exists($key, $expectedSchema)) {
                 if (\strlen($keyPrefix) <= 1) {

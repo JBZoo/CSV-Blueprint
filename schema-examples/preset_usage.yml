@@ -1,0 +1,49 @@
+#
+# JBZoo Toolbox - Csv-Blueprint.
+#
+# This file is part of the JBZoo Toolbox project.
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# @license    MIT
+# @copyright  Copyright (C) JBZoo.com, All rights reserved.
+# @see        https://github.com/JBZoo/Csv-Blueprint
+#
+
+name:
+description: |
+  This schema contains common presets for user data.
+  It can be used as a base for other schemas.
+
+presets:
+  users: ./preset_samples.yml
+
+filename_pattern:
+  preset: users
+
+csv:
+  preset: users
+  enclosure: '|'  # Overridden value
+
+columns:
+  - preset: users/id
+  - preset: users/login
+  - preset: users/password
+  - preset: users/email
+  - preset: users/full_name
+  - preset: users/birthday
+  - preset: users/balance
+
+  - preset: users/short_description
+    rules:
+      length_max: 255             # Overridden value
+
+  - preset: users/phone_number
+    name: phone
+
+  - name: admin_note
+    description: Admin note
+    rules:
+      not_empty: true
+      length_min: 1
+      length_max: 10

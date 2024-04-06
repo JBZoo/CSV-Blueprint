@@ -42,6 +42,9 @@ columns:
 
     rules:
       is_null: true                   # see csv.empty_values and column.empty_values
+      password_strength: 3            # 0-4
+      is_password: true               # /^[a-zA-Z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]{8,}$/
+      _list: true                     # Example: starts_with_list: [ 'a', 'b', 'c' ]
 
       # identifier
       is_bsn: true                    # Validates a Dutch citizen service number (BSN).
