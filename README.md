@@ -957,9 +957,7 @@ In fact, this can be considered as partial inheritance.
  - Schemas with presets validate themselves and if there are any obvious issues, you will see them when you try to use
    the schema. But logical conflicts between rules are not checked (It's almost impossible from a code perspective).
    As mentioned above, rules work in isolation and are not aware of each other. So the set of rules is your responsibility as always.
- - Alias in presets must match the regex pattern
-   <!-- auto-update:preset-regex -->"/^[a-z0-9-_]+$/i"<!-- auto-update:/preset-regex -->.
-   Otherwise, it might break the syntax.
+ - Alias in presets must match the regex pattern `/^[a-z0-9-_]+$/i`. Otherwise, it might break the syntax.
 
 **If something went wrong**
 

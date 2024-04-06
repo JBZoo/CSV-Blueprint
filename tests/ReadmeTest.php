@@ -196,8 +196,8 @@ final class ReadmeTest extends TestCase
 
     public function testCheckPresetRegexInReadme(): void
     {
-        $text = SchemaDataPrep::getAliasRegex();
-        Tools::insertInReadme('preset-regex', "\"{$text}\"", true);
+        $text = '`' . SchemaDataPrep::getAliasRegex() . '`';
+        isFileContains($text, PROJECT_ROOT . '/README.md');
     }
 
     public function testCheckPresetDatabaseExampleInReadme(): void
