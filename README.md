@@ -1320,7 +1320,7 @@ columns:
 ```
 <!-- auto-update:/preset-usage-yml -->
 
-<details>
+</details>
 
 
 As a result, readability and maintainability became dramatically easier.
