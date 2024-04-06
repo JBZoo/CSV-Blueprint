@@ -195,7 +195,7 @@ make docker-build  # local tag is "jbzoo/csv-blueprint:local"
 ### Phar binary
 
 <details>
-  <summary>Click to see using PHAR file</summary>
+  <summary>CLICK to see using PHAR file</summary>
 
 Ensure you have PHP installed on your machine.
 
@@ -982,7 +982,7 @@ of CSV files and rules. It will be much easier to achieve consistency. Very ofte
 
 [Database preset](schema-examples/preset_database.yml)
 <details>
-  <summary>Click to see source code</summary>
+  <summary>CLICK to see source code</summary>
 
 <!-- auto-update:preset-database-yml -->
 ```yml
@@ -1017,7 +1017,7 @@ columns:
 [User data preset](schema-examples/preset_users.yml)
 
 <details>
-  <summary>Click to see source code</summary>
+  <summary>CLICK to see source code</summary>
 
 <!-- auto-update:preset-users-yml -->
 ```yml
@@ -1129,7 +1129,7 @@ columns:
 This short and clear Yaml under the hood as roughly as follows. As you can see it simplifies your work a lot.
 
 <details>
-  <summary>Click to see source code</summary>
+  <summary>CLICK to see what it looks like in memory.</summary>
 
 <!-- auto-update:preset-usage-real-yml -->
 ```yml
@@ -1592,7 +1592,7 @@ view [this live demo PR](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/file
 ![GitHub Actions - PR](.github/assets/github-actions-pr.png)
 
 <details>
-  <summary>Click to see example in GitHub Actions terminal</summary>
+  <summary>CLICK to see example in GitHub Actions terminal</summary>
 
 ![GitHub Actions - Terminal](.github/assets/github-actions-termintal.png)
 
@@ -1859,7 +1859,7 @@ In summary, the tool is developed with the highest standards of modern PHP pract
 It's random ideas and plans. No promises and deadlines. Feel free to [help me!](#contributing).
 
 <details>
-  <summary>Click to see the roadmap</summary>
+  <summary>CLICK to see the roadmap</summary>
 
 * **Batch processing**
     * If option `--csv` is not specified, then the STDIN is used. To build a pipeline in Unix-like systems.
@@ -1954,7 +1954,7 @@ make codestyle
 - [Retry](https://github.com/JBZoo/Retry) - Tiny PHP library providing retry/backoff functionality with strategies and jitter.
 
 <details>
-  <summary>Click to see interesting fact</summary>
+  <summary>CLICK to see interesting fact</summary>
 
 I've achieved a personal milestone. The [initial release](https://github.com/JBZoo/Csv-Blueprint/releases/tag/0.1) of
 the project was crafted from the ground up in approximately 3 days, interspersed with regular breaks to care for a
