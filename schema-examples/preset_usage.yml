@@ -17,12 +17,6 @@ presets: # Include any other schemas and defined for each alias.
   users: ./preset_users.yml       # Include the schema with common user data.
   db: ./preset_database.yml       # Include the schema with basic database columns.
 
-filename_pattern:
-  preset: users                   # Take the filename pattern from the preset.
-
-structural_rules:                 # Take the global rules from the preset.
-  preset: users
-
 csv:
   preset: users                   # Take the CSV settings from the preset.
   enclosure: '|'                  # Overridden enclosure only for this schema.

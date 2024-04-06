@@ -1127,12 +1127,6 @@ presets: # Include any other schemas and defined for each alias.
   users: ./preset_users.yml       # Include the schema with common user data.
   db: ./preset_database.yml       # Include the schema with basic database columns.
 
-filename_pattern:
-  preset: users                   # Take the filename pattern from the preset.
-
-structural_rules:                 # Take the global rules from the preset.
-  preset: users
-
 csv:
   preset: users                   # Take the CSV settings from the preset.
   enclosure: '|'                  # Overridden enclosure only for this schema.
@@ -1176,7 +1170,7 @@ description: This schema contains all the features of the presets.
 presets:
   # The basepath for the preset is `.` (current directory of the current schema file).
   # Define alias "db" for schema in `./preset_database.yml`.
-  db: preset_database.yml         # Or `db: ./preset_database.yml`. It's up to you.
+  db: preset_database.yml           # Or `db: ./preset_database.yml`. It's up to you.
 
   # For example, you can use a relative path.
   users: ./../schema-examples/preset_users.yml
@@ -1184,11 +1178,9 @@ presets:
   # Or you can use an absolute path.
   # db: /full/path/preset_database.yml
 
-filename_pattern:
-  preset: users                   # Take the filename pattern from the preset.
-
-csv:
-  preset: users                   # Take the CSV settings from the preset.
+filename_pattern: { preset: users } # Take the filename pattern from the preset.
+structural_rules: { preset: users } # Take the global rules from the preset.
+csv: { preset: users }              # Take the CSV settings from the preset.
 
 columns:
   # Use name of column from the preset.
@@ -1218,14 +1210,14 @@ columns:
   # Creating a column from three other columns.
   # In fact, it will merge all three at once with key replacement.
   - name: Crazy combo!
-    description: >                # Just a great advice.
+    description: >                  # Just a great advice.
       I like to take risks, too.
       Be careful. Use your power wisely.
-    example: ~                    # Ignore inherited "example" value. Set it `null`.
+    example: ~                      # Ignore inherited "example" value. Set it `null`.
     preset: 'users/login'
     rules:
       preset: 'users/email'
-      not_empty: true             # Disable the rule from the preset.
+      not_empty: true               # Disable the rule from the preset.
     aggregate_rules:
       preset: 'db/0'
 ```
