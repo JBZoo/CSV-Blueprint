@@ -951,7 +951,7 @@ In fact, this can be considered as partial inheritance.
 
 **Important notes**
  - You can make the chain of inheritance infinitely long.
-   I.e. make chains of the form `grant-parent.yml` -> `parent.yml` -> `child.yml` -> `grandchild.yml` -> `great-grandchild.yml` -> etc.
+   I.e. make chains of the form `grant-parent.yml` -> `parent.yml` -> `child.yml` -> `grandchild.yml` -> etc.
    Of course if you like to take risks ;).
  - Any(!) of the schema files can be used alone or as a library. The syntax is the same.
  - Schemas with presets validate themselves and if there are any obvious issues, you will see them when you try to use
@@ -1125,6 +1125,8 @@ columns:
       is_trimmed: true
 ```
 <!-- auto-update:/preset-users-yml -->
+
+</details>
 
 This short and clear Yaml under the hood as roughly as follows. As you can see it simplifies your work a lot.
 
@@ -1319,8 +1321,6 @@ columns:
       is_unique: true             # Added new specific aggregate rule.
 ```
 <!-- auto-update:/preset-usage-yml -->
-
-</details>
 
 
 As a result, readability and maintainability became dramatically easier.

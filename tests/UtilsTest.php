@@ -128,7 +128,8 @@ final class UtilsTest extends TestCase
             'i|c|q|e' .
             '|comment|info|error|question' .
             '|black|red|green|yellow|blue|magenta|cyan|white|default' .
-            '|bl|b|u|r|bg',
+            '|bl|b|u|r|bg'.
+            '|details|summary',
         );
 
         foreach ($packs as $files) {
