@@ -938,7 +938,7 @@ In fact, this can be considered as partial inheritance.
  - Schemas with presets validate themselves and if there are any obvious issues, you will see them when you try to use
   the schema.
  - Alias in presets must match the regex pattern
-   <!-- auto-update:preset-regex -->`^[a-z0-9_-]+$`<!-- auto-update:/preset-regex -->.
+   <!-- auto-update:preset-regex -->`/^[a-z0-9-_]+$/i`<!-- auto-update:/preset-regex -->.
 
 
 Let's take a look at what this looks like in code.
@@ -953,7 +953,7 @@ of CSV files and rules. It will be much easier to achieve consistency. Very ofte
 [preset_database.yml](schema-examples/preset_database.yml)
 <!-- auto-update:preset-database-yml -->
 ```yml
-name: Common presets for common database columns
+name: Presets for database columns
 description: This schema contains basic rules for database user data.
 
 columns:

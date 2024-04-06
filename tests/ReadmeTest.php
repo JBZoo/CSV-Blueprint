@@ -195,13 +195,7 @@ final class ReadmeTest extends TestCase
 
     public function testCheckPresetRegexInReadme(): void
     {
-        $ymlContent = \implode(
-            "\n",
-            \array_slice(\explode("\n", \file_get_contents('./schema-examples/preset_features.yml')), 12),
-        );
-
         $text = SchemaDataPrep::getAliasRegex();
-
         Tools::insertInReadme('preset-regex', "`{$text}`", true);
     }
 
