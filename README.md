@@ -1159,7 +1159,7 @@ columns:
       not_empty: true
       length_min: 1
       length_max: 10
-    aggregate_rules: # In practice this will be a rare case, but the opportunity is there.
+    aggregate_rules:              # In practice this will be a rare case, but the opportunity is there.
       preset: db/id               # Take only aggregate rules from the preset.
       is_unique: true             # Added new specific aggregate rule.
 ```
