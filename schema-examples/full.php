@@ -23,8 +23,8 @@ supporting a wide range of data validation rules from basic type checks to compl
 This example serves as a comprehensive guide for creating robust CSV file validations.
 ',
 
-    'includes' => [
-        'parent-alias' => './readme_sample.yml',
+    'presets' => [
+        'preset-alias' => './readme_sample.yml',
     ],
 
     'filename_pattern' => '/demo(-\\d+)?\\.csv$/i',

@@ -2,8 +2,8 @@
     "name"             : "CSV Blueprint Schema Example",
     "description"      : "This YAML file provides a detailed description and validation rules for CSV files\nto be processed by CSV Blueprint tool. It includes specifications for file name patterns,\nCSV formatting options, and extensive validation criteria for individual columns and their values,\nsupporting a wide range of data validation rules from basic type checks to complex regex validations.\nThis example serves as a comprehensive guide for creating robust CSV file validations.\n",
 
-    "includes"         : {
-        "parent-alias" : ".\/readme_sample.yml"
+    "presets"         : {
+        "preset-alias" : ".\/readme_sample.yml"
     },
 
     "filename_pattern" : "\/demo(-\\d+)?\\.csv$\/i",
