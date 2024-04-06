@@ -11,9 +11,7 @@
 #
 
 name: Common presets for user data
-description: |
-  This schema contains common presets for user data.
-  It can be used as a base for other schemas.
+description: This schema contains common presets for user data. It can be used as a base for other schemas.
 
 filename_pattern: /users-.*\.csv$/i
 
@@ -21,25 +19,6 @@ csv:
   delimiter: ';'
 
 columns:
-  - name: id
-    description: A unique identifier, usually used to denote a primary key in databases
-    example: 12345
-    rules:
-      not_empty: true
-      is_trimmed: true
-      is_int: true
-      num_min: 1
-    aggregate_rules:
-      is_unique: true
-      sorted: [ asc, numeric ]
-
-  - name: profile_status
-    description: User's profile status in database. Enum
-    example: active
-    rules:
-      not_empty: true
-      allow_values: [ active, inactive, pending, deleted ]
-
   - name: login
     description: User's login name
     example: johndoe
@@ -122,7 +101,6 @@ columns:
       num_min: 0.00
       num_max: 1000000000.00 # 1 billion
       precision: 2
-
 
   - name: short_description
     description: A brief description of the item

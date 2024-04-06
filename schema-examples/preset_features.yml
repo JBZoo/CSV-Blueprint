@@ -1,0 +1,65 @@
+#
+# JBZoo Toolbox - Csv-Blueprint.
+#
+# This file is part of the JBZoo Toolbox project.
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# @license    MIT
+# @copyright  Copyright (C) JBZoo.com, All rights reserved.
+# @see        https://github.com/JBZoo/Csv-Blueprint
+#
+
+name: Complite list of preset features
+description: This schema contains all the features of the presets.
+
+presets:
+  # The basepath for the preset is `.` (current directory)
+  # Define alias "db" for schema in `./preset_database.yml`
+  db: preset_database.yml         # Or just `db: preset_database.yml`. It's up to you.
+
+  # For example, you can use a relative path
+  users: ./../schema-examples/preset_users.yml
+
+  # Or you can use an absolute path
+  # db-3: /full/path/preset_database.yml
+
+  # Or you can use an absolute path
+  # db: /full/path/preset_database.yml
+
+filename_pattern:
+  preset: users                   # Take the filename pattern from the preset
+
+csv:
+  preset: users                   # Take the CSV settings from the preset
+
+columns:
+  # Use name of column from the preset. "db" is alias. "id" is column `name` in `preset_database.yml`
+  - preset: 'db/id'
+
+  # Use column index. "db" is alias. "0" is column index in `preset_database.yml`
+  - preset: 'db/0'
+  - preset: 'db/0:'
+
+  # Use column index and column name. It useful if column name is not unique.
+  - preset: 'db/0:id'
+
+  # Override only `rules` from the preset
+  - name: My column
+    rules:
+      preset: 'db/status'
+
+  # Override only `aggregate_rules` from the preset
+  - name: My column
+    aggregate_rules:
+      preset: 'db/0:id'
+
+  # Combo.  If you're a risk-taker or have a high level of inner zen. :)
+  # Creating a column from three other columns. In fact, it will merge all three at once with key replacement.
+  - name: Crazy combo!
+    example: ~
+    preset: 'users/login'
+    rules:
+      preset: 'users/email'
+    aggregate_rules:
+      preset: 'db/0'

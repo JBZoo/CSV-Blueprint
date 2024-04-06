@@ -10,36 +10,42 @@
 # @see        https://github.com/JBZoo/Csv-Blueprint
 #
 
-name: Real schema with presets for user profiles.
-description: |
-  This schema uses presets for user data.
-  Also, it demonstrates how to override preset values.
+name: Schema uses presets and add new columns + specific rules.
+description: This schema uses presets. Also, it demonstrates how to override preset values.
 
-presets:
-  users: ./preset_samples.yml
+presets: # Include any other schemas and defined for each alias
+  users: ./preset_users.yml       # Include the schema with common user data
+  db: ./preset_database.yml       # Include the schema with basic database columns
 
 filename_pattern:
-  preset: users
+  preset: users                   # Take the filename pattern from the preset
 
 csv:
-  preset: users
-  enclosure: '|'  # Overridden value
+  preset: users                   # Take the CSV settings from the preset
+  enclosure: '|'                  # Overridden value
 
 columns:
-  - preset: users/id
+  - preset: db/id
+  - preset: db/status
   - preset: users/login
-  - preset: users/password
   - preset: users/email
   - preset: users/full_name
   - preset: users/birthday
-  - preset: users/balance
+
+  - preset: users/password
+    rules:
+      length_min: 10              # Overridden value to force a strong password
+
+  - name: user_balance
+    rules:
+      preset: users/balance       # Take only rules from the preset
 
   - preset: users/short_description
     rules:
       length_max: 255             # Overridden value
 
-  - preset: users/phone_number
-    name: phone
+  - name: phone                   # Overridden value
+    preset: users/phone_number
 
   - name: admin_note
     description: Admin note
@@ -47,3 +53,6 @@ columns:
       not_empty: true
       length_min: 1
       length_max: 10
+    aggregate_rules:              # In practice this will be a rare case, but the opportunity is there.
+      preset: db/id               # Take only aggregate rules from the preset.
+      is_unique: true             # Added new sprcific rule

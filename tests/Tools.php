@@ -108,18 +108,26 @@ final class Tools
         return ['columns' => [['name' => $columnName, 'aggregate_rules' => [$ruleName => $options]]]];
     }
 
-    public static function insertInReadme(string $code, string $content): void
+    public static function insertInReadme(string $code, string $content, bool $isInline = false): void
     {
         isFile(self::README);
         $prefix = 'auto-update:';
         isFileContains("<!-- {$prefix}{$code} -->", self::README);
         isFileContains("<!-- {$prefix}/{$code} -->", self::README);
 
-        $replacement = \implode("\n", [
-            "<!-- {$prefix}{$code} -->",
-            \trim($content),
-            "<!-- {$prefix}/{$code} -->",
-        ]);
+        if ($isInline) {
+            $replacement = \implode('', [
+                "<!-- {$prefix}{$code} -->",
+                \trim($content),
+                "<!-- {$prefix}/{$code} -->",
+            ]);
+        } else {
+            $replacement = \implode("\n", [
+                "<!-- {$prefix}{$code} -->",
+                \trim($content),
+                "<!-- {$prefix}/{$code} -->",
+            ]);
+        }
 
         $result = \preg_replace(
             "/<\\!-- {$prefix}{$code} -->(.*?)<\\!-- {$prefix}\\/{$code} -->/s",
