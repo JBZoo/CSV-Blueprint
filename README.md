@@ -1128,7 +1128,8 @@ columns:
 
 </details>
 
-[Usage of presets](schema-examples/preset_usage.yml)
+[Usage of presets](schema-examples/preset_usage.yml) This short and clear Yaml under the hood as roughly as follows. As you can see it simplifies your work a lot.
+
 <!-- auto-update:preset-usage-yml -->
 ```yml
 name: Schema uses presets and add new columns + specific rules.
@@ -1166,8 +1167,6 @@ columns:
 ```
 <!-- auto-update:/preset-usage-yml -->
 
-
-This short and clear Yaml under the hood as roughly as follows. As you can see it simplifies your work a lot.
 
 <details>
   <summary>CLICK to see what it looks like in memory.</summary>
