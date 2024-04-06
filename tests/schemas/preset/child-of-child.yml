@@ -15,12 +15,10 @@
 
 name: Child of child schema
 
-includes:
+presets:
   preset-1: child.yml
 
-
 filename_pattern: /child-of-child-\d.csv$/i
-
 
 csv:
   preset: preset-1
@@ -29,7 +27,6 @@ csv:
   enclosure: ee
   encoding: utf-32
   bom: false
-
 
 structural_rules:
   preset: preset-1

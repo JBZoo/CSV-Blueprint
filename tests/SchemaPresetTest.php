@@ -26,7 +26,7 @@ final class SchemaPresetTest extends TestCase
         isSame([
             'name'             => '',
             'description'      => '',
-            'includes'         => [],
+            'presets'          => [],
             'filename_pattern' => '',
             'csv'              => [
                 'header'     => true,
@@ -51,7 +51,7 @@ final class SchemaPresetTest extends TestCase
         $schema = new Schema([
             'name'             => 'Qwerty',
             'description'      => 'Some description.',
-            'includes'         => [],
+            'presets'          => [],
             'filename_pattern' => '/.*/i',
             'csv'              => [
                 'header'     => false,
@@ -74,7 +74,7 @@ final class SchemaPresetTest extends TestCase
         isSame([
             'name'             => 'Qwerty',
             'description'      => 'Some description.',
-            'includes'         => [],
+            'presets'          => [],
             'filename_pattern' => '/.*/i',
             'csv'              => [
                 'header'     => false,
@@ -114,7 +114,7 @@ final class SchemaPresetTest extends TestCase
     public function testOverideFilenamePattern(): void
     {
         $schema = new Schema([
-            'includes' => [
+            'presets' => [
                 'parent' => ['filename_pattern' => '/.*/i'],
             ],
             'filename_pattern' => [
@@ -129,7 +129,7 @@ final class SchemaPresetTest extends TestCase
     public function testOverideCsvFull(): void
     {
         $schema = new Schema([
-            'includes' => [
+            'presets' => [
                 'parent' => [
                     'csv' => [
                         'header'     => false,
@@ -159,7 +159,7 @@ final class SchemaPresetTest extends TestCase
     public function testOverideCsvPartial(): void
     {
         $schema = new Schema([
-            'includes' => [
+            'presets' => [
                 'parent' => [
                     'csv' => [
                         'header'     => false,
@@ -190,7 +190,7 @@ final class SchemaPresetTest extends TestCase
     public function testOverideStructuralRulesFull(): void
     {
         $schema = new Schema([
-            'includes' => [
+            'presets' => [
                 'parent' => [
                     'structural_rules' => [
                         'strict_column_order' => false,
@@ -214,7 +214,7 @@ final class SchemaPresetTest extends TestCase
     public function testOverideStructuralRulesPartial1(): void
     {
         $schema = new Schema([
-            'includes' => [
+            'presets' => [
                 'parent' => [
                     'structural_rules' => [
                         'strict_column_order' => true,
@@ -238,7 +238,7 @@ final class SchemaPresetTest extends TestCase
     public function testOverideStructuralRulesPartial2(): void
     {
         $schema = new Schema([
-            'includes'         => ['parent' => ['structural_rules' => []]],
+            'presets'          => ['parent' => ['structural_rules' => []]],
             'structural_rules' => [
                 'preset'              => 'parent',
                 'allow_extra_columns' => true,
@@ -273,8 +273,8 @@ final class SchemaPresetTest extends TestCase
         ];
 
         $schema = new Schema([
-            'includes' => ['parent' => ['columns' => [$parentColum0, $parentColum1]]],
-            'columns'  => [
+            'presets' => ['parent' => ['columns' => [$parentColum0, $parentColum1]]],
+            'columns' => [
                 ['preset' => 'parent/0'],
                 ['preset' => 'parent/1'],
                 ['preset' => 'parent/0:'],
@@ -312,8 +312,8 @@ final class SchemaPresetTest extends TestCase
         ];
 
         $schema = new Schema([
-            'includes' => ['parent' => ['columns' => [$parentColum]]],
-            'columns'  => [
+            'presets' => ['parent' => ['columns' => [$parentColum]]],
+            'columns' => [
                 [
                     'preset' => 'parent/Name',
                     'name'   => 'Child name',
@@ -362,8 +362,8 @@ final class SchemaPresetTest extends TestCase
         ];
 
         $schema = new Schema([
-            'includes' => ['parent' => ['columns' => [$parentColum]]],
-            'columns'  => [
+            'presets' => ['parent' => ['columns' => [$parentColum]]],
+            'columns' => [
                 [
                     'name'  => 'Child name',
                     'rules' => ['preset' => 'parent/0:'],
@@ -405,8 +405,8 @@ final class SchemaPresetTest extends TestCase
         ];
 
         $schema = new Schema([
-            'includes' => ['parent' => ['columns' => [$parentColum]]],
-            'columns'  => [
+            'presets' => ['parent' => ['columns' => [$parentColum]]],
+            'columns' => [
                 [
                     'name'  => 'Child name',
                     'rules' => [
@@ -452,8 +452,8 @@ final class SchemaPresetTest extends TestCase
         ];
 
         $schema = new Schema([
-            'includes' => ['parent' => ['columns' => [$parentColum]]],
-            'columns'  => [
+            'presets' => ['parent' => ['columns' => [$parentColum]]],
+            'columns' => [
                 [
                     'name'            => 'Child name',
                     'aggregate_rules' => ['preset' => 'parent/0:'],
@@ -493,8 +493,8 @@ final class SchemaPresetTest extends TestCase
         ];
 
         $schema = new Schema([
-            'includes' => ['parent' => ['columns' => [$parentColum]]],
-            'columns'  => [
+            'presets' => ['parent' => ['columns' => [$parentColum]]],
+            'columns' => [
                 [
                     'name'            => 'Child name',
                     'aggregate_rules' => [
@@ -529,7 +529,7 @@ final class SchemaPresetTest extends TestCase
         isSame([
             'name'             => 'Parent schema',
             'description'      => '',
-            'includes'         => [],
+            'presets'          => [],
             'filename_pattern' => '/preset-\d.csv$/i',
             'csv'              => [
                 'header'     => false,
@@ -582,7 +582,7 @@ final class SchemaPresetTest extends TestCase
         isSame([
             'name'        => 'Child schema',
             'description' => '',
-            'includes'    => [
+            'presets'     => [
                 'preset' => PROJECT_ROOT . '/tests/schemas/preset/parent.yml',
             ],
             'filename_pattern' => '/preset-\d.csv$/i',
@@ -713,7 +713,7 @@ final class SchemaPresetTest extends TestCase
         isSame([
             'name'        => 'Child of child schema',
             'description' => '',
-            'includes'    => [
+            'presets'     => [
                 'preset-1' => PROJECT_ROOT . '/tests/schemas/preset/child.yml',
             ],
             'filename_pattern' => '/child-of-child-\d.csv$/i',

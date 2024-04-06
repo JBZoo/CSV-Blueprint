@@ -75,7 +75,7 @@ final class SchemaDataPrep
         $result = [
             'name'             => $this->buildName(),
             'description'      => $this->buildDescription(),
-            'includes'         => $this->buildIncludes(),
+            'presets'          => $this->buildPresets(),
             'filename_pattern' => $this->buildByKey('filename_pattern')[0],
             'csv'              => $this->buildByKey('csv'),
             'structural_rules' => $this->buildByKey('structural_rules'),
@@ -114,25 +114,25 @@ final class SchemaDataPrep
      */
     private function prepareAliases(AbstractData $data): array
     {
-        $includes = [];
+        $presets = [];
 
-        foreach ($data->getArray('includes') as $alias => $includedPathOrArray) {
+        foreach ($data->getArray('presets') as $alias => $includedPathOrArray) {
             $alias = (string)$alias;
 
             self::validateAlias($alias);
 
             if (\is_array($includedPathOrArray)) {
-                $includes[$alias] = new Schema($includedPathOrArray);
+                $presets[$alias] = new Schema($includedPathOrArray);
             } elseif (\file_exists($includedPathOrArray)) {
-                $includes[$alias] = (new Schema($includedPathOrArray));
+                $presets[$alias] = (new Schema($includedPathOrArray));
             } elseif (\file_exists("{$this->basepath}/{$includedPathOrArray}")) {
-                $includes[$alias] = (new Schema("{$this->basepath}/{$includedPathOrArray}"));
+                $presets[$alias] = (new Schema("{$this->basepath}/{$includedPathOrArray}"));
             } else {
                 throw new \InvalidArgumentException("Unknown included file: \"{$includedPathOrArray}\"");
             }
         }
 
-        return $includes;
+        return $presets;
     }
 
     private function getParentSchema(string $alias): Schema
@@ -144,7 +144,7 @@ final class SchemaDataPrep
         throw new \InvalidArgumentException("Unknown included alias: \"{$alias}\"");
     }
 
-    private function buildIncludes(): array
+    private function buildPresets(): array
     {
         $result = [];
         foreach ($this->aliases as $alias => $schema) {

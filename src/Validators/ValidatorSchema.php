@@ -147,18 +147,18 @@ final class ValidatorSchema
         $errors = new ErrorSuite();
 
         $actualMetaAsArray = $actualMeta->getArrayCopy();
-        $actualIncludes = $actualMetaAsArray['includes'] ?? [];
-        unset($expectedMeta['includes'], $actualMetaAsArray['includes']);
+        $actualPresets = $actualMetaAsArray['presets'] ?? [];
+        unset($expectedMeta['presets'], $actualMetaAsArray['presets']);
 
         $metaErrors = Utils::compareArray($expectedMeta, $actualMetaAsArray, 'meta', '.');
 
-        foreach ($actualIncludes as $alias => $includedFile) {
+        foreach ($actualPresets as $alias => $includedFile) {
             if ($alias === '') {
-                $errors->addError(new Error('includes', 'Defined alias is empty'));
+                $errors->addError(new Error('presets', 'Defined alias is empty'));
             }
 
             if (!\is_string($includedFile)) {
-                $errors->addError(new Error('includes', 'Included filepath must be a string'));
+                $errors->addError(new Error('presets', 'Included filepath must be a string'));
             }
         }
 

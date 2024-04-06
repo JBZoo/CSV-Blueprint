@@ -15,23 +15,19 @@
 
 name: Child schema
 
-includes:
+presets:
   preset: ./../preset/parent.yml
-
 
 filename_pattern:
   preset: preset
-
 
 csv:
   preset: preset
   header: true
 
-
 structural_rules:
   preset: preset
   strict_column_order: true
-
 
 columns:
   # 0
