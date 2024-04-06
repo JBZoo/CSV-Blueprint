@@ -436,8 +436,8 @@ final class Utils
                 continue;
             }
 
-            if (\str_starts_with($argValue, 'extra:')) {
-                $extraArgs = \str_replace('extra:', '', $argValue);
+            if (\str_starts_with($argValue, 'extra:') || \str_starts_with($argValue, 'options:')) {
+                $extraArgs = \str_replace(['extra:', 'options:'], '', $argValue);
                 $flags = \array_filter(
                     \array_map('trim', \explode(' ', $extraArgs)),
                     static fn ($flag): bool => $flag !== '',

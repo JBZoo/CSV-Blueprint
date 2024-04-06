@@ -54,7 +54,7 @@ inputs:
         Add flag `--profile` if you want to see profiling info. Add details with `-vvv`.
         Add flag `--debug` if you want to see more really deep details.
         Add flag `--dump-schema` if you want to see the final schema after all includes and inheritance.
-    default: 'extra: --ansi'
+    default: 'options: --ansi'
 
 runs:
   using: 'docker'

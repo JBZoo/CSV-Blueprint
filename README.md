@@ -162,9 +162,9 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
     #   Add flag `--profile` if you want to see profiling info. Add details with `-vvv`.
     #   Add flag `--debug` if you want to see more really deep details.
     #   Add flag `--dump-schema` if you want to see the final schema after all includes and inheritance.
-    # Default value: 'extra: --ansi'
+    # Default value: 'options: --ansi'
     # You can skip it.
-    extra: 'extra: --ansi'
+    extra: 'options: --ansi'
 ```
 <!-- auto-update:/github-actions-yml -->
 
@@ -1645,12 +1645,10 @@ However, to gain a general understanding of performance, refer to the table belo
 
 Profiles:
 
-- **[Quickest:](tests/Benchmarks/bench_0_quickest_combo.yml)** Focuses on the fastest rules, either cell or aggregation, providing a baseline for maximum throughput.
-- **[Minimum:](tests/Benchmarks/bench_1_mini_combo.yml)** Uses a set of normal performance rules, with two instances of each, to simulate a lightweight validation
-  scenario.
-- **[Realistic:](tests/Benchmarks/bench_2_realistic_combo.yml)** Represents a mix of rules likely encountered in typical use cases, offering a balanced view of
-  performance.
-- **[All Aggregations:](tests/Benchmarks/bench_3_all_agg.yml)** Tests all aggregation rules simultaneously, illustrating the tool's behavior under maximum load.
+- **[Quickest:](tests/Benchmarks/bench_0_quickest_combo.yml)** Focuses on the fastest rules, either cell or aggregation, providing a baseline.
+- **[Minimum:](tests/Benchmarks/bench_1_mini_combo.yml)** Uses a set of normal performance rules, with two instances of each.
+- **[Realistic:](tests/Benchmarks/bench_2_realistic_combo.yml)** Represents a mix of rules likely encountered in typical use cases.
+- **[All Aggregations:](tests/Benchmarks/bench_3_all_agg.yml)** Tests all aggregation rules simultaneously, illustrating maximum load.
 
 Divisions:
 
