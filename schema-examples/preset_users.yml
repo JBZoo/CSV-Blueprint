@@ -1,0 +1,115 @@
+#
+# JBZoo Toolbox - Csv-Blueprint.
+#
+# This file is part of the JBZoo Toolbox project.
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# @license    MIT
+# @copyright  Copyright (C) JBZoo.com, All rights reserved.
+# @see        https://github.com/JBZoo/Csv-Blueprint
+#
+
+name: Common presets for user data
+description: >
+  This schema contains common presets for user data.
+  It can be used as a base for other schemas.
+
+filename_pattern: /users-.*\.csv$/i
+
+csv:
+  delimiter: ';'
+
+columns:
+  - name: login
+    description: User's login name
+    example: johndoe
+    rules:
+      not_empty: true
+      is_trimmed: true
+      is_lowercase: true
+      is_slug: true
+      length_min: 3
+      length_max: 20
+      is_alnum: true
+    aggregate_rules:
+      is_unique: true
+
+  - name: password
+    description: User's password
+    example: '9RfzE$8NKD'
+    rules:
+      not_empty: true
+      is_trimmed: true
+      is_password_safe_chars: true
+      password_strength_min: 7
+      contains_none: [ "password", "123456", "qwerty", " " ]
+      charset: UTF-8
+      length_min: 6
+      length_max: 20
+
+  - name: full_name
+    description: User's full name
+    example: 'John Doe Smith'
+    rules:
+      not_empty: true
+      is_trimmed: true
+      charset: UTF-8
+      contains: " "
+      word_count_min: 2
+      word_count_max: 8
+      is_capitalize: true
+    aggregate_rules:
+      is_unique: true
+
+  - name: email
+    description: User's email address
+    example: user@example.com
+    rules:
+      not_empty: true
+      is_trimmed: true
+      is_email: true
+      is_lowercase: true
+    aggregate_rules:
+      is_unique: true
+
+  - name: birthday
+    description: Validates the user's birthday.
+    example: '1990-01-01'
+    rules:
+      not_empty: true            # The birthday field must not be empty.
+      is_trimmed: true           # Trims the value before validation.
+      date_format: Y-m-d         # Checks if the date matches the YYYY-MM-DD format.
+      is_date: true              # Validates if the value is a valid date.
+      date_age_greater: 0        # Ensures the date is in the past.
+      date_age_less: 150         # Ensures the user is not older than 150 years.
+      date_max: now              # Ensures the date is not in the future.
+
+  - name: phone_number
+    description: User's phone number in US
+    example: '+1 650 253 00 00'
+    rules:
+      not_empty: true
+      is_trimmed: true
+      starts_with: '+1'
+      phone: US
+
+  - name: balance
+    description: User's balance in USD
+    example: '100.00'
+    rules:
+      not_empty: true
+      is_trimmed: true
+      is_float: true
+      num_min: 0.00
+      num_max: 1000000000.00      # 1 billion is max amount in our system.
+      precision: 2
+
+  - name: short_description
+    description: A brief description of the item
+    example: 'Lorem ipsum dolor sit amet'
+    rules:
+      not_empty: true
+      contains: " "
+      length_max: 255
+      is_trimmed: true

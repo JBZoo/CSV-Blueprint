@@ -1,7 +1,7 @@
 {
     "name"              : "jbzoo/csv-blueprint",
     "type"              : "project",
-    "description"       : "CLI Utility for Validating and Generating CSV Files Based on Custom Rules. It ensures your data meets specified criteria, streamlining data management and integrity checks.",
+    "description"       : "CLI Utility for Validating and Generating CSV files based on custom rules. It ensures your data meets specified criteria, streamlining data management and integrity checks.",
     "license"           : "MIT",
     "keywords"          : [
         "jbzoo",
@@ -28,7 +28,9 @@
 
     "require"           : {
         "php"                                 : "^8.1",
+        "ext-mbstring"                        : "*",
 
+        "league/csv"                          : "^9.15.0",
         "jbzoo/data"                          : "^7.1.1",
         "jbzoo/cli"                           : "^7.2.2",
         "jbzoo/utils"                         : "^7.2.1",
@@ -37,15 +39,11 @@
         "symfony/yaml"                        : ">=6.4.3",
         "symfony/filesystem"                  : ">=6.4.3",
         "symfony/finder"                      : ">=6.4.0",
-        "symfony/polyfill-mbstring"           : "^1.29.0",
-
-        "league/csv"                          : "^9.15.0",
         "markrogoyski/math-php"               : "^2.9.0",
         "respect/validation"                  : "^2.3.6",
         "giggsey/libphonenumber-for-php-lite" : "^8.13.33",
         "giggsey/locale"                      : "^2.5",
-        "hds-solutions/parallel-sdk"          : "^2.1.4",
-        "amphp/parallel"                      : "^1.4.3"
+        "symfony/polyfill-mbstring"           : "^1.29.0"
     },
 
     "require-dev"       : {
@@ -53,10 +51,6 @@
         "jbzoo/toolbox-dev"         : "^7.1.0",
         "jbzoo/codestyle"           : "^7.1.2",
         "fakerphp/faker"            : "^1.23.1"
-    },
-
-    "suggest"           : {
-        "ext-parallel" : "Parallel processing of CSV files for better performance"
     },
 
     "bin"               : ["csv-blueprint"],

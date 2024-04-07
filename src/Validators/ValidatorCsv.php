@@ -75,7 +75,7 @@ final class ValidatorCsv
     {
         $errors = new ErrorSuite();
 
-        if (!$this->schema->getCsvParserConfig()->isHeader()) {
+        if (!$this->schema->csvHasHeader()) {
             return $errors;
         }
 
@@ -128,7 +128,7 @@ final class ValidatorCsv
     {
         $errors = new ErrorSuite();
         $mappedColumns = $this->csv->getColumnsMappedByHeader($errors);
-        $isHeaderEnabled = $this->schema->getCsvParserConfig()->isHeader();
+        $isHeaderEnabled = $this->schema->csvHasHeader();
 
         foreach ($mappedColumns as $columnIndex => $column) {
             $columnIndex = (int)$columnIndex;
@@ -235,7 +235,7 @@ final class ValidatorCsv
         $errors = new ErrorSuite();
 
         if (!$this->schema->isAllowExtraColumns()) {
-            if ($this->schema->getCsvParserConfig()->isHeader()) {
+            if ($this->schema->csvHasHeader()) {
                 $realColumns = $this->csv->getHeader();
                 $schemaColumns = $this->schema->getSchemaHeader();
 

@@ -41,8 +41,8 @@ final class ContainsNone extends AbstractCellRule
 
         foreach ($exclusions as $exclusion) {
             if (\strpos($cellValue, $exclusion) !== false) {
-                return "Value \"<c>{$cellValue}</c>\" must not contain any of the following: " .
-                    Utils::printList($exclusions, 'green');
+                return "Value \"<c>{$cellValue}</c>\" must not contain the string: " .
+                    Utils::printList($exclusion, 'green');
             }
         }
 

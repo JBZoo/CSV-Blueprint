@@ -23,9 +23,14 @@ supporting a wide range of data validation rules from basic type checks to compl
 This example serves as a comprehensive guide for creating robust CSV file validations.
 ',
 
+    'presets' => [
+        'my-preset' => './preset_users.yml',
+    ],
+
     'filename_pattern' => '/demo(-\\d+)?\\.csv$/i',
 
     'csv' => [
+        'preset'     => 'my-preset',
         'header'     => true,
         'delimiter'  => ',',
         'quote_char' => '\\',
@@ -35,18 +40,21 @@ This example serves as a comprehensive guide for creating robust CSV file valida
     ],
 
     'structural_rules' => [
+        'preset'              => 'my-preset',
         'strict_column_order' => true,
         'allow_extra_columns' => false,
     ],
 
     'columns' => [
         [
+            'preset'      => 'my-preset/login',
             'name'        => 'Column Name (header)',
             'description' => 'Lorem ipsum',
             'example'     => 'Some example',
             'required'    => true,
 
             'rules' => [
+                'preset'           => 'my-preset/login',
                 'not_empty'        => true,
                 'exact_value'      => 'Some string',
                 'allow_values'     => ['y', 'n', ''],
@@ -110,12 +118,37 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'is_time'            => true,
                 'is_leap_year'       => true,
 
+                'date_interval_min'     => 'PT0S',
+                'date_interval_greater' => '1day 1sec',
+                'date_interval_not'     => '100 days',
+                'date_interval'         => 'P2W',
+                'date_interval_less'    => 'PT23H59M59S',
+                'date_interval_max'     => 'P1Y',
+
+                'date_age_min'     => 1,
+                'date_age_greater' => 14,
+                'date_age_not'     => 18,
+                'date_age'         => 21,
+                'date_age_less'    => 99,
+                'date_age_max'     => 100,
+
                 'is_bool'          => true,
+                'is_binary'        => true,
+                'is_octal'         => true,
+                'is_hex'           => true,
                 'is_uuid'          => true,
                 'is_slug'          => true,
                 'is_currency_code' => true,
                 'is_base64'        => true,
                 'is_angle'         => true,
+
+                'password_strength_min'     => 1,
+                'password_strength_greater' => 2,
+                'password_strength_not'     => 0,
+                'password_strength'         => 7,
+                'password_strength_less'    => 8,
+                'password_strength_max'     => 9,
+                'is_password_safe_chars'    => true,
 
                 'is_ip'                   => true,
                 'is_ip_v4'                => true,
@@ -147,20 +180,32 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'is_even'         => true,
                 'is_odd'          => true,
                 'is_roman'        => true,
+                'is_luhn'         => true,
 
-                'phone' => 'ALL',
+                'phone'       => 'ALL',
+                'postal_code' => 'US',
+                'is_iban'     => true,
+                'is_bic'      => true,
+                'is_imei'     => true,
+                'is_isbn'     => true,
 
-                'is_version'   => true,
-                'is_punct'     => true,
-                'is_vowel'     => true,
-                'is_consonant' => true,
-                'is_alnum'     => true,
-                'is_alpha'     => true,
+                'is_version'       => true,
+                'is_punct'         => true,
+                'is_vowel'         => true,
+                'is_consonant'     => true,
+                'is_alnum'         => true,
+                'is_alpha'         => true,
+                'is_hex_rgb_color' => true,
 
-                'hash' => 'set_algo',
+                'hash'    => 'set_algo',
+                'charset' => 'charset_code',
+
+                'credit_card' => 'Any',
             ],
 
             'aggregate_rules' => [
+                'preset' => 'my-preset/login',
+
                 'is_unique' => true,
                 'sorted'    => ['asc', 'natural'],
 

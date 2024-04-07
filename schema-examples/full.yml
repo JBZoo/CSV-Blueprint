@@ -22,15 +22,20 @@ description: |                          # Any description of the CSV file. Not u
   supporting a wide range of data validation rules from basic type checks to complex regex validations.
   This example serves as a comprehensive guide for creating robust CSV file validations.
 
+presets:                                # Include another schema and define an alias for it.
+  my-preset: ./preset_users.yml         # Define preset alias "my-preset". See README.md for details.
+
 # Regular expression to match the file name. If not set, then no pattern check.
 # This allows you to pre-validate the file name before processing its contents.
 # Feel free to check parent directories as well.
 # See: https://www.php.net/manual/en/reference.pcre.pattern.syntax.php
 filename_pattern: /demo(-\d+)?\.csv$/i
+#  preset: my-preset                    # See README.md for details.
 
 # Here are default values to parse CSV file.
 # You can skip this section if you don't need to override the default values.
 csv:
+  preset: my-preset                     # See README.md for details.
   header: true                          # If the first row is a header. If true, name of each column is required.
   delimiter: ,                          # Delimiter character in CSV file.
   quote_char: \                         # Quote character in CSV file.
@@ -42,6 +47,7 @@ csv:
 # They are not(!) related to the data in the columns.
 # You can skip this section if you don't need to override the default values.
 structural_rules: # Here are default values.
+  preset: my-preset                     # See README.md for details.
   strict_column_order: true             # Ensure columns in CSV follow the same order as defined in this YML schema. It works only if "csv.header" is true.
   allow_extra_columns: false            # Allow CSV files to have more columns than specified in this YML schema.
 
@@ -50,7 +56,8 @@ structural_rules: # Here are default values.
 # This will not affect the validator, but will make it easier for you to navigate.
 # For convenience, use the first line as a header (if possible).
 columns:
-  - name: Column Name (header)          # Any custom name of the column in the CSV file (first row). Required if "csv.header" is true.
+  - preset: my-preset/login             # Add preset rules for the column. See README.md for details.
+    name: Column Name (header)          # Any custom name of the column in the CSV file (first row). Required if "csv.header" is true.
     description: Lorem ipsum            # Description of the column. Not used in the validation process.
     example: Some example               # Example of the column value. Schema will also check this value on its own.
 
@@ -63,6 +70,8 @@ columns:
     # Data validation for each(!) value in the column. Please, see notes in README.md
     # Every rule is optional.
     rules:
+      preset: my-preset/login           # Add preset rules for the column. See README.md for details.
+
       # General rules
       not_empty: true                   # Value is not an empty string. Actually checks if the string length is not 0.
       exact_value: Some string          # Exact value for string in the column.
@@ -148,13 +157,51 @@ columns:
       is_time: true                     # Check if the cell value is a valid time in the format "HH:MM:SS AM/PM" / "HH:MM:SS" / "HH:MM". Case-insensitive.
       is_leap_year: true                # Check if the cell value is a leap year. Example: "2008", "2008-02-29 23:59:59 UTC".
 
+      # Date Intervals. Under the hood, the strings are converted to seconds and compared.
+      # See: https://www.php.net/manual/en/class.dateinterval.php
+      # See: https://www.php.net/manual/en/dateinterval.createfromdatestring.php
+      date_interval_min: PT0S           # 0 seconds
+      date_interval_greater: 1day 1sec  # 1 day and 1 second
+      date_interval_not: 100 days       # Except for the 100 days
+      date_interval: P2W                # Exactly 2 weeks
+      date_interval_less: PT23H59M59S   # 23 hours, 59 minutes, and 59 seconds
+      date_interval_max: P1Y            # 1 year
+
+      # Check an arbitrary date in a CSV cell for age (years).
+      # Actually it calculates the difference between the date and the current date.
+      # Convenient to use for age restrictions based on birthday.
+      # See the description of `date_*` functions for details on date formats.
+      date_age_min: 1                   # x >= 1
+      date_age_greater: 14              # x >  14
+      date_age_not: 18                  # x != 18
+      date_age: 21                      # x == 21
+      date_age_less: 99                 # x <  99
+      date_age_max: 100                 # x <= 100
+
       # Specific formats
       is_bool: true                     # Allow only boolean values "true" and "false", case-insensitive.
+      is_binary: true                   # Both: with or without "0b" prefix. Example: "0b10" or "10"
+      is_octal: true                    # Validates octal numbers in the format "0o123" or "0123".
+      is_hex: true                      # Both: with or without "0x" prefix. Example: "0x1A" or "1A"
       is_uuid: true                     # Validates whether the input is a valid UUID. It also supports validation of specific versions 1, 3, 4 and 5.
       is_slug: true                     # Only slug format. Example: "my-slug-123". It can contain letters, numbers, and dashes.
       is_currency_code: true            # Validates an ISO 4217 currency code like GBP or EUR. Case-sensitive. See: https://en.wikipedia.org/wiki/ISO_4217.
       is_base64: true                   # Validate if a string is Base64-encoded. Example: "cmVzcGVjdCE=".
       is_angle: true                    # Check if the cell value is a valid angle (0.0 to 360.0).
+
+      # Safity checks
+      # Password strength calculation criteria include: Length (max 5 points, +1 every 2 characters),
+      # presence of uppercase letters (+1), lowercase letters (+1), numbers (+1), special characters (+1),
+      # spaces (+1), and penalties for consecutive sequences of uppercase, lowercase, or
+      # numbers (-0.5 each), repetitive sequences (-0.75 each), common weak passwords like "qwerty",
+      # and passwords under 6 characters (-2). Adjust scores to a 0 to 10 scale, with a minimum score of 0.
+      password_strength_min: 1          # x >= 1
+      password_strength_greater: 2      # x >  2
+      password_strength_not: 0          # x != 0
+      password_strength: 7              # x == 7
+      password_strength_less: 8         # x <  8
+      password_strength_max: 9          # x <= 9
+      is_password_safe_chars: true      # Check that the cell value contains only safe characters for regular passwords. Allowed characters: a-z, A-Z, 0-9, !@#$%^&*()_+-=[]{};:'"|,.<>/?~.
 
       # Internet
       is_ip: true                       # Both: IPv4 or IPv6.
@@ -200,9 +247,15 @@ columns:
       is_even: true                     # Check if the value is an even number. Example: "2", "4", "6".
       is_odd: true                      # Check if the value is an odd number. Example: "1", "7", "11".
       is_roman: true                    # Validates if the input is a Roman numeral. Example: "I", "IV", "XX".
+      is_luhn: true                     # Luhn algorithm. See: https://en.wikipedia.org/wiki/Luhn_algorithm
 
       # Identifications
       phone: ALL                        # Validates if the input is a phone number. Specify the country code to validate the phone number for a specific country. Example: "ALL", "US", "BR".".
+      postal_code: US                   # Validate postal code by country code (alpha-2). Example: "02179". Extracted from https://www.geonames.org
+      is_iban: true                     # IBAN - International Bank Account Number. See: https://en.wikipedia.org/wiki/International_Bank_Account_Number
+      is_bic: true                      # Validates a Bank Identifier Code (BIC) according to ISO 9362 standards. See: https://en.wikipedia.org/wiki/ISO_9362
+      is_imei: true                     # Validates an International Mobile Equipment Identity (IMEI). See: https://en.wikipedia.org/wiki/International_Mobile_Station_Equipment_Identity
+      is_isbn: true                     # Validates an International Standard Book Number (ISBN). See: https://www.isbn-international.org/content/what-isbn
 
       # Misc
       is_version: true                  # Validates the string as version numbers using Semantic Versioning. Example: "1.2.3".
@@ -211,6 +264,7 @@ columns:
       is_consonant: true                # Validates if the input contains only consonants. Example: "bcd".
       is_alnum: true                    # Validates whether the input is only alphanumeric. Example: "aBc123".
       is_alpha: true                    # This is similar to `is_alnum`, but it does not allow numbers. Example: "aBc".
+      is_hex_rgb_color: true            # Validates weather the input is a hex RGB color or not. Examples: "#FF0000", "#123", "ffffff", "fff".
 
       # Check if the value is a valid hash. Supported algorithms:
       #  - md2, md4, md5, sha1, sha224, sha256, sha384, sha512/224, sha512/256, sha512
@@ -221,11 +275,27 @@ columns:
       #  - haval128,4, haval160,4, haval192,4, haval224,4, haval256,4, haval128,5, haval160,5, haval192,5, haval224,5, haval256,5
       hash: set_algo                    # Example: "1234567890abcdef".
 
+      # Check if a string is in a specific charset. Available charsets:
+      #  - 7bit, 8bit, ASCII, ArmSCII-8, BASE64, BIG-5, CP850, CP866, CP932, CP936
+      #  - CP950, CP50220, CP50221, CP50222, CP51932, EUC-CN, EUC-JP, EUC-JP-2004, EUC-KR, EUC-TW
+      #  - GB18030, HTML-ENTITIES, HZ, ISO-2022-JP, ISO-2022-JP-2004, ISO-2022-JP-MOBILE#KDDI, ISO-2022-JP-MS, ISO-2022-KR, ISO-8859-1, ISO-8859-2
+      #  - ISO-8859-3, ISO-8859-4, ISO-8859-5, ISO-8859-6, ISO-8859-7, ISO-8859-8, ISO-8859-9, ISO-8859-10, ISO-8859-13, ISO-8859-14
+      #  - ISO-8859-15, ISO-8859-16, JIS, KOI8-R, KOI8-U, Quoted-Printable, SJIS, SJIS-2004, SJIS-Mobile#DOCOMO, SJIS-Mobile#KDDI
+      #  - SJIS-Mobile#SOFTBANK, SJIS-mac, SJIS-win, UCS-2, UCS-2BE, UCS-2LE, UCS-4, UCS-4BE, UCS-4LE, UHC
+      #  - UTF-7, UTF-8, UTF-8-Mobile#DOCOMO, UTF-8-Mobile#KDDI-A, UTF-8-Mobile#KDDI-B, UTF-8-Mobile#SOFTBANK, UTF-16, UTF-16BE, UTF-16LE, UTF-32
+      #  - UTF-32BE, UTF-32LE, UTF7-IMAP, UUENCODE, Windows-1251, Windows-1252, Windows-1254, eucJP-win
+      charset: charset_code             # Validates if a string is in a specific charset. Example: "UTF-8".
+
+      # Validates whether the input is a credit card number.
+      # Available credit card brands: "Any", "American Express", "Diners Club", "Discover", "JCB", "MasterCard", "Visa", "RuPay".
+      credit_card: Any                  # Example: "5376-7473-9720-8720"
 
     ####################################################################################################################
     # Data validation for the entire(!) column using different data aggregation methods.
     # Every rule is optional.
     aggregate_rules:
+      preset: my-preset/login           # Add preset aggregate rules for the column. See README.md for details.
+
       is_unique: true                   # All values in the column are unique.
 
       # Check if the column is sorted in a specific order.

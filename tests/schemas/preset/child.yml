@@ -1,0 +1,71 @@
+#
+# JBZoo Toolbox - Csv-Blueprint.
+#
+# This file is part of the JBZoo Toolbox project.
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# @license    MIT
+# @copyright  Copyright (C) JBZoo.com, All rights reserved.
+# @see        https://github.com/JBZoo/Csv-Blueprint
+#
+
+# This schema is invalid because does not match the CSV file (tests/fixtures/demo.csv).
+
+
+name: Child schema
+
+presets:
+  preset: ./../preset/parent.yml
+
+filename_pattern:
+  preset: preset
+
+csv:
+  preset: preset
+  header: true
+
+structural_rules:
+  preset: preset
+  strict_column_order: true
+
+columns:
+  # 0
+  - preset: preset/Name
+
+  # 1
+  - preset: preset/Name
+    name: Overridden name by column name
+
+  # 2
+  - preset: 'preset/0:'
+    name: Overridden name by column index
+
+  # 3
+  - preset: preset/0:Name
+    name: Overridden name by column index and column name
+
+  # 4
+  - preset: preset/0:Name
+    name: Overridden name by column index and column name + added rules
+    rules:
+      length_min: 1
+
+  # 5
+  - preset: preset/0:Name
+    name: Overridden name by column index and column name + added aggregate rules
+    aggregate_rules:
+      nth_num: [ 10, 0.05 ]
+
+  # 6
+  - name: Overridden only rules
+    rules:
+      preset: preset/0:Name
+
+  # 7
+  - name: Overridden only aggregation rules
+    aggregate_rules:
+      preset: preset/0:Name
+
+  # 8
+  - preset: preset/Second Column

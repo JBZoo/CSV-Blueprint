@@ -1,0 +1,34 @@
+#
+# JBZoo Toolbox - Csv-Blueprint.
+#
+# This file is part of the JBZoo Toolbox project.
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# @license    MIT
+# @copyright  Copyright (C) JBZoo.com, All rights reserved.
+# @see        https://github.com/JBZoo/Csv-Blueprint
+#
+
+name: Presets for database columns
+description: This schema contains basic rules for database user data.
+
+columns:
+  - name: id
+    description: Unique identifier, usually used to denote a primary key in databases.
+    example: 12345
+    rules:
+      not_empty: true
+      is_trimmed: true
+      is_int: true
+      num_min: 1
+    aggregate_rules:
+      is_unique: true
+      sorted: [ asc, numeric ]
+
+  - name: status
+    description: Status in database
+    example: active
+    rules:
+      not_empty: true
+      allow_values: [ active, inactive, pending, deleted ]

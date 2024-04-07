@@ -51,32 +51,32 @@ final class GithubActionsTest extends TestCase
         $examples = [
             'csv'         => './tests/**/*.csv',
             'schema'      => './tests/**/*.yml',
-            'report'      => ErrorSuite::REPORT_DEFAULT,
-            'quick'       => 'no',
-            'skip-schema' => 'no',
+            'report'      => "'" . ErrorSuite::REPORT_DEFAULT . "'",
+            'apply-all'   => "'auto'",
+            'quick'       => "'no'",
+            'skip-schema' => "'no'",
+            'extra'       => "'options: --ansi'",
         ];
 
         $expectedMessage = [
             '```yml',
-            '- uses: jbzoo/csv-blueprint@master # See the specific version on releases page',
+            '- uses: jbzoo/csv-blueprint@master # See the specific version on releases page. `@master` is latest.',
             '  with:',
         ];
 
         foreach ($inputs as $key => $input) {
-            if ($key === 'extra') {
-                continue;
-            }
-
-            $expectedMessage[] = '    # ' . \trim($input['description']);
+            $expectedMessage[] = '    # ' . \trim(\str_replace("\n", "\n    # ", \trim($input['description'])));
 
             if (isset($input['default'])) {
-                $expectedMessage[] = "    # Default value: {$input['default']}";
+                $expectedMessage[] = "    # Default value: '{$input['default']}'";
             }
 
             if (isset($input['default']) && $examples[$key] === $input['default']) {
-                $expectedMessage[] = '    # You can skip it';
+                $expectedMessage[] = '    # You can skip it.';
             } elseif (isset($input['required']) && $input['required']) {
                 $expectedMessage[] = '    # Required: true';
+            } elseif ($key === 'extra') {
+                $expectedMessage[] = '    # You can skip it.';
             }
 
             if ($key === 'csv' || $key === 'schema') {

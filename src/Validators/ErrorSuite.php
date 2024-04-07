@@ -22,8 +22,10 @@ use JBZoo\CIReportConverter\Converters\JUnitConverter;
 use JBZoo\CIReportConverter\Converters\TeamCityTestsConverter;
 use JBZoo\CIReportConverter\Formats\Source\SourceSuite;
 use JBZoo\CsvBlueprint\Utils;
+use JBZoo\Utils\FS;
 use JBZoo\Utils\Vars;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\TableStyle;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 final class ErrorSuite
@@ -152,13 +154,12 @@ final class ErrorSuite
 
         $buffer = new BufferedOutput();
         $table = (new Table($buffer))
-            ->setHeaderTitle($this->getTestcaseName())
-            ->setFooterTitle($this->getTestcaseName())
             ->setHeaders(['Line', 'id:Column', 'Rule', 'Message'])
             ->setColumnMaxWidth(0, $floatingSizes['line'])
             ->setColumnMaxWidth(1, $floatingSizes['column'])
             ->setColumnMaxWidth(2, $floatingSizes['rule'])
-            ->setColumnMaxWidth(3, $floatingSizes['message']);
+            ->setColumnMaxWidth(3, $floatingSizes['message'])
+            ->setColumnStyle(0, (new TableStyle())->setPadType(\STR_PAD_LEFT));
 
         foreach ($this->errors as $error) {
             $table->addRow([
@@ -171,7 +172,7 @@ final class ErrorSuite
 
         $table->render();
 
-        return \trim($buffer->fetch()) . "\n";
+        return \trim($buffer->fetch());
     }
 
     private function prepareSourceSuite(): SourceSuite
@@ -191,7 +192,17 @@ final class ErrorSuite
 
     private function getTestcaseName(): string
     {
-        return \pathinfo((string)\realpath((string)$this->csvFilename), \PATHINFO_BASENAME);
+        $csvFilename = \trim((string)$this->csvFilename);
+
+        if ($csvFilename === '') {
+            return '';
+        }
+
+        if (!\file_exists($csvFilename)) {
+            return $csvFilename;
+        }
+
+        return FS::getRelative((string)(new \SplFileInfo($csvFilename))->getRealPath());
     }
 
     /**

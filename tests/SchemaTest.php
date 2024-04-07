@@ -55,7 +55,7 @@ final class SchemaTest extends TestCase
             'enclosure'  => '"',
             'encoding'   => 'utf-8',
             'bom'        => false,
-        ], $schemaEmpty->getCsvParserConfig()->getArrayCopy());
+        ], $schemaEmpty->getCsvParams());
 
         $schemaFull = new Schema(Tools::SCHEMA_FULL_YML);
         isSame([
@@ -65,7 +65,7 @@ final class SchemaTest extends TestCase
             'enclosure'  => '"',
             'encoding'   => 'utf-8',
             'bom'        => false,
-        ], $schemaFull->getCsvParserConfig()->getArrayCopy());
+        ], $schemaFull->getCsvParams());
     }
 
     public function testColumns(): void
@@ -92,20 +92,6 @@ final class SchemaTest extends TestCase
             $schemaFull->getColumn('Column Name (header)'),
         );
     }
-
-    // public function testIncludes(): void
-    // {
-    //     skip('Implement me!');
-    //     $schemaEmpty = new Schema(Tools::SCHEMA_EXAMPLE_EMPTY);
-    //     isSame([], $schemaEmpty->getIncludes());
-    //
-    //     $schemaFull = new Schema(Tools::SCHEMA_FULL_YML);
-    //     isSame([
-    //         'alias_1' => '/path/schema_1.yml',
-    //         'alias_2' => './path/schema_2.yml',
-    //         'alias_3' => '../path/schema_3.yml',
-    //     ], $schemaFull->getIncludes());
-    // }
 
     public function testGetUndefinedColumnById(): void
     {
@@ -209,9 +195,11 @@ final class SchemaTest extends TestCase
     {
         $schemas = (new Finder())
             ->in(PROJECT_ROOT . '/tests/schemas')
+            ->in(PROJECT_ROOT . '/tests/schemas/preset')
             ->in(PROJECT_ROOT . '/tests/Benchmarks')
             ->in(PROJECT_ROOT . '/schema-examples')
             ->name('*.yml')
+            ->depth(0)
             ->notName([
                 'todo.yml',
                 'invalid_schema.yml',
@@ -221,7 +209,8 @@ final class SchemaTest extends TestCase
 
         foreach ($schemas as $schemaFile) {
             $filepath = $schemaFile->getPathname();
-            isSame('', (string)(new Schema($filepath))->validate(), $filepath);
+            $validated = (new Schema($filepath))->validate()->render(ErrorSuite::RENDER_TABLE);
+            isSame('', (string)$validated, "{$filepath}\n----------\n{$validated}");
         }
     }
 
@@ -230,27 +219,26 @@ final class SchemaTest extends TestCase
         $schema = new Schema(Tools::SCHEMA_INVALID);
         isSame(
             <<<'TABLE'
-                +-------+------------+--------+----------- invalid_schema.yml ------------------------------------------+
-                | Line  | id:Column  | Rule   | Message                                                                 |
                 +-------+------------+--------+-------------------------------------------------------------------------+
-                | undef | meta       | schema | Unknown key: .unknow_root_option                                        |
+                |  Line | id:Column  | Rule   | Message                                                                 |
+                +-------+------------+--------+-------------------------------------------------------------------------+
                 | undef | meta       | schema | Unknown key: .csv.unknow_csv_param                                      |
+                | undef | meta       | schema | Unknown key: .unknow_root_option                                        |
                 | undef | 0:Name     | schema | Unknown key: .columns.0.rules.unknow_rule                               |
                 | undef | 1:City     | schema | Unknown key: .columns.1.unknow_colum_option                             |
                 | undef | 3:Birthday | schema | Expected type "string", actual "boolean" in .columns.3.rules.date_max   |
                 | undef | 4:         | schema | The key "name" must be non-empty because the option "csv.header" = true |
                 | undef | 4:         | schema | Expected type "boolean", actual "string" in .columns.4.rules.not_empty  |
                 | undef | 4:         | schema | Expected type "array", actual "string" in .columns.4.rules.allow_values |
-                +-------+------------+--------+----------- invalid_schema.yml ------------------------------------------+
-                
+                +-------+------------+--------+-------------------------------------------------------------------------+
                 TABLE,
             $schema->validate()->render(ErrorSuite::RENDER_TABLE),
         );
 
         isSame(
             <<<'TEXT'
-                "schema", column "meta". Unknown key: .unknow_root_option.
                 "schema", column "meta". Unknown key: .csv.unknow_csv_param.
+                "schema", column "meta". Unknown key: .unknow_root_option.
                 "schema", column "0:Name". Unknown key: .columns.0.rules.unknow_rule.
                 "schema", column "1:City". Unknown key: .columns.1.unknow_colum_option.
                 "schema", column "3:Birthday". Expected type "<c>string</c>", actual "<green>boolean</green>" in .columns.3.rules.date_max.

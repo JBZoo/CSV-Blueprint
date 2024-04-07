@@ -1,0 +1,36 @@
+#
+# JBZoo Toolbox - Csv-Blueprint.
+#
+# This file is part of the JBZoo Toolbox project.
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# @license    MIT
+# @copyright  Copyright (C) JBZoo.com, All rights reserved.
+# @see        https://github.com/JBZoo/Csv-Blueprint
+#
+
+# This schema is invalid because does not match the CSV file (tests/fixtures/demo.csv).
+
+
+name: Child of child schema
+
+presets:
+  preset-1: child.yml
+
+filename_pattern: /child-of-child-\d.csv$/i
+
+csv:
+  preset: preset-1
+  delimiter: dd
+  quote_char: qq
+  enclosure: ee
+  encoding: utf-32
+  bom: false
+
+structural_rules:
+  preset: preset-1
+  allow_extra_columns: false
+
+columns:
+  - preset: preset-1/Second Column

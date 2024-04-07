@@ -16,14 +16,14 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\Cell\IsRoman;
+use JBZoo\CsvBlueprint\Rules\Cell\IsImei;
 use JBZoo\PHPUnit\Rules\TestAbstractCellRule;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class IsPhoneTest extends TestAbstractCellRule
+final class IsImeiTest extends TestAbstractCellRule
 {
-    protected string $ruleClass = IsRoman::class;
+    protected string $ruleClass = IsImei::class;
 
     public function testPositive(): void
     {
@@ -31,22 +31,18 @@ final class IsPhoneTest extends TestAbstractCellRule
         isSame(null, $rule->validate(''));
 
         $valid = [
-            'III',
-            'IV',
-            'VI',
-            'XIX',
-            'XLII',
-            'LXII',
-            'CXLIX',
-            'CLIII',
-            'MCCXXXIV',
-            'MMXXIV',
-            'MCMLXXV',
-            'MMMMCMXCIX',
+            '',
+            '35-209900-176148-1',
+            '490154203237518',
+            '35-007752-323751-3',
+            '35-209900-176148-1',
+            '350077523237513',
+            '356938035643809',
+            '490154203237518',
         ];
 
         foreach ($valid as $value) {
-            isSame('', $rule->test($value), $value);
+            isSame('', $rule->test($value), "\"{$value}\"");
         }
 
         $rule = $this->create(false);
@@ -58,18 +54,17 @@ final class IsPhoneTest extends TestAbstractCellRule
         $rule = $this->create(true);
 
         $invalid = [
-            ' ',
-            'IIII',
-            'IVVVX',
-            'CCDC',
-            'MXM',
-            'XIIIIIIII',
-            'MIMIMI',
+            ';',
+            '!@#$%^&*()',
+            'aBc 123',
+            'aBc-123',
+            '490154203237512',
+            '4901542032375125',
         ];
 
         foreach ($invalid as $value) {
             isSame(
-                "The value \"{$value}\" should contain only Roman numeral. Example: \"I\", \"IV\", \"XX\"",
+                "Value \"{$value}\" is not a valid IMEI number.",
                 $rule->test($value),
                 $value,
             );

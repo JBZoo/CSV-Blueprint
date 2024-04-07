@@ -16,7 +16,10 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
+use JBZoo\CsvBlueprint\Schema;
+use JBZoo\CsvBlueprint\SchemaDataPrep;
 use JBZoo\Utils\Cli;
+use JBZoo\Utils\Str;
 use Symfony\Component\Console\Input\StringInput;
 
 use function JBZoo\Data\yml;
@@ -24,28 +27,44 @@ use function JBZoo\Data\yml;
 final class ReadmeTest extends TestCase
 {
     private const EXTRA_RULES = [
-        '* With `filename_pattern` rule, you can check if the file name matches the pattern.',
-        '* Checks if property `name` is not defined in a column. Only if `csv.header: true`.',
-        '* If property `required` is set to `true`, the column must must be present in CSV. Only if `csv.header: true`',
-        '* Check that each row matches the number of columns.',
-        '* With `strict_column_order` rule, you can check that the columns are in the correct order.',
-        '* With `allow_extra_columns` rule, you can check that there are no extra columns in the CSV file.',
-        '    * If `csv.header: true`. Schema contains an unknown column `name` that is not found in the CSV file.',
-        '    * If `csv.header: false`. Compare the number of columns in the schema and the CSV file.',
+        '* The `filename_pattern` rule verifies that the file name adheres to the specified regex pattern, ' .
+        'ensuring file naming conventions are followed.',
+        '* Ensures that the `name` property is defined for each column, applicable only when `csv.header` ' .
+        'is set to `true`, to guarantee header integrity.',
+        '* The `required` property, when set to `true`, mandates the presence of the specified column in ' .
+        'the CSV file, enhancing data completeness. This is only relevant if `csv.header` is true.',
+        "* Validates that each row contains the correct number of columns, aligning with the schema's defined " .
+        'structure, to prevent data misalignment.',
+        '* The `strict_column_order` rule checks for the correct sequential order of columns as defined in ' .
+        'the schema, ensuring structural consistency.',
+        '* The `allow_extra_columns` rule asserts no additional columns are present in the CSV file beyond ' .
+        'those specified in the schema, maintaining strict data fidelity.',
+        '  * For `csv.header: true`, it checks if the schema contains any column `name` not found in the ' .
+        'CSV file, addressing header discrepancies.',
+        '  * For `csv.header: false`, it compares the number of columns in the schema against those in the ' .
+        'CSV file, ensuring schema conformity.',
     ];
 
-    public function testCreateCsvHelp(): void
+    public function testValidateCsvHelp(): void
     {
         $text = \implode("\n", [
             '```',
-            './csv-blueprint validate:csv --help',
-            '',
-            '',
-            Tools::realExecution('validate:csv', ['help' => null]),
+            \trim(Tools::realExecution('validate:csv', ['help' => null])),
             '```',
         ]);
 
         Tools::insertInReadme('validate-csv-help', $text);
+    }
+
+    public function testCalidateSchemaHelp(): void
+    {
+        $text = \implode("\n", [
+            '```',
+            \trim(Tools::realExecution('validate:schema', ['help' => null])),
+            '```',
+        ]);
+
+        Tools::insertInReadme('validate-schema-help', $text);
     }
 
     public function testTableOutputExample(): void
@@ -64,7 +83,7 @@ final class ReadmeTest extends TestCase
             "./csv-blueprint validate:csv {$optionsAsString}",
             '',
             '',
-            $actual,
+            \trim($actual),
             '```',
         ]);
 
@@ -75,33 +94,32 @@ final class ReadmeTest extends TestCase
 
     public function testBadgeOfRules(): void
     {
-        $cellRules = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.rules'))
-            + (\count(\hash_algos()) - 1); // Without itself
-
-        $aggRules = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.aggregate_rules'));
+        $cellRules = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.rules')) - 1;
+        $aggRules = \count(yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.aggregate_rules')) - 1;
         $extraRules = \count(self::EXTRA_RULES);
         $totalRules = $cellRules + $aggRules + $extraRules;
 
         $todoYml = yml(Tools::SCHEMA_TODO);
-        $planToAdd = \count($todoYml->findArray('columns.0.rules')) . '/' .
-            (\count($todoYml->findArray('columns.0.aggregate_rules')) * 6) . '/' .
-            (\count([
-                'null_values',
-                'multiple + separator',
-                'complex_rules. one example',
-                'inherit',
-            ]) + \count($todoYml->findArray('structural_rules')));
+        $planToAdd = \implode('/', [
+            \count($todoYml->findArray('columns.0.rules')),
+            \count($todoYml->findArray('columns.0.aggregate_rules')),
+            \count([
+                'csv.auto_detect',
+                'csv.end_of_line',
+                'csv.null_values',
+                'filename_pattern - multiple',
+                'column.faker',
+                'column.null_values',
+                'column.multiple + column.multiple_separator',
+            ]) + \count($todoYml->findArray('structural_rules'))
+            + \count($todoYml->findArray('complex_rules')),
+        ]);
 
         $badge = static function (string $label, int|string $count, string $url, string $color): string {
             $label = \str_replace(' ', '%20', $label);
             $badge = "![Static Badge](https://img.shields.io/badge/Rules-{$count}-green" .
                 "?label={$label}&labelColor={$color}&color=gray)";
-
-            if ($url) {
-                return "[{$badge}]({$url})";
-            }
-
-            return $badge;
+            return $url ? "[{$badge}]({$url})" : $badge;
         };
 
         $text = \implode("\n", [
@@ -115,6 +133,19 @@ final class ReadmeTest extends TestCase
         Tools::insertInReadme('rules-counter', $text);
     }
 
+    public function testContributingBlock(): void
+    {
+        $file = PROJECT_ROOT . '/CONTRIBUTING.md';
+        isFile($file);
+
+        $text = \implode(
+            "\n",
+            \array_slice(\explode("\n", \file_get_contents($file)), 1),
+        );
+
+        Tools::insertInReadme('contributing', $text);
+    }
+
     public function testCheckYmlSchemaExampleInReadme(): void
     {
         $ymlContent = \implode(
@@ -122,7 +153,7 @@ final class ReadmeTest extends TestCase
             \array_slice(\explode("\n", \file_get_contents(Tools::SCHEMA_FULL_YML)), 12),
         );
 
-        $text = \implode("\n", ['```yml', $ymlContent, '```']);
+        $text = \implode("\n", ['```yml', \trim($ymlContent), '```']);
 
         Tools::insertInReadme('full-yml', $text);
     }
@@ -134,9 +165,73 @@ final class ReadmeTest extends TestCase
             \array_slice(\explode("\n", \file_get_contents('./schema-examples/readme_sample.yml')), 12),
         );
 
-        $text = \implode("\n", ['```yml', $ymlContent, '```']);
+        $text = \implode("\n", ['```yml', \trim($ymlContent), '```']);
 
         Tools::insertInReadme('readme-sample-yml', $text);
+    }
+
+    public function testCheckPresetUsersExampleInReadme(): void
+    {
+        $ymlContent = \implode(
+            "\n",
+            \array_slice(\explode("\n", \file_get_contents('./schema-examples/preset_users.yml')), 12),
+        );
+
+        $text = \implode("\n", ['```yml', \trim($ymlContent), '```']);
+
+        Tools::insertInReadme('preset-users-yml', $text);
+    }
+
+    public function testCheckPresetFeaturesExampleInReadme(): void
+    {
+        $ymlContent = \implode(
+            "\n",
+            \array_slice(\explode("\n", \file_get_contents('./schema-examples/preset_features.yml')), 12),
+        );
+
+        $text = \implode("\n", ['```yml', \trim($ymlContent), '```']);
+
+        Tools::insertInReadme('preset-features-yml', $text);
+    }
+
+    public function testCheckPresetRegexInReadme(): void
+    {
+        $text = '`' . SchemaDataPrep::getAliasRegex() . '`';
+        isFileContains($text, PROJECT_ROOT . '/README.md');
+    }
+
+    public function testCheckPresetDatabaseExampleInReadme(): void
+    {
+        $ymlContent = \implode(
+            "\n",
+            \array_slice(\explode("\n", \file_get_contents('./schema-examples/preset_database.yml')), 12),
+        );
+
+        $text = \implode("\n", ['```yml', \trim($ymlContent), '```']);
+
+        Tools::insertInReadme('preset-database-yml', $text);
+    }
+
+    public function testCheckPresetUsageExampleInReadme(): void
+    {
+        $ymlContent = \implode(
+            "\n",
+            \array_slice(\explode("\n", \file_get_contents('./schema-examples/preset_usage.yml')), 12),
+        );
+
+        $text = \implode("\n", ['```yml', \trim($ymlContent), '```']);
+
+        Tools::insertInReadme('preset-usage-yml', $text);
+    }
+
+    public function testCheckPresetUsageRealExampleInReadme(): void
+    {
+        $schema = new Schema('./schema-examples/preset_usage.yml');
+
+        $text = \implode("\n", ['```yml', \trim($schema->dumpAsYamlString()), '```']);
+        $text = \str_replace(PROJECT_ROOT, '.', $text);
+
+        Tools::insertInReadme('preset-usage-real-yml', $text);
     }
 
     public function testAdditionalValidationRules(): void
@@ -144,12 +239,12 @@ final class ReadmeTest extends TestCase
         $list[] = '';
 
         $text = \implode("\n", self::EXTRA_RULES);
-        Tools::insertInReadme('extra-rules', "\n{$text}\n");
+        Tools::insertInReadme('extra-rules', $text);
     }
 
     public function testBenchmarkTable(): void
     {
-        $nbsp = static fn (string $text): string => \str_replace(' ', '&nbsp', $text);
+        $nbsp = static fn (string $text): string => \str_replace(' ', '&nbsp;', $text);
         $timeFormat = static fn (float $time): string => \str_pad(
             \number_format($time, 1) . ' sec',
             8,
@@ -214,19 +309,17 @@ final class ReadmeTest extends TestCase
                 $nbsp('Peak Memory'),
             ]) . '</td>';
             foreach ($row as $values) {
-                $output[] = '   <td align="right">';
+                $testRes = '';
                 foreach ($values as $key => $value) {
                     if ($key === 3) {
-                        $testRes = $value . ' MB';
+                        $testRes .= $value . ' MB';
                     } else {
                         $execTime = $timeFormat($numberOfLines / ($value * 1000));
-                        $testRes = $nbsp("{$value}K, {$execTime}<br>");
+                        $testRes .= $nbsp("{$value}K, {$execTime}<br>");
                     }
-
-                    $output[] = $testRes;
                 }
 
-                $output[] = '</td>';
+                $output[] = "   <td align=\"right\">{$testRes}</td>";
             }
             $output[] = '</tr>';
         }
@@ -234,5 +327,40 @@ final class ReadmeTest extends TestCase
         $output[] = '</table>';
 
         Tools::insertInReadme('benchmark-table', \implode("\n", $output));
+    }
+
+    public function testGenerateTOC(): void
+    {
+        $markdown = \file_get_contents(PROJECT_ROOT . '/README.md');
+
+        // Split the content by code block delimiters
+        $splitContent = \preg_split('/(```.*?```)/s', $markdown, -1, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
+
+        $toc = '';
+        $currentContent = '';
+
+        foreach ($splitContent as $section) {
+            // If the section is a code block, skip it
+            if (\preg_match('/^```/', $section)) {
+                continue;
+            }
+
+            $currentContent .= $section;
+            // Match headers outside of code blocks
+            \preg_match_all('/^(#{2,6})\s*(.*)$/m', $currentContent, $matches, \PREG_SET_ORDER);
+
+            foreach ($matches as $match) {
+                $level = \strlen($match[1]);
+                if ($level === 2) {
+                    $title = \trim($match[2]);
+                    $slug = Str::slug($title);
+                    $toc .= \str_repeat('  ', $level - 2) . "- [{$title}](#{$slug})\n";
+                }
+            }
+            // Reset the current content to prevent duplicate entries
+            $currentContent = '';
+        }
+
+        Tools::insertInReadme('toc', $toc);
     }
 }

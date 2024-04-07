@@ -204,8 +204,32 @@ final class Utils
     ): array {
         $differences = [];
 
+        // Exclude array params for some rules because it's not necessary to compare them.
+        // They have random values, and it's hard to predict them.
+        $excludeArrayParamsFor = [
+            'rules.contains_none',
+            'rules.allow_values',
+            'rules.not_allow_values',
+            'rules.contains_none',
+            'rules.contains_one',
+            'rules.contains_any',
+            'rules.contains_all',
+            'rules.ip_v4_range',
+        ];
+
         foreach ($actualSchema as $key => $value) {
             $curPath = $path === '' ? (string)$key : "{$path}.{$key}";
+
+            if (\in_array($curPath, $excludeArrayParamsFor, true)) {
+                if (!\is_array($value)) {
+                    $differences[$columnId . '/' . $curPath] = [
+                        $columnId,
+                        'Expected type "<c>array</c>", actual "<green>' . \gettype($value) . '</green>" in ' .
+                        ".{$keyPrefix}.{$curPath}",
+                    ];
+                }
+                continue;
+            }
 
             if (!\array_key_exists($key, $expectedSchema)) {
                 if (\strlen($keyPrefix) <= 1) {
@@ -246,12 +270,12 @@ final class Utils
         $actualType = \gettype($actual);
 
         $mapOfValidConvertions = [
-            'NULL'    => [],
+            'NULL'    => ['string', 'integer', 'double', 'boolean'],
             'array'   => [],
             'boolean' => [],
-            'double'  => ['string', 'integer'],
-            'integer' => [],
-            'string'  => ['double', 'integer'],
+            'double'  => ['NULL', 'string', 'integer'],
+            'integer' => ['NULL'],
+            'string'  => ['NULL', 'double', 'integer'],
         ];
 
         if ($expectedType === $actualType) {
@@ -292,6 +316,7 @@ final class Utils
         $schemas = self::makeFileMap($schemaFiles);
         $result = [
             'found_pairs'    => [],
+            'count_pairs'    => 0,
             'global_schemas' => [], // there is no filename_pattern in schema.
         ];
 
@@ -311,7 +336,11 @@ final class Utils
                 $csv = (string)$csv;
 
                 if (!self::testRegex($filePattern, $csv)) {
-                    $result['found_pairs'][] = [$schema, $csv];
+                    if (!isset($result['found_pairs'][$schema])) {
+                        $result['found_pairs'][$schema] = [];
+                    }
+                    $result['found_pairs'][$schema][] = $csv;
+                    $result['count_pairs']++;
 
                     // Mark as used
                     $schemas[$schema] = true;
@@ -326,12 +355,12 @@ final class Utils
         return $result;
     }
 
-    public static function printFile(string $fullpath): string
+    public static function printFile(string $fullpath, string $tag = 'bright-blue'): string
     {
         $relPath = self::cutPath($fullpath);
         $basename = \pathinfo($relPath, \PATHINFO_BASENAME);
         $directory = \str_replace($basename, '', $relPath);
-        return "{$directory}<blue>{$basename}</blue>";
+        return "{$directory}<{$tag}>{$basename}</{$tag}>";
     }
 
     public static function getVersion(bool $showFull): string
@@ -407,8 +436,8 @@ final class Utils
                 continue;
             }
 
-            if (\str_starts_with($argValue, 'extra:')) {
-                $extraArgs = \str_replace('extra:', '', $argValue);
+            if (\str_starts_with($argValue, 'extra:') || \str_starts_with($argValue, 'options:')) {
+                $extraArgs = \str_replace(['extra:', 'options:'], '', $argValue);
                 $flags = \array_filter(
                     \array_map('trim', \explode(' ', $extraArgs)),
                     static fn ($flag): bool => $flag !== '',
@@ -423,6 +452,36 @@ final class Utils
         }
 
         return $newArgumens;
+    }
+
+    /**
+     * @param array<string, null|array|bool|string>|int[]|string[] ...$configs
+     */
+    public static function mergeConfigs(array ...$configs): array
+    {
+        $merged = (array)\array_shift($configs); // Start with the first array
+
+        foreach ($configs as $config) {
+            foreach ($config as $key => $value) {
+                // If both values are arrays
+                if (isset($merged[$key]) && \is_array($merged[$key]) && \is_array($value)) {
+                    // Check if arrays are associative (assuming keys are consistent across values for simplicity)
+                    $isAssoc = \array_keys($value) !== \range(0, \count($value) - 1);
+                    if ($isAssoc) {
+                        // Merge associative arrays recursively
+                        $merged[$key] = self::mergeConfigs($merged[$key], $value);
+                    } else {
+                        // Replace non-associative arrays entirely
+                        $merged[$key] = $value;
+                    }
+                } else {
+                    // Replace the value entirely
+                    $merged[$key] = $value;
+                }
+            }
+        }
+
+        return $merged;
     }
 
     /**

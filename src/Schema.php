@@ -17,11 +17,11 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint;
 
 use JBZoo\CsvBlueprint\Csv\Column;
-use JBZoo\CsvBlueprint\Csv\CsvParserConfig;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use JBZoo\CsvBlueprint\Validators\ValidatorSchema;
 use JBZoo\Data\AbstractData;
 use JBZoo\Data\Data;
+use Symfony\Component\Yaml\Yaml;
 
 use function JBZoo\Data\json;
 use function JBZoo\Data\phpArray;
@@ -29,32 +29,34 @@ use function JBZoo\Data\yml;
 
 final class Schema
 {
-    private ?string      $filename;
-    private AbstractData $data;
+    public const ENCODING_UTF8 = 'utf-8';
+    public const ENCODING_UTF16 = 'utf-16';
+    public const ENCODING_UTF32 = 'utf-32';
 
     /** @var Column[] */
-    private array $columns;
+    private array        $columns;
+    private ?string      $filename;
+    private AbstractData $data;
 
     public function __construct(null|array|string $csvSchemaFilenameOrArray = null)
     {
         if (\is_array($csvSchemaFilenameOrArray)) {
             $this->filename = '_custom_array_';
-            $this->data = new Data($csvSchemaFilenameOrArray);
+            $data = new Data($csvSchemaFilenameOrArray);
         } elseif (
             \is_string($csvSchemaFilenameOrArray)
             && $csvSchemaFilenameOrArray !== ''
             && \file_exists($csvSchemaFilenameOrArray)
         ) {
             $this->filename = $csvSchemaFilenameOrArray;
-            $this->data = new Data();
             $fileExtension = \pathinfo($csvSchemaFilenameOrArray, \PATHINFO_EXTENSION);
 
             if ($fileExtension === 'yml' || $fileExtension === 'yaml') {
-                $this->data = yml($csvSchemaFilenameOrArray);
+                $data = yml($csvSchemaFilenameOrArray);
             } elseif ($fileExtension === 'json') {
-                $this->data = json($csvSchemaFilenameOrArray);
+                $data = json($csvSchemaFilenameOrArray);
             } elseif ($fileExtension === 'php') {
-                $this->data = phpArray($csvSchemaFilenameOrArray);
+                $data = phpArray($csvSchemaFilenameOrArray);
             } else {
                 throw new \InvalidArgumentException("Unsupported file extension: {$fileExtension}");
             }
@@ -62,7 +64,22 @@ final class Schema
             throw new \InvalidArgumentException("Invalid schema data: {$csvSchemaFilenameOrArray}");
         } else {
             $this->filename = null;
-            $this->data = new Data();
+            $data = new Data();
+        }
+
+        $basepath = '.';
+        $filename = (string)$this->filename;
+        if ($filename !== '' && \file_exists($filename)) {
+            $this->filename = (string)\realpath($filename);
+            $basepath = \dirname($filename);
+        }
+
+        try {
+            $this->data = (new SchemaDataPrep($data, $basepath))->buildData();
+        } catch (\Exception $e) {
+            throw new \InvalidArgumentException(
+                "Invalid schema \"{$this->filename}\" data.\nUnexpected error: \"{$e->getMessage()}\"",
+            );
         }
 
         $this->columns = $this->prepareColumns();
@@ -73,11 +90,6 @@ final class Schema
         return $this->filename;
     }
 
-    public function getCsvParserConfig(): CsvParserConfig
-    {
-        return new CsvParserConfig($this->data->getArray('csv'));
-    }
-
     /**
      * @return Column[]
      */
@@ -86,15 +98,39 @@ final class Schema
         return $this->columns;
     }
 
-    public function getColumn(int|string $columNameOrId): ?Column
+    public function getColumn(int|string $columNameOrId, ?string $forceName = null): ?Column
     {
-        if (\is_int($columNameOrId)) {
+        // By "index"
+        if (\is_numeric($columNameOrId)) {
             return \array_values($this->getColumns())[$columNameOrId] ?? null;
         }
 
-        foreach ($this->getColumns() as $schemaColumn) {
-            if ($schemaColumn->getName() === $columNameOrId) {
-                return $schemaColumn;
+        // by "index:"
+        if (\preg_match('/^(\d+):$/', $columNameOrId, $matches) !== 0) {
+            return $this->getColumn((int)$matches[1]);
+        }
+
+        // by "index:name"
+        if (\preg_match('/^(\d+):(.*)$/', $columNameOrId, $matches) !== 0) {
+            return $this->getColumn((int)$matches[1], $matches[2]);
+        }
+
+        if ($forceName !== null) {
+            // by "index:name" (real)
+            foreach ($this->getColumns() as $columnIndex => $schemaColumn) {
+                if (
+                    $columnIndex === (int)$columNameOrId
+                    && $schemaColumn->getName() === $forceName
+                ) {
+                    return $schemaColumn;
+                }
+            }
+        } else {
+            // by "name"
+            foreach ($this->getColumns() as $schemaColumn) {
+                if ($schemaColumn->getName() === $columNameOrId) {
+                    return $schemaColumn;
+                }
             }
         }
 
@@ -106,33 +142,14 @@ final class Schema
         return Utils::prepareRegex($this->data->getStringNull('filename_pattern'));
     }
 
-    public function getIncludes(): array
-    {
-        $result = [];
-
-        foreach ($this->data->getArray('includes') as $includedPath) {
-            [$schemaPath, $alias] = \explode(' as ', $includedPath);
-
-            $schemaPath = \trim($schemaPath);
-            $alias = \trim($alias);
-
-            $result[$alias] = $schemaPath;
-        }
-
-        return $result;
-    }
-
     public function validate(bool $quickStop = false): ErrorSuite
     {
         return (new ValidatorSchema($this))->validate($quickStop);
     }
 
-    /**
-     * Clone data to avoid any external side effects.
-     */
     public function getData(): AbstractData
     {
-        return clone $this->data;
+        return clone $this->data; // Clone data to avoid any external side effects.
     }
 
     public function getSchemaHeader(): array
@@ -152,6 +169,101 @@ final class Schema
     public function isAllowExtraColumns(): bool
     {
         return $this->data->findBool('structural_rules.allow_extra_columns', false);
+    }
+
+    public function csvHasBOM(): bool
+    {
+        return $this->data->findBool('csv.bom');
+    }
+
+    public function getCsvDelimiter(): string
+    {
+        $value = $this->data->findString('csv.delimiter');
+        if (\strlen($value) === 1) {
+            return $value;
+        }
+
+        throw new \InvalidArgumentException('Delimiter must be a single character');
+    }
+
+    public function getCsvQuoteChar(): string
+    {
+        $value = $this->data->findString('csv.quote_char');
+        if (\strlen($value) === 1) {
+            return $value;
+        }
+
+        throw new \InvalidArgumentException('Quote char must be a single character');
+    }
+
+    public function getCsvEnclosure(): string
+    {
+        $value = $this->data->findString('csv.enclosure');
+
+        if (\strlen($value) === 1) {
+            return $value;
+        }
+
+        throw new \InvalidArgumentException('Enclosure must be a single character');
+    }
+
+    public function getCsvEncoding(): string
+    {
+        $encoding = \strtolower(
+            \trim($this->data->findString('csv.encoding')),
+        );
+
+        $availableOptions = [ // TODO: add flexible handler for this
+            self::ENCODING_UTF8,
+            self::ENCODING_UTF16,
+            self::ENCODING_UTF32,
+        ];
+
+        $result = \in_array($encoding, $availableOptions, true) ? $encoding : null;
+        if ($result !== null) {
+            return $result;
+        }
+
+        throw new \InvalidArgumentException("Invalid encoding: {$encoding}");
+    }
+
+    public function csvHasHeader(): bool
+    {
+        return $this->data->findBool('csv.header');
+    }
+
+    public function getCsvParams(): array
+    {
+        return [
+            'header'     => $this->csvHasHeader(),
+            'delimiter'  => $this->getCsvDelimiter(),
+            'quote_char' => $this->getCsvQuoteChar(),
+            'enclosure'  => $this->getCsvEnclosure(),
+            'encoding'   => $this->getCsvEncoding(),
+            'bom'        => $this->csvHasBOM(),
+        ];
+    }
+
+    public function getStructuralRulesParams(): array
+    {
+        return [
+            'strict_column_order' => $this->isStrictColumnOrder(),
+            'allow_extra_columns' => $this->isAllowExtraColumns(),
+        ];
+    }
+
+    public function dumpAsYamlString(): string
+    {
+        return Yaml::dump(
+            $this->getData()->getArrayCopy(),
+            10,
+            2,
+            Yaml::DUMP_NULL_AS_TILDE
+            | Yaml::DUMP_NUMERIC_KEY_AS_STRING
+            | Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK
+            | Yaml::DUMP_EMPTY_ARRAY_AS_SEQUENCE
+            | Yaml::DUMP_EXCEPTION_ON_INVALID_TYPE,
+        );
     }
 
     /**

@@ -21,9 +21,13 @@ description: |
   supporting a wide range of data validation rules from basic type checks to complex regex validations.
   This example serves as a comprehensive guide for creating robust CSV file validations.
 
+presets:
+  my-preset: ./preset_users.yml
+
 filename_pattern: '/demo(-\d+)?\.csv$/i'
 
 csv:
+  preset: my-preset
   header: true
   delimiter: ','
   quote_char: \
@@ -32,24 +36,23 @@ csv:
   bom: false
 
 structural_rules:
+  preset: my-preset
   strict_column_order: true
   allow_extra_columns: false
 
 columns:
-  - name: 'Column Name (header)'
+  - preset: my-preset/login
+    name: 'Column Name (header)'
     description: 'Lorem ipsum'
     example: 'Some example'
     required: true
 
     rules:
+      preset: my-preset/login
       not_empty: true
       exact_value: 'Some string'
-      allow_values:
-        - 'y'
-        - 'n'
-        - ''
-      not_allow_values:
-        - invalid
+      allow_values: [ 'y', 'n', '' ]
+      not_allow_values: [ 'invalid' ]
 
       regex: '/^[\d]{2}$/'
 
@@ -73,18 +76,10 @@ columns:
       word_count_max: 9
 
       contains: World
-      contains_none:
-        - a
-        - b
-      contains_one:
-        - a
-        - b
-      contains_any:
-        - a
-        - b
-      contains_all:
-        - a
-        - b
+      contains_none: [ a, b ]
+      contains_one: [ a, b ]
+      contains_any: [ a, b ]
+      contains_all: [ a, b ]
       starts_with: 'prefix '
       ends_with: ' suffix'
 
@@ -117,21 +112,44 @@ columns:
       is_time: true
       is_leap_year: true
 
+      date_interval_min: PT0S
+      date_interval_greater: '1day 1sec'
+      date_interval_not: '100 days'
+      date_interval: P2W
+      date_interval_less: PT23H59M59S
+      date_interval_max: P1Y
+
+      date_age_min: 1
+      date_age_greater: 14
+      date_age_not: 18
+      date_age: 21
+      date_age_less: 99
+      date_age_max: 100
+
       is_bool: true
+      is_binary: true
+      is_octal: true
+      is_hex: true
       is_uuid: true
       is_slug: true
       is_currency_code: true
       is_base64: true
       is_angle: true
 
+      password_strength_min: 1
+      password_strength_greater: 2
+      password_strength_not: 0
+      password_strength: 7
+      password_strength_less: 8
+      password_strength_max: 9
+      is_password_safe_chars: true
+
       is_ip: true
       is_ip_v4: true
       is_ip_v6: true
       is_ip_private: true
       is_ip_reserved: true
-      ip_v4_range:
-        - 127.0.0.1-127.0.0.5
-        - 127.0.0.0/21
+      ip_v4_range: [ '127.0.0.1-127.0.0.5', '127.0.0.0/21' ]
       is_mac_address: true
       is_domain: true
       is_public_domain_suffix: true
@@ -155,8 +173,14 @@ columns:
       is_even: true
       is_odd: true
       is_roman: true
+      is_luhn: true
 
       phone: ALL
+      postal_code: US
+      is_iban: true
+      is_bic: true
+      is_imei: true
+      is_isbn: true
 
       is_version: true
       is_punct: true
@@ -164,10 +188,16 @@ columns:
       is_consonant: true
       is_alnum: true
       is_alpha: true
+      is_hex_rgb_color: true
 
       hash: set_algo
 
+      charset: charset_code
+
+      credit_card: Any
+
     aggregate_rules:
+      preset: my-preset/login
       is_unique: true
       sorted: [ asc, natural ]
       first_num_min: 1.0
@@ -186,12 +216,8 @@ columns:
       nth_num_less: [ 42, 8.0 ]
       nth_num_max: [ 42, 9.0 ]
 
-      nth:
-        - 2
-        - Expected
-      nth_not:
-        - 2
-        - Not expected
+      nth: [ 2, Expected ]
+      nth_not: [ 2,Not expected ]
 
       last_num_min: 1.0
       last_num_greater: 2.0
@@ -335,49 +361,19 @@ columns:
       cubic_mean_less: 8.0
       cubic_mean_max: 9.0
 
-      percentile_min:
-        - 95.0
-        - 1.0
-      percentile_greater:
-        - 95.0
-        - 2.0
-      percentile_not:
-        - 95.0
-        - 5.0
-      percentile:
-        - 95.0
-        - 7.0
-      percentile_less:
-        - 95.0
-        - 8.0
-      percentile_max:
-        - 95.0
-        - 9.0
+      percentile_min: [ 95.0, 1.0 ]
+      percentile_greater: [ 95.0, 2.0 ]
+      percentile_not: [ 95.0, 5.0 ]
+      percentile: [ 95.0, 7.0 ]
+      percentile_less: [ 95.0, 8.0 ]
+      percentile_max: [ 95.0, 9.0 ]
 
-      quartiles_min:
-        - exclusive
-        - 0%
-        - 1.0
-      quartiles_greater:
-        - inclusive
-        - Q1
-        - 2.0
-      quartiles_not:
-        - exclusive
-        - Q2
-        - 5.0
-      quartiles:
-        - inclusive
-        - Q3
-        - 7.0
-      quartiles_less:
-        - exclusive
-        - 100%
-        - 8.0
-      quartiles_max:
-        - inclusive
-        - IQR
-        - 9.0
+      quartiles_min: [ exclusive, 0%, 1.0 ]
+      quartiles_greater: [ inclusive, Q1, 2.0 ]
+      quartiles_not: [ exclusive, Q2, 5.0 ]
+      quartiles: [ inclusive, Q3, 7.0 ]
+      quartiles_less: [ exclusive, 100%, 8.0 ]
+      quartiles_max: [ inclusive, IQR, 9.0 ]
 
       midhinge_min: 1.0
       midhinge_greater: 2.0

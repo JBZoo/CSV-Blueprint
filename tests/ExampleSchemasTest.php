@@ -29,6 +29,7 @@ final class ExampleSchemasTest extends TestCase
     public function testFullListOfRules(): void
     {
         $rulesInConfig = yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.rules');
+        unset($rulesInConfig['preset']);
         $rulesInConfig = \array_keys($rulesInConfig);
         \sort($rulesInConfig, \SORT_NATURAL);
 
@@ -82,14 +83,75 @@ final class ExampleSchemasTest extends TestCase
         );
     }
 
-    public function testCsvStrutureDefaultValues(): void
+    public function testFullListOfAggregateRules(): void
     {
-        $defaultsInDoc = yml(Tools::SCHEMA_FULL_YML)->findArray('csv');
+        $rulesInConfig = yml(Tools::SCHEMA_FULL_YML)->findArray('columns.0.aggregate_rules');
+        unset($rulesInConfig['preset']);
+        $rulesInConfig = \array_keys($rulesInConfig);
+        \sort($rulesInConfig, \SORT_NATURAL);
 
-        $schema = new Schema([]);
-        $schema->getCsvParserConfig()->getArrayCopy();
+        $finder = (new Finder())
+            ->files()
+            ->in(PROJECT_ROOT . '/src/Rules/Aggregate')
+            ->ignoreDotFiles(false)
+            ->ignoreVCS(true)
+            ->name('/\\.php$/')
+            ->sortByName(true);
 
-        isSame($defaultsInDoc, $schema->getCsvParserConfig()->getArrayCopy());
+        foreach ($finder as $file) {
+            $ruleName = Utils::camelToKebabCase($file->getFilenameWithoutExtension());
+
+            if (\str_contains($ruleName, 'abstract')) {
+                continue;
+            }
+
+            if (\str_contains($ruleName, 'combo_')) {
+                $ruleName = \str_replace('combo_', '', $ruleName);
+                $rulesInCode[] = $ruleName;
+                $rulesInCode[] = "{$ruleName}_min";
+                $rulesInCode[] = "{$ruleName}_greater";
+                $rulesInCode[] = "{$ruleName}_not";
+                $rulesInCode[] = "{$ruleName}_less";
+                $rulesInCode[] = "{$ruleName}_max";
+            } else {
+                $rulesInCode[] = $ruleName;
+            }
+        }
+        \sort($rulesInCode, \SORT_NATURAL);
+
+        isSame(
+            $rulesInCode,
+            $rulesInConfig,
+            "New: \n" . \array_reduce(
+                \array_diff($rulesInConfig, $rulesInCode),
+                static fn (string $carry, string $item) => $carry . "{$item}: NEW\n",
+                '',
+            ),
+        );
+
+        isSame(
+            $rulesInCode,
+            $rulesInConfig,
+            "Not exists: \n" . \array_reduce(
+                \array_diff($rulesInCode, $rulesInConfig),
+                static fn (string $carry, string $item) => $carry . "{$item}: FIXME\n",
+                '',
+            ),
+        );
+    }
+
+    public function testCsvDefaultValues(): void
+    {
+        $full = yml(Tools::SCHEMA_FULL_YML)->findArray('csv');
+        unset($full['preset']);
+        isSame($full, (new Schema([]))->getCsvParams());
+    }
+
+    public function testStructuralRules(): void
+    {
+        $full = yml(Tools::SCHEMA_FULL_YML)->findArray('structural_rules');
+        unset($full['preset']);
+        isSame($full, (new Schema([]))->getStructuralRulesParams());
     }
 
     public function testCheckPhpExample(): void
@@ -120,8 +182,14 @@ final class ExampleSchemasTest extends TestCase
     {
         $yml = yml(Tools::SCHEMA_FULL_YML);
 
-        $rules = \array_keys($yml->findArray('columns.0.rules'));
-        $agRules = \array_keys($yml->findArray('columns.0.aggregate_rules'));
+        $rules = $yml->findArray('columns.0.rules');
+        unset($rules['preset']);
+        $rules = \array_keys($rules);
+
+        $agRules = $yml->findArray('columns.0.aggregate_rules');
+        unset($agRules['preset']);
+        $agRules = \array_keys($agRules);
+
         $notUnique = \array_intersect($rules, $agRules);
 
         isSame([], $notUnique, 'Rules names should be unique: ' . \implode(', ', $notUnique));
