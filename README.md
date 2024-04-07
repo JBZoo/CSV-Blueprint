@@ -1470,6 +1470,7 @@ Options:
       --debug                      Intended solely for debugging and advanced profiling purposes.
                                    Activating this option provides detailed process insights,
                                    useful for troubleshooting and performance analysis.
+      --parallel                   Experimental feature to validate schemas in parallel mode. It can speed up the process on multi-core CPUs.
       --no-progress                Disable progress bar animation for logs. It will be used only for text output format.
       --mute-errors                Mute any sort of errors. So exit code will be always "0" (if it's possible).
                                    It has major priority then --non-zero-on-error. It's on your own risk!
@@ -1526,6 +1527,7 @@ Options:
       --debug                    Intended solely for debugging and advanced profiling purposes.
                                  Activating this option provides detailed process insights,
                                  useful for troubleshooting and performance analysis.
+      --parallel                 Experimental feature to validate schemas in parallel mode. It can speed up the process on multi-core CPUs.
       --no-progress              Disable progress bar animation for logs. It will be used only for text output format.
       --mute-errors              Mute any sort of errors. So exit code will be always "0" (if it's possible).
                                  It has major priority then --non-zero-on-error. It's on your own risk!

@@ -76,6 +76,13 @@ abstract class AbstractValidate extends CliCommand
                     'Activating this option provides detailed process insights,',
                     'useful for troubleshooting and performance analysis.',
                 ]),
+            )
+            ->addOption(
+                'parallel',
+                null,
+                InputOption::VALUE_NONE,
+                'Experimental feature to validate schemas in parallel mode. ' .
+                'It can speed up the process on multi-core CPUs.',
             );
 
         parent::configure();

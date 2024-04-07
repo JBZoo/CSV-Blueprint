@@ -27,7 +27,7 @@
     "prefer-stable"     : true,
 
     "require"           : {
-        "php"                                 : "^8.1",
+        "php"                                 : "^8.2",
         "ext-mbstring"                        : "*",
 
         "league/csv"                          : "^9.15.0",
@@ -36,15 +36,14 @@
         "jbzoo/utils"                         : "^7.2.1",
         "jbzoo/ci-report-converter"           : "^7.2.1",
 
-        "symfony/yaml"                        : ">=6.4.3",
-        "symfony/filesystem"                  : ">=6.4.3",
-        "symfony/finder"                      : ">=6.4.0",
+        "symfony/yaml"                        : ">=7.0.3",
+        "symfony/filesystem"                  : ">=7.0.6",
+        "symfony/finder"                      : ">=7.0.0",
         "markrogoyski/math-php"               : "^2.9.0",
         "respect/validation"                  : "^2.3.6",
-        "giggsey/libphonenumber-for-php-lite" : "^8.13.33",
+        "giggsey/libphonenumber-for-php-lite" : "^8.13.34",
         "giggsey/locale"                      : "^2.5",
-        "symfony/polyfill-mbstring"           : "^1.29.0",
-        "amphp/parallel"                      : "^1.4"
+        "amphp/parallel"                      : "^2.2.9"
     },
 
     "require-dev"       : {
@@ -77,6 +76,11 @@
     "extra"             : {
         "branch-alias" : {
             "dev-master" : "7.x-dev"
+        },
+        "preload"      : {
+            "paths"           : ["src"],
+            "extensions"      : ["php"],
+            "no-status-check" : false
         }
     }
 }

@@ -16,11 +16,15 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Commands;
 
+use Amp\Future;
+use Amp\Parallel\Worker;
 use JBZoo\CsvBlueprint\Schema;
 use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\Error;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
+use JBZoo\CsvBlueprint\Workers\SchemaValidationTask;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
@@ -65,6 +69,10 @@ final class ValidateSchema extends AbstractValidate
         $this->out("Found schemas: {$totalFiles}");
         $this->out('');
 
+        if ($this->getOptBool('parallel')) {
+            return $this->executeParallel($schemas);
+        }
+
         $foundIssues = 0;
         $index = 0;
         foreach ($this->findFiles('schema') as $file) {
@@ -95,5 +103,28 @@ final class ValidateSchema extends AbstractValidate
         }
 
         return $foundIssues === 0 ? self::SUCCESS : self::FAILURE;
+    }
+
+    /**
+     * @return SplFileInfo[]
+     */
+    private function executeParallel(array $schemas): int
+    {
+        $executions = [];
+        foreach ($schemas as $schema) {
+            $path = (string)$schema->getRealPath();
+            $executions[$path] = Worker\submit(new SchemaValidationTask($path));
+        }
+
+        $responses = Future\await(
+            \array_map(
+                static fn (Worker\Execution $e) => $e->getFuture(),
+                $executions,
+            ),
+        );
+
+        dump($responses);
+
+        return self::SUCCESS;
     }
 }
