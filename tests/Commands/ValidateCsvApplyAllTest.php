@@ -55,11 +55,12 @@ final class ValidateCsvApplyAllTest extends TestCase
               No issues in 1 CSV files.
               Not used schemas:
                 * ./tests/schemas/demo_invalid_no_pattern.yml
+              Looks good!
             
             
             TXT;
 
-        isSame(1, $exitCode, $actual);
+        isSame(0, $exitCode, $actual);
         isSame($expected, $actual);
     }
 

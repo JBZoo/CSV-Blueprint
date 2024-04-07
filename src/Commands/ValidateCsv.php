@@ -45,7 +45,6 @@ final class ValidateCsv extends AbstractValidate
                     'This can include a direct path to a file or a directory to search with a maximum depth of ' .
                     Utils::MAX_DIRECTORY_DEPTH . ' levels.',
                     'Examples: <info>' . \implode('</info>; <info>', [
-                        '/full/path/name.csv',
                         'p/file.csv',
                         'p/*.csv',
                         'p/**/*.csv',
@@ -63,7 +62,6 @@ final class ValidateCsv extends AbstractValidate
                     'Specify the path(s) to the schema file(s), supporting YAML, JSON, or PHP formats. ',
                     'Similar to CSV paths, you can direct to specific files or search directories with glob patterns.',
                     'Examples: <info>' . \implode('</info>; <info>', [
-                        '/full/path/name.yml',
                         'p/file.yml',
                         'p/*.yml',
                         'p/**/*.yml',
@@ -245,7 +243,6 @@ final class ValidateCsv extends AbstractValidate
             $totalSchemaFiles === 0
             || $errorInCsvCounter > 0
             || $errorInSchemaCounter > 0
-            || \count($matchedFiles['schema_without_csv']) > 0
             || \count($matchedFiles['csv_without_schema']) > 0
         ) {
             $exitCode = self::FAILURE;
