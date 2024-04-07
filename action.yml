@@ -36,8 +36,13 @@ inputs:
     default: table
     required: true
   apply-all:
-    description: 'Apply all schemas (also without `filename_pattern`) to all CSV files found.'
-    default: no
+    description: |
+      Apply all schemas (also without `filename_pattern`) to all CSV files found as global rules.
+        Available options:
+        auto: If no glob pattern (*) is used for --schema, the schema is applied to all found CSV files.
+        yes: Apply all schemas to all CSV files, Schemas without `filename_pattern` are applied as a global rule.
+        no: Apply only schemas with not empty `filename_pattern` and match the CSV files.
+    default: auto
     required: true
   quick:
     description: 'Quick mode. It will not validate all rows. It will stop after the first error.'

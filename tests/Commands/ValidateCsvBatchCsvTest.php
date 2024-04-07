@@ -40,7 +40,7 @@ final class ValidateCsvBatchCsvTest extends TestCase
 
         $expected = <<<'TXT'
             CSV Blueprint: Unknown version (PhpUnit)
-            Found Schemas   : 1
+            Found Schemas   : 1 (Apply All)
             Found CSV files : 4
             Pairs by pattern: 4
             
@@ -79,7 +79,7 @@ final class ValidateCsvBatchCsvTest extends TestCase
 
         $expected = <<<'TXT'
             CSV Blueprint: Unknown version (PhpUnit)
-            Found Schemas   : 1
+            Found Schemas   : 1 (Apply All)
             Found CSV files : 3
             Pairs by pattern: 3
             

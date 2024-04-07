@@ -88,8 +88,19 @@ final class ValidateCsv extends AbstractValidate
                 'apply-all',
                 'a',
                 InputOption::VALUE_OPTIONAL,
-                'Apply global schemas (also without `filename_pattern`) to all CSV files found.',
-                'no',
+                \implode("\n", [
+                    "Apply all schemas (also without `filename_pattern`) to all CSV files found as global rules.\n",
+                    'Available options:',
+                    ' - <info>auto</info>: If no glob pattern (*) is used for --schema, the schema is applied to all ' .
+                    'found CSV files.',
+                    ' - <info>yes|y|1</info>: Apply all schemas to all CSV files, Schemas without `filename_pattern` ' .
+                    'are applied as a global rule.',
+                    ' - <info>no|n|0</info>: Apply only schemas with not empty `filename_pattern` and ' .
+                    'match the CSV files.',
+                    'Note. If specify the option `--apply-all` without value, it will be treated as "yes".',
+                    '',
+                ]),
+                'auto',
             );
 
         parent::configure();
@@ -101,7 +112,7 @@ final class ValidateCsv extends AbstractValidate
 
         $csvFilenames = $this->findFiles('csv', false);
         $schemaFilenames = $this->findFiles('schema', false);
-        $matchedFiles = Utils::matchSchemaAndCsvFiles($csvFilenames, $schemaFilenames, $this->isApplyGlobal());
+        $matchedFiles = Utils::matchSchemaAndCsvFiles($csvFilenames, $schemaFilenames, $this->isApplyAll());
 
         $this->printHeaderInfo($csvFilenames, $schemaFilenames, $matchedFiles);
 
@@ -117,18 +128,6 @@ final class ValidateCsv extends AbstractValidate
             $errorInSchemaCounter,
             $matchedFiles,
         );
-    }
-
-    protected function isApplyGlobal(): bool
-    {
-        $value = $this->getOptString('apply-all');
-        return $value === '' || bool($value);
-    }
-
-    private function isCheckingSchema(): bool
-    {
-        $value = $this->getOptString('skip-schema');
-        return !($value === '' || bool($value));
     }
 
     /**
@@ -318,6 +317,37 @@ final class ValidateCsv extends AbstractValidate
         return $exitCode;
     }
 
+    private function isApplyAll(): bool
+    {
+        $applyAll = \strtolower(\trim($this->getOptString('apply-all')));
+        if (\in_array($applyAll, ['', 'yes', 'y', '1'], true)) {
+            return true;
+        }
+
+        if (\in_array($applyAll, ['no', 'n', '0'], true)) {
+            return false;
+        }
+
+        if ($applyAll === 'auto') {
+            $schemaPatterns = $this->getOptArray('schema');
+            foreach ($schemaPatterns as $schema) {
+                if (\str_contains($schema, '*')) { // glob pattern found.
+                    return false;
+                }
+            }
+
+            return \count($schemaPatterns) === 1; // Only one schema file found without glob pattern.
+        }
+
+        throw new Exception('Invalid value for --apply-all option: ' . $applyAll);
+    }
+
+    private function isCheckingSchema(): bool
+    {
+        $value = $this->getOptString('skip-schema');
+        return !($value === '' || bool($value));
+    }
+
     /**
      * @param SplFileInfo[] $csvFilenames
      * @param SplFileInfo[] $schemaFilenames
@@ -325,8 +355,9 @@ final class ValidateCsv extends AbstractValidate
     private function printHeaderInfo(array $csvFilenames, array $schemaFilenames, array $matchedFiles): void
     {
         $validationFlag = $this->isCheckingSchema() ? '' : ' (<c>Validation skipped</c>)';
+        $applyAllFlag = $this->isApplyAll() ? ' (<c>Apply All</c>)' : '';
         $this->out([
-            'Found Schemas   : ' . \count($schemaFilenames) . $validationFlag,
+            'Found Schemas   : ' . \count($schemaFilenames) . $validationFlag . $applyAllFlag,
             'Found CSV files : ' . \count($csvFilenames),
             'Pairs by pattern: ' . $matchedFiles['count_pairs'],
         ]);

@@ -145,10 +145,14 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
     # Required: true
     report: 'table'
 
-    # Apply all schemas (also without `filename_pattern`) to all CSV files found.
-    # Default value: 'no'
+    # Apply all schemas (also without `filename_pattern`) to all CSV files found as global rules.
+    #   Available options:
+    #   auto: If no glob pattern (*) is used for --schema, the schema is applied to all found CSV files.
+    #   yes: Apply all schemas to all CSV files, Schemas without `filename_pattern` are applied as a global rule.
+    #   no: Apply only schemas with not empty `filename_pattern` and match the CSV files.
+    # Default value: 'auto'
     # Required: true
-    apply-all: 'no'
+    apply-all: 'auto'
 
     # Quick mode. It will not validate all rows. It will stop after the first error.
     # Default value: 'no'
@@ -1446,7 +1450,13 @@ Options:
   -S, --skip-schema[=SKIP-SCHEMA]  Skips schema validation for quicker checks when the schema's correctness is certain.
                                    Use any non-empty value or "yes" to activate
                                     [default: "no"]
-  -a, --apply-all[=APPLY-ALL]      Apply global schemas (also without `filename_pattern`) to all CSV files found. [default: "no"]
+  -a, --apply-all[=APPLY-ALL]      Apply all schemas (also without `filename_pattern`) to all CSV files found as global rules.
+                                   Available options:
+                                   - auto: If no glob pattern (*) is used for --schema, the schema is applied to all found CSV files.
+                                   - yes|y|1: Apply all schemas to all CSV files, Schemas without `filename_pattern` are applied as a global rule.
+                                   - no|n|0: Apply only schemas with not empty `filename_pattern` and match the CSV files.
+                                   Note. If specify the option `--apply-all` without value, it will be treated as "yes".
+                                    [default: "auto"]
   -r, --report=REPORT              Determines the report's output format.
                                    Available options: text, table, github, gitlab, teamcity, junit
                                     [default: "table"]
@@ -1557,7 +1567,7 @@ discovered errors. This format is ideal for quick reviews and sharing with team 
 
 
 CSV Blueprint: vX.Y.Z
-Found Schemas   : 1
+Found Schemas   : 1 (Apply All)
 Found CSV files : 1
 Pairs by pattern: 1
 

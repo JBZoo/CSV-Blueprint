@@ -52,7 +52,7 @@ final class GithubActionsTest extends TestCase
             'csv'         => './tests/**/*.csv',
             'schema'      => './tests/**/*.yml',
             'report'      => "'" . ErrorSuite::REPORT_DEFAULT . "'",
-            'apply-all'   => "'no'",
+            'apply-all'   => "'auto'",
             'quick'       => "'no'",
             'skip-schema' => "'no'",
             'extra'       => "'options: --ansi'",
