@@ -49,13 +49,13 @@ final class GithubActionsTest extends TestCase
     {
         $inputs = yml(PROJECT_ROOT . '/action.yml')->findArray('inputs');
         $examples = [
-            'csv'          => './tests/**/*.csv',
-            'schema'       => './tests/**/*.yml',
-            'report'       => "'" . ErrorSuite::REPORT_DEFAULT . "'",
-            'apply-global' => "'no'",
-            'quick'        => "'no'",
-            'skip-schema'  => "'no'",
-            'extra'        => "'options: --ansi'",
+            'csv'         => './tests/**/*.csv',
+            'schema'      => './tests/**/*.yml',
+            'report'      => "'" . ErrorSuite::REPORT_DEFAULT . "'",
+            'apply-all'   => "'no'",
+            'quick'       => "'no'",
+            'skip-schema' => "'no'",
+            'extra'       => "'options: --ansi'",
         ];
 
         $expectedMessage = [

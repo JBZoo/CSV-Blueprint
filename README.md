@@ -145,10 +145,10 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
     # Required: true
     report: 'table'
 
-    # Apply global schemas (without `filename_pattern`) to all CSV files found.
+    # Apply all schemas (also without `filename_pattern`) to all CSV files found.
     # Default value: 'no'
     # Required: true
-    apply-global: 'no'
+    apply-all: 'no'
 
     # Quick mode. It will not validate all rows. It will stop after the first error.
     # Default value: 'no'
@@ -1435,50 +1435,50 @@ Usage:
   validate:csv [options]
 
 Options:
-  -c, --csv=CSV                      Specify the path(s) to the CSV files you want to validate.
-                                     This can include a direct path to a file or a directory to search with a maximum depth of 10 levels.
-                                     Examples: /full/path/name.csv; p/file.csv; p/*.csv; p/**/*.csv; p/**/name-*.csv; **/*.csv
-                                      (multiple values allowed)
-  -s, --schema=SCHEMA                Specify the path(s) to the schema file(s), supporting YAML, JSON, or PHP formats.
-                                     Similar to CSV paths, you can direct to specific files or search directories with glob patterns.
-                                     Examples: /full/path/name.yml; p/file.yml; p/*.yml; p/**/*.yml; p/**/name-*.yml; **/*.yml
-                                      (multiple values allowed)
-  -S, --skip-schema[=SKIP-SCHEMA]    Skips schema validation for quicker checks when the schema's correctness is certain.
-                                     Use any non-empty value or "yes" to activate
-                                      [default: "no"]
-  -G, --apply-global[=APPLY-GLOBAL]  Apply global schemas (without `filename_pattern`) to all CSV files found. [default: "no"]
-  -r, --report=REPORT                Determines the report's output format.
-                                     Available options: text, table, github, gitlab, teamcity, junit
-                                      [default: "table"]
-  -Q, --quick[=QUICK]                Stops the validation process upon encountering the first error,
-                                     accelerating the check but limiting error visibility.
-                                     Returns a non-zero exit code if any error is detected.
-                                     Enable by setting to any non-empty value or "yes".
-                                      [default: "no"]
-      --dump-schema                  Dumps the schema of the CSV file if you want to see the final schema after inheritance.
-      --debug                        Intended solely for debugging and advanced profiling purposes.
-                                     Activating this option provides detailed process insights,
-                                     useful for troubleshooting and performance analysis.
-      --no-progress                  Disable progress bar animation for logs. It will be used only for text output format.
-      --mute-errors                  Mute any sort of errors. So exit code will be always "0" (if it's possible).
-                                     It has major priority then --non-zero-on-error. It's on your own risk!
-      --stdout-only                  For any errors messages application will use StdOut instead of StdErr. It's on your own risk!
-      --non-zero-on-error            None-zero exit code on any StdErr message.
-      --timestamp                    Show timestamp at the beginning of each message.It will be used only for text output format.
-      --profile                      Display timing and memory usage information.
-      --output-mode=OUTPUT-MODE      Output format. Available options:
-                                     text - Default text output format, userfriendly and easy to read.
-                                     cron - Shortcut for crontab. It's basically focused on human-readable logs output.
-                                     It's combination of --timestamp --profile --stdout-only --no-progress -vv.
-                                     logstash - Logstash output format, for integration with ELK stack.
-                                      [default: "text"]
-      --cron                         Alias for --output-mode=cron. Deprecated!
-  -h, --help                         Display help for the given command. When no command is given display help for the list command
-  -q, --quiet                        Do not output any message
-  -V, --version                      Display this application version
-      --ansi|--no-ansi               Force (or disable --no-ansi) ANSI output
-  -n, --no-interaction               Do not ask any interactive question
-  -v|vv|vvv, --verbose               Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+  -c, --csv=CSV                    Specify the path(s) to the CSV files you want to validate.
+                                   This can include a direct path to a file or a directory to search with a maximum depth of 10 levels.
+                                   Examples: /full/path/name.csv; p/file.csv; p/*.csv; p/**/*.csv; p/**/name-*.csv; **/*.csv
+                                    (multiple values allowed)
+  -s, --schema=SCHEMA              Specify the path(s) to the schema file(s), supporting YAML, JSON, or PHP formats.
+                                   Similar to CSV paths, you can direct to specific files or search directories with glob patterns.
+                                   Examples: /full/path/name.yml; p/file.yml; p/*.yml; p/**/*.yml; p/**/name-*.yml; **/*.yml
+                                    (multiple values allowed)
+  -S, --skip-schema[=SKIP-SCHEMA]  Skips schema validation for quicker checks when the schema's correctness is certain.
+                                   Use any non-empty value or "yes" to activate
+                                    [default: "no"]
+  -a, --apply-all[=APPLY-ALL]      Apply global schemas (also without `filename_pattern`) to all CSV files found. [default: "no"]
+  -r, --report=REPORT              Determines the report's output format.
+                                   Available options: text, table, github, gitlab, teamcity, junit
+                                    [default: "table"]
+  -Q, --quick[=QUICK]              Stops the validation process upon encountering the first error,
+                                   accelerating the check but limiting error visibility.
+                                   Returns a non-zero exit code if any error is detected.
+                                   Enable by setting to any non-empty value or "yes".
+                                    [default: "no"]
+      --dump-schema                Dumps the schema of the CSV file if you want to see the final schema after inheritance.
+      --debug                      Intended solely for debugging and advanced profiling purposes.
+                                   Activating this option provides detailed process insights,
+                                   useful for troubleshooting and performance analysis.
+      --no-progress                Disable progress bar animation for logs. It will be used only for text output format.
+      --mute-errors                Mute any sort of errors. So exit code will be always "0" (if it's possible).
+                                   It has major priority then --non-zero-on-error. It's on your own risk!
+      --stdout-only                For any errors messages application will use StdOut instead of StdErr. It's on your own risk!
+      --non-zero-on-error          None-zero exit code on any StdErr message.
+      --timestamp                  Show timestamp at the beginning of each message.It will be used only for text output format.
+      --profile                    Display timing and memory usage information.
+      --output-mode=OUTPUT-MODE    Output format. Available options:
+                                   text - Default text output format, userfriendly and easy to read.
+                                   cron - Shortcut for crontab. It's basically focused on human-readable logs output.
+                                   It's combination of --timestamp --profile --stdout-only --no-progress -vv.
+                                   logstash - Logstash output format, for integration with ELK stack.
+                                    [default: "text"]
+      --cron                       Alias for --output-mode=cron. Deprecated!
+  -h, --help                       Display help for the given command. When no command is given display help for the list command
+  -q, --quiet                      Do not output any message
+  -V, --version                    Display this application version
+      --ansi|--no-ansi             Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction             Do not ask any interactive question
+  -v|vv|vvv, --verbose             Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 ```
 <!-- auto-update:/validate-csv-help -->
 
