@@ -151,8 +151,6 @@ final class ValidateCsvBasicTest extends TestCase
         isSame($expected, $actual);
     }
 
-    // ###################################################################################################################
-
     public function testInvalidSchemaNotMatched(): void
     {
         $options = [
@@ -315,6 +313,46 @@ final class ValidateCsvBasicTest extends TestCase
             TXT;
 
         isSame(1, $exitCode, $actual);
+        isSame($expected, $actual);
+    }
+
+    public function testNoSchemaWasAppliedToCsv(): void
+    {
+        $optionsAsString = Tools::arrayToOptionString([
+            'csv'    => './tests/fixtures/demo.csv',
+            'schema' => [
+                './tests/schemas/preset/child-of-child.yml',
+                './tests/schemas/demo_valid.yml',
+            ],
+        ]);
+        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $optionsAsString);
+
+        $expected = <<<'TXT'
+            CSV Blueprint: Unknown version (PhpUnit)
+            Found Schemas   : 2
+            Found CSV files : 1
+            Pairs by pattern: 1
+            
+            Check schema syntax: 2
+              (1/2) OK ./tests/schemas/demo_valid.yml
+              (2/2) OK ./tests/schemas/preset/child-of-child.yml
+            
+            CSV file validation: 1
+            Schema: ./tests/schemas/demo_valid.yml
+              OK ./tests/fixtures/demo.csv; Size: 123.34 MB
+            
+            Summary:
+              1 pairs (schema to csv) were found based on `filename_pattern`.
+              No issues in 2 schemas.
+              No issues in 1 CSV files.
+              Not used schemas:
+                * ./tests/schemas/preset/child-of-child.yml
+              Looks good!
+            
+            
+            TXT;
+
+        isSame(0, $exitCode, $actual);
         isSame($expected, $actual);
     }
 }

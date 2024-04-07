@@ -130,13 +130,13 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
   with:
     # Specify the path(s) to the CSV files you want to validate.
     #   This can include a direct path to a file or a directory to search with a maximum depth of 10 levels.
-    #   Examples: /full/path/name.csv; p/file.csv; p/*.csv; p/**/*.csv; p/**/name-*.csv; **/*.csv
+    #   Examples: p/file.csv; p/*.csv; p/**/*.csv; p/**/name-*.csv; **/*.csv
     # Required: true
     csv: './tests/**/*.csv'
 
     # Specify the path(s) to the schema file(s), supporting YAML, JSON, or PHP formats.
     #   Similar to CSV paths, you can direct to specific files or search directories with glob patterns.
-    #   Examples: /full/path/name.yml; p/file.yml; p/*.yml; p/**/*.yml; p/**/name-*.yml; **/*.yml
+    #   Examples: p/file.yml; p/*.yml; p/**/*.yml; p/**/name-*.yml; **/*.yml
     # Required: true
     schema: './tests/**/*.yml'
 
@@ -976,6 +976,7 @@ In fact, this can be considered as partial inheritance.
  - You can make the chain of inheritance infinitely long.
    I.e. make chains of the form `grant-parent.yml` -> `parent.yml` -> `child.yml` -> `grandchild.yml` -> etc.
    Of course if you like to take risks ;).
+ - But be careful with circular dependencies. The tool will not be able to handle them, and it can be an infinite loop.
  - Any(!) of the schema files can be used alone or as a library. The syntax is the same.
  - Schemas with presets validate themselves and if there are any obvious issues, you will see them when you try to use
    the schema. But logical conflicts between rules are not checked (It's almost impossible from a code perspective).
@@ -1441,11 +1442,11 @@ Usage:
 Options:
   -c, --csv=CSV                    Specify the path(s) to the CSV files you want to validate.
                                    This can include a direct path to a file or a directory to search with a maximum depth of 10 levels.
-                                   Examples: /full/path/name.csv; p/file.csv; p/*.csv; p/**/*.csv; p/**/name-*.csv; **/*.csv
+                                   Examples: p/file.csv; p/*.csv; p/**/*.csv; p/**/name-*.csv; **/*.csv
                                     (multiple values allowed)
   -s, --schema=SCHEMA              Specify the path(s) to the schema file(s), supporting YAML, JSON, or PHP formats.
                                    Similar to CSV paths, you can direct to specific files or search directories with glob patterns.
-                                   Examples: /full/path/name.yml; p/file.yml; p/*.yml; p/**/*.yml; p/**/name-*.yml; **/*.yml
+                                   Examples: p/file.yml; p/*.yml; p/**/*.yml; p/**/name-*.yml; **/*.yml
                                     (multiple values allowed)
   -S, --skip-schema[=SKIP-SCHEMA]  Skips schema validation for quicker checks when the schema's correctness is certain.
                                    Use any non-empty value or "yes" to activate
