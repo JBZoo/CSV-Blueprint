@@ -85,10 +85,10 @@ final class ValidateCsv extends AbstractValidate
                 'no',
             )
             ->addOption(
-                'apply-global',
-                'G',
+                'apply-all',
+                'a',
                 InputOption::VALUE_OPTIONAL,
-                'Apply global schemas (without `filename_pattern`) to all CSV files found.',
+                'Apply global schemas (also without `filename_pattern`) to all CSV files found.',
                 'no',
             );
 
@@ -121,7 +121,7 @@ final class ValidateCsv extends AbstractValidate
 
     protected function isApplyGlobal(): bool
     {
-        $value = $this->getOptString('apply-global');
+        $value = $this->getOptString('apply-all');
         return $value === '' || bool($value);
     }
 

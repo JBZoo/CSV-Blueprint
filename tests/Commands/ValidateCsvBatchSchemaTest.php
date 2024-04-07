@@ -143,9 +143,9 @@ final class ValidateCsvBatchSchemaTest extends TestCase
     public function testNoPatternApplyGlobal(): void
     {
         $optionsAsString = Tools::arrayToOptionString([
-            'csv'          => './tests/fixtures/demo.csv',
-            'schema'       => [Tools::DEMO_YML_VALID, './tests/schemas/demo_invalid_no_pattern.yml'],
-            'apply-global' => 'yes',
+            'csv'       => './tests/fixtures/demo.csv',
+            'schema'    => [Tools::DEMO_YML_VALID, './tests/schemas/demo_invalid_no_pattern.yml'],
+            'apply-all' => 'yes',
         ]);
 
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $optionsAsString);

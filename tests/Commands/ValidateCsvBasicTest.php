@@ -250,9 +250,9 @@ final class ValidateCsvBasicTest extends TestCase
     public function testValidateOneCsvNoHeaderNegative(): void
     {
         [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
-            'csv'          => Tools::DEMO_CSV,
-            'schema'       => './tests/schemas/simple_no_header.yml',
-            'apply-global' => 'yes',
+            'csv'       => Tools::DEMO_CSV,
+            'schema'    => './tests/schemas/simple_no_header.yml',
+            'apply-all' => 'yes',
         ]);
 
         $expected = <<<'TXT'
