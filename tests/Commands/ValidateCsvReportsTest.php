@@ -28,7 +28,7 @@ final class ValidateCsvReportsTest extends TestCase
     {
         $expected = <<<'TXT'
             CSV Blueprint: Unknown version (PhpUnit)
-            Found Schemas   : 1
+            Found Schemas   : 1 (Apply All)
             Found CSV files : 1
             Pairs by pattern: 1
             
@@ -77,7 +77,7 @@ final class ValidateCsvReportsTest extends TestCase
     {
         $expected = <<<'TXT'
             CSV Blueprint: Unknown version (PhpUnit)
-            Found Schemas   : 1
+            Found Schemas   : 1 (Apply All)
             Found CSV files : 1
             Pairs by pattern: 1
             
@@ -117,7 +117,7 @@ final class ValidateCsvReportsTest extends TestCase
     {
         $expected = <<<'TXT'
             CSV Blueprint: Unknown version (PhpUnit)
-            Found Schemas   : 1
+            Found Schemas   : 1 (Apply All)
             Found CSV files : 1
             Pairs by pattern: 1
             
