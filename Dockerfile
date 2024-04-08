@@ -43,10 +43,10 @@ COPY ./docker/php.ini /usr/local/etc/php/conf.d/docker-z99-php.ini
 
 # Prepare opcode caches
 RUN find /app -type f -name "*.php" -exec touch {} +    \
-    && php /app/docker/build-preloader.php              \
-    && php /app/docker/preload.php \
-    && echo "opcache.preload=/app/docker/preload.php" >> /usr/local/etc/php/conf.d/docker-z99-php.ini \
-    && php /app/docker/preload.php
+    && time php /app/docker/build-preloader.php              \
+    && time php /app/docker/preload.php
+#    && echo "opcache.preload=/app/docker/preload.php" >> /usr/local/etc/php/conf.d/docker-z99-php.ini \
+#    && php /app/docker/preload.php
 
 # Test and warm up caches
 RUN time composer                                 \
