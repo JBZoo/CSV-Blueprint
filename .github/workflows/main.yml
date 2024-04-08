@@ -255,6 +255,7 @@ jobs:
 
       - name: Push Docker Image (master)
         uses: docker/build-push-action@v5
+        if: github.ref == 'refs/heads/master'
         with:
           context: .
           push: true

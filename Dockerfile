@@ -43,15 +43,13 @@ COPY ./docker/php.ini /usr/local/etc/php/conf.d/docker-z99-php.ini
 
 # Prepare opcode caches
 RUN find /app -type f -name "*.php" -exec touch {} +    \
-    && time php /app/docker/build-preloader.php              \
-    && time php /app/docker/preload.php
+    && php /app/docker/build-preloader.php
+#    && php /app/docker/preload.php
 #    && echo "opcache.preload=/app/docker/preload.php" >> /usr/local/etc/php/conf.d/docker-z99-php.ini \
 #    && php /app/docker/preload.php
 
 # Test and warm up caches
-RUN time composer                                 \
-    && time /app/csv-blueprint -h                 \
-    && time /app/csv-blueprint validate:csv -h    \
+RUN time /app/csv-blueprint validate:csv -h             \
     && time /app/csv-blueprint validate:schema -h
 
 ENTRYPOINT ["/app/csv-blueprint"]
