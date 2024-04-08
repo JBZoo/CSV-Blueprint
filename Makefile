@@ -75,7 +75,7 @@ demo-github: ##@Demo Run demo invalid CSV for GitHub Actions
 # Docker ###############################################################################################################
 docker-build: ##@Docker (Re-)build Docker image
 	$(call title,"Building Docker Image")
-	@docker build -t $(DOCKER_IMAGE) .
+	@docker build -t $(DOCKER_IMAGE) --progress=plain .
 
 docker-demo: ##@Docker Run demo via Docker
 	$(call title,"Demo - Valid CSV \(via Docker\)")
@@ -111,6 +111,9 @@ bench-create-csv: ##@Benchmarks Create CSV file
 	@time bash ./tests/Benchmarks/create-csv.sh
 	@echo "::endgroup::"
 
+bench-docker-quick: ##@Benchmarks Run CSV file with Docker (Quick)
+	@docker run --rm  $(DOCKER_IMAGE) --ansi --version
+	-$(BLUEPRINT_DOCKER) $(BENCH_CSV) $(BENCH_SCHEMAS_0) $(BENCH_FLAGS)
 
 bench-docker: ##@Benchmarks Run CSV file with Docker
 	@docker run --rm  $(DOCKER_IMAGE) --ansi --version
