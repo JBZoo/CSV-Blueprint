@@ -254,7 +254,7 @@ jobs:
           ! $BLUEPRINT_DOCKER $CMD_VALIDATE $INVALID_TEST
 
       - name: 🔥 Quick Benchmark 🔥
-        run: BENCH_COLS=1 make bench-create-csv bench-docker-quick --no-print-directory
+        run: BENCH_COLS=1 make bench-create-csv bench-docker --no-print-directory
 
       - name: Push Docker Image (master)
         uses: docker/build-push-action@v5
