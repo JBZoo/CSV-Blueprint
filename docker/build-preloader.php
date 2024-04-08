@@ -44,7 +44,6 @@ $excludes = [
     'vendor/monolog/monolog/src/Monolog/Test/TestCase.php',
     'vendor/symfony/console/DataCollector/CommandDataCollector.php',
     'vendor/symfony/console/Debug/CliRequest.php',
-    'vendor/symfony/console/Debug/CliRequest.php',
     'vendor/symfony/console/DependencyInjection/AddConsoleCommandPass.php',
     'vendor/symfony/console/EventListener/ErrorListener.php',
     'vendor/symfony/console/Event/ConsoleCommandEvent.php',

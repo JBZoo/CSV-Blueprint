@@ -51,8 +51,7 @@ RUN time /app/csv-blueprint validate:csv -h       \
     && time /app/csv-blueprint validate:schema    \
       --schema=/app/schema-examples/*.yml         \
       --schema=/app/schema-examples/*.php         \
-      --schema=/app/schema-examples/*.json -vvv
-
-RUN du -sh /app/docker
+      --schema=/app/schema-examples/*.json -vvv   \
+    && du -sh /app/docker
 
 ENTRYPOINT ["/app/csv-blueprint"]
