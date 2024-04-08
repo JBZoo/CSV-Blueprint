@@ -14,25 +14,34 @@
 
 declare(strict_types=1);
 
-use ClassPreloader\ClassLoader;
-use JBZoo\Cli\CliApplication;
-use JBZoo\CsvBlueprint\Commands\ValidateCsv;
-use JBZoo\Utils\Cli;
-use Symfony\Component\Console\Input\StringInput;
-use Symfony\Component\Console\Output\BufferedOutput;
+$require = __DIR__ . '/../vendor/composer/autoload_classmap.php';
 
-$config = ClassLoader::getIncludes(function (ClassLoader $loader): void {
-    require __DIR__ . '/../vendor/autoload.php';
-    $loader->register();
+$classes = require $require;
 
-    $command = (new CliApplication())->add(new ValidateCsv());
-    $buffer = new BufferedOutput();
-    $args = new StringInput(Cli::build('', [
-        'csv'    => './tests/fixtures/*.csv',
-        'schema' => './tests/schemas/*.yml',
-    ]));
+$index = 0;
+$total = \count($classes);
 
-    $command->run($args, $buffer);
-});
+$result = [
+    '<?php',
+    'if (!\function_exists(\'opcache_compile_file\') || !\ini_get(\'opcache.enable\')) {',
+    "    echo 'Opcache is not available.';",
+    '    die(1);',
+    '}',
+    '',
+    'if (\'cli\' === \PHP_SAPI && !\ini_get(\'opcache.enable_cli\')) {',
+    "    echo 'Opcache is not enabled for CLI applications.';",
+    '    die(2);',
+    '}',
+    '',
+];
 
-return $config;
+foreach ($classes as $path) {
+    $index++;
+    if (\opcache_compile_file($path) === false) {
+        throw new Exception("Can't compile file: {$path}");
+    }
+
+    $result[] = "\\opcache_compile_file('{$path}');";
+}
+
+\file_put_contents(__DIR__ . '/preload.php', \implode("\n", $result));
