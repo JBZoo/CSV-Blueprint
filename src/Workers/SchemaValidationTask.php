@@ -16,21 +16,18 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Workers;
 
-use Amp\Cancellation;
-use Amp\Parallel\Worker\Task;
-use Amp\Sync\Channel;
+use HDSSolutions\Console\Parallel\ParallelWorker;
 use JBZoo\CsvBlueprint\Schema;
 
-class SchemaValidationTask implements Task
+final class ExampleWorker extends ParallelWorker
 {
     public function __construct(
         private readonly string $schemaFilename,
     ) {
     }
 
-    public function run(Channel $channel, Cancellation $cancellation): string
+    protected function process(string $schemaFilename): string
     {
-        //Cli::out('Validating schema: ' . $this->schemaFilename);
-        return (string)(new Schema($this->schemaFilename))->validate();
+        return (string)(new Schema($schemaFilename))->validate();
     }
 }

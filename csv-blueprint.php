@@ -24,7 +24,7 @@ if ('cli' !== \PHP_SAPI) {
 require_once __DIR__ . '/vendor/autoload.php';
 
 if (\extension_loaded('parallel')) {
-    \parallel\bootstrap(__DIR__ . '/vendor/preload.php');
+    \parallel\bootstrap(__DIR__ . '/vendor/autoload.php');
 }
 
 // Fix for GitHub actions. See action.yml
