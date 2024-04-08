@@ -16,13 +16,12 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Commands;
 
-use Amp\Future;
-use Amp\Parallel\Worker;
+use HDSSolutions\Console\Parallel\Scheduler;
 use JBZoo\CsvBlueprint\Schema;
 use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\Error;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
-use JBZoo\CsvBlueprint\Workers\SchemaValidationTask;
+use JBZoo\CsvBlueprint\Workers\ExampleWorker;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -110,20 +109,63 @@ final class ValidateSchema extends AbstractValidate
      */
     private function executeParallel(array $schemas): int
     {
-        $executions = [];
+        // $executions = [];
+        // foreach ($schemas as $schema) {
+        //     $path = (string)$schema->getRealPath();
+        //     $executions[$path] = Worker\submit(new SchemaValidationTask($path));
+        // }
+        //
+        // $responses = Future\await(
+        //     \array_map(
+        //         static fn (Worker\Execution $e) => $e->getFuture(),
+        //         $executions,
+        //     ),
+        // );
+        //
+        // dump($responses);
+
+        $taskFunction = static function ($schemaFilename, $index): string {
+            require_once __DIR__ . '/../../vendor/autoload.php';
+            \sleep(\random_int(1, 3));
+            return $index . '|' . (string)(new Schema($schemaFilename))->validate();
+        };
+
+        // $runtimes = [];
+        // foreach ($schemas as $index => $schema) {
+        //    $runtime = new \parallel\Runtime();
+        //    $runtimes[$index] = $runtime->run($taskFunction, [$schema->getRealPath(), $index]);
+        // }
+        // dump(1);
+        //
+        // $results = [];
+        // foreach ($runtimes as $index => $runtime) {
+        //    $results[$index] = $runtime->value();
+        // }
+        //
+        // dump($results);
+
+        Scheduler::using(ExampleWorker::class);
+
         foreach ($schemas as $schema) {
-            $path = (string)$schema->getRealPath();
-            $executions[$path] = Worker\submit(new SchemaValidationTask($path));
+            // tasks will start as soon as a thread is available
+            Scheduler::runTask($schema->getRealPath());
         }
 
-        $responses = Future\await(
-            \array_map(
-                static fn (Worker\Execution $e) => $e->getFuture(),
-                $executions,
-            ),
-        );
+        do {
+            $all_processed = true;
+            foreach (Scheduler::getTasks() as $task) {
+                switch (true) {
+                    case $task->isBeingProcessed():
+                    case $task->isPending():
+                        $all_processed = false;
+                        break;
 
-        dump($responses);
+                    case $task->wasProcessed():
+                        $result = $task->getOutput();
+                        break;
+                }
+            }
+        } while (false == $all_processed);
 
         return self::SUCCESS;
     }
