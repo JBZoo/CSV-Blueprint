@@ -223,8 +223,6 @@ jobs:
   verify-docker:
     name: Verify Docker
     runs-on: ubuntu-latest
-    env:
-      BENCH_COLS: 1
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -256,7 +254,7 @@ jobs:
           ! $BLUEPRINT_DOCKER $CMD_VALIDATE $INVALID_TEST
 
       - name: 🔥 Quick Benchmark 🔥
-        run: make bench-create-csv bench-docker --no-print-directory
+        run: BENCH_COLS=1 make build bench-create-csv bench-docker --no-print-directory
 
       - name: Push Docker Image (master)
         uses: docker/build-push-action@v5
