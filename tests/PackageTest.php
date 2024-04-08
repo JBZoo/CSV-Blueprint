@@ -21,6 +21,7 @@ use function JBZoo\Data\json;
 final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
 {
     protected string $packageName = 'Csv-Blueprint';
+    protected string $composerPhpVersion = '^8.2';
 
     protected array $params = [
         'packagist_latest_stable_version'   => true,
