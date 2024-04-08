@@ -55,7 +55,7 @@ final class GithubActionsTest extends TestCase
             'apply-all'   => "'auto'",
             'quick'       => "'no'",
             'skip-schema' => "'no'",
-            'extra'       => "'options: --ansi'",
+            'extra'       => "'options: --ansi -v'",
         ];
 
         $expectedMessage = [
@@ -73,8 +73,6 @@ final class GithubActionsTest extends TestCase
 
             if (isset($input['default']) && $examples[$key] === $input['default']) {
                 $expectedMessage[] = '    # You can skip it.';
-            } elseif (isset($input['required']) && $input['required']) {
-                $expectedMessage[] = '    # Required: true';
             } elseif ($key === 'extra') {
                 $expectedMessage[] = '    # You can skip it.';
             }

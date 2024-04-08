@@ -131,18 +131,15 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
     # Specify the path(s) to the CSV files you want to validate.
     #   This can include a direct path to a file or a directory to search with a maximum depth of 10 levels.
     #   Examples: p/file.csv; p/*.csv; p/**/*.csv; p/**/name-*.csv; **/*.csv
-    # Required: true
     csv: './tests/**/*.csv'
 
     # Specify the path(s) to the schema file(s), supporting YAML, JSON, or PHP formats.
     #   Similar to CSV paths, you can direct to specific files or search directories with glob patterns.
     #   Examples: p/file.yml; p/*.yml; p/**/*.yml; p/**/name-*.yml; **/*.yml
-    # Required: true
     schema: './tests/**/*.yml'
 
     # Report format. Available options: text, table, github, gitlab, teamcity, junit.
     # Default value: 'table'
-    # Required: true
     report: 'table'
 
     # Apply all schemas (also without `filename_pattern`) to all CSV files found as global rules.
@@ -151,17 +148,14 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
     #   yes: Apply all schemas to all CSV files, Schemas without `filename_pattern` are applied as a global rule.
     #   no: Apply only schemas with not empty `filename_pattern` and match the CSV files.
     # Default value: 'auto'
-    # Required: true
     apply-all: 'auto'
 
     # Quick mode. It will not validate all rows. It will stop after the first error.
     # Default value: 'no'
-    # Required: true
     quick: 'no'
 
     # Skip schema validation. If you are sure that the schema is correct, you can skip this check.
     # Default value: 'no'
-    # Required: true
     skip-schema: 'no'
 
     # Extra options for the CSV Blueprint. Only for debbuging and profiling.
@@ -171,9 +165,9 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
     #   Add flag `--profile` if you want to see profiling info. Add details with `-vvv`.
     #   Add flag `--debug` if you want to see more really deep details.
     #   Add flag `--dump-schema` if you want to see the final schema after all includes and inheritance.
-    # Default value: 'options: --ansi'
+    # Default value: 'options: --ansi -v'
     # You can skip it.
-    extra: 'options: --ansi'
+    extra: 'options: --ansi -v'
 ```
 <!-- auto-update:/github-actions-yml -->
 

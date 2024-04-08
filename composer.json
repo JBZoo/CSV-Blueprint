@@ -36,14 +36,14 @@
         "jbzoo/utils"                         : "^7.2.1",
         "jbzoo/ci-report-converter"           : "^7.2.1",
 
-        "symfony/yaml"                        : ">=7.0.3",
-        "symfony/filesystem"                  : ">=7.0.6",
-        "symfony/finder"                      : ">=7.0.0",
+        "symfony/yaml"                        : "^7.0.3",
+        "symfony/filesystem"                  : "^7.0.6",
+        "symfony/finder"                      : "^7.0.0",
         "markrogoyski/math-php"               : "^2.9.0",
         "respect/validation"                  : "^2.3.6",
         "giggsey/libphonenumber-for-php-lite" : "^8.13.34",
         "giggsey/locale"                      : "^2.5",
-        "amphp/parallel"                      : "^2.2.9"
+        "symfony/polyfill-mbstring"           : "^1.29.0"
     },
 
     "require-dev"       : {
@@ -51,10 +51,6 @@
         "jbzoo/toolbox-dev"         : "^7.1.0",
         "jbzoo/codestyle"           : "^7.1.2",
         "fakerphp/faker"            : "^1.23.1"
-    },
-
-    "suggest"           : {
-        "ext-parallel" : "For performance improvements"
     },
 
     "bin"               : ["csv-blueprint"],
@@ -76,11 +72,6 @@
     "extra"             : {
         "branch-alias" : {
             "dev-master" : "7.x-dev"
-        },
-        "preload"      : {
-            "paths"           : ["src"],
-            "extensions"      : ["php"],
-            "no-status-check" : false
         }
     }
 }
