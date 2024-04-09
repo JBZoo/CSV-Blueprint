@@ -262,7 +262,7 @@ jobs:
 
       - name: 🔥 Quick Benchmark 🔥
         run: |
-          make build > /dev/null
+          make build > /dev/null 2>&1
           make bench-create-csv > /dev/null
           make bench-docker-quick --no-print-directory
 
