@@ -25,7 +25,7 @@ final class ValidateCsvApplyAllTest extends TestCase
 {
     public function testNoPatternApplyAllAutoNegativeMany(): void
     {
-        $optionsAsString = Tools::arrayToOptionString([
+        $optionsAsString = Tools::arrayToOptions([
             'csv'    => './tests/fixtures/demo.csv',
             'schema' => [
                 Tools::DEMO_YML_VALID,
@@ -66,7 +66,7 @@ final class ValidateCsvApplyAllTest extends TestCase
 
     public function testNoPatternApplyAllAutoNegativeGlob(): void
     {
-        $optionsAsString = Tools::arrayToOptionString([
+        $optionsAsString = Tools::arrayToOptions([
             'csv'    => './tests/fixtures/demo.csv',
             'schema' => './tests/schemas/demo_invalid_*.yml',
         ]);
@@ -102,7 +102,7 @@ final class ValidateCsvApplyAllTest extends TestCase
 
     public function testNoPatternApplyAllAutoPositive(): void
     {
-        $optionsAsString = Tools::arrayToOptionString([
+        $optionsAsString = Tools::arrayToOptions([
             'csv'    => './tests/fixtures/demo.csv',
             'schema' => './tests/schemas/demo_invalid_no_pattern.yml',
         ]);
@@ -144,7 +144,7 @@ final class ValidateCsvApplyAllTest extends TestCase
 
     public function testNoPatternApplyAllYes(): void
     {
-        $optionsAsString = Tools::arrayToOptionString([
+        $optionsAsString = Tools::arrayToOptions([
             'csv'       => './tests/fixtures/demo.csv',
             'schema'    => [Tools::DEMO_YML_VALID, './tests/schemas/demo_invalid_no_pattern.yml'],
             'apply-all' => 'yes',
@@ -191,7 +191,7 @@ final class ValidateCsvApplyAllTest extends TestCase
 
     public function testNoPatternApplyAllYesGlob(): void
     {
-        $optionsAsString = Tools::arrayToOptionString([
+        $optionsAsString = Tools::arrayToOptions([
             'csv'       => './tests/fixtures/demo.csv',
             'schema'    => './tests/schemas/demo_invalid_*.yml',
             'apply-all' => 'yes',
@@ -234,7 +234,7 @@ final class ValidateCsvApplyAllTest extends TestCase
 
     public function testNoPatternApplyAllNo(): void
     {
-        $optionsAsString = Tools::arrayToOptionString([
+        $optionsAsString = Tools::arrayToOptions([
             'csv'       => './tests/fixtures/demo.csv',
             'schema'    => './tests/schemas/demo_invalid_no_pattern.yml',
             'apply-all' => 'no',

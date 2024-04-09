@@ -318,7 +318,7 @@ final class ValidateCsvBasicTest extends TestCase
 
     public function testNoSchemaWasAppliedToCsv(): void
     {
-        $optionsAsString = Tools::arrayToOptionString([
+        $optionsAsString = Tools::arrayToOptions([
             'csv'    => './tests/fixtures/demo.csv',
             'schema' => [
                 './tests/schemas/preset/child-of-child.yml',

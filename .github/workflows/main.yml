@@ -262,8 +262,8 @@ jobs:
 
       - name: 🔥 Quick Benchmark 🔥
         run: |
-          make build              --no-print-directory
-          make bench-create-csv   --no-print-directory
+          make build > /dev/null
+          make bench-create-csv > /dev/null
           make bench-docker-quick --no-print-directory
 
       - name: Push Docker Image (master)

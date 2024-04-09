@@ -25,24 +25,28 @@ RUN install-php-extensions opcache @composer
 
 # Install application
 # run `make build-version` before!
+WORKDIR /app
 ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY . /app
 COPY --from=preparatory /tmp/.version /app/.version
-RUN cd /app                                         \
-    && composer install --no-dev                    \
+RUN composer install --no-dev                       \
                         --classmap-authoritative    \
                         --no-progress               \
                         --no-suggest                \
                         --optimize-autoloader       \
-    && rm -rf /app/.git                             \
+    && rm -rf ./.git                                \
     && composer clear-cache                         \
-    && chmod +x /app/csv-blueprint
+    && chmod +x ./csv-blueprint
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY ./docker/php.ini /usr/local/etc/php/conf.d/docker-z99-php.ini
 
-# Test and warm up caches
-# time php /app/docker/build-preloader.php        \
+# Quick test
+RUN time ./csv-blueprint --version --ansi \
+    && time ./csv-blueprint validate:csv --help --ansi
+
+# Warm up caches
+# RUN time php /app/docker/build-preloader.php       \
 #    && time php /app/docker/preload.php             \
 #    && echo "opcache.preload=/app/docker/preload.php" >> /usr/local/etc/php/conf.d/docker-z99-php.ini \
 #    && time /app/csv-blueprint validate:csv -h      \
@@ -52,14 +56,14 @@ COPY ./docker/php.ini /usr/local/etc/php/conf.d/docker-z99-php.ini
 #      --schema=/app/schema-examples/*.json -vvv     \
 #    && echo "Warm up is ready!"                     \
 
-RUN time php /app/docker/random-csv.php             \
-    && time /app/csv-blueprint validate:csv         \
-      --schema=/app/schema-examples/full.yml        \
-      --csv=/app/docker/random_data.csv             \
-      --apply-all=yes                               \
-      --report=text --mute-errors > /dev/null       \
-    && echo "Tests are ready!"                      \
-    && rm /app/docker/random_data.csv               \
-    && du -sh /app/docker
+#RUN time php /app/docker/random-csv.php             \
+#    && time /app/csv-blueprint validate:csv         \
+#      --schema=/app/schema-examples/full.yml        \
+#      --csv=/app/docker/random_data.csv             \
+#      --apply-all=yes                               \
+#      --report=text --mute-errors > /dev/null       \
+#    && echo "Tests are ready!"                      \
+#    && rm /app/docker/random_data.csv               \
+#    && du -sh /app/docker
 
 ENTRYPOINT ["/app/csv-blueprint"]
