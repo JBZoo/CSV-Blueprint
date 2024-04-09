@@ -43,7 +43,8 @@
         "respect/validation"                  : "^2.3.6",
         "giggsey/libphonenumber-for-php-lite" : "^8.13.34",
         "giggsey/locale"                      : "^2.5",
-        "symfony/polyfill-mbstring"           : "^1.29.0"
+        "symfony/polyfill-mbstring"           : "^1.29.0",
+        "fidry/cpu-core-counter"              : "^1.1"
     },
 
     "require-dev"       : {

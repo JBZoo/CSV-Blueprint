@@ -14,20 +14,23 @@
 
 declare(strict_types=1);
 
-namespace JBZoo\CsvBlueprint\Workers;
+namespace JBZoo\PHPUnit\Workers;
 
-use HDSSolutions\Console\Parallel\ParallelWorker;
-use JBZoo\CsvBlueprint\Schema;
+use JBZoo\CsvBlueprint\Workers\Tasks\AbstractTask;
 
-final class ExampleWorker extends ParallelWorker
+final class TestTask extends AbstractTask
 {
+    public const DELAY = 0.1;
+
     public function __construct(
-        private readonly string $schemaFilename,
+        private int $id,
     ) {
     }
 
-    protected function process(string $schemaFilename): string
+    public function process(): int
     {
-        return (string)(new Schema($schemaFilename))->validate();
+        $timeout = self::DELAY * 1_000_000;
+        \usleep((int)$timeout);
+        return $this->id;
     }
 }

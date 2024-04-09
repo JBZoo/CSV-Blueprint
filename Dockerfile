@@ -38,7 +38,7 @@ RUN cd /app                                         \
     && composer clear-cache                         \
     && chmod +x /app/csv-blueprint
 
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 COPY ./docker/php.ini /usr/local/etc/php/conf.d/docker-z99-php.ini
 
 # Prepare opcode caches
@@ -49,6 +49,10 @@ RUN php /app/docker/build-preloader.php \
 # Test and warm up caches
 RUN time /app/csv-blueprint validate:csv -h       \
     && time /app/csv-blueprint validate:schema    \
+      --schema=/app/schema-examples/*.yml         \
+      --schema=/app/schema-examples/*.php         \
+      --schema=/app/schema-examples/*.json -vvv   \
+    && time /app/csv-blueprint validate:schema -p \
       --schema=/app/schema-examples/*.yml         \
       --schema=/app/schema-examples/*.php         \
       --schema=/app/schema-examples/*.json -vvv   \

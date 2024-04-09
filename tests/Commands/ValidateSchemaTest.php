@@ -93,6 +93,60 @@ final class ValidateSchemaTest extends TestCase
         isSame(1, $exitCode, $actual);
     }
 
+    public function testInvalidSchemasWithSchemaDump(): void
+    {
+        [$actual, $exitCode] = Tools::virtualExecution('validate:schema', [
+            'schema' => './tests/schemas/broken/*.yml',
+            'dump-schema' => null,
+        ]);
+
+        $expected = <<<'TXT'
+            CSV Blueprint: Unknown version (PhpUnit)
+            Found schemas: 2
+            
+            (1/2) 1 issue in ./tests/schemas/broken/invalid_schema.yml
+              +-------+-----------+--------+----------------------------------+
+              |  Line | id:Column | Rule   | Message                          |
+              +-------+-----------+--------+----------------------------------+
+              | undef | meta      | schema | Unknown key: .unknow_root_option |
+              +-------+-----------+--------+----------------------------------+
+            ```yaml
+            # File: ./tests/schemas/broken/invalid_schema.yml
+            name: ''
+            description: ''
+            presets: []
+            filename_pattern: /invalid-pattern\.csv$/i
+            csv:
+              header: true
+              delimiter: ','
+              quote_char: \
+              enclosure: '"'
+              encoding: utf-8
+              bom: false
+            structural_rules:
+              strict_column_order: true
+              allow_extra_columns: false
+            columns: []
+            unknow_root_option: true
+            
+            ```
+            (2/2) 1 issue in ./tests/schemas/broken/syntax.yml
+              +------+-----------+---------------+---------------------------------------------------+
+              | Line | id:Column | Rule          | Message                                           |
+              +------+-----------+---------------+---------------------------------------------------+
+              |   15 |           | schema.syntax | Unable to parse at line 15 (near "(*$#)@(@$*)("). |
+              +------+-----------+---------------+---------------------------------------------------+
+            ```yaml
+            # File: ./tests/schemas/broken/syntax.yml
+            Unable to parse schema file: Unable to parse at line 15 (near "(*$#)@(@$*)(").
+            ```
+            
+            TXT;
+
+        isSame($expected, $actual);
+        isSame(1, $exitCode, $actual);
+    }
+
     public function testInvalidSchemasTextReport(): void
     {
         [$actual, $exitCode] = Tools::virtualExecution('validate:schema', [
