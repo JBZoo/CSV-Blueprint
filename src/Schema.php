@@ -38,7 +38,6 @@ final class Schema
     private ?string      $filename;
     private AbstractData $data;
 
-
     public function __construct(null|array|string $csvSchemaFilenameOrArray = null)
     {
         if (\is_array($csvSchemaFilenameOrArray)) {

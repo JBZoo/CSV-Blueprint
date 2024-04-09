@@ -96,7 +96,7 @@ final class ValidateSchemaTest extends TestCase
     public function testInvalidSchemasWithSchemaDump(): void
     {
         [$actual, $exitCode] = Tools::virtualExecution('validate:schema', [
-            'schema' => './tests/schemas/broken/*.yml',
+            'schema'      => './tests/schemas/broken/*.yml',
             'dump-schema' => null,
         ]);
 
