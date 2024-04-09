@@ -27,7 +27,7 @@ This example serves as a comprehensive guide for creating robust CSV file valida
         'my-preset' => './preset_users.yml',
     ],
 
-    'filename_pattern' => '/demo(-\\d+)?\\.csv$/i',
+    'filename_pattern' => '/\\.csv$/i',
 
     'csv' => [
         'preset'     => 'my-preset',
@@ -169,8 +169,8 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'is_cardinal_direction' => true,
                 'is_usa_market_name'    => true,
 
-                'is_country_code'  => 'alpha-2',
-                'is_language_code' => 'alpha-2',
+                'country_code'  => 'alpha-2',
+                'language_code' => 'alpha-2',
 
                 'is_file_exists' => true,
                 'is_dir_exists'  => true,
@@ -452,8 +452,12 @@ This example serves as a comprehensive guide for creating robust CSV file valida
             'rules' => ['not_empty' => true],
         ],
         [
-            'name'  => 'third_column',
-            'rules' => ['not_empty' => true],
+            'name'   => 'inherited_column_login',
+            'preset' => 'my-preset/login',
+        ],
+        [
+            'name'   => 'inherited_column_full_name',
+            'preset' => 'my-preset/full_name',
         ],
     ],
 ];

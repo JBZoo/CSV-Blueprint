@@ -41,17 +41,25 @@ RUN cd /app                                         \
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY ./docker/php.ini /usr/local/etc/php/conf.d/docker-z99-php.ini
 
-# Prepare opcode caches
-RUN php /app/docker/build-preloader.php \
-    && php /app/docker/preload.php
-#    && echo "opcache.preload=/app/docker/preload.php" >> /usr/local/etc/php/conf.d/docker-z99-php.ini
-
 # Test and warm up caches
-RUN time /app/csv-blueprint validate:csv -h       \
-    && time /app/csv-blueprint validate:schema    \
-      --schema=/app/schema-examples/*.yml         \
-      --schema=/app/schema-examples/*.php         \
-      --schema=/app/schema-examples/*.json -vvv   \
+RUN time php /app/docker/build-preloader.php        \
+    && time php /app/docker/preload.php             \
+    && echo "Preload is ready!"                     \
+    # && echo "opcache.preload=/app/docker/preload.php" >> /usr/local/etc/php/conf.d/docker-z99-php.ini \
+    && time /app/csv-blueprint validate:csv -h      \
+    && time /app/csv-blueprint validate:schema      \
+      --schema=/app/schema-examples/*.yml           \
+      --schema=/app/schema-examples/*.php           \
+      --schema=/app/schema-examples/*.json -vvv     \
+    && echo "Warm up is ready!"                     \
+    && time php /app/docker/random-csv.php          \
+    && time /app/csv-blueprint validate:csv         \
+      --schema=/app/schema-examples/full.yml        \
+      --csv=/app/docker/random_data.csv             \
+      --apply-all=yes                               \
+      --report=text --mute-errors > /dev/null       \
+    && echo "Tests are ready!"                      \
+    && rm /app/docker/random_data.csv               \
     && du -sh /app/docker
 
 ENTRYPOINT ["/app/csv-blueprint"]

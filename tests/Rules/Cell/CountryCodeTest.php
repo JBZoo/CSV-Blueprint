@@ -16,15 +16,15 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\Cell\IsCountryCode;
+use JBZoo\CsvBlueprint\Rules\Cell\CountryCode;
 use JBZoo\PHPUnit\Rules\TestAbstractCellRule;
 use Respect\Validation\Rules\CountryCode as RespectCountryCode;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class IsCountryCodeTest extends TestAbstractCellRule
+final class CountryCodeTest extends TestAbstractCellRule
 {
-    protected string $ruleClass = IsCountryCode::class;
+    protected string $ruleClass = CountryCode::class;
 
     public function testPositive(): void
     {
