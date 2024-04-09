@@ -46,9 +46,9 @@ RUN time ./csv-blueprint --version --ansi \
     && time ./csv-blueprint validate:csv --help --ansi
 
 # Warm up caches
-# RUN time php /app/docker/build-preloader.php       \
-#    && time php /app/docker/preload.php             \
-#    && echo "opcache.preload=/app/docker/preload.php" >> /usr/local/etc/php/conf.d/docker-z99-php.ini \
+ RUN time php /app/docker/build-preloader.php       \
+    && time php /app/docker/preload.php             \
+    && echo "opcache.preload=/app/docker/preload.php" >> /usr/local/etc/php/conf.d/docker-z99-php.ini
 #    && time /app/csv-blueprint validate:csv -h      \
 #    && time /app/csv-blueprint validate:schema      \
 #      --schema=/app/schema-examples/*.yml           \
