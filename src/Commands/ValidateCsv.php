@@ -171,7 +171,7 @@ final class ValidateCsv extends AbstractValidate
                         "{$prefix}Exception: <yellow>{$e->getMessage()}</yellow>",
                     ], 2);
                 }
-                $this->printDumpOfSchema($schema);
+                $this->printDumpOfSchema($schemaFilename->getPathname());
             }
 
             $this->out('');

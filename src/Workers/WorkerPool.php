@@ -23,7 +23,7 @@ use parallel\Runtime;
 final class WorkerPool
 {
     private const FALLBACK_CPU_COUNT = 1;
-    private const POOL_MAINTENANCE_DELAY = 1_000; // Small delay to prevent overload CPU
+    private const POOL_MAINTENANCE_DELAY = 10_000; // Small delay to prevent overload CPU
     private static ?string $bootstrap = null;
 
     private int $maxThreads;
@@ -69,7 +69,7 @@ final class WorkerPool
         if (self::extLoaded() && self::$bootstrap === null) {
             $path = \realpath($autoloader);
             self::$bootstrap = $autoloader;
-            \parallel\bootstrap($autoloader);
+            // \parallel\bootstrap($autoloader); // Hm... Does it work?
         }
     }
 
@@ -103,15 +103,10 @@ final class WorkerPool
             $this->maintainTaskPool();
 
             foreach ($this->runningTasks as $index => $future) {
-//                try {
-                    if ($future->done()) {
-                        $results[$index] = $future->value();
-                        unset($this->runningTasks[$index]);
-                    }
-//                } catch (\Throwable $exception) {
-//                    $results[$index] = $exception;
-//                    unset($this->runningTasks[$index]);
-//                }
+                if ($future->done()) {
+                    $results[$index] = $future->value();
+                    unset($this->runningTasks[$index]);
+                }
             }
 
             \usleep(self::POOL_MAINTENANCE_DELAY);
@@ -127,14 +122,9 @@ final class WorkerPool
         while (\count($this->runningTasks) < $this->maxThreads && !$this->tasksQueue->isEmpty()) {
             /** @var Worker $worker */
             $worker = $this->tasksQueue->dequeue();
-            $runtime = new Runtime();
+            $runtime = new Runtime($bootstrap);
 
-            $future = $runtime->run(static function (string $bootstrap, array $params) {
-                // Each thread should have its own autoloader
-                // And speparate namespace of variables
-                require_once $bootstrap;
-                return (new Worker($params['key'], $params['class'], $params['args']))->execute();
-            }, [
+            $future = $runtime->run(static fn (string $bootstrap, array $params) => (new Worker($params['key'], $params['class'], $params['args']))->execute(), [
                 $bootstrap,
                 ['key' => $worker->getKey(), 'class' => $worker->getClass(), 'args' => $worker->getArguments()],
             ]);
