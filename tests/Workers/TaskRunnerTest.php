@@ -22,19 +22,14 @@ use JBZoo\PHPUnit\TestCase;
 use function JBZoo\PHPUnit\isFalse;
 use function JBZoo\PHPUnit\isSame;
 use function JBZoo\PHPUnit\isTrue;
+use function JBZoo\PHPUnit\skip;
 
 final class TaskRunnerTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-        WorkerPool::setBootstrap(__DIR__ . '/../../vendor/autoload.php');
-    }
-
     public function testIsParallel(): void
     {
         $runner = new WorkerPool();
-        isTrue($runner->isParallel());
+        isSame(\extension_loaded('parallel'), $runner->isParallel());
 
         $runner = new WorkerPool(1);
         isFalse($runner->isParallel());
@@ -74,7 +69,7 @@ final class TaskRunnerTest extends TestCase
     private static function onlyParallel(): void
     {
         if (!\extension_loaded('parallel')) {
-            self::markTestSkipped('The parallel extension is not available.');
+            skip('The parallel extension is not available.');
         }
     }
 }

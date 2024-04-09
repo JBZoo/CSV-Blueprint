@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
+use JBZoo\CsvBlueprint\Workers\WorkerPool;
+
 abstract class TestCase extends PHPUnit
 {
     protected function setUp(): void
@@ -25,5 +27,6 @@ abstract class TestCase extends PHPUnit
         \date_default_timezone_set('UTC');
         \putenv('COLUMNS=200');
         \chdir(PROJECT_ROOT);
+        WorkerPool::setBootstrap(PROJECT_ROOT . '/vendor/autoload.php');
     }
 }

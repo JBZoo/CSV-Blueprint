@@ -17,21 +17,18 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Workers;
 
 use Fidry\CpuCoreCounter\CpuCoreCounter;
-use parallel\Channel;
 use parallel\Runtime;
 
 final class WorkerPool
 {
     private const FALLBACK_CPU_COUNT = 1;
     private const POOL_MAINTENANCE_DELAY = 10_000; // Small delay to prevent overload CPU
+
     private static ?string $bootstrap = null;
-
-    private int $maxThreads;
-    private int $currentThreads = 0;
-
-    private \SplQueue $tasksQueue;
-    private ?Channel  $channel = null;
-    private array     $runningTasks = [];
+    private int            $maxThreads;
+    private int            $currentThreads = 0;
+    private \SplQueue      $tasksQueue;
+    private array          $runningTasks = [];
 
     public function __construct(int $maxThreads = 0)
     {
@@ -124,10 +121,17 @@ final class WorkerPool
             $worker = $this->tasksQueue->dequeue();
             $runtime = new Runtime($bootstrap);
 
-            $future = $runtime->run(static fn (string $bootstrap, array $params) => (new Worker($params['key'], $params['class'], $params['args']))->execute(), [
-                $bootstrap,
-                ['key' => $worker->getKey(), 'class' => $worker->getClass(), 'args' => $worker->getArguments()],
-            ]);
+            $future = $runtime->run(
+                static fn (string $bootstrap, array $params) => (new Worker(
+                    $params['key'],
+                    $params['class'],
+                    $params['args'],
+                ))->execute(),
+                [
+                    $bootstrap,
+                    ['key' => $worker->getKey(), 'class' => $worker->getClass(), 'args' => $worker->getArguments()],
+                ],
+            );
 
             $this->runningTasks[$worker->getKey()] = $future;
         }
