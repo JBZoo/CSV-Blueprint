@@ -42,9 +42,7 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY ./docker/php.ini /usr/local/etc/php/conf.d/docker-z99-php.ini
 
 # Warmup caches
-RUN php ./docker/build-preloader.php \
-    && php /docker/preload.php
-
+RUN php ./docker/build-preloader.php && php ./docker/preload.php
 
 # Quick test
 RUN time ./csv-blueprint --version --ansi \
