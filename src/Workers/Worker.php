@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Workers;
 
+use JBZoo\CsvBlueprint\Workers\Tasks\AbstractTask;
+
 final class Worker
 {
     public function __construct(
@@ -32,7 +34,17 @@ final class Worker
 
     public function execute(): mixed
     {
-        return (new $this->className(...$this->arguments))->process();
+        $className = $this->className;
+        if (\class_exists($className) === false) {
+            throw new \InvalidArgumentException("Class '{$className}' not found");
+        }
+
+        $task = new $className(...$this->arguments);
+        if (!$task instanceof AbstractTask) {
+            throw new \InvalidArgumentException("Class '{$className}' is not allowed");
+        }
+
+        return $task->process();
     }
 
     public function getClass(): string

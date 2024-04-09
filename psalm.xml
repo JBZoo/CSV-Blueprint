@@ -35,4 +35,7 @@
             </errorLevel>
         </TooManyArguments>
     </issueHandlers>
+    <stubs>
+        <file name="tests/stubs/parallel.stub_php" />
+    </stubs>
 </psalm>

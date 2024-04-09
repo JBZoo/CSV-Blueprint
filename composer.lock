@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "37821230207e264217f69af2350a848c",
+    "content-hash": "3d13c88792c56b5b98e15821829dbf0e",
     "packages": [
         {
             "name": "bluepsyduck/symfony-process-manager",
@@ -5462,12 +5462,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "4c598536f599c2081f7a50b7f1b8e0290c811c30"
+                "reference": "31f373849a62ccfe23cba594e91b488e3ec2270b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/4c598536f599c2081f7a50b7f1b8e0290c811c30",
-                "reference": "4c598536f599c2081f7a50b7f1b8e0290c811c30",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/31f373849a62ccfe23cba594e91b488e3ec2270b",
+                "reference": "31f373849a62ccfe23cba594e91b488e3ec2270b",
                 "shasum": ""
             },
             "conflict": {
@@ -5554,6 +5554,7 @@
                 "concrete5/concrete5": "<9.2.8",
                 "concrete5/core": "<8.5.8|>=9,<9.1",
                 "contao-components/mediaelement": ">=2.14.2,<2.21.1",
+                "contao/comments-bundle": ">=2,<4.13.40|>=5.0.0.0-RC1-dev,<5.3.4",
                 "contao/contao": ">=4,<4.4.56|>=4.5,<4.9.40|>=4.10,<4.11.7|>=4.13,<4.13.21|>=5.1,<5.1.4",
                 "contao/core": ">=2,<3.5.39",
                 "contao/core-bundle": "<4.13.40|>=5,<5.3.4",
@@ -6199,7 +6200,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-04-09T17:04:16+00:00"
+            "time": "2024-04-09T19:04:27+00:00"
         },
         {
             "name": "sabre/event",

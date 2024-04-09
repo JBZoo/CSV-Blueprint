@@ -26,9 +26,10 @@ final class WorkerPool
 
     private static ?string $bootstrap = null;
     private int            $maxThreads;
-    private int            $currentThreads = 0;
     private \SplQueue      $tasksQueue;
-    private array          $runningTasks = [];
+
+    /** @var null[]|\parallel\Future[] */
+    private array $runningTasks = [];
 
     public function __construct(int $maxThreads = 0)
     {
@@ -64,9 +65,11 @@ final class WorkerPool
     public static function setBootstrap(string $autoloader): void
     {
         if (self::extLoaded() && self::$bootstrap === null) {
-            $path = \realpath($autoloader);
-            self::$bootstrap = $autoloader;
-            // \parallel\bootstrap($autoloader); // Hm... Does it work?
+            $realpath = \realpath($autoloader);
+            if ($realpath !== false) {
+                self::$bootstrap = $realpath;
+                // \parallel\bootstrap($autoloader); // Hm... Does it work?
+            }
         }
     }
 
@@ -96,11 +99,11 @@ final class WorkerPool
     {
         $results = [];
 
-        while (!$this->tasksQueue->isEmpty() || !empty($this->runningTasks)) {
+        while (!$this->tasksQueue->isEmpty() || \count($this->runningTasks) > 0) {
             $this->maintainTaskPool();
 
             foreach ($this->runningTasks as $index => $future) {
-                if ($future->done()) {
+                if ($future !== null && $future->done()) {
                     $results[$index] = $future->value();
                     unset($this->runningTasks[$index]);
                 }
@@ -115,22 +118,20 @@ final class WorkerPool
     private function maintainTaskPool(): void
     {
         $bootstrap = self::$bootstrap;
+        if ($bootstrap === null) {
+            throw new \RuntimeException('Bootstrap file is not set');
+        }
 
         while (\count($this->runningTasks) < $this->maxThreads && !$this->tasksQueue->isEmpty()) {
             /** @var Worker $worker */
             $worker = $this->tasksQueue->dequeue();
+
             $runtime = new Runtime($bootstrap);
 
             $future = $runtime->run(
-                static fn (string $bootstrap, array $params) => (new Worker(
-                    $params['key'],
-                    $params['class'],
-                    $params['args'],
-                ))->execute(),
-                [
-                    $bootstrap,
-                    ['key' => $worker->getKey(), 'class' => $worker->getClass(), 'args' => $worker->getArguments()],
-                ],
+                static fn (string $key, string $class, array $args): mixed => (new Worker($key, $class, $args))
+                    ->execute(),
+                [$worker->getKey(), $worker->getClass(), $worker->getArguments()],
             );
 
             $this->runningTasks[$worker->getKey()] = $future;

@@ -35,6 +35,9 @@ return \array_merge($default, [
         'vendor/league/csv/src',
         'vendor/markrogoyski/math-php/src',
         'vendor/respect/validation',
-        'vendor/hds-solutions/parallel-sdk',
+        'vendor/fidry/cpu-core-counter',
+    ],
+    'autoload_internal_extension_signatures' => [
+        'parallel' => 'tests/stubs/parallel.stub_php',
     ],
 ]);

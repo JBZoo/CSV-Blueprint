@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Commands;
 
 use JBZoo\CsvBlueprint\Utils;
-use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use JBZoo\CsvBlueprint\Workers\Tasks\SchemaValidationTask;
 use JBZoo\CsvBlueprint\Workers\WorkerPool;
 use Symfony\Component\Console\Input\InputOption;
@@ -65,17 +64,17 @@ final class ValidateSchema extends AbstractValidate
         $this->out('');
 
         $workerPool = new WorkerPool($this->getNumberOfThreads());
-        foreach ($schemas as $index => $schema) {
+        foreach ($schemas as $schema) {
             $filename = (string)$schema->getRealPath();
             $workerPool->addTask($filename, SchemaValidationTask::class, [$filename]);
         }
 
-        /** @var ErrorSuite[] $reports */
         $reports = $workerPool->run();
 
         $foundIssues = 0;
         $index = 0;
         foreach ($reports as $filename => $schemaErrors) {
+            $filename = (string)$filename;
             $index++;
             $prefix = self::renderPrefix($index, $totalFiles);
             $coloredPath = Utils::printFile($filename);

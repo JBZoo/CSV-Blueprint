@@ -152,8 +152,6 @@ final class ValidateCsv extends AbstractValidate
                     continue;
                 }
 
-                $schema = null;
-
                 try {
                     $schema = new Schema($schemaFilename->getPathname());
                     $schemaErrors = $schema->validate($quickCheck);
