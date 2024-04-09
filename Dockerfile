@@ -48,6 +48,6 @@ RUN time ./csv-blueprint --version --ansi \
 # Warmup caches
 #RUN php ./docker/build-preloader.php  \
 #    && php ./docker/preload.php \
-#    && echo "opcache.preload=./docker/preload.php" >> /usr/local/etc/php/conf.d/docker-z99-php.ini
+#    && echo "opcache.preload=/app/docker/preload.php" >> /usr/local/etc/php/conf.d/docker-z99-php.ini
 
 ENTRYPOINT ["/app/csv-blueprint"]
