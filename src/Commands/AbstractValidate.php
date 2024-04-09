@@ -121,7 +121,7 @@ abstract class AbstractValidate extends CliCommand
         // Hackish. Clear cache for schema files because we have aggressive opcode caching.
         if ($option === 'schema') {
             foreach ($filenames as $filename) {
-                \opcache_invalidate($filename->getRealPath(), true);
+                \opcache_invalidate((string)$filename->getRealPath(), true);
             }
         }
 
