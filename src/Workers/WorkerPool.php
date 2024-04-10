@@ -119,7 +119,7 @@ final class WorkerPool
     {
         $bootstrap = self::$bootstrap;
         if ($bootstrap === null) {
-            throw new \RuntimeException('Bootstrap file is not set');
+            throw new Exception('Bootstrap file is not set');
         }
 
         while (\count($this->runningTasks) < $this->maxThreads && !$this->tasksQueue->isEmpty()) {

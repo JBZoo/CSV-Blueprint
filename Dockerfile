@@ -24,7 +24,6 @@ ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/relea
 RUN install-php-extensions opcache parallel @composer
 
 # Install application
-# run `make build-version` before!
 WORKDIR /app
 ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY . /app
