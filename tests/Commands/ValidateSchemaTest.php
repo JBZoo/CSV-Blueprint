@@ -170,4 +170,34 @@ final class ValidateSchemaTest extends TestCase
         isSame($expected, $actual);
         isSame(1, $exitCode, $actual);
     }
+
+    public function testValidExamples(): void
+    {
+        [$actual, $exitCode] = Tools::virtualExecution('validate:schema', Tools::arrayToOptions([
+            'schema' => [
+                './schema-examples/*.yml',
+                './schema-examples/*.json',
+                './schema-examples/*.php',
+            ],
+        ]));
+
+        $expected = <<<'TXT'
+            CSV Blueprint: Unknown version (PhpUnit)
+            Found schemas: 9
+            
+            (1/9) OK ./schema-examples/full.json
+            (2/9) OK ./schema-examples/full.php
+            (3/9) OK ./schema-examples/full.yml
+            (4/9) OK ./schema-examples/full_clean.yml
+            (5/9) OK ./schema-examples/preset_database.yml
+            (6/9) OK ./schema-examples/preset_features.yml
+            (7/9) OK ./schema-examples/preset_usage.yml
+            (8/9) OK ./schema-examples/preset_users.yml
+            (9/9) OK ./schema-examples/readme_sample.yml
+            
+            TXT;
+
+        isSame($expected, $actual);
+        isSame(0, $exitCode, $actual);
+    }
 }

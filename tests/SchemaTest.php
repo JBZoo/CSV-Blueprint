@@ -42,7 +42,7 @@ final class SchemaTest extends TestCase
         isSame(null, $schemaEmpty->getFilenamePattern());
 
         $schemaFull = new Schema(Tools::SCHEMA_FULL_YML);
-        isSame('/demo(-\d+)?\.csv$/i', $schemaFull->getFilenamePattern());
+        isSame('/\.csv$/i', $schemaFull->getFilenamePattern());
     }
 
     public function testScvStruture(): void
@@ -77,7 +77,8 @@ final class SchemaTest extends TestCase
         isSame([
             0 => 'Column Name (header)',
             1 => 'another_column',
-            2 => 'third_column',
+            2 => 'inherited_column_login',
+            3 => 'inherited_column_full_name',
         ], $schemaFull->getSchemaHeader());
     }
 

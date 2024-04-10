@@ -25,7 +25,7 @@ final class ValidateCsvBatchSchemaTest extends TestCase
 {
     public function testMultiSchemaDiscovery(): void
     {
-        $optionsAsString = Tools::arrayToOptionString([
+        $optionsAsString = Tools::arrayToOptions([
             'csv'    => './tests/fixtures/demo.csv',
             'schema' => [
                 Tools::SCHEMA_INVALID,

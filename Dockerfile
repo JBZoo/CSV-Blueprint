@@ -25,37 +25,29 @@ RUN install-php-extensions opcache parallel @composer
 
 # Install application
 # run `make build-version` before!
+WORKDIR /app
 ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY . /app
 COPY --from=preparatory /tmp/.version /app/.version
-RUN cd /app                                         \
-    && composer install --no-dev                    \
+RUN composer install --no-dev                       \
                         --classmap-authoritative    \
                         --no-progress               \
                         --no-suggest                \
                         --optimize-autoloader       \
-    && rm -rf /app/.git                             \
+    && rm -rf ./.git                                \
     && composer clear-cache                         \
-    && chmod +x /app/csv-blueprint
+    && chmod +x ./csv-blueprint
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY ./docker/php.ini /usr/local/etc/php/conf.d/docker-z99-php.ini
 
-# Prepare opcode caches
-RUN php /app/docker/build-preloader.php \
-    && php /app/docker/preload.php
-#    && echo "opcache.preload=/app/docker/preload.php" >> /usr/local/etc/php/conf.d/docker-z99-php.ini
+# Quick test
+RUN time ./csv-blueprint --version --ansi \
+    && time ./csv-blueprint validate:csv --help --ansi
 
-# Test and warm up caches
-RUN time /app/csv-blueprint validate:csv -h       \
-    && time /app/csv-blueprint validate:schema    \
-      --schema=/app/schema-examples/*.yml         \
-      --schema=/app/schema-examples/*.php         \
-      --schema=/app/schema-examples/*.json -vvv   \
-    && time /app/csv-blueprint validate:schema -p \
-      --schema=/app/schema-examples/*.yml         \
-      --schema=/app/schema-examples/*.php         \
-      --schema=/app/schema-examples/*.json -vvv   \
-    && du -sh /app/docker
+# Warmup caches
+#RUN php ./docker/build-preloader.php  \
+#    && php ./docker/preload.php \
+#    && echo "opcache.preload=/app/docker/preload.php" >> /usr/local/etc/php/conf.d/docker-z99-php.ini
 
 ENTRYPOINT ["/app/csv-blueprint"]
