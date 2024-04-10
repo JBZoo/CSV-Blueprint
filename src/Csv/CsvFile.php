@@ -36,7 +36,7 @@ final class CsvFile
     public function __construct(string $csvFilename, null|array|string $csvSchemaFilenameOrArray = null)
     {
         if (\realpath($csvFilename) !== false && \file_exists($csvFilename) === false) {
-            throw new \InvalidArgumentException('File not found: ' . $csvFilename);
+            throw new Exception('File not found: ' . $csvFilename);
         }
 
         $this->csvFilename = $csvFilename;

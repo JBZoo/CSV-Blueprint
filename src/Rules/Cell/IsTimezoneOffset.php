@@ -34,7 +34,7 @@ class IsTimezoneOffset extends AbstractCellRule
             return null;
         }
 
-        if (Utils::testRegex('/^[\+\-](0[0-9]|1[0-4]):([0-5][0-9])$/', $cellValue)) {
+        if (Utils::testRegex('/^[\+\-](0\d|1[0-4]):([0-5]\d)$/', $cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not a valid timezone offset. " .
                 'Example: "<green>+03:00</green>".';
         }

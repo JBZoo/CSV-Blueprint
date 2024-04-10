@@ -138,7 +138,7 @@ final class Utils
 
                 foreach ($finder as $file) {
                     if (!$file->isReadable()) {
-                        throw new \RuntimeException("File is not readable: {$file->getPathname()}");
+                        throw new Exception("File is not readable: {$file->getPathname()}");
                     }
 
                     $fileList[$file->getPathname()] = $file;

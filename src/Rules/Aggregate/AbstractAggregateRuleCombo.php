@@ -33,7 +33,7 @@ abstract class AbstractAggregateRuleCombo extends AbstarctRuleCombo
     protected function getActual(array|string $value): float
     {
         if (\is_string($value)) {
-            throw new \InvalidArgumentException('The value should be an array of numbers/strings');
+            throw new Exception('The value should be an array of numbers/strings');
         }
 
         $result = $this->getActualAggregate($value);

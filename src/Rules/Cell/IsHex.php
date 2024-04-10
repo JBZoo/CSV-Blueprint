@@ -34,8 +34,8 @@ final class IsHex extends AbstractCellRule
     public function validateRule(string $cellValue): ?string
     {
         if (
-            \preg_match('/^[0-9a-fA-F]+$/i', $cellValue) === 0
-            && \preg_match('/^0x[0-9a-fA-F]+$/i', $cellValue) === 0
+            \preg_match('/^[0-9a-f]+$/i', $cellValue) === 0
+            && \preg_match('/^0x[0-9a-f]+$/i', $cellValue) === 0
         ) {
             return "Value \"<c>{$cellValue}</c>\" is not a valid hexadecimal number. Example: \"0x1A\" or \"1A\"";
         }

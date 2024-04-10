@@ -59,7 +59,7 @@ final class Sorted extends AbstractAggregateRule
         try {
             $dir = $this->getDir();
             $method = $this->getMethod();
-        } catch (\RuntimeException $e) {
+        } catch (\Throwable $e) {
             return $e->getMessage();
         }
 
@@ -84,7 +84,7 @@ final class Sorted extends AbstractAggregateRule
         $dir = $this->getParams()[self::DIR];
 
         if (!\in_array($dir, self::DIRS, true)) {
-            throw new \RuntimeException(
+            throw new Exception(
                 "Unknown sort direction: \"{$dir}\". Allowed: " . Utils::printList(self::DIRS, 'green'),
             );
         }
@@ -97,7 +97,7 @@ final class Sorted extends AbstractAggregateRule
         $method = $this->getParams()[self::METHOD];
 
         if (!\in_array($method, \array_keys(self::METHODS), true)) {
-            throw new \RuntimeException(
+            throw new Exception(
                 "Unknown sort method: \"{$method}\". Allowed: " . Utils::printList(\array_keys(self::METHODS), 'green'),
             );
         }
@@ -109,7 +109,7 @@ final class Sorted extends AbstractAggregateRule
     {
         $params = $this->getOptionAsArray();
         if (\count($params) !== self::ARGS) {
-            throw new \RuntimeException(
+            throw new Exception(
                 'The rule expects exactly two params: ' .
                 'direction ' . Utils::printList(self::DIRS) . ' and ' .
                 'method ' . Utils::printList(\array_keys(self::METHODS)),

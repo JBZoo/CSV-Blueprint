@@ -100,12 +100,12 @@ final class SchemaDataPrep
     public static function validateAlias(string $alias): void
     {
         if ($alias === '') {
-            throw new \InvalidArgumentException('Empty alias');
+            throw new Exception('Empty alias');
         }
 
         $regex = self::getAliasRegex();
         if ($regex !== '' && \preg_match($regex, $alias) === 0) {
-            throw new \InvalidArgumentException("Invalid alias: \"{$alias}\"");
+            throw new Exception("Invalid alias: \"{$alias}\"");
         }
     }
 
@@ -128,7 +128,7 @@ final class SchemaDataPrep
             } elseif (\file_exists("{$this->basepath}/{$includedPathOrArray}")) {
                 $presets[$alias] = (new Schema("{$this->basepath}/{$includedPathOrArray}"));
             } else {
-                throw new \InvalidArgumentException("Unknown included file: \"{$includedPathOrArray}\"");
+                throw new Exception("Unknown included file: \"{$includedPathOrArray}\"");
             }
         }
 
@@ -141,7 +141,7 @@ final class SchemaDataPrep
             return $this->aliases[$alias];
         }
 
-        throw new \InvalidArgumentException("Unknown included alias: \"{$alias}\"");
+        throw new Exception("Unknown included alias: \"{$alias}\"");
     }
 
     private function buildPresets(): array
@@ -195,7 +195,7 @@ final class SchemaDataPrep
                 $parent = $this->getParentSchema($presetParts['alias']);
                 $parentColumn = $parent->getColumn($presetParts['column']);
                 if ($parentColumn === null) {
-                    throw new \InvalidArgumentException(
+                    throw new Exception(
                         "Unknown column: \"{$presetParts['column']}\" by alias: \"{$presetParts['alias']}\"",
                     );
                 }
@@ -225,7 +225,7 @@ final class SchemaDataPrep
             $parent = $this->getParentSchema($presetParts['alias']);
             $parentColumn = $parent->getColumn($presetParts['column']);
             if ($parentColumn === null) {
-                throw new \InvalidArgumentException("Unknown column: \"{$presetParts['column']}\"");
+                throw new Exception("Unknown column: \"{$presetParts['column']}\"");
             }
 
             $parentConfig = $parentColumn->getData()->getArray($typeOfRules);

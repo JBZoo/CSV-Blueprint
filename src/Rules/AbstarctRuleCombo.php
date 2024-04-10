@@ -92,7 +92,7 @@ abstract class AbstarctRuleCombo extends AbstarctRule
             self::EQ      => $expected === $actual,
             self::LESS    => $expected > $actual,
             self::MAX     => $expected >= $actual,
-            default       => throw new \InvalidArgumentException("Unknown mode: {$mode}"),
+            default       => throw new Exception("Unknown mode: {$mode}"),
         };
     }
 
@@ -100,7 +100,7 @@ abstract class AbstarctRuleCombo extends AbstarctRule
     {
         if ($this instanceof AbstractCellRuleCombo) {
             if (!\is_string($cellValue)) {
-                throw new \InvalidArgumentException('The value should be a string');
+                throw new Exception('The value should be a string');
             }
 
             return $this->validateComboCell($cellValue, $this->mode);
@@ -108,12 +108,12 @@ abstract class AbstarctRuleCombo extends AbstarctRule
 
         if ($this instanceof AbstractAggregateRuleCombo) {
             if (!\is_array($cellValue)) {
-                throw new \InvalidArgumentException('The value should be an array of numbers/strings');
+                throw new Exception('The value should be an array of numbers/strings');
             }
 
             return $this->validateComboAggregate($cellValue, $this->mode);
         }
 
-        throw new \LogicException('Unknown rule type: ' . static::class);
+        throw new Exception('Unknown rule type: ' . static::class);
     }
 }
