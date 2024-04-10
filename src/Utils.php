@@ -29,6 +29,8 @@ final class Utils
 {
     public const MAX_DIRECTORY_DEPTH = 10;
 
+    private static bool $debugMode = false;
+
     public static function isArrayInOrder(array $array, array $correctOrder): bool
     {
         $orderIndex = 0;
@@ -72,7 +74,7 @@ final class Utils
 
     public static function debug(int|string $message): void
     {
-        if (\defined('DEBUG_MODE')) {
+        if (self::$debugMode) {
             cli($message);
         }
     }
@@ -482,6 +484,16 @@ final class Utils
         }
 
         return $merged;
+    }
+
+    public static function setDebugMode(bool $debugMode): void
+    {
+        self::$debugMode = $debugMode;
+    }
+
+    public static function getDebugMode(): bool
+    {
+        return self::$debugMode;
     }
 
     /**

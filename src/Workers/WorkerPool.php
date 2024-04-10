@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Workers;
 
 use Fidry\CpuCoreCounter\CpuCoreCounter;
+use JBZoo\CsvBlueprint\Utils;
 use parallel\Runtime;
 
 final class WorkerPool
@@ -136,9 +137,11 @@ final class WorkerPool
             $worker = $this->tasksQueue->dequeue();
             $runtime = new Runtime($bootstrap);
             $future = $runtime->run(
-                static fn (string $key, string $class, array $args): mixed => (new Worker($key, $class, $args))
-                    ->execute(),
-                [$worker->getKey(), $worker->getClass(), $worker->getArguments()],
+                static function (string $key, string $class, array $args, bool $debugMode): mixed {
+                    Utils::setDebugMode($debugMode);
+                    return (new Worker($key, $class, $args))->execute();
+                },
+                [$worker->getKey(), $worker->getClass(), $worker->getArguments(), Utils::getDebugMode()],
             );
 
             $this->runningTasks[$worker->getKey()] = $future;

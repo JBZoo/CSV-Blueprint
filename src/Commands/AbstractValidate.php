@@ -110,9 +110,7 @@ abstract class AbstractValidate extends CliCommand
             );
         }
 
-        if ($this->getOptBool('debug')) {
-            \define('DEBUG_MODE', true);
-        }
+        Utils::setDebugMode($this->getOptBool('debug'));
     }
 
     protected function isHumanReadableMode(): bool
