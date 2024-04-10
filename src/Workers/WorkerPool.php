@@ -54,7 +54,7 @@ final class WorkerPool
 
     public function isParallel(): bool
     {
-        return $this->maxThreads > 1 && self::extLoaded();
+        return $this->getMaxThreads() > 1 && self::extLoaded();
     }
 
     public static function extLoaded(): bool
