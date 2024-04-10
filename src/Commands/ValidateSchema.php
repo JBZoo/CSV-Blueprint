@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Commands;
 
 use JBZoo\CsvBlueprint\Utils;
-use JBZoo\CsvBlueprint\Workers\Tasks\SchemaValidationTask;
+use JBZoo\CsvBlueprint\Workers\Tasks\ValidationSchemaTask;
 use JBZoo\CsvBlueprint\Workers\WorkerPool;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -66,7 +66,7 @@ final class ValidateSchema extends AbstractValidate
         $workerPool = new WorkerPool($this->getNumberOfThreads());
         foreach ($schemas as $schema) {
             $filename = (string)$schema->getRealPath();
-            $workerPool->addTask($filename, SchemaValidationTask::class, [$filename]);
+            $workerPool->addTask($filename, ValidationSchemaTask::class, [$filename]);
         }
 
         $reports = $workerPool->run();

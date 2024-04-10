@@ -35,18 +35,28 @@ RUN composer install --no-dev                       \
                         --optimize-autoloader       \
     && rm -rf ./.git                                \
     && composer clear-cache                         \
-    && chmod +x ./csv-blueprint
+    && chmod +x ./csv-blueprint                     \
+    && chmod +x ./docker/entrypoint.sh
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY ./docker/php.ini /usr/local/etc/php/conf.d/docker-z99-php.ini
 
-# Quick test
-RUN time ./csv-blueprint --version --ansi \
-    && time ./csv-blueprint validate:csv --help --ansi
 
 # Warmup caches
-#RUN php ./docker/build-preloader.php  \
-#    && php ./docker/preload.php \
-#    && echo "opcache.preload=/app/docker/preload.php" >> /usr/local/etc/php/conf.d/docker-z99-php.ini
+RUN php ./docker/random-csv.php                     \
+    && ./csv-blueprint validate:csv                 \
+      --schema=/app/schema-examples/full.yml        \
+      --csv=/app/docker/random_data.csv             \
+      --apply-all=yes                               \
+      --report=text --mute-errors > /dev/null       \
+    && rm ./docker/random_data.csv                  \
+    && php ./docker/build-preloader.php             \
+    && php ./docker/preload.php                     \
+    && du -sh /app/docker                           \
+    && echo "opcache.preload=/app/docker/preload.php" >> /usr/local/etc/php/conf.d/docker-z99-php.ini
 
-ENTRYPOINT ["/app/csv-blueprint"]
+# Quick test
+RUN time ./csv-blueprint validate:csv --help --ansi
+
+ENTRYPOINT ["/app/docker/entrypoint.sh"]
+CMD [""]

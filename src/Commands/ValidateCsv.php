@@ -16,13 +16,15 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Commands;
 
-use JBZoo\CsvBlueprint\Csv\CsvFile;
 use JBZoo\CsvBlueprint\Schema;
 use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
+use JBZoo\CsvBlueprint\Workers\Tasks\ValidationCsvTask;
+use JBZoo\CsvBlueprint\Workers\WorkerPool;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Finder\SplFileInfo;
 
+use function JBZoo\Data\phpArray;
 use function JBZoo\Utils\bool;
 
 /**
@@ -117,7 +119,7 @@ final class ValidateCsv extends AbstractValidate
 
         [$invalidFiles, $errorInCsvCounter] = $this->validateCsvFiles($matchedFiles);
 
-        return $this->printSummary(
+        $exitCode = $this->printSummary(
             \count($csvFilenames),
             \count($schemaFilenames),
             $invalidFiles,
@@ -125,6 +127,10 @@ final class ValidateCsv extends AbstractValidate
             $errorInSchemaCounter,
             $matchedFiles,
         );
+
+        \file_put_contents(__DIR__ . '/../../docker/included_files.php', (string)phpArray(\get_included_files()));
+
+        return $exitCode;
     }
 
     /**
@@ -185,39 +191,46 @@ final class ValidateCsv extends AbstractValidate
         $errorSuite = null;
         $quickCheck = $this->isQuickMode();
 
-        $this->out("CSV file validation: {$totalFiles}");
-
-        $index = 0;
-        $isFirst = true;
+        $workerPool = new WorkerPool($this->getNumberOfThreads());
         foreach ($matchedFiles['found_pairs'] as $schema => $csvs) {
-            if ($isFirst) {
-                $isFirst = false;
-            } else {
-                $this->out(''); // Add empty line between schema files
-            }
-            $this->out('Schema: ' . Utils::printFile($schema));
             foreach ($csvs as $csv) {
-                $index++;
-                $prefix = AbstractValidate::renderPrefix($index, $totalFiles);
+                $workerPool->addTask("{$csv} => {$schema}", ValidationCsvTask::class, [$csv, $schema, $quickCheck]);
+            }
+        }
+        $reports = $workerPool->run();
 
-                $currentCsvTitle = Utils::printFile($csv, 'blue') . '; Size: ' . Utils::getFileSize($csv);
+        $this->out("CSV file validation: {$totalFiles}");
+        $index = 0;
+        $currentSchema = null;
+        foreach ($reports as $pair => $errorSuite) {
+            $index++;
 
-                if ($quickCheck && $errorSuite !== null && $errorSuite->count() > 0) {
-                    $this->out("<yellow>Skipped (Quick mode)</yellow> {$currentCsvTitle}", 2);
-                    continue;
+            [$csv, $schema] = \explode(' => ', $pair, 2);
+
+            if ($currentSchema !== $schema) {
+                $currentSchema = $schema;
+                if ($index !== 1) { // Add empty line between schema files
+                    $this->out('');
                 }
+                $this->out('Schema: ' . Utils::printFile($schema));
+            }
 
-                $errorSuite = (new CsvFile($csv, $schema))->validate($quickCheck);
+            $prefix = AbstractValidate::renderPrefix($index, $totalFiles);
+            $currentCsvTitle = Utils::printFile($csv, 'blue') . '; Size: ' . Utils::getFileSize($csv);
 
-                if ($errorSuite->count() > 0) {
-                    $invalidFiles++;
-                    $errorCounter += $errorSuite->count();
+            if ($quickCheck && $errorSuite !== null && $errorSuite->count() > 0) {
+                $this->out("<yellow>Skipped (Quick mode)</yellow> {$currentCsvTitle}", 2);
+                continue;
+            }
 
-                    $this->renderIssues($prefix, $errorSuite->count(), $currentCsvTitle, 2);
-                    $this->outReport($errorSuite, 4);
-                } else {
-                    $this->out("{$prefix}<green>OK</green> {$currentCsvTitle}", 2);
-                }
+            if ($errorSuite->count() > 0) {
+                $invalidFiles++;
+                $errorCounter += $errorSuite->count();
+
+                $this->renderIssues($prefix, $errorSuite->count(), $currentCsvTitle, 2);
+                $this->outReport($errorSuite, 4);
+            } else {
+                $this->out("{$prefix}<green>OK</green> {$currentCsvTitle}", 2);
             }
         }
 

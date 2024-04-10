@@ -16,14 +16,13 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Workers\Tasks;
 
-use JBZoo\CsvBlueprint\Schema;
-use JBZoo\CsvBlueprint\Validators\Error;
+use JBZoo\CsvBlueprint\Csv\CsvFile;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
-use Symfony\Component\Yaml\Exception\ParseException;
 
-final class SchemaValidationTask extends AbstractTask
+final class ValidationCsvTask extends AbstractTask
 {
     public function __construct(
+        private readonly string $csvFilename,
         private readonly string $schemaFilename,
         private readonly bool $isQuickMode = false,
     ) {
@@ -31,17 +30,6 @@ final class SchemaValidationTask extends AbstractTask
 
     public function process(): ErrorSuite
     {
-        $schemaErrors = new ErrorSuite($this->schemaFilename);
-
-        try {
-            $schema = new Schema($this->schemaFilename);
-            $schemaErrors = $schema->validate($this->isQuickMode);
-        } catch (ParseException $e) {
-            $schemaErrors->addError(new Error('schema.syntax', $e->getMessage(), '', $e->getParsedLine()));
-        } catch (\Throwable $e) {
-            $schemaErrors->addError(new Error('schema.error', $e->getMessage()));
-        }
-
-        return $schemaErrors;
+        return (new CsvFile($this->csvFilename, $this->schemaFilename))->validate($this->isQuickMode);
     }
 }

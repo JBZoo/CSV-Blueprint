@@ -125,9 +125,7 @@ final class WorkerPool
         while (\count($this->runningTasks) < $this->maxThreads && !$this->tasksQueue->isEmpty()) {
             /** @var Worker $worker */
             $worker = $this->tasksQueue->dequeue();
-
             $runtime = new Runtime($bootstrap);
-
             $future = $runtime->run(
                 static fn (string $key, string $class, array $args): mixed => (new Worker($key, $class, $args))
                     ->execute(),

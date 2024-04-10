@@ -79,10 +79,10 @@ abstract class AbstractValidate extends CliCommand
             )
             ->addOption(
                 'parallel',
-                'p',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 \implode("\n", [
-                    'Experimental! Launches the process in parallel mode (if possible). Works only with ext-parallel.',
+                    'EXPERIMENTAL! Launches the process in parallel mode (if possible). Works only with ext-parallel.',
                     'You can specify the number of threads.',
                     'If you do not specify a value, the number of threads will be equal to the number of CPU cores.',
                     'By default, the process is launched in a single-threaded mode.',

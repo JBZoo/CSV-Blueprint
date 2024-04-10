@@ -17,6 +17,7 @@ vendor
 phpunit.xml
 /docker/preload.php
 /docker/random_data.csv
+/docker/included_files.php
 *.cache
 *.phar
 .version
