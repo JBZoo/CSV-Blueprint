@@ -98,12 +98,12 @@ final class ComboDateInterval extends AbstractCellRuleCombo
             try {
                 $interval = \DateInterval::createFromDateString($dateIntervalOrAsString);
             } catch (\Exception) {
-                throw new \RuntimeException("Can't parse date interval: {$dateIntervalOrAsString}");
+                throw new Exception("Can't parse date interval: {$dateIntervalOrAsString}");
             }
         }
 
         if (!$interval instanceof \DateInterval) {
-            throw new \RuntimeException("Can't parse date interval: {$dateIntervalOrAsString}");
+            throw new Exception("Can't parse date interval: {$dateIntervalOrAsString}");
         }
 
         $daysPerYear = 365.25;  // Average considering leap years

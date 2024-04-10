@@ -144,12 +144,12 @@ columns:
       # Format:    https://www.php.net/manual/en/datetime.format.php
       # Parsing:   https://www.php.net/manual/en/function.strtotime.php
       # Timezones: https://www.php.net/manual/en/timezones.php
-      date_min: -100 years              # Example of relative formats
+      date_min: -100 years              # Example of relative past date
       date_greater: -99 days            # Example of relative formats
       date_not: 2006-01-02 15:04:05 -0700 Europe/Rome
       date: 01 Jan 2000                 # You can use any string that can be parsed by the strtotime function
       date_less: now                    # Example of current date and time
-      date_max: +1 day                  # Example of relative formats
+      date_max: +1 day                  # Example of relative future date
       date_format: Y-m-d                # Check strict format of the date.
       is_date: true                     # Accepts arbitrary date format. Is shows error if failed to convert to timestamp.
       is_timezone: true                 # Allow only timezone identifiers. Case-insensitive. Example: "Europe/London", "utc".

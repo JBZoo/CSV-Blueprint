@@ -85,7 +85,7 @@ final class ComboQuartiles extends AbstractAggregateRuleCombo
         $type = $this->getParams()[self::TYPE];
 
         if (!\in_array($type, self::TYPES, true)) {
-            throw new \RuntimeException(
+            throw new Exception(
                 "Unknown quartile type: \"{$type}\". Allowed: " . Utils::printList(self::TYPES, 'green'),
             );
         }
@@ -98,7 +98,7 @@ final class ComboQuartiles extends AbstractAggregateRuleCombo
         $method = $this->getParams()[self::METHOD];
 
         if (!\in_array($method, self::METHODS, true)) {
-            throw new \RuntimeException(
+            throw new Exception(
                 "Unknown quartile method: \"{$method}\". Allowed: " . Utils::printList(self::METHODS, 'green'),
             );
         }
@@ -110,7 +110,7 @@ final class ComboQuartiles extends AbstractAggregateRuleCombo
     {
         $params = $this->getOptionAsArray();
         if (\count($params) !== self::ARGS) {
-            throw new \RuntimeException(
+            throw new Exception(
                 'The rule expects exactly three params: ' .
                 'method ' . Utils::printList(self::METHODS) . ', ' .
                 'type ' . Utils::printList(self::TYPES) . ', ' .

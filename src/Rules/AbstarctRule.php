@@ -84,7 +84,7 @@ abstract class AbstarctRule
                 );
             }
         } else {
-            throw new \RuntimeException('Method "validateRule" not found in ' . static::class);
+            throw new Exception('Method "validateRule" not found in ' . static::class);
         }
 
         return null;
