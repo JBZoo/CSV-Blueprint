@@ -24,7 +24,6 @@ use JBZoo\CsvBlueprint\Workers\WorkerPool;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Finder\SplFileInfo;
 
-use function JBZoo\Data\phpArray;
 use function JBZoo\Utils\bool;
 
 /**
@@ -128,7 +127,7 @@ final class ValidateCsv extends AbstractValidate
             $matchedFiles,
         );
 
-        \file_put_contents(__DIR__ . '/../../docker/included_files.php', (string)phpArray(\get_included_files()));
+        self::dumpPreloader(); // Experimental feature
 
         return $exitCode;
     }
@@ -188,7 +187,6 @@ final class ValidateCsv extends AbstractValidate
         $totalFiles = $matchedFiles['count_pairs'];
         $invalidFiles = 0;
         $errorCounter = 0;
-        $errorSuite = null;
         $quickCheck = $this->isQuickMode();
 
         $workerPool = new WorkerPool($this->getNumberOfThreads());
@@ -197,30 +195,45 @@ final class ValidateCsv extends AbstractValidate
                 $workerPool->addTask("{$csv} => {$schema}", ValidationCsvTask::class, [$csv, $schema, $quickCheck]);
             }
         }
-        $reports = $workerPool->run();
 
         $this->out("CSV file validation: {$totalFiles}");
+
         $index = 0;
-        $currentSchema = null;
-        foreach ($reports as $pair => $errorSuite) {
+        $currentSchemaFilename = null;
+
+        $exectionCallback = function (
+            string $pair,
+            ErrorSuite $errorSuite,
+        ) use (
+            &$index,
+            &$currentSchemaFilename,
+            &$invalidFiles,
+            &$errorCounter,
+            $totalFiles,
+            $quickCheck
+        ): void {
             $index++;
+            $filesAsKey = \explode(' => ', $pair, 2);
+            if (\count($filesAsKey) > 1) {
+                [$csvFilename, $schemaFilename] = $filesAsKey;
+            } else {
+                throw new Exception("Invalid pair: {$pair}");
+            }
 
-            [$csv, $schema] = \explode(' => ', $pair, 2);
-
-            if ($currentSchema !== $schema) {
-                $currentSchema = $schema;
+            if ($currentSchemaFilename !== $schemaFilename) {
+                $currentSchemaFilename = $schemaFilename;
                 if ($index !== 1) { // Add empty line between schema files
                     $this->out('');
                 }
-                $this->out('Schema: ' . Utils::printFile($schema));
+                $this->out('Schema: ' . Utils::printFile($schemaFilename));
             }
 
             $prefix = AbstractValidate::renderPrefix($index, $totalFiles);
-            $currentCsvTitle = Utils::printFile($csv, 'blue') . '; Size: ' . Utils::getFileSize($csv);
+            $currentCsvTitle = Utils::printFile($csvFilename, 'blue') . '; Size: ' . Utils::getFileSize($csvFilename);
 
-            if ($quickCheck && $errorSuite !== null && $errorSuite->count() > 0) {
+            if ($quickCheck && $errorSuite->count() > 0) {
                 $this->out("<yellow>Skipped (Quick mode)</yellow> {$currentCsvTitle}", 2);
-                continue;
+                return;
             }
 
             if ($errorSuite->count() > 0) {
@@ -232,7 +245,9 @@ final class ValidateCsv extends AbstractValidate
             } else {
                 $this->out("{$prefix}<green>OK</green> {$currentCsvTitle}", 2);
             }
-        }
+        };
+
+        $workerPool->run($exectionCallback);
 
         return [$invalidFiles, $errorCounter];
     }
@@ -272,7 +287,7 @@ final class ValidateCsv extends AbstractValidate
 
         if ($errorInSchemaCounter > 0) {
             $this->out("Found <c>{$errorInSchemaCounter}</c> issues in {$totalSchemaFiles} schemas.", $indent);
-        } else {
+        } elseif (!$this->isQuickMode()) {
             $this->out("<green>No issues in {$totalSchemaFiles} schemas.</green>", $indent);
         }
 
@@ -282,7 +297,7 @@ final class ValidateCsv extends AbstractValidate
                 "out of {$totalCsvFiles} CSV files.",
                 $indent,
             );
-        } else {
+        } elseif (!$this->isQuickMode()) {
             $this->out("<green>No issues in {$totalCsvFiles} CSV files.</green>", $indent);
         }
 

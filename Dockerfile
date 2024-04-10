@@ -28,14 +28,10 @@ WORKDIR /app
 ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY . /app
 COPY --from=preparatory /tmp/.version /app/.version
-RUN composer install --no-dev                       \
-                        --classmap-authoritative    \
-                        --no-progress               \
-                        --no-suggest                \
-                        --optimize-autoloader       \
-    && rm -rf ./.git                                \
-    && composer clear-cache                         \
-    && chmod +x ./csv-blueprint                     \
+RUN composer install --no-dev --classmap-authoritative --no-progress \
+    && rm -rf ./.git \
+    && composer clear-cache \
+    && chmod +x ./csv-blueprint \
     && chmod +x ./docker/entrypoint.sh
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
@@ -44,7 +40,8 @@ COPY ./docker/php.ini /usr/local/etc/php/conf.d/docker-z99-php.ini
 
 # Warmup caches
 RUN php ./docker/random-csv.php                     \
-    && ./csv-blueprint validate:csv                 \
+    && JBZOO_BUILD_PRELOADER=1                      \
+      ./csv-blueprint validate:csv                  \
       --schema=/app/schema-examples/full.yml        \
       --csv=/app/docker/random_data.csv             \
       --apply-all=yes                               \
@@ -52,11 +49,11 @@ RUN php ./docker/random-csv.php                     \
     && rm ./docker/random_data.csv                  \
     && php ./docker/build-preloader.php             \
     && php ./docker/preload.php                     \
-    && du -sh /app/docker                           \
-    && echo "opcache.preload=/app/docker/preload.php" >> /usr/local/etc/php/conf.d/docker-z99-php.ini
+    && du -sh /app/docker
+#    && echo "opcache.preload=/app/docker/preload.php" >> /usr/local/etc/php/conf.d/docker-z99-php.ini
 
 # Quick test
-RUN time ./csv-blueprint validate:csv --help --ansi
+RUN time ./csv-blueprint validate:csv --help
 
-ENTRYPOINT ["/app/docker/entrypoint.sh"]
-CMD [""]
+#ENTRYPOINT ["/app/docker/entrypoint.sh"]
+ENTRYPOINT ["/app/csv-blueprint"]

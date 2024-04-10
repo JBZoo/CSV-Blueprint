@@ -25,7 +25,7 @@ if ('cli' !== \PHP_SAPI) {
     throw new Exception('This script must be run from the command line.');
 }
 
-WorkerPool::setBootstrap(__DIR__ . '/vendor/autoload.php');
+WorkerPool::setBootstrap(__DIR__ . '/docker/preload.php');
 
 // Fix for GitHub actions. See action.yml
 $_SERVER['argv'] = Utils::fixArgv($_SERVER['argv'] ?? []);

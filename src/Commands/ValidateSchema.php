@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Commands;
 
 use JBZoo\CsvBlueprint\Utils;
+use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use JBZoo\CsvBlueprint\Workers\Tasks\ValidationSchemaTask;
 use JBZoo\CsvBlueprint\Workers\WorkerPool;
 use Symfony\Component\Console\Input\InputOption;
@@ -69,27 +70,28 @@ final class ValidateSchema extends AbstractValidate
             $workerPool->addTask($filename, ValidationSchemaTask::class, [$filename]);
         }
 
-        $reports = $workerPool->run();
-
         $foundIssues = 0;
         $index = 0;
-        foreach ($reports as $filename => $schemaErrors) {
-            $filename = (string)$filename;
-            $index++;
-            $prefix = self::renderPrefix($index, $totalFiles);
-            $coloredPath = Utils::printFile($filename);
+        $workerPool->run(
+            function (string $filename, ErrorSuite $schemaErrors) use (&$index, &$foundIssues, $totalFiles): void {
+                $index++;
+                $prefix = self::renderPrefix($index, $totalFiles);
+                $coloredPath = Utils::printFile($filename);
 
-            if ($schemaErrors->count() > 0) {
-                $this->renderIssues($prefix, $schemaErrors->count(), $coloredPath);
-                $this->outReport($schemaErrors, 2);
-            } else {
-                $this->out("{$prefix}<green>OK</green> {$coloredPath}");
-            }
+                if ($schemaErrors->count() > 0) {
+                    $this->renderIssues($prefix, $schemaErrors->count(), $coloredPath);
+                    $this->outReport($schemaErrors, 2);
+                } else {
+                    $this->out("{$prefix}<green>OK</green> {$coloredPath}");
+                }
 
-            $this->printDumpOfSchema($filename);
+                $this->printDumpOfSchema($filename);
 
-            $foundIssues += $schemaErrors->count();
-        }
+                $foundIssues += $schemaErrors->count();
+            },
+        );
+
+        self::dumpPreloader();
 
         return $foundIssues === 0 ? self::SUCCESS : self::FAILURE;
     }

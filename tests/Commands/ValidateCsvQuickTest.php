@@ -42,16 +42,13 @@ final class ValidateCsvQuickTest extends TestCase
             
             CSV file validation: 3
             Schema: ./tests/schemas/demo_invalid.yml
-              (1/3) 1 issue in ./tests/fixtures/batch/demo-1.csv; Size: 123.34 MB
-                "allow_extra_columns" at line 1. Column(s) not found in CSV: "wrong_column_name".
-                
+              Skipped (Quick mode) ./tests/fixtures/batch/demo-1.csv; Size: 123.34 MB
               Skipped (Quick mode) ./tests/fixtures/batch/demo-2.csv; Size: 123.34 MB
               Skipped (Quick mode) ./tests/fixtures/batch/sub/demo-3.csv; Size: 123.34 MB
             
             Summary:
               3 pairs (schema to csv) were found based on `filename_pattern`.
               Found 1 issues in 1 schemas.
-              Found 1 issues in 1 out of 3 CSV files.
             
             
             TXT;

@@ -47,9 +47,9 @@ final class WorkerPool
         $this->tasksQueue->enqueue(new Worker($key, $taskClass, $arguments));
     }
 
-    public function run(): array
+    public function run(?\Closure $callback = null): array
     {
-        return $this->isParallel() ? $this->runInParallel() : $this->runSequentially();
+        return $this->isParallel() ? $this->runInParallel($callback) : $this->runSequentially($callback);
     }
 
     public function isParallel(): bool
@@ -82,20 +82,25 @@ final class WorkerPool
         }
     }
 
-    private function runSequentially(): array
+    private function runSequentially(?\Closure $callback = null): array
     {
         $results = [];
 
         while (!$this->tasksQueue->isEmpty()) {
             /** @var Worker $worker */
             $worker = $this->tasksQueue->dequeue();
-            $results[$worker->getKey()] = $worker->execute();
+
+            if ($callback !== null) {
+                $callback($worker->getKey(), $worker->execute());
+            } else {
+                $results[$worker->getKey()] = $worker->execute();
+            }
         }
 
         return $results;
     }
 
-    private function runInParallel(): array
+    private function runInParallel(?\Closure $callback = null): array
     {
         $results = [];
 
@@ -104,7 +109,11 @@ final class WorkerPool
 
             foreach ($this->runningTasks as $index => $future) {
                 if ($future !== null && $future->done()) {
-                    $results[$index] = $future->value();
+                    if ($callback !== null) {
+                        $callback($index, $future->value());
+                    } else {
+                        $results[$index] = $future->value();
+                    }
                     unset($this->runningTasks[$index]);
                 }
             }

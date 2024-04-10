@@ -21,9 +21,11 @@ use JBZoo\CsvBlueprint\Schema;
 use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 use JBZoo\CsvBlueprint\Workers\WorkerPool;
+use JBZoo\Utils\Env;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Finder\SplFileInfo;
 
+use function JBZoo\Data\phpArray;
 use function JBZoo\Utils\bool;
 
 /**
@@ -219,6 +221,13 @@ abstract class AbstractValidate extends CliCommand
             $this->_("# File: <blue>{$filename}</blue>");
             $this->_($dump);
             $this->_('<blue>```</blue>');
+        }
+    }
+
+    protected static function dumpPreloader(): void
+    {
+        if (Env::bool('JBZOO_BUILD_PRELOADER')) {
+            \file_put_contents(__DIR__ . '/../../docker/included_files.php', (string)phpArray(\get_included_files()));
         }
     }
 
