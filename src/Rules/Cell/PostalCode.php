@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 use Respect\Validation\Validator;
 
-class PostalCode extends AbstractCellRule
+final class PostalCode extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {

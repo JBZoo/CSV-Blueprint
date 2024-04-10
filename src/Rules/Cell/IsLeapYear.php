@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 use Respect\Validation\Validator;
 
-class IsLeapYear extends AbstractCellRule
+final class IsLeapYear extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {

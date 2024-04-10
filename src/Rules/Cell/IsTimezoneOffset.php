@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Utils;
 
-class IsTimezoneOffset extends AbstractCellRule
+final class IsTimezoneOffset extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {

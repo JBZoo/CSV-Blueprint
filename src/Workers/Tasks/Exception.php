@@ -16,6 +16,6 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Workers\Tasks;
 
-class Exception extends \JBZoo\CsvBlueprint\Workers\Exception
+final class Exception extends \JBZoo\CsvBlueprint\Workers\Exception
 {
 }
