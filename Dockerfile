@@ -10,7 +10,7 @@
 # @see        https://github.com/JBZoo/Csv-Blueprint
 #
 
-FROM alpine:latest as preparatory
+FROM alpine:3.9 AS preparatory
 RUN apk add --no-cache make git
 WORKDIR /tmp
 COPY . /tmp

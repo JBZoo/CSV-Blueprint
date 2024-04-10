@@ -28,6 +28,10 @@ require_once $autoloader;
 
 WorkerPool::setBootstrap($autoloader);
 
+if ('cli' !== \PHP_SAPI) {
+    throw new Exception('This script must be run from the command line.');
+}
+
 // Fix for GitHub actions. See action.yml
 $_SERVER['argv'] = Utils::fixArgv($_SERVER['argv'] ?? []);
 $_SERVER['argc'] = \count($_SERVER['argv']);
@@ -39,12 +43,9 @@ $_SERVER['argc'] = \count($_SERVER['argv']);
 // We have to do it becase tool uses 3rd-party libraries, and we can't trust them.
 // So, we need to catch all errors and handle them.
 \set_error_handler(static function ($severity, $message, $file, $line): void {
-    throw new \ErrorException($message, 0, $severity, $file, $line);
+    throw new Exception($message, 0, $severity, $file, $line);
 });
 
-$cliApp = (new CliApplication('CSV Blueprint', Utils::getVersion(true)));
-$cliApp->setVersion(Utils::getVersion(false));
-
-$cliApp
+(new CliApplication('CSV Blueprint', Utils::getVersion(true)))
     ->registerCommandsByPath(PATH_ROOT . '/src/Commands', __NAMESPACE__)
     ->run();
