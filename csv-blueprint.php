@@ -37,9 +37,6 @@ $_SERVER['argc'] = \count($_SERVER['argv']);
     throw new Exception($message, 0, $severity, $file, $line);
 });
 
-$cliApp = (new CliApplication('CSV Blueprint', Utils::getVersion(true)));
-$cliApp->setVersion(Utils::getVersion(false));
-
-$cliApp
+(new CliApplication('CSV Blueprint', Utils::getVersion(true)))
     ->registerCommandsByPath(PATH_ROOT . '/src/Commands', __NAMESPACE__)
     ->run();
