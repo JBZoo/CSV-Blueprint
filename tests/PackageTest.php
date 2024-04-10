@@ -60,6 +60,7 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
         'sonarcloud'     => true,
         'coveralls'      => true,
         'circle_ci'      => true,
+        'sonar_qube'     => true,
     ];
 
     protected array $badgesTemplate = [
@@ -67,9 +68,10 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
         'github_actions_demo',
         'coveralls',
         'psalm_coverage',
-        'github_latest_release',
-        'packagist_downloads_total',
+        'sonar_qube',
+        //'packagist_downloads_total',
         'docker_pulls',
+        'github_latest_release',
     ];
 
     protected function setUp(): void
@@ -171,6 +173,17 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
                 'GitHub Release',
                 'https://img.shields.io/github/v/release/jbzoo/csv-blueprint?label=Latest',
                 'https://github.com/__VENDOR__/__PACKAGE__/releases',
+            ),
+        );
+    }
+
+    protected function checkBadgeSonarQube(): ?string
+    {
+        return $this->getPreparedBadge(
+            $this->getBadge(
+                'Quality Gate Status',
+                'https://sonarcloud.io/api/project_badges/measure?project=JBZoo_Csv-Blueprint&metric=alert_status',
+                'https://sonarcloud.io/summary/overall?id=JBZoo_Csv-Blueprint',
             ),
         );
     }
