@@ -28,6 +28,10 @@ if ('cli' !== \PHP_SAPI) {
 
 WorkerPool::setBootstrap($autoloader);
 
+if ('cli' !== \PHP_SAPI) {
+    throw new Exception('This script must be run from the command line.');
+}
+
 // Fix for GitHub actions. See action.yml
 $_SERVER['argv'] = Utils::fixArgv($_SERVER['argv'] ?? []);
 $_SERVER['argc'] = \count($_SERVER['argv']);
