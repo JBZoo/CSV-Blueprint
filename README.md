@@ -165,9 +165,9 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
     #   Add flag `--profile` if you want to see profiling info. Add details with `-vvv`.
     #   Add flag `--debug` if you want to see more really deep details.
     #   Add flag `--dump-schema` if you want to see the final schema after all includes and inheritance.
-    # Default value: 'options: --ansi -v'
+    # Default value: 'options: --ansi'
     # You can skip it.
-    extra: 'options: --ansi -v'
+    extra: 'options: --ansi'
 ```
 <!-- auto-update:/github-actions-yml -->
 
