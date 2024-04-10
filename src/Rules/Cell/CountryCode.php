@@ -17,21 +17,21 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Utils;
-use Respect\Validation\Rules\LanguageCode as RespectLanguageCode;
+use Respect\Validation\Rules\CountryCode as RespectCountryCode;
 use Respect\Validation\Validator;
 
-class IsLanguageCode extends AbstractCellRule
+class CountryCode extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {
         return [
             [
-                'Validates whether the input is language code based on ISO 639.',
-                'Available options: "alpha-2" (Ex: "en"), "alpha-3" (Ex: "eng").',
-                'See: https://en.wikipedia.org/wiki/ISO_639.',
+                'Validates whether the input is a country code in ISO 3166-1 standard.',
+                'Available options: "alpha-2" (Ex: "US"), "alpha-3" (Ex: "USA"), "numeric" (Ex: "840").',
+                'The rule uses data from iso-codes: https://salsa.debian.org/iso-codes-team/iso-codes.',
             ],
             [
-                self::DEFAULT => ['alpha-2', 'Examples: "en", "eng"'],
+                self::DEFAULT => ['alpha-2', 'Country code in ISO 3166-1 standard. Examples: "US", "USA", "840"'],
             ],
         ];
     }
@@ -42,17 +42,21 @@ class IsLanguageCode extends AbstractCellRule
             return null;
         }
 
-        $validSets = [RespectLanguageCode::ALPHA2, RespectLanguageCode::ALPHA3];
+        $validSets = [
+            RespectCountryCode::ALPHA2,
+            RespectCountryCode::ALPHA3,
+            RespectCountryCode::NUMERIC,
+        ];
 
         $set = $this->getOptionAsString();
 
         if (!\in_array($set, $validSets, true)) {
-            return "Unknown language set: \"<c>{$set}</c>\". " .
+            return "Unknown country set: \"<c>{$set}</c>\". " .
                 'Available options: ' . Utils::printList($validSets, 'green');
         }
 
-        if (!Validator::languageCode($set)->validate($cellValue)) {
-            return "Value \"<c>{$cellValue}</c>\" is not a valid \"{$set}\" language code.";
+        if (!Validator::countryCode($set)->validate($cellValue)) {
+            return "Value \"<c>{$cellValue}</c>\" is not a valid \"{$set}\" country code.";
         }
 
         return null;

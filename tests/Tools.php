@@ -170,7 +170,7 @@ final class Tools
         return $keysToRemove;
     }
 
-    public static function arrayToOptionString(array $options): string
+    public static function arrayToOptions(array $options): string
     {
         $optionsAsArray = [];
 

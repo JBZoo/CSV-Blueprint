@@ -28,7 +28,7 @@ final class ValidateCsvBatchCsvTest extends TestCase
 {
     public function testValidateManyCsvPositive(): void
     {
-        $optionsAsString = Tools::arrayToOptionString([
+        $optionsAsString = Tools::arrayToOptions([
             'csv' => [
                 './tests/fixtures/batch/*.csv',
                 './tests/fixtures/demo.csv',

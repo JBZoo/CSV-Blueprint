@@ -16,14 +16,14 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\Cell\IsLanguageCode;
+use JBZoo\CsvBlueprint\Rules\Cell\LanguageCode;
 use JBZoo\PHPUnit\Rules\TestAbstractCellRule;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class IsLanguageCodeTest extends TestAbstractCellRule
+final class LanguageCodeTest extends TestAbstractCellRule
 {
-    protected string $ruleClass = IsLanguageCode::class;
+    protected string $ruleClass = LanguageCode::class;
 
     public function testPositive(): void
     {

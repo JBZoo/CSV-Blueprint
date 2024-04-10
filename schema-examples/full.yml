@@ -29,7 +29,7 @@ presets:                                # Include another schema and define an a
 # This allows you to pre-validate the file name before processing its contents.
 # Feel free to check parent directories as well.
 # See: https://www.php.net/manual/en/reference.pcre.pattern.syntax.php
-filename_pattern: /demo(-\d+)?\.csv$/i
+filename_pattern: /\.csv$/i
 #  preset: my-preset                    # See README.md for details.
 
 # Here are default values to parse CSV file.
@@ -230,12 +230,12 @@ columns:
       # Validates whether the input is a country code in ISO 3166-1 standard.
       # Available options: "alpha-2" (Ex: "US"), "alpha-3" (Ex: "USA"), "numeric" (Ex: "840").
       # The rule uses data from iso-codes: https://salsa.debian.org/iso-codes-team/iso-codes.
-      is_country_code: alpha-2          # Country code in ISO 3166-1 standard. Examples: "US", "USA", "840"
+      country_code: alpha-2             # Country code in ISO 3166-1 standard. Examples: "US", "USA", "840"
 
       # Validates whether the input is language code based on ISO 639.
       # Available options: "alpha-2" (Ex: "en"), "alpha-3" (Ex: "eng").
       # See: https://en.wikipedia.org/wiki/ISO_639.
-      is_language_code: alpha-2         # Examples: "en", "eng"
+      language_code: alpha-2            # Examples: "en", "eng"
 
       # Filesystem (with IO!)
       is_file_exists: true              # Check if file exists on the filesystem (It's FS IO operation!).
@@ -619,6 +619,8 @@ columns:
     rules:
       not_empty: true
 
-  - name: third_column
-    rules:
-      not_empty: true
+  - name: inherited_column_login
+    preset: my-preset/login
+
+  - name: inherited_column_full_name
+    preset: my-preset/full_name
