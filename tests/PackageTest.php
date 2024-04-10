@@ -69,7 +69,7 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
         'coveralls',
         'psalm_coverage',
         'sonar_qube',
-        //'packagist_downloads_total',
+        // 'packagist_downloads_total',
         'docker_pulls',
         'github_latest_release',
     ];
