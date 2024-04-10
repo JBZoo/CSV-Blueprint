@@ -35,12 +35,12 @@ final class ComboDate extends AbstractCellRuleCombo
                 'Timezones: https://www.php.net/manual/en/timezones.php',
             ],
             [
-                self::MIN     => ['-100 years', 'Example of relative formats'],
+                self::MIN     => ['-100 years', 'Example of relative past date'],
                 self::GREATER => ['-99 days', 'Example of relative formats'],
                 self::EQ      => ['01 Jan 2000', 'You can use any string that can be parsed by the strtotime function'],
                 self::NOT     => ['2006-01-02 15:04:05 -0700 Europe/Rome'],
                 self::LESS    => ['now', 'Example of current date and time'],
-                self::MAX     => ['+1 day', 'Example of relative formats'],
+                self::MAX     => ['+1 day', 'Example of relative future date'],
             ],
         ];
     }

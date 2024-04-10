@@ -74,7 +74,7 @@ final class ComboPercentile extends AbstractAggregateRuleCombo
     {
         $params = $this->getOptionAsArray();
         if (\count($params) !== self::ARGS) {
-            throw new \RuntimeException(
+            throw new Exception(
                 'The rule expects exactly two params: ' .
                 'the first is percentile (P is beet 0.0 and 100.0), the second is the expected value (float)',
             );

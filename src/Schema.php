@@ -58,10 +58,10 @@ final class Schema
             } elseif ($fileExtension === 'php') {
                 $data = phpArray($csvSchemaFilenameOrArray);
             } else {
-                throw new \InvalidArgumentException("Unsupported file extension: {$fileExtension}");
+                throw new Exception("Unsupported file extension: {$fileExtension}");
             }
         } elseif (\is_string($csvSchemaFilenameOrArray)) {
-            throw new \InvalidArgumentException("Invalid schema data: {$csvSchemaFilenameOrArray}");
+            throw new Exception("Invalid schema data: {$csvSchemaFilenameOrArray}");
         } else {
             $this->filename = null;
             $data = new Data();
@@ -77,7 +77,7 @@ final class Schema
         try {
             $this->data = (new SchemaDataPrep($data, $basepath))->buildData();
         } catch (\Exception $e) {
-            throw new \InvalidArgumentException(
+            throw new Exception(
                 "Invalid schema \"{$this->filename}\" data.\nUnexpected error: \"{$e->getMessage()}\"",
             );
         }
@@ -183,7 +183,7 @@ final class Schema
             return $value;
         }
 
-        throw new \InvalidArgumentException('Delimiter must be a single character');
+        throw new Exception('Delimiter must be a single character');
     }
 
     public function getCsvQuoteChar(): string
@@ -193,7 +193,7 @@ final class Schema
             return $value;
         }
 
-        throw new \InvalidArgumentException('Quote char must be a single character');
+        throw new Exception('Quote char must be a single character');
     }
 
     public function getCsvEnclosure(): string
@@ -204,7 +204,7 @@ final class Schema
             return $value;
         }
 
-        throw new \InvalidArgumentException('Enclosure must be a single character');
+        throw new Exception('Enclosure must be a single character');
     }
 
     public function getCsvEncoding(): string
@@ -224,7 +224,7 @@ final class Schema
             return $result;
         }
 
-        throw new \InvalidArgumentException("Invalid encoding: {$encoding}");
+        throw new Exception("Invalid encoding: {$encoding}");
     }
 
     public function csvHasHeader(): bool

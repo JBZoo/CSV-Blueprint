@@ -5,9 +5,9 @@
 [![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml/badge.svg)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml)
 [![Coverage Status](https://coveralls.io/repos/github/JBZoo/Csv-Blueprint/badge.svg?branch=master)](https://coveralls.io/github/JBZoo/Csv-Blueprint?branch=master)
 [![Psalm Coverage](https://shepherd.dev/github/JBZoo/Csv-Blueprint/coverage.svg)](https://shepherd.dev/github/JBZoo/Csv-Blueprint)
-[![GitHub Release](https://img.shields.io/github/v/release/jbzoo/csv-blueprint?label=Latest)](https://github.com/jbzoo/csv-blueprint/releases)
-[![Total Downloads](https://poser.pugx.org/jbzoo/csv-blueprint/downloads)](https://packagist.org/packages/jbzoo/csv-blueprint/stats)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=JBZoo_Csv-Blueprint&metric=alert_status)](https://sonarcloud.io/summary/overall?id=JBZoo_Csv-Blueprint)
 [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)
+[![GitHub Release](https://img.shields.io/github/v/release/jbzoo/csv-blueprint?label=Latest)](https://github.com/jbzoo/csv-blueprint/releases)
 <!-- auto-update:/top-badges -->
 
 <!-- auto-update:rules-counter -->
@@ -433,12 +433,12 @@ columns:
       # Format:    https://www.php.net/manual/en/datetime.format.php
       # Parsing:   https://www.php.net/manual/en/function.strtotime.php
       # Timezones: https://www.php.net/manual/en/timezones.php
-      date_min: -100 years              # Example of relative formats
+      date_min: -100 years              # Example of relative past date
       date_greater: -99 days            # Example of relative formats
       date_not: 2006-01-02 15:04:05 -0700 Europe/Rome
       date: 01 Jan 2000                 # You can use any string that can be parsed by the strtotime function
       date_less: now                    # Example of current date and time
-      date_max: +1 day                  # Example of relative formats
+      date_max: +1 day                  # Example of relative future date
       date_format: Y-m-d                # Check strict format of the date.
       is_date: true                     # Accepts arbitrary date format. Is shows error if failed to convert to timestamp.
       is_timezone: true                 # Allow only timezone identifiers. Case-insensitive. Example: "Europe/London", "utc".

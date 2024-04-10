@@ -59,7 +59,7 @@ final class ComboPasswordStrength extends AbstractCellRuleCombo
         }
 
         // Numbers: +1 point if at least one
-        if (\preg_match('/[0-9]/', $password) !== 0) {
+        if (\preg_match('/\d/', $password) !== 0) {
             $score++;
         }
 
@@ -82,8 +82,8 @@ final class ComboPasswordStrength extends AbstractCellRuleCombo
         $deductions += \preg_match_all('/01|12|23|34|45|56|67|78|89|90/', $password);
 
         $deductions += \preg_match_all(
-            '/ab|bc|cd|de|ef|fg|gh|hi|ij|jk|kl|lm|mn|no|op|pq|qr|rs|st|tu|uv|vw|wx|xy|yz/i',
-            $password,
+            '/abc|bcd|cde|def|efg|fgh|ghi|hij|ijk|jkl|klm|lmn|mno|nop|opq|pqr|qrs|rst|stu|tuv|uvw|vwx|wxy|xyz/',
+            \strtolower($password),
         );
 
         if (\preg_match('/qwerty|pass|password/i', $password) !== 0) {

@@ -25,7 +25,7 @@ abstract class AbstractCellRuleCombo extends AbstarctRuleCombo
     protected function getActual(array|string $value): float
     {
         if (\is_array($value)) {
-            throw new \InvalidArgumentException('This method should not be called with an array');
+            throw new Exception('This method should not be called with an array');
         }
 
         return $this->getActualCell($value);

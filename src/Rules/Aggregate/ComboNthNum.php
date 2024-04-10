@@ -67,7 +67,7 @@ final class ComboNthNum extends AbstractAggregateRuleCombo
         $actual = $colValues[$arrayInd] ?? null;
 
         if ($actual === null) {
-            throw new \RuntimeException(
+            throw new Exception(
                 "The column does not have a line {$realLine}, so the value cannot be checked.",
             );
         }
@@ -79,7 +79,7 @@ final class ComboNthNum extends AbstractAggregateRuleCombo
     {
         $params = $this->getOptionAsArray();
         if (\count($params) !== self::ARGS) {
-            throw new \RuntimeException(
+            throw new Exception(
                 'The rule expects exactly two arguments: ' .
                 'the first is the line number (without header), the second is the expected value',
             );

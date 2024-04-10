@@ -14,8 +14,7 @@
 
 declare(strict_types=1);
 
-$require = __DIR__ . '/../vendor/composer/autoload_classmap.php';
-$classes = require $require;
+$classes = include_once __DIR__ . '/../vendor/composer/autoload_classmap.php';
 
 $header = <<<'TEXT'
     <?php

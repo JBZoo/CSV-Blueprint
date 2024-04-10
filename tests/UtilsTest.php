@@ -217,6 +217,7 @@ final class UtilsTest extends TestCase
 
         $exclude = [
             'Abstract',
+            'Exception',
             'Aggregate/Combo',
             'Cell/Combo',
             'Sorted',

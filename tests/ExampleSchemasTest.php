@@ -44,7 +44,7 @@ final class ExampleSchemasTest extends TestCase
         foreach ($finder as $file) {
             $ruleName = Utils::camelToKebabCase($file->getFilenameWithoutExtension());
 
-            if (\str_contains($ruleName, 'abstract')) {
+            if (\str_contains($ruleName, 'abstract') || \str_contains($ruleName, 'exception')) {
                 continue;
             }
 
@@ -101,7 +101,7 @@ final class ExampleSchemasTest extends TestCase
         foreach ($finder as $file) {
             $ruleName = Utils::camelToKebabCase($file->getFilenameWithoutExtension());
 
-            if (\str_contains($ruleName, 'abstract')) {
+            if (\str_contains($ruleName, 'abstract') || \str_contains($ruleName, 'exception')) {
                 continue;
             }
 
