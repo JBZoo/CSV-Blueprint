@@ -18,19 +18,15 @@ namespace JBZoo\CsvBlueprint;
 
 use JBZoo\CsvBlueprint\Workers\WorkerPool;
 
-if ('cli' !== \PHP_SAPI) {
-    throw new \RuntimeException('This script must be run from the command line.');
-}
-
 \define('PATH_ROOT', __DIR__);
 $autoloader = __DIR__ . '/vendor/autoload.php';
 require_once $autoloader;
 
-WorkerPool::setBootstrap($autoloader);
-
 if ('cli' !== \PHP_SAPI) {
-    throw new Exception('This script must be run from the command line.');
+    throw new \RuntimeException('This script must be run from the command line.');
 }
+
+WorkerPool::setBootstrap($autoloader);
 
 // Fix for GitHub actions. See action.yml
 $_SERVER['argv'] = Utils::fixArgv($_SERVER['argv'] ?? []);
