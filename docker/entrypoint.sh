@@ -14,7 +14,8 @@
 
 # Check for the presence of the "--parallel" option in the command line arguments
 # If the option is present, disable the opcache for the script execution
-# This is necessary because the opcache is not thread-safe and will cause segfaults
+# This is necessary because the opcache is not thread-safe and will cause segfaults.
+# We have to debug the segfaults and fix them, but for now, this is a workaround.
 if [[ " $* " =~ " --parallel" ]] || [[ " $* " =~ " --parallel=" ]] || [[ " $* " =~ " --parallel " ]]; then
     php -d opcache.enable_cli=0 /app/csv-blueprint.php "$@"
 else

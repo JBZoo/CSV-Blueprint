@@ -31,7 +31,7 @@
         </include>
         <report>
             <clover outputFile="build/coverage_xml/main.xml"/>
-            <html outputDirectory="build/coverage_html" lowUpperBound="75" highLowerBound="95"/>
+            <html outputDirectory="build/coverage_html"/>
             <php outputFile="build/coverage_cov/main.cov"/>
         </report>
     </coverage>

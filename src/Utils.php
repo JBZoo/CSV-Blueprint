@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint;
 
+use JBZoo\CsvBlueprint\Workers\WorkerPool;
 use JBZoo\Utils\Cli;
 use JBZoo\Utils\Env;
 use JBZoo\Utils\FS;
@@ -298,7 +299,11 @@ final class Utils
             return false;
         }
 
-        return \preg_match($regex, $subject) === 0;
+        try {
+            return \preg_match($regex, $subject) === 0;
+        } catch (\Throwable $exception) {
+            throw new Exception("Invalid regex: \"{$regex}\". Error: \"{$exception->getMessage()}\"");
+        }
     }
 
     /**
@@ -492,9 +497,23 @@ final class Utils
         return self::$debugMode;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.Superglobals)
+     */
     public static function init(): void
     {
-        // Set default timezone
+        // Fix for GitHub actions. See action.yml
+        $_SERVER['argv'] = self::fixArgv($_SERVER['argv'] ?? []);
+        $_SERVER['argc'] = \count($_SERVER['argv']);
+
+        // Init WorkerPool aotoloader (experimental feature)
+        WorkerPool::setBootstrap(
+            \file_exists(__DIR__ . '/../docker/preload.php')
+                ? __DIR__ . '/../docker/preload.php'
+                : __DIR__ . '/../vendor/autoload.php',
+        );
+
+        // Set default timezone to compare dates in UTC by default
         \date_default_timezone_set('UTC');
 
         // Convert all errors to exceptions. Looks like we have critical case, and we need to stop or handle it.
