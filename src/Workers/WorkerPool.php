@@ -23,7 +23,7 @@ use parallel\Runtime;
 final class WorkerPool
 {
     private const FALLBACK_CPU_COUNT = 1;
-    private const POOL_MAINTENANCE_DELAY = 10_000; // Small delay to prevent overload CPU
+    private const POOL_MAINTENANCE_DELAY = 1_000; // Small delay to prevent overload CPU
 
     private static ?string $bootstrap = null;
     private int            $maxThreads;

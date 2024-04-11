@@ -85,7 +85,7 @@ final class Utils
 
     public static function debugSpeed(string $messPrefix, int $lines, float $startTimer): void
     {
-        if (\defined('DEBUG_MODE')) {
+        if (self::$debugMode) {
             $kiloLines = \round(($lines / (\microtime(true) - $startTimer)) / 1000);
             self::debug("{$messPrefix} <blue>" . \number_format($kiloLines) . 'K</blue> lines/sec');
         }
