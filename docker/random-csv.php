@@ -32,8 +32,8 @@ final class CsvGenerator
         for ($i = 0; $i < $this->rows; $i++) {
             $rowData = [];
 
-            foreach ($this->columns as $column) {
-                $rowData[] = \random_int(1, 10000);
+            foreach (\array_keys($this->columns) as $columnIndex) {
+                $rowData[$columnIndex] = \random_int(1, 10000);
             }
 
             \fputcsv($fileHandle, $rowData);

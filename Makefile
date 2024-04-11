@@ -111,12 +111,15 @@ bench-create-csv: ##@Benchmarks Create CSV file
 	@time bash ./tests/Benchmarks/create-csv.sh
 	@echo "::endgroup::"
 
-bench-docker-quick: ##@Benchmarks Run CSV file with Docker (Quick)
-	@docker run --rm  $(DOCKER_IMAGE) --ansi --version
+bench-docker-quick:
 	$(call title,"Single thread mode")
-	-$(BLUEPRINT_DOCKER) $(BENCH_CSV) $(BENCH_SCHEMAS_0) $(BENCH_FLAGS)
+	@docker run --rm  $(DOCKER_IMAGE) --ansi --version
+	$(BLUEPRINT_DOCKER) $(BENCH_CSV) $(BENCH_SCHEMAS_0) $(BENCH_FLAGS)
+
+bench-docker-quick-parallel:
 	$(call title,"Multi-thread mode")
-	-$(BLUEPRINT_DOCKER) $(BENCH_CSV) $(BENCH_SCHEMAS_0) $(BENCH_FLAGS) --parallel
+	@docker run --rm  $(DOCKER_IMAGE) --ansi --version
+	$(BLUEPRINT_DOCKER) $(BENCH_CSV) $(BENCH_SCHEMAS_0) $(BENCH_FLAGS) --parallel
 
 bench-docker: ##@Benchmarks Run CSV file with Docker
 	@docker run --rm  $(DOCKER_IMAGE) --ansi --version
