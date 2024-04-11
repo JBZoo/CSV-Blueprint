@@ -1429,6 +1429,7 @@ effectively.
   available CPU cores.
 - **Thread Pool Size:** You can set a specific number of threads for the pool. For example, `--parallel=10` will set the
   thread pool size to 10. It doesn't make much sense to specify more than the number of logical cores in your CPU.
+  Otherwise, it will only slow things down a bit due to the system overhead to handle multithreading.
 - **Disabling Parallelism:** Using `--parallel=1` disables parallel processing, which is the default setting if the
   option is not specified.
 - **Implementation:** The feature relies on the `ext-parallel` PHP extension, which enables the creation of lightweight
@@ -1935,8 +1936,7 @@ It's random ideas and plans. No promises and deadlines. Feel free to [help me!](
 
 * **Performance and optimization**
     * Using [vectors](https://www.php.net/manual/en/class.ds-vector.php) instead of arrays to optimaze memory usage and speed of access.
-    * Parallel validation of schema by columns. You won't believe this, but modern PHP has multithreading support.
-    * Parallel validation of multiple files at once.
+    * Multithreading support for parallel validation of CSV by columns.
 
 * **Mock data generation**
     * Create CSV files based on the schema (like "create 1000 rows with random data based on schema and rules").
