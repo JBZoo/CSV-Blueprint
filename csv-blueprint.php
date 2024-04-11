@@ -20,11 +20,16 @@ use JBZoo\CsvBlueprint\Workers\WorkerPool;
 
 \define('PATH_ROOT', __DIR__);
 require_once PATH_ROOT . '/vendor/autoload.php';
-WorkerPool::setBootstrap(PATH_ROOT . '/vendor/autoload.php');
 
 if ('cli' !== \PHP_SAPI) {
     throw new Exception('This script must be run from the command line.');
 }
+
+WorkerPool::setBootstrap(
+    \file_exists(PATH_ROOT . '/docker/preload.php')
+        ? PATH_ROOT . '/docker/preload.php'
+        : PATH_ROOT . '/vendor/autoload.php',
+);
 
 // Fix for GitHub actions. See action.yml
 $_SERVER['argv'] = Utils::fixArgv($_SERVER['argv'] ?? []);
