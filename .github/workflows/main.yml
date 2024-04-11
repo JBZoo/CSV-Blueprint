@@ -62,9 +62,6 @@ jobs:
       - name: 🧪 PHPUnit Tests
         run: make test --no-print-directory
 
-      - name: 👍 Code Quality
-        run: make codestyle --no-print-directory
-
       - name: Uploading coverage to coveralls
         continue-on-error: true
         env:
@@ -77,6 +74,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: 👍 Code Quality
+        run: make codestyle --no-print-directory
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4

@@ -500,8 +500,14 @@ final class Utils
         // Convert all errors to exceptions. Looks like we have critical case, and we need to stop or handle it.
         // We have to do it becase tool uses 3rd-party libraries, and we can't trust them.
         // So, we need to catch all errors and handle them.
-        \set_error_handler(static function ($severity, $message, $file, $line): void {
-            throw new Exception("{$severity}: \"{$message}\" in file \"{$file}:{$line}\"");
+        \set_error_handler(static function (int $severity, string $message, string $file, int $line): bool {
+            $severity = match ($severity) {
+                \E_ERROR, \E_CORE_ERROR, \E_COMPILE_ERROR, \E_USER_ERROR => 'Error',
+                \E_WARNING, \E_CORE_WARNING, \E_COMPILE_WARNING, \E_USER_WARNING => 'Warning',
+                \E_NOTICE, \E_USER_NOTICE => 'Notice',
+                default => 'Unknown',
+            };
+            throw new Exception("Unexpected {$severity}: \"{$message}\" in file \"{$file}:{$line}\"");
         });
     }
 
