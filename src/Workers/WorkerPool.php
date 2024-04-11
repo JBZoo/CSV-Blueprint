@@ -138,6 +138,7 @@ final class WorkerPool
             $runtime = new Runtime($bootstrap);
             $future = $runtime->run(
                 static function (string $key, string $class, array $args, bool $debugMode): mixed {
+                    Utils::init();
                     Utils::setDebugMode($debugMode);
                     return (new Worker($key, $class, $args))->execute();
                 },

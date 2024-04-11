@@ -47,4 +47,5 @@ foreach ($files as $path) {
     $result[] = "require_once '{$path}';";
 }
 
+echo 'Included classes:' . (\count($result) - 1) . \PHP_EOL;
 \file_put_contents(__DIR__ . '/preload.php', \implode(\PHP_EOL, $result) . \PHP_EOL);

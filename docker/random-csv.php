@@ -14,25 +14,39 @@
 
 declare(strict_types=1);
 
-$rows = 1000;
-
-$filePath = __DIR__ . '/random_data.csv';
-
-$fileHandle = \fopen($filePath, 'w');
-
-$columns = ['Column Name (header)', 'another_column', 'inherited_column_login', 'inherited_column_full_name'];
-\fputcsv($fileHandle, $columns);
-
-for ($i = 0; $i < $rows; $i++) {
-    $rowData = [];
-
-    for ($j = 0; $j < \count($columns); $j++) {
-        $rowData[] = \random_int(1, 10000);
+final class CsvGenerator
+{
+    public function __construct(
+        private int $rows,
+        private string $filePath,
+        private array $columns,
+    ) {
     }
 
-    \fputcsv($fileHandle, $rowData);
+    public function generateCsv(): void
+    {
+        $fileHandle = \fopen($this->filePath, 'w');
+
+        \fputcsv($fileHandle, $this->columns);
+
+        for ($i = 0; $i < $this->rows; $i++) {
+            $rowData = [];
+
+            foreach ($this->columns as $column) {
+                $rowData[] = \random_int(1, 10000);
+            }
+
+            \fputcsv($fileHandle, $rowData);
+        }
+
+        \fclose($fileHandle);
+
+        echo "CSV file created: {$this->filePath}.\n";
+    }
 }
 
-\fclose($fileHandle);
-
-echo "CSV file created: {$filePath}.\n";
+(new CsvGenerator(
+    1000,
+    __DIR__ . '/random_data.csv',
+    ['Column Name (header)', 'another_column', 'inherited_column_login', 'inherited_column_full_name'],
+))->generateCsv();

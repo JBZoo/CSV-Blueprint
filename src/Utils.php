@@ -298,15 +298,7 @@ final class Utils
             return false;
         }
 
-        try {
-            if (\preg_match($regex, $subject) === 0) {
-                return true;
-            }
-        } catch (\Throwable) {
-            return false;
-        }
-
-        return false;
+        return \preg_match($regex, $subject) === 0;
     }
 
     /**
@@ -498,6 +490,19 @@ final class Utils
     public static function getDebugMode(): bool
     {
         return self::$debugMode;
+    }
+
+    public static function init(): void
+    {
+        // Set default timezone
+        \date_default_timezone_set('UTC');
+
+        // Convert all errors to exceptions. Looks like we have critical case, and we need to stop or handle it.
+        // We have to do it becase tool uses 3rd-party libraries, and we can't trust them.
+        // So, we need to catch all errors and handle them.
+        \set_error_handler(static function ($severity, $message, $file, $line): void {
+            throw new Exception($message, 0, $severity, $file, $line);
+        });
     }
 
     /**

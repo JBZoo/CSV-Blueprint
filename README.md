@@ -1466,7 +1466,7 @@ Options:
       --debug                      Intended solely for debugging and advanced profiling purposes.
                                    Activating this option provides detailed process insights,
                                    useful for troubleshooting and performance analysis.
-      --parallel[=PARALLEL]        EXPERIMENTAL! Launches the process in parallel mode (if possible). Works only with ext-parallel.
+  -p, --parallel[=PARALLEL]        EXPERIMENTAL! Launches the process in parallel mode (if possible). Works only with ext-parallel.
                                    You can specify the number of threads.
                                    If you do not specify a value, the number of threads will be equal to the number of CPU cores.
                                    By default, the process is launched in a single-threaded mode. [default: "1"]
@@ -1526,7 +1526,7 @@ Options:
       --debug                    Intended solely for debugging and advanced profiling purposes.
                                  Activating this option provides detailed process insights,
                                  useful for troubleshooting and performance analysis.
-      --parallel[=PARALLEL]      EXPERIMENTAL! Launches the process in parallel mode (if possible). Works only with ext-parallel.
+  -p, --parallel[=PARALLEL]      EXPERIMENTAL! Launches the process in parallel mode (if possible). Works only with ext-parallel.
                                  You can specify the number of threads.
                                  If you do not specify a value, the number of threads will be equal to the number of CPU cores.
                                  By default, the process is launched in a single-threaded mode. [default: "1"]
