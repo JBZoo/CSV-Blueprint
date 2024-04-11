@@ -20,10 +20,6 @@ $filePath = __DIR__ . '/random_data.csv';
 
 $fileHandle = \fopen($filePath, 'w');
 
-if ($fileHandle === false) {
-    exit('Error opening the file');
-}
-
 $columns = ['Column Name (header)', 'another_column', 'inherited_column_login', 'inherited_column_full_name'];
 \fputcsv($fileHandle, $columns);
 
