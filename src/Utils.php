@@ -72,10 +72,14 @@ final class Utils
         return "[\"<{$color}>" . \implode("</{$color}>\", \"<{$color}>", $items) . "</{$color}>\"]";
     }
 
-    public static function debug(int|string $message): void
+    public static function debug(string $message): void
     {
         if (self::$debugMode) {
-            cli($message);
+            try {
+                cli($message);
+            } catch (\Throwable) {
+                Cli::out(\strip_tags($message));
+            }
         }
     }
 
