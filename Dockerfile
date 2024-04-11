@@ -54,5 +54,5 @@ RUN php ./docker/random-csv.php \
 # Quick test
 RUN time ./csv-blueprint -V
 
-#ENTRYPOINT ["/app/docker/entrypoint.sh"]
-ENTRYPOINT ["/app/csv-blueprint"]
+ENTRYPOINT ["/app/docker/entrypoint.sh"]
+#ENTRYPOINT ["/app/csv-blueprint"]

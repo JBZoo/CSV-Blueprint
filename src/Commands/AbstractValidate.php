@@ -81,7 +81,7 @@ abstract class AbstractValidate extends CliCommand
             )
             ->addOption(
                 'parallel',
-                'p',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 \implode("\n", [
                     'EXPERIMENTAL! Launches the process in parallel mode (if possible). Works only with ext-parallel.',
