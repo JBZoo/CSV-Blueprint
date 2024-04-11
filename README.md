@@ -29,6 +29,7 @@ specifications, making it invaluable in scenarios where data quality and consist
 - [Usage](#usage)
 - [Schema definition](#schema-definition)
 - [Presets and reusable schemas](#presets-and-reusable-schemas)
+- [Parallel processing](#parallel-processing)
 - [Complete CLI help message](#complete-cli-help-message)
 - [Report examples](#report-examples)
 - [Benchmarks](#benchmarks)
@@ -160,11 +161,12 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
 
     # Extra options for the CSV Blueprint. Only for debbuging and profiling.
     # Available options:
-    #   ANSI output. You can disable ANSI colors if you want with `--no-ansi`.
-    #   Verbosity level: Available options: `-v`, `-vv`, `-vvv`.
-    #   Add flag `--profile` if you want to see profiling info. Add details with `-vvv`.
-    #   Add flag `--debug` if you want to see more really deep details.
+    #   Add flag `--parallel` if you want to validate CSV files in parallel.
     #   Add flag `--dump-schema` if you want to see the final schema after all includes and inheritance.
+    #   Add flag `--debug` if you want to see more really deep details.
+    #   Add flag `--profile` if you want to see profiling info. Add details with `-vvv`.
+    #   Verbosity level: Available options: `-v`, `-vv`, `-vvv`
+    #   ANSI output. You can disable ANSI colors if you want with `--no-ansi`.
     # Default value: 'options: --ansi'
     # You can skip it.
     extra: 'options: --ansi'
@@ -1410,6 +1412,30 @@ columns:
 
 **Note:** All provided YAML examples pass built-in validation, yet they may not make practical sense.
 These are intended solely for demonstration and to illustrate potential configurations and features.
+
+
+## Parallel processing
+
+The `--parallel` option is available for speeding up the validation of CSV files by utilizing more CPU resources
+effectively.
+
+### Key Points
+
+- **Experimental Feature:** This feature is currently experimental and requires further debugging and testing. Although
+  it performs well in synthetic autotests and benchmarks. More practical use cases are needed to validate its stability.
+- **Use Case:** This option is beneficial if you are processing dozens of CSV files, with each file taking 1 second or
+  more to process.
+- **Default Behavior:** If you use `--parallel` without specifying a value, it defaults to using the maximum number of
+  available CPU cores.
+- **Thread Pool Size:** You can set a specific number of threads for the pool. For example, `--parallel=10` will set the
+  thread pool size to 10. It doesn't make much sense to specify more than the number of logical cores in your CPU.
+- **Disabling Parallelism:** Using `--parallel=1` disables parallel processing, which is the default setting if the
+  option is not specified.
+- **Implementation:** The feature relies on the `ext-parallel` PHP extension, which enables the creation of lightweight
+  threads rather than processes. This extension is already included in our Docker image. Ensure that you have
+  the `ext-parallel` extension installed if you are not using our Docker image. This extension is crucial for the
+  operation of the parallel processing feature. The application always runs in single-threaded mode if the extension is
+  not installed.
 
 
 ## Complete CLI help message
