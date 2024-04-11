@@ -16,10 +16,11 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Commands;
 
-use JBZoo\CsvBlueprint\Csv\CsvFile;
 use JBZoo\CsvBlueprint\Schema;
 use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
+use JBZoo\CsvBlueprint\Workers\Tasks\ValidationCsvTask;
+use JBZoo\CsvBlueprint\Workers\WorkerPool;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -117,7 +118,7 @@ final class ValidateCsv extends AbstractValidate
 
         [$invalidFiles, $errorInCsvCounter] = $this->validateCsvFiles($matchedFiles);
 
-        return $this->printSummary(
+        $exitCode = $this->printSummary(
             \count($csvFilenames),
             \count($schemaFilenames),
             $invalidFiles,
@@ -125,6 +126,10 @@ final class ValidateCsv extends AbstractValidate
             $errorInSchemaCounter,
             $matchedFiles,
         );
+
+        self::dumpPreloader(); // Experimental feature
+
+        return $exitCode;
     }
 
     /**
@@ -151,8 +156,6 @@ final class ValidateCsv extends AbstractValidate
                     continue;
                 }
 
-                $schema = null;
-
                 try {
                     $schema = new Schema($schemaFilename->getPathname());
                     $schemaErrors = $schema->validate($quickCheck);
@@ -170,7 +173,7 @@ final class ValidateCsv extends AbstractValidate
                         "{$prefix}Exception: <yellow>{$e->getMessage()}</yellow>",
                     ], 2);
                 }
-                $this->printDumpOfSchema($schema);
+                $this->printDumpOfSchema($schemaFilename->getPathname());
             }
 
             $this->out('');
@@ -184,44 +187,67 @@ final class ValidateCsv extends AbstractValidate
         $totalFiles = $matchedFiles['count_pairs'];
         $invalidFiles = 0;
         $errorCounter = 0;
-        $errorSuite = null;
         $quickCheck = $this->isQuickMode();
+
+        $workerPool = new WorkerPool($this->getNumberOfThreads());
+        foreach ($matchedFiles['found_pairs'] as $schema => $csvs) {
+            foreach ($csvs as $csv) {
+                $workerPool->addTask("{$csv} => {$schema}", ValidationCsvTask::class, [$csv, $schema, $quickCheck]);
+            }
+        }
 
         $this->out("CSV file validation: {$totalFiles}");
 
         $index = 0;
-        $isFirst = true;
-        foreach ($matchedFiles['found_pairs'] as $schema => $csvs) {
-            if ($isFirst) {
-                $isFirst = false;
+        $currentSchemaFilename = null;
+
+        $exectionCallback = function (
+            string $pair,
+            ErrorSuite $errorSuite,
+        ) use (
+            &$index,
+            &$currentSchemaFilename,
+            &$invalidFiles,
+            &$errorCounter,
+            $totalFiles,
+            $quickCheck
+        ): void {
+            $index++;
+            $filesAsKey = \explode(' => ', $pair, 2);
+            if (\count($filesAsKey) > 1) {
+                [$csvFilename, $schemaFilename] = $filesAsKey;
             } else {
-                $this->out(''); // Add empty line between schema files
+                throw new Exception("Invalid pair: {$pair}");
             }
-            $this->out('Schema: ' . Utils::printFile($schema));
-            foreach ($csvs as $csv) {
-                $index++;
-                $prefix = AbstractValidate::renderPrefix($index, $totalFiles);
 
-                $currentCsvTitle = Utils::printFile($csv, 'blue') . '; Size: ' . Utils::getFileSize($csv);
-
-                if ($quickCheck && $errorSuite !== null && $errorSuite->count() > 0) {
-                    $this->out("<yellow>Skipped (Quick mode)</yellow> {$currentCsvTitle}", 2);
-                    continue;
+            if ($currentSchemaFilename !== $schemaFilename) {
+                $currentSchemaFilename = $schemaFilename;
+                if ($index !== 1) { // Add empty line between schema files
+                    $this->out('');
                 }
-
-                $errorSuite = (new CsvFile($csv, $schema))->validate($quickCheck);
-
-                if ($errorSuite->count() > 0) {
-                    $invalidFiles++;
-                    $errorCounter += $errorSuite->count();
-
-                    $this->renderIssues($prefix, $errorSuite->count(), $currentCsvTitle, 2);
-                    $this->outReport($errorSuite, 4);
-                } else {
-                    $this->out("{$prefix}<green>OK</green> {$currentCsvTitle}", 2);
-                }
+                $this->out('Schema: ' . Utils::printFile($schemaFilename));
             }
-        }
+
+            $prefix = AbstractValidate::renderPrefix($index, $totalFiles);
+            $currentCsvTitle = Utils::printFile($csvFilename, 'blue') . '; Size: ' . Utils::getFileSize($csvFilename);
+
+            if ($quickCheck && $errorSuite->count() > 0) {
+                $this->out("<yellow>Skipped (Quick mode)</yellow> {$currentCsvTitle}", 2);
+                return;
+            }
+
+            if ($errorSuite->count() > 0) {
+                $invalidFiles++;
+                $errorCounter += $errorSuite->count();
+
+                $this->renderIssues($prefix, $errorSuite->count(), $currentCsvTitle, 2);
+                $this->outReport($errorSuite, 4);
+            } else {
+                $this->out("{$prefix}<green>OK</green> {$currentCsvTitle}", 2);
+            }
+        };
+
+        $workerPool->run($exectionCallback);
 
         return [$invalidFiles, $errorCounter];
     }
@@ -261,7 +287,7 @@ final class ValidateCsv extends AbstractValidate
 
         if ($errorInSchemaCounter > 0) {
             $this->out("Found <c>{$errorInSchemaCounter}</c> issues in {$totalSchemaFiles} schemas.", $indent);
-        } else {
+        } elseif (!$this->isQuickMode()) {
             $this->out("<green>No issues in {$totalSchemaFiles} schemas.</green>", $indent);
         }
 
@@ -271,7 +297,7 @@ final class ValidateCsv extends AbstractValidate
                 "out of {$totalCsvFiles} CSV files.",
                 $indent,
             );
-        } else {
+        } elseif (!$this->isQuickMode()) {
             $this->out("<green>No issues in {$totalCsvFiles} CSV files.</green>", $indent);
         }
 

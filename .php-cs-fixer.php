@@ -16,7 +16,20 @@ declare(strict_types=1);
 
 namespace JBZoo\Codestyle\PhpCsFixer;
 
-return (new PhpCsFixerCodingStandard(__DIR__))->getFixerConfig(null, [
+use Symfony\Component\Finder\Finder;
+
+$finder = (new Finder())
+    ->files()
+    ->followLinks()
+    ->ignoreVCS(true)
+    ->ignoreDotFiles(false)
+    ->in(__DIR__)
+    ->exclude('vendor')
+    ->exclude('docker') // preload.php!
+    ->exclude('build')
+    ->name('/\.php$/');
+
+return (new PhpCsFixerCodingStandard(__DIR__))->getFixerConfig($finder, [
     'binary_operator_spaces' => [
         'operators' => [
             '='  => 'single_space',

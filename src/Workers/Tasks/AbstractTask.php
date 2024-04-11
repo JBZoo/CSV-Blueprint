@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Workers\Tasks;
 
-final class Exception extends \JBZoo\CsvBlueprint\Workers\Exception
+abstract class AbstractTask
 {
+    abstract public function process(): mixed;
 }

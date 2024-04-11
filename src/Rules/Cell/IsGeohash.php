@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Utils;
 
-class IsGeohash extends AbstractCellRule
+final class IsGeohash extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {

@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-class Hash extends AbstractCellRule
+final class Hash extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {

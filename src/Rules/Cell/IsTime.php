@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-class IsTime extends AbstractCellRule
+final class IsTime extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {

@@ -20,9 +20,12 @@ use JBZoo\Cli\CliCommand;
 use JBZoo\CsvBlueprint\Schema;
 use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
+use JBZoo\CsvBlueprint\Workers\WorkerPool;
+use JBZoo\Utils\Env;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Finder\SplFileInfo;
 
+use function JBZoo\Data\phpArray;
 use function JBZoo\Utils\bool;
 
 /**
@@ -75,6 +78,18 @@ abstract class AbstractValidate extends CliCommand
                     'Activating this option provides detailed process insights,',
                     'useful for troubleshooting and performance analysis.',
                 ]),
+            )
+            ->addOption(
+                'parallel',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                \implode("\n", [
+                    'EXPERIMENTAL! Launches the process in parallel mode (if possible). Works only with ext-parallel.',
+                    'You can specify the number of threads.',
+                    'If you do not specify a value, the number of threads will be equal to the number of CPU cores.',
+                    'By default, the process is launched in a single-threaded mode.',
+                ]),
+                '1',
             );
 
         parent::configure();
@@ -86,9 +101,16 @@ abstract class AbstractValidate extends CliCommand
             $this->_('CSV Blueprint: ' . Utils::getVersion(true));
         }
 
-        if ($this->getOptBool('debug')) {
-            \define('DEBUG_MODE', true);
+        $threads = $this->getNumberOfThreads();
+        if ($threads !== 1) {
+            $this->_(
+                $threads > 0
+                    ? "Parallel mode: {$threads} threads"
+                    : 'Parallel mode: ' . WorkerPool::getCpuCount() . ' threads (auto)',
+            );
         }
+
+        Utils::setDebugMode($this->getOptBool('debug'));
     }
 
     protected function isHumanReadableMode(): bool
@@ -107,6 +129,16 @@ abstract class AbstractValidate extends CliCommand
     {
         $value = $this->getOptString('quick');
         return $value === '' || bool($value);
+    }
+
+    protected function getNumberOfThreads(): int
+    {
+        $threads = \trim($this->getOptString('parallel'));
+        if ($threads === '') {
+            return 0; // auto
+        }
+
+        return $this->getOptInt('parallel'); // custom threads number
     }
 
     /**
@@ -166,19 +198,34 @@ abstract class AbstractValidate extends CliCommand
         $this->out("{$prefix}<yellow>{$number} {$issues}</yellow> in {$filepath}", $indent);
     }
 
-    protected function printDumpOfSchema(?Schema $schema): void
+    protected function printDumpOfSchema(?string $schemaFilename): void
     {
-        if ($schema === null) {
+        if ($schemaFilename === null) {
             return;
         }
-        $dump = $schema->dumpAsYamlString();
-        $dump = \preg_replace('/^([ \t]*)([^:\n]+:)/m', '$1<c>$2</c>', $dump);
 
         if ($this->getOptBool('dump-schema')) {
+            $filename = Utils::cutPath($schemaFilename);
+
+            try {
+                $schema = new Schema($schemaFilename);
+                $dump = $schema->dumpAsYamlString();
+                $dump = \preg_replace('/^([ \t]*)([^:\n]+:)/m', '$1<c>$2</c>', $dump);
+            } catch (\Throwable $e) {
+                $dump = 'Unable to parse schema file: ' . $e->getMessage();
+            }
+
             $this->_('<blue>```yaml</blue>');
-            $this->_("# File: <blue>{$schema->getFilename()}</blue>");
+            $this->_("# File: <blue>{$filename}</blue>");
             $this->_($dump);
             $this->_('<blue>```</blue>');
+        }
+    }
+
+    protected static function dumpPreloader(): void
+    {
+        if (Env::bool('JBZOO_BUILD_PRELOADER')) {
+            \file_put_contents(__DIR__ . '/../../docker/included_files.php', (string)phpArray(\get_included_files()));
         }
     }
 

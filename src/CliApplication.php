@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint;
 
-class CliApplication extends \JBZoo\Cli\CliApplication
+final class CliApplication extends \JBZoo\Cli\CliApplication
 {
     private array $appLogo = [
         '  __________   __   ___  __                  _      __ ',

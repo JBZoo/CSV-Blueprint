@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint;
 
+use JBZoo\CsvBlueprint\Workers\WorkerPool;
 use JBZoo\Utils\Cli;
 use JBZoo\Utils\Env;
 use JBZoo\Utils\FS;
@@ -28,6 +29,8 @@ use function JBZoo\Utils\bool;
 final class Utils
 {
     public const MAX_DIRECTORY_DEPTH = 10;
+
+    private static bool $debugMode = false;
 
     public static function isArrayInOrder(array $array, array $correctOrder): bool
     {
@@ -70,16 +73,20 @@ final class Utils
         return "[\"<{$color}>" . \implode("</{$color}>\", \"<{$color}>", $items) . "</{$color}>\"]";
     }
 
-    public static function debug(int|string $message): void
+    public static function debug(string $message): void
     {
-        if (\defined('DEBUG_MODE')) {
-            cli($message);
+        if (self::$debugMode) {
+            try {
+                cli($message);
+            } catch (\Throwable) {
+                Cli::out(\strip_tags($message));
+            }
         }
     }
 
     public static function debugSpeed(string $messPrefix, int $lines, float $startTimer): void
     {
-        if (\defined('DEBUG_MODE')) {
+        if (self::$debugMode) {
             $kiloLines = \round(($lines / (\microtime(true) - $startTimer)) / 1000);
             self::debug("{$messPrefix} <blue>" . \number_format($kiloLines) . 'K</blue> lines/sec');
         }
@@ -293,14 +300,10 @@ final class Utils
         }
 
         try {
-            if (\preg_match($regex, $subject) === 0) {
-                return true;
-            }
-        } catch (\Throwable) {
-            return false;
+            return \preg_match($regex, $subject) === 0;
+        } catch (\Throwable $exception) {
+            throw new Exception("Invalid regex: \"{$regex}\". Error: \"{$exception->getMessage()}\"");
         }
-
-        return false;
     }
 
     /**
@@ -482,6 +485,49 @@ final class Utils
         }
 
         return $merged;
+    }
+
+    public static function setDebugMode(bool $debugMode): void
+    {
+        self::$debugMode = $debugMode;
+    }
+
+    public static function getDebugMode(): bool
+    {
+        return self::$debugMode;
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.Superglobals)
+     */
+    public static function init(): void
+    {
+        // Fix for GitHub actions. See action.yml
+        $_SERVER['argv'] = self::fixArgv($_SERVER['argv'] ?? []);
+        $_SERVER['argc'] = \count($_SERVER['argv']);
+
+        // Init WorkerPool aotoloader (experimental feature)
+        WorkerPool::setBootstrap(
+            \file_exists(__DIR__ . '/../docker/preload.php')
+                ? __DIR__ . '/../docker/preload.php'
+                : __DIR__ . '/../vendor/autoload.php',
+        );
+
+        // Set default timezone to compare dates in UTC by default
+        \date_default_timezone_set('UTC');
+
+        // Convert all errors to exceptions. Looks like we have critical case, and we need to stop or handle it.
+        // We have to do it becase tool uses 3rd-party libraries, and we can't trust them.
+        // So, we need to catch all errors and handle them.
+        \set_error_handler(static function (int $severity, string $message, string $file, int $line): bool {
+            $severity = match ($severity) {
+                \E_ERROR, \E_CORE_ERROR, \E_COMPILE_ERROR, \E_USER_ERROR => 'Error',
+                \E_WARNING, \E_CORE_WARNING, \E_COMPILE_WARNING, \E_USER_WARNING => 'Warning',
+                \E_NOTICE, \E_USER_NOTICE => 'Notice',
+                default => 'Unknown',
+            };
+            throw new Exception("Unexpected {$severity}: \"{$message}\" in file \"{$file}:{$line}\"");
+        });
     }
 
     /**

@@ -16,12 +16,11 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Commands;
 
-use JBZoo\CsvBlueprint\Schema;
 use JBZoo\CsvBlueprint\Utils;
-use JBZoo\CsvBlueprint\Validators\Error;
 use JBZoo\CsvBlueprint\Validators\ErrorSuite;
+use JBZoo\CsvBlueprint\Workers\Tasks\ValidationSchemaTask;
+use JBZoo\CsvBlueprint\Workers\WorkerPool;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -65,34 +64,34 @@ final class ValidateSchema extends AbstractValidate
         $this->out("Found schemas: {$totalFiles}");
         $this->out('');
 
+        $workerPool = new WorkerPool($this->getNumberOfThreads());
+        foreach ($schemas as $schema) {
+            $filename = (string)$schema->getRealPath();
+            $workerPool->addTask($filename, ValidationSchemaTask::class, [$filename]);
+        }
+
         $foundIssues = 0;
         $index = 0;
-        foreach ($this->findFiles('schema') as $file) {
-            $index++;
-            $prefix = self::renderPrefix($index, $totalFiles);
-            $filename = (string)$file->getRealPath();
-            $coloredPath = Utils::printFile($filename);
-            $schemaErrors = new ErrorSuite($filename);
+        $workerPool->run(
+            function (string $filename, ErrorSuite $schemaErrors) use (&$index, &$foundIssues, $totalFiles): void {
+                $index++;
+                $prefix = self::renderPrefix($index, $totalFiles);
+                $coloredPath = Utils::printFile($filename);
 
-            try {
-                $schema = new Schema($filename);
-                $schemaErrors = $schema->validate($this->isQuickMode());
-                $this->printDumpOfSchema(new Schema($filename));
-            } catch (ParseException $e) {
-                $schemaErrors->addError(new Error('schema.syntax', $e->getMessage(), '', $e->getParsedLine()));
-            } catch (\Throwable $e) {
-                $schemaErrors->addError(new Error('schema.error', $e->getMessage()));
-            }
+                if ($schemaErrors->count() > 0) {
+                    $this->renderIssues($prefix, $schemaErrors->count(), $coloredPath);
+                    $this->outReport($schemaErrors, 2);
+                } else {
+                    $this->out("{$prefix}<green>OK</green> {$coloredPath}");
+                }
 
-            if ($schemaErrors->count() > 0) {
-                $this->renderIssues($prefix, $schemaErrors->count(), $coloredPath);
-                $this->outReport($schemaErrors, 2);
-            } else {
-                $this->out("{$prefix}<green>OK</green> {$coloredPath}");
-            }
+                $this->printDumpOfSchema($filename);
 
-            $foundIssues += $schemaErrors->count();
-        }
+                $foundIssues += $schemaErrors->count();
+            },
+        );
+
+        self::dumpPreloader();
 
         return $foundIssues === 0 ? self::SUCCESS : self::FAILURE;
     }

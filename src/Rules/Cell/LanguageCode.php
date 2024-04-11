@@ -20,7 +20,7 @@ use JBZoo\CsvBlueprint\Utils;
 use Respect\Validation\Rules\LanguageCode as RespectLanguageCode;
 use Respect\Validation\Validator;
 
-class LanguageCode extends AbstractCellRule
+final class LanguageCode extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {

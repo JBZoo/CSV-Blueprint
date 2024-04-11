@@ -55,7 +55,7 @@ final class GithubActionsTest extends TestCase
             'apply-all'   => "'auto'",
             'quick'       => "'no'",
             'skip-schema' => "'no'",
-            'extra'       => "'options: --ansi -v'",
+            'extra'       => "'options: --ansi'",
         ];
 
         $expectedMessage = [

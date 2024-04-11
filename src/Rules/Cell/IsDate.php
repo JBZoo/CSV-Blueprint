@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-class IsDate extends AbstractCellRule
+final class IsDate extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {

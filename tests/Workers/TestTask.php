@@ -14,8 +14,23 @@
 
 declare(strict_types=1);
 
-namespace JBZoo\CsvBlueprint\Workers\Tasks;
+namespace JBZoo\PHPUnit\Workers;
 
-final class Exception extends \JBZoo\CsvBlueprint\Workers\Exception
+use JBZoo\CsvBlueprint\Workers\Tasks\AbstractTask;
+
+final class TestTask extends AbstractTask
 {
+    public const DELAY = 0.1;
+
+    public function __construct(
+        private int $id,
+    ) {
+    }
+
+    public function process(): int
+    {
+        $timeout = self::DELAY * 1_000_000;
+        \usleep((int)$timeout);
+        return $this->id;
+    }
 }

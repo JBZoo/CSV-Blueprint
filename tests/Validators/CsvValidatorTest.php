@@ -582,4 +582,15 @@ final class CsvValidatorTest extends TestCase
         isSame([0 => 'Name', 3 => 'Birthday'], $csv->getColumnsMappedByHeaderNamesOnly());
         isSame(null, $csv->validate()->render(cleanOutput: true));
     }
+
+    public function testInvalidRegex(): void
+    {
+        $csv = new CsvFile(Tools::DEMO_CSV, ['filename_pattern' => '/.*())))\.csv$/']);
+
+        isSame(
+            '"filename_pattern". Filename pattern error: Invalid regex: "/.*())))\.csv$/". ' .
+            'Error: "preg_match(): Compilation failed: unmatched closing parenthesis at offset 4".',
+            $csv->validate()->render(cleanOutput: true),
+        );
+    }
 }

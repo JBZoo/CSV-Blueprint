@@ -58,12 +58,13 @@ inputs:
     description: |
       Extra options for the CSV Blueprint. Only for debbuging and profiling.
       Available options:
-        ANSI output. You can disable ANSI colors if you want with `--no-ansi`.
-        Verbosity level: Available options: `-v`, `-vv`, `-vvv`.
-        Add flag `--profile` if you want to see profiling info. Add details with `-vvv`.
-        Add flag `--debug` if you want to see more really deep details.
+        Add flag `--parallel` if you want to validate CSV files in parallel.
         Add flag `--dump-schema` if you want to see the final schema after all includes and inheritance.
-    default: 'options: --ansi -v'
+        Add flag `--debug` if you want to see more really deep details.
+        Add flag `--profile` if you want to see profiling info. Add details with `-vvv`.
+        Verbosity level: Available options: `-v`, `-vv`, `-vvv`
+        ANSI output. You can disable ANSI colors if you want with `--no-ansi`.
+    default: 'options: --ansi'
 
 runs:
   using: 'docker'

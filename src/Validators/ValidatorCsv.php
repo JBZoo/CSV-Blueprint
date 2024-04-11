@@ -209,15 +209,29 @@ final class ValidatorCsv
         $errors = new ErrorSuite();
 
         $filenamePattern = $this->schema->getFilenamePattern();
-        if (
-            $filenamePattern !== null
-            && $filenamePattern !== ''
-            && Utils::testRegex($filenamePattern, $this->csv->getCsvFilename())
-        ) {
+
+        try {
+            if (
+                $filenamePattern !== null
+                && $filenamePattern !== ''
+                && Utils::testRegex($filenamePattern, $this->csv->getCsvFilename())
+            ) {
+                $error = new Error(
+                    'filename_pattern',
+                    'Filename "<c>' . Utils::cutPath($this->csv->getCsvFilename()) . '</c>" ' .
+                    "does not match pattern: \"<c>{$filenamePattern}</c>\"",
+                );
+
+                $errors->addError($error);
+
+                if ($quickStop && $errors->count() > 0) {
+                    return $errors;
+                }
+            }
+        } catch (\Exception $e) {
             $error = new Error(
                 'filename_pattern',
-                'Filename "<c>' . Utils::cutPath($this->csv->getCsvFilename()) . '</c>" ' .
-                "does not match pattern: \"<c>{$filenamePattern}</c>\"",
+                'Filename pattern error: ' . $e->getMessage(),
             );
 
             $errors->addError($error);

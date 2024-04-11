@@ -16,6 +16,6 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-class Exception extends \JBZoo\CsvBlueprint\Rules\Exception
+final class Exception extends \JBZoo\CsvBlueprint\Rules\Exception
 {
 }

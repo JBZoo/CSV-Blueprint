@@ -37,6 +37,9 @@ jobs:
   test-current-versions:
     name: Tests
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ext-parallel: [ '', 'parallel' ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -45,19 +48,19 @@ jobs:
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
+        id: setup-php
         with:
           php-version: 8.3
           coverage: xdebug
-          extensions: ast
+          extensions: ast, ${{ matrix.ext-parallel }}
+        env:
+          phpts: zts
 
       - name: Build project
         run: make build --no-print-directory
 
       - name: 🧪 PHPUnit Tests
         run: make test --no-print-directory
-
-      - name: 👍 Code Quality
-        run: make codestyle --no-print-directory
 
       - name: Uploading coverage to coveralls
         continue-on-error: true
@@ -67,9 +70,13 @@ jobs:
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
+        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: 👍 Code Quality
+        run: make codestyle --no-print-directory
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
@@ -266,11 +273,25 @@ jobs:
         run: |
           ! $BLUEPRINT_DOCKER $CMD_VALIDATE $INVALID_TEST
 
-      - name: 🔥 Quick Benchmark 🔥
+      - name: 👍 Valid CSV files (Parallel)
+        run: $BLUEPRINT_DOCKER $CMD_VALIDATE $VALID_TEST --parallel
+
+      - name: 👎 Invalid CSV files (Parallel)
         run: |
-          make build > /dev/null 2>&1
-          make bench-create-csv > /dev/null
-          make bench-docker-quick --no-print-directory
+          ! $BLUEPRINT_DOCKER $CMD_VALIDATE $INVALID_TEST --parallel
+
+      - name: Prepare Benchmark
+        run: |
+          make build --no-print-directory
+          make bench-create-csv --no-print-directory
+
+      - name: 🔥 Benchmark (single thread)
+        run: |
+          ! make bench-docker-quick --no-print-directory
+
+      - name: 🔥 Benchmark (multi threads)
+        run: |
+          ! make bench-docker-quick-parallel --no-print-directory
 
       - name: Push Docker Image (master)
         uses: docker/build-push-action@v5

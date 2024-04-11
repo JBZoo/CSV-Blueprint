@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-class NotAllowValues extends AbstractCellRule
+final class NotAllowValues extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {

@@ -29,6 +29,7 @@ specifications, making it invaluable in scenarios where data quality and consist
 - [Usage](#usage)
 - [Schema definition](#schema-definition)
 - [Presets and reusable schemas](#presets-and-reusable-schemas)
+- [Parallel processing](#parallel-processing)
 - [Complete CLI help message](#complete-cli-help-message)
 - [Report examples](#report-examples)
 - [Benchmarks](#benchmarks)
@@ -160,14 +161,15 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
 
     # Extra options for the CSV Blueprint. Only for debbuging and profiling.
     # Available options:
-    #   ANSI output. You can disable ANSI colors if you want with `--no-ansi`.
-    #   Verbosity level: Available options: `-v`, `-vv`, `-vvv`.
-    #   Add flag `--profile` if you want to see profiling info. Add details with `-vvv`.
-    #   Add flag `--debug` if you want to see more really deep details.
+    #   Add flag `--parallel` if you want to validate CSV files in parallel.
     #   Add flag `--dump-schema` if you want to see the final schema after all includes and inheritance.
-    # Default value: 'options: --ansi -v'
+    #   Add flag `--debug` if you want to see more really deep details.
+    #   Add flag `--profile` if you want to see profiling info. Add details with `-vvv`.
+    #   Verbosity level: Available options: `-v`, `-vv`, `-vvv`
+    #   ANSI output. You can disable ANSI colors if you want with `--no-ansi`.
+    # Default value: 'options: --ansi'
     # You can skip it.
-    extra: 'options: --ansi -v'
+    extra: 'options: --ansi'
 ```
 <!-- auto-update:/github-actions-yml -->
 
@@ -1412,6 +1414,31 @@ columns:
 These are intended solely for demonstration and to illustrate potential configurations and features.
 
 
+## Parallel processing
+
+The `--parallel` option is available for speeding up the validation of CSV files by utilizing more CPU resources
+effectively.
+
+### Key Points
+
+- **Experimental Feature:** This feature is currently experimental and requires further debugging and testing. Although
+  it performs well in synthetic autotests and benchmarks. More practical use cases are needed to validate its stability.
+- **Use Case:** This option is beneficial if you are processing dozens of CSV files, with each file taking 1 second or
+  more to process.
+- **Default Behavior:** If you use `--parallel` without specifying a value, it defaults to using the maximum number of
+  available CPU cores.
+- **Thread Pool Size:** You can set a specific number of threads for the pool. For example, `--parallel=10` will set the
+  thread pool size to 10. It doesn't make much sense to specify more than the number of logical cores in your CPU.
+  Otherwise, it will only slow things down a bit due to the system overhead to handle multithreading.
+- **Disabling Parallelism:** Using `--parallel=1` disables parallel processing, which is the default setting if the
+  option is not specified.
+- **Implementation:** The feature relies on the `ext-parallel` PHP extension, which enables the creation of lightweight
+  threads rather than processes. This extension is already included in our Docker image. Ensure that you have
+  the `ext-parallel` extension installed if you are not using our Docker image. This extension is crucial for the
+  operation of the parallel processing feature. The application always runs in single-threaded mode if the extension is
+  not installed.
+
+
 ## Complete CLI help message
 
 This section outlines all available options and commands provided by the tool, leveraging the JBZoo/Cli package for its
@@ -1466,6 +1493,10 @@ Options:
       --debug                      Intended solely for debugging and advanced profiling purposes.
                                    Activating this option provides detailed process insights,
                                    useful for troubleshooting and performance analysis.
+      --parallel[=PARALLEL]        EXPERIMENTAL! Launches the process in parallel mode (if possible). Works only with ext-parallel.
+                                   You can specify the number of threads.
+                                   If you do not specify a value, the number of threads will be equal to the number of CPU cores.
+                                   By default, the process is launched in a single-threaded mode. [default: "1"]
       --no-progress                Disable progress bar animation for logs. It will be used only for text output format.
       --mute-errors                Mute any sort of errors. So exit code will be always "0" (if it's possible).
                                    It has major priority then --non-zero-on-error. It's on your own risk!
@@ -1522,6 +1553,10 @@ Options:
       --debug                    Intended solely for debugging and advanced profiling purposes.
                                  Activating this option provides detailed process insights,
                                  useful for troubleshooting and performance analysis.
+      --parallel[=PARALLEL]      EXPERIMENTAL! Launches the process in parallel mode (if possible). Works only with ext-parallel.
+                                 You can specify the number of threads.
+                                 If you do not specify a value, the number of threads will be equal to the number of CPU cores.
+                                 By default, the process is launched in a single-threaded mode. [default: "1"]
       --no-progress              Disable progress bar animation for logs. It will be used only for text output format.
       --mute-errors              Mute any sort of errors. So exit code will be always "0" (if it's possible).
                                  It has major priority then --non-zero-on-error. It's on your own risk!
@@ -1901,8 +1936,7 @@ It's random ideas and plans. No promises and deadlines. Feel free to [help me!](
 
 * **Performance and optimization**
     * Using [vectors](https://www.php.net/manual/en/class.ds-vector.php) instead of arrays to optimaze memory usage and speed of access.
-    * Parallel validation of schema by columns. You won't believe this, but modern PHP has multithreading support.
-    * Parallel validation of multiple files at once.
+    * Multithreading support for parallel validation of CSV by columns.
 
 * **Mock data generation**
     * Create CSV files based on the schema (like "create 1000 rows with random data based on schema and rules").
