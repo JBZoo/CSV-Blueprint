@@ -272,6 +272,13 @@ jobs:
         run: |
           ! $BLUEPRINT_DOCKER $CMD_VALIDATE $INVALID_TEST
 
+      - name: 👍 Valid CSV files (Parallel)
+        run: $BLUEPRINT_DOCKER $CMD_VALIDATE $VALID_TEST --parallel
+
+      - name: 👎 Invalid CSV files (Parallel)
+        run: |
+          ! $BLUEPRINT_DOCKER $CMD_VALIDATE $INVALID_TEST --parallel
+
       - name: 🔥 Quick Benchmark 🔥
         run: |
           make build > /dev/null 2>&1
