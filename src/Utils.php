@@ -299,7 +299,6 @@ final class Utils
         }
 
         try {
-            var_dump([$regex, $subject]);
             if (\preg_match($regex, $subject) === 0) {
                 return true;
             }
