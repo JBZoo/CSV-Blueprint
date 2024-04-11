@@ -66,8 +66,8 @@ inputs:
     default: 'options: --ansi'
 
 runs:
-  using: 'docker'
-  image: 'docker://jbzoo/csv-blueprint'
+  using: docker
+  image: Dockerfile
   args:
     - validate:csv
     - '--csv'
