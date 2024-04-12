@@ -62,17 +62,10 @@ jobs:
       - name: 🧪 PHPUnit Tests
         run: make test --no-print-directory
 
-      - name: Uploading coverage to coveralls
-        continue-on-error: true
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: make report-coveralls --no-print-directory || true
-
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         continue-on-error: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: 👍 Code Quality

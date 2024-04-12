@@ -61,17 +61,18 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
         'coveralls'      => true,
         'circle_ci'      => true,
 
-        'sonar_qube_bugs'   => true,
-        'sonar_qube_smells' => true,
+        'sonarqube_coverage' => true,
+        'sonarqube_bugs'     => true,
+        'sonarqube_smells'   => true,
     ];
 
     protected array $badgesTemplate = [
         'github_actions',
         'github_actions_demo',
-        'coveralls',
         'psalm_coverage',
-        'sonar_qube_bugs',
-        'sonar_qube_smells',
+        'sonarqube_coverage',
+        'sonarqube_bugs',
+        'sonarqube_smells',
         'docker_pulls',
     ];
 
@@ -178,24 +179,35 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
         );
     }
 
-    protected function checkBadgeSonarQubeBugs(): ?string
+    protected function checkBadgeSonarqubeBugs(): ?string
     {
         return $this->getPreparedBadge(
             $this->getBadge(
-                'Sonar - Bugs',
+                'Bugs',
                 'https://sonarcloud.io/api/project_badges/measure?project=JBZoo_Csv-Blueprint&metric=bugs',
-                'https://sonarcloud.io/summary/overall?id=JBZoo_Csv-Blueprint',
+                'https://sonarcloud.io/project/issues?resolved=false&id=JBZoo_Csv-Blueprint',
             ),
         );
     }
 
-    protected function checkBadgeSonarQubeSmells(): ?string
+    protected function checkBadgeSonarqubeSmells(): ?string
     {
         return $this->getPreparedBadge(
             $this->getBadge(
-                'Sonar - Code smells',
+                'Code smells',
                 'https://sonarcloud.io/api/project_badges/measure?project=JBZoo_Csv-Blueprint&metric=code_smells',
-                'https://sonarcloud.io/summary/overall?id=JBZoo_Csv-Blueprint',
+                'https://sonarcloud.io/project/issues?resolved=false&id=JBZoo_Csv-Blueprint',
+            ),
+        );
+    }
+
+    protected function checkBadgeSonarqubeCoverage(): ?string
+    {
+        return $this->getPreparedBadge(
+            $this->getBadge(
+                'Coverage',
+                'https://sonarcloud.io/api/project_badges/measure?project=JBZoo_Csv-Blueprint&metric=coverage',
+                'https://sonarcloud.io/code?id=JBZoo_Csv-Blueprint&selected=JBZoo_Csv-Blueprint%3Asrc',
             ),
         );
     }
