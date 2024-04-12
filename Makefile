@@ -77,6 +77,10 @@ docker-build: ##@Docker (Re-)build Docker image
 	$(call title,"Building Docker Image")
 	@docker build -t $(DOCKER_IMAGE) --progress=plain .
 
+docker-build-zts: ##@Docker (Re-)build Docker image with ZTS
+	$(call title,"Building Docker Image")
+	@docker build -t $(DOCKER_IMAGE)-zts -f Dockerfile.zts --progress=plain .
+
 docker-demo: ##@Docker Run demo via Docker
 	$(call title,"Demo - Valid CSV \(via Docker\)")
 	@$(BLUEPRINT_DOCKER) $(VALID_CSV) $(VALID_SCHEMA) -vvv

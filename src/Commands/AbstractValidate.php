@@ -103,11 +103,15 @@ abstract class AbstractValidate extends CliCommand
 
         $threads = $this->getNumberOfThreads();
         if ($threads !== 1) {
-            $this->_(
-                $threads > 0
-                    ? "Parallel mode: {$threads} threads"
-                    : 'Parallel mode: ' . WorkerPool::getCpuCount() . ' threads (auto)',
-            );
+            if (WorkerPool::extLoaded()) {
+                $this->_(
+                    $threads > 0
+                        ? "Parallel mode: {$threads} threads"
+                        : 'Parallel mode: ' . WorkerPool::getCpuCount() . ' threads (auto)',
+                );
+            } else {
+                $this->_('Parallel mode: <yellow>Not available</yellow>. Please, see docs.');
+            }
         }
 
         Utils::setDebugMode($this->getOptBool('debug'));
