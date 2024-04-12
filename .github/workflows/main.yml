@@ -233,6 +233,7 @@ jobs:
         with:
           context: .
           push: false
+          platforms: linux/amd64,linux/arm64
           tags: jbzoo/csv-blueprint:local
 
       - name: 🎨 Test help and logo

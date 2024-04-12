@@ -76,7 +76,7 @@ jobs:
           tags: |
             jbzoo/csv-blueprint:latest
             jbzoo/csv-blueprint:${{ github.event.release.tag_name }}
-          platforms: linux/amd64,linux/arm64/v8,linux/386
+          platforms: linux/amd64,linux/arm64
           build-args: |
             VERSION=${{ github.event.release.tag_name }}
 
