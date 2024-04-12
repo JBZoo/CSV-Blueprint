@@ -14,39 +14,15 @@
 
 declare(strict_types=1);
 
-final class CsvGenerator
-{
-    public function __construct(
-        private int $rows,
-        private string $filePath,
-        private array $columns,
-    ) {
-    }
+use JBZoo\CsvBlueprint\Tools\RandomCsvGenerator;
+use JBZoo\Utils\Cli;
 
-    public function generateCsv(): void
-    {
-        $fileHandle = \fopen($this->filePath, 'w');
+require_once __DIR__ . '/../vendor/autoload.php';
 
-        \fputcsv($fileHandle, $this->columns);
-
-        for ($i = 0; $i < $this->rows; $i++) {
-            $rowData = [];
-
-            foreach (\array_keys($this->columns) as $columnIndex) {
-                $rowData[$columnIndex] = \random_int(1, 10000);
-            }
-
-            \fputcsv($fileHandle, $rowData);
-        }
-
-        \fclose($fileHandle);
-
-        echo "CSV file created: {$this->filePath}.\n";
-    }
-}
-
-(new CsvGenerator(
+(new RandomCsvGenerator(
     1000,
     __DIR__ . '/random_data.csv',
     ['Column Name (header)', 'another_column', 'inherited_column_login', 'inherited_column_full_name'],
 ))->generateCsv();
+
+Cli::out('Random CSV file with 1000 lines created: ' . __DIR__ . '/random_data.csv');

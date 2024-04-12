@@ -14,38 +14,18 @@
 
 declare(strict_types=1);
 
-$files = include_once __DIR__ . '/included_files.php';
+use JBZoo\CsvBlueprint\Tools\PreloadBuilder;
 
-$header = <<<'TEXT'
-    <?php
-    
-    // if (!\function_exists('opcache_compile_file') ||
-    //     !\ini_get('opcache.enable') ||
-    //     !\ini_get('opcache.enable_cli')
-    // ) {
-    //     echo 'Opcache is not available.';
-    //     die(1);
-    // }
-    
-    TEXT;
+require_once __DIR__ . '/../vendor/autoload.php';
 
-$result = [$header];
-
-$excludes = [
-    '/app/csv-blueprint',
-    '/app/csv-blueprint.php',
-];
-
-foreach ($files as $path) {
-    foreach ($excludes as $exclude) {
-        if ($path === $exclude) {
-            continue 2;
-        }
-    }
-
-    // $result[] = "\\opcache_compile_file('{$path}');";
-    $result[] = "require_once '{$path}';";
-}
-
-echo 'Included classes:' . (\count($result) - 1) . \PHP_EOL;
-\file_put_contents(__DIR__ . '/preload.php', \implode(\PHP_EOL, $result) . \PHP_EOL);
+(new PreloadBuilder(isCompiler: true))
+    ->setExcludes([
+        '/app/csv-blueprint',
+        '/app/csv-blueprint.php',
+    ])
+    ->setFiles(
+        \file_exists(__DIR__ . '/included_files.php')
+            ? include_once __DIR__ . '/included_files.php'
+            : \array_values(include_once __DIR__ . '/../vendor/composer/autoload_classmap.php'),
+    )
+    ->saveToFile(__DIR__ . '/preload.php', true);

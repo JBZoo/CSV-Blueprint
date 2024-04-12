@@ -60,7 +60,9 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
         'sonarcloud'     => true,
         'coveralls'      => true,
         'circle_ci'      => true,
-        'sonar_qube'     => true,
+
+        'sonar_qube_bugs'   => true,
+        'sonar_qube_smells' => true,
     ];
 
     protected array $badgesTemplate = [
@@ -68,10 +70,9 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
         'github_actions_demo',
         'coveralls',
         'psalm_coverage',
-        'sonar_qube',
-        // 'packagist_downloads_total',
+        'sonar_qube_bugs',
+        'sonar_qube_smells',
         'docker_pulls',
-        'github_latest_release',
     ];
 
     protected function setUp(): void
@@ -177,12 +178,23 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
         );
     }
 
-    protected function checkBadgeSonarQube(): ?string
+    protected function checkBadgeSonarQubeBugs(): ?string
     {
         return $this->getPreparedBadge(
             $this->getBadge(
-                'Quality Gate Status',
-                'https://sonarcloud.io/api/project_badges/measure?project=JBZoo_Csv-Blueprint&metric=alert_status',
+                'Sonar - Bugs',
+                'https://sonarcloud.io/api/project_badges/measure?project=JBZoo_Csv-Blueprint&metric=bugs',
+                'https://sonarcloud.io/summary/overall?id=JBZoo_Csv-Blueprint',
+            ),
+        );
+    }
+
+    protected function checkBadgeSonarQubeSmells(): ?string
+    {
+        return $this->getPreparedBadge(
+            $this->getBadge(
+                'Sonar - Code smells',
+                'https://sonarcloud.io/api/project_badges/measure?project=JBZoo_Csv-Blueprint&metric=code_smells',
                 'https://sonarcloud.io/summary/overall?id=JBZoo_Csv-Blueprint',
             ),
         );

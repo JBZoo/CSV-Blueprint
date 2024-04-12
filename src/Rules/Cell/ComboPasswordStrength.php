@@ -49,12 +49,12 @@ final class ComboPasswordStrength extends AbstractCellRuleCombo
         $score += \min(5, \strlen($password) / 2);
 
         // Uppercase letters: +1 point if at least one
-        if (\preg_match('/[A-Z]/', $password) !== 0) {
+        if (\preg_match('/[A-Z]/', $password) !== 0) { // NOSONAR
             $score++;
         }
 
         // Lowercase letters: +1 point if at least one
-        if (\preg_match('/[a-z]/', $password) !== 0) {
+        if (\preg_match('/[a-z]/', $password) !== 0) { // NOSONAR
             $score++;
         }
 
@@ -64,7 +64,7 @@ final class ComboPasswordStrength extends AbstractCellRuleCombo
         }
 
         // Special characters: +1 point if at least one
-        if (\preg_match('/[^a-zA-Z0-9]/', $password) !== 0) {
+        if (\preg_match('/[^a-zA-Z0-9]/', $password) !== 0) { // NOSONAR
             $score++;
         }
 
