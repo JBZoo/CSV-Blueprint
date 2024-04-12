@@ -78,13 +78,6 @@ jobs:
       - name: 👍 Code Quality
         run: make codestyle --no-print-directory
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        continue-on-error: true
-        with:
-          name: Tests - Current
-          path: build/
-
 
   test-lowest-versions:
     name: Tests - Lowest
@@ -117,13 +110,6 @@ jobs:
       - name: 👍 Code Quality
         run: make codestyle --no-print-directory
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        continue-on-error: true
-        with:
-          name: Tests - Lowest
-          path: build/
-
 
   test-latest-libs:
     name: Tests - Latest
@@ -155,13 +141,6 @@ jobs:
 
       - name: 👍 Code Quality
         run: make codestyle --no-print-directory
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        continue-on-error: true
-        with:
-          name: Tests - Latest
-          path: build/
 
 
   verify-php-binary:
