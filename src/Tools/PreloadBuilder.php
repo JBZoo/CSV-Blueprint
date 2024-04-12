@@ -69,7 +69,7 @@ final class PreloadBuilder
                 : "require_once '{$path}';";
         }
 
-        return $files;
+        return \array_unique($files);
     }
 
     private function isExcluded(string $path): bool

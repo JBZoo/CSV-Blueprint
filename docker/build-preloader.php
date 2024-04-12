@@ -20,7 +20,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 (new PreloadBuilder(enableOpcacheCompiler: false))
     ->setExcludes([
-        '/app/csv-blueprint',
+        \dirname(__DIR__) . '/csv-blueprint',
+        \dirname(__DIR__) . '/csv-blueprint.php',
     ])
     ->setFiles(
         \file_exists(__DIR__ . '/included_files.php')
