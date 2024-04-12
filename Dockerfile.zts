@@ -35,7 +35,7 @@ RUN composer install --no-dev --classmap-authoritative --no-progress \
     && chmod +x ./docker/entrypoint.sh
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-COPY ./docker/php-zts.ini /usr/local/etc/php/conf.d/docker-z99-php.ini
+COPY ./docker/php.ini /usr/local/etc/php/conf.d/docker-z99-php.ini
 
 # Build custom autoloader for PHP ext-parallel
 RUN php ./docker/random-csv.php \
