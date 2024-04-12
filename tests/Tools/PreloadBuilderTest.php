@@ -25,7 +25,7 @@ class PreloadBuilderTest extends TestCase
 {
     public function testPreloader(): void
     {
-        (new PreloadBuilder(isCompiler: false))
+        (new PreloadBuilder(enableOpcacheCompiler: false))
             ->setExcludes([
                 __FILE__,
             ])

@@ -18,7 +18,7 @@ use JBZoo\CsvBlueprint\Tools\PreloadBuilder;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-(new PreloadBuilder(isCompiler: true))
+(new PreloadBuilder(enableOpcacheCompiler: false))
     ->setExcludes([
         '/app/csv-blueprint',
         '/app/csv-blueprint.php',

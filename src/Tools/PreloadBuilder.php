@@ -24,7 +24,7 @@ final class PreloadBuilder
     private array $excludes = [];
 
     public function __construct(
-        private bool $isCompiler = false,
+        private bool $enableOpcacheCompiler = false,
     ) {
     }
 
@@ -61,7 +61,7 @@ final class PreloadBuilder
                 continue;
             }
 
-            $classes[] = $this->isCompiler
+            $classes[] = $this->enableOpcacheCompiler
                 ? "\\opcache_compile_file('{$path}');"
                 : "require_once '{$path}';";
         }
@@ -81,7 +81,7 @@ final class PreloadBuilder
             '',
         ];
 
-        if ($this->isCompiler) {
+        if ($this->enableOpcacheCompiler) {
             $header = \array_merge($header, [
                 "if (!\\function_exists('opcache_compile_file') ||",
                 "    !\\ini_get('opcache.enable') ||",
