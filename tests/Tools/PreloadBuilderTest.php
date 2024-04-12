@@ -38,6 +38,7 @@ class PreloadBuilderTest extends TestCase
         $content = \file_get_contents(PROJECT_BUILD . '/preload.php');
         isNotContain(__FILE__, $content);
         isContain('PreloadBuilder.php', $content);
+        isContain('vendor/autoload.php', $content);
 
         isNotContain('function_exists', $content);
         isNotContain('opcache_compile_file', $content);
@@ -58,6 +59,7 @@ class PreloadBuilderTest extends TestCase
         $content = \file_get_contents(PROJECT_BUILD . '/preload.php');
         isNotContain(__FILE__, $content);
         isContain('PreloadBuilder.php', $content);
+        isContain('vendor/autoload.php', $content);
 
         isContain('function_exists', $content);
         isContain('opcache_compile_file', $content);

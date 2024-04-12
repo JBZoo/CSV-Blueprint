@@ -30,13 +30,13 @@ final class PreloadBuilder
 
     public function saveToFile(string $filename, bool $showInfo = false): void
     {
-        $classes = $this->buildClassList();
-        $lines = $this->buildHeader() + $classes;
+        $files = $this->buildFilelist();
+        $lines = \array_merge($this->buildHeader(), $files);
 
         \file_put_contents($filename, \implode(\PHP_EOL, $lines) . \PHP_EOL);
 
         if ($showInfo) {
-            Cli::out('Included classes: ' . \count($classes));
+            Cli::out('Included files: ' . \count($files));
         }
     }
 
@@ -52,21 +52,24 @@ final class PreloadBuilder
         return $this;
     }
 
-    private function buildClassList(): array
+    private function buildFilelist(): array
     {
-        $classes = [];
+        $files = [];
+        $fillList = \array_merge([
+            \dirname(__DIR__, 2) . '/vendor/autoload.php',
+        ], $this->files);
 
-        foreach ($this->files as $path) {
+        foreach ($fillList as $path) {
             if ($this->isExcluded($path)) {
                 continue;
             }
 
-            $classes[] = $this->enableOpcacheCompiler
+            $files[] = $this->enableOpcacheCompiler
                 ? "\\opcache_compile_file('{$path}');"
                 : "require_once '{$path}';";
         }
 
-        return $classes;
+        return $files;
     }
 
     private function isExcluded(string $path): bool
