@@ -38,7 +38,7 @@ final class IsBic extends AbstractCellRule
             return null;
         }
 
-        if (\preg_match('/^[A-Za-z]{4}[A-Za-z]{2}[A-Za-z0-9]{2}([A-Za-z0-9]{3})?$/', $cellValue) === 0) {
+        if (\preg_match('/^[a-z]{4}[a-z]{2}[a-z0-9]{2}([a-z0-9]{3})?$/i', $cellValue) === 0) { // NOSONAR
             return "The value \"<c>{$cellValue}</c>\" is not a valid BIC number (ISO 9362).";
         }
 

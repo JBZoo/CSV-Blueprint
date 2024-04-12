@@ -99,7 +99,7 @@ final class Utils
 
     public static function camelToKebabCase(string $input): string
     {
-        return \strtolower((string)\preg_replace('/(?<!^)[A-Z]/', '_$0', $input));
+        return \strtolower((string)\preg_replace('/(?<!^)[A-Z]/', '_$0', $input)); // NOSONAR
     }
 
     public static function prepareRegex(?string $pattern, string $addDelimiter = '/'): ?string

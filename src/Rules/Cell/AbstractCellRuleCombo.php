@@ -49,7 +49,7 @@ abstract class AbstractCellRuleCombo extends AbstarctRuleCombo
             return null;
         }
 
-        if (!self::compare($this->getExpected(), $this->getActual($cellValue), $mode)) {
+        if (!static::compare($this->getExpected(), $this->getActual($cellValue), $mode)) {
             return $this->getErrorMessage($cellValue, $mode);
         }
 
