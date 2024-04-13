@@ -67,7 +67,7 @@ specifications, making it invaluable in scenarios where data quality and consist
 * **GitHub Actions Integration:** Enables CSV validation automation within CI/CD pipelines to improve data quality
   control in pull requests and deployments.
 * **Flexible Reporting:** Offers integration capabilities with GitHub, Gitlab, TeamCity, and more. Outputs include a
-  human-readable table for ease of understanding. [View Live Demo](https://github.com/JBZoo/Csv-Blueprint-Demo).
+  human-readable table for ease of understanding. [View Live Demo](https://github.com/jbzoo/csv-blueprint-Demo).
 
 
 <details>
@@ -104,16 +104,16 @@ specifications, making it invaluable in scenarios where data quality and consist
 ### Live demo
 
 As a live demonstration of how the tool works, you can explore the super minimal repository
-at [JBZoo/Csv-Blueprint-Demo](https://github.com/JBZoo/Csv-Blueprint-Demo). You're encouraged to fork it and experiment
+at [JBZoo/Csv-Blueprint-Demo](https://github.com/jbzoo/csv-blueprint-Demo). You're encouraged to fork it and experiment
 with the tool.
 
 For more complex examples and various reporting methods, take a look at
-the [last Demo pipeline](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml). Opening the logs will
+the [last Demo pipeline](https://github.com/jbzoo/csv-blueprint/actions/workflows/demo.yml). Opening the logs will
 reveal basic starting points. Additionally, the `All Report Types` link (located in the left sidebar) provides access to
 different types of reports.
 
 **See also**
-* [PR as a live demo](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files)
+* [PR as a live demo](https://github.com/jbzoo/csv-blueprint-Demo/pull/1/files)
 * [.github/workflows/demo.yml](.github/workflows/demo.yml)
 * [demo_invalid.yml](tests/schemas/demo_invalid.yml)
 * [demo_valid.yml](tests/schemas/demo_valid.yml)
@@ -121,7 +121,7 @@ different types of reports.
 
 ## Usage
 
-You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml).
+You can find launch examples in the [workflow demo](https://github.com/jbzoo/csv-blueprint/actions/workflows/demo.yml).
 
 ### GitHub Action
 
@@ -192,7 +192,7 @@ docker run --rm                                  \
     --ansi -vvv
 
 # OR build it from source.
-git clone git@github.com:JBZoo/Csv-Blueprint.git csv-blueprint
+git clone git@github.com:jbzoo/csv-blueprint.git csv-blueprint
 cd csv-blueprint
 make docker-build  # local tag is "jbzoo/csv-blueprint:local"
 ```
@@ -206,7 +206,7 @@ Ensure you have PHP installed on your machine.
 
 ```sh
 # Just download the latest version
-wget https://github.com/JBZoo/Csv-Blueprint/releases/latest/download/csv-blueprint.phar
+wget https://github.com/jbzoo/csv-blueprint/releases/latest/download/csv-blueprint.phar
 chmod +x ./csv-blueprint.phar
 ./csv-blueprint.phar validate:csv               \
    --csv=./tests/fixtures/demo.csv              \
@@ -1647,7 +1647,7 @@ To see user-friendly error outputs in your pull requests (PRs), specify `report:
 utilizes [annotations](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message)
 to highlight bugs directly within the GitHub interface at the PR level. This feature allows errors to be displayed in
 the exact location within the CSV file, right in the diff of your Pull Requests. For a practical example,
-view [this live demo PR](https://github.com/JBZoo/Csv-Blueprint-Demo/pull/1/files).
+view [this live demo PR](https://github.com/jbzoo/csv-blueprint-Demo/pull/1/files).
 
 ![GitHub Actions - PR](.github/assets/github-actions-pr.png)
 
@@ -1694,7 +1694,7 @@ However, to gain a general understanding of performance, refer to the table belo
 
 * All tests were conducted on a dataset comprising `2 million lines` plus an additional line for the header.
 * These results are derived from the most current version, as verified by tests run
-  using [GitHub Actions](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/benchmark.yml) ([See workflow.yml](.github/workflows/benchmark.yml)).
+  using [GitHub Actions](https://github.com/jbzoo/csv-blueprint/actions/workflows/benchmark.yml) ([See workflow.yml](.github/workflows/benchmark.yml)).
   The link provides access to a variety of builds, which are essential for different testing scenarios and experiments.
   The most representative data can be found under `Docker (latest, XX)`.
 * Developer mode was activated for these tests, using the flags `-vvv --debug --profile`.
@@ -1860,11 +1860,11 @@ id,bool_int,bool_str,number,float,date,datetime,domain,email,ip4,uuid,address,po
 
 ### Run benchmark locally
 
-Make sure you have PHP 8.1+ and Dooker installed.
+Make sure you have PHP 8.2+ and Docker installed.
 
 ```shell
 # Clone the latest version
-git clone git@github.com:JBZoo/Csv-Blueprint.git csv-blueprint
+git clone git@github.com:jbzoo/csv-blueprint.git csv-blueprint
 cd csv-blueprint
 
 # download dependencies and build the tool.
@@ -2012,7 +2012,7 @@ make codestyle
 <details>
   <summary>CLICK to see interesting fact</summary>
 
-I've achieved a personal milestone. The [initial release](https://github.com/JBZoo/Csv-Blueprint/releases/tag/0.1) of
+I've achieved a personal milestone. The [initial release](https://github.com/jbzoo/csv-blueprint/releases/tag/0.1) of
 the project was crafted from the ground up in approximately 3 days, interspersed with regular breaks to care for a
 4-month-old baby. Reflecting on the first commit and the earliest git tag, it's clear that this was accomplished over a
 weekend, utilizing spare moments on my personal laptop. Interestingly, AI was only employed for crafting this README

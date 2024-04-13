@@ -214,6 +214,6 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
 
     protected function getTitle(): string
     {
-        return '# JBZoo / CSV Blueprint';
+        return '# CSV Blueprint - line-by-line validation';
     }
 }
