@@ -1,4 +1,5 @@
-# CSV Blueprint - line-by-line validation
+# CSV Blueprint
+Strict validation line-by-line
 
 <!-- auto-update:top-badges -->
 [![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml?query=branch%3Amaster)
