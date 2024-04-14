@@ -156,7 +156,6 @@ final class Column
 
     /**
      * Sets the CSV offset.
-     *
      * @param int $csvOffset the CSV offset to be set
      */
     public function setCsvOffset(int $csvOffset): void

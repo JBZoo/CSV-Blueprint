@@ -137,7 +137,6 @@ final class Utils
 
     /**
      * Prepares a regular expression pattern by adding a delimiter if necessary.
-     *
      * @param  null|string $pattern      The regular expression pattern to prepare. If null or empty, returns null.
      * @param  string      $addDelimiter the delimiter to be added if the pattern doesn't already have a delimiter
      * @return null|string the prepared regular expression pattern with a delimiter, or null if the input pattern
@@ -265,14 +264,12 @@ final class Utils
 
     /**
      * Compare two arrays and return the differences between them.
-     *
-     * @param array  $expectedSchema the expected schema array
-     * @param array  $actualSchema   the actual schema array
-     * @param string $columnId       the column ID
-     * @param string $keyPrefix      the key prefix
-     * @param string $path           the current path
-     *
-     * @return array an array containing the differences between the two arrays
+     * @param  array  $expectedSchema the expected schema array
+     * @param  array  $actualSchema   the actual schema array
+     * @param  string $columnId       the column ID
+     * @param  string $keyPrefix      the key prefix
+     * @param  string $path           the current path
+     * @return array  an array containing the differences between the two arrays
      */
     public static function compareArray(
         array $expectedSchema,

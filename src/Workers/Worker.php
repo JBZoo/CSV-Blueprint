@@ -29,7 +29,6 @@ final class Worker
 
     /**
      * Returns the key value.
-     *
      * @return string the key value
      */
     public function getKey(): string

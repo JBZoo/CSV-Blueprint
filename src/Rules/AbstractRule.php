@@ -109,7 +109,6 @@ abstract class AbstractRule
 
     /**
      * Retrieves the rule code based on the provided mode.
-     *
      * @param  null|string $mode the mode for the rule code
      * @return string      the generated rule code
      */

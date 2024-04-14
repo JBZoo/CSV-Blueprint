@@ -90,7 +90,6 @@ final class Error
 
     /**
      * Cleans the string representation of the object by removing any HTML tags.
-     *
      * @return string the cleaned string representation of the object
      */
     public function toCleanString(): string

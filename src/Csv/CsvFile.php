@@ -115,7 +115,6 @@ final class CsvFile
 
     /**
      * Get the number of columns in the real dataset.
-     *
      * @return int the total number of columns in the real dataset
      */
     public function getRealColumNumber(): int

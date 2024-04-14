@@ -109,7 +109,6 @@ final class Schema
 
     /**
      * Finds and returns a column from the specified table schema by its name or index.
-     *
      * @param  int|string  $columNameOrId the name or index of the column to retrieve
      * @param  null|string $forceName     the exact name of the column to retrieve when searching by index
      * @return null|Column the matched column object, or null if not found
@@ -270,11 +269,10 @@ final class Schema
     /**
      * Returns the CSV encoding specified in the internal state.
      *
-     * @return string the CSV encoding. It can be one of the following values:
-     *                - self::ENCODING_UTF8: UTF-8 encoding
-     *                - self::ENCODING_UTF16: UTF-16 encoding
-     *                - self::ENCODING_UTF32: UTF-32 encoding
-     *
+     * @return string    the CSV encoding. It can be one of the following values:
+     *                   - self::ENCODING_UTF8: UTF-8 encoding
+     *                   - self::ENCODING_UTF16: UTF-16 encoding
+     *                   - self::ENCODING_UTF32: UTF-32 encoding
      * @throws Exception if the specified encoding is not valid
      */
     public function getCsvEncoding(): string

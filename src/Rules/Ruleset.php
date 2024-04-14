@@ -72,7 +72,6 @@ final class Ruleset
 
     /**
      * Discover and return an instance of the appropriate rule class based on the given rule name.
-     *
      * @param  string                           $origRuleName the original rule name
      * @param  null|array|bool|float|int|string $options      the options for the rule
      * @return null|AbstractRule                an instance of the rule class or null if the rule is not found
