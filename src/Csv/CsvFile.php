@@ -27,11 +27,11 @@ use League\Csv\TabularDataReader;
 
 final class CsvFile
 {
-    private string          $csvFilename;
-    private LeagueReader    $reader;
-    private Schema          $schema;
-    private bool            $isEmpty;
-    private ?array          $header = null;
+    private string       $csvFilename;
+    private LeagueReader $reader;
+    private Schema       $schema;
+    private bool         $isEmpty;
+    private ?array       $header = null;
 
     public function __construct(string $csvFilename, null|array|string $csvSchemaFilenameOrArray = null)
     {
@@ -45,13 +45,21 @@ final class CsvFile
         $this->reader = $this->prepareReader();
     }
 
+    /**
+     * Returns the CSV filename.
+     * @return string the CSV filename
+     */
     public function getCsvFilename(): string
     {
         return $this->csvFilename;
     }
 
     /**
-     * @return string[]
+     * Returns the header array.
+     * The header array contains the column names or indexes of the CSV file.
+     * If the CSV file has a header row, it will return the column names.
+     * If the CSV file does not have a header row, it will return the column indexes.
+     * @return string[] the header array
      */
     public function getHeader(): array
     {
@@ -69,6 +77,11 @@ final class CsvFile
         return $this->header;
     }
 
+    /**
+     * Retrieve the records from the CSV reader.
+     * @param  null|int  $offset The offset of the column to fetch records from
+     * @return \Iterator the iterator of records
+     */
     public function getRecords(?int $offset = null): \Iterator
     {
         if ($offset !== null) {
@@ -80,28 +93,50 @@ final class CsvFile
         return $records;
     }
 
+    /**
+     * Retrieves a chunk of records from the TabularDataReader.
+     * @param  int               $offset the starting offset of the chunk
+     * @param  int               $limit  the maximum number of records to retrieve in the chunk
+     * @return TabularDataReader the TabularDataReader object containing the records
+     */
     public function getRecordsChunk(int $offset = 0, int $limit = -1): TabularDataReader
     {
         return Statement::create(null, $offset, $limit)->process($this->reader, []); // No headers is required!
     }
 
+    /**
+     * @param  bool       $quickStop Whether to stop validation after encountering the first error
+     * @return ErrorSuite The error suite containing any validation errors
+     */
     public function validate(bool $quickStop = false): ErrorSuite
     {
         return (new ValidatorCsv($this, $this->schema))->validate($quickStop);
     }
 
+    /**
+     * Get the number of columns in the real dataset.
+     *
+     * @return int the total number of columns in the real dataset
+     */
     public function getRealColumNumber(): int
     {
         return \count($this->getRecordsChunk(0, 1)->first());
     }
 
+    /**
+     * Returns the schema object associated with this instance.
+     * @return Schema the schema object
+     */
     public function getSchema(): Schema
     {
         return $this->schema;
     }
 
     /**
-     * @return Column[]
+     * Retrieves the columns mapped by header.
+     * @param  null|ErrorSuite $errors an instance of ErrorSuite to store any errors encountered during mapping
+     * @return Column[]        an associative array where the keys represent the CSV header index and the values
+     *                         represent the corresponding CSV Column objects
      */
     public function getColumnsMappedByHeader(?ErrorSuite $errors = null): array
     {
@@ -149,7 +184,9 @@ final class CsvFile
     }
 
     /**
-     * @return string[]
+     * Retrieves only the header names from the columns mapped by header.
+     * @param  null|ErrorSuite $errors an instance of ErrorSuite to store any errors encountered during mapping
+     * @return string[]        an array containing only the names of the columns mapped by header
      */
     public function getColumnsMappedByHeaderNamesOnly(?ErrorSuite $errors = null): array
     {

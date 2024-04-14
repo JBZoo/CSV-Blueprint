@@ -29,6 +29,21 @@ final class ValidationSchemaTask extends AbstractTask
     ) {
     }
 
+    /**
+     * This method performs a series of operations to process the schema and validate it.
+     * It creates an ErrorSuite object and initializes it with the provided schema filename.
+     * Then, it attempts to create a new Schema object based on the schema filename, and validates it
+     * using the isQuickMode flag.
+     *
+     * If a ParseException occurs during the validation process, the method adds a new error to the ErrorSuite
+     * object with the error code 'schema.syntax', the exception message, and the parsed line.
+     *
+     * If any other type of exception occurs, the method adds a new error to the ErrorSuite object with the
+     * error code 'schema.error' and the exception message.
+     * Finally, the method returns the ErrorSuite object that contains all the errors.
+     *
+     * @return ErrorSuite an ErrorSuite object that contains the errors occurred during the process
+     */
     public function process(): ErrorSuite
     {
         $schemaErrors = new ErrorSuite($this->schemaFilename);

@@ -36,7 +36,7 @@ final class Schema
     /** @var Column[] */
     private array        $columns;
     private ?string      $filename;
-    private AbstractData $data;
+    private AbstractData $internalState;
 
     public function __construct(null|array|string $csvSchemaFilenameOrArray = null)
     {
@@ -75,7 +75,7 @@ final class Schema
         }
 
         try {
-            $this->data = (new SchemaDataPrep($data, $basepath))->buildData();
+            $this->internalState = (new SchemaDataPrep($data, $basepath))->buildData();
         } catch (\Exception $e) {
             throw new Exception(
                 "Invalid schema \"{$this->getFilename(true)}\" data.\nUnexpected error: \"{$e->getMessage()}\"",
@@ -85,6 +85,11 @@ final class Schema
         $this->columns = $this->prepareColumns();
     }
 
+    /**
+     * Retrieves the filename associated with the current object.
+     * @param  bool   $relativePath determines whether to return the filename with a relative path
+     * @return string The filename. Returns 'undefined' if the filename is null, empty, or equal to '_custom_array_'.
+     */
     public function getFilename(bool $relativePath = false): string
     {
         if ($this->filename === null || $this->filename === '' || $this->filename === '_custom_array_') {
@@ -102,6 +107,13 @@ final class Schema
         return $this->columns;
     }
 
+    /**
+     * Finds and returns a column from the specified table schema by its name or index.
+     *
+     * @param  int|string  $columNameOrId the name or index of the column to retrieve
+     * @param  null|string $forceName     the exact name of the column to retrieve when searching by index
+     * @return null|Column the matched column object, or null if not found
+     */
     public function getColumn(int|string $columNameOrId, ?string $forceName = null): ?Column
     {
         // By "index"
@@ -141,21 +153,38 @@ final class Schema
         return null;
     }
 
+    /**
+     * Retrieves the filename pattern from the current object and prepares it as a regex.
+     * @return null|string the prepared regex pattern for the filename, or null if no pattern is set
+     */
     public function getFilenamePattern(): ?string
     {
-        return Utils::prepareRegex($this->data->getStringNull('filename_pattern'));
+        return Utils::prepareRegex($this->internalState->getStringNull('filename_pattern'));
     }
 
+    /**
+     * Validates the current schema using a ValidatorSchema object and returns an ErrorSuite object.
+     * @param  bool       $quickStop whether to stop validation at the first encountered error
+     * @return ErrorSuite the error suite object containing validation errors
+     */
     public function validate(bool $quickStop = false): ErrorSuite
     {
         return (new ValidatorSchema($this))->validate($quickStop);
     }
 
+    /**
+     * Returns a clone of the internal data object.
+     * @return AbstractData a clone of the internal data object
+     */
     public function getData(): AbstractData
     {
-        return clone $this->data; // Clone data to avoid any external side effects.
+        return clone $this->internalState; // Clone data to avoid any external side effects.
     }
 
+    /**
+     * Returns an array of the column names from the specified table schema.
+     * @return array the array of column names
+     */
     public function getSchemaHeader(): array
     {
         $schemaColumns = $this->getColumns();
@@ -165,24 +194,41 @@ final class Schema
         }, []);
     }
 
+    /**
+     * Checks if the strict column order rule is enabled.
+     * @return bool true if the strict column order rule is enabled, false otherwise
+     */
     public function isStrictColumnOrder(): bool
     {
-        return $this->data->findBool('structural_rules.strict_column_order', true);
+        return $this->internalState->findBool('structural_rules.strict_column_order', true);
     }
 
+    /**
+     * Checks if the table schema allows extra columns.
+     * @return bool true if extra columns are allowed, false otherwise
+     */
     public function isAllowExtraColumns(): bool
     {
-        return $this->data->findBool('structural_rules.allow_extra_columns', false);
+        return $this->internalState->findBool('structural_rules.allow_extra_columns', false);
     }
 
+    /**
+     * Checks if the CSV file has a Byte Order Mark (BOM).
+     * @return bool true if the CSV file has a BOM, false otherwise
+     */
     public function csvHasBOM(): bool
     {
-        return $this->data->findBool('csv.bom');
+        return $this->internalState->findBool('csv.bom');
     }
 
+    /**
+     * Retrieves the CSV delimiter from the internal state.
+     * @return string    the CSV delimiter as a single character
+     * @throws Exception if the delimiter is not a single character
+     */
     public function getCsvDelimiter(): string
     {
-        $value = $this->data->findString('csv.delimiter');
+        $value = $this->internalState->findString('csv.delimiter');
         if (\strlen($value) === 1) {
             return $value;
         }
@@ -190,9 +236,14 @@ final class Schema
         throw new Exception('Delimiter must be a single character');
     }
 
+    /**
+     * Retrieves the CSV quote character from the internal state.
+     * @return string    the CSV quote character
+     * @throws Exception if the quote char is not a single character
+     */
     public function getCsvQuoteChar(): string
     {
-        $value = $this->data->findString('csv.quote_char');
+        $value = $this->internalState->findString('csv.quote_char');
         if (\strlen($value) === 1) {
             return $value;
         }
@@ -200,9 +251,14 @@ final class Schema
         throw new Exception('Quote char must be a single character');
     }
 
+    /**
+     * Retrieves the CSV enclosure character from the internal state.
+     * @return string    the CSV enclosure character
+     * @throws Exception if the enclosure is not a single character
+     */
     public function getCsvEnclosure(): string
     {
-        $value = $this->data->findString('csv.enclosure');
+        $value = $this->internalState->findString('csv.enclosure');
 
         if (\strlen($value) === 1) {
             return $value;
@@ -211,10 +267,20 @@ final class Schema
         throw new Exception('Enclosure must be a single character');
     }
 
+    /**
+     * Returns the CSV encoding specified in the internal state.
+     *
+     * @return string the CSV encoding. It can be one of the following values:
+     *                - self::ENCODING_UTF8: UTF-8 encoding
+     *                - self::ENCODING_UTF16: UTF-16 encoding
+     *                - self::ENCODING_UTF32: UTF-32 encoding
+     *
+     * @throws Exception if the specified encoding is not valid
+     */
     public function getCsvEncoding(): string
     {
         $encoding = \strtolower(
-            \trim($this->data->findString('csv.encoding')),
+            \trim($this->internalState->findString('csv.encoding')),
         );
 
         $availableOptions = [ // TODO: add flexible handler for this
@@ -231,11 +297,18 @@ final class Schema
         throw new Exception("Invalid encoding: {$encoding}");
     }
 
+    /**
+     * Returns whether the CSV file has a header row.
+     * @return bool true if the CSV file has a header row, false otherwise
+     */
     public function csvHasHeader(): bool
     {
-        return $this->data->findBool('csv.header');
+        return $this->internalState->findBool('csv.header');
     }
 
+    /**
+     * Retrieves the CSV parameters for the specified table schema.
+     */
     public function getCsvParams(): array
     {
         return [
@@ -248,6 +321,9 @@ final class Schema
         ];
     }
 
+    /**
+     * Retrieves the parameters for the structural rules of the table schema.
+     */
     public function getStructuralRulesParams(): array
     {
         return [
@@ -320,7 +396,7 @@ final class Schema
     {
         $result = [];
 
-        foreach ($this->data->getArray('columns') as $columnId => $columnPreferences) {
+        foreach ($this->internalState->getArray('columns') as $columnId => $columnPreferences) {
             $column = new Column((int)$columnId, $columnPreferences);
 
             $result[$column->getSchemaId()] = $column;

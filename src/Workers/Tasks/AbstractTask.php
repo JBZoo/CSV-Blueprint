@@ -18,5 +18,9 @@ namespace JBZoo\CsvBlueprint\Workers\Tasks;
 
 abstract class AbstractTask
 {
+    /**
+     * Process the task.
+     * This method should be implemented in the child classes to handle the data processing logic.
+     */
     abstract public function process(): mixed;
 }

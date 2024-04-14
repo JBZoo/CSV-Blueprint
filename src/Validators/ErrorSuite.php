@@ -48,11 +48,24 @@ final class ErrorSuite
         $this->csvFilename = $csvFilename;
     }
 
+    /**
+     * Returns a string representation of the batch of errors. It's quick user-frienly report.
+     * This method should be implemented in classes that want to have a custom string representation.
+     * The string returned by this method should be a human-readable representation of the object's state.
+     * @return string a string representation of the object
+     */
     public function __toString(): string
     {
         return (string)$this->render(self::REPORT_TEXT);
     }
 
+    /**
+     * Renders the batch of errors based on the given mode.
+     * @param  string      $mode        the render mode
+     * @param  bool        $cleanOutput Whether to clean the output. Default is false.
+     * @return null|string the rendered batch of errors as a string, or null if there are no errors
+     * @throws Exception   if the specified render mode is unknown
+     */
     public function render(string $mode = self::REPORT_TEXT, bool $cleanOutput = false): ?string
     {
         if ($this->count() === 0) {
@@ -93,6 +106,12 @@ final class ErrorSuite
         return $this->errors;
     }
 
+    /**
+     * Adds an error object to the batch of errors.
+     * @param  null|Error $error The error object to be added. Pass null to skip adding the error.
+     * @return self       the current object instance with the error added, if one was provided; otherwise, returns the
+     *                    current object instance
+     */
     public function addError(?Error $error): self
     {
         if ($error === null) {
@@ -104,6 +123,10 @@ final class ErrorSuite
         return $this;
     }
 
+    /**
+     * Adds a batch of errors to the current error suite.
+     * @param null|self $errorSuite The error suite to add. If null is passed, the method will do nothing.
+     */
     public function addErrorSuit(?self $errorSuite): self
     {
         if ($errorSuite === null) {
@@ -115,16 +138,30 @@ final class ErrorSuite
         return $this;
     }
 
+    /**
+     * Returns the number of errors in the current batch.
+     * @return int the number of errors in the batch
+     */
     public function count(): int
     {
         return \count($this->errors);
     }
 
+    /**
+     * Retrieves the Error object at the specified index from the batch of errors.
+     * Mostly for debugging purposes.
+     * @param  int        $index the zero-based index of the Error object to retrieve
+     * @return null|Error the Error object at the specified index, or null if the index is out of bounds
+     */
     public function get(int $index): ?Error
     {
         return $this->errors[$index] ?? null;
     }
 
+    /**
+     * Returns an array of available render formats.
+     * This method returns an array of render formats that can be used for generating reports.
+     */
     public static function getAvaiableRenderFormats(): array
     {
         return [

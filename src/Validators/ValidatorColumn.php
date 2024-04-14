@@ -35,23 +35,42 @@ final class ValidatorColumn
         $this->aggRuleset = new Ruleset($column->getAggregateRules(), $column->getHumanName());
     }
 
+    /**
+     * Validates a cell value using the specified line number.
+     * @param  string     $cellValue the value of the cell to be validated
+     * @param  int        $line      the line number associated with the cell
+     * @return ErrorSuite returns an ErrorSuite object containing any validation errors encountered
+     */
     public function validateCell(string $cellValue, int $line): ErrorSuite
     {
         return $this->cellRuleset->validateRuleSet($cellValue, $line);
     }
 
+    /**
+     * Validates a list of cell values based on an aggregation rule set.
+     * @param  array      $cellValue        the list of cell values to be validated
+     * @param  int        $linesToAggregate the number of lines to aggregate
+     * @return ErrorSuite the error suite containing any validation errors
+     */
     public function validateList(array $cellValue, int $linesToAggregate): ErrorSuite
     {
         return $this->aggRuleset->validateRuleSet($cellValue, self::FALLBACK_LINE, $linesToAggregate);
     }
 
+    /**
+     * Retrieves the aggregation input type from the rule set.
+     * @return int the aggregation input type
+     */
     public function getAggregationInputType(): int
     {
         return $this->aggRuleset->getAggregationInputType();
     }
 
     /**
-     * See Ruleset::getAggregationInputType().
+     * Prepares a cell value based on an aggregation input type.
+     * @See Ruleset::getAggregationInputType().
+     * @param string $cellValue    the cell value to be prepared
+     * @param int    $aggInputType the aggregation input type to determine the preparation logic
      */
     public static function prepareValue(string $cellValue, int $aggInputType): null|float|int|string
     {

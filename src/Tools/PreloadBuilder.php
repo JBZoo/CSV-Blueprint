@@ -20,14 +20,19 @@ use JBZoo\Utils\Cli;
 
 final class PreloadBuilder
 {
-    private array $files = [];
-    private array $excludes = [];
+    private array $includedFiles = [];
+    private array $excludedFiles = [];
 
     public function __construct(
         private bool $enableOpcacheCompiler = false,
     ) {
     }
 
+    /**
+     * Saves the contents of the current object to a file.
+     * @param string $filename the path of the file to save to
+     * @param bool   $showInfo whether to display information about the included files
+     */
     public function saveToFile(string $filename, bool $showInfo = false): void
     {
         $files = $this->buildFilelist();
@@ -40,15 +45,23 @@ final class PreloadBuilder
         }
     }
 
-    public function setExcludes(array $excludes): self
+    /**
+     * Sets the array of excluded files.
+     * @param array $excludedFiles an array of excluded files
+     */
+    public function setExcludes(array $excludedFiles): self
     {
-        $this->excludes = $excludes;
+        $this->excludedFiles = $excludedFiles;
         return $this;
     }
 
-    public function setFiles(array $files): self
+    /**
+     * Sets the files included in the object.
+     * @param array $includedFiles an array of files to be included
+     */
+    public function setFiles(array $includedFiles): self
     {
-        $this->files = $files;
+        $this->includedFiles = $includedFiles;
         return $this;
     }
 
@@ -57,7 +70,7 @@ final class PreloadBuilder
         $files = [];
         $fillList = \array_merge([
             \dirname(__DIR__, 2) . '/vendor/autoload.php',
-        ], $this->files);
+        ], $this->includedFiles);
 
         foreach ($fillList as $path) {
             if ($this->isExcluded($path)) {
@@ -74,7 +87,7 @@ final class PreloadBuilder
 
     private function isExcluded(string $path): bool
     {
-        return \in_array($path, $this->excludes, true);
+        return \in_array($path, $this->excludedFiles, true);
     }
 
     private function buildHeader(): array
