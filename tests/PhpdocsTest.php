@@ -50,11 +50,6 @@ final class PhpdocsTest extends TestCase
                         'validateRule',
                         'testValues',
                         'testValue',
-
-                        'getOptionAsBool',
-                        'getOptionAsString',
-                        'getOptionAsInt',
-                        'getOptionAsFloat',
                         'getOptionAsArray',
                     ], true)
                 ) {
