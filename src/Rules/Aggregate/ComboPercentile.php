@@ -16,14 +16,14 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
-use JBZoo\CsvBlueprint\Rules\AbstarctRule;
+use JBZoo\CsvBlueprint\Rules\AbstractRule;
 use MathPHP\Statistics\Descriptive;
 
 use function JBZoo\Utils\float;
 
 final class ComboPercentile extends AbstractAggregateRuleCombo
 {
-    public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_FLOATS;
+    public const INPUT_TYPE = AbstractRule::INPUT_TYPE_FLOATS;
 
     protected const NAME = 'percentile';
 

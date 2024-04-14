@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules;
 
-use JBZoo\CsvBlueprint\Rules\AbstarctRule;
-use JBZoo\CsvBlueprint\Rules\AbstarctRule as Combo;
+use JBZoo\CsvBlueprint\Rules\AbstractRule;
+use JBZoo\CsvBlueprint\Rules\AbstractRule as Combo;
 use JBZoo\PHPUnit\TestCase;
 use JBZoo\PHPUnit\Tools;
 use JBZoo\Utils\Str;
@@ -46,7 +46,7 @@ abstract class TestAbstractAggregateRule extends TestCase
 
     public function testInputType(): void
     {
-        isNotSame(AbstarctRule::INPUT_TYPE_UNDEF, $this->create(true)->getInputType());
+        isNotSame(AbstractRule::INPUT_TYPE_UNDEF, $this->create(true)->getInputType());
     }
 
     public function testBoolenOptionFlag(): void

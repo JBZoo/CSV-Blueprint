@@ -21,7 +21,7 @@ use JBZoo\CsvBlueprint\Rules\Cell\AbstractCellRuleCombo;
 use JBZoo\CsvBlueprint\Validators\Error;
 use JBZoo\CsvBlueprint\Validators\ValidatorColumn;
 
-abstract class AbstarctRuleCombo extends AbstarctRule
+abstract class AbstractRuleCombo extends AbstractRule
 {
     protected const NAME = 'UNDEFINED';
 

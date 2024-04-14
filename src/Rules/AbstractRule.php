@@ -23,7 +23,7 @@ use JBZoo\CsvBlueprint\Validators\ValidatorColumn;
 
 use function JBZoo\Utils\bool;
 
-abstract class AbstarctRule
+abstract class AbstractRule
 {
     public const INPUT_TYPE = self::INPUT_TYPE_UNDEF;
 
