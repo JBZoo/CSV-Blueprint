@@ -36,7 +36,7 @@ class IsFloat extends AbstractCellRule
             return null;
         }
 
-        if (!self::testValue($cellValue)) {
+        if (!static::testValue($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not a float number";
         }
 

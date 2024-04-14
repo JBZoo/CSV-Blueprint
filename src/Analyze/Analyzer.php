@@ -30,11 +30,9 @@ final class Analyzer
 
     /**
      * Analyzes a CSV file and suggests parameters for parsing and creating a schema.
-     *
-     * @param null|bool $forceHeader Whether to force the presence of a header row. Null to auto-detect.
-     * @param int       $lineLimit   Number of lines to read when detecting parameters. Default is 1000.
-     *
-     * @return Schema the suggested schema for the CSV file
+     * @param  null|bool $forceHeader Whether to force the presence of a header row. Null to auto-detect.
+     * @param  int       $lineLimit   Number of lines to read when detecting parameters. Default is 1000.
+     * @return Schema    the suggested schema for the CSV file
      */
     public function analyzeCsv(?bool $forceHeader = null, int $lineLimit = 1000): Schema
     {
@@ -91,11 +89,9 @@ final class Analyzer
 
     /**
      * Automatically detects the parameters for parsing a CSV file.
-     *
-     * @param null|bool $forceHeader Whether to force the presence of a header row. Null to auto-detect.
-     * @param int       $linesLimit  number of lines to read when detecting parameters
-     *
-     * @return array the suggested parameters for parsing the CSV file
+     * @param  null|bool $forceHeader Whether to force the presence of a header row. Null to auto-detect.
+     * @param  int       $linesLimit  number of lines to read when detecting parameters
+     * @return array     the suggested parameters for parsing the CSV file
      */
     private function autoDetectCsvParams(?bool $forceHeader, int $linesLimit): array
     {
@@ -122,7 +118,7 @@ final class Analyzer
             }
 
             if (!$headerChecked && $lineCount === 0) {
-                $detectedHeaderFlag = self::checkHeader($line, self::detectPopularDelimiter($delimiterCounts));
+                $detectedHeaderFlag = self::hasHeader($line, self::detectPopularDelimiter($delimiterCounts));
                 $headerChecked = true;
             }
 
@@ -156,6 +152,11 @@ final class Analyzer
         ], (new Schema())->getCsvParams());
     }
 
+    /**
+     * Analyzes the values of a column and determines the valid rules.
+     * @param  array $columnValues the values of the column to analyze
+     * @return array the suggested rules for the column
+     */
     private static function analyzeColumn(array $columnValues): array
     {
         $validRules = [
@@ -163,12 +164,17 @@ final class Analyzer
             'aggregate_rules' => [],
         ];
 
-        foreach (self::getCellRuleClasses() as $ruleType => $ruleClassnames) {
-            foreach ($ruleClassnames as $ruleName => $ruleClassname) {
-                $checkResult = $ruleClassname::testValues($columnValues);
-                if ($checkResult === true) {
-                    $validRules[$ruleType][$ruleName] = true;
-                }
+        /** @var class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule> $ruleClassname */
+        foreach (self::getRuleClasses('Cell', 'rules') as $ruleName => $ruleClassname) {
+            if ($ruleClassname::testValues($columnValues) === true) {
+                $validRules['rules'][$ruleName] = true;
+            }
+        }
+
+        /** @var class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule> $ruleClassname */
+        foreach (self::getRuleClasses('Aggregate', 'aggregate_rules') as $ruleName => $ruleClassname) {
+            if ($ruleClassname::testValues($columnValues) === true) {
+                $validRules['aggregate_rules'][$ruleName] = true;
             }
         }
 
@@ -177,66 +183,50 @@ final class Analyzer
 
     /**
      * Returns the available rule classes for cell and aggregate rules.
-     * @suppress PhanUnextractableAnnotationSuffix
-     * @return array{
-     *     aggregate_rules: array<string, class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule>>,
-     *     rules: array<string, class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule>>
-     * }
+     * @return array<string, class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule>>
      */
-    private static function getCellRuleClasses(): array
+    private static function getRuleClasses(string $directory, string $mapTo): array
     {
-        static $availableRules = null; // Memoization to avoid multiple file system scans
+        static $availableRules = []; // Memoization to avoid multiple file system scans
 
-        if ($availableRules === null) {
-            $dirs = ['Cell', 'Aggregate'];
+        if (!isset($availableRules[$mapTo])) {
+            $finder = (new Finder())
+                ->in(__DIR__ . "/../Rules/{$directory}")
+                ->ignoreDotFiles(false)
+                ->ignoreVCS(true)
+                ->name('/\\.php$/')
+                ->files();
 
-            $availableRules = [
-                'rules'           => [],
-                'aggregate_rules' => [],
-            ];
+            foreach ($finder as $file) {
+                $filename = $file->getFilenameWithoutExtension();
+                $ruleName = Utils::camelToKebabCase($filename);
 
-            foreach ($dirs as $dir) {
-                $finder = (new Finder())
-                    ->in(__DIR__ . "/../Rules/{$dir}")
-                    ->ignoreDotFiles(false)
-                    ->ignoreVCS(true)
-                    ->name('/\\.php$/')
-                    ->files();
+                /** @var class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule> $ruleClassname */
+                $ruleClassname = "JBZoo\\CsvBlueprint\\Rules\\{$directory}\\{$filename}";
 
-                foreach ($finder as $file) {
-                    $filename = $file->getFilenameWithoutExtension();
-                    $ruleName = Utils::camelToKebabCase($filename);
-
-                    /** @var class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule> $ruleClassname */
-                    $ruleClassname = "JBZoo\\CsvBlueprint\\Rules\\{$dir}\\{$filename}";
-
-                    if (\class_exists($ruleClassname)) {
-                        try {
-                            $methodName = $dir === 'Cell' ? 'testValue' : 'testValues';
-                            $origClassOfMethod = (new \ReflectionClass($ruleClassname))->getMethod($methodName)->class;
-                            if ($ruleClassname !== $origClassOfMethod) {
-                                continue;
-                            }
-
-                            $key = $dir === 'Cell' ? 'rules' : 'aggregate_rules';
-                            $availableRules[$key][$ruleName] = $ruleClassname;
-                        } catch (\ReflectionException) {
+                if (\class_exists($ruleClassname)) {
+                    try {
+                        $methodName = $directory === 'Cell' ? 'testValue' : 'testValues';
+                        $origClassOfMethod = (new \ReflectionClass($ruleClassname))->getMethod($methodName)->class;
+                        if ($ruleClassname !== $origClassOfMethod) {
                             continue;
                         }
+
+                        $availableRules[$mapTo][$ruleName] = $ruleClassname;
+                    } catch (\ReflectionException) {
+                        continue;
                     }
                 }
             }
         }
 
-        return $availableRules;
+        return $availableRules[$mapTo];
     }
 
     /**
      * Detects the most popular delimiter from the given delimiter counts.
-     *
-     * @param non-empty-array<array-key, int> $delimiterCounts the counts of occurrences for each delimiter
-     *
-     * @return string the most popular delimiter found
+     * @param  non-empty-array<array-key, int> $delimiterCounts the counts of occurrences for each delimiter
+     * @return string                          the most popular delimiter found
      */
     private static function detectPopularDelimiter(array $delimiterCounts): string
     {
@@ -245,13 +235,11 @@ final class Analyzer
 
     /**
      * Checks if the header row in the CSV file is valid.
-     *
-     * @param string $line      the header row line from the CSV file
-     * @param string $delimiter the delimiter used in the CSV file
-     *
-     * @return bool true if the header row is valid, false otherwise
+     * @param  string $line      the header row line from the CSV file
+     * @param  string $delimiter the delimiter used in the CSV file
+     * @return bool   true if the header row is valid, false otherwise
      */
-    private static function checkHeader(string $line, string $delimiter): bool
+    private static function hasHeader(string $line, string $delimiter): bool
     {
         if ($delimiter === '') {
             return false;
@@ -270,7 +258,6 @@ final class Analyzer
 
     /**
      * Suggest a filename pattern based on the CSV filename.
-     *
      * @param  string $csvFilename the CSV filename
      * @return string the suggested filename pattern
      */
