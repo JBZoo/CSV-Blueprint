@@ -15,10 +15,11 @@
 declare(strict_types=1);
 
 use JBZoo\CsvBlueprint\Tools\PreloadBuilder;
+use JBZoo\Utils\Env;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-(new PreloadBuilder(enableOpcacheCompiler: false))
+(new PreloadBuilder(Env::bool('OPCACHE_COMPILER')))
     ->setExcludes([
         \dirname(__DIR__) . '/csv-blueprint',
         \dirname(__DIR__) . '/csv-blueprint.php',
