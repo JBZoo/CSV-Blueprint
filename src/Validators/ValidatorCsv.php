@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Validators;
 
 use JBZoo\CsvBlueprint\Csv\CsvFile;
-use JBZoo\CsvBlueprint\Rules\AbstarctRule;
+use JBZoo\CsvBlueprint\Rules\AbstractRule;
 use JBZoo\CsvBlueprint\Schema;
 use JBZoo\CsvBlueprint\Utils;
 
@@ -147,7 +147,7 @@ final class ValidatorCsv
                 $aggInputType = $colValidator->getAggregationInputType();
                 Utils::debug("{$messPrefix} Aggregation Flag: {$aggInputType}");
             } else {
-                $aggInputType = AbstarctRule::INPUT_TYPE_UNDEF;
+                $aggInputType = AbstractRule::INPUT_TYPE_UNDEF;
             }
 
             if (!$isAggRules && !$isRules) { // Time optimization

@@ -22,7 +22,7 @@ use JBZoo\CsvBlueprint\Validators\ErrorSuite;
 
 final class Ruleset
 {
-    /** @var AbstarctRule[] */
+    /** @var AbstractRule[] */
     private array  $rules;
     private string $columnNameId;
 
@@ -66,7 +66,7 @@ final class Ruleset
     public function ruleDiscovery(
         string $origRuleName,
         null|array|bool|float|int|string $options = null,
-    ): ?AbstarctRule {
+    ): ?AbstractRule {
         $mode = AbstractCellRuleCombo::parseMode($origRuleName);
         $noCombo = \preg_replace("/(_{$mode})\$/", '', $origRuleName);
 
@@ -98,7 +98,7 @@ final class Ruleset
     public function getAggregationInputType(): int
     {
         if (\count($this->intputTypes) === 0) {
-            return AbstarctRule::INPUT_TYPE_UNDEF;
+            return AbstractRule::INPUT_TYPE_UNDEF;
         }
 
         return \max($this->intputTypes);
@@ -112,7 +112,7 @@ final class Ruleset
         string $posibleClassName,
         null|array|bool|float|int|string $options,
         string $mode,
-    ): ?AbstarctRule {
+    ): ?AbstractRule {
         if (\class_exists($posibleClassName)) {
             // @phpstan-ignore-next-line
             return new $posibleClassName($this->columnNameId, $options, $mode);

@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules;
 
-use JBZoo\CsvBlueprint\Rules\AbstarctRule as Rule;
+use JBZoo\CsvBlueprint\Rules\AbstractRule as Rule;
 use JBZoo\CsvBlueprint\Rules\Aggregate\ComboCount;
 use JBZoo\CsvBlueprint\Rules\Aggregate\ComboCountDistinct;
 use JBZoo\CsvBlueprint\Rules\Aggregate\ComboCountEmpty;
@@ -103,7 +103,7 @@ final class DocBuilder
             $topComment = "{$leftPad}# " . \implode("\n{$leftPad}# ", $this->topHelp);
         }
 
-        if ($this->rule instanceof AbstarctRuleCombo) {
+        if ($this->rule instanceof AbstractRuleCombo) {
             return \implode("\n", [
                 $topComment,
                 self::renderLine($this->ymlRuleCode, $this->options[Rule::MIN], Rule::MIN),

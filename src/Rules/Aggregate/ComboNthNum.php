@@ -16,13 +16,13 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
-use JBZoo\CsvBlueprint\Rules\AbstarctRule;
+use JBZoo\CsvBlueprint\Rules\AbstractRule;
 
 use function JBZoo\Utils\float;
 
 final class ComboNthNum extends AbstractAggregateRuleCombo
 {
-    public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_FLOATS;
+    public const INPUT_TYPE = AbstractRule::INPUT_TYPE_FLOATS;
 
     protected const NAME = 'N-th value';
 
