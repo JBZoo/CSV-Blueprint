@@ -26,6 +26,10 @@ final class CliApplication extends \JBZoo\Cli\CliApplication
         '                                /_/                    ',
     ];
 
+    /**
+     * Retrieves the long version of the application.
+     * @return string the long version of the application
+     */
     public function getLongVersion(): string
     {
         $logo = '<info>' . \implode("</info>\n<info>", $this->appLogo) . '</info>';

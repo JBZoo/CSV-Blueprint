@@ -33,7 +33,7 @@ final class NotEmpty extends AbstractCellRule
 
     public function validateRule(string $cellValue): ?string
     {
-        if (!$this->getOptionAsBool()) {
+        if (!$this->isEnabledByOption()) {
             return null;
         }
 

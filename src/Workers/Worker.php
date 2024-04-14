@@ -27,11 +27,21 @@ final class Worker
     ) {
     }
 
+    /**
+     * Returns the key value.
+     * @return string the key value
+     */
     public function getKey(): string
     {
         return $this->key;
     }
 
+    /**
+     * Executes the task.
+     * @return mixed                     the result of the task execution
+     * @throws \InvalidArgumentException if the class specified by `$className` is not found or is not
+     *                                   an instance of AbstractTask
+     */
     public function execute(): mixed
     {
         $className = $this->className;
@@ -47,11 +57,19 @@ final class Worker
         return $task->process();
     }
 
+    /**
+     * Returns the name of the class.
+     * @return string the name of the class
+     */
     public function getClass(): string
     {
         return $this->className;
     }
 
+    /**
+     * Returns the arguments.
+     * @return array the worker arguments as is
+     */
     public function getArguments(): array
     {
         return $this->arguments;

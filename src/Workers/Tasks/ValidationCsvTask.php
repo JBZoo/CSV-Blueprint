@@ -28,6 +28,9 @@ final class ValidationCsvTask extends AbstractTask
     ) {
     }
 
+    /**
+     * Processes the given CSV file and returns an ErrorSuite object.
+     */
     public function process(): ErrorSuite
     {
         return (new CsvFile($this->csvFilename, $this->schemaFilename))->validate($this->isQuickMode);

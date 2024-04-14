@@ -38,31 +38,58 @@ final class WorkerPool
         $this->tasksQueue = new \SplQueue();
     }
 
+    /**
+     * Retrieves the maximum number of threads allowed.
+     * @return int the maximum number of threads allowed
+     */
     public function getMaxThreads(): int
     {
         return $this->maxThreads;
     }
 
+    /**
+     * Adds a task to the task queue.
+     * @param string $key       the key associated with the task
+     * @param string $taskClass the class name of the task to be added
+     * @param array  $arguments the arguments to be passed to the task
+     */
     public function addTask(string $key, string $taskClass, array $arguments = []): void
     {
         $this->tasksQueue->enqueue(new Worker($key, $taskClass, $arguments));
     }
 
+    /**
+     * Runs the method in either parallel or sequential mode, depending on the value of the isParallel property.
+     * @param  null|\Closure $callback the optional callback function to be executed
+     * @return array         returns an array of the results obtained from running the method
+     */
     public function run(?\Closure $callback = null): array
     {
         return $this->isParallel() ? $this->runInParallel($callback) : $this->runSequentially($callback);
     }
 
+    /**
+     * Checks if the application is running in parallel mode.
+     * @return bool returns true if the application is running in parallel mode, false otherwise
+     */
     public function isParallel(): bool
     {
         return $this->getMaxThreads() > 1 && self::extLoaded();
     }
 
+    /**
+     * Checks if the 'parallel' extension is loaded.
+     * @return bool returns true if the 'parallel' extension is loaded, false otherwise
+     */
     public static function extLoaded(): bool
     {
         return \extension_loaded('parallel');
     }
 
+    /**
+     * Sets the bootstrap file for parallel execution.
+     * @param string $autoloader the path to the autoloader file
+     */
     public static function setBootstrap(string $autoloader): void
     {
         if (self::extLoaded() && self::$bootstrap === null) {
@@ -74,6 +101,11 @@ final class WorkerPool
         }
     }
 
+    /**
+     * Retrieves the number of CPU cores on the current system.
+     * Falls back to a default value if an error occurs during the retrieval.
+     * @return int the number of CPU cores on the system
+     */
     public static function getCpuCount(): int
     {
         try {
@@ -142,7 +174,7 @@ final class WorkerPool
                     Utils::setDebugMode($debugMode);
                     return (new Worker($key, $class, $args))->execute();
                 },
-                [$worker->getKey(), $worker->getClass(), $worker->getArguments(), Utils::getDebugMode()],
+                [$worker->getKey(), $worker->getClass(), $worker->getArguments(), Utils::isDebugMode()],
             );
 
             $this->runningTasks[$worker->getKey()] = $future;

@@ -70,6 +70,10 @@ final class SchemaDataPrep
         $this->aliases = $this->prepareAliases($data);
     }
 
+    /**
+     * Builds the internal state of schema.
+     * @return Data the built data object
+     */
     public function buildData(): Data
     {
         $result = [
@@ -92,11 +96,20 @@ final class SchemaDataPrep
         return new Data($result);
     }
 
+    /**
+     * Returns the regular expression for validating an alias.
+     * @return string the regular expression string
+     */
     public static function getAliasRegex(): string
     {
         return '/^' . self::ALIAS_REGEX . '$/i';
     }
 
+    /**
+     * Validates a preset alias.
+     * @param  string    $alias the alias to validate
+     * @throws Exception if the alias is empty or invalid
+     */
     public static function validateAlias(string $alias): void
     {
         if ($alias === '') {

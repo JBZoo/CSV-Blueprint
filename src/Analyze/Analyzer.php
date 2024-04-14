@@ -23,6 +23,10 @@ use Symfony\Component\Finder\Finder;
 
 final class Analyzer
 {
+    /**
+     * Creates a new instance of the class.
+     * @param string $csvFilename the filename of the CSV file to be parsed
+     */
     public function __construct(
         private string $csvFilename,
     ) {
@@ -31,7 +35,7 @@ final class Analyzer
     /**
      * Analyzes a CSV file and suggests parameters for parsing and creating a schema.
      * @param  null|bool $forceHeader Whether to force the presence of a header row. Null to auto-detect.
-     * @param  int       $lineLimit   Number of lines to read when detecting parameters. Default is 1000.
+     * @param  int       $lineLimit   number of lines to read when detecting parameters
      * @return Schema    the suggested schema for the CSV file
      */
     public function analyzeCsv(?bool $forceHeader = null, int $lineLimit = 1000): Schema

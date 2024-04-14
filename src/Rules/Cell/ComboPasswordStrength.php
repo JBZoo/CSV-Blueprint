@@ -41,6 +41,12 @@ final class ComboPasswordStrength extends AbstractCellRuleCombo
         ];
     }
 
+    /**
+     * Calculates the score of a password based on various criteria.
+     * Passwords are assigned a score ranging from 0 to 10, with higher scores indicating stronger passwords.
+     * @param  string $password the password to calculate the score for
+     * @return int    the score of the password on a scale of 0 to 10
+     */
     public static function passwordScore(string $password): int
     {
         $score = 0;

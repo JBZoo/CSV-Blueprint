@@ -32,6 +32,12 @@ final class Utils
 
     private static bool $debugMode = false;
 
+    /**
+     * Checks if the elements in an array are in a specific order.
+     * @param  array $array        the array to check the order of
+     * @param  array $correctOrder the correct order that the elements should be in
+     * @return bool  returns true if the elements are in the correct order, false otherwise
+     */
     public static function isArrayInOrder(array $array, array $correctOrder): bool
     {
         $orderIndex = 0;
@@ -48,6 +54,12 @@ final class Utils
         return true;
     }
 
+    /**
+     * Prints a list of items for CLI output.
+     * @param  null|array|bool|float|int|string $items the list of items to print
+     * @param  string                           $color the color to apply to each item
+     * @return string                           the formatted string representation of the list
+     */
     public static function printList(null|array|bool|float|int|string $items, string $color = ''): string
     {
         if (!\is_array($items)) {
@@ -73,6 +85,10 @@ final class Utils
         return "[\"<{$color}>" . \implode("</{$color}>\", \"<{$color}>", $items) . "</{$color}>\"]";
     }
 
+    /**
+     * Logs a debug message. It works only if debug mode is enabled (--debug).
+     * @param string $message the debug message to log
+     */
     public static function debug(string $message): void
     {
         if (self::$debugMode) {
@@ -84,6 +100,12 @@ final class Utils
         }
     }
 
+    /**
+     * Debugs the speed of execution. It works only if debug mode is enabled (--debug).
+     * @param string $messPrefix the message prefix to display in the debug output
+     * @param int    $lines      the number of lines processed
+     * @param float  $startTimer the start time of the execution
+     */
     public static function debugSpeed(string $messPrefix, int $lines, float $startTimer): void
     {
         if (self::$debugMode) {
@@ -92,16 +114,34 @@ final class Utils
         }
     }
 
+    /**
+     * Convert a kebab-case string to camelCase.
+     * @param  string $input the kebab-case string to be converted
+     * @return string the converted camelCase string
+     */
     public static function kebabToCamelCase(string $input): string
     {
         return \str_replace(' ', '', \ucwords(\str_replace(['-', '_'], ' ', $input)));
     }
 
+    /**
+     * Converts a camelCase string to kebab-case.
+     *
+     * @param  string $input the camelCase string to be converted
+     * @return string the converted kebab-case string
+     */
     public static function camelToKebabCase(string $input): string
     {
         return \strtolower((string)\preg_replace('/(?<!^)[A-Z]/', '_$0', $input)); // NOSONAR
     }
 
+    /**
+     * Prepares a regular expression pattern by adding a delimiter if necessary.
+     * @param  null|string $pattern      The regular expression pattern to prepare. If null or empty, returns null.
+     * @param  string      $addDelimiter the delimiter to be added if the pattern doesn't already have a delimiter
+     * @return null|string the prepared regular expression pattern with a delimiter, or null if the input pattern
+     *                     is null or empty
+     */
     public static function prepareRegex(?string $pattern, string $addDelimiter = '/'): ?string
     {
         if ($pattern === null || $pattern === '') {
@@ -120,9 +160,10 @@ final class Utils
     }
 
     /**
-     * Find files from given paths.
-     * @param  string[]      $paths
-     * @return SplFileInfo[]
+     * Find files based on the given paths.
+     * @param  string[]      $paths an array of file or directory paths
+     * @return SplFileInfo[] an array of SplFileInfo objects representing the found files
+     * @throws Exception     if a file is not readable
      */
     public static function findFiles(array $paths): array
     {
@@ -160,6 +201,12 @@ final class Utils
         return $fileList;
     }
 
+    /**
+     * Cuts the path of a given file and replaces the current working directory with a dot (.).
+     * @param  null|string $fullpath the full path of the file
+     * @return string      The modified path with the current working directory replaced by a dot (.) or an empty
+     *                     string if the $fullpath is null.
+     */
     public static function cutPath(?string $fullpath): string
     {
         if ($fullpath === null) {
@@ -175,11 +222,19 @@ final class Utils
         return \str_replace($pwd, '.', $fullpath);
     }
 
+    /**
+     * Check if the application is running in a Docker environment.
+     * @return bool true if the application is running in Docker, false otherwise
+     */
     public static function isDocker(): bool
     {
         return \file_exists('/app/csv-blueprint');
     }
 
+    /**
+     * Checks if the application is running on the GitHub Actions platform.
+     * @return bool returns true if the application is running on GitHub Actions, otherwise false
+     */
     public static function isGithubActions(): bool
     {
         return self::isDocker() && Env::bool('GITHUB_ACTIONS');
@@ -187,6 +242,7 @@ final class Utils
 
     /**
      * Autodetect the width of the terminal.
+     * @return int the maximum auto-detected terminal width
      */
     public static function autoDetectTerminalWidth(): int
     {
@@ -206,6 +262,15 @@ final class Utils
         return $maxAutoDetected;
     }
 
+    /**
+     * Compare two arrays and return the differences between them.
+     * @param  array  $expectedSchema the expected schema array
+     * @param  array  $actualSchema   the actual schema array
+     * @param  string $columnId       the column ID
+     * @param  string $keyPrefix      the key prefix
+     * @param  string $path           the current path
+     * @return array  an array containing the differences between the two arrays
+     */
     public static function compareArray(
         array $expectedSchema,
         array $actualSchema,
@@ -273,6 +338,13 @@ final class Utils
         return $differences;
     }
 
+    /**
+     * Checks whether the expected type matches the actual type and if there is a valid conversion between them.
+     * @param  null|array|bool|float|int|string $expected The expected type
+     * @param  null|array|bool|float|int|string $actual   The actual type
+     * @return bool                             returns true if the expected type matches the actual type or if there
+     *                                          is a valid conversion between them, otherwise returns false
+     */
     public static function matchTypes(
         null|array|bool|float|int|string $expected,
         null|array|bool|float|int|string $actual,
@@ -297,6 +369,13 @@ final class Utils
             && \in_array($actualType, $mapOfValidConvertions[$expectedType], true);
     }
 
+    /**
+     * Test if a regex pattern matches a subject string.
+     * @param  null|string $regex   the regex pattern to match
+     * @param  string      $subject the subject string
+     * @return bool        returns true if the pattern does not match the subject, false otherwise
+     * @throws Exception   if an invalid regex pattern is provided
+     */
     public static function testRegex(?string $regex, string $subject): bool
     {
         if ($regex === null || $regex === '' || $subject === '') {
@@ -311,8 +390,12 @@ final class Utils
     }
 
     /**
-     * @param SplFileInfo[] $csvFiles
-     * @param SplFileInfo[] $schemaFiles
+     * Matches schema files with CSV files based on the filename pattern in the schema.
+     * @param  SplFileInfo[] $csvFiles         an array of CSV files to match
+     * @param  SplFileInfo[] $schemaFiles      an array of schema files to match
+     * @param  bool          $useGlobalSchemas whether to include global schemas without a filename pattern
+     * @return array         an array containing the matched pairs of schema and CSV files, as well as additional
+     *                       information
      */
     public static function matchSchemaAndCsvFiles(
         array $csvFiles,
@@ -362,6 +445,12 @@ final class Utils
         return $result;
     }
 
+    /**
+     * Prints the file path with an optional HTML tag around the filename.
+     * @param  string $fullpath the full path of the file
+     * @param  string $tag      the HTML tag to wrap the filename with
+     * @return string the file path with the filename wrapped in the specified HTML tag
+     */
     public static function printFile(string $fullpath, string $tag = 'bright-blue'): string
     {
         $relPath = self::cutPath($fullpath);
@@ -370,6 +459,12 @@ final class Utils
         return "{$directory}<{$tag}>{$basename}</{$tag}>";
     }
 
+    /**
+     * Retrieves the version of the software.
+     * @param  bool   $showFull Whether to display the full version information or not. Default is false.
+     * @return string the version of the software as a string, or an error message if the version file is
+     *                not found
+     */
     public static function getVersion(bool $showFull): string
     {
         if (self::isPhpUnit()) {
@@ -384,6 +479,12 @@ final class Utils
         return self::parseVersion((string)\file_get_contents($versionFile), $showFull);
     }
 
+    /**
+     * Parses the version information from a content string.
+     * @param  string $content  the content string containing the version information
+     * @param  bool   $showFull Optional. Whether to show the full version information.
+     * @return string the parsed version string
+     */
     public static function parseVersion(string $content, bool $showFull): string
     {
         $parts = \array_map('trim', \explode('|', $content));
@@ -414,6 +515,12 @@ final class Utils
         return \implode('  ', $version);
     }
 
+    /**
+     * Returns the size of a file.
+     * @param  string $csv the path of the file
+     * @return string The size of the file, formatted as a string.
+     *                If the file is not found, returns 'file not found'.
+     */
     public static function getFileSize(string $csv): string
     {
         if (!\file_exists($csv)) {
@@ -427,11 +534,20 @@ final class Utils
         return FS::format((int)\filesize($csv));
     }
 
+    /**
+     * Checks if the code is running within the PHPUnit environment.
+     * @return bool returns true if the code is running within PHPUnit; otherwise, false
+     */
     public static function isPhpUnit(): bool
     {
         return \defined('PHPUNIT_COMPOSER_INSTALL') || \defined('__PHPUNIT_PHAR__');
     }
 
+    /**
+     * Fix the command line arguments by extracting flags from the original arguments.
+     * @param  array $originalArgs the original command line arguments
+     * @return array the fixed command line arguments with extracted flags
+     */
     public static function fixArgv(array $originalArgs): array
     {
         $newArgumens = [];
@@ -462,7 +578,10 @@ final class Utils
     }
 
     /**
-     * @param array<string, null|array|bool|string>|int[]|string[] ...$configs
+     * Merge multiple arrays of configurations into a single configuration array.
+     *
+     * @param  array<string, null|array|bool|string>|int[]|string[] ...$configs the arrays of configs to be merged
+     * @return array                                                the merged configuration array
      */
     public static function mergeConfigs(array ...$configs): array
     {
@@ -491,17 +610,27 @@ final class Utils
         return $merged;
     }
 
+    /**
+     * Set the debug mode.
+     * @param bool $debugMode the new value for the debug mode
+     */
     public static function setDebugMode(bool $debugMode): void
     {
         self::$debugMode = $debugMode;
     }
 
-    public static function getDebugMode(): bool
+    /**
+     * Get the current debug mode.
+     * @return bool returns the current debug mode
+     */
+    public static function isDebugMode(): bool
     {
         return self::$debugMode;
     }
 
     /**
+     * Initialize the application by fixing command line arguments,
+     * setting up the WorkerPool autoloader, default timezone, and error handling.
      * @SuppressWarnings(PHPMD.Superglobals)
      */
     public static function init(): void

@@ -43,6 +43,13 @@ final class Ruleset
         }
     }
 
+    /**
+     * Validates a rule set against a cell value.
+     * @param  array|string $cellValue        the value to validate
+     * @param  int          $line             the line number of the value
+     * @param  int          $linesToAggregate the number of lines to aggregate when outputting debug information
+     * @return ErrorSuite   the suite of errors found during validation
+     */
     public function validateRuleSet(array|string $cellValue, int $line, int $linesToAggregate = 0): ErrorSuite
     {
         $errors = new ErrorSuite();
@@ -63,6 +70,12 @@ final class Ruleset
         return $errors;
     }
 
+    /**
+     * Discover and return an instance of the appropriate rule class based on the given rule name.
+     * @param  string                           $origRuleName the original rule name
+     * @param  null|array|bool|float|int|string $options      the options for the rule
+     * @return null|AbstractRule                an instance of the rule class or null if the rule is not found
+     */
     public function ruleDiscovery(
         string $origRuleName,
         null|array|bool|float|int|string $options = null,

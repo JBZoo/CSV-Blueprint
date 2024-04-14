@@ -28,6 +28,10 @@ final class Error
     ) {
     }
 
+    /**
+     * Returns a string representation of the error.
+     * @return string the string representation of the object
+     */
     public function __toString(): string
     {
         $columnStr = $this->getColumnName() === '' ? '' : ", column \"{$this->getColumnName()}\"";
@@ -42,11 +46,20 @@ final class Error
         return \str_replace('.</', '</', $fullMessage); // Double dots fix.
     }
 
+    /**
+     * Returns the rule code.
+     * @return string the rule code
+     */
     public function getRuleCode(): string
     {
         return $this->ruleCode;
     }
 
+    /**
+     * Returns the final error message.
+     * @param  bool   $noTags if set to true, strips HTML tags from the message
+     * @return string the error message, optionally without HTML tags
+     */
     public function getMessage(bool $noTags = false): string
     {
         if ($noTags) {
@@ -56,21 +69,38 @@ final class Error
         return \rtrim($this->message, '.');
     }
 
+    /**
+     * Returns the column name associated with the error.
+     * @return string the column name
+     */
     public function getColumnName(): string
     {
         return $this->columnName;
     }
 
+    /**
+     * Returns the line number of the error.
+     * If the line number is undefined, it will return the string 'undef'.
+     * @return int|string The line number of the error, or 'undef' if undefined
+     */
     public function getLine(): int|string
     {
         return $this->line === self::UNDEFINED_LINE ? 'undef' : $this->line;
     }
 
+    /**
+     * Cleans the string representation of the object by removing any HTML tags.
+     * @return string the cleaned string representation of the object
+     */
     public function toCleanString(): string
     {
         return \strip_tags((string)$this);
     }
 
+    /**
+     * Returns an array representation of the object.
+     * Mostly for debugging purposes.
+     */
     public function toArray(): array
     {
         return [

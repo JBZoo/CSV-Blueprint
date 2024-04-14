@@ -62,6 +62,13 @@ abstract class AbstractRule
         // TODO: Move resolving and validating expected value on this stage to make it only once (before validation).
     }
 
+    /**
+     * Validate the given cell value based on the rule defined in the subclass.
+     * @param  array|string $cellValue the value of the cell to validate
+     * @param  int          $line      the line number of the cell
+     * @return ?Error       An Error object if validation fails, null otherwise
+     * @throws Exception    If the "validateRule" method is not found in the subclass
+     */
     public function validate(array|string $cellValue, int $line = ValidatorColumn::FALLBACK_LINE): ?Error
     {
         // TODO: Extract to abstract boolean cell/agregate rule
@@ -91,11 +98,20 @@ abstract class AbstractRule
         return null;
     }
 
+    /**
+     * Get the help documentation for the current instance.
+     * @return string The help documentation
+     */
     public function getHelp(): string
     {
         return (new DocBuilder($this))->getHelp();
     }
 
+    /**
+     * Retrieves the rule code based on the provided mode.
+     * @param  null|string $mode the mode for the rule code
+     * @return string      the generated rule code
+     */
     public function getRuleCode(?string $mode = null): string
     {
         $mode ??= $this->mode;
@@ -105,6 +121,8 @@ abstract class AbstractRule
     }
 
     /**
+     * Retrieves the input type. It uses for memmory optimization.
+     * @return int the input type
      * @phan-suppress PhanPluginPossiblyStaticPublicMethod
      */
     public function getInputType(): int
@@ -142,7 +160,13 @@ abstract class AbstractRule
         throw new Exception('Not implemented yet. Please override this method in the child class.');
     }
 
-    protected function getOptionAsBool(): bool
+    /**
+     * Checks if the rule is enabled based on the value of the options property.
+     * Converts the options property to a boolean value and throws an exception if it is not a boolean.
+     * @return bool      true if the rule is enabled, false otherwise
+     * @throws Exception if the options property is not a boolean
+     */
+    protected function isEnabledByOption(): bool
     {
         // TODO: Replace to warning message
         if (!\is_bool($this->options)) {
@@ -156,6 +180,12 @@ abstract class AbstractRule
         return bool($this->options);
     }
 
+    /**
+     * Converts the option to a string representation.
+     * @return string     the option as a string representation
+     * @throws \Exception If the option is an array, indicating an invalid option. The exception message includes the
+     *                    invalid options list and the rule code.
+     */
     protected function getOptionAsString(): string
     {
         // TODO: Replace to warning message
@@ -170,6 +200,12 @@ abstract class AbstractRule
         return (string)$this->options;
     }
 
+    /**
+     * Converts the option to an integer representation.
+     * @return int        the option as an integer representation
+     * @throws \Exception If the option is an empty string or not a numeric value, indicating an invalid option. The
+     *                    exception message includes the invalid option value and the rule code.
+     */
     protected function getOptionAsInt(): int
     {
         // TODO: Replace to warning message
@@ -184,6 +220,12 @@ abstract class AbstractRule
         return (int)$this->options;
     }
 
+    /**
+     * Converts the option to a float representation.
+     * @return float      the option as a float representation
+     * @throws \Exception If the option is an empty string or not numeric, indicating an invalid option. The exception
+     *                    message includes the invalid option and the rule code.
+     */
     protected function getOptionAsFloat(): float
     {
         // TODO: Replace to warning message
@@ -198,6 +240,14 @@ abstract class AbstractRule
         return (float)$this->options;
     }
 
+    /**
+     * Converts the options into an array.
+     * Checks if the options property is an array and throws an exception if it is not.
+     * The exception includes the invalid option and the rule code.
+     * The options property should be an array of strings.
+     * @return array     the options as an array
+     * @throws Exception if the options property is not an array
+     */
     protected function getOptionAsArray(): array
     {
         // TODO: Replace to warning message
@@ -227,7 +277,7 @@ abstract class AbstractRule
 
         if (
             (\str_starts_with($this->ruleCode, 'is_') || \str_starts_with($this->ruleCode, 'ag:is_'))
-            && !$this->getOptionAsBool()
+            && !$this->isEnabledByOption()
         ) {
             return false;
         }
