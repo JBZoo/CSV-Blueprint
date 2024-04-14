@@ -34,7 +34,9 @@ final class Analyzer
 
         $analyzeResults = [];
 
-        for ($i = 0; $i < $csv->getRealColumNumber(); $i++) {
+        $columns = $isHeader ? $csv->getHeader() : $csv->getRealColumNumber();
+
+        foreach ($columns as $columnId => $column) {
             $columnValues = [];
 
             foreach ($csv->getRecords() as $line => $record) {
@@ -46,9 +48,11 @@ final class Analyzer
                     continue;
                 }
 
-                $columnValues[] = $record[$i] ?? '';
+                $columnValues[] = $record[$columnId] ?? '';
             }
-            $analyzeResults[$i] = $this->analyzeColumn($columnValues);
+
+            $analyzeResults[$columnId] =
+                \array_merge(['name' => $column], $this->analyzeColumn($columnValues));
         }
 
         dump($analyzeResults);
