@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Analyze;
 
 use JBZoo\CsvBlueprint\Csv\CsvFile;
-use JBZoo\CsvBlueprint\Rules\AbstarctRule;
+use JBZoo\CsvBlueprint\Rules\AbstractRule;
 use JBZoo\CsvBlueprint\Utils;
 use Symfony\Component\Finder\Finder;
 
@@ -65,9 +65,9 @@ final class Analyzer
             'aggregate_rules' => [],
         ];
 
-        /** @var class-string<AbstarctRule>[] $ruleClassnames */
+        /** @var class-string<AbstractRule>[] $ruleClassnames */
         foreach ($this->getCellRuleClasses() as $ruleType => $ruleClassnames) {
-            /** @var class-string<AbstarctRule> $ruleClassname */
+            /** @var class-string<AbstractRule> $ruleClassname */
             foreach ($ruleClassnames as $ruleName => $ruleClassname) {
                 if ($ruleClassname::testValues($columnValues)) {
                     $validRules[$ruleType][$ruleName] = true;
@@ -87,7 +87,7 @@ final class Analyzer
     }
 
     /**
-     * @return class-string<AbstarctRule>[]
+     * @return class-string<AbstractRule>[]
      */
     private function getCellRuleClasses(): array
     {
@@ -113,7 +113,7 @@ final class Analyzer
                     $filename = $file->getFilenameWithoutExtension();
                     $ruleName = Utils::camelToKebabCase($filename);
 
-                    /** @var class-string<AbstarctRule> $ruleClassname */
+                    /** @var class-string<AbstractRule> $ruleClassname */
                     $ruleClassname = "JBZoo\\CsvBlueprint\\Rules\\{$dir}\\{$filename}";
 
                     if (\class_exists($ruleClassname)) {
