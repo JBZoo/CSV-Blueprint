@@ -256,6 +256,13 @@ final class Schema
         ];
     }
 
+    /**
+     * Converts the internal state to YAML string representation.
+     * @param  bool        $removeDefaultValues whether to remove default values from the dumped data
+     * @param  bool        $cliColored          whether to add color formatting for CLI output
+     * @param  null|string $basedOnCsv          the CSV file name that the data is based on
+     * @return string      the data converted to YAML string
+     */
     public function dumpAsYamlString(
         bool $removeDefaultValues = true,
         bool $cliColored = false,

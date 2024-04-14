@@ -534,6 +534,12 @@ final class Utils
         });
     }
 
+    /**
+     * Remove default settings from an array of original settings.
+     * @param  array $original the original settings array
+     * @param  array $defaults the default settings array to compare against
+     * @return array the modified settings array with default settings removed
+     */
     public static function removeDefaultSettings(array $original, array $defaults): array
     {
         foreach ($original as $key => &$value) {

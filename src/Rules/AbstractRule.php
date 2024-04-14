@@ -112,6 +112,11 @@ abstract class AbstractRule
         return static::INPUT_TYPE;
     }
 
+    /**
+     * Test if all values in the given column pass the testValue check.
+     * @param  array $columnValues the values of the column to test
+     * @return bool  true if all values pass the testValue check, false otherwise
+     */
     public static function testValues(array $columnValues): bool
     {
         foreach ($columnValues as $cellValue) {
@@ -124,6 +129,11 @@ abstract class AbstractRule
     }
 
     /**
+     * Checks if the given cell value is valid.
+     * @param  string    $cellValue the value to test
+     * @return bool      true if the cell value is valid, false otherwise
+     * @throws Exception when the method is not implemented in the child class
+     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @phan-suppress PhanUnusedPublicMethodParameter
      */

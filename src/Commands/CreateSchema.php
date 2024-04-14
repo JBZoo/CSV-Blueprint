@@ -94,6 +94,10 @@ final class CreateSchema extends AbstractValidate
         return self::SUCCESS;
     }
 
+    /**
+     * Retrieves the value of the header option.
+     * @return null|bool The value of the header option. Returns null if the header is set to 'auto'.
+     */
     private function getHeaderOption(): ?bool
     {
         $header = \strtolower($this->getOptString('header'));
@@ -104,6 +108,10 @@ final class CreateSchema extends AbstractValidate
         return $header === '' || bool($header);
     }
 
+    /**
+     * Retrieves the lines option.
+     * @return int The value of the lines option. If the option is not set or is less than 1, it returns 1.
+     */
     private function getLinesOption(): int
     {
         return \max(1, $this->getOptInt('lines'));
