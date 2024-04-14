@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Validators;
 
 use JBZoo\CsvBlueprint\Csv\Column;
-use JBZoo\CsvBlueprint\Rules\AbstarctRule;
+use JBZoo\CsvBlueprint\Rules\AbstractRule;
 use JBZoo\CsvBlueprint\Rules\Ruleset;
 
 final class ValidatorColumn
@@ -55,15 +55,15 @@ final class ValidatorColumn
      */
     public static function prepareValue(string $cellValue, int $aggInputType): null|float|int|string
     {
-        if ($aggInputType === AbstarctRule::INPUT_TYPE_COUNTER) {
+        if ($aggInputType === AbstractRule::INPUT_TYPE_COUNTER) {
             return null;
         }
 
-        if ($aggInputType === AbstarctRule::INPUT_TYPE_INTS) {
+        if ($aggInputType === AbstractRule::INPUT_TYPE_INTS) {
             return (int)$cellValue;
         }
 
-        if ($aggInputType === AbstarctRule::INPUT_TYPE_FLOATS) {
+        if ($aggInputType === AbstractRule::INPUT_TYPE_FLOATS) {
             return (float)$cellValue;
         }
 

@@ -16,9 +16,9 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-use JBZoo\CsvBlueprint\Rules\AbstarctRuleCombo;
+use JBZoo\CsvBlueprint\Rules\AbstractRuleCombo;
 
-abstract class AbstractCellRuleCombo extends AbstarctRuleCombo
+abstract class AbstractCellRuleCombo extends AbstractRuleCombo
 {
     abstract protected function getActualCell(string $cellValue): float;
 

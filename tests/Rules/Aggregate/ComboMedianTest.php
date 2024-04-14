@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit\Rules\Aggregate;
 
-use JBZoo\CsvBlueprint\Rules\AbstarctRule as Combo;
+use JBZoo\CsvBlueprint\Rules\AbstractRule as Combo;
 use JBZoo\CsvBlueprint\Rules\Aggregate\ComboMedian;
 use JBZoo\PHPUnit\Rules\TestAbstractAggregateRuleCombo;
 use JBZoo\PHPUnit\Tools;

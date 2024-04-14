@@ -16,11 +16,11 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
-use JBZoo\CsvBlueprint\Rules\AbstarctRule;
+use JBZoo\CsvBlueprint\Rules\AbstractRule;
 
 final class ComboCountPositive extends AbstractAggregateRuleCombo
 {
-    public const INPUT_TYPE = AbstarctRule::INPUT_TYPE_INTS;
+    public const INPUT_TYPE = AbstractRule::INPUT_TYPE_INTS;
 
     protected const NAME = 'number of positive values';
 
