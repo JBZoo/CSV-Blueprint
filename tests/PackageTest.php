@@ -23,7 +23,7 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
     protected string $packageName = 'Csv-Blueprint';
     protected string $composerPhpVersion = '^8.2';
 
-    protected array $params = [
+    protected array $params = [ // Needs refactoring
         'packagist_latest_stable_version'   => true,
         'packagist_latest_unstable_version' => true,
         'packagist_license'                 => true,
@@ -66,7 +66,7 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
         'sonarqube_smells'   => true,
     ];
 
-    protected array $badgesTemplate = [
+    protected array $badgesTemplate = [ // Needs refactoring
         'github_actions',
         'github_actions_demo',
         'psalm_coverage',
@@ -210,10 +210,5 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
                 'https://sonarcloud.io/code?id=JBZoo_Csv-Blueprint&selected=JBZoo_Csv-Blueprint%3Asrc',
             ),
         );
-    }
-
-    protected function getTitle(): string
-    {
-        return '# CSV Blueprint';
     }
 }

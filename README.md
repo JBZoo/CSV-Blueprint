@@ -67,7 +67,7 @@ specifications, making it invaluable in scenarios where data quality and consist
 * **GitHub Actions Integration:** Enables CSV validation automation within CI/CD pipelines to improve data quality
   control in pull requests and deployments.
 * **Flexible Reporting:** Offers integration capabilities with GitHub, Gitlab, TeamCity, and more. Outputs include a
-  human-readable table for ease of understanding. [View Live Demo](https://github.com/jbzoo/csv-blueprint-Demo).
+  human-readable table for ease of understanding.
 
 
 <details>
@@ -104,7 +104,7 @@ specifications, making it invaluable in scenarios where data quality and consist
 ### Live demo
 
 As a live demonstration of how the tool works, you can explore the super minimal repository
-at [JBZoo/Csv-Blueprint-Demo](https://github.com/jbzoo/csv-blueprint-Demo). You're encouraged to fork it and experiment
+at [jbzoo/csv-blueprint-demo](https://github.com/jbzoo/csv-blueprint-demo). You're encouraged to fork it and experiment
 with the tool.
 
 For more complex examples and various reporting methods, take a look at
@@ -113,7 +113,7 @@ reveal basic starting points. Additionally, the `All Report Types` link (located
 different types of reports.
 
 **See also**
-* [PR as a live demo](https://github.com/jbzoo/csv-blueprint-Demo/pull/1/files)
+* [PR as a live demo](https://github.com/jbzoo/csv-blueprint-demo/pull/1/files)
 * [.github/workflows/demo.yml](.github/workflows/demo.yml)
 * [demo_invalid.yml](tests/schemas/demo_invalid.yml)
 * [demo_valid.yml](tests/schemas/demo_valid.yml)
@@ -122,6 +122,30 @@ different types of reports.
 ## Usage
 
 You can find launch examples in the [workflow demo](https://github.com/jbzoo/csv-blueprint/actions/workflows/demo.yml).
+
+### Docker container
+
+Ensure you have Docker installed on your machine.
+
+```sh
+# Pull the Docker image
+docker pull jbzoo/csv-blueprint:latest
+
+# Run the tool inside Docker
+docker run --rm                                  \
+    --workdir=/parent-host                       \
+    -v $(pwd):/parent-host                       \
+    jbzoo/csv-blueprint:latest                   \
+    validate:csv                                 \
+    --csv=./tests/fixtures/demo.csv              \
+    --schema=./tests/schemas/demo_invalid.yml    \
+    --ansi
+
+# OR build it from source.
+git clone git@github.com:jbzoo/csv-blueprint.git csv-blueprint
+cd csv-blueprint
+make docker-build  # local tag is "jbzoo/csv-blueprint:local"
+```
 
 ### GitHub Action
 
@@ -173,29 +197,6 @@ You can find launch examples in the [workflow demo](https://github.com/jbzoo/csv
 ```
 <!-- auto-update:/github-actions-yml -->
 
-### Docker container
-
-Ensure you have Docker installed on your machine.
-
-```sh
-# Pull the Docker image
-docker pull jbzoo/csv-blueprint:latest
-
-# Run the tool inside Docker
-docker run --rm                                  \
-    --workdir=/parent-host                       \
-    -v $(pwd):/parent-host                       \
-    jbzoo/csv-blueprint:latest                   \
-    validate:csv                                 \
-    --csv=./tests/fixtures/demo.csv              \
-    --schema=./tests/schemas/demo_invalid.yml    \
-    --ansi -vvv
-
-# OR build it from source.
-git clone git@github.com:jbzoo/csv-blueprint.git csv-blueprint
-cd csv-blueprint
-make docker-build  # local tag is "jbzoo/csv-blueprint:local"
-```
 
 ### Phar binary
 
@@ -1647,7 +1648,7 @@ To see user-friendly error outputs in your pull requests (PRs), specify `report:
 utilizes [annotations](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-a-warning-message)
 to highlight bugs directly within the GitHub interface at the PR level. This feature allows errors to be displayed in
 the exact location within the CSV file, right in the diff of your Pull Requests. For a practical example,
-view [this live demo PR](https://github.com/jbzoo/csv-blueprint-Demo/pull/1/files).
+view [this live demo PR](https://github.com/jbzoo/csv-blueprint-demo/pull/1/files).
 
 ![GitHub Actions - PR](.github/assets/github-actions-pr.png)
 
