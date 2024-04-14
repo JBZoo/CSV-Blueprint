@@ -116,7 +116,7 @@ final class CsvValidatorTest extends TestCase
     {
         $csv = new CsvFile(Tools::CSV_COMPLEX, Tools::getRule(null, 'not_empty', true));
         isSame(
-            '"csv.header" at line 1, column "0:". Property "name" is not defined in schema: "_custom_array_".',
+            '"csv.header" at line 1, column "0:". Property "name" is not defined in schema: "undefined".',
             $csv->validate()->render(cleanOutput: true),
         );
     }

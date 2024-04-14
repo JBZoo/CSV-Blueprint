@@ -78,16 +78,20 @@ final class Schema
             $this->data = (new SchemaDataPrep($data, $basepath))->buildData();
         } catch (\Exception $e) {
             throw new Exception(
-                "Invalid schema \"{$this->filename}\" data.\nUnexpected error: \"{$e->getMessage()}\"",
+                "Invalid schema \"{$this->getFilename(true)}\" data.\nUnexpected error: \"{$e->getMessage()}\"",
             );
         }
 
         $this->columns = $this->prepareColumns();
     }
 
-    public function getFilename(): ?string
+    public function getFilename(bool $relativePath = false): string
     {
-        return $this->filename;
+        if ($this->filename === null || $this->filename === '' || $this->filename === '_custom_array_') {
+            return 'undefined';
+        }
+
+        return $relativePath ? Utils::cutPath($this->filename) : $this->filename;
     }
 
     /**
@@ -252,10 +256,25 @@ final class Schema
         ];
     }
 
-    public function dumpAsYamlString(): string
-    {
-        return Yaml::dump(
-            $this->getData()->getArrayCopy(),
+    /**
+     * Converts the internal state to YAML string representation.
+     * @param  bool        $removeDefaultValues whether to remove default values from the dumped data
+     * @param  bool        $cliColored          whether to add color formatting for CLI output
+     * @param  null|string $basedOnCsv          the CSV file name that the data is based on
+     * @return string      the data converted to YAML string
+     */
+    public function dumpAsYamlString(
+        bool $removeDefaultValues = true,
+        bool $cliColored = false,
+        ?string $basedOnCsv = null,
+    ): string {
+        $dump = $this->getData()->getArrayCopy();
+        if ($removeDefaultValues) {
+            $dump = Utils::removeDefaultSettings($dump, self::getDefaultValues(\count($dump['columns'])));
+        }
+
+        $ymlAsString = Yaml::dump(
+            $dump,
             10,
             2,
             Yaml::DUMP_NULL_AS_TILDE
@@ -264,6 +283,34 @@ final class Schema
             | Yaml::DUMP_EMPTY_ARRAY_AS_SEQUENCE
             | Yaml::DUMP_EXCEPTION_ON_INVALID_TYPE,
         );
+
+        // Fix formating
+        $ymlAsString = \str_replace(
+            ["  -\n    ", "columns:\n"],
+            ["\n  - ", 'columns:'],
+            $ymlAsString,
+        );
+
+        if ($basedOnCsv !== null) {
+            $ymlAsString = "# Based on CSV \"{$basedOnCsv}\"\n{$ymlAsString}";
+        }
+
+        if ($this->getFilename(true) !== 'undefined') {
+            $ymlAsString = "# Schema file is \"{$this->getFilename(true)}\"\n{$ymlAsString}";
+        }
+
+        if ($cliColored) {
+            $ymlAsString = (string)\preg_replace('/^([ \t]*)([^:\n]+:)/m', '$1<c>$2</c>', $ymlAsString); // keys
+            $ymlAsString = (string)\preg_replace('/^(#.+)/m', '<gray>$1</gray>', $ymlAsString); // comments
+
+            $ymlAsString = \implode("\n", [
+                '<blue>```yaml</blue>',
+                $ymlAsString,
+                '<blue>```</blue>',
+            ]);
+        }
+
+        return \trim($ymlAsString) . "\n";
     }
 
     /**
@@ -280,5 +327,16 @@ final class Schema
         }
 
         return $result;
+    }
+
+    private static function getDefaultValues(int $numberOfColumns = 0): array
+    {
+        $default = (new self())->getData()->getArrayCopy();
+
+        for ($i = 0; $i < $numberOfColumns; $i++) {
+            $default['columns'][] = SchemaDataPrep::DEFAULTS['column'];
+        }
+
+        return $default;
     }
 }

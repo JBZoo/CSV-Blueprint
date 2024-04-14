@@ -23,7 +23,7 @@ final class SchemaDataPrep
 {
     public const ALIAS_REGEX = '[a-z0-9-_]+';
 
-    private const DEFAULTS = [
+    public const DEFAULTS = [
         'name'             => '',
         'description'      => '',
         'filename_pattern' => '',

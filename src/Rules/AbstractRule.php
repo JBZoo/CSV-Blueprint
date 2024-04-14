@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules;
 
+use JBZoo\CsvBlueprint\Rules\Cell\Exception;
 use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\Error;
 use JBZoo\CsvBlueprint\Validators\ValidatorColumn;
@@ -109,6 +110,36 @@ abstract class AbstractRule
     public function getInputType(): int
     {
         return static::INPUT_TYPE;
+    }
+
+    /**
+     * Test if all values in the given column pass the testValue check.
+     * @param  array $columnValues the values of the column to test
+     * @return bool  true if all values pass the testValue check, false otherwise
+     */
+    public static function testValues(array $columnValues): bool
+    {
+        foreach ($columnValues as $cellValue) {
+            if (!static::testValue($cellValue)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Checks if the given cell value is valid.
+     * @param  string    $cellValue the value to test
+     * @return bool      true if the cell value is valid, false otherwise
+     * @throws Exception when the method is not implemented in the child class
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @phan-suppress PhanUnusedPublicMethodParameter
+     */
+    public static function testValue(string $cellValue): bool
+    {
+        throw new Exception('Not implemented yet. Please override this method in the child class.');
     }
 
     protected function getOptionAsBool(): bool

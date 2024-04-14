@@ -36,10 +36,15 @@ final class IsInt extends AbstractCellRule
             return null;
         }
 
-        if (!Validator::intVal()->validate($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not an integer";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return Validator::intVal()->validate($cellValue);
     }
 }

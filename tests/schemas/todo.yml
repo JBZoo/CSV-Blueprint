@@ -15,7 +15,7 @@
 
 csv: # How to parse file before validation
   auto_detect: false                  # If true, then the control chars will be detected automatically.
-  empty_values:                       # List of values that will be treated as empty
+  empty_values: # List of values that will be treated as empty
     - ""                              # By default, only empty string is treated as empty (string length = 0).
     - null
     - none
@@ -33,7 +33,7 @@ structural_rules:
 
 
 columns:
-  - empty_values: ['']                # Override csv.empty_values. List of values that will be treated as empty.
+  - empty_values: [ '' ]                # Override csv.empty_values. List of values that will be treated as empty.
 
     # Multi prop
     multiple: true
@@ -43,6 +43,11 @@ columns:
     rules:
       is_null: true                   # see csv.empty_values and column.empty_values
       _list: true                     # Example: starts_with_list: [ 'a', 'b', 'c' ]
+
+      # File system
+      is_filename: true
+      is_dirname: true
+      is_realtive_path: true
 
       # identifier
       is_bsn: true                    # Validates a Dutch citizen service number (BSN).
@@ -125,13 +130,139 @@ complex_rules:
 
     # Logical OR for group of rules. If one of the rules is true, then the column is valid.
   - group_or:
-    - count_by_group:
-        group_column: City
-        value: New York
-        count: 10
-    - sum_by_group:
-        group_column: City
-        sum_column: population
-        sums:
-          - [ New York, 10000 ]
-          - [ Los Angeles, 20000 ]
+      - count_by_group:
+          group_column: City
+          value: New York
+          count: 10
+      - sum_by_group:
+          group_column: City
+          sum_column: population
+          sums:
+            - [ New York, 10000 ]
+            - [ Los Angeles, 20000 ]
+
+analyser:
+  name: 'Based on file ...'
+  description: 'Based on file ...'
+  csv:
+    header: true
+    delimiter: ,
+    quote_char: \
+    enclosure: '"'
+    encoding: utf-8
+    bom: false
+  structural_rules:
+    strict_column_order: true
+    allow_extra_columns: false
+  rules:
+    strings:
+      - not_empty
+      - exact_value
+      - allow_values # 2<= x <= 10 values
+      - length_min
+      - length
+      - length_max
+      - is_trimmed
+      - is_lowercase
+      - is_uppercase
+      - is_capitalize
+      - word_count_min
+      - word_count
+      - word_count_max
+
+    is_int|is_float:
+      - num_min
+      - num
+      - num_max
+      - precision_min
+      - precision
+      - precision_max
+
+    is_date:
+      - date_min
+      - date
+      - date_max
+      - date_format
+      - is_timezone
+      - is_timezone_offset
+      - is_time
+      - is_leap_year
+      - date_age_min
+      - date_age
+      - date_age_max
+
+    is_ip:
+      - is_ip_v4
+      - is_ip_v6
+      - is_ip_private
+      - is_ip_reserved
+
+    other:
+      - is_mac_address
+      - is_bool
+      - is_binary
+      - is_octal
+      - is_hex
+      - is_uuid
+      - is_slug
+      - is_currency_code
+      - is_base64
+      - is_angle
+      - is_domain
+      - is_public_domain_suffix
+      - is_url
+      - is_email
+      - is_json
+      - is_latitude
+      - is_longitude
+      - is_geohash
+      - is_cardinal_direction
+      - is_usa_market_name
+      - country_code:
+          - alpha-2
+          - alpha-3
+          - numeric
+      - language_code:
+          - alpha-2
+          - alpha-3
+      - phone:
+          - all
+          - by_country
+      - postal_code:
+          - all
+          - by_country
+      - is_fibonacci
+      - is_prime_number
+      - is_even
+      - is_odd
+      - is_roman
+      - is_luhn
+      - is_iban
+      - is_bic
+      - is_imei
+      - is_isbn
+      - is_version
+      - is_punct
+      - is_vowel
+      - is_consonant
+      - is_alnum
+      - is_alpha
+      - is_hex_rgb_color
+      - hash:
+          - all
+          - by_algo
+      - credit_card:
+          - all
+          - by_brand
+
+  aggregate_rules:
+    - is_unique
+    - sorted:
+        - "[ asc, natural ]"
+        - "[ desc, natural ]"
+        - "[ asc, regular ]"
+        - "[ desc, regular ]"
+        - "[ asc, numeric ]"
+        - "[ desc, numeric ]"
+        - "[ asc, string ]"
+        - "[ desc, string ]"

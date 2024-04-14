@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit;
 
 use JBZoo\Cli\CliApplication;
+use JBZoo\CsvBlueprint\Commands\CreateSchema;
 use JBZoo\CsvBlueprint\Commands\ValidateCsv;
 use JBZoo\CsvBlueprint\Commands\ValidateSchema;
 use JBZoo\Utils\Cli;
@@ -57,6 +58,7 @@ final class Tools
         $application = new CliApplication();
         $application->add(new ValidateCsv());
         $application->add(new ValidateSchema());
+        $application->add(new CreateSchema());
         $command = $application->find($action);
 
         $buffer = new BufferedOutput();

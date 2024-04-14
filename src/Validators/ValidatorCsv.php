@@ -84,7 +84,7 @@ final class ValidatorCsv
                 $error = new Error(
                     'csv.header',
                     'Property "<c>name</c>" is not defined in schema: ' .
-                    "\"<c>{$this->schema->getFilename()}</c>\"",
+                    "\"<c>{$this->schema->getFilename(true)}</c>\"",
                     $column->getHumanName(),
                     ValidatorColumn::FALLBACK_LINE,
                 );

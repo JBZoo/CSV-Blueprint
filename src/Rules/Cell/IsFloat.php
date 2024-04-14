@@ -36,10 +36,15 @@ class IsFloat extends AbstractCellRule
             return null;
         }
 
-        if (!Validator::floatVal()->validate($cellValue)) {
+        if (!static::testValue($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not a float number";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return Validator::floatVal()->validate($cellValue);
     }
 }
