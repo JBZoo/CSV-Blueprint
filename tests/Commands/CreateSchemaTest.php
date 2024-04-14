@@ -30,8 +30,7 @@ final class CreateSchemaTest extends TestCase
         ]);
 
         $expected = <<<'TXT'
-            # Schema file undefined
-            # Based on CSV ./tests/fixtures/demo.csv
+            # Based on CSV "./tests/fixtures/demo.csv"
             name: 'Schema for demo.csv'
             description: |-
               CSV file ./tests/fixtures/demo.csv
@@ -72,8 +71,7 @@ final class CreateSchemaTest extends TestCase
         ]);
 
         $expected = <<<'TXT'
-            # Schema file undefined
-            # Based on CSV ./tests/fixtures/demo.csv
+            # Based on CSV "./tests/fixtures/demo.csv"
             name: 'Schema for demo.csv'
             description: |-
               CSV file ./tests/fixtures/demo.csv

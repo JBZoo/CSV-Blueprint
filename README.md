@@ -1195,7 +1195,7 @@ columns:
 
 <!-- auto-update:preset-usage-real-yml -->
 ```yml
-# Schema file ./schema-examples/preset_usage.yml
+# Schema file is "./schema-examples/preset_usage.yml"
 name: 'Schema uses presets and add new columns + specific rules.'
 description: 'This schema uses presets. Also, it demonstrates how to override preset values.'
 presets:

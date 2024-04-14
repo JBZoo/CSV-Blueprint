@@ -111,7 +111,7 @@ final class ValidateSchemaTest extends TestCase
               | undef | meta      | schema | Unknown key: .unknow_root_option |
               +-------+-----------+--------+----------------------------------+
             # File: ./tests/schemas/broken/invalid_schema.yml
-            # Schema file ./tests/schemas/broken/invalid_schema.yml
+            # Schema file is "./tests/schemas/broken/invalid_schema.yml"
             name: ''
             description: ''
             presets: []
