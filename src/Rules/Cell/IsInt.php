@@ -43,7 +43,7 @@ final class IsInt extends AbstractCellRule
         return null;
     }
 
-    public static function testValue(string $cellValue, null|array|bool|float|int|string $options = null): bool
+    public static function testValue(string $cellValue): bool
     {
         return Validator::intVal()->validate($cellValue);
     }

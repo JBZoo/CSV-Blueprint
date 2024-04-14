@@ -47,7 +47,7 @@ final class IsUnique extends AbstractAggregateRule
         return null;
     }
 
-    public static function testValues(array $columnValues, null|array|bool|float|int|string $options = null): bool
+    public static function testValues(array $columnValues): bool
     {
         $uValuesCount = \count(\array_unique($columnValues));
         $valuesCount = \count($columnValues);

@@ -51,19 +51,6 @@ abstract class AbstractValidate extends CliCommand
                 ErrorSuite::REPORT_DEFAULT,
             )
             ->addOption(
-                'quick',
-                'Q',
-                InputOption::VALUE_OPTIONAL,
-                \implode("\n", [
-                    'Stops the validation process upon encountering the first error,',
-                    'accelerating the check but limiting error visibility.',
-                    'Returns a non-zero exit code if any error is detected.',
-                    'Enable by setting to any non-empty value or "yes".',
-                    '',
-                ]),
-                'no',
-            )
-            ->addOption(
                 'dump-schema',
                 null,
                 InputOption::VALUE_NONE,
@@ -95,19 +82,21 @@ abstract class AbstractValidate extends CliCommand
         parent::configure();
     }
 
-    protected function preparation(): void
+    protected function preparation(bool $showIntro = true): void
     {
-        if ($this->isHumanReadableMode()) {
-            $this->_('CSV Blueprint: ' . Utils::getVersion(true));
-        }
+        if ($showIntro) {
+            if ($this->isHumanReadableMode()) {
+                $this->_('CSV Blueprint: ' . Utils::getVersion(true));
+            }
 
-        $threads = $this->getNumberOfThreads();
-        if ($threads !== 1) {
-            $this->_(
-                $threads > 0
-                    ? "Parallel mode: {$threads} threads"
-                    : 'Parallel mode: ' . WorkerPool::getCpuCount() . ' threads (auto)',
-            );
+            $threads = $this->getNumberOfThreads();
+            if ($threads !== 1) {
+                $this->_(
+                    $threads > 0
+                        ? "Parallel mode: {$threads} threads"
+                        : 'Parallel mode: ' . WorkerPool::getCpuCount() . ' threads (auto)',
+                );
+            }
         }
 
         Utils::setDebugMode($this->getOptBool('debug'));
@@ -209,16 +198,13 @@ abstract class AbstractValidate extends CliCommand
 
             try {
                 $schema = new Schema($schemaFilename);
-                $dump = $schema->dumpAsYamlString();
-                $dump = \preg_replace('/^([ \t]*)([^:\n]+:)/m', '$1<c>$2</c>', $dump);
-            } catch (\Throwable $e) {
-                $dump = 'Unable to parse schema file: ' . $e->getMessage();
+                $dump = $schema->dumpAsYamlString(false, $this->outputMode->getOutput()->isDecorated());
+            } catch (\Throwable $exception) {
+                $dump = 'Unable to parse schema file: ' . $exception->getMessage();
             }
 
-            $this->_('<blue>```yaml</blue>');
             $this->_("# File: <blue>{$filename}</blue>");
             $this->_($dump);
-            $this->_('<blue>```</blue>');
         }
     }
 

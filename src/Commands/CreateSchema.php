@@ -20,6 +20,8 @@ use JBZoo\CsvBlueprint\Analyze\Analyzer;
 use JBZoo\CsvBlueprint\Utils;
 use Symfony\Component\Console\Input\InputOption;
 
+use function JBZoo\Utils\bool;
+
 /**
  * @psalm-suppress PropertyNotSetInConstructor
  */
@@ -47,6 +49,20 @@ final class CreateSchema extends AbstractValidate
                     ]) . '</info>',
                     '',
                 ]),
+            )
+            ->addOption(
+                'header',
+                'H',
+                InputOption::VALUE_OPTIONAL,
+                'Force the presence of a header row in the CSV files.',
+                'auto',
+            )
+            ->addOption(
+                'lines',
+                'l',
+                InputOption::VALUE_OPTIONAL,
+                'The number of lines to read when detecting parameters. Minimum is 1.',
+                1_000,
             );
 
         parent::configure();
@@ -54,16 +70,42 @@ final class CreateSchema extends AbstractValidate
 
     protected function executeAction(): int
     {
-        $this->preparation();
+        $this->preparation(false);
 
         $csvFilenames = $this->findFiles('csv', true);
 
         foreach ($csvFilenames as $csvFilename) {
-            (new Analyzer($csvFilename->getRealPath()))->analyzeCsv();
+            $csvFilename = (string)$csvFilename->getRealPath();
+
+            $suggestedSchema = (new Analyzer($csvFilename))
+                ->analyzeCsv($this->getHeaderOption(), $this->getLinesOption());
+
+            $this->out(
+                $suggestedSchema->dumpAsYamlString(
+                    true,
+                    $this->outputMode->getOutput()->isDecorated(),
+                    Utils::cutPath($csvFilename),
+                ),
+            );
         }
 
         self::dumpPreloader(); // Experimental feature
 
         return self::SUCCESS;
+    }
+
+    private function getHeaderOption(): ?bool
+    {
+        $header = \strtolower($this->getOptString('header'));
+        if ($header === 'auto') {
+            return null;
+        }
+
+        return $header === '' || bool($header);
+    }
+
+    private function getLinesOption(): int
+    {
+        return \max(1, $this->getOptInt('lines'));
     }
 }

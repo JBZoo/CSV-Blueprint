@@ -112,10 +112,10 @@ abstract class AbstractRule
         return static::INPUT_TYPE;
     }
 
-    public static function testValues(array $columnValues, null|array|bool|float|int|string $options = null): array|bool
+    public static function testValues(array $columnValues): bool
     {
         foreach ($columnValues as $cellValue) {
-            if (!static::testValue($cellValue, $options)) {
+            if (!static::testValue($cellValue)) {
                 return false;
             }
         }
@@ -123,7 +123,11 @@ abstract class AbstractRule
         return true;
     }
 
-    public static function testValue(string $cellValue, null|array|bool|float|int|string $options = null): bool
+    /**
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @phan-suppress PhanUnusedPublicMethodParameter
+     */
+    public static function testValue(string $cellValue): bool
     {
         throw new Exception('Not implemented yet. Please override this method in the child class.');
     }

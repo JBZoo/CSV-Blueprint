@@ -160,8 +160,12 @@ final class Utils
         return $fileList;
     }
 
-    public static function cutPath(string $fullpath): string
+    public static function cutPath(?string $fullpath): string
     {
+        if ($fullpath === null) {
+            return '';
+        }
+
         $pwd = (string)\getcwd();
 
         if (\strlen($pwd) <= 1) {
@@ -528,6 +532,30 @@ final class Utils
             };
             throw new Exception("Unexpected {$severity}: \"{$message}\" in file \"{$file}:{$line}\"");
         });
+    }
+
+    public static function removeDefaultSettings(array $original, array $defaults): array
+    {
+        foreach ($original as $key => &$value) {
+            // Check if the key exists in defaults and values are the same
+            if (\array_key_exists($key, $defaults)) {
+                if (\is_array($value) && \is_array($defaults[$key])) {
+                    $value = self::removeDefaultSettings($value, $defaults[$key]);
+                } elseif ($value === $defaults[$key]) {
+                    unset($original[$key]);
+                }
+            }
+
+            // After processing, check if the value is an empty array and unset it
+            if (\is_array($value) && \count($value) === 0) {
+                unset($original[$key]);
+            }
+        }
+
+        // Unsetting the reference to avoid unexpected behavior later
+        unset($value);
+
+        return $original;
     }
 
     /**

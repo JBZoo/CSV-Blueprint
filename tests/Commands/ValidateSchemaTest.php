@@ -110,8 +110,8 @@ final class ValidateSchemaTest extends TestCase
               +-------+-----------+--------+----------------------------------+
               | undef | meta      | schema | Unknown key: .unknow_root_option |
               +-------+-----------+--------+----------------------------------+
-            ```yaml
             # File: ./tests/schemas/broken/invalid_schema.yml
+            # Schema file ./tests/schemas/broken/invalid_schema.yml
             name: ''
             description: ''
             presets: []
@@ -129,17 +129,14 @@ final class ValidateSchemaTest extends TestCase
             columns: []
             unknow_root_option: true
             
-            ```
             (2/2) 1 issue in ./tests/schemas/broken/syntax.yml
               +------+-----------+---------------+---------------------------------------------------+
               | Line | id:Column | Rule          | Message                                           |
               +------+-----------+---------------+---------------------------------------------------+
               |   15 |           | schema.syntax | Unable to parse at line 15 (near "(*$#)@(@$*)("). |
               +------+-----------+---------------+---------------------------------------------------+
-            ```yaml
             # File: ./tests/schemas/broken/syntax.yml
             Unable to parse schema file: Unable to parse at line 15 (near "(*$#)@(@$*)(").
-            ```
             
             TXT;
 

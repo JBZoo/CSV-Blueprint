@@ -1195,28 +1195,19 @@ columns:
 
 <!-- auto-update:preset-usage-real-yml -->
 ```yml
+# Schema file ./schema-examples/preset_usage.yml
 name: 'Schema uses presets and add new columns + specific rules.'
 description: 'This schema uses presets. Also, it demonstrates how to override preset values.'
 presets:
   users: ./schema-examples/preset_users.yml
   db: ./schema-examples/preset_database.yml
-filename_pattern: ''
 csv:
-  header: true
   delimiter: ;
-  quote_char: \
   enclosure: '|'
-  encoding: utf-8
-  bom: false
-structural_rules:
-  strict_column_order: true
-  allow_extra_columns: false
 columns:
-  -
-    name: id
+  - name: id
     description: 'Unique identifier, usually used to denote a primary key in databases.'
     example: 12345
-    required: true
     rules:
       not_empty: true
       is_trimmed: true
@@ -1227,11 +1218,10 @@ columns:
       sorted:
         - asc
         - numeric
-  -
-    name: status
+
+  - name: status
     description: 'Status in database'
     example: active
-    required: true
     rules:
       not_empty: true
       allow_values:
@@ -1239,12 +1229,10 @@ columns:
         - inactive
         - pending
         - deleted
-    aggregate_rules: []
-  -
-    name: login
+
+  - name: login
     description: "User's login name"
     example: johndoe
-    required: true
     rules:
       not_empty: true
       is_trimmed: true
@@ -1255,11 +1243,10 @@ columns:
       is_alnum: true
     aggregate_rules:
       is_unique: true
-  -
-    name: email
+
+  - name: email
     description: "User's email address"
     example: user@example.com
-    required: true
     rules:
       not_empty: true
       is_trimmed: true
@@ -1267,11 +1254,10 @@ columns:
       is_lowercase: true
     aggregate_rules:
       is_unique: true
-  -
-    name: full_name
+
+  - name: full_name
     description: "User's full name"
     example: 'John Doe Smith'
-    required: true
     rules:
       not_empty: true
       is_trimmed: true
@@ -1282,11 +1268,10 @@ columns:
       is_capitalize: true
     aggregate_rules:
       is_unique: true
-  -
-    name: birthday
+
+  - name: birthday
     description: "Validates the user's birthday."
     example: '1990-01-01'
-    required: true
     rules:
       not_empty: true
       is_trimmed: true
@@ -1295,23 +1280,19 @@ columns:
       date_age_greater: 0
       date_age_less: 150
       date_max: now
-    aggregate_rules: []
-  -
-    name: phone
+
+  - name: phone
     description: "User's phone number in US"
     example: '+1 650 253 00 00'
-    required: true
     rules:
       not_empty: true
       is_trimmed: true
       starts_with: '+1'
       phone: US
-    aggregate_rules: []
-  -
-    name: password
+
+  - name: password
     description: "User's password"
     example: 9RfzENKD
-    required: true
     rules:
       not_empty: true
       is_trimmed: true
@@ -1325,12 +1306,9 @@ columns:
       charset: UTF-8
       length_min: 10
       length_max: 20
-    aggregate_rules: []
-  -
-    name: admin_note
+
+  - name: admin_note
     description: 'Admin note'
-    example: ~
-    required: true
     rules:
       not_empty: true
       length_min: 1
@@ -1482,14 +1460,14 @@ Options:
                                    - no|n|0: Apply only schemas with not empty `filename_pattern` and match the CSV files.
                                    Note. If specify the option `--apply-all` without value, it will be treated as "yes".
                                     [default: "auto"]
-  -r, --report=REPORT              Determines the report's output format.
-                                   Available options: text, table, github, gitlab, teamcity, junit
-                                    [default: "table"]
   -Q, --quick[=QUICK]              Stops the validation process upon encountering the first error,
                                    accelerating the check but limiting error visibility.
                                    Returns a non-zero exit code if any error is detected.
                                    Enable by setting to any non-empty value or "yes".
                                     [default: "no"]
+  -r, --report=REPORT              Determines the report's output format.
+                                   Available options: text, table, github, gitlab, teamcity, junit
+                                    [default: "table"]
       --dump-schema                Dumps the schema of the CSV file if you want to see the final schema after inheritance.
       --debug                      Intended solely for debugging and advanced profiling purposes.
                                    Activating this option provides detailed process insights,
@@ -1542,14 +1520,14 @@ Options:
                                  Similar to CSV paths, you can direct to specific files or search directories with glob patterns.
                                  Examples: /full/path/name.yml; p/file.yml; p/*.yml; p/**/*.yml; p/**/name-*.yml; **/*.yml
                                   (multiple values allowed)
-  -r, --report=REPORT            Determines the report's output format.
-                                 Available options: text, table, github, gitlab, teamcity, junit
-                                  [default: "table"]
   -Q, --quick[=QUICK]            Stops the validation process upon encountering the first error,
                                  accelerating the check but limiting error visibility.
                                  Returns a non-zero exit code if any error is detected.
                                  Enable by setting to any non-empty value or "yes".
                                   [default: "no"]
+  -r, --report=REPORT            Determines the report's output format.
+                                 Available options: text, table, github, gitlab, teamcity, junit
+                                  [default: "table"]
       --dump-schema              Dumps the schema of the CSV file if you want to see the final schema after inheritance.
       --debug                    Intended solely for debugging and advanced profiling purposes.
                                  Activating this option provides detailed process insights,

@@ -49,6 +49,19 @@ final class ValidateSchema extends AbstractValidate
                     ]) . '</info>',
                     '',
                 ]),
+            )
+            ->addOption(
+                'quick',
+                'Q',
+                InputOption::VALUE_OPTIONAL,
+                \implode("\n", [
+                    'Stops the validation process upon encountering the first error,',
+                    'accelerating the check but limiting error visibility.',
+                    'Returns a non-zero exit code if any error is detected.',
+                    'Enable by setting to any non-empty value or "yes".',
+                    '',
+                ]),
+                'no',
             );
 
         parent::configure();
