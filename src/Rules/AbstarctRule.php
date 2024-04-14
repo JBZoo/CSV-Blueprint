@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules;
 
+use JBZoo\CsvBlueprint\Rules\Cell\Exception;
 use JBZoo\CsvBlueprint\Utils;
 use JBZoo\CsvBlueprint\Validators\Error;
 use JBZoo\CsvBlueprint\Validators\ValidatorColumn;
@@ -109,6 +110,22 @@ abstract class AbstarctRule
     public function getInputType(): int
     {
         return static::INPUT_TYPE;
+    }
+
+    public static function testValues(array $columnValues, null|array|bool|float|int|string $options = null): array|bool
+    {
+        foreach ($columnValues as $cellValue) {
+            if (!static::testValue($cellValue, $options)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static function testValue(string $cellValue, null|array|bool|float|int|string $options = null): bool
+    {
+        throw new Exception('Not implemented yet. Please override this method in the child class.');
     }
 
     protected function getOptionAsBool(): bool
