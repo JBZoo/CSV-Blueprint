@@ -24,24 +24,7 @@ In seconds, make sure every char in a gigabyte file meets your expectations.
 
 ![Intro](.github/assets/intro.png)
 
-<!-- auto-update:toc -->
-- [Introduction](#introduction)
-- [Usage](#usage)
-- [Schema definition](#schema-definition)
-- [Presets and reusable schemas](#presets-and-reusable-schemas)
-- [Parallel processing](#parallel-processing)
-- [Complete CLI help message](#complete-cli-help-message)
-- [Report examples](#report-examples)
-- [Benchmarks](#benchmarks)
-- [Disadvantages?](#disadvantages)
-- [Coming soon](#coming-soon)
-- [Contributing](#contributing)
-- [License](#license)
-- [See also](#see-also)
-<!-- auto-update:/toc -->
-
-
-## Introduction
+I believe it is the simplest yet flexible and powerful CSV validator in the world. ☺️
 
 ### Features
 
@@ -55,8 +38,9 @@ In seconds, make sure every char in a gigabyte file meets your expectations.
 * Create a CSV in your pipelines/ETL/CI and ensure that it meets the most stringent expectations.
 * Prepare your own libraries with complex rules using [presets](#presets-and-reusable-schemas). This will help you work
   with hundreds of different files at the same time.
-* [Create schema on the fly](#complete-cli-help-message) based on an existing CSV file (It's beta. Coming really soon!).
-* I believe it is the simplest yet flexible and powerful CSV validator in the world. ☺️
+* [Create schema on the fly](#complete-cli-help-message) based on an existing CSV file (It's beta for now).
+* [Comming really soon](#coming-soon). Analyze data in CSV - find out what is stored in your file and get a summary report, and
+  creating dummy files based on the schema. 
 
 
 <details>
@@ -90,6 +74,21 @@ In seconds, make sure every char in a gigabyte file meets your expectations.
 </details>
 
 
+<!-- auto-update:toc -->
+- [Usage](#usage)
+- [Schema definition](#schema-definition)
+- [Presets and reusable schemas](#presets-and-reusable-schemas)
+- [Parallel processing](#parallel-processing)
+- [Complete CLI help message](#complete-cli-help-message)
+- [Report examples](#report-examples)
+- [Benchmarks](#benchmarks)
+- [Disadvantages?](#disadvantages)
+- [Coming soon](#coming-soon)
+- [Contributing](#contributing)
+- [License](#license)
+- [See also](#see-also)
+<!-- auto-update:/toc -->
+
 ### Live demo
 
 As a live demonstration of how the tool works, you can explore the super minimal repository
@@ -97,7 +96,7 @@ at [demo](https://github.com/jbzoo/csv-blueprint-demo). For more complex example
 the [demo pipeline](https://github.com/JBZoo/CSV-Blueprint/actions/runs/8667852752/job/23771733937) with different reports types.
 
 **See also**
-* [PR as a live demo](https://github.com/jbzoo/csv-blueprint-demo/pull/1/files)
+* [PR as a live demo](https://github.com/jbzoo/csv-blueprint-demo/pull/1/files) - Note the automatic comments in Diff at PR's.
 * [.github/workflows/demo.yml](.github/workflows/demo.yml)
 * [demo_invalid.yml](tests/schemas/demo_invalid.yml)
 * [demo_valid.yml](tests/schemas/demo_valid.yml)
@@ -118,9 +117,9 @@ docker run --rm                                  \
     --workdir=/parent-host                       \
     -v $(pwd):/parent-host                       \
     jbzoo/csv-blueprint:latest                   \
-    validate:csv                                 \ # See available command below 
-    --csv=./tests/fixtures/demo.csv              \ # Your CSV
-    --schema=./tests/schemas/demo_invalid.yml    \ # Your schema
+    validate:csv                                 \ # See available commands and options below. 
+    --csv=./tests/fixtures/demo.csv              \ # Your CSV(s).
+    --schema=./tests/schemas/demo_invalid.yml    \ # Your schema(s).
     --ansi
 
 # OR build it from source.
@@ -131,7 +130,7 @@ make docker-build  # local tag is "jbzoo/csv-blueprint:local"
 
 ### GitHub Action
 
-You can find launch examples in the [workflow demo](.github/workflows/demo.yml).
+You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv-Blueprint-Demo/blob/master/.github/workflows/demo.yml#L18-L22).
 
 <!-- auto-update:github-actions-yml -->
 ```yml
