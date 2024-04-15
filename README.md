@@ -18,11 +18,9 @@
 [![Static Badge](https://img.shields.io/badge/Rules-21/11/20-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- auto-update:/rules-counter -->
 
-A console utility designed for validating CSV files against a strictly defined schema and validation rules outlined
-in [YAML files](#schema-definition) serves an essential purpose in ensuring data integrity and conformity.
-This utility facilitates automated checks to verify that the structure and content of CSV files adhere to predefined
-specifications, making it invaluable in scenarios where data quality and consistency are critical.
+Strict and automated line-by-line CSV validation tool based on customizable Yaml schemas.
 
+![Intro](.github/assets/intro.png)
 
 <!-- auto-update:toc -->
 - [Introduction](#introduction)
@@ -43,35 +41,23 @@ specifications, making it invaluable in scenarios where data quality and consist
 
 ## Introduction
 
-### Why?
-
-* **Data Integration:** Ensures incoming CSV files from multiple sources meet the expected formats and data types,
-  facilitating smoother data integration.
-* **Automated Data Pipelines:** Validates CSV files against a predefined schema in automated ETL processes, reducing the
-  risk of errors and enhancing data quality in downstream applications.
-* **Data Quality Assurance:** Improves data quality before it enters analysis workflows or databases, saving time and
-  resources.
-* **Development and Testing:** Aids in software development, especially for applications dealing with CSV data
-  import/export, by validating test data for consistency and reliability.
-* **Collaboration Across Teams:** Allows teams to define and share CSV formats and validation rules through YAML files,
-  promoting data specification consistency organization-wide. Emphasizes the principle of "documentation as code."
-
 ### Features
 
-* **Schema-based Validation:** Allows the definition of CSV file structure and rules in an intuitive YAML format,
-  enabling precise validation against the expected data format. [YAML Format Example](schema-examples/full.yml).
-* **Comprehensive Rule Set:** Offers a wide range of validation rules, including non-empty fields, exact values, regular
-  expressions, numeric constraints, date formats, and more, to meet diverse data validation requirements.
-* **Docker Support:** Facilitates easy integration into any workflow with Docker support, ensuring a seamless experience
-  across development, testing, and production environments.
-* **GitHub Actions Integration:** Enables CSV validation automation within CI/CD pipelines to improve data quality
-  control in pull requests and deployments.
-* **Flexible Reporting:** Offers integration capabilities with GitHub, Gitlab, TeamCity, and more. Outputs include a
-  human-readable table for ease of understanding.
+* Just create a simple and [friendly Yaml](#schema-definition) with your CSV schema and the tool will validate your 
+  files line by line. You will get a very detailed report with row and column accuracy.
+* Out of the box, you have access to [over 330 validation rules](schema-examples/full.yml) that can be combined to 
+  control the severity of validation.
+* You can validate each value (like, date has a strict format on each line), or the entire column 
+  (like, median of all values is within limits).
+* Use it anywhere as it is packaged in [Docker](#usage) or even as part of your [GitHub Actions](#gitHub-action-format).
+* Create a CSV in your pipelines/ETL/CI and ensure that it meets the most stringent expectations.
+* Create your own libraries with complex rules using [presets](#presets-and-reusable-schemas). This will help you work
+  with hundreds of different files at the same time.
+* [Create schema on the fly](#complete-cli-help-message) based on an existing CSV file (Coming really soon!).
 
 
 <details>
-  <summary>CLICK to see typical workflow</summary>
+  <summary>CLICK to see a typical cross-team workflow</summary>
 
 1. **Data Preparation:** Team A generates CSV data adhering to a predefined format and places the file in a shared
    location accessible to Team B (e.g., a shared repository or cloud storage).
@@ -104,13 +90,9 @@ specifications, making it invaluable in scenarios where data quality and consist
 ### Live demo
 
 As a live demonstration of how the tool works, you can explore the super minimal repository
-at [jbzoo/csv-blueprint-demo](https://github.com/jbzoo/csv-blueprint-demo). You're encouraged to fork it and experiment
-with the tool.
-
+at [jbzoo/csv-blueprint-demo](https://github.com/jbzoo/csv-blueprint-demo).
 For more complex examples and various reporting methods, take a look at
-the [last Demo pipeline](https://github.com/jbzoo/csv-blueprint/actions/workflows/demo.yml). Opening the logs will
-reveal basic starting points. Additionally, the `All Report Types` link (located in the left sidebar) provides access to
-different types of reports.
+the [demo pipeline](https://github.com/jbzoo/csv-blueprint/actions/workflows/demo.yml) with different reports types.
 
 **See also**
 * [PR as a live demo](https://github.com/jbzoo/csv-blueprint-demo/pull/1/files)
@@ -234,10 +216,9 @@ make build
 ## Schema definition
 
 Define your CSV validation schema in YAML for clear and structured configuration. Alternative formats are also
-supported: [JSON](schema-examples/full.json) and [PHP](schema-examples/full.php), accommodating various preferences and
-workflow requirements.
+supported: [JSON](schema-examples/full.json) and [PHP](schema-examples/full.php), accommodating various preferences and workflow requirements.
 
-The provided example illustrates a straightforward schema for a CSV file with a header row. It mandates that the `id`
+The provided example illustrates a schema for a CSV file with a header row. It mandates that the `id`
 column must not be empty and should only contain integer values. Additionally, the `name` column is required to have a
 minimum length of 3 characters, ensuring basic data integrity and usefulness.
 
@@ -273,7 +254,7 @@ columns:
 In the [example YAML file](schema-examples/full.yml), a detailed description of all features is provided. This
 documentation is verified through automated tests, ensuring it remains current.
 
-**Important Notes:**
+**Notes:**
 
 - The traditional typing of columns (e.g., `type: integer`) has been intentionally omitted in favor of rules. These
   rules can be sequenced and combined freely, offering extensive flexibility for CSV file validation.
@@ -281,12 +262,10 @@ documentation is verified through automated tests, ensuring it remains current.
 - Specifying an incorrect rule name, using non-existent values (not listed below), or assigning an incompatible variable
   type for any option will result in a schema validation error. To bypass these errors, you may opt to use
   the `--skip-schema` flag at your discretion, allowing the use of your custom keys in the schema.
-- The rule `not_empty` is the sole exception; it does not ignore empty strings (length 0). To enforce a non-empty value,
+- All rules ignore the empty string except `not_empty`. It doesn't ignore empty strings (length 0). To enforce a non-empty value,
   apply `not_empty: true`. Note that a single space (` `) counts as a character, making the string length `1`. To
   prevent such scenarios, include `is_trimmed: true`.
 - Rules operate independently; they have no knowledge of or influence over one another.
-- You are free to combine rules in any manner or opt not to use them at all. They are grouped below for easier
-  navigation and understanding.
 - When a rule's value is `is_some_rule: true`, it merely serves as an activation toggle. Other values represent rule
   parameters.
 - The sequence of rule execution follows their order in the schema, affecting only the order of error messages in the
@@ -298,7 +277,9 @@ documentation is verified through automated tests, ensuring it remains current.
 Below is a comprehensive list of rules, each accompanied by a brief explanation and example for clarity. This section is
 also validated through automated tests, ensuring the information is consistently accurate.
 
-In any unclear situation, look into it first ;)
+<details>
+  <summary>CLICK to see details about each rule</summary>
+
 
 <!-- auto-update:full-yml -->
 ```yml
@@ -919,6 +900,7 @@ columns:
 ```
 <!-- auto-update:/full-yml -->
 
+</details>
 
 ### Extra checks
 
@@ -941,26 +923,14 @@ These additional checks further secure the integrity and consistency of your CSV
 
 ## Presets and reusable schemas
 
-Presets enhance the efficiency and reusability of schema definitions for CSV file validation, streamlining the
-validation process across various files and schemas. Their benefits include:
+Presets significantly enhance the efficiency and reusability of schema definitions in CSV file validation by ensuring
+consistency across various files with common validation rules for fields like user IDs and email addresses.
 
-- **Consistency Across Schemas:** Presets guarantee uniform validation rules for common fields like user IDs, email
-  addresses, and phone numbers across different CSV files. This consistency is crucial for maintaining data integrity
-  and reliability.
-- **Ease of Maintenance:** Centralized updates to presets automatically propagate changes to all schemas using them.
-  This approach eliminates the need to manually update each schema, significantly reducing maintenance efforts.
-- **Flexibility and Customization:** While offering a foundational set of validation rules, presets also allow for
-  field-specific rule overrides to meet the unique requirements of individual schemas. This ensures a balance between
-  consistency and customization.
-- **Rapid Development:** Presets facilitate quick schema setup for new CSV files by reusing established
-  validation rules. This allows for a faster development cycle, focusing on unique fields without redefining common
-  rules.
-- **Error Reduction:** Utilizing consistent and tested presets reduces the likelihood of errors in manual schema
-  definitions, leading to improved data quality and reliability.
-- **Efficiency in Large-scale Projects:** In large projects with extensive data volumes, presets provide a standardized
-  approach to applying common validation logic, simplifying data management and validation tasks.
+This uniformity maintains data integrity and simplifies maintenance by allowing centralized updates that automatically apply
+to all linked schemas. Moreover, presets support customization through field-specific rule overrides, facilitating both
+standardization and specific needs adaptation. 
 
-Overall, presets offer a compelling solution for anyone involved in CSV file validation, enhancing consistency, maintenance, flexibility, development speed, error minimization, and project efficiency.
+Focus on your task rather than copy&pasting.
 
 
 ### Example with presets
@@ -1328,6 +1298,9 @@ As a result, readability and maintainability became dramatically easier.  You ca
 
 ### Complete example with all available syntax
 
+<details>
+  <summary>CLICK to see available syntax.</summary>
+
 <!-- auto-update:preset-features-yml -->
 ```yml
 name: Complite list of preset features
@@ -1388,6 +1361,8 @@ columns:
       preset: 'db/0'
 ```
 <!-- auto-update:/preset-features-yml -->
+
+</details>
 
 **Note:** All provided YAML examples pass built-in validation, yet they may not make practical sense.
 These are intended solely for demonstration and to illustrate potential configurations and features.
@@ -1561,6 +1536,64 @@ Options:
 
 </details>
 
+
+`./csv-blueprint create:schema --help`
+It's beta. Work in progress.
+
+<details>
+  <summary>CLICK to see create:schema help messege</summary>
+
+<!-- auto-update:create-schema-help -->
+```
+Description:
+  Analyze CSV files and suggest a schema based on the data found.
+
+Usage:
+  create:schema [options]
+
+Options:
+  -c, --csv=CSV                  Specify the path(s) to the CSV files you want to analyze.
+                                 This can include a direct path to a file or a directory to search with a maximum depth of 10 levels.
+                                 Examples: p/file.csv; p/*.csv; p/**/*.csv; p/**/name-*.csv; **/*.csv
+                                  (multiple values allowed)
+  -H, --header[=HEADER]          Force the presence of a header row in the CSV files. [default: "auto"]
+  -l, --lines[=LINES]            The number of lines to read when detecting parameters. Minimum is 1. [default: 1000]
+  -r, --report=REPORT            Determines the report's output format.
+                                 Available options: text, table, github, gitlab, teamcity, junit
+                                  [default: "table"]
+      --dump-schema              Dumps the schema of the CSV file if you want to see the final schema after inheritance.
+      --debug                    Intended solely for debugging and advanced profiling purposes.
+                                 Activating this option provides detailed process insights,
+                                 useful for troubleshooting and performance analysis.
+      --parallel[=PARALLEL]      EXPERIMENTAL! Launches the process in parallel mode (if possible). Works only with ext-parallel.
+                                 You can specify the number of threads.
+                                 If you do not specify a value, the number of threads will be equal to the number of CPU cores.
+                                 By default, the process is launched in a single-threaded mode. [default: "1"]
+      --no-progress              Disable progress bar animation for logs. It will be used only for text output format.
+      --mute-errors              Mute any sort of errors. So exit code will be always "0" (if it's possible).
+                                 It has major priority then --non-zero-on-error. It's on your own risk!
+      --stdout-only              For any errors messages application will use StdOut instead of StdErr. It's on your own risk!
+      --non-zero-on-error        None-zero exit code on any StdErr message.
+      --timestamp                Show timestamp at the beginning of each message.It will be used only for text output format.
+      --profile                  Display timing and memory usage information.
+      --output-mode=OUTPUT-MODE  Output format. Available options:
+                                 text - Default text output format, userfriendly and easy to read.
+                                 cron - Shortcut for crontab. It's basically focused on human-readable logs output.
+                                 It's combination of --timestamp --profile --stdout-only --no-progress -vv.
+                                 logstash - Logstash output format, for integration with ELK stack.
+                                  [default: "text"]
+      --cron                     Alias for --output-mode=cron. Deprecated!
+  -h, --help                     Display help for the given command. When no command is given display help for the list command
+  -q, --quiet                    Do not output any message
+  -V, --version                  Display this application version
+      --ansi|--no-ansi           Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction           Do not ask any interactive question
+  -v|vv|vvv, --verbose           Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+```
+<!-- auto-update:/create-schema-help -->
+
+</details>
+
 ## Report examples
 
 The validation process culminates in a human-readable report detailing any errors identified within the CSV file. While
@@ -1572,52 +1605,7 @@ TeamCity, JUnit, among others, to best suit your project's needs and your person
 When using the `table` format (default), the output is organized in a clear, easily interpretable table that lists all
 discovered errors. This format is ideal for quick reviews and sharing with team members for further action.
 
-<!-- auto-update:output-table -->
-```
-./csv-blueprint validate:csv --csv='./tests/fixtures/demo.csv' --schema='./tests/schemas/demo_invalid.yml'
-
-
-CSV Blueprint: vX.Y.Z
-Found Schemas   : 1 (Apply All)
-Found CSV files : 1
-Pairs by pattern: 1
-
-Check schema syntax: 1
-  2 issues in ./tests/schemas/demo_invalid.yml
-    +-------+------------------+--------------+----------------------------------------------------------------------+
-    |  Line | id:Column        | Rule         | Message                                                              |
-    +-------+------------------+--------------+----------------------------------------------------------------------+
-    | undef | 2:Float          | is_float     | Value "Qwerty" is not a float number                                 |
-    | undef | 4:Favorite color | allow_values | Value "123" is not allowed. Allowed values: ["red", "green", "Blue"] |
-    +-------+------------------+--------------+----------------------------------------------------------------------+
-
-CSV file validation: 1
-Schema: ./tests/schemas/demo_invalid.yml
-  10 issues in ./tests/fixtures/demo.csv; Size: 123.34 MB
-    +------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
-    | Line | id:Column        | Rule                | Message                                                                                              |
-    +------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
-    |    1 |                  | allow_extra_columns | Column(s) not found in CSV: "wrong_column_name"                                                      |
-    |    6 | 0:Name           | length_min          | The length of the value "Carl" is 4, which is less than the expected "5"                             |
-    |   11 | 0:Name           | length_min          | The length of the value "Lois" is 4, which is less than the expected "5"                             |
-    |    1 | 1:City           | ag:is_unique        | Column has non-unique values. Unique: 9, total: 10                                                   |
-    |    2 | 2:Float          | num_max             | The value "4825.185" is greater than the expected "4825.184"                                         |
-    |    1 | 2:Float          | ag:nth_num          | The N-th value in the column is "74", which is not equal than the expected "0.001"                   |
-    |    6 | 3:Birthday       | date_min            | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
-    |      |                  |                     | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
-    |    8 | 3:Birthday       | date_min            | The date of the value "1955-05-14" is parsed as "1955-05-14 00:00:00 +00:00", which is less than the |
-    |      |                  |                     | expected "1955-05-15 00:00:00 +00:00 (1955-05-15)"                                                   |
-    |    9 | 3:Birthday       | date_max            | The date of the value "2010-07-20" is parsed as "2010-07-20 00:00:00 +00:00", which is greater than  |
-    |      |                  |                     | the expected "2009-01-01 00:00:00 +00:00 (2009-01-01)"                                               |
-    |    5 | 4:Favorite color | allow_values        | Value "blue" is not allowed. Allowed values: ["red", "green", "Blue"]                                |
-    +------+------------------+---------------------+------------------------------------------------------------------------------------------------------+
-
-Summary:
-  1 pairs (schema to csv) were found based on `filename_pattern`.
-  Found 2 issues in 1 schemas.
-  Found 10 issues in 1 out of 1 CSV files.
-```
-<!-- auto-update:/output-table -->
+![Table format](.github/assets/output-table.png)
 
 
 ### GitHub Action format

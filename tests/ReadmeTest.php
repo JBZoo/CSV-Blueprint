@@ -56,7 +56,7 @@ final class ReadmeTest extends TestCase
         Tools::insertInReadme('validate-csv-help', $text);
     }
 
-    public function testCalidateSchemaHelp(): void
+    public function testValidateSchemaHelp(): void
     {
         $text = \implode("\n", [
             '```',
@@ -67,8 +67,21 @@ final class ReadmeTest extends TestCase
         Tools::insertInReadme('validate-schema-help', $text);
     }
 
+    public function testCreateSchemaHelp(): void
+    {
+        $text = \implode("\n", [
+            '```',
+            \trim(Tools::realExecution('create:schema', ['help' => null])),
+            '```',
+        ]);
+
+        Tools::insertInReadme('create-schema-help', $text);
+    }
+
     public function testTableOutputExample(): void
     {
+        success('Replaced to image');
+        return;
         $options = [
             'csv'    => './tests/fixtures/demo.csv',
             'schema' => './tests/schemas/demo_invalid.yml',
