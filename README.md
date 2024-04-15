@@ -19,7 +19,8 @@
 <!-- auto-update:/rules-counter -->
 
 Strict and automated line-by-line CSV validation tool based on customizable Yaml schemas.
-Make sure each character meets your expectations in a gigabyte file.
+
+In seconds, make sure every char in a gigabyte file meets your expectations.
 
 ![Intro](.github/assets/intro.png)
 
@@ -45,16 +46,17 @@ Make sure each character meets your expectations in a gigabyte file.
 ### Features
 
 * Just create a simple and [friendly Yaml](#schema-definition) with your CSV schema and the tool will validate your 
-  files line by line. You will get a very detailed report with row and column accuracy.
+  files line by line. You will get a very [detailed report](#report-examples) with row, column and rule accuracy.
 * Out of the box, you have access to [over 330 validation rules](schema-examples/full.yml) that can be combined to 
   control the severity of validation.
 * You can validate each value (like, date has a strict format on each line), or the entire column 
-  (like, median of all values is within limits).
+  (like, median of all values is within limits). It's up to you to choose the severity of the rules.
 * Use it anywhere as it is packaged in [Docker](#usage) or even as part of your [GitHub Actions](#gitHub-action-format).
 * Create a CSV in your pipelines/ETL/CI and ensure that it meets the most stringent expectations.
 * Prepare your own libraries with complex rules using [presets](#presets-and-reusable-schemas). This will help you work
   with hundreds of different files at the same time.
 * [Create schema on the fly](#complete-cli-help-message) based on an existing CSV file (It's beta. Coming really soon!).
+* I believe it is the simplest yet flexible and powerful CSV validator in the world. ☺️
 
 
 <details>
@@ -91,8 +93,8 @@ Make sure each character meets your expectations in a gigabyte file.
 ### Live demo
 
 As a live demonstration of how the tool works, you can explore the super minimal repository
-at [demo](https://github.com/jbzoo/csv-blueprint-demo).  For more complex examples and various reporting methods, take a look at
-the [demo pipeline](.github/workflows/demo.yml) with different reports types.
+at [demo](https://github.com/jbzoo/csv-blueprint-demo). For more complex examples and various reporting methods, take a look at
+the [demo pipeline](https://github.com/JBZoo/CSV-Blueprint/actions/runs/8667852752/job/23771733937) with different reports types.
 
 **See also**
 * [PR as a live demo](https://github.com/jbzoo/csv-blueprint-demo/pull/1/files)
@@ -129,7 +131,7 @@ make docker-build  # local tag is "jbzoo/csv-blueprint:local"
 
 ### GitHub Action
 
-You can find launch examples in the [workflow demo](https://github.com/jbzoo/csv-blueprint/actions/workflows/demo.yml).
+You can find launch examples in the [workflow demo](.github/workflows/demo.yml).
 
 <!-- auto-update:github-actions-yml -->
 ```yml
