@@ -74,6 +74,7 @@ I believe it is the simplest yet flexible and powerful CSV validator in the worl
 </details>
 
 
+### Table of content
 <!-- auto-update:toc -->
 - [Usage](#usage)
 - [Schema definition](#schema-definition)
