@@ -19,6 +19,7 @@
 <!-- auto-update:/rules-counter -->
 
 Strict and automated line-by-line CSV validation tool based on customizable Yaml schemas.
+Make sure each character meets your expectations in a gigabyte file.
 
 ![Intro](.github/assets/intro.png)
 
@@ -51,9 +52,9 @@ Strict and automated line-by-line CSV validation tool based on customizable Yaml
   (like, median of all values is within limits).
 * Use it anywhere as it is packaged in [Docker](#usage) or even as part of your [GitHub Actions](#gitHub-action-format).
 * Create a CSV in your pipelines/ETL/CI and ensure that it meets the most stringent expectations.
-* Create your own libraries with complex rules using [presets](#presets-and-reusable-schemas). This will help you work
+* Prepare your own libraries with complex rules using [presets](#presets-and-reusable-schemas). This will help you work
   with hundreds of different files at the same time.
-* [Create schema on the fly](#complete-cli-help-message) based on an existing CSV file (Coming really soon!).
+* [Create schema on the fly](#complete-cli-help-message) based on an existing CSV file (It's beta. Coming really soon!).
 
 
 <details>
@@ -90,9 +91,8 @@ Strict and automated line-by-line CSV validation tool based on customizable Yaml
 ### Live demo
 
 As a live demonstration of how the tool works, you can explore the super minimal repository
-at [jbzoo/csv-blueprint-demo](https://github.com/jbzoo/csv-blueprint-demo).
-For more complex examples and various reporting methods, take a look at
-the [demo pipeline](https://github.com/jbzoo/csv-blueprint/actions/workflows/demo.yml) with different reports types.
+at [demo](https://github.com/jbzoo/csv-blueprint-demo).  For more complex examples and various reporting methods, take a look at
+the [demo pipeline](.github/workflows/demo.yml) with different reports types.
 
 **See also**
 * [PR as a live demo](https://github.com/jbzoo/csv-blueprint-demo/pull/1/files)
@@ -102,8 +102,6 @@ the [demo pipeline](https://github.com/jbzoo/csv-blueprint/actions/workflows/dem
 * [demo.csv](tests/fixtures/demo.csv)
 
 ## Usage
-
-You can find launch examples in the [workflow demo](https://github.com/jbzoo/csv-blueprint/actions/workflows/demo.yml).
 
 ### Docker container
 
@@ -118,9 +116,9 @@ docker run --rm                                  \
     --workdir=/parent-host                       \
     -v $(pwd):/parent-host                       \
     jbzoo/csv-blueprint:latest                   \
-    validate:csv                                 \
-    --csv=./tests/fixtures/demo.csv              \
-    --schema=./tests/schemas/demo_invalid.yml    \
+    validate:csv                                 \ # See available command below 
+    --csv=./tests/fixtures/demo.csv              \ # Your CSV
+    --schema=./tests/schemas/demo_invalid.yml    \ # Your schema
     --ansi
 
 # OR build it from source.
@@ -130,6 +128,8 @@ make docker-build  # local tag is "jbzoo/csv-blueprint:local"
 ```
 
 ### GitHub Action
+
+You can find launch examples in the [workflow demo](https://github.com/jbzoo/csv-blueprint/actions/workflows/demo.yml).
 
 <!-- auto-update:github-actions-yml -->
 ```yml
@@ -918,8 +918,6 @@ ensure thorough validation of your CSV files.
   * For `csv.header: false`, it compares the number of columns in the schema against those in the CSV file, ensuring schema conformity.
 <!-- auto-update:/extra-rules -->
 
-These additional checks further secure the integrity and consistency of your CSV data against the defined validation schema.
-
 
 ## Presets and reusable schemas
 
@@ -1600,13 +1598,6 @@ The validation process culminates in a human-readable report detailing any error
 the default report format is a table, the tool supports various output formats, including text, GitHub, GitLab,
 TeamCity, JUnit, among others, to best suit your project's needs and your personal or team preferences.
 
-### Table format
-
-When using the `table` format (default), the output is organized in a clear, easily interpretable table that lists all
-discovered errors. This format is ideal for quick reviews and sharing with team members for further action.
-
-![Table format](.github/assets/output-table.png)
-
 
 ### GitHub Action format
 
@@ -1627,12 +1618,18 @@ view [this live demo PR](https://github.com/jbzoo/csv-blueprint-demo/pull/1/file
 
 
 ### Text format
-Optional format `text` with highlited keywords:
-```sh
-./csv-blueprint validate:csv --report=text
-```
+Optional format `text` with highlited keywords for qucik navigation.
 
 ![Report - Text](.github/assets/output-text.png)
+
+
+### Table format
+
+When using the `table` format (default), the output is organized in a clear, easily interpretable table that lists all
+discovered errors. This format is ideal for quick reviews and sharing with team members for further action.
+
+![Table format](.github/assets/output-table.png)
+
 
 
 **Notes**
@@ -1649,10 +1646,8 @@ several key factors:
 * **File Size:** The dimensions of the CSV file, both in terms of rows and columns, directly impact processing time.
   Performance scales linearly with file size and is dependent on the capabilities of your hardware, such as CPU and SSD
   speed.
-
 * **Number of Rules:** More validation rules per column mean more iterations for processing. Each rule operates
   independently, so the total time and memory consumption are cumulative across all rules.
-
 * **Rule Intensity:** While most validation rules are optimized for speed and low memory usage, some,
   like `interquartile_mean`, can be significantly slower. For instance, `interquartile_mean` might process around 4,000
   lines per second, whereas other rules can handle upwards of 50 million lines per second.
@@ -1977,16 +1972,11 @@ make codestyle
 - [Retry](https://github.com/JBZoo/Retry) - Tiny PHP library providing retry/backoff functionality with strategies and jitter.
 
 <details>
-  <summary>CLICK to see interesting fact</summary>
+  <summary>just interesting fact</summary>
 
 I've achieved a personal milestone. The [initial release](https://github.com/jbzoo/csv-blueprint/releases/tag/0.1) of
 the project was crafted from the ground up in approximately 3 days, interspersed with regular breaks to care for a
 4-month-old baby. Reflecting on the first commit and the earliest git tag, it's clear that this was accomplished over a
-weekend, utilizing spare moments on my personal laptop. Interestingly, AI was only employed for crafting this README
-file, as English isn't my strongest suit. 🤔
-
-The rapid development pace can be attributed to both efficient typing skills and a surge of inspiration. I just hope
-this endeavor doesn't lead to any marital discord. 😅
-
+weekend, utilizing spare moments on my personal laptop.
 
 </details>
