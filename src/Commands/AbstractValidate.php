@@ -205,6 +205,7 @@ abstract class AbstractValidate extends CliCommand
 
             $this->_("# File: <blue>{$filename}</blue>");
             $this->_($dump);
+            $this->_('');
         }
     }
 

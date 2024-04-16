@@ -57,7 +57,7 @@ final class ComboDate extends AbstractCellRuleCombo
             }
 
             $timestamp = self::convertToTimestamp($cellValue);
-            if ($timestamp <= 0) {
+            if ($timestamp === self::INVALID_TIMESTAMP) {
                 continue;
             }
 
@@ -70,15 +70,11 @@ final class ComboDate extends AbstractCellRuleCombo
             }
         }
 
-        if ($min <= 0 || $max <= 0) {
-            return false;
-        }
-
         return $max === $min
-            ? ['' => \date(self::SUGGEST_DATE_FORMAT, $max)]
+            ? ['' => \date(self::SUGGEST_DATE_FORMAT, (int)$max)]
             : [
-                'min' => \date(self::SUGGEST_DATE_FORMAT, $min),
-                'max' => \date(self::SUGGEST_DATE_FORMAT, $max),
+                'min' => \date(self::SUGGEST_DATE_FORMAT, (int)$min),
+                'max' => \date(self::SUGGEST_DATE_FORMAT, (int)$max),
             ];
     }
 

@@ -386,7 +386,7 @@ final class Schema
             ]);
         }
 
-        return \trim($ymlAsString) . "\n";
+        return \trim($ymlAsString);
     }
 
     /**

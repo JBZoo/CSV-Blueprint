@@ -93,10 +93,17 @@ final class CreateSchemaTest extends TestCase
                     - blue
                     - red
             
-            
             YAML;
 
         isSame($expected, $actual);
+        isSame(0, $exitCode, $actual);
+
+        \file_put_contents(PROJECT_ROOT . '/build/demo.schema.yml', $actual);
+
+        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
+            'csv'    => './tests/fixtures/demo.csv',
+            'schema' => PROJECT_ROOT . '/build/demo.schema.yml',
+        ]);
         isSame(0, $exitCode, $actual);
     }
 
@@ -158,7 +165,7 @@ final class CreateSchemaTest extends TestCase
                   length: 10
                   is_trimmed: true
                   is_date: true
-                  date_min: '1988-08-24'
+                  date_min: '1955-05-14'
                   date_max: '2010-07-20'
             
               - name: 'Favorite color'
@@ -170,10 +177,17 @@ final class CreateSchemaTest extends TestCase
                     - blue
                     - red
             
-            
             YAML;
 
         isSame($expected, $actual);
+        isSame(0, $exitCode, $actual);
+
+        \file_put_contents(PROJECT_ROOT . '/build/demo.schema.yml', $actual);
+
+        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
+            'csv'    => './tests/fixtures/demo.csv',
+            'schema' => PROJECT_ROOT . '/build/demo.schema.yml',
+        ]);
         isSame(0, $exitCode, $actual);
     }
 }
