@@ -30,10 +30,15 @@ final class IsUppercase extends AbstractCellRule
 
     public function validateRule(string $cellValue): ?string
     {
-        if (\mb_strtoupper($cellValue, 'UTF-8') !== $cellValue) {
+        if (!self::testValue($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not uppercase";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return \mb_strtoupper($cellValue) === $cellValue;
     }
 }

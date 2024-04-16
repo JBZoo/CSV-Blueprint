@@ -71,5 +71,9 @@ final class IsIntTest extends TestAbstractCellRule
             'Value "1 " is not an integer',
             $rule->test('1 '),
         );
+        isSame(
+            'Value "-1.1" is not an integer',
+            $rule->test('-1.1'),
+        );
     }
 }

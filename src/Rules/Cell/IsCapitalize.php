@@ -28,10 +28,15 @@ final class IsCapitalize extends AbstractCellRule
 
     public function validateRule(string $cellValue): ?string
     {
-        if ($cellValue !== \ucfirst($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" should be in capitalize";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return $cellValue === \ucfirst($cellValue);
     }
 }

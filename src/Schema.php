@@ -347,6 +347,8 @@ final class Schema
             $dump = Utils::removeDefaultSettings($dump, self::getDefaultValues(\count($dump['columns'])));
         }
 
+        $dump = Utils::sortRules($dump);
+
         $ymlAsString = Yaml::dump(
             $dump,
             10,

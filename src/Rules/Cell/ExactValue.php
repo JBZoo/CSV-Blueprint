@@ -41,4 +41,11 @@ final class ExactValue extends AbstractCellRule
 
         return null;
     }
+
+    public static function analyzeColumnValues(array $columnValues): array|bool|string
+    {
+        $columnValues = \array_filter(\array_map('\strval', $columnValues), static fn (string $value) => $value !== '');
+        $uniqueValues = \array_unique($columnValues);
+        return \count($uniqueValues) === 1 ? $uniqueValues[0] : false;
+    }
 }

@@ -18,6 +18,7 @@ namespace JBZoo\CsvBlueprint\Analyze;
 
 use JBZoo\CsvBlueprint\Csv\CsvFile;
 use JBZoo\CsvBlueprint\Schema;
+use JBZoo\CsvBlueprint\SchemaDataPrep;
 use JBZoo\CsvBlueprint\Utils;
 use Symfony\Component\Finder\Finder;
 
@@ -38,17 +39,17 @@ final class Analyzer
      * @param  int       $lineLimit   number of lines to read when detecting parameters
      * @return Schema    the suggested schema for the CSV file
      */
-    public function analyzeCsv(?bool $forceHeader = null, int $lineLimit = 1000): Schema
+    public function analyzeCsv(?bool $forceHeader, int $lineLimit): Schema
     {
         $suggestedSchema = [
             'name'        => 'Schema for ' . \basename($this->csvFilename),
             'description' => \implode("\n", [
                 'CSV file ' . Utils::cutPath($this->csvFilename),
                 "Suggested schema based on the first {$lineLimit} lines.",
-                'Please review it before using.',
+                'Please REVIEW IT BEFORE using.',
             ]),
             'filename_pattern' => self::suggestFilenamePattern($this->csvFilename),
-            'csv'              => $this->autoDetectCsvParams($forceHeader, $lineLimit),
+            'csv'              => self::autoDetectCsvParams($this->csvFilename, $forceHeader, $lineLimit),
             'columns'          => [],
         ];
 
@@ -56,6 +57,25 @@ final class Analyzer
         $hasHeader = $csv->getSchema()->csvHasHeader();
         $columns = $hasHeader ? $csv->getHeader() : \range(0, $csv->getRealColumNumber() - 1);
 
+        $suggestedSchema = self::analyzeColumns($columns, $csv, $hasHeader, $lineLimit, $suggestedSchema);
+
+        $schema = new Schema($suggestedSchema);
+
+        $errors = $schema->validate();
+        if ($errors->count() > 0) {
+            throw new Exception("The suggested schema is invalid\n\n{$errors->render()}");
+        }
+
+        return $schema;
+    }
+
+    private static function analyzeColumns(
+        array $columns,
+        CsvFile $csv,
+        bool $hasHeader,
+        int $lineLimit,
+        array $suggestedSchema,
+    ): array {
         foreach ($columns as $columnId => $column) {
             $columnValues = [];
             $example = null;
@@ -86,9 +106,56 @@ final class Analyzer
             }
 
             $suggestedSchema['columns'][$columnId] = \array_merge($base, self::analyzeColumn($columnValues));
+            $suggestedSchema['columns'][$columnId]['rules'] = SchemaDataPrep::deleteUnnecessaryRules(
+                $suggestedSchema['columns'][$columnId]['rules'],
+            );
         }
 
-        return new Schema($suggestedSchema);
+        return $suggestedSchema;
+    }
+
+    /**
+     * Analyzes the values of a column and determines the valid rules.
+     * @param  array $columnValues the values of the column to analyze
+     * @return array the suggested rules for the column
+     */
+    private static function analyzeColumn(array $columnValues): array
+    {
+        $validRules = [
+            'rules'           => [],
+            'aggregate_rules' => [],
+        ];
+
+        /** @var class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule> $ruleClassname */
+        foreach (self::getRuleClasses('Cell', 'rules') as $ruleCode => $ruleClassname) {
+            $result = $ruleClassname::analyzeColumnValues($columnValues);
+
+            // Always add `not_empty` rule to make it explicit.
+            if ($ruleCode === 'not_empty') {
+                $validRules['rules']['not_empty'] = $result;
+                continue;
+            }
+
+            if ($result !== false) {
+                if (\is_array($result) && \str_contains($ruleCode, 'combo_')) {
+                    foreach ($result as $subKey => $subValue) {
+                        $comboRuleCode = \trim(\str_replace('combo_', '', $ruleCode) . '_' . $subKey, '_');
+                        $validRules['rules'][$comboRuleCode] = $subValue;
+                    }
+                } else {
+                    $validRules['rules'][$ruleCode] = $result;
+                }
+            }
+        }
+
+        /** @var class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule> $ruleClassname */
+        foreach (self::getRuleClasses('Aggregate', 'aggregate_rules') as $ruleCode => $ruleClassname) {
+            if ($ruleClassname::analyzeColumnValues($columnValues) === true) {
+                $validRules['aggregate_rules'][$ruleCode] = true;
+            }
+        }
+
+        return $validRules;
     }
 
     /**
@@ -97,9 +164,9 @@ final class Analyzer
      * @param  int       $linesLimit  number of lines to read when detecting parameters
      * @return array     the suggested parameters for parsing the CSV file
      */
-    private function autoDetectCsvParams(?bool $forceHeader, int $linesLimit): array
+    private static function autoDetectCsvParams(string $csvFilename, ?bool $forceHeader, int $linesLimit): array
     {
-        $file = new \SplFileObject($this->csvFilename, 'r');
+        $file = new \SplFileObject($csvFilename, 'r');
         $file->setFlags(\SplFileObject::READ_CSV);
 
         $delimiters = [',', ';', "\t", '|'];
@@ -157,35 +224,6 @@ final class Analyzer
     }
 
     /**
-     * Analyzes the values of a column and determines the valid rules.
-     * @param  array $columnValues the values of the column to analyze
-     * @return array the suggested rules for the column
-     */
-    private static function analyzeColumn(array $columnValues): array
-    {
-        $validRules = [
-            'rules'           => [],
-            'aggregate_rules' => [],
-        ];
-
-        /** @var class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule> $ruleClassname */
-        foreach (self::getRuleClasses('Cell', 'rules') as $ruleName => $ruleClassname) {
-            if ($ruleClassname::testValues($columnValues) === true) {
-                $validRules['rules'][$ruleName] = true;
-            }
-        }
-
-        /** @var class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule> $ruleClassname */
-        foreach (self::getRuleClasses('Aggregate', 'aggregate_rules') as $ruleName => $ruleClassname) {
-            if ($ruleClassname::testValues($columnValues) === true) {
-                $validRules['aggregate_rules'][$ruleName] = true;
-            }
-        }
-
-        return $validRules;
-    }
-
-    /**
      * Returns the available rule classes for cell and aggregate rules.
      * @return array<string, class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule>>
      */
@@ -210,9 +248,11 @@ final class Analyzer
 
                 if (\class_exists($ruleClassname)) {
                     try {
-                        $methodName = $directory === 'Cell' ? 'testValue' : 'testValues';
-                        $origClassOfMethod = (new \ReflectionClass($ruleClassname))->getMethod($methodName)->class;
-                        if ($ruleClassname !== $origClassOfMethod) {
+                        $reflection = new \ReflectionClass($ruleClassname);
+                        $origClassOfMethodOne = $reflection->getMethod('testValue')->class;
+                        $origClassOfMethodMulti = $reflection->getMethod('analyzeColumnValues')->class;
+
+                        if ($ruleClassname !== $origClassOfMethodOne && $ruleClassname !== $origClassOfMethodMulti) {
                             continue;
                         }
 
@@ -267,6 +307,6 @@ final class Analyzer
      */
     private static function suggestFilenamePattern(string $csvFilename): string
     {
-        return '/' . \preg_quote(\basename($csvFilename), '/') . '/';
+        return '/' . \preg_quote(\basename($csvFilename), '/') . '$/';
     }
 }

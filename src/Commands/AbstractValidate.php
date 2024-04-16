@@ -111,7 +111,7 @@ abstract class AbstractValidate extends CliCommand
 
     protected function getReportType(): string
     {
-        return $this->getOptString('report', ErrorSuite::RENDER_TABLE, ErrorSuite::getAvaiableRenderFormats());
+        return $this->getOptString('report', ErrorSuite::REPORT_TABLE, ErrorSuite::getAvaiableRenderFormats());
     }
 
     protected function isQuickMode(): bool

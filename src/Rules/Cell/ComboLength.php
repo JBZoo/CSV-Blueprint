@@ -25,6 +25,28 @@ final class ComboLength extends AbstractCellRuleCombo
         return [['Checks length of a string including spaces (multibyte safe).'], []];
     }
 
+    public static function analyzeColumnValues(array $columnValues): array|bool|string
+    {
+        $min = null;
+        $max = null;
+
+        foreach ($columnValues as $cellValue) {
+            $length = \mb_strlen($cellValue);
+
+            if ($min === null || $length < $min) {
+                $min = $length;
+            }
+
+            if ($max === null || $length > $max) {
+                $max = $length;
+            }
+        }
+
+        return $max === $min
+            ? ['' => $max]
+            : ['min' => $min, 'max' => $max];
+    }
+
     protected function getExpected(): float
     {
         return $this->getOptionAsInt();

@@ -31,12 +31,12 @@ use Symfony\Component\Console\Output\BufferedOutput;
 final class ErrorSuite
 {
     public const REPORT_TEXT = 'text';
-    public const RENDER_TABLE = 'table';
+    public const REPORT_TABLE = 'table';
     public const REPORT_TEAMCITY = 'teamcity';
     public const REPORT_GITLAB = 'gitlab';
     public const REPORT_GITHUB = 'github';
     public const REPORT_JUNIT = 'junit';
-    public const REPORT_DEFAULT = self::RENDER_TABLE;
+    public const REPORT_DEFAULT = self::REPORT_TABLE;
 
     /** @var Error[] */
     private array $errors = [];
@@ -75,7 +75,7 @@ final class ErrorSuite
         $suite = $this->prepareSourceSuite();
         $map = [
             self::REPORT_TEXT     => fn (): string => $this->renderPlainText(),
-            self::RENDER_TABLE    => fn (): string => $this->renderTable(),
+            self::REPORT_TABLE    => fn (): string => $this->renderTable(),
             self::REPORT_GITHUB   => static fn (): string => (new GithubCliConverter())->fromInternal($suite),
             self::REPORT_GITLAB   => static fn (): string => (new GitLabJsonConverter())->fromInternal($suite),
             self::REPORT_JUNIT    => static fn (): string => (new JUnitConverter())->fromInternal($suite),
@@ -166,7 +166,7 @@ final class ErrorSuite
     {
         return [
             self::REPORT_TEXT,
-            self::RENDER_TABLE,
+            self::REPORT_TABLE,
             self::REPORT_GITHUB,
             self::REPORT_GITLAB,
             self::REPORT_TEAMCITY,

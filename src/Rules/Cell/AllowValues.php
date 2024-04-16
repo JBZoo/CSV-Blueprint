@@ -43,4 +43,19 @@ class AllowValues extends AbstractCellRule
 
         return null;
     }
+
+    public static function analyzeColumnValues(array $columnValues): array|bool|string
+    {
+        $maxLimit = 5;
+
+        $columnValues = \array_filter(\array_map('\strval', $columnValues), static fn (string $value) => $value !== '');
+        $uniqueValues = \array_unique($columnValues);
+        if (\count($uniqueValues) > $maxLimit) {
+            return false;
+        }
+
+        \asort($columnValues, \SORT_NATURAL);
+
+        return \array_values($uniqueValues);
+    }
 }

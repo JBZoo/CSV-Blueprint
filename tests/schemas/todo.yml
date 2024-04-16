@@ -48,6 +48,7 @@ columns:
       is_filename: true
       is_dirname: true
       is_realtive_path: true
+      is_scientific_notation: true
 
       # identifier
       is_bsn: true                    # Validates a Dutch citizen service number (BSN).
@@ -142,47 +143,9 @@ complex_rules:
             - [ Los Angeles, 20000 ]
 
 analyser:
-  name: 'Based on file ...'
-  description: 'Based on file ...'
-  csv:
-    header: true
-    delimiter: ,
-    quote_char: \
-    enclosure: '"'
-    encoding: utf-8
-    bom: false
-  structural_rules:
-    strict_column_order: true
-    allow_extra_columns: false
   rules:
-    strings:
-      - not_empty
-      - exact_value
-      - allow_values # 2<= x <= 10 values
-      - length_min
-      - length
-      - length_max
-      - is_trimmed
-      - is_lowercase
-      - is_uppercase
-      - is_capitalize
-      - word_count_min
-      - word_count
-      - word_count_max
-
-    is_int|is_float:
-      - num_min
-      - num
-      - num_max
-      - precision_min
-      - precision
-      - precision_max
-
     is_date:
-      - date_min
-      - date
-      - date_max
-      - date_format
+      - date_format # ?
       - is_timezone
       - is_timezone_offset
       - is_time
@@ -256,7 +219,6 @@ analyser:
           - by_brand
 
   aggregate_rules:
-    - is_unique
     - sorted:
         - "[ asc, natural ]"
         - "[ desc, natural ]"
@@ -266,3 +228,34 @@ analyser:
         - "[ desc, numeric ]"
         - "[ asc, string ]"
         - "[ desc, string ]"
+    - first_num: 1
+    - last_num: 1
+    - count: 1
+    - count_empty: 1
+    - count_not_empty: 1
+    - count_distinct: 1
+    - count_positive: 1
+    - count_negative: 1
+    - count_zero: 1
+    - count_even: 1
+    - count_odd: 1
+    - count_prime: 1
+    - sum: 1
+    - average: 1
+    - median: 1
+    - harmonic_mean: 1
+    - geometric_mean: 1
+    - contraharmonic_mean: 1
+    - root_mean_square: 1
+    - trimean: 1
+    - cubic_mean: 1
+    - percentile: [95, 1]
+    - midhinge: 1
+    - mean_abs_dev: 1
+    - median_abs_dev: 1
+    - population_variance: 1
+    - sample_variance: 1
+    - stddev: 1
+    - stddev_pop: 1
+    - coef_of_var: 1
+    - interquartile_mean: 1

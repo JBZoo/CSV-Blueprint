@@ -30,10 +30,15 @@ final class IsLowercase extends AbstractCellRule
 
     public function validateRule(string $cellValue): ?string
     {
-        if ($cellValue !== \mb_strtolower($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" should be in lowercase";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return $cellValue === \mb_strtolower($cellValue);
     }
 }

@@ -43,4 +43,20 @@ final class NotEmpty extends AbstractCellRule
 
         return null;
     }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return $cellValue !== '';
+    }
+
+    public static function analyzeColumnValues(array $columnValues): array|bool|string
+    {
+        foreach ($columnValues as $cellValue) {
+            if (!self::testValue($cellValue)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

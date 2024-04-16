@@ -132,12 +132,16 @@ abstract class AbstractRule
 
     /**
      * Test if all values in the given column pass the testValue check.
-     * @param  array $columnValues the values of the column to test
-     * @return bool  true if all values pass the testValue check, false otherwise
+     * @param  array             $columnValues the values of the column to test
+     * @return array|bool|string true if all values pass the testValue check, false otherwise
      */
-    public static function testValues(array $columnValues): bool
+    public static function analyzeColumnValues(array $columnValues): array|bool|string
     {
         foreach ($columnValues as $cellValue) {
+            if ($cellValue === '') {
+                continue;
+            }
+
             if (!static::testValue($cellValue)) {
                 return false;
             }

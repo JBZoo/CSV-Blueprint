@@ -19,6 +19,8 @@ namespace JBZoo\CsvBlueprint;
 use JBZoo\Data\AbstractData;
 use JBZoo\Data\Data;
 
+use function JBZoo\Data\data;
+
 final class SchemaDataPrep
 {
     public const ALIAS_REGEX = '[a-z0-9-_]+';
@@ -94,6 +96,65 @@ final class SchemaDataPrep
         }
 
         return new Data($result);
+    }
+
+    /**
+     * Remove unnecessary validation rules to simplify readability and comprehension,
+     * as well as not losing the strictness of validation.
+     * @param  array $rules the rules to be processed
+     * @return array the modified rules array
+     */
+    public static function deleteUnnecessaryRules(array $rules): array
+    {
+        $rules = data($rules);
+        if ($rules->has('is_float') || $rules->has('is_int')) {
+            $rules = $rules
+                ->remove('length_min')
+                ->remove('length_max')
+                ->remove('is_lowercase')
+                ->remove('is_uppercase')
+                ->remove('is_capitalize')
+                ->remove('word_count_min')
+                ->remove('word_count')
+                ->remove('word_count_max');
+        }
+
+        if ($rules->has('is_date')) {
+            $rules = $rules
+                ->remove('is_lowercase')
+                ->remove('is_uppercase')
+                ->remove('is_capitalize')
+                ->remove('word_count_min')
+                ->remove('word_count')
+                ->remove('word_count_max');
+        }
+
+        if (
+            $rules->has('is_float')
+            && $rules->has('is_int')
+            && ($rules->is('precision', 0, true) || $rules->is('precision_max', 0, true))
+        ) {
+            $rules = $rules
+                ->remove('is_float')
+                ->remove('precision')
+                ->remove('precision_max')
+                ->set('is_int', true)
+                ->set('num_min', (int)$rules->get('num_min'))
+                ->set('num_max', (int)$rules->get('num_max'));
+        }
+
+        if (!$rules->has('is_float') && !$rules->has('is_int')) {
+            $rules = $rules->remove('precision');
+        }
+
+        if ($rules->has('allow_values')) {
+            return [
+                'allow_values' => $rules->getArray('allow_values'),
+                'not_empty'    => $rules->getBool('not_empty'),
+            ];
+        }
+
+        return \array_filter($rules->getArrayCopy(), static fn ($value) => $value !== null);
     }
 
     /**

@@ -15,7 +15,7 @@
 
 # Just meta
 name: CSV Blueprint Schema Example      # Name of a CSV file. Not used in the validation process.
-description: |                          # Any description of the CSV file. Not used in the validation process.
+description: |-                         # Any description of the CSV file. Not used in the validation process.
   This YAML file provides a detailed description and validation rules for CSV files
   to be processed by CSV Blueprint tool. It includes specifications for file name patterns,
   CSV formatting options, and extensive validation criteria for individual columns and their values,
@@ -118,6 +118,10 @@ columns:
       starts_with: 'prefix '            # Example: "prefix Hello World".
       ends_with: ' suffix'              # Example: "Hello World suffix".
 
+      # Numeric
+      is_int: true                      # Check format only. Can be negative and positive. Without any separators.
+      is_float: true                    # Check format only. Can be negative and positive. Dot as decimal separator.
+
       # Under the hood it converts and compares as float values.
       # Comparison accuracy is 10 digits after a dot.
       # Scientific number format is also supported. Example: "1.2e3"
@@ -127,8 +131,6 @@ columns:
       num: 7.0                          # x == 7.0
       num_less: 8.0                     # x <  8.0
       num_max: 9.0                      # x <= 9.0
-      is_int: true                      # Check format only. Can be negative and positive. Without any separators.
-      is_float: true                    # Check format only. Can be negative and positive. Dot as decimal separator.
 
       # Number of digits after the decimal point (with zeros)
       precision_min: 1                  # x >= 1
@@ -137,6 +139,13 @@ columns:
       precision: 7                      # x == 7
       precision_less: 8                 # x <  8
       precision_max: 9                  # x <= 9
+
+      # Date & time
+      is_date: true                     # Accepts arbitrary date format. Is shows error if failed to convert to timestamp.
+      is_timezone: true                 # Allow only timezone identifiers. Case-insensitive. Example: "Europe/London", "utc".
+      is_timezone_offset: true          # Allow only timezone offsets. Example: "+03:00".
+      is_time: true                     # Check if the cell value is a valid time in the format "HH:MM:SS AM/PM" / "HH:MM:SS" / "HH:MM". Case-insensitive.
+      is_leap_year: true                # Check if the cell value is a leap year. Example: "2008", "2008-02-29 23:59:59 UTC".
 
       # Dates. Under the hood, the strings are converted to timestamp and compared.
       # This gives you the ability to use relative dates and any formatting you want.
@@ -151,11 +160,6 @@ columns:
       date_less: now                    # Example of current date and time
       date_max: +1 day                  # Example of relative future date
       date_format: Y-m-d                # Check strict format of the date.
-      is_date: true                     # Accepts arbitrary date format. Is shows error if failed to convert to timestamp.
-      is_timezone: true                 # Allow only timezone identifiers. Case-insensitive. Example: "Europe/London", "utc".
-      is_timezone_offset: true          # Allow only timezone offsets. Example: "+03:00".
-      is_time: true                     # Check if the cell value is a valid time in the format "HH:MM:SS AM/PM" / "HH:MM:SS" / "HH:MM". Case-insensitive.
-      is_leap_year: true                # Check if the cell value is a leap year. Example: "2008", "2008-02-29 23:59:59 UTC".
 
       # Date Intervals. Under the hood, the strings are converted to seconds and compared.
       # See: https://www.php.net/manual/en/class.dateinterval.php

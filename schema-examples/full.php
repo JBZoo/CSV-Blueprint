@@ -20,8 +20,7 @@ return [
 to be processed by CSV Blueprint tool. It includes specifications for file name patterns,
 CSV formatting options, and extensive validation criteria for individual columns and their values,
 supporting a wide range of data validation rules from basic type checks to complex regex validations.
-This example serves as a comprehensive guide for creating robust CSV file validations.
-',
+This example serves as a comprehensive guide for creating robust CSV file validations.',
 
     'presets' => [
         'my-preset' => './preset_users.yml',
@@ -89,14 +88,14 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'starts_with'   => 'prefix ',
                 'ends_with'     => ' suffix',
 
+                'is_int'      => true,
+                'is_float'    => true,
                 'num_min'     => 1.0,
                 'num_greater' => 2.0,
                 'num_not'     => 5.0,
                 'num'         => 7.0,
                 'num_less'    => 8.0,
                 'num_max'     => 9.0,
-                'is_int'      => true,
-                'is_float'    => true,
 
                 'precision_min'     => 1,
                 'precision_greater' => 2,
@@ -105,18 +104,19 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'precision_less'    => 8,
                 'precision_max'     => 9,
 
-                'date_min'           => '-100 years',
-                'date_greater'       => '-99 days',
-                'date_not'           => '2006-01-02 15:04:05 -0700 Europe/Rome',
-                'date'               => '01 Jan 2000',
-                'date_less'          => 'now',
-                'date_max'           => '+1 day',
-                'date_format'        => 'Y-m-d',
                 'is_date'            => true,
                 'is_timezone'        => true,
                 'is_timezone_offset' => true,
                 'is_time'            => true,
                 'is_leap_year'       => true,
+
+                'date_min'     => '-100 years',
+                'date_greater' => '-99 days',
+                'date_not'     => '2006-01-02 15:04:05 -0700 Europe/Rome',
+                'date'         => '01 Jan 2000',
+                'date_less'    => 'now',
+                'date_max'     => '+1 day',
+                'date_format'  => 'Y-m-d',
 
                 'date_interval_min'     => 'PT0S',
                 'date_interval_greater' => '1day 1sec',

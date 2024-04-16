@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint;
 
+use JBZoo\CsvBlueprint\Validators\ValidatorSchema;
 use JBZoo\CsvBlueprint\Workers\WorkerPool;
 use JBZoo\Utils\Cli;
 use JBZoo\Utils\Env;
@@ -659,7 +660,7 @@ final class Utils
                 \E_NOTICE, \E_USER_NOTICE => 'Notice',
                 default => 'Unknown',
             };
-            throw new Exception("Unexpected {$severity}: \"{$message}\" in file \"{$file}:{$line}\"");
+            throw new Exception("Unexpected {$severity}: \"{$message}\" in file\n{$file}:{$line}");
         });
     }
 
@@ -691,6 +692,51 @@ final class Utils
         unset($value);
 
         return $original;
+    }
+
+    /**
+     * Sort the rules in the given schema dump based on the original rule order.
+     * @param  array $schemaDump the schema dump containing the rules to be sorted
+     * @return array the sorted schema dump with rules sorted based on the original order
+     */
+    public static function sortRules(array $schemaDump): array
+    {
+        $referenceSchema = ValidatorSchema::getExpected()[1];
+        $originalCell = \array_keys($referenceSchema['rules']);
+        $originalAgg = \array_keys($referenceSchema['aggregate_rules']);
+
+        foreach ($schemaDump['columns'] as $colId => $column) {
+            if (isset($column['rules'])) {
+                $schemaDump['columns'][$colId]['rules'] = self::sortByArray(
+                    $column['rules'],
+                    $originalCell,
+                );
+            }
+
+            if (isset($column['aggregate_rules'])) {
+                $schemaDump['columns'][$colId]['aggregate_rules'] = self::sortByArray(
+                    $column['aggregate_rules'],
+                    $originalAgg,
+                );
+            }
+        }
+
+        return $schemaDump;
+    }
+
+    /**
+     * Sorts an array based on a reference order.
+     * @param  array $dataArray the array to be sorted
+     * @param  array $refOrder  the reference order used for sorting
+     * @return array the sorted array
+     */
+    public static function sortByArray(array $dataArray, array $refOrder): array
+    {
+        \uksort(
+            $dataArray,
+            static fn ($arrA, $arrB) => \array_search($arrA, $refOrder, true) <=> \array_search($arrB, $refOrder, true),
+        );
+        return $dataArray;
     }
 
     /**
