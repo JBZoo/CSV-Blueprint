@@ -62,7 +62,7 @@ final class CreateSchema extends AbstractValidate
                 'l',
                 InputOption::VALUE_OPTIONAL,
                 'The number of lines to read when detecting parameters. Minimum is 1.',
-                1_000,
+                10_000,
             );
 
         parent::configure();

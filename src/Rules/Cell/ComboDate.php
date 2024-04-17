@@ -21,6 +21,7 @@ final class ComboDate extends AbstractCellRuleCombo
     protected const NAME = 'date';
 
     private const OUTPUT_DATE_FORMAT = 'Y-m-d H:i:s P';
+    private const SUGGEST_DATE_FORMAT = 'Y-m-d';
     private const INVALID_TIMESTAMP = -1;
 
     public function getHelpMeta(): array
@@ -45,15 +46,41 @@ final class ComboDate extends AbstractCellRuleCombo
         ];
     }
 
-    protected function getActualCell(string $cellValue): float
+    public static function analyzeColumnValues(array $columnValues): array|bool|string
     {
-        try {
-            $result = (new \DateTimeImmutable($cellValue))->getTimestamp();
-        } catch (\Exception) {
-            return self::INVALID_TIMESTAMP;
+        $min = null;
+        $max = null;
+
+        foreach ($columnValues as $cellValue) {
+            if (!IsDate::testValue($cellValue)) {
+                return false;
+            }
+
+            $timestamp = self::convertToTimestamp($cellValue);
+            if ($timestamp === self::INVALID_TIMESTAMP) {
+                continue;
+            }
+
+            if ($min === null || $timestamp < $min) {
+                $min = $timestamp;
+            }
+
+            if ($max === null || $timestamp > $max) {
+                $max = $timestamp;
+            }
         }
 
-        return $result;
+        return $max === $min
+            ? ['' => \date(self::SUGGEST_DATE_FORMAT, (int)$max)]
+            : [
+                'min' => \date(self::SUGGEST_DATE_FORMAT, (int)$min),
+                'max' => \date(self::SUGGEST_DATE_FORMAT, (int)$max),
+            ];
+    }
+
+    protected function getActualCell(string $cellValue): float
+    {
+        return self::convertToTimestamp($cellValue);
     }
 
     protected function getExpected(): float
@@ -91,5 +118,16 @@ final class ComboDate extends AbstractCellRuleCombo
         }
 
         return "parsed as \"{$formated}\"";
+    }
+
+    private static function convertToTimestamp(string $date): int
+    {
+        try {
+            $result = (new \DateTimeImmutable($date))->getTimestamp();
+        } catch (\Exception) {
+            return self::INVALID_TIMESTAMP;
+        }
+
+        return $result;
     }
 }

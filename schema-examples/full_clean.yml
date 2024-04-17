@@ -14,7 +14,7 @@
 # It's just a copy of ./schema-examples/full.yml without comments.
 
 name: 'CSV Blueprint Schema Example'
-description: |
+description: |-
   This YAML file provides a detailed description and validation rules for CSV files
   to be processed by CSV Blueprint tool. It includes specifications for file name patterns,
   CSV formatting options, and extensive validation criteria for individual columns and their values,
@@ -83,14 +83,14 @@ columns:
       starts_with: 'prefix '
       ends_with: ' suffix'
 
+      is_int: true
+      is_float: true
       num_min: 1.0
       num_greater: 2.0
       num_not: 5.0
       num: 7.0
       num_less: 8.0
       num_max: 9.0
-      is_int: true
-      is_float: true
 
       precision_min: 1
       precision_greater: 2
@@ -99,6 +99,12 @@ columns:
       precision_less: 8
       precision_max: 9
 
+      is_date: true
+      is_timezone: true
+      is_timezone_offset: true
+      is_time: true
+      is_leap_year: true
+
       date_min: '-100 years'
       date_greater: '-99 days'
       date_not: '2006-01-02 15:04:05 -0700 Europe/Rome'
@@ -106,11 +112,6 @@ columns:
       date_less: now
       date_max: '+1 day'
       date_format: Y-m-d
-      is_date: true
-      is_timezone: true
-      is_timezone_offset: true
-      is_time: true
-      is_leap_year: true
 
       date_interval_min: PT0S
       date_interval_greater: '1day 1sec'

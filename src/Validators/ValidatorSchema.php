@@ -62,6 +62,25 @@ final class ValidatorSchema
         return $allErrors;
     }
 
+    /**
+     * Retrieve the expected meta and column structure.
+     * @return array     the expected meta and column data
+     * @throws Exception if the reference schema file is not found
+     */
+    public static function getExpected(): array
+    {
+        $referenceFile = \dirname(__DIR__, 2) . '/schema-examples/full.php';
+        if (!\file_exists($referenceFile)) {
+            throw new Exception("Reference schema not found: {$referenceFile}");
+        }
+
+        $expected = phpArray($referenceFile);
+        $expectedColumn = $expected->findArray('columns.0');
+        $expectedMeta = $expected->remove('columns')->getArrayCopy();
+
+        return [$expectedMeta, $expectedColumn];
+    }
+
     private function getActual(): array
     {
         $actualColumns = $this->data->findSelf('columns');
@@ -170,19 +189,5 @@ final class ValidatorSchema
         }
 
         return $errors;
-    }
-
-    private static function getExpected(): array
-    {
-        $referenceFile = __DIR__ . '/../../schema-examples/full.php';
-        if (!\file_exists($referenceFile)) {
-            throw new Exception("Reference schema not found: {$referenceFile}");
-        }
-
-        $expected = phpArray($referenceFile);
-        $expectedColumn = $expected->findArray('columns.0');
-        $expectedMeta = $expected->remove('columns')->getArrayCopy();
-
-        return [$expectedMeta, $expectedColumn];
     }
 }

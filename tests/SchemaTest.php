@@ -210,7 +210,7 @@ final class SchemaTest extends TestCase
 
         foreach ($schemas as $schemaFile) {
             $filepath = $schemaFile->getPathname();
-            $validated = (new Schema($filepath))->validate()->render(ErrorSuite::RENDER_TABLE);
+            $validated = (new Schema($filepath))->validate()->render(ErrorSuite::REPORT_TABLE);
             isSame('', (string)$validated, "{$filepath}\n----------\n{$validated}");
         }
     }
@@ -233,7 +233,7 @@ final class SchemaTest extends TestCase
                 | undef | 4:         | schema | Expected type "array", actual "string" in .columns.4.rules.allow_values |
                 +-------+------------+--------+-------------------------------------------------------------------------+
                 TABLE,
-            $schema->validate()->render(ErrorSuite::RENDER_TABLE),
+            $schema->validate()->render(ErrorSuite::REPORT_TABLE),
         );
 
         isSame(

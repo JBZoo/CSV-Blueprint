@@ -48,7 +48,7 @@ final class PhpdocsTest extends TestCase
                         'getRuleCode',
                         'parseMode',
                         'validateRule',
-                        'testValues',
+                        'analyzeColumnValues',
                         'testValue',
                         'getOptionAsArray',
                     ], true)

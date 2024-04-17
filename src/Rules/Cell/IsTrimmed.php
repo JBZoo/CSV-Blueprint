@@ -30,10 +30,15 @@ final class IsTrimmed extends AbstractCellRule
 
     public function validateRule(string $cellValue): ?string
     {
-        if (\trim($cellValue) !== $cellValue) {
+        if (!self::testValue($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not trimmed";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return \trim($cellValue) === $cellValue;
     }
 }

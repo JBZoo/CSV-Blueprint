@@ -15,7 +15,7 @@
 [![Static Badge](https://img.shields.io/badge/Rules-125-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
 [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)
 [![Static Badge](https://img.shields.io/badge/Rules-8-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)
-[![Static Badge](https://img.shields.io/badge/Rules-21/11/20-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-22/11/20-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- auto-update:/rules-counter -->
 
 Strict and automated line-by-line CSV validation tool based on customizable Yaml schemas.
@@ -73,6 +73,19 @@ I believe it is the simplest yet flexible and powerful CSV validator in the worl
 
 </details>
 
+### Live demo
+
+As a live demonstration of how the tool works, you can explore the super minimal repository
+at [demo](https://github.com/jbzoo/csv-blueprint-demo). For more complex examples and various reporting methods, take a look at
+the [demo pipeline](https://github.com/JBZoo/CSV-Blueprint/actions/runs/8667852752/job/23771733937) with different reports types.
+
+**See also**
+* [PR as a live demo](https://github.com/jbzoo/csv-blueprint-demo/pull/1/files) - Note the automatic comments in Diff at PR's.
+* [.github/workflows/demo.yml](.github/workflows/demo.yml)
+* [demo_invalid.yml](tests/schemas/demo_invalid.yml)
+* [demo_valid.yml](tests/schemas/demo_valid.yml)
+* [demo.csv](tests/fixtures/demo.csv)
+
 
 ### Table of content
 <!-- auto-update:toc -->
@@ -90,18 +103,6 @@ I believe it is the simplest yet flexible and powerful CSV validator in the worl
 - [See also](#see-also)
 <!-- auto-update:/toc -->
 
-### Live demo
-
-As a live demonstration of how the tool works, you can explore the super minimal repository
-at [demo](https://github.com/jbzoo/csv-blueprint-demo). For more complex examples and various reporting methods, take a look at
-the [demo pipeline](https://github.com/JBZoo/CSV-Blueprint/actions/runs/8667852752/job/23771733937) with different reports types.
-
-**See also**
-* [PR as a live demo](https://github.com/jbzoo/csv-blueprint-demo/pull/1/files) - Note the automatic comments in Diff at PR's.
-* [.github/workflows/demo.yml](.github/workflows/demo.yml)
-* [demo_invalid.yml](tests/schemas/demo_invalid.yml)
-* [demo_valid.yml](tests/schemas/demo_valid.yml)
-* [demo.csv](tests/fixtures/demo.csv)
 
 ## Usage
 
@@ -290,7 +291,7 @@ also validated through automated tests, ensuring the information is consistently
 
 # Just meta
 name: CSV Blueprint Schema Example      # Name of a CSV file. Not used in the validation process.
-description: |                          # Any description of the CSV file. Not used in the validation process.
+description: |-                         # Any description of the CSV file. Not used in the validation process.
   This YAML file provides a detailed description and validation rules for CSV files
   to be processed by CSV Blueprint tool. It includes specifications for file name patterns,
   CSV formatting options, and extensive validation criteria for individual columns and their values,
@@ -393,6 +394,10 @@ columns:
       starts_with: 'prefix '            # Example: "prefix Hello World".
       ends_with: ' suffix'              # Example: "Hello World suffix".
 
+      # Numeric
+      is_int: true                      # Check format only. Can be negative and positive. Without any separators.
+      is_float: true                    # Check format only. Can be negative and positive. Dot as decimal separator.
+
       # Under the hood it converts and compares as float values.
       # Comparison accuracy is 10 digits after a dot.
       # Scientific number format is also supported. Example: "1.2e3"
@@ -402,8 +407,6 @@ columns:
       num: 7.0                          # x == 7.0
       num_less: 8.0                     # x <  8.0
       num_max: 9.0                      # x <= 9.0
-      is_int: true                      # Check format only. Can be negative and positive. Without any separators.
-      is_float: true                    # Check format only. Can be negative and positive. Dot as decimal separator.
 
       # Number of digits after the decimal point (with zeros)
       precision_min: 1                  # x >= 1
@@ -412,6 +415,13 @@ columns:
       precision: 7                      # x == 7
       precision_less: 8                 # x <  8
       precision_max: 9                  # x <= 9
+
+      # Date & time
+      is_date: true                     # Accepts arbitrary date format. Is shows error if failed to convert to timestamp.
+      is_timezone: true                 # Allow only timezone identifiers. Case-insensitive. Example: "Europe/London", "utc".
+      is_timezone_offset: true          # Allow only timezone offsets. Example: "+03:00".
+      is_time: true                     # Check if the cell value is a valid time in the format "HH:MM:SS AM/PM" / "HH:MM:SS" / "HH:MM". Case-insensitive.
+      is_leap_year: true                # Check if the cell value is a leap year. Example: "2008", "2008-02-29 23:59:59 UTC".
 
       # Dates. Under the hood, the strings are converted to timestamp and compared.
       # This gives you the ability to use relative dates and any formatting you want.
@@ -426,11 +436,6 @@ columns:
       date_less: now                    # Example of current date and time
       date_max: +1 day                  # Example of relative future date
       date_format: Y-m-d                # Check strict format of the date.
-      is_date: true                     # Accepts arbitrary date format. Is shows error if failed to convert to timestamp.
-      is_timezone: true                 # Allow only timezone identifiers. Case-insensitive. Example: "Europe/London", "utc".
-      is_timezone_offset: true          # Allow only timezone offsets. Example: "+03:00".
-      is_time: true                     # Check if the cell value is a valid time in the format "HH:MM:SS AM/PM" / "HH:MM:SS" / "HH:MM". Case-insensitive.
-      is_leap_year: true                # Check if the cell value is a leap year. Example: "2008", "2008-02-29 23:59:59 UTC".
 
       # Date Intervals. Under the hood, the strings are converted to seconds and compared.
       # See: https://www.php.net/manual/en/class.dateinterval.php
@@ -1205,11 +1210,11 @@ columns:
     example: johndoe
     rules:
       not_empty: true
+      length_min: 3
+      length_max: 20
       is_trimmed: true
       is_lowercase: true
       is_slug: true
-      length_min: 3
-      length_max: 20
       is_alnum: true
     aggregate_rules:
       is_unique: true
@@ -1220,8 +1225,8 @@ columns:
     rules:
       not_empty: true
       is_trimmed: true
-      is_email: true
       is_lowercase: true
+      is_email: true
     aggregate_rules:
       is_unique: true
 
@@ -1231,11 +1236,11 @@ columns:
     rules:
       not_empty: true
       is_trimmed: true
-      charset: UTF-8
-      contains: ' '
+      is_capitalize: true
       word_count_min: 2
       word_count_max: 8
-      is_capitalize: true
+      contains: ' '
+      charset: UTF-8
     aggregate_rules:
       is_unique: true
 
@@ -1245,11 +1250,11 @@ columns:
     rules:
       not_empty: true
       is_trimmed: true
-      date_format: Y-m-d
       is_date: true
+      date_max: now
+      date_format: Y-m-d
       date_age_greater: 0
       date_age_less: 150
-      date_max: now
 
   - name: phone
     description: "User's phone number in US"
@@ -1265,17 +1270,17 @@ columns:
     example: 9RfzENKD
     rules:
       not_empty: true
+      length_min: 10
+      length_max: 20
       is_trimmed: true
-      is_password_safe_chars: true
-      password_strength_min: 7
       contains_none:
         - password
         - '123456'
         - qwerty
         - ' '
+      password_strength_min: 7
+      is_password_safe_chars: true
       charset: UTF-8
-      length_min: 10
-      length_max: 20
 
   - name: admin_note
     description: 'Admin note'
@@ -1557,7 +1562,7 @@ Options:
                                  Examples: p/file.csv; p/*.csv; p/**/*.csv; p/**/name-*.csv; **/*.csv
                                   (multiple values allowed)
   -H, --header[=HEADER]          Force the presence of a header row in the CSV files. [default: "auto"]
-  -l, --lines[=LINES]            The number of lines to read when detecting parameters. Minimum is 1. [default: 1000]
+  -l, --lines[=LINES]            The number of lines to read when detecting parameters. Minimum is 1. [default: 10000]
   -r, --report=REPORT            Determines the report's output format.
                                  Available options: text, table, github, gitlab, teamcity, junit
                                   [default: "table"]

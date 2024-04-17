@@ -36,10 +36,10 @@ final class IsUnique extends AbstractAggregateRule
             return null;
         }
 
-        $uValuesCount = \count(\array_unique($columnValues));
-        $valuesCount = \count($columnValues);
+        if (self::analyzeColumnValues($columnValues) === false) {
+            $uValuesCount = \count(\array_unique($columnValues));
+            $valuesCount = \count($columnValues);
 
-        if (self::testValues($columnValues)) {
             return 'Column has non-unique values. ' .
                 "Unique: <c>{$uValuesCount}</c>, total: <green>{$valuesCount}</green>";
         }
@@ -47,11 +47,10 @@ final class IsUnique extends AbstractAggregateRule
         return null;
     }
 
-    public static function testValues(array $columnValues): bool
+    public static function analyzeColumnValues(array $columnValues): array|bool|string
     {
         $uValuesCount = \count(\array_unique($columnValues));
         $valuesCount = \count($columnValues);
-
-        return $uValuesCount !== $valuesCount;
+        return $uValuesCount === $valuesCount;
     }
 }

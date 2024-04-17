@@ -138,6 +138,7 @@ final class ValidateSchemaTest extends TestCase
             # File: ./tests/schemas/broken/syntax.yml
             Unable to parse schema file: Unable to parse at line 15 (near "(*$#)@(@$*)(").
             
+            
             TXT;
 
         isSame($expected, $actual);

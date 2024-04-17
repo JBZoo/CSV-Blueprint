@@ -25,6 +25,28 @@ final class ComboPrecision extends AbstractCellRuleCombo
         return [['Number of digits after the decimal point (with zeros)'], []];
     }
 
+    public static function analyzeColumnValues(array $columnValues): array|bool|string
+    {
+        $min = null;
+        $max = null;
+
+        foreach ($columnValues as $cellValue) {
+            $precision = self::getFloatPrecision($cellValue);
+
+            if ($min === null || $precision < $min) {
+                $min = $precision;
+            }
+
+            if ($max === null || $precision > $max) {
+                $max = $precision;
+            }
+        }
+
+        return $max === $min
+            ? ['' => $max]
+            : ['min' => $min, 'max' => $max];
+    }
+
     protected function getExpected(): float
     {
         return $this->getOptionAsInt();

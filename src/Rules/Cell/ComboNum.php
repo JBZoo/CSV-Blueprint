@@ -36,6 +36,34 @@ final class ComboNum extends AbstractCellRuleCombo
         ];
     }
 
+    public static function analyzeColumnValues(array $columnValues): array|bool|string
+    {
+        $min = null;
+        $max = null;
+
+        foreach ($columnValues as $cellValue) {
+            if (!\is_numeric($cellValue)) {
+                continue;
+            }
+
+            $float = (float)$cellValue;
+            if ($min === null || $float < $min) {
+                $min = $float;
+            }
+            if ($max === null || $float > $max) {
+                $max = $float;
+            }
+        }
+
+        if ($min === null) {
+            return false;
+        }
+
+        return $max !== null && $max === $min
+            ? ['' => $max]
+            : ['min' => $min, 'max' => $max];
+    }
+
     protected function getExpected(): float
     {
         return float($this->getOptionAsString(), self::PRECISION);

@@ -33,21 +33,26 @@ final class IsDate extends AbstractCellRule
 
     public function validateRule(string $cellValue): ?string
     {
-        if (!self::tryToParseDate($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not a valid date.";
         }
 
         return null;
     }
 
-    protected static function tryToParseDate(string $cellValue): bool
+    public static function testValue(string $cellValue): bool
     {
-        if ($cellValue === '') {
+        if (
+            $cellValue === ''
+            || IsInt::testValue($cellValue)
+            || IsFloat::testValue($cellValue)
+        ) {
             return false;
         }
 
         try {
-            return (new \DateTimeImmutable($cellValue))->getTimestamp() > 0;
+            $result = new \DateTimeImmutable($cellValue); // attempt to parse it.
+            return (bool)$result; // if no exception - it's a date
         } catch (\Exception) {
             return false;
         }
