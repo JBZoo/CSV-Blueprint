@@ -39,10 +39,15 @@ final class IsPunct extends AbstractCellRule
             return null;
         }
 
-        if (!Validator::punct()->validate($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "The value \"<c>{$cellValue}</c>\" should be composed by only punctuation characters.";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return Validator::punct()->validate($cellValue);
     }
 }

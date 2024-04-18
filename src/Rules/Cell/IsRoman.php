@@ -39,11 +39,16 @@ final class IsRoman extends AbstractCellRule
             return null;
         }
 
-        if (!Validator::roman()->validate($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "The value \"<c>{$cellValue}</c>\" should contain only Roman numeral. " .
                 'Example: "I", "IV", "XX"';
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return Validator::roman()->validate($cellValue);
     }
 }

@@ -39,10 +39,15 @@ final class IsEven extends AbstractCellRule
             return null;
         }
 
-        if (!Validator::even()->validate($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "The value \"<c>{$cellValue}</c>\" should be an even number. Example: \"2\", \"4\", \"6\".";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return Validator::even()->validate($cellValue);
     }
 }

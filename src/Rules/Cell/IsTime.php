@@ -38,6 +38,16 @@ final class IsTime extends AbstractCellRule
             return null;
         }
 
+        if (!self::testValue($cellValue)) {
+            return "Value \"<c>{$cellValue}</c>\" is not a valid time. " .
+                'Example: "<green>12:34:56 AM</green>", "<green>23:34:56</green>", "<green>12:34</green>"';
+        }
+
+        return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
         $regexs = [
             '1:59'        => '/^([1-9]|1[0-2]):[0-5]\d$/',
             '23:59'       => '/^(?:2[0-3]|[01]\d):[0-5]\d$/',
@@ -49,11 +59,10 @@ final class IsTime extends AbstractCellRule
 
         foreach ($regexs as $regex) {
             if (\preg_match($regex, $cellValue) > 0) {
-                return null;
+                return true;
             }
         }
 
-        return "Value \"<c>{$cellValue}</c>\" is not a valid time. " .
-            'Example: "<green>12:34:56 AM</green>", "<green>23:34:56</green>", "<green>12:34</green>"';
+        return false;
     }
 }

@@ -30,10 +30,15 @@ final class IsUrl extends AbstractCellRule
 
     public function validateRule(string $cellValue): ?string
     {
-        if (\filter_var($cellValue, \FILTER_VALIDATE_URL) === false) {
+        if (!self::testValue($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not a valid URL";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return \filter_var($cellValue, \FILTER_VALIDATE_URL) !== false;
     }
 }

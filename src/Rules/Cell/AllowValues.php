@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Utils;
 
-class AllowValues extends AbstractCellRule
+final class AllowValues extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {

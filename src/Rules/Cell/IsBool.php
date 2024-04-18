@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class IsBool extends AllowValues
+final class IsBool extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {
@@ -30,11 +30,15 @@ final class IsBool extends AllowValues
 
     public function validateRule(string $cellValue): ?string
     {
-        return parent::validateRule(\strtolower($cellValue));
+        if (!self::testValue($cellValue)) {
+            return "Value \"<c>{$cellValue}</c>\" is not a valid boolean. Use only \"true\" or \"false\" values";
+        }
+
+        return null;
     }
 
-    public function getOptionAsArray(): array
+    public static function testValue(string $cellValue): bool
     {
-        return ['true', 'false'];
+        return \in_array(\strtolower($cellValue), ['true', 'false'], true);
     }
 }

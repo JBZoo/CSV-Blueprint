@@ -32,10 +32,15 @@ final class IsIpV4 extends AbstractCellRule
 
     public function validateRule(string $cellValue): ?string
     {
-        if (!Validator::ip('*', \FILTER_FLAG_IPV4)->validate($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not a valid IPv4";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return Validator::ip('*', \FILTER_FLAG_IPV4)->validate($cellValue);
     }
 }

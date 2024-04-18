@@ -49,7 +49,7 @@ final class IsAngleTest extends TestAbstractCellRule
             $rule->test('-0.1'),
         );
         isSame(
-            'Value "90.1.1.1.1" is not a float number',
+            'Value "90.1.1.1.1" is not a valid angle (0 to 360)',
             $rule->test('90.1.1.1.1'),
         );
     }

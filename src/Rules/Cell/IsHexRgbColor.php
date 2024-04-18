@@ -40,10 +40,15 @@ final class IsHexRgbColor extends AbstractCellRule
             return null;
         }
 
-        if (!Validator::hexRgbColor()->validate($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not a valid hex RGB color.";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return Validator::hexRgbColor()->validate($cellValue);
     }
 }

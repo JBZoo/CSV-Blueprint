@@ -40,10 +40,15 @@ final class IsCurrencyCode extends AbstractCellRule
             return null;
         }
 
-        if (!Validator::currencyCode()->validate($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not a valid currency code (ISO_4217)";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return Validator::currencyCode()->validate($cellValue);
     }
 }

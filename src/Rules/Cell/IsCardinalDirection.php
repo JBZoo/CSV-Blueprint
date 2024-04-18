@@ -18,7 +18,7 @@ namespace JBZoo\CsvBlueprint\Rules\Cell;
 
 use JBZoo\CsvBlueprint\Utils;
 
-final class IsCardinalDirection extends AllowValues
+final class IsCardinalDirection extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {
@@ -27,13 +27,28 @@ final class IsCardinalDirection extends AllowValues
             [
                 self::DEFAULT => [
                     'true',
-                    'Valid cardinal direction. Available values: ' . Utils::printList($this->getOptionAsArray()),
+                    'Valid cardinal direction. Available values: ' . Utils::printList(self::getOptions()),
                 ],
             ],
         ];
     }
 
-    public function getOptionAsArray(): array
+    public function validateRule(string $cellValue): ?string
+    {
+        if (!self::testValue($cellValue)) {
+            return "Value \"<c>{$cellValue}</c>\" is not allowed. Allowed values: " .
+                Utils::printList(self::getOptions());
+        }
+
+        return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return \in_array($cellValue, self::getOptions(), true);
+    }
+
+    private static function getOptions(): array
     {
         return ['N', 'S', 'E', 'W', 'NE', 'SE', 'NW', 'SW', 'none', ''];
     }

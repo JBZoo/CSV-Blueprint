@@ -42,19 +42,19 @@ final class IsLongitudeTest extends TestAbstractCellRule
         $rule = $this->create(true);
         isSame('', $rule->test('-180'));
         isSame(
-            'Value "1230" is not a valid longitude (-180 -> 180)',
+            'Value "1230" is not a valid longitude (-180 to 180)',
             $rule->test('1230'),
         );
         isSame(
-            'Value "180.0001" is not a valid longitude (-180 -> 180)',
+            'Value "180.0001" is not a valid longitude (-180 to 180)',
             $rule->test('180.0001'),
         );
         isSame(
-            'Value "-180.1" is not a valid longitude (-180 -> 180)',
+            'Value "-180.1" is not a valid longitude (-180 to 180)',
             $rule->test('-180.1'),
         );
         isSame(
-            'Value "1.0.0.0" is not a float number',
+            'Value "1.0.0.0" is not a valid longitude (-180 to 180)',
             $rule->test('1.0.0.0'),
         );
     }

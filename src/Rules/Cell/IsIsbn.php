@@ -40,10 +40,15 @@ final class IsIsbn extends AbstractCellRule
             return null;
         }
 
-        if (!Validator::isbn()->validate($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not a valid ISBN number.";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return Validator::isbn()->validate($cellValue);
     }
 }

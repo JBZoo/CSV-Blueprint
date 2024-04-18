@@ -40,11 +40,15 @@ final class IsPasswordSafeChars extends AbstractCellRule
             return null;
         }
 
-        $regex = '/^[a-zA-Z\d!@#$%^&*()_+\-=\[\]{};\':"\\|,.<>\/?~]+$/';
-        if (Utils::testRegex($regex, $cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "The value \"<c>{$cellValue}</c>\" as password uses not safe characters.";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return !Utils::testRegex('/^[a-zA-Z\d!@#$%^&*()_+\-=\[\]{};\':"\\|,.<>\/?~]+$/', $cellValue);
     }
 }

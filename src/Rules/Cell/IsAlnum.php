@@ -39,11 +39,16 @@ final class IsAlnum extends AbstractCellRule
             return null;
         }
 
-        if (!Validator::alnum()->validate($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "The value \"<c>{$cellValue}</c>\" should contain only alphanumeric characters. " .
                 'Example: "aBc123"';
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return Validator::alnum()->validate($cellValue);
     }
 }

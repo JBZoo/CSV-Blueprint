@@ -37,14 +37,19 @@ final class IsTimezone extends AbstractCellRule
             return null;
         }
 
-        $zoneLowercase = \strtolower($cellValue);
-        $expectedLowercase = \array_map('strtolower', \timezone_identifiers_list());
-
-        if (!\in_array($zoneLowercase, $expectedLowercase, true)) {
+        if (!self::testValue($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not a valid timezone identifier. " .
                 'Example: "<green>Europe/London</green>".';
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        $zoneLowercase = \strtolower($cellValue);
+        $expectedLowercase = \array_map('strtolower', \timezone_identifiers_list());
+
+        return \in_array($zoneLowercase, $expectedLowercase, true);
     }
 }

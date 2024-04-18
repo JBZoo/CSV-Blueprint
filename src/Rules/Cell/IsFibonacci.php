@@ -39,10 +39,15 @@ final class IsFibonacci extends AbstractCellRule
             return null;
         }
 
-        if (!Validator::fibonacci()->validate($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "The value \"<c>{$cellValue}</c>\" should be a Fibonacci integer. Example: \"8\", \"13\"";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return Validator::fibonacci()->validate($cellValue);
     }
 }

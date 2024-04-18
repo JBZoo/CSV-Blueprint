@@ -40,10 +40,15 @@ final class IsImei extends AbstractCellRule
             return null;
         }
 
-        if (!Validator::imei()->validate($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not a valid IMEI number.";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return Validator::imei()->validate($cellValue);
     }
 }

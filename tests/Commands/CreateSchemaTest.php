@@ -19,6 +19,7 @@ namespace JBZoo\PHPUnit\Commands;
 use JBZoo\PHPUnit\TestCase;
 use JBZoo\PHPUnit\Tools;
 
+use function JBZoo\PHPUnit\isContain;
 use function JBZoo\PHPUnit\isSame;
 
 final class CreateSchemaTest extends TestCase
@@ -48,6 +49,8 @@ final class CreateSchemaTest extends TestCase
                   is_trimmed: true
                   is_capitalize: true
                   word_count: 1
+                  is_alnum: true
+                  is_alpha: true
                 aggregate_rules:
                   is_unique: true
             
@@ -59,6 +62,8 @@ final class CreateSchemaTest extends TestCase
                   is_trimmed: true
                   is_capitalize: true
                   word_count: 1
+                  is_alnum: true
+                  is_alpha: true
             
               - example: Float
                 rules:
@@ -104,6 +109,7 @@ final class CreateSchemaTest extends TestCase
             'csv'    => './tests/fixtures/demo.csv',
             'schema' => PROJECT_ROOT . '/build/demo.schema.yml',
         ]);
+        isContain('Pairs by pattern: 1', $actual);
         isSame(0, $exitCode, $actual);
     }
 
@@ -132,6 +138,8 @@ final class CreateSchemaTest extends TestCase
                   is_trimmed: true
                   is_capitalize: true
                   word_count: 1
+                  is_alnum: true
+                  is_alpha: true
                 aggregate_rules:
                   is_unique: true
             
@@ -144,6 +152,8 @@ final class CreateSchemaTest extends TestCase
                   is_trimmed: true
                   is_capitalize: true
                   word_count: 1
+                  is_alnum: true
+                  is_alpha: true
             
               - name: Float
                 example: '4825.185'
@@ -167,6 +177,7 @@ final class CreateSchemaTest extends TestCase
                   is_date: true
                   date_min: '1955-05-14'
                   date_max: '2010-07-20'
+                  is_slug: true
             
               - name: 'Favorite color'
                 example: green
@@ -188,6 +199,198 @@ final class CreateSchemaTest extends TestCase
             'csv'    => './tests/fixtures/demo.csv',
             'schema' => PROJECT_ROOT . '/build/demo.schema.yml',
         ]);
+        isContain('Pairs by pattern: 1', $actual);
+        isSame(0, $exitCode, $actual);
+    }
+
+    public function testWithHeaderComplex(): void
+    {
+        [$actual, $exitCode] = Tools::virtualExecution('create-schema', [
+            'csv'    => './tests/fixtures/complex_header.csv',
+            'header' => 'true',
+        ]);
+
+        $expected = <<<'YAML'
+            # Based on CSV "./tests/fixtures/complex_header.csv"
+            name: 'Schema for complex_header.csv'
+            description: |-
+              CSV file ./tests/fixtures/complex_header.csv
+              Suggested schema based on the first 10000 lines.
+              Please REVIEW IT BEFORE using.
+            filename_pattern: /complex_header\.csv$/
+            columns:
+              - name: seq
+                example: '1'
+                rules:
+                  not_empty: true
+                  is_trimmed: true
+                  is_int: true
+                  num_min: 1
+                  num_max: 100
+                  is_hex: true
+                  is_slug: true
+                  is_angle: true
+                  is_longitude: true
+                  is_geohash: true
+                  is_alnum: true
+                aggregate_rules:
+                  is_unique: true
+            
+              - name: bool
+                example: 'true'
+                rules:
+                  not_empty: true
+                  allow_values:
+                    - 'true'
+                    - 'false'
+                    - 'False'
+                    - 'True'
+            
+              - name: yn
+                example: 'N'
+                rules:
+                  not_empty: true
+                  allow_values:
+                    - 'N'
+                    - 'Y'
+            
+              - name: integer
+                example: '577928'
+                rules:
+                  not_empty: false
+                  is_trimmed: true
+                  is_int: true
+                  num_min: -970498
+                  num_max: 970879
+                aggregate_rules:
+                  is_unique: true
+            
+              - name: float
+                example: '-308500353777.664'
+                rules:
+                  not_empty: true
+                  is_trimmed: true
+                  is_float: true
+                  num_min: -896172733707.06
+                  num_max: 863717712252.11
+                  precision_min: 0
+                  precision_max: 4
+                aggregate_rules:
+                  is_unique: true
+            
+              - name: name/first
+                example: Emma
+                rules:
+                  not_empty: true
+                  length_min: 3
+                  length_max: 9
+                  is_trimmed: true
+                  is_capitalize: true
+                  word_count: 1
+                  is_alnum: true
+                  is_alpha: true
+            
+              - name: date
+                example: 2042/11/18
+                rules:
+                  not_empty: true
+                  length: 10
+                  is_trimmed: true
+                  is_date: true
+                  date_min: '2024-03-04'
+                  date_max: '2124-05-22'
+                aggregate_rules:
+                  is_unique: true
+            
+              - name: gender
+                example: Female
+                rules:
+                  not_empty: true
+                  allow_values:
+                    - Female
+                    - Male
+            
+              - name: email
+                example: naduka@jamci.kw
+                rules:
+                  not_empty: true
+                  length_min: 8
+                  length_max: 20
+                  is_trimmed: true
+                  is_lowercase: true
+                  word_count: 3
+                  precision_min: 2
+                  precision_max: 3
+                  is_email: true
+                aggregate_rules:
+                  is_unique: true
+            
+              - name: guid
+                example: 2feb87a1-a0c2-57f7-82d3-a5eec01cea41
+                rules:
+                  not_empty: true
+                  length: 36
+                  is_trimmed: true
+                  is_lowercase: true
+                  word_count_min: 5
+                  word_count_max: 14
+                  is_uuid: true
+                  is_slug: true
+                aggregate_rules:
+                  is_unique: true
+            
+              - name: latitude
+                example: '-27.94845'
+                rules:
+                  not_empty: true
+                  is_trimmed: true
+                  is_float: true
+                  num_min: -89.5128
+                  num_max: 89.88597
+                  precision_min: 3
+                  precision_max: 5
+                  is_latitude: true
+                aggregate_rules:
+                  is_unique: true
+            
+              - name: longitude
+                example: '-143.16108'
+                rules:
+                  not_empty: true
+                  is_trimmed: true
+                  is_float: true
+                  num_min: -178.20241
+                  num_max: 168.90054
+                  precision_min: 3
+                  precision_max: 5
+                  is_longitude: true
+                aggregate_rules:
+                  is_unique: true
+            
+              - name: sentence
+                example: 'En afu emoharhin itu me rectoge gacoseh tob taug raf tet oh hettulob gom tafba no loka.'
+                rules:
+                  not_empty: true
+                  length_min: 7
+                  length_max: 113
+                  is_capitalize: true
+                  word_count_min: 1
+                  word_count_max: 18
+                aggregate_rules:
+                  is_unique: true
+            
+            YAML;
+
+        isSame($expected, $actual);
+        isSame(0, $exitCode, $actual);
+
+        \file_put_contents(PROJECT_ROOT . '/build/demo.schema.yml', $actual);
+
+        [$actual, $exitCode] = Tools::virtualExecution('validate-csv', [
+            'csv'    => './tests/fixtures/complex_header.csv',
+            'schema' => PROJECT_ROOT . '/build/demo.schema.yml',
+        ]);
+        isContain('Pairs by pattern: 1', $actual);
         isSame(0, $exitCode, $actual);
     }
 }

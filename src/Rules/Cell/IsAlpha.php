@@ -39,11 +39,16 @@ final class IsAlpha extends AbstractCellRule
             return null;
         }
 
-        if (!Validator::alpha()->validate($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "The value \"<c>{$cellValue}</c>\" should contain only alphabetic characters. " .
                 'Example: "aBc"';
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return Validator::alpha()->validate($cellValue);
     }
 }

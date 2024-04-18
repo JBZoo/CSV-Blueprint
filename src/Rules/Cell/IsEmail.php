@@ -32,10 +32,15 @@ final class IsEmail extends AbstractCellRule
 
     public function validateRule(string $cellValue): ?string
     {
-        if (!Validator::email()->validate($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not a valid email";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return Validator::email()->validate($cellValue);
     }
 }

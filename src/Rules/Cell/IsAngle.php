@@ -16,10 +16,12 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class IsAngle extends IsFloat
+use Respect\Validation\Validator;
+
+final class IsAngle extends AbstractCellRule
 {
-    private float $min = 0.0;
-    private float $max = 360.0;
+    private const MIN_VALUE = 0.0;
+    private const MAX_VALUE = 360.0;
 
     public function getHelpMeta(): array
     {
@@ -33,16 +35,21 @@ final class IsAngle extends IsFloat
 
     public function validateRule(string $cellValue): ?string
     {
-        $result = parent::validateRule($cellValue);
-        if ($result !== null) {
-            return $result;
-        }
-
-        $angle = (float)$cellValue;
-        if ($angle < $this->min || $angle > $this->max) {
-            return "Value \"<c>{$cellValue}</c>\" is not a valid angle <green>({$this->min} to {$this->max})</green>";
+        if (!self::testValue($cellValue)) {
+            return "Value \"<c>{$cellValue}</c>\" is not a valid angle <green>" .
+                '(' . self::MIN_VALUE . ' to ' . self::MAX_VALUE . ')</green>';
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        if (!Validator::floatVal()->validate($cellValue)) {
+            return false;
+        }
+
+        $angle = (float)$cellValue;
+        return !($angle < self::MIN_VALUE || $angle > self::MAX_VALUE);
     }
 }

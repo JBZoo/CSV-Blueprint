@@ -32,10 +32,15 @@ final class IsBase64 extends AbstractCellRule
 
     public function validateRule(string $cellValue): ?string
     {
-        if (!Validator::base64()->validate($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return 'Value is not a valid Base64';
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return Validator::base64()->validate($cellValue);
     }
 }

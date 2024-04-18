@@ -32,10 +32,15 @@ final class IsMacAddress extends AbstractCellRule
 
     public function validateRule(string $cellValue): ?string
     {
-        if (!Validator::macAddress()->validate($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not a valid MAC address.";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return Validator::macAddress()->validate($cellValue);
     }
 }

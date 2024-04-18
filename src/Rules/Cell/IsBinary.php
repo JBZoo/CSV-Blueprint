@@ -33,13 +33,16 @@ final class IsBinary extends AbstractCellRule
 
     public function validateRule(string $cellValue): ?string
     {
-        if (
-            \preg_match('/^[01]+(_[01]+)*$/', $cellValue) === 0
-            && \preg_match('/^0[bB][01]+(_[01]+)*$/', $cellValue) === 0
-        ) {
+        if (!self::testValue($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not a valid binary number. Example: \"0b10\" or \"10\"";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return \preg_match('/^[01]+(_[01]+)*$/', $cellValue) !== 0
+            || \preg_match('/^0[bB][01]+(_[01]+)*$/', $cellValue) !== 0;
     }
 }
