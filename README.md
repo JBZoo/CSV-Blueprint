@@ -960,10 +960,10 @@ In fact, this can be considered as partial inheritance.
 **If something went wrong**
 
 If you're having trouble working with presets and don't understand how the CSV Blueprint under the hood understands it,
-just add `--dump-schema` to see it. Also, there is a separate CLI command for validating schema:
+just add `--dump-schema` to see it. Also, there is a separate CLI command ftu dump schema:
 
 ```shell
-./csv-blueprint validate:schema --dump-schema --schema=./your/schema.yml
+./csv-blueprint dump-schema -s ./your/schema.yml
 ```
 
 
@@ -1542,6 +1542,60 @@ Options:
 </details>
 
 
+`./csv-blueprint dump-schema --help`
+
+<details>
+  <summary>CLICK to see dump-schema help messege</summary>
+
+<!-- auto-update:dump-schema-help -->
+```
+Description:
+  Show the internal representation of the scheme taking into account presets.
+
+Usage:
+  dump-schema [options]
+
+Options:
+  -s, --schema=SCHEMA            Specify the path to a schema file, supporting YAML, JSON, or PHP formats.
+                                 Examples: /full/path/name.yml; p/file.yml
+  -d, --hide-defaults            Hide default values in the output.
+  -r, --report=REPORT            Determines the report's output format.
+                                 Available options: text, table, github, gitlab, teamcity, junit
+                                  [default: "table"]
+      --dump-schema              Dumps the schema of the CSV file if you want to see the final schema after inheritance.
+      --debug                    Intended solely for debugging and advanced profiling purposes.
+                                 Activating this option provides detailed process insights,
+                                 useful for troubleshooting and performance analysis.
+      --parallel[=PARALLEL]      EXPERIMENTAL! Launches the process in parallel mode (if possible). Works only with ext-parallel.
+                                 You can specify the number of threads.
+                                 If you do not specify a value, the number of threads will be equal to the number of CPU cores.
+                                 By default, the process is launched in a single-threaded mode. [default: "1"]
+      --no-progress              Disable progress bar animation for logs. It will be used only for text output format.
+      --mute-errors              Mute any sort of errors. So exit code will be always "0" (if it's possible).
+                                 It has major priority then --non-zero-on-error. It's on your own risk!
+      --stdout-only              For any errors messages application will use StdOut instead of StdErr. It's on your own risk!
+      --non-zero-on-error        None-zero exit code on any StdErr message.
+      --timestamp                Show timestamp at the beginning of each message.It will be used only for text output format.
+      --profile                  Display timing and memory usage information.
+      --output-mode=OUTPUT-MODE  Output format. Available options:
+                                 text - Default text output format, userfriendly and easy to read.
+                                 cron - Shortcut for crontab. It's basically focused on human-readable logs output.
+                                 It's combination of --timestamp --profile --stdout-only --no-progress -vv.
+                                 logstash - Logstash output format, for integration with ELK stack.
+                                  [default: "text"]
+      --cron                     Alias for --output-mode=cron. Deprecated!
+  -h, --help                     Display help for the given command. When no command is given display help for the list command
+  -q, --quiet                    Do not output any message
+  -V, --version                  Display this application version
+      --ansi|--no-ansi           Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction           Do not ask any interactive question
+  -v|vv|vvv, --verbose           Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+```
+<!-- auto-update:/dump-schema-help -->
+
+</details>
+
+
 `./csv-blueprint create:schema --help`
 It's beta. Work in progress.
 
@@ -1598,6 +1652,7 @@ Options:
 <!-- auto-update:/create-schema-help -->
 
 </details>
+
 
 ## Report examples
 

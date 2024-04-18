@@ -78,6 +78,17 @@ final class ReadmeTest extends TestCase
         Tools::insertInReadme('create-schema-help', $text);
     }
 
+    public function testDumpSchemaHelp(): void
+    {
+        $text = \implode("\n", [
+            '```',
+            \trim(Tools::realExecution('dump-schema', ['help' => null])),
+            '```',
+        ]);
+
+        Tools::insertInReadme('dump-schema-help', $text);
+    }
+
     public function testTableOutputExample(): void
     {
         success('Replaced to image');
