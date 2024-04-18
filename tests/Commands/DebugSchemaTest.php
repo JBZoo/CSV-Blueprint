@@ -21,7 +21,7 @@ use JBZoo\PHPUnit\Tools;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class DumpSchemaTest extends TestCase
+final class DebugSchemaTest extends TestCase
 {
     public function testDumpWithDefaults(): void
     {

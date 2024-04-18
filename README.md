@@ -1559,17 +1559,6 @@ Options:
   -s, --schema=SCHEMA            Specify the path to a schema file, supporting YAML, JSON, or PHP formats.
                                  Examples: /full/path/name.yml; p/file.yml
   -d, --hide-defaults            Hide default values in the output.
-  -r, --report=REPORT            Determines the report's output format.
-                                 Available options: text, table, github, gitlab, teamcity, junit
-                                  [default: "table"]
-      --dump-schema              Dumps the schema of the CSV file if you want to see the final schema after inheritance.
-      --debug                    Intended solely for debugging and advanced profiling purposes.
-                                 Activating this option provides detailed process insights,
-                                 useful for troubleshooting and performance analysis.
-      --parallel[=PARALLEL]      EXPERIMENTAL! Launches the process in parallel mode (if possible). Works only with ext-parallel.
-                                 You can specify the number of threads.
-                                 If you do not specify a value, the number of threads will be equal to the number of CPU cores.
-                                 By default, the process is launched in a single-threaded mode. [default: "1"]
       --no-progress              Disable progress bar animation for logs. It will be used only for text output format.
       --mute-errors              Mute any sort of errors. So exit code will be always "0" (if it's possible).
                                  It has major priority then --non-zero-on-error. It's on your own risk!

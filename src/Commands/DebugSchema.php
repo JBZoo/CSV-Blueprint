@@ -16,13 +16,14 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Commands;
 
+use JBZoo\Cli\CliCommand;
 use JBZoo\CsvBlueprint\Schema;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
  */
-final class DebugSchema extends AbstractValidate
+final class DebugSchema extends CliCommand
 {
     protected function configure(): void
     {
@@ -52,16 +53,12 @@ final class DebugSchema extends AbstractValidate
     {
         $decorated = $this->outputMode->getOutput()->isDecorated();
 
-        $this->preparation($decorated);
-
         $schemaFilename = $this->getOptString('schema');
         if (!\file_exists($schemaFilename)) {
             throw new Exception("Schema file not found: {$schemaFilename}");
         }
 
         $this->_((new Schema($schemaFilename))->dumpAsYamlString($this->getOptBool('hide-defaults'), $decorated));
-
-        self::dumpPreloader();
 
         return self::SUCCESS;
     }
