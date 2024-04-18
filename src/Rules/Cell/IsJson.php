@@ -44,6 +44,11 @@ final class IsJson extends AbstractCellRule
 
     public static function testValue(string $cellValue): bool
     {
+        // first symbol should be "{" or "["
+        if (!\in_array($cellValue[0], ['{', '['], true)) {
+            return false;
+        }
+
         return Validator::json()->validate($cellValue);
     }
 }

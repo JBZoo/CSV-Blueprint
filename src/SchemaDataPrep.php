@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint;
 
+use JBZoo\CsvBlueprint\Rules\Cell\IsLatitude;
 use JBZoo\Data\AbstractData;
 use JBZoo\Data\Data;
 
@@ -103,9 +104,17 @@ final class SchemaDataPrep
      * as well as not losing the strictness of validation.
      * @param  array $rules the rules to be processed
      * @return array the modified rules array
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public static function deleteUnnecessaryRules(array $rules): array
     {
+        $isAnyIs = \count(\array_filter(\array_keys($rules), static fn ($key) => \strpos($key, 'is_') === 0)) > 1;
+
+        // $utlimatesRules = ['is_email'];
+        // $isUltimateRule = \count(
+        //     \array_filter(\array_keys($rules), static fn ($key) => \in_array($key, $utlimatesRules, true)),
+        // ) > 0;
+
         $rules = data($rules);
         if ($rules->has('is_float') || $rules->has('is_int')) {
             $rules = $rules
@@ -147,11 +156,23 @@ final class SchemaDataPrep
             $rules = $rules->remove('precision');
         }
 
+        if (
+            $rules->has('is_latitude')
+            && $rules->getInt('num_min') >= IsLatitude::MIN_VALUE
+            && $rules->getInt('num_max') <= IsLatitude::MAX_VALUE
+        ) {
+            $rules = $rules->remove('is_longitude');
+        }
+
         if ($rules->has('allow_values')) {
             return [
                 'allow_values' => $rules->getArray('allow_values'),
                 'not_empty'    => $rules->getBool('not_empty'),
             ];
+        }
+
+        if ($isAnyIs) {
+            $rules = $rules->remove('is_password_safe_chars');
         }
 
         return \array_filter($rules->getArrayCopy(), static fn ($value) => $value !== null);

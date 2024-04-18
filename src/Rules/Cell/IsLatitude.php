@@ -20,8 +20,8 @@ use Respect\Validation\Validator;
 
 final class IsLatitude extends AbstractCellRule
 {
-    private const MIN_VALUE = -90.0;
-    private const MAX_VALUE = 90.0;
+    public const MIN_VALUE = -90.0;
+    public const MAX_VALUE = 90.0;
 
     public function getHelpMeta(): array
     {
