@@ -39,10 +39,15 @@ final class IsOdd extends AbstractCellRule
             return null;
         }
 
-        if (!Validator::odd()->validate($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "The value \"<c>{$cellValue}</c>\" should be an odd number. Example: \"1\", \"7\", \"11\".";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return Validator::odd()->validate($cellValue);
     }
 }

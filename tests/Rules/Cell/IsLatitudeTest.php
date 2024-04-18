@@ -40,15 +40,15 @@ final class IsLatitudeTest extends TestAbstractCellRule
     {
         $rule = $this->create(true);
         isSame(
-            'Value "123" is not a valid latitude (-90 -> 90)',
+            'Value "123" is not a valid latitude (-90 to 90)',
             $rule->test('123'),
         );
         isSame(
-            'Value "90.1" is not a valid latitude (-90 -> 90)',
+            'Value "90.1" is not a valid latitude (-90 to 90)',
             $rule->test('90.1'),
         );
         isSame(
-            'Value "90.1.1.1.1" is not a float number',
+            'Value "90.1.1.1.1" is not a valid latitude (-90 to 90)',
             $rule->test('90.1.1.1.1'),
         );
     }

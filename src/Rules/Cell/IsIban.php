@@ -40,10 +40,15 @@ final class IsIban extends AbstractCellRule
             return null;
         }
 
-        if (!Validator::iban()->validate($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "The value \"<c>{$cellValue}</c>\" is not a valid IBAN number.";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return Validator::iban()->validate($cellValue);
     }
 }

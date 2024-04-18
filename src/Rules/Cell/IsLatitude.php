@@ -16,10 +16,12 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class IsLatitude extends IsFloat
+use Respect\Validation\Validator;
+
+final class IsLatitude extends AbstractCellRule
 {
-    private float $min = -90.0;
-    private float $max = 90.0;
+    private const MIN_VALUE = -90.0;
+    private const MAX_VALUE = 90.0;
 
     public function getHelpMeta(): array
     {
@@ -33,16 +35,21 @@ final class IsLatitude extends IsFloat
 
     public function validateRule(string $cellValue): ?string
     {
-        $result = parent::validateRule($cellValue);
-        if ($result !== null) {
-            return $result;
-        }
-
-        $latitude = (float)$cellValue;
-        if ($latitude < $this->min || $latitude > $this->max) {
-            return "Value \"<c>{$cellValue}</c>\" is not a valid latitude ({$this->min} -> {$this->max})";
+        if (!self::testValue($cellValue)) {
+            return "Value \"<c>{$cellValue}</c>\" is not a valid latitude " .
+                '(' . self::MIN_VALUE . ' to ' . self::MAX_VALUE . ')';
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        if (!Validator::floatVal()->validate($cellValue)) {
+            return false;
+        }
+
+        $latitude = (float)$cellValue;
+        return !($latitude < self::MIN_VALUE || $latitude > self::MAX_VALUE);
     }
 }

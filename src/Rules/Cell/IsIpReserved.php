@@ -36,10 +36,15 @@ final class IsIpReserved extends AbstractCellRule
 
     public function validateRule(string $cellValue): ?string
     {
-        if (Validator::ip('*', \FILTER_FLAG_NO_RES_RANGE)->validate($cellValue)) {
+        if (self::testValue($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not a reserved IP address.";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return Validator::ip('*', \FILTER_FLAG_NO_RES_RANGE)->validate($cellValue);
     }
 }

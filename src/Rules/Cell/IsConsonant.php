@@ -39,10 +39,15 @@ final class IsConsonant extends AbstractCellRule
             return null;
         }
 
-        if (!Validator::consonant()->validate($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "The value \"<c>{$cellValue}</c>\" should contain only consonants. Example: \"bcd\"";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return Validator::consonant()->validate($cellValue);
     }
 }

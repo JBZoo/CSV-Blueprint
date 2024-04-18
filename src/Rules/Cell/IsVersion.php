@@ -39,10 +39,15 @@ final class IsVersion extends AbstractCellRule
             return null;
         }
 
-        if (!Validator::version()->validate($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "The value \"<c>{$cellValue}</c>\" should be a valid semantic version. Example: \"1.2.3\"";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return Validator::version()->validate($cellValue);
     }
 }

@@ -39,10 +39,15 @@ final class IsLuhn extends AbstractCellRule
             return null;
         }
 
-        if (!Validator::luhn()->validate($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "The value \"<c>{$cellValue}</c>\" is not a valid Luhn number.";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return Validator::luhn()->validate($cellValue);
     }
 }

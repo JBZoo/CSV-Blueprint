@@ -32,10 +32,15 @@ final class IsGeohash extends AbstractCellRule
 
     public function validateRule(string $cellValue): ?string
     {
-        if (Utils::testRegex('/^[0-9b-hj-km-np-z]{1,}$/', $cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "Value \"<c>{$cellValue}</c>\" is not a valid Geohash";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return !Utils::testRegex('/^[0-9b-hj-km-np-z]{1,}$/', $cellValue);
     }
 }

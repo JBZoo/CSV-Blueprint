@@ -39,10 +39,15 @@ final class IsVowel extends AbstractCellRule
             return null;
         }
 
-        if (!Validator::vowel()->validate($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "The value \"<c>{$cellValue}</c>\" should contain only vowels. Example: \"aei\"";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        return Validator::vowel()->validate($cellValue);
     }
 }

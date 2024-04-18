@@ -48,6 +48,9 @@ final class CreateSchemaTest extends TestCase
                   is_trimmed: true
                   is_capitalize: true
                   word_count: 1
+                  is_password_safe_chars: true
+                  is_alnum: true
+                  is_alpha: true
                 aggregate_rules:
                   is_unique: true
             
@@ -59,6 +62,9 @@ final class CreateSchemaTest extends TestCase
                   is_trimmed: true
                   is_capitalize: true
                   word_count: 1
+                  is_password_safe_chars: true
+                  is_alnum: true
+                  is_alpha: true
             
               - example: Float
                 rules:
@@ -71,6 +77,7 @@ final class CreateSchemaTest extends TestCase
                   num_max: 4825.185
                   precision_min: 0
                   precision_max: 4
+                  is_password_safe_chars: true
                 aggregate_rules:
                   is_unique: true
             
@@ -83,6 +90,7 @@ final class CreateSchemaTest extends TestCase
                   is_capitalize: true
                   word_count_min: 1
                   word_count_max: 2
+                  is_password_safe_chars: true
             
               - example: 'Favorite color'
                 rules:
@@ -132,6 +140,9 @@ final class CreateSchemaTest extends TestCase
                   is_trimmed: true
                   is_capitalize: true
                   word_count: 1
+                  is_password_safe_chars: true
+                  is_alnum: true
+                  is_alpha: true
                 aggregate_rules:
                   is_unique: true
             
@@ -144,6 +155,9 @@ final class CreateSchemaTest extends TestCase
                   is_trimmed: true
                   is_capitalize: true
                   word_count: 1
+                  is_password_safe_chars: true
+                  is_alnum: true
+                  is_alpha: true
             
               - name: Float
                 example: '4825.185'
@@ -155,6 +169,7 @@ final class CreateSchemaTest extends TestCase
                   num_max: 4825.185
                   precision_min: 0
                   precision_max: 4
+                  is_password_safe_chars: true
                 aggregate_rules:
                   is_unique: true
             
@@ -167,6 +182,8 @@ final class CreateSchemaTest extends TestCase
                   is_date: true
                   date_min: '1955-05-14'
                   date_max: '2010-07-20'
+                  is_slug: true
+                  is_password_safe_chars: true
             
               - name: 'Favorite color'
                 example: green

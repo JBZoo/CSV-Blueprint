@@ -44,13 +44,13 @@ final class IsBoolTest extends TestAbstractCellRule
     {
         $rule = $this->create(true);
         isSame(
-            'Value "1" is not allowed. Allowed values: ["true", "false"]',
+            'Value "1" is not a valid boolean. Use only "true" or "false" values',
             $rule->test('1'),
         );
 
         $rule = $this->create(true);
         isSame(
-            'Value "" is not allowed. Allowed values: ["true", "false"]',
+            'Value "" is not a valid boolean. Use only "true" or "false" values',
             $rule->test(''),
         );
     }

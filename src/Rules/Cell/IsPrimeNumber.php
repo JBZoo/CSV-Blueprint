@@ -39,10 +39,19 @@ final class IsPrimeNumber extends AbstractCellRule
             return null;
         }
 
-        if (!Validator::primeNumber()->validate($cellValue)) {
+        if (!self::testValue($cellValue)) {
             return "The value \"<c>{$cellValue}</c>\" should be a prime number. Example: \"3\", \"5\", \"7\", \"11\"";
         }
 
         return null;
+    }
+
+    public static function testValue(string $cellValue): bool
+    {
+        if (!Validator::intVal()->validate($cellValue)) {
+            return false;
+        }
+
+        return Validator::primeNumber()->validate($cellValue);
     }
 }
