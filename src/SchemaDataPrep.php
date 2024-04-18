@@ -108,12 +108,9 @@ final class SchemaDataPrep
      */
     public static function deleteUnnecessaryRules(array $rules): array
     {
-        $isAnyIs = \count(\array_filter(\array_keys($rules), static fn ($key) => \strpos($key, 'is_') === 0)) > 1;
-
-        // $utlimatesRules = ['is_email'];
-        // $isUltimateRule = \count(
-        //     \array_filter(\array_keys($rules), static fn ($key) => \in_array($key, $utlimatesRules, true)),
-        // ) > 0;
+        $isAnyIs = \count(
+            \array_filter(\array_keys($rules), static fn ($key) => \strpos((string)$key, 'is_') === 0),
+        ) > 1;
 
         $rules = data($rules);
         if ($rules->has('is_float') || $rules->has('is_int')) {
