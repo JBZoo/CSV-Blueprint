@@ -82,11 +82,11 @@ final class ReadmeTest extends TestCase
     {
         $text = \implode("\n", [
             '```',
-            \trim(Tools::realExecution('dump-schema', ['help' => null])),
+            \trim(Tools::realExecution('debug-schema', ['help' => null])),
             '```',
         ]);
 
-        Tools::insertInReadme('dump-schema-help', $text);
+        Tools::insertInReadme('debug-schema-help', $text);
     }
 
     public function testTableOutputExample(): void

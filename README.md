@@ -1545,15 +1545,15 @@ Options:
 `./csv-blueprint dump-schema --help`
 
 <details>
-  <summary>CLICK to see dump-schema help messege</summary>
+  <summary>CLICK to see debug-schema help messege</summary>
 
-<!-- auto-update:dump-schema-help -->
+<!-- auto-update:debug-schema-help -->
 ```
 Description:
-  Show the internal representation of the scheme taking into account presets.
+  Show the internal representation of the schema taking into account presets.
 
 Usage:
-  dump-schema [options]
+  debug-schema [options]
 
 Options:
   -s, --schema=SCHEMA            Specify the path to a schema file, supporting YAML, JSON, or PHP formats.
@@ -1591,7 +1591,7 @@ Options:
   -n, --no-interaction           Do not ask any interactive question
   -v|vv|vvv, --verbose           Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 ```
-<!-- auto-update:/dump-schema-help -->
+<!-- auto-update:/debug-schema-help -->
 
 </details>
 
