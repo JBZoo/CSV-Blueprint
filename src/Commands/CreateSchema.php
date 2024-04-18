@@ -59,10 +59,17 @@ final class CreateSchema extends AbstractValidate
             )
             ->addOption(
                 'lines',
-                'l',
+                'L',
                 InputOption::VALUE_OPTIONAL,
                 'The number of lines to read when detecting parameters. Minimum is 1.',
                 10_000,
+            )
+            ->addOption(
+                'check-syntax',
+                'C',
+                InputOption::VALUE_OPTIONAL,
+                'Check the syntax of the suggested schema.',
+                'yes',
             );
 
         parent::configure();
@@ -87,6 +94,14 @@ final class CreateSchema extends AbstractValidate
                     Utils::cutPath($csvFilename),
                 ),
             );
+
+            if ($this->getOptBool('check-syntax')) {
+                $errors = $suggestedSchema->validate();
+                if ($errors->count() > 0) {
+                    $this->out('The suggested schema has issues:');
+                    $this->out($errors->render());
+                }
+            }
         }
 
         self::dumpPreloader(); // Experimental feature

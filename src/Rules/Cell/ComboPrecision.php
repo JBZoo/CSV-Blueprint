@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
+use Respect\Validation\Validator;
+
 final class ComboPrecision extends AbstractCellRuleCombo
 {
     protected const NAME = 'precision';
@@ -31,6 +33,13 @@ final class ComboPrecision extends AbstractCellRuleCombo
         $max = null;
 
         foreach ($columnValues as $cellValue) {
+            if (
+                !Validator::floatVal()->validate($cellValue)
+                && !Validator::intVal()->validate($cellValue)
+            ) {
+                return false;
+            }
+
             $precision = self::getFloatPrecision($cellValue);
 
             if ($min === null || $precision < $min) {

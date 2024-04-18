@@ -71,8 +71,6 @@ final class CreateSchemaTest extends TestCase
                   length_max: 8
                   is_trimmed: true
                   is_capitalize: true
-                  precision_min: 0
-                  precision_max: 4
                 aggregate_rules:
                   is_unique: true
             
@@ -333,8 +331,6 @@ final class CreateSchemaTest extends TestCase
                   length_max: 20
                   is_trimmed: true
                   is_lowercase: true
-                  precision_min: 2
-                  precision_max: 3
                   is_email: true
                 aggregate_rules:
                   is_unique: true
@@ -791,8 +787,6 @@ final class CreateSchemaTest extends TestCase
                   is_trimmed: true
                   is_capitalize: true
                   is_sentence: true
-                  precision_min: 183
-                  precision_max: 580
                 aggregate_rules:
                   is_unique: true
             

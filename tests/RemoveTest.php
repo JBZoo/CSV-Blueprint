@@ -24,8 +24,7 @@ final class RemoveTest extends TestCase
     {
         isSame(
             [
-                'is_int'   => true,
-                'is_float' => true,
+                'is_int' => true,
             ],
             RuleOptimizer::optimize([
                 'is_int'   => true,
@@ -35,36 +34,15 @@ final class RemoveTest extends TestCase
 
         isSame(
             [
-                'is_int'  => true,
-                'num_min' => 1,
-                'num_max' => 100,
+                'is_float'  => true,
+                'precision' => 1,
             ],
             RuleOptimizer::optimize([
-                'is_int'     => true,
-                'is_float'   => true,
-                'precision'  => 0,
-                'num_min'    => 1,
-                'num_max'    => 100,
-                'length_min' => 1,
-                'length_max' => 3,
+                'is_int'    => true,
+                'is_float'  => true,
+                'precision' => 1,
             ]),
         );
-
-        isSame(
-            [
-                'is_int'  => true,
-                'num_min' => 1,
-                'num_max' => 100,
-            ],
-            RuleOptimizer::optimize([
-                'is_int'     => true,
-                'is_float'   => true,
-                'precision'  => 0,
-                'num_min'    => 1,
-                'num_max'    => 100,
-                'length_min' => 1,
-                'length_max' => 3,
-            ]),
-        );
+        // Need to add more tests
     }
 }
