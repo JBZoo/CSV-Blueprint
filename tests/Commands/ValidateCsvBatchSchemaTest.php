@@ -34,7 +34,7 @@ final class ValidateCsvBatchSchemaTest extends TestCase
             ],
         ]);
 
-        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $optionsAsString);
+        [$actual, $exitCode] = Tools::virtualExecution('validate-csv', $optionsAsString);
 
         $expected = <<<'TXT'
             CSV Blueprint: Unknown version (PhpUnit)

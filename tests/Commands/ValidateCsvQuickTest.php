@@ -140,7 +140,7 @@ final class ValidateCsvQuickTest extends TestCase
             $options = \array_merge($options, $quickOption);
         }
 
-        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $options);
+        [$actual, $exitCode] = Tools::virtualExecution('validate-csv', $options);
 
         isSame(1, $exitCode, $actual);
 

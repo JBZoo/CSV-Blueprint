@@ -119,7 +119,7 @@ docker run --rm                                  \
     --workdir=/parent-host                       \
     -v $(pwd):/parent-host                       \
     jbzoo/csv-blueprint:latest                   \
-    validate:csv                                 \ # See available commands and options below. 
+    validate-csv                                 \ # See available commands and options below. 
     --csv=./tests/fixtures/demo.csv              \ # Your CSV(s).
     --schema=./tests/schemas/demo_invalid.yml    \ # Your schema(s).
     --ansi
@@ -194,14 +194,14 @@ Ensure you have PHP installed on your machine.
 # Just download the latest version
 wget https://github.com/jbzoo/csv-blueprint/releases/latest/download/csv-blueprint.phar
 chmod +x ./csv-blueprint.phar
-./csv-blueprint.phar validate:csv               \
+./csv-blueprint.phar validate-csv               \
    --csv=./tests/fixtures/demo.csv              \
    --schema=./tests/schemas/demo_invalid.yml
 
 # OR create project via Composer (--no-dev is optional)
 composer create-project --no-dev jbzoo/csv-blueprint
 cd ./csv-blueprint
-./csv-blueprint validate:csv                    \
+./csv-blueprint validate-csv                    \
     --csv=./tests/fixtures/demo.csv             \
     --schema=./tests/schemas/demo_invalid.yml
 
@@ -209,7 +209,7 @@ cd ./csv-blueprint
 git clone git@github.com:jbzoo/csv-blueprint.git csv-blueprint
 cd csv-blueprint 
 make build
-./csv-blueprint validate:csv                    \
+./csv-blueprint validate-csv                    \
     --csv=./tests/fixtures/demo.csv             \
     --schema=./tests/schemas/demo_invalid.yml
 ```
@@ -1408,10 +1408,10 @@ For detailed information on each command and option, refer to
 the [JBZoo/Cli documentation](https://github.com/JBZoo/Cli). This resource provides insights into the functionality and
 application of the CLI commands, helping users make the most out of the tool's capabilities.
 
-`./csv-blueprint validate:csv --help`
+`./csv-blueprint validate-csv --help`
 
 <details>
-  <summary>CLICK to see validate:csv help messege</summary>
+  <summary>CLICK to see validate-csv help messege</summary>
 
 <!-- auto-update:validate-csv-help -->
 ```
@@ -1419,7 +1419,8 @@ Description:
   Validate CSV file(s) by schema(s).
 
 Usage:
-  validate:csv [options]
+  validate-csv [options]
+  validate:csv
 
 Options:
   -c, --csv=CSV                    Specify the path(s) to the CSV files you want to validate.
@@ -1482,10 +1483,10 @@ Options:
 </details>
 
 
-`./csv-blueprint validate:schema --help`
+`./csv-blueprint validate-schema --help`
 
 <details>
-  <summary>CLICK to see validate:schema help messege</summary>
+  <summary>CLICK to see validate-schema help messege</summary>
 
 <!-- auto-update:validate-schema-help -->
 ```
@@ -1493,7 +1494,7 @@ Description:
   Validate syntax in schema file(s).
 
 Usage:
-  validate:schema [options]
+  validate-schema [options]
 
 Options:
   -s, --schema=SCHEMA            Specify the path(s) to the schema file(s), supporting YAML, JSON, or PHP formats.
@@ -1585,11 +1586,11 @@ Options:
 </details>
 
 
-`./csv-blueprint create:schema --help`
+`./csv-blueprint create-schema --help`
 It's beta. Work in progress.
 
 <details>
-  <summary>CLICK to see create:schema help messege</summary>
+  <summary>CLICK to see create-schema help messege</summary>
 
 <!-- auto-update:create-schema-help -->
 ```
@@ -1597,7 +1598,7 @@ Description:
   Analyze CSV files and suggest a schema based on the data found.
 
 Usage:
-  create:schema [options]
+  create-schema [options]
 
 Options:
   -c, --csv=CSV                  Specify the path(s) to the CSV files you want to analyze.

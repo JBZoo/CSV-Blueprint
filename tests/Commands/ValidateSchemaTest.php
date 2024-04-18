@@ -25,7 +25,7 @@ final class ValidateSchemaTest extends TestCase
 {
     public function testValid(): void
     {
-        [$actual, $exitCode] = Tools::virtualExecution('validate:schema', [
+        [$actual, $exitCode] = Tools::virtualExecution('validate-schema', [
             'schema' => Tools::DEMO_YML_VALID,
         ]);
 
@@ -43,7 +43,7 @@ final class ValidateSchemaTest extends TestCase
 
     public function testInvalidSyntax(): void
     {
-        [$actual, $exitCode] = Tools::virtualExecution('validate:schema', [
+        [$actual, $exitCode] = Tools::virtualExecution('validate-schema', [
             'schema' => './tests/schemas/broken/syntax.yml',
         ]);
 
@@ -66,7 +66,7 @@ final class ValidateSchemaTest extends TestCase
 
     public function testInvalidSchemas(): void
     {
-        [$actual, $exitCode] = Tools::virtualExecution('validate:schema', [
+        [$actual, $exitCode] = Tools::virtualExecution('validate-schema', [
             'schema' => './tests/schemas/broken/*.yml',
         ]);
 
@@ -95,7 +95,7 @@ final class ValidateSchemaTest extends TestCase
 
     public function testInvalidSchemasWithSchemaDump(): void
     {
-        [$actual, $exitCode] = Tools::virtualExecution('validate:schema', [
+        [$actual, $exitCode] = Tools::virtualExecution('validate-schema', [
             'schema'      => './tests/schemas/broken/*.yml',
             'dump-schema' => null,
         ]);
@@ -147,7 +147,7 @@ final class ValidateSchemaTest extends TestCase
 
     public function testInvalidSchemasTextReport(): void
     {
-        [$actual, $exitCode] = Tools::virtualExecution('validate:schema', [
+        [$actual, $exitCode] = Tools::virtualExecution('validate-schema', [
             'schema' => './tests/schemas/broken/*.yml',
             'report' => 'text',
         ]);
@@ -171,7 +171,7 @@ final class ValidateSchemaTest extends TestCase
 
     public function testValidExamples(): void
     {
-        [$actual, $exitCode] = Tools::virtualExecution('validate:schema', Tools::arrayToOptions([
+        [$actual, $exitCode] = Tools::virtualExecution('validate-schema', Tools::arrayToOptions([
             'schema' => [
                 './schema-examples/*.yml',
                 './schema-examples/*.json',

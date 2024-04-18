@@ -29,7 +29,7 @@ env:
   BLUEPRINT: time ./csv-blueprint
   BLUEPRINT_PHAR: time ./build/csv-blueprint.phar
   BLUEPRINT_DOCKER: time docker run --rm --workdir=/parent-host -v .:/parent-host jbzoo/csv-blueprint:local
-  CMD_VALIDATE: validate:csv --ansi -vvv
+  CMD_VALIDATE: validate-csv --ansi -vvv
   VALID_TEST: --csv=./tests/fixtures/batch/*.csv --schema=./tests/schemas/demo_valid.yml
   INVALID_TEST: --csv=./tests/fixtures/batch/*.csv --schema=./tests/schemas/demo_*.yml --schema=./tests/schemas/invalid_schema.yml
 

@@ -30,7 +30,7 @@ final class ValidateSchema extends AbstractValidate
     protected function configure(): void
     {
         $this
-            ->setName('validate:schema')
+            ->setName('validate-schema')
             ->setDescription('Validate syntax in schema file(s).')
             ->addOption(
                 'schema',
