@@ -25,7 +25,7 @@ final class IsBinary extends AbstractCellRule
             [
                 self::DEFAULT => [
                     'true',
-                    'Both: with or without "0b" prefix. Example: "0b10" or "10"',
+                    'Both: with or without "0b" prefix. Example: "0b10" or "10".',
                 ],
             ],
         ];

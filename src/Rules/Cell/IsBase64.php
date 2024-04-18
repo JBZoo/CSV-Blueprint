@@ -41,6 +41,11 @@ final class IsBase64 extends AbstractCellRule
 
     public static function testValue(string $cellValue): bool
     {
+        $shortLimit = 5;
+        if (\strlen($cellValue) < $shortLimit) { // To short to be a base64 string
+            return false;
+        }
+
         return Validator::base64()->validate($cellValue);
     }
 }

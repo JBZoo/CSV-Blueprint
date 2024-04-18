@@ -45,6 +45,11 @@ final class IsFloat extends AbstractCellRule
 
     public static function testValue(string $cellValue): bool
     {
+        $maxLimit = 18;
+        if (\strlen($cellValue) > $maxLimit) {
+            return false;
+        }
+
         return Validator::floatVal()->validate($cellValue);
     }
 }

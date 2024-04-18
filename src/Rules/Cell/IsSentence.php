@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-final class IsHex extends AbstractCellRule
+final class IsSentence extends AbstractCellRule
 {
     public function getHelpMeta(): array
     {
@@ -25,7 +25,7 @@ final class IsHex extends AbstractCellRule
             [
                 self::DEFAULT => [
                     'true',
-                    'Both: with or without "0x" prefix. Example: "0x1A".',
+                    'Sentence with at least one space. Example: "Hello world!".',
                 ],
             ],
         ];
@@ -33,8 +33,12 @@ final class IsHex extends AbstractCellRule
 
     public function validateRule(string $cellValue): ?string
     {
+        if ($cellValue === '') {
+            return null;
+        }
+
         if (!self::testValue($cellValue)) {
-            return "Value \"<c>{$cellValue}</c>\" is not a valid hexadecimal number. Example: \"0x1A\"";
+            return "Value \"<c>{$cellValue}</c>\" should be a sentence";
         }
 
         return null;
@@ -42,6 +46,7 @@ final class IsHex extends AbstractCellRule
 
     public static function testValue(string $cellValue): bool
     {
-        return \preg_match('/^0x[0-9a-f]+$/i', $cellValue) !== 0;
+        $shortLimit = 3;
+        return \str_contains($cellValue, ' ') && \strlen($cellValue) > $shortLimit;
     }
 }

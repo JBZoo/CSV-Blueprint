@@ -16,11 +16,8 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint;
 
-use JBZoo\CsvBlueprint\Rules\Cell\IsLatitude;
 use JBZoo\Data\AbstractData;
 use JBZoo\Data\Data;
-
-use function JBZoo\Data\data;
 
 final class SchemaDataPrep
 {
@@ -97,82 +94,6 @@ final class SchemaDataPrep
         }
 
         return new Data($result);
-    }
-
-    /**
-     * Remove unnecessary validation rules to simplify readability and comprehension,
-     * as well as not losing the strictness of validation.
-     * @param  array $rules the rules to be processed
-     * @return array the modified rules array
-     * @SuppressWarnings(PHPMD.NPathComplexity)
-     */
-    public static function deleteUnnecessaryRules(array $rules): array
-    {
-        $isAnyIs = \count(
-            \array_filter(\array_keys($rules), static fn ($key) => \strpos((string)$key, 'is_') === 0),
-        ) > 1;
-
-        $rules = data($rules);
-        if ($rules->has('is_float') || $rules->has('is_int')) {
-            $rules = $rules
-                ->remove('length_min')
-                ->remove('length_max')
-                ->remove('is_lowercase')
-                ->remove('is_uppercase')
-                ->remove('is_capitalize')
-                ->remove('word_count_min')
-                ->remove('word_count')
-                ->remove('word_count_max');
-        }
-
-        if ($rules->has('is_date')) {
-            $rules = $rules
-                ->remove('is_lowercase')
-                ->remove('is_uppercase')
-                ->remove('is_capitalize')
-                ->remove('word_count_min')
-                ->remove('word_count')
-                ->remove('word_count_max');
-        }
-
-        if (
-            $rules->has('is_float')
-            && $rules->has('is_int')
-            && ($rules->is('precision', 0, true) || $rules->is('precision_max', 0, true))
-        ) {
-            $rules = $rules
-                ->remove('is_float')
-                ->remove('precision')
-                ->remove('precision_max')
-                ->set('is_int', true)
-                ->set('num_min', (int)$rules->get('num_min'))
-                ->set('num_max', (int)$rules->get('num_max'));
-        }
-
-        if (!$rules->has('is_float') && !$rules->has('is_int')) {
-            $rules = $rules->remove('precision');
-        }
-
-        if (
-            $rules->has('is_latitude')
-            && $rules->getInt('num_min') >= IsLatitude::MIN_VALUE
-            && $rules->getInt('num_max') <= IsLatitude::MAX_VALUE
-        ) {
-            $rules = $rules->remove('is_longitude');
-        }
-
-        if ($rules->has('allow_values')) {
-            return [
-                'allow_values' => $rules->getArray('allow_values'),
-                'not_empty'    => $rules->getBool('not_empty'),
-            ];
-        }
-
-        if ($isAnyIs) {
-            $rules = $rules->remove('is_password_safe_chars');
-        }
-
-        return \array_filter($rules->getArrayCopy(), static fn ($value) => $value !== null);
     }
 
     /**

@@ -47,6 +47,30 @@ final class Hash extends AbstractCellRule
         return null;
     }
 
+    public static function analyzeColumnValues(array $columnValues): array|bool|string
+    {
+        $regex = self::getRegexList();
+
+        $countByRegex = [];
+
+        foreach ($columnValues as $value) {
+            foreach ($regex as $alg => $pattern) {
+                if (\preg_match($pattern, $value) === 1) {
+                    $countByRegex[$alg] = ($countByRegex[$alg] ?? 0) + 1;
+                }
+            }
+        }
+
+        $originalCount = \count(\array_filter($columnValues, static fn (string $value) => $value !== ''));
+        $validHashAlg = \array_keys(\array_filter($countByRegex, static fn (int $count) => $count === $originalCount));
+
+        if (\count($validHashAlg) > 0) {
+            return (string)\reset($validHashAlg);
+        }
+
+        return false;
+    }
+
     private static function getRegex(int $length, string $charset = '[a-f0-9]'): string
     {
         return "/^{$charset}{{$length}}\$/i";
@@ -55,9 +79,9 @@ final class Hash extends AbstractCellRule
     private static function getRegexList(): array
     {
         return [
-            'md2' => self::getRegex(32),
-            'md4' => self::getRegex(32),
             'md5' => self::getRegex(32),
+            'md4' => self::getRegex(32),
+            'md2' => self::getRegex(32),
 
             'sha1'       => self::getRegex(40),
             'sha224'     => self::getRegex(56),
@@ -91,11 +115,11 @@ final class Hash extends AbstractCellRule
             'gost'        => self::getRegex(64),
             'gost-crypto' => self::getRegex(64),
 
-            'adler32' => self::getRegex(8),
-
             'crc32'  => self::getRegex(8),
             'crc32b' => self::getRegex(8),
             'crc32c' => self::getRegex(8),
+
+            'adler32' => self::getRegex(8),
 
             'fnv132'  => self::getRegex(8),
             'fnv1a32' => self::getRegex(8),

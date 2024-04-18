@@ -48,6 +48,10 @@ final class IsLeapYear extends AbstractCellRule
 
     public static function testValue(string $cellValue): bool
     {
+        if (!IsDate::testValue($cellValue)) {
+            return false;
+        }
+
         return Validator::leapYear()->validate($cellValue);
     }
 }

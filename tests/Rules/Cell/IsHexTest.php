@@ -29,15 +29,8 @@ final class IsHexTest extends TestAbstractCellRule
     {
         $rule = $this->create(true);
         isSame(null, $rule->validate(''));
-        isSame('', $rule->test('0'));
-        isSame('', $rule->test('1'));
-        isSame('', $rule->test('11'));
-        isSame('', $rule->test('1F'));
-        isSame('', $rule->test('ff'));
-        isSame('', $rule->test('fa'));
-
-        isSame('', $rule->test('0x1'));
         isSame('', $rule->test('0x0'));
+        isSame('', $rule->test('0x1'));
         isSame('', $rule->test('0x11'));
         isSame('', $rule->test('0x1F'));
         isSame('', $rule->test('0xff'));
@@ -51,14 +44,14 @@ final class IsHexTest extends TestAbstractCellRule
     {
         $rule = $this->create(true);
         isSame(
-            'Value "qwerty" is not a valid hexadecimal number. Example: "0x1A" or "1A"',
+            'Value "qwerty" is not a valid hexadecimal number. Example: "0x1A"',
             $rule->test('qwerty'),
         );
 
         $rule = $this->create(true);
         isSame(
             '"is_hex" at line <red>1</red>, column "prop". ' .
-            'Value "<c>qwerty</c>" is not a valid hexadecimal number. Example: "0x1A" or "1A".',
+            'Value "<c>qwerty</c>" is not a valid hexadecimal number. Example: "0x1A".',
             (string)$rule->validate('qwerty'),
         );
     }

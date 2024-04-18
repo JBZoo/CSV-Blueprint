@@ -18,7 +18,6 @@ namespace JBZoo\CsvBlueprint\Analyze;
 
 use JBZoo\CsvBlueprint\Csv\CsvFile;
 use JBZoo\CsvBlueprint\Schema;
-use JBZoo\CsvBlueprint\SchemaDataPrep;
 use JBZoo\CsvBlueprint\Utils;
 use Symfony\Component\Finder\Finder;
 
@@ -59,14 +58,7 @@ final class Analyzer
 
         $suggestedSchema = self::analyzeColumns($columns, $csv, $hasHeader, $lineLimit, $suggestedSchema);
 
-        $schema = new Schema($suggestedSchema);
-
-        $errors = $schema->validate();
-        if ($errors->count() > 0) {
-            throw new Exception("The suggested schema is invalid\n\n{$errors->render()}");
-        }
-
-        return $schema;
+        return new Schema($suggestedSchema);
     }
 
     private static function analyzeColumns(
@@ -106,7 +98,7 @@ final class Analyzer
             }
 
             $suggestedSchema['columns'][$columnId] = \array_merge($base, self::analyzeColumn($columnValues));
-            $suggestedSchema['columns'][$columnId]['rules'] = SchemaDataPrep::deleteUnnecessaryRules(
+            $suggestedSchema['columns'][$columnId]['rules'] = RuleOptimizer::optimize(
                 $suggestedSchema['columns'][$columnId]['rules'],
             );
         }

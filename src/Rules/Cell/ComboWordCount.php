@@ -32,30 +32,6 @@ final class ComboWordCount extends AbstractCellRuleCombo
         ];
     }
 
-    public static function analyzeColumnValues(array $columnValues): array|bool|string
-    {
-        $min = null;
-        $max = null;
-
-        foreach ($columnValues as $cellValue) {
-            $numWords = \str_word_count($cellValue, 0);
-
-            if ($min === null || $numWords < $min) {
-                $min = $numWords;
-            }
-
-            if ($max === null || $numWords > $max) {
-                $max = $numWords;
-            }
-        }
-
-        if ($min === 0 || $max === 0) {
-            return false;
-        }
-
-        return $max === $min ? ['' => $max] : ['min' => $min, 'max' => $max];
-    }
-
     protected function getExpected(): float
     {
         return $this->getOptionAsInt();

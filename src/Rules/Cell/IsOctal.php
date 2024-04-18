@@ -25,7 +25,7 @@ final class IsOctal extends AbstractCellRule
             [
                 self::DEFAULT => [
                     'true',
-                    'Validates octal numbers in the format "0o123" or "0123".',
+                    'Validates octal numbers in the format "0o123".',
                 ],
             ],
         ];
@@ -34,7 +34,7 @@ final class IsOctal extends AbstractCellRule
     public function validateRule(string $cellValue): ?string
     {
         if (!self::testValue($cellValue)) {
-            return "Value \"<c>{$cellValue}</c>\" is not a valid octal number. Examples: \"0o123\" or \"0123\"";
+            return "Value \"<c>{$cellValue}</c>\" is not a valid octal number. Examples: \"0o123\"";
         }
 
         return null;
@@ -42,7 +42,6 @@ final class IsOctal extends AbstractCellRule
 
     public static function testValue(string $cellValue): bool
     {
-        return \preg_match('/^[0-7]+(_[0-7]+)*$/', $cellValue) !== 0
-            || \preg_match('/^0[oO]?[0-7]+(_[0-7]+)*$/', $cellValue) !== 0;
+        return \preg_match('/^0[oO]?[0-7]+(_[0-7]+)*$/', $cellValue) !== 0;
     }
 }
