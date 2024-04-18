@@ -70,7 +70,7 @@ runs:
   using: 'docker'
   image: 'docker://jbzoo/csv-blueprint'
   args:
-    - validate-csv
+    - validate:csv
     - '--csv'
     - ${{ inputs.csv }}
     - '--schema'
