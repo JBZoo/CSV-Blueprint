@@ -28,7 +28,6 @@ final class RuleOptimizer
      * as well as not losing the strictness of validation.
      * @param  array $rules the rules to be processed
      * @return array the modified rules array
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public static function optimize(array $rules): array
     {
@@ -41,6 +40,7 @@ final class RuleOptimizer
         $rules = self::specific($rules);
         $rules = self::numberVsString($rules);
         $rules = self::intVsFloat($rules);
+        $rules = self::fixNumericTypes($rules);
         $rules = self::dates($rules);
         $rules = self::coords($rules);
         $rules = self::basicStrings($rules);
@@ -80,9 +80,6 @@ final class RuleOptimizer
         return $rules;
     }
 
-    /**
-     * @SuppressWarnings(PHPMD.NPathComplexity)
-     */
     private static function intVsFloat(AbstractData $rules): AbstractData
     {
         if (
@@ -98,26 +95,6 @@ final class RuleOptimizer
                 ->remove('precision')
                 ->remove('precision_min')
                 ->remove('precision_max');
-        }
-
-        if ($rules->has('is_int')) {
-            if ($rules->has('num_min')) {
-                $rules = $rules->set('num_min', (int)$rules->get('num_min'));
-                $rules = $rules->set('num_max', (int)$rules->get('num_max'));
-            }
-            if ($rules->has('num')) {
-                $rules = $rules->set('num', (int)$rules->get('num'));
-            }
-        }
-
-        if ($rules->has('is_float')) {
-            if ($rules->has('num_min')) {
-                $rules = $rules->set('num_min', (float)$rules->get('num_min'));
-                $rules = $rules->set('num_max', (float)$rules->get('num_max'));
-            }
-            if ($rules->has('num')) {
-                $rules = $rules->set('num', (float)$rules->get('num'));
-            }
         }
 
         if (!$rules->has('is_float') && !$rules->has('is_int')) {
@@ -196,6 +173,31 @@ final class RuleOptimizer
 
         if (self::isAnyIs($rules)) {
             $rules = $rules->remove('is_password_safe_chars');
+        }
+
+        return $rules;
+    }
+
+    private static function fixNumericTypes(AbstractData $rules): AbstractData
+    {
+        if ($rules->has('is_int')) {
+            if ($rules->has('num_min')) {
+                $rules = $rules->set('num_min', (int)$rules->get('num_min'));
+                $rules = $rules->set('num_max', (int)$rules->get('num_max'));
+            }
+            if ($rules->has('num')) {
+                $rules = $rules->set('num', (int)$rules->get('num'));
+            }
+        }
+
+        if ($rules->has('is_float')) {
+            if ($rules->has('num_min')) {
+                $rules = $rules->set('num_min', (float)$rules->get('num_min'));
+                $rules = $rules->set('num_max', (float)$rules->get('num_max'));
+            }
+            if ($rules->has('num')) {
+                $rules = $rules->set('num', (float)$rules->get('num'));
+            }
         }
 
         return $rules;
