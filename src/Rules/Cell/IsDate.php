@@ -42,11 +42,12 @@ final class IsDate extends AbstractCellRule
 
     public static function testValue(string $cellValue): bool
     {
-        if (
-            $cellValue === ''
-            || IsInt::testValue($cellValue)
-            || IsFloat::testValue($cellValue)
-        ) {
+        if ($cellValue === '') {
+            return true;
+        }
+
+        $shortLimit = 3;
+        if (\strlen($cellValue) < $shortLimit) { // too short to ba a real date
             return false;
         }
 

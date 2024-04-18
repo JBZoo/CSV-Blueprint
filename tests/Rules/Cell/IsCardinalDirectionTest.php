@@ -37,6 +37,16 @@ final class IsCardinalDirectionTest extends TestAbstractCellRule
         isSame('', $rule->test('SE'));
         isSame('', $rule->test('NW'));
         isSame('', $rule->test('SW'));
+        isSame('', $rule->test('NONE'));
+
+        isSame('', $rule->test('n'));
+        isSame('', $rule->test('s'));
+        isSame('', $rule->test('e'));
+        isSame('', $rule->test('w'));
+        isSame('', $rule->test('ne'));
+        isSame('', $rule->test('se'));
+        isSame('', $rule->test('nw'));
+        isSame('', $rule->test('sw'));
         isSame('', $rule->test('none'));
     }
 
@@ -45,14 +55,14 @@ final class IsCardinalDirectionTest extends TestAbstractCellRule
         $rule = $this->create(true);
         isSame(
             'Value "qwe" is not allowed. ' .
-            'Allowed values: ["N", "S", "E", "W", "NE", "SE", "NW", "SW", "none", ""]',
+            'Allowed values: ["N", "S", "E", "W", "NE", "SE", "NW", "SW", "NONE"]',
             $rule->test('qwe'),
         );
 
         isSame(
-            'Value "n" is not allowed. ' .
-            'Allowed values: ["N", "S", "E", "W", "NE", "SE", "NW", "SW", "none", ""]',
-            $rule->test('n'),
+            'Value "Q" is not allowed. ' .
+            'Allowed values: ["N", "S", "E", "W", "NE", "SE", "NW", "SW", "NONE"]',
+            $rule->test('Q'),
         );
     }
 }

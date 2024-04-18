@@ -55,7 +55,7 @@ final class CreateSchema extends AbstractValidate
                 'H',
                 InputOption::VALUE_OPTIONAL,
                 'Force the presence of a header row in the CSV files.',
-                'auto',
+                'yes',
             )
             ->addOption(
                 'lines',

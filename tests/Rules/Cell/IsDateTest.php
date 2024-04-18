@@ -49,8 +49,8 @@ final class IsDateTest extends TestAbstractCellRule
 
         $rule = $this->create(true);
         isSame(
-            'Value "" is not a valid date.',
-            $rule->test(''),
+            'Value "E" is not a valid date.',
+            $rule->test('E'),
         );
 
         $rule = $this->create(true);

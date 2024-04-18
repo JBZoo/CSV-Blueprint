@@ -58,7 +58,7 @@ final class ComboDate extends AbstractCellRuleCombo
 
             $timestamp = self::convertToTimestamp($cellValue);
             if ($timestamp === self::INVALID_TIMESTAMP) {
-                continue;
+                return false;
             }
 
             if ($min === null || $timestamp < $min) {

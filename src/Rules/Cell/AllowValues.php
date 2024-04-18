@@ -54,7 +54,7 @@ final class AllowValues extends AbstractCellRule
             return false;
         }
 
-        \asort($columnValues, \SORT_NATURAL);
+        \asort($uniqueValues, \SORT_NATURAL);
 
         return \array_values($uniqueValues);
     }

@@ -105,6 +105,7 @@ final class SchemaDataPrep
      * @param  array $rules the rules to be processed
      * @return array the modified rules array
      * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public static function deleteUnnecessaryRules(array $rules): array
     {
@@ -113,26 +114,33 @@ final class SchemaDataPrep
         ) > 1;
 
         $rules = data($rules);
-        if ($rules->has('is_float') || $rules->has('is_int')) {
+        if (
+            $rules->has('is_float')
+            || $rules->has('is_int')
+            || $rules->has('is_hex')
+            || $rules->has('is_binary')
+        ) {
             $rules = $rules
                 ->remove('length_min')
                 ->remove('length_max')
                 ->remove('is_lowercase')
                 ->remove('is_uppercase')
                 ->remove('is_capitalize')
-                ->remove('word_count_min')
-                ->remove('word_count')
-                ->remove('word_count_max');
+                ->remove('is_slug')
+                ->remove('is_geohash')
+                ->remove('is_alnum');
         }
 
-        if ($rules->has('is_date')) {
+        if (
+            $rules->has('is_date')
+            || ($rules->has('is_lowercase') && $rules->has('is_uppercase'))
+            || $rules->has('is_int')
+            || $rules->has('if_float')
+        ) {
             $rules = $rules
                 ->remove('is_lowercase')
                 ->remove('is_uppercase')
-                ->remove('is_capitalize')
-                ->remove('word_count_min')
-                ->remove('word_count')
-                ->remove('word_count_max');
+                ->remove('is_capitalize');
         }
 
         if (
@@ -143,10 +151,32 @@ final class SchemaDataPrep
             $rules = $rules
                 ->remove('is_float')
                 ->remove('precision')
-                ->remove('precision_max')
-                ->set('is_int', true)
-                ->set('num_min', (int)$rules->get('num_min'))
-                ->set('num_max', (int)$rules->get('num_max'));
+                ->remove('precision_min')
+                ->remove('precision_max');
+        }
+
+        if ($rules->has('is_int')) {
+            if ($rules->has('num_min')) {
+                $rules = $rules->set('num_min', (int)$rules->get('num_min'));
+            }
+            if ($rules->has('num')) {
+                $rules = $rules->set('num', (int)$rules->get('num'));
+            }
+            if ($rules->has('num_max')) {
+                $rules = $rules->set('num_max', (int)$rules->get('num_max'));
+            }
+        }
+
+        if ($rules->has('is_float')) {
+            if ($rules->has('num_min')) {
+                $rules = $rules->set('num_min', (float)$rules->get('num_min'));
+            }
+            if ($rules->has('num')) {
+                $rules = $rules->set('num', (float)$rules->get('num'));
+            }
+            if ($rules->has('num_max')) {
+                $rules = $rules->set('num_max', (float)$rules->get('num_max'));
+            }
         }
 
         if (!$rules->has('is_float') && !$rules->has('is_int')) {
@@ -161,11 +191,26 @@ final class SchemaDataPrep
             $rules = $rules->remove('is_longitude');
         }
 
-        if ($rules->has('allow_values')) {
-            return [
-                'allow_values' => $rules->getArray('allow_values'),
-                'not_empty'    => $rules->getBool('not_empty'),
-            ];
+        if ($rules->has('is_lowercase') || $rules->has('is_uppercase')) {
+            $rules = $rules->remove('is_capitalize');
+        }
+
+        if ($rules->has('hash')) {
+            $rules = $rules
+                ->remove('is_geohash')
+                ->remove('is_base64')
+                ->remove('is_alnum');
+        }
+
+        if ($rules->is('not_empty', false, true) && $rules->is('length', 0, true)) {
+            return ['exact_value' => ''];  // Empty string
+        }
+
+        if ($rules->has('is_uuid')) {
+            $rules = $rules
+                ->remove('is_trimmed')
+                ->remove('is_slug')
+                ->remove('length');
         }
 
         if ($isAnyIs) {

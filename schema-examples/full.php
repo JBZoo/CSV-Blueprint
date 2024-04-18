@@ -72,6 +72,7 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'is_lowercase'  => true,
                 'is_uppercase'  => true,
                 'is_capitalize' => true,
+                'is_sentence'   => true,
 
                 'word_count_min'     => 1,
                 'word_count_greater' => 2,

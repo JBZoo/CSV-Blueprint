@@ -11,8 +11,8 @@
 <!-- auto-update:/top-badges -->
 
 <!-- auto-update:rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-339-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
-[![Static Badge](https://img.shields.io/badge/Rules-125-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
+[![Static Badge](https://img.shields.io/badge/Rules-340-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-126-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
 [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)
 [![Static Badge](https://img.shields.io/badge/Rules-8-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)
 [![Static Badge](https://img.shields.io/badge/Rules-22/11/20-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
@@ -374,6 +374,7 @@ columns:
       is_lowercase: true                # String is only lower-case. Example: "hello world".
       is_uppercase: true                # String is only upper-case. Example: "HELLO WORLD".
       is_capitalize: true               # String is only capitalized. Example: "Hello World".
+      is_sentence: true                 # Sentence with at least one space. Example: "Hello world!".
 
       # Count number of words used in a string
       # Note that multibyte locales are not supported.
@@ -460,9 +461,9 @@ columns:
 
       # Specific formats
       is_bool: true                     # Allow only boolean values "true" and "false", case-insensitive.
-      is_binary: true                   # Both: with or without "0b" prefix. Example: "0b10" or "10"
-      is_octal: true                    # Validates octal numbers in the format "0o123" or "0123".
-      is_hex: true                      # Both: with or without "0x" prefix. Example: "0x1A" or "1A"
+      is_binary: true                   # Both: with or without "0b" prefix. Example: "0b10" or "10".
+      is_octal: true                    # Validates octal numbers in the format "0o123".
+      is_hex: true                      # Both: with or without "0x" prefix. Example: "0x1A".
       is_uuid: true                     # Validates whether the input is a valid UUID. It also supports validation of specific versions 1, 3, 4 and 5.
       is_slug: true                     # Only slug format. Example: "my-slug-123". It can contain letters, numbers, and dashes.
       is_currency_code: true            # Validates an ISO 4217 currency code like GBP or EUR. Case-sensitive. See: https://en.wikipedia.org/wiki/ISO_4217.
@@ -504,7 +505,7 @@ columns:
       is_latitude: true                 # Can be integer or float. Example: 50.123456.
       is_longitude: true                # Can be integer or float. Example: -89.123456.
       is_geohash: true                  # Check if the value is a valid geohash. Example: "u4pruydqqvj".
-      is_cardinal_direction: true       # Valid cardinal direction. Available values: ["N", "S", "E", "W", "NE", "SE", "NW", "SW", "none", ""]
+      is_cardinal_direction: true       # Valid cardinal direction. Case-insensitive. Available values: ["N", "S", "E", "W", "NE", "SE", "NW", "SW", "NONE"]
       is_usa_market_name: true          # Check if the value is a valid USA market name. Example: "New York, NY".
 
       # Validates whether the input is a country code in ISO 3166-1 standard.
@@ -547,10 +548,10 @@ columns:
       is_hex_rgb_color: true            # Validates weather the input is a hex RGB color or not. Examples: "#FF0000", "#123", "ffffff", "fff".
 
       # Check if the value is a valid hash. Supported algorithms:
-      #  - md2, md4, md5, sha1, sha224, sha256, sha384, sha512/224, sha512/256, sha512
+      #  - md5, md4, md2, sha1, sha224, sha256, sha384, sha512/224, sha512/256, sha512
       #  - sha3-224, sha3-256, sha3-384, sha3-512, ripemd128, ripemd160, ripemd256, ripemd320, whirlpool, tiger128,3
-      #  - tiger160,3, tiger192,3, tiger128,4, tiger160,4, tiger192,4, snefru, snefru256, gost, gost-crypto, adler32
-      #  - crc32, crc32b, crc32c, fnv132, fnv1a32, fnv164, fnv1a64, joaat, murmur3a, murmur3c
+      #  - tiger160,3, tiger192,3, tiger128,4, tiger160,4, tiger192,4, snefru, snefru256, gost, gost-crypto, crc32
+      #  - crc32b, crc32c, adler32, fnv132, fnv1a32, fnv164, fnv1a64, joaat, murmur3a, murmur3c
       #  - murmur3f, xxh32, xxh64, xxh3, xxh128, haval128,3, haval160,3, haval192,3, haval224,3, haval256,3
       #  - haval128,4, haval160,4, haval192,4, haval224,4, haval256,4, haval128,5, haval160,5, haval192,5, haval224,5, haval256,5
       hash: set_algo                    # Example: "1234567890abcdef".
@@ -1605,7 +1606,7 @@ Options:
                                  This can include a direct path to a file or a directory to search with a maximum depth of 10 levels.
                                  Examples: p/file.csv; p/*.csv; p/**/*.csv; p/**/name-*.csv; **/*.csv
                                   (multiple values allowed)
-  -H, --header[=HEADER]          Force the presence of a header row in the CSV files. [default: "auto"]
+  -H, --header[=HEADER]          Force the presence of a header row in the CSV files. [default: "yes"]
   -l, --lines[=LINES]            The number of lines to read when detecting parameters. Minimum is 1. [default: 10000]
   -r, --report=REPORT            Determines the report's output format.
                                  Available options: text, table, github, gitlab, teamcity, junit
