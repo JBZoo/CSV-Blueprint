@@ -27,7 +27,7 @@ final class ValidateCsvBasicTest extends TestCase
 {
     public function testValidateOneCsvPositive(): void
     {
-        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
+        [$actual, $exitCode] = Tools::virtualExecution('validate-csv', [
             'csv'    => Tools::DEMO_CSV,
             'schema' => Tools::DEMO_YML_VALID,
         ]);
@@ -60,7 +60,7 @@ final class ValidateCsvBasicTest extends TestCase
 
     public function testValidateOneCsvNegative(): void
     {
-        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
+        [$actual, $exitCode] = Tools::virtualExecution('validate-csv', [
             'csv'    => Tools::DEMO_INVALID_CSV,
             'schema' => Tools::DEMO_YML_VALID,
         ]);
@@ -98,7 +98,7 @@ final class ValidateCsvBasicTest extends TestCase
 
     public function testValidateOneCsvWithInvalidSchemaNegative(): void
     {
-        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
+        [$actual, $exitCode] = Tools::virtualExecution('validate-csv', [
             'csv'    => Tools::DEMO_CSV,
             'schema' => Tools::DEMO_YML_INVALID,
         ]);
@@ -158,7 +158,7 @@ final class ValidateCsvBasicTest extends TestCase
             'schema' => Tools::SCHEMA_INVALID,
         ];
         $optionsAsString = new StringInput(Cli::build('', $options));
-        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $options);
+        [$actual, $exitCode] = Tools::virtualExecution('validate-csv', $options);
 
         $expected = <<<'TXT'
             CSV Blueprint: Unknown version (PhpUnit)
@@ -206,7 +206,7 @@ final class ValidateCsvBasicTest extends TestCase
             'schema' => Tools::SCHEMA_INVALID,
         ];
         $optionsAsString = new StringInput(Cli::build('', $options));
-        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $options);
+        [$actual, $exitCode] = Tools::virtualExecution('validate-csv', $options);
 
         $expected = <<<'TXT'
             CSV Blueprint: Unknown version (PhpUnit)
@@ -247,7 +247,7 @@ final class ValidateCsvBasicTest extends TestCase
 
     public function testValidateOneCsvNoHeaderNegative(): void
     {
-        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
+        [$actual, $exitCode] = Tools::virtualExecution('validate-csv', [
             'csv'       => Tools::DEMO_CSV,
             'schema'    => './tests/schemas/simple_no_header.yml',
             'apply-all' => 'yes',
@@ -288,7 +288,7 @@ final class ValidateCsvBasicTest extends TestCase
 
     public function testNothingFound(): void
     {
-        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
+        [$actual, $exitCode] = Tools::virtualExecution('validate-csv', [
             'csv'    => './tests/fixtures/no-found-file.csv',
             'schema' => 'invalid_schema_path.yml',
         ]);
@@ -325,7 +325,7 @@ final class ValidateCsvBasicTest extends TestCase
                 './tests/schemas/demo_valid.yml',
             ],
         ]);
-        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $optionsAsString);
+        [$actual, $exitCode] = Tools::virtualExecution('validate-csv', $optionsAsString);
 
         $expected = <<<'TXT'
             CSV Blueprint: Unknown version (PhpUnit)

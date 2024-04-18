@@ -28,7 +28,7 @@ final class GithubActionsTest extends TestCase
 
         $availableOptions = \array_keys($action->findArray('inputs'));
 
-        $expectedArgs = ['validate:csv'];
+        $expectedArgs = ['validate-csv'];
 
         foreach ($availableOptions as $option) {
             if ($option !== 'extra') {

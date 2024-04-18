@@ -25,7 +25,7 @@ final class CreateSchemaTest extends TestCase
 {
     public function testWithoutHeader(): void
     {
-        [$actual, $exitCode] = Tools::virtualExecution('create:schema', [
+        [$actual, $exitCode] = Tools::virtualExecution('create-schema', [
             'csv' => './tests/fixtures/demo.csv',
         ]);
 
@@ -100,7 +100,7 @@ final class CreateSchemaTest extends TestCase
 
         \file_put_contents(PROJECT_ROOT . '/build/demo.schema.yml', $actual);
 
-        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
+        [$actual, $exitCode] = Tools::virtualExecution('validate-csv', [
             'csv'    => './tests/fixtures/demo.csv',
             'schema' => PROJECT_ROOT . '/build/demo.schema.yml',
         ]);
@@ -109,7 +109,7 @@ final class CreateSchemaTest extends TestCase
 
     public function testWithHeader(): void
     {
-        [$actual, $exitCode] = Tools::virtualExecution('create:schema', [
+        [$actual, $exitCode] = Tools::virtualExecution('create-schema', [
             'csv'    => './tests/fixtures/demo.csv',
             'header' => 'true',
         ]);
@@ -184,7 +184,7 @@ final class CreateSchemaTest extends TestCase
 
         \file_put_contents(PROJECT_ROOT . '/build/demo.schema.yml', $actual);
 
-        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', [
+        [$actual, $exitCode] = Tools::virtualExecution('validate-csv', [
             'csv'    => './tests/fixtures/demo.csv',
             'schema' => PROJECT_ROOT . '/build/demo.schema.yml',
         ]);

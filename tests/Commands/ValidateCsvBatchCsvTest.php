@@ -36,7 +36,7 @@ final class ValidateCsvBatchCsvTest extends TestCase
             'schema' => Tools::DEMO_YML_VALID,
         ]);
 
-        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $optionsAsString);
+        [$actual, $exitCode] = Tools::virtualExecution('validate-csv', $optionsAsString);
 
         $expected = <<<'TXT'
             CSV Blueprint: Unknown version (PhpUnit)
@@ -75,7 +75,7 @@ final class ValidateCsvBatchCsvTest extends TestCase
             'report' => 'text',
         ];
         $optionsAsString = new StringInput(Cli::build('', $options));
-        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $options);
+        [$actual, $exitCode] = Tools::virtualExecution('validate-csv', $options);
 
         $expected = <<<'TXT'
             CSV Blueprint: Unknown version (PhpUnit)
@@ -125,13 +125,13 @@ final class ValidateCsvBatchCsvTest extends TestCase
 
     public function testMultipleCsvOptions(): void
     {
-        [$expected, $expectedCode] = Tools::virtualExecution('validate:csv', [
+        [$expected, $expectedCode] = Tools::virtualExecution('validate-csv', [
             'csv'    => './tests/fixtures/batch/*.csv',
             'schema' => Tools::DEMO_YML_INVALID,
         ]);
 
         $actual = Tools::realExecution(
-            'validate:csv ' . \implode(' ', [
+            'validate-csv ' . \implode(' ', [
                 '--csv="./tests/fixtures/batch/sub/demo-3.csv"',
                 '--csv="./tests/fixtures/batch/demo-1.csv"',
                 '--csv="./tests/fixtures/batch/demo-2.csv"',

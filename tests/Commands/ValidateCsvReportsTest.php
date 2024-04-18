@@ -451,7 +451,7 @@ final class ValidateCsvReportsTest extends TestCase
             $options['report'] = $reportType;
         }
 
-        [$output, $exitCode] = Tools::virtualExecution('validate:csv', $options);
+        [$output, $exitCode] = Tools::virtualExecution('validate-csv', $options);
         isSame(1, $exitCode, $output);
 
         $output = \str_replace([

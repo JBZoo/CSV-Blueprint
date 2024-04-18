@@ -49,7 +49,7 @@ final class ReadmeTest extends TestCase
     {
         $text = \implode("\n", [
             '```',
-            \trim(Tools::realExecution('validate:csv', ['help' => null])),
+            \trim(Tools::realExecution('validate-csv', ['help' => null])),
             '```',
         ]);
 
@@ -60,7 +60,7 @@ final class ReadmeTest extends TestCase
     {
         $text = \implode("\n", [
             '```',
-            \trim(Tools::realExecution('validate:schema', ['help' => null])),
+            \trim(Tools::realExecution('validate-schema', ['help' => null])),
             '```',
         ]);
 
@@ -71,7 +71,7 @@ final class ReadmeTest extends TestCase
     {
         $text = \implode("\n", [
             '```',
-            \trim(Tools::realExecution('create:schema', ['help' => null])),
+            \trim(Tools::realExecution('create-schema', ['help' => null])),
             '```',
         ]);
 
@@ -98,13 +98,13 @@ final class ReadmeTest extends TestCase
             'schema' => './tests/schemas/demo_invalid.yml',
         ];
         $optionsAsString = new StringInput(Cli::build('', $options));
-        [$actual, $exitCode] = Tools::virtualExecution('validate:csv', $options);
+        [$actual, $exitCode] = Tools::virtualExecution('validate-csv', $options);
 
         isSame(1, $exitCode, $actual);
 
         $text = \implode("\n", [
             '```',
-            "./csv-blueprint validate:csv {$optionsAsString}",
+            "./csv-blueprint validate-csv {$optionsAsString}",
             '',
             '',
             \trim($actual),

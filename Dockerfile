@@ -40,7 +40,7 @@ COPY ./docker/php.ini /usr/local/etc/php/conf.d/docker-z99-php.ini
 # Warmup caches
 RUN php ./docker/random-csv.php \
     && JBZOO_BUILD_PRELOADER=1 \
-      ./csv-blueprint validate:csv \
+      ./csv-blueprint validate-csv \
       --schema=/app/schema-examples/full.yml \
       --csv=/app/docker/random_data.csv \
       --apply-all=yes \

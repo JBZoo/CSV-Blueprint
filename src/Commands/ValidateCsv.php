@@ -34,7 +34,8 @@ final class ValidateCsv extends AbstractValidate
     protected function configure(): void
     {
         $this
-            ->setName('validate:csv')
+            ->setName('validate-csv')
+            ->setAliases(['validate:csv']) // Legacy name for backward compatibility only
             ->setDescription('Validate CSV file(s) by schema(s).')
             ->addOption(
                 'csv',

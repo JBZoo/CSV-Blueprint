@@ -30,7 +30,7 @@ final class CreateSchema extends AbstractValidate
     protected function configure(): void
     {
         $this
-            ->setName('create:schema')
+            ->setName('create-schema')
             ->setDescription('Analyze CSV files and suggest a schema based on the data found.')
             ->addOption(
                 'csv',
