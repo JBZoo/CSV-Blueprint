@@ -960,10 +960,10 @@ In fact, this can be considered as partial inheritance.
 **If something went wrong**
 
 If you're having trouble working with presets and don't understand how the CSV Blueprint under the hood understands it,
-just add `--dump-schema` to see it. Also, there is a separate CLI command ftu dump schema:
+just add `--dump-schema` to see it. Also, there is a separate CLI command to dump schema:
 
 ```shell
-./csv-blueprint dump-schema -s ./your/schema.yml
+./csv-blueprint debug-schema -s ./your/schema.yml
 ```
 
 
