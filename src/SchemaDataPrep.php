@@ -16,11 +16,8 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint;
 
-use JBZoo\CsvBlueprint\Rules\Cell\IsLatitude;
 use JBZoo\Data\AbstractData;
 use JBZoo\Data\Data;
-
-use function JBZoo\Data\data;
 
 final class SchemaDataPrep
 {
@@ -97,127 +94,6 @@ final class SchemaDataPrep
         }
 
         return new Data($result);
-    }
-
-    /**
-     * Remove unnecessary validation rules to simplify readability and comprehension,
-     * as well as not losing the strictness of validation.
-     * @param  array $rules the rules to be processed
-     * @return array the modified rules array
-     * @SuppressWarnings(PHPMD.NPathComplexity)
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     */
-    public static function deleteUnnecessaryRules(array $rules): array
-    {
-        $isAnyIs = \count(
-            \array_filter(\array_keys($rules), static fn ($key) => \strpos((string)$key, 'is_') === 0),
-        ) > 1;
-
-        $rules = data($rules);
-        if (
-            $rules->has('is_float')
-            || $rules->has('is_int')
-            || $rules->has('is_hex')
-            || $rules->has('is_binary')
-        ) {
-            $rules = $rules
-                ->remove('length_min')
-                ->remove('length_max')
-                ->remove('is_lowercase')
-                ->remove('is_uppercase')
-                ->remove('is_capitalize')
-                ->remove('is_slug')
-                ->remove('is_geohash')
-                ->remove('is_alnum');
-        }
-
-        if (
-            $rules->has('is_date')
-            || ($rules->has('is_lowercase') && $rules->has('is_uppercase'))
-            || $rules->has('is_int')
-            || $rules->has('if_float')
-        ) {
-            $rules = $rules
-                ->remove('is_lowercase')
-                ->remove('is_uppercase')
-                ->remove('is_capitalize');
-        }
-
-        if (
-            $rules->has('is_float')
-            && $rules->has('is_int')
-            && ($rules->is('precision', 0, true) || $rules->is('precision_max', 0, true))
-        ) {
-            $rules = $rules
-                ->remove('is_float')
-                ->remove('precision')
-                ->remove('precision_min')
-                ->remove('precision_max');
-        }
-
-        if ($rules->has('is_int')) {
-            if ($rules->has('num_min')) {
-                $rules = $rules->set('num_min', (int)$rules->get('num_min'));
-            }
-            if ($rules->has('num')) {
-                $rules = $rules->set('num', (int)$rules->get('num'));
-            }
-            if ($rules->has('num_max')) {
-                $rules = $rules->set('num_max', (int)$rules->get('num_max'));
-            }
-        }
-
-        if ($rules->has('is_float')) {
-            if ($rules->has('num_min')) {
-                $rules = $rules->set('num_min', (float)$rules->get('num_min'));
-            }
-            if ($rules->has('num')) {
-                $rules = $rules->set('num', (float)$rules->get('num'));
-            }
-            if ($rules->has('num_max')) {
-                $rules = $rules->set('num_max', (float)$rules->get('num_max'));
-            }
-        }
-
-        if (!$rules->has('is_float') && !$rules->has('is_int')) {
-            $rules = $rules->remove('precision');
-        }
-
-        if (
-            $rules->has('is_latitude')
-            && $rules->getInt('num_min') >= IsLatitude::MIN_VALUE
-            && $rules->getInt('num_max') <= IsLatitude::MAX_VALUE
-        ) {
-            $rules = $rules->remove('is_longitude');
-        }
-
-        if ($rules->has('is_lowercase') || $rules->has('is_uppercase')) {
-            $rules = $rules->remove('is_capitalize');
-        }
-
-        if ($rules->has('hash')) {
-            $rules = $rules
-                ->remove('is_geohash')
-                ->remove('is_base64')
-                ->remove('is_alnum');
-        }
-
-        if ($rules->is('not_empty', false, true) && $rules->is('length', 0, true)) {
-            return ['exact_value' => ''];  // Empty string
-        }
-
-        if ($rules->has('is_uuid')) {
-            $rules = $rules
-                ->remove('is_trimmed')
-                ->remove('is_slug')
-                ->remove('length');
-        }
-
-        if ($isAnyIs) {
-            $rules = $rules->remove('is_password_safe_chars');
-        }
-
-        return \array_filter($rules->getArrayCopy(), static fn ($value) => $value !== null);
     }
 
     /**

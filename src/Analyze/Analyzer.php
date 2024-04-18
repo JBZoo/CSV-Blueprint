@@ -18,7 +18,6 @@ namespace JBZoo\CsvBlueprint\Analyze;
 
 use JBZoo\CsvBlueprint\Csv\CsvFile;
 use JBZoo\CsvBlueprint\Schema;
-use JBZoo\CsvBlueprint\SchemaDataPrep;
 use JBZoo\CsvBlueprint\Utils;
 use Symfony\Component\Finder\Finder;
 
@@ -106,7 +105,7 @@ final class Analyzer
             }
 
             $suggestedSchema['columns'][$columnId] = \array_merge($base, self::analyzeColumn($columnValues));
-            $suggestedSchema['columns'][$columnId]['rules'] = SchemaDataPrep::deleteUnnecessaryRules(
+            $suggestedSchema['columns'][$columnId]['rules'] = RuleOptimizer::optimize(
                 $suggestedSchema['columns'][$columnId]['rules'],
             );
         }

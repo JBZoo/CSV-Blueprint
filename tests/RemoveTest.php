@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
-use JBZoo\CsvBlueprint\SchemaDataPrep;
+use JBZoo\CsvBlueprint\Analyze\RuleOptimizer;
 
 final class RemoveTest extends TestCase
 {
@@ -27,7 +27,7 @@ final class RemoveTest extends TestCase
                 'is_int'   => true,
                 'is_float' => true,
             ],
-            SchemaDataPrep::deleteUnnecessaryRules([
+            RuleOptimizer::optimize([
                 'is_int'   => true,
                 'is_float' => true,
             ]),
@@ -39,7 +39,7 @@ final class RemoveTest extends TestCase
                 'num_min' => 1,
                 'num_max' => 100,
             ],
-            SchemaDataPrep::deleteUnnecessaryRules([
+            RuleOptimizer::optimize([
                 'is_int'     => true,
                 'is_float'   => true,
                 'precision'  => 0,
@@ -56,7 +56,7 @@ final class RemoveTest extends TestCase
                 'num_min' => 1,
                 'num_max' => 100,
             ],
-            SchemaDataPrep::deleteUnnecessaryRules([
+            RuleOptimizer::optimize([
                 'is_int'     => true,
                 'is_float'   => true,
                 'precision'  => 0,
