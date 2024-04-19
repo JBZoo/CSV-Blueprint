@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Analyze;
 
 use JBZoo\CsvBlueprint\Csv\CsvFile;
+use JBZoo\CsvBlueprint\Rules\NotImplementedException;
 use JBZoo\CsvBlueprint\Schema;
 use JBZoo\CsvBlueprint\Utils;
 use Symfony\Component\Finder\Finder;
@@ -88,7 +89,11 @@ final class Analyzer
 
         /** @var class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule> $ruleClassname */
         foreach (self::getRuleClasses('Cell', 'rules') as $ruleCode => $ruleClassname) {
-            $result = $ruleClassname::analyzeColumnValues($columnValues);
+            try {
+                $result = $ruleClassname::analyzeColumnValues($columnValues);
+            } catch (NotImplementedException) {
+                $result = false;
+            }
 
             // Always add `not_empty` rule to make it explicit.
             if ($ruleCode === 'not_empty') {
@@ -269,14 +274,26 @@ final class Analyzer
                 /** @var class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule> $ruleClassname */
                 $ruleClassname = "JBZoo\\CsvBlueprint\\Rules\\{$directory}\\{$filename}";
 
+                if (\str_contains($ruleClassname, 'Abstract') || \str_contains($ruleClassname, 'Exception')) {
+                    continue;
+                }
+
                 if (\class_exists($ruleClassname)) {
                     try {
-                        $reflection = new \ReflectionClass($ruleClassname);
-                        $origClassOfMethodOne = $reflection->getMethod('testValue')->class;
-                        $origClassOfMethodMulti = $reflection->getMethod('analyzeColumnValues')->class;
+                        if ($directory === 'Aggregate') {
+                            $reflection = new \ReflectionClass($ruleClassname);
 
-                        if ($ruleClassname !== $origClassOfMethodOne && $ruleClassname !== $origClassOfMethodMulti) {
-                            continue;
+                            if (\method_exists($ruleClassname, 'calcValue')) { // Combo only!
+                                $origClassCalcValue = $reflection->getMethod('calcValue')->class;
+                                if ($ruleClassname !== $origClassCalcValue) {
+                                    continue;
+                                }
+                            } else {
+                                $origClassAnalyzeColumnValues = $reflection->getMethod('analyzeColumnValues')->class;
+                                if ($ruleClassname !== $origClassAnalyzeColumnValues) {
+                                    continue;
+                                }
+                            }
                         }
 
                         $availableRules[$mapTo][$ruleName] = $ruleClassname;

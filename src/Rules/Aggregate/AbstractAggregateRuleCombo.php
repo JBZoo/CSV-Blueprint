@@ -25,11 +25,27 @@ abstract class AbstractAggregateRuleCombo extends AbstractRuleCombo
 
     abstract protected static function calcValue(array $columnValues, ?array $options = null): null|float|int;
 
-    abstract protected function getActualAggregate(array $colValues): ?float;
-
     public function getRuleCode(?string $mode = null): string
     {
         return 'ag:' . parent::getRuleCode($mode);
+    }
+
+    /**
+     * @phan-suppress PhanAbstractStaticMethodCallInStatic
+     */
+    public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
+    {
+        $result = static::calcValue($columnValues);
+        if ($result === null) {
+            return false;
+        }
+
+        return $result;
+    }
+
+    protected function getActualAggregate(array $colValues): ?float
+    {
+        return static::calcValue($colValues);
     }
 
     protected function getActual(array|string $value): float

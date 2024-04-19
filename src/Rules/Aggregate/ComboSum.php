@@ -30,21 +30,6 @@ final class ComboSum extends AbstractAggregateRuleCombo
         return [['Sum of the numbers in the column. Example: [1, 2, 3] => 6.'], []];
     }
 
-    public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
-    {
-        $result = self::calcValue($columnValues);
-        if ($result === null) {
-            return false;
-        }
-
-        return $result;
-    }
-
-    protected function getActualAggregate(array $colValues): ?float
-    {
-        return self::calcValue($colValues);
-    }
-
     protected static function calcValue(array $columnValues, ?array $options = null): null|float|int
     {
         $columnValues = Utils::analyzeGuard($columnValues, self::INPUT_TYPE);

@@ -31,21 +31,6 @@ final class ComboCountPrime extends AbstractAggregateRuleCombo
         return [['Number of prime values.'], []];
     }
 
-    public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
-    {
-        $result = self::calcValue($columnValues);
-        if ($result === null) {
-            return false;
-        }
-
-        return $result;
-    }
-
-    protected function getActualAggregate(array $colValues): ?float
-    {
-        return self::calcValue($colValues);
-    }
-
     protected static function calcValue(array $columnValues, ?array $options = null): null|float|int
     {
         $columnValues = Utils::analyzeGuard($columnValues, self::INPUT_TYPE);

@@ -161,7 +161,9 @@ abstract class AbstractRule
      */
     public static function testValue(string $cellValue): bool
     {
-        throw new Exception('Not implemented yet. Please override this method in the child class.');
+        throw new NotImplementedException(
+            'Not implemented yet. Please override this method in the child class: ' . static::class,
+        );
     }
 
     /**
