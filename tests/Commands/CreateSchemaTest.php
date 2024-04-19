@@ -303,6 +303,9 @@ final class CreateSchemaTest extends TestCase
                   is_longitude: true
                 aggregate_rules:
                   is_unique: true
+                  sorted:
+                    - asc
+                    - numeric
                   sum: 5050.0
                   average: 50.5
                   count: 100
@@ -1522,6 +1525,9 @@ final class CreateSchemaTest extends TestCase
                   is_latitude: true
                 aggregate_rules:
                   is_unique: true
+                  sorted:
+                    - asc
+                    - numeric
                   sum: 45.0
                   average: 5.0
                   count_empty: 0
@@ -1566,6 +1572,9 @@ final class CreateSchemaTest extends TestCase
                   is_latitude: true
                 aggregate_rules:
                   is_unique: true
+                  sorted:
+                    - asc
+                    - numeric
                   sum: 486.0
                   average: 54.0
                   count_empty: 0

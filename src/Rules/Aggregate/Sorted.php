@@ -29,10 +29,10 @@ final class Sorted extends AbstractAggregateRule
 
     private const DIRS = ['asc', 'desc'];
     private const METHODS = [
-        'natural' => \SORT_NATURAL,
-        'regular' => \SORT_REGULAR,
         'numeric' => \SORT_NUMERIC,
         'string'  => \SORT_STRING,
+        'natural' => \SORT_NATURAL,
+        'regular' => \SORT_REGULAR,
     ];
 
     public function getHelpMeta(): array
@@ -57,7 +57,7 @@ final class Sorted extends AbstractAggregateRule
         }
 
         try {
-            $dir = $this->getDir();
+            $dir = $this->getDirection();
             $method = $this->getMethod();
         } catch (\Throwable $e) {
             return $e->getMessage();
@@ -79,7 +79,43 @@ final class Sorted extends AbstractAggregateRule
         return null;
     }
 
-    private function getDir(): string
+    public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
+    {
+        if (\count($columnValues) <= 1) {
+            return false;
+        }
+
+        $isEmpty = \array_reduce($columnValues, static fn (bool $carry, string $item) => $carry && $item === '', true);
+        if ($isEmpty) {
+            return false;
+        }
+
+        $hasNumbers = \count(\array_filter($columnValues, static fn (string $value) => \is_numeric($value))) > 0;
+
+        $methods = self::METHODS;
+        if (!$hasNumbers) {
+            unset($methods['numeric']);
+        }
+
+        foreach (self::DIRS as $direction) {
+            foreach ($methods as $methodName => $method) {
+                $sorted = $columnValues; // copy
+                if ($direction === self::DIRS[0]) {
+                    \sort($sorted, $method);
+                } else {
+                    \rsort($sorted, $method);
+                }
+
+                if ($sorted === $columnValues) {
+                    return [$direction, $methodName];
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private function getDirection(): string
     {
         $dir = $this->getParams()[self::DIR];
 

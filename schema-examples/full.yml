@@ -305,7 +305,7 @@ columns:
 
       # Check if the column is sorted in a specific order.
       #  - Direction: ["asc", "desc"].
-      #  - Method:    ["natural", "regular", "numeric", "string"].
+      #  - Method:    ["numeric", "string", "natural", "regular"].
       # See: https://www.php.net/manual/en/function.sort.php
       sorted: [ asc, natural ]          # Expected ascending order, natural sorting.
 
