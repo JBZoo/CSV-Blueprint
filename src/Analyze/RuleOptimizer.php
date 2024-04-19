@@ -171,6 +171,13 @@ final class RuleOptimizer
                 ->remove('length');
         }
 
+        if (!$rules->has('is_sentence')) {
+            $rules = $rules
+                ->remove('word_count_min')
+                ->remove('word_count')
+                ->remove('word_count_max');
+        }
+
         if (self::isAnyIs($rules)) {
             $rules = $rules->remove('is_password_safe_chars');
         }

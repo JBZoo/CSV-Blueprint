@@ -29,6 +29,11 @@ final class ComboCountEmpty extends AbstractAggregateRuleCombo
         return [['Counts only empty values (string length is 0).'], []];
     }
 
+    public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
+    {
+        return (int)\count(\array_filter($columnValues, static fn ($colValue) => $colValue === ''));
+    }
+
     protected function getActualAggregate(array $colValues): ?float
     {
         if (\count($colValues) === 0) {

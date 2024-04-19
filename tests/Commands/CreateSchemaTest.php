@@ -53,6 +53,10 @@ final class CreateSchemaTest extends TestCase
                   is_alpha: true
                 aggregate_rules:
                   is_unique: true
+                  count: 11
+                  count_empty: 0
+                  count_not_empty: 11
+                  count_distinct: 11
             
               - example: City
                 rules:
@@ -63,16 +67,25 @@ final class CreateSchemaTest extends TestCase
                   is_capitalize: true
                   is_alnum: true
                   is_alpha: true
+                aggregate_rules:
+                  count: 11
+                  count_empty: 0
+                  count_not_empty: 11
+                  count_distinct: 10
             
               - example: Float
                 rules:
-                  not_empty: true
-                  length_min: 1
+                  not_empty: false
+                  length_min: 0
                   length_max: 8
                   is_trimmed: true
                   is_capitalize: true
                 aggregate_rules:
                   is_unique: true
+                  count: 11
+                  count_empty: 1
+                  count_not_empty: 10
+                  count_distinct: 11
             
               - example: Birthday
                 rules:
@@ -81,6 +94,11 @@ final class CreateSchemaTest extends TestCase
                   length_max: 10
                   is_trimmed: true
                   is_capitalize: true
+                aggregate_rules:
+                  count: 11
+                  count_empty: 0
+                  count_not_empty: 11
+                  count_distinct: 10
             
               - example: 'Favorite color'
                 rules:
@@ -93,6 +111,11 @@ final class CreateSchemaTest extends TestCase
                   length_min: 3
                   length_max: 14
                   is_trimmed: true
+                aggregate_rules:
+                  count: 11
+                  count_empty: 0
+                  count_not_empty: 11
+                  count_distinct: 4
             
             YAML;
 
@@ -137,6 +160,10 @@ final class CreateSchemaTest extends TestCase
                   is_alpha: true
                 aggregate_rules:
                   is_unique: true
+                  count: 10
+                  count_empty: 0
+                  count_not_empty: 10
+                  count_distinct: 10
             
               - name: City
                 example: Rivsikgo
@@ -148,11 +175,16 @@ final class CreateSchemaTest extends TestCase
                   is_capitalize: true
                   is_alnum: true
                   is_alpha: true
+                aggregate_rules:
+                  count: 10
+                  count_empty: 0
+                  count_not_empty: 10
+                  count_distinct: 9
             
               - name: Float
                 example: '4825.185'
                 rules:
-                  not_empty: true
+                  not_empty: false
                   is_trimmed: true
                   is_float: true
                   num_min: -200.1
@@ -161,6 +193,35 @@ final class CreateSchemaTest extends TestCase
                   precision_max: 4
                 aggregate_rules:
                   is_unique: true
+                  sum: 4691.3235
+                  average: 521.25816666667
+                  count: 10
+                  count_empty: 1
+                  count_not_empty: 9
+                  count_distinct: 10
+                  count_positive: 7
+                  count_negative: 2
+                  count_zero: 0
+                  count_even: 5
+                  count_odd: 4
+                  median: 3.6544
+                  geometric_mean: 18.049895300303
+                  contraharmonic_mean: 4982.9519578607
+                  root_mean_square: 1611.6464879565
+                  trimean: 4.294825
+                  cubic_mean: 2319.6294055392
+                  percentile:
+                    - 95
+                    - 2944.567
+                  midhinge: 4.93525
+                  mean_abs_dev: 24.0997
+                  median_abs_dev: 70.3456
+                  population_variance: 2325694.3258259
+                  sample_variance: 2616406.1165541
+                  stddev: 1617.5308703558
+                  stddev_pop: 1525.0227296096
+                  coef_of_var: 3.1031281115452
+                  interquartile_mean: 24.0997
             
               - name: Birthday
                 example: '2000-01-01'
@@ -171,7 +232,15 @@ final class CreateSchemaTest extends TestCase
                   is_date: true
                   date_min: '1955-05-14'
                   date_max: '2010-07-20'
+                  date_format: Y-m-d
+                  date_age_min: 13
+                  date_age_max: 68
                   is_slug: true
+                aggregate_rules:
+                  count: 10
+                  count_empty: 0
+                  count_not_empty: 10
+                  count_distinct: 9
             
               - name: 'Favorite color'
                 example: green
@@ -189,6 +258,11 @@ final class CreateSchemaTest extends TestCase
                   is_public_domain_suffix: true
                   is_alnum: true
                   is_alpha: true
+                aggregate_rules:
+                  count: 10
+                  count_empty: 0
+                  count_not_empty: 10
+                  count_distinct: 3
             
             YAML;
 
@@ -233,6 +307,36 @@ final class CreateSchemaTest extends TestCase
                   is_longitude: true
                 aggregate_rules:
                   is_unique: true
+                  sum: 5050.0
+                  average: 50.5
+                  count: 100
+                  count_empty: 0
+                  count_not_empty: 100
+                  count_distinct: 100
+                  count_positive: 100
+                  count_negative: 0
+                  count_zero: 0
+                  count_even: 50
+                  count_odd: 50
+                  median: 50.5
+                  harmonic_mean: 19.277563597396
+                  geometric_mean: 37.992689344834
+                  contraharmonic_mean: 67.0
+                  root_mean_square: 58.167860541712
+                  trimean: 50.5
+                  cubic_mean: 63.415329314792
+                  percentile:
+                    - 95
+                    - 95.05
+                  midhinge: 50.5
+                  mean_abs_dev: 50.5
+                  median_abs_dev: 25.0
+                  population_variance: 833.25
+                  sample_variance: 841.66666666667
+                  stddev: 29.011491975882
+                  stddev_pop: 28.866070047722
+                  coef_of_var: 0.57448498962143
+                  interquartile_mean: 50.5
             
               - name: bool
                 example: 'true'
@@ -249,6 +353,11 @@ final class CreateSchemaTest extends TestCase
                   is_bool: true
                   is_alnum: true
                   is_alpha: true
+                aggregate_rules:
+                  count: 100
+                  count_empty: 0
+                  count_not_empty: 100
+                  count_distinct: 4
             
               - name: yn
                 example: 'N'
@@ -263,6 +372,11 @@ final class CreateSchemaTest extends TestCase
                   is_consonant: true
                   is_alnum: true
                   is_alpha: true
+                aggregate_rules:
+                  count: 100
+                  count_empty: 0
+                  count_not_empty: 100
+                  count_distinct: 2
             
               - name: integer
                 example: '577928'
@@ -270,8 +384,39 @@ final class CreateSchemaTest extends TestCase
                   not_empty: false
                   is_trimmed: true
                   is_int: true
+                  num_min: -970498
+                  num_max: 970879
                 aggregate_rules:
                   is_unique: true
+                  sum: 6403233.0
+                  average: 64679.121212121
+                  count: 100
+                  count_empty: 1
+                  count_not_empty: 99
+                  count_distinct: 100
+                  count_positive: 58
+                  count_negative: 41
+                  count_zero: 0
+                  count_even: 56
+                  count_odd: 43
+                  median: 105147.0
+                  geometric_mean: .Inf
+                  contraharmonic_mean: 5340353.15157
+                  root_mean_square: 587715.36376543
+                  trimean: 71988.0
+                  cubic_mean: 315109.55643787
+                  percentile:
+                    - 95
+                    - 950071.4
+                  midhinge: 38829.0
+                  mean_abs_dev: 97757.411764706
+                  median_abs_dev: 518306.0
+                  population_variance: 341225960085.16
+                  sample_variance: 344707857637.05
+                  stddev: 587118.26546024
+                  stddev_pop: 584145.49564741
+                  coef_of_var: 9.0774001634119
+                  interquartile_mean: 97757.411764706
             
               - name: float
                 example: '-308500353777.664'
@@ -285,6 +430,35 @@ final class CreateSchemaTest extends TestCase
                   precision_max: 4
                 aggregate_rules:
                   is_unique: true
+                  sum: 3635608941913.7
+                  average: 36356089419.137
+                  count: 100
+                  count_empty: 0
+                  count_not_empty: 100
+                  count_distinct: 100
+                  count_positive: 56
+                  count_negative: 44
+                  count_zero: 0
+                  count_even: 47
+                  count_odd: 53
+                  median: 101899613451.06
+                  geometric_mean: .Inf
+                  contraharmonic_mean: 7566837074160.2
+                  root_mean_square: 524500338692.18
+                  trimean: 64806172753.92
+                  cubic_mean: 240360046201.43
+                  percentile:
+                    - 95
+                    - 820969990730.55
+                  midhinge: 27712732056.781
+                  mean_abs_dev: 58474577243.668
+                  median_abs_dev: 459609185294.75
+                  population_variance: 2.7377884005036E+23
+                  sample_variance: 2.7654428287915E+23
+                  stddev: 525874778706.06
+                  stddev_pop: 523238798303.76
+                  coef_of_var: 14.464558402952
+                  interquartile_mean: 58474577243.668
             
               - name: name/first
                 example: Emma
@@ -296,6 +470,11 @@ final class CreateSchemaTest extends TestCase
                   is_capitalize: true
                   is_alnum: true
                   is_alpha: true
+                aggregate_rules:
+                  count: 100
+                  count_empty: 0
+                  count_not_empty: 100
+                  count_distinct: 91
             
               - name: date
                 example: 2042/11/18
@@ -306,8 +485,15 @@ final class CreateSchemaTest extends TestCase
                   is_date: true
                   date_min: '2024-03-04'
                   date_max: '2124-05-22'
+                  date_format: Y/m/d
+                  date_age_min: 0
+                  date_age_max: 100
                 aggregate_rules:
                   is_unique: true
+                  count: 100
+                  count_empty: 0
+                  count_not_empty: 100
+                  count_distinct: 100
             
               - name: gender
                 example: Female
@@ -322,6 +508,11 @@ final class CreateSchemaTest extends TestCase
                   is_capitalize: true
                   is_alnum: true
                   is_alpha: true
+                aggregate_rules:
+                  count: 100
+                  count_empty: 0
+                  count_not_empty: 100
+                  count_distinct: 2
             
               - name: email
                 example: naduka@jamci.kw
@@ -334,6 +525,10 @@ final class CreateSchemaTest extends TestCase
                   is_email: true
                 aggregate_rules:
                   is_unique: true
+                  count: 100
+                  count_empty: 0
+                  count_not_empty: 100
+                  count_distinct: 100
             
               - name: guid
                 example: 2feb87a1-a0c2-57f7-82d3-a5eec01cea41
@@ -343,6 +538,10 @@ final class CreateSchemaTest extends TestCase
                   is_uuid: true
                 aggregate_rules:
                   is_unique: true
+                  count: 100
+                  count_empty: 0
+                  count_not_empty: 100
+                  count_distinct: 100
             
               - name: latitude
                 example: '-27.94845'
@@ -357,6 +556,35 @@ final class CreateSchemaTest extends TestCase
                   is_latitude: true
                 aggregate_rules:
                   is_unique: true
+                  sum: -1284.9367
+                  average: -12.849367
+                  count: 100
+                  count_empty: 0
+                  count_not_empty: 100
+                  count_distinct: 100
+                  count_positive: 40
+                  count_negative: 60
+                  count_zero: 0
+                  count_even: 45
+                  count_odd: 55
+                  median: -27.951455
+                  geometric_mean: 37.982002577775
+                  contraharmonic_mean: -232.802300062
+                  root_mean_square: 54.693346870901
+                  trimean: -18.87635375
+                  cubic_mean: NAN
+                  percentile:
+                    - 95
+                    - 71.4956695
+                  midhinge: -9.8012525
+                  mean_abs_dev: -17.8857418
+                  median_abs_dev: 43.07734
+                  population_variance: 2826.25595964
+                  sample_variance: 2854.8039996364
+                  stddev: 53.430365894652
+                  stddev_pop: 53.162542825189
+                  coef_of_var: -4.1582099643237
+                  interquartile_mean: -17.8857418
             
               - name: longitude
                 example: '-143.16108'
@@ -371,6 +599,35 @@ final class CreateSchemaTest extends TestCase
                   is_longitude: true
                 aggregate_rules:
                   is_unique: true
+                  sum: 0.97034000000008
+                  average: 0.0097034000000008
+                  count: 100
+                  count_empty: 0
+                  count_not_empty: 100
+                  count_distinct: 100
+                  count_positive: 52
+                  count_negative: 48
+                  count_zero: 0
+                  count_even: 50
+                  count_odd: 50
+                  median: 7.67539
+                  geometric_mean: 72.227371737957
+                  contraharmonic_mean: 1118310.89382
+                  root_mean_square: 104.1701393255
+                  trimean: 1.65878625
+                  cubic_mean: NAN
+                  percentile:
+                    - 95
+                    - 147.490272
+                  midhinge: -4.3578175
+                  mean_abs_dev: 3.519376
+                  median_abs_dev: 91.86574
+                  population_variance: 10851.417832938
+                  sample_variance: 10961.028114079
+                  stddev: 104.69492878874
+                  stddev_pop: 104.17013887356
+                  coef_of_var: 10789.509737693
+                  interquartile_mean: 3.519376
             
               - name: sentence
                 example: 'En afu emoharhin itu me rectoge gacoseh tob taug raf tet oh hettulob gom tafba no loka.'
@@ -380,12 +637,23 @@ final class CreateSchemaTest extends TestCase
                   length_max: 113
                   is_capitalize: true
                   is_sentence: true
+                  word_count_min: 1
+                  word_count_max: 18
                 aggregate_rules:
                   is_unique: true
+                  count: 100
+                  count_empty: 0
+                  count_not_empty: 100
+                  count_distinct: 100
             
               - name: empty_string
                 rules:
                   exact_value: ''
+                aggregate_rules:
+                  count: 100
+                  count_empty: 100
+                  count_not_empty: 0
+                  count_distinct: 1
             
             YAML;
 
@@ -431,6 +699,36 @@ final class CreateSchemaTest extends TestCase
                   is_latitude: true
                 aggregate_rules:
                   is_unique: true
+                  sum: 351.0
+                  average: 39.0
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
+                  count_positive: 9
+                  count_negative: 0
+                  count_zero: 0
+                  count_even: 2
+                  count_odd: 7
+                  median: 37.0
+                  harmonic_mean: 33.462225511451
+                  geometric_mean: 36.201994712361
+                  contraharmonic_mean: 44.464387464387
+                  root_mean_square: 41.642659750682
+                  trimean: 38.25
+                  cubic_mean: 44.006254850006
+                  percentile:
+                    - 95
+                    - 61.0
+                  midhinge: 39.5
+                  mean_abs_dev: 38.2
+                  median_abs_dev: 14.0
+                  population_variance: 213.11111111111
+                  sample_variance: 239.75
+                  stddev: 15.483862567202
+                  stddev_pop: 14.598325626972
+                  coef_of_var: 0.39702211710774
+                  interquartile_mean: 38.2
             
               - name: alpha
                 example: EPZYEIbgkOIilbOlTLiT
@@ -443,6 +741,10 @@ final class CreateSchemaTest extends TestCase
                   is_alpha: true
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
               - name: alpha(5)
                 example: AyXUN
@@ -454,6 +756,10 @@ final class CreateSchemaTest extends TestCase
                   is_alpha: true
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
               - name: birthday
                 example: 10/4/1994
@@ -465,8 +771,14 @@ final class CreateSchemaTest extends TestCase
                   is_date: true
                   date_min: '1975-03-13'
                   date_max: '2005-11-12'
+                  date_age_min: 18
+                  date_age_max: 49
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
               - name: bool
                 example: 'false'
@@ -483,6 +795,11 @@ final class CreateSchemaTest extends TestCase
                   is_slug: true
                   is_alnum: true
                   is_alpha: true
+                aggregate_rules:
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 2
             
               - name: char
                 example: M
@@ -492,6 +809,10 @@ final class CreateSchemaTest extends TestCase
                   is_trimmed: true
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
               - name: city
                 example: Luheez
@@ -505,6 +826,10 @@ final class CreateSchemaTest extends TestCase
                   is_alpha: true
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
               - name: ccnumber
                 example: '6378806183401521'
@@ -519,6 +844,36 @@ final class CreateSchemaTest extends TestCase
                   hash: fnv164
                 aggregate_rules:
                   is_unique: true
+                  sum: 4.7851093199549E+16
+                  average: 5.3167881332832E+15
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
+                  count_positive: 9
+                  count_negative: 0
+                  count_zero: 0
+                  count_even: 3
+                  count_odd: 6
+                  median: 5.6103407100727E+15
+                  harmonic_mean: 5.1097621752616E+15
+                  geometric_mean: 5.2174852015907E+15
+                  contraharmonic_mean: 5.4970701323939E+15
+                  root_mean_square: 5.4061776929488E+15
+                  trimean: 5.482533685771E+15
+                  cubic_mean: 5.4853075018016E+15
+                  percentile:
+                    - 95
+                    - 6.3256972416712E+15
+                  midhinge: 5.3547266614693E+15
+                  mean_abs_dev: 5.5344308670268E+15
+                  median_abs_dev: 7.0684556242219E+14
+                  population_variance: 9.5852119351627E+29
+                  sample_variance: 1.0783363427058E+30
+                  stddev: 1.0384297485655E+15
+                  stddev_pop: 9.7904095599534E+14
+                  coef_of_var: 0.19531147800773
+                  interquartile_mean: 5.5344308670268E+15
             
               - name: date
                 example: 09/06/1970
@@ -529,8 +884,15 @@ final class CreateSchemaTest extends TestCase
                   is_date: true
                   date_min: '1907-02-13'
                   date_max: '2046-08-21'
+                  date_format: m/d/Y
+                  date_age_min: 6
+                  date_age_max: 117
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
               - name: date(2)
                 example: 21/09/2040
@@ -540,6 +902,10 @@ final class CreateSchemaTest extends TestCase
                   is_trimmed: true
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
               - name: date(3)
                 example: 2055/04/15
@@ -550,8 +916,15 @@ final class CreateSchemaTest extends TestCase
                   is_date: true
                   date_min: '2044-07-23'
                   date_max: '2114-03-25'
+                  date_format: Y/m/d
+                  date_age_min: 20
+                  date_age_max: 89
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
               - name: date(4)
                 example: '20940316'
@@ -565,9 +938,43 @@ final class CreateSchemaTest extends TestCase
                   is_date: true
                   date_min: '2040-05-29'
                   date_max: '2121-03-23'
+                  date_format: Ymd
+                  date_age_min: 16
+                  date_age_max: 96
+                  postal_code: BR
                   hash: crc32
                 aggregate_rules:
                   is_unique: true
+                  sum: 186866343.0
+                  average: 20762927.0
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
+                  count_positive: 9
+                  count_negative: 0
+                  count_zero: 0
+                  count_even: 4
+                  count_odd: 5
+                  median: 20861005.0
+                  harmonic_mean: 20759968.815941
+                  geometric_mean: 20761447.424545
+                  contraharmonic_mean: 20765887.993467
+                  root_mean_square: 20764407.443954
+                  trimean: 20790797.5
+                  cubic_mean: 20765888.658225
+                  percentile:
+                    - 95
+                    - 21102320.2
+                  midhinge: 20720590.0
+                  mean_abs_dev: 20774949.2
+                  median_abs_dev: 229997.0
+                  population_variance: 61478891206.222
+                  sample_variance: 69163752607.0
+                  stddev: 262990.02377847
+                  stddev_pop: 247949.37226422
+                  coef_of_var: 0.012666327044278
+                  interquartile_mean: 20774949.2
             
               - name: digit
                 example: '6757447'
@@ -579,6 +986,36 @@ final class CreateSchemaTest extends TestCase
                   num_max: 9606682456230854
                 aggregate_rules:
                   is_unique: true
+                  sum: 1.157456389034E+16
+                  average: 1.2860626544823E+15
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
+                  count_positive: 9
+                  count_negative: 0
+                  count_zero: 0
+                  count_even: 5
+                  count_odd: 4
+                  median: 29324792.0
+                  harmonic_mean: 751106.74589387
+                  geometric_mean: 1690917368.0455
+                  contraharmonic_mean: 8.3070044557824E+15
+                  root_mean_square: 3.268536094523E+15
+                  trimean: 2.4598518463029E+14
+                  cubic_mean: 4.6315503479153E+15
+                  percentile:
+                    - 95
+                    - 6.5500474608088E+15
+                  midhinge: 4.9197033993578E+14
+                  mean_abs_dev: 557293097095.8
+                  median_abs_dev: 28473547.0
+                  population_variance: 9.0293710499455E+30
+                  sample_variance: 1.0158042431189E+31
+                  stddev: 3.1871684033306E+15
+                  stddev_pop: 3.0048911877047E+15
+                  coef_of_var: 2.4782372711177
+                  interquartile_mean: 557293097095.8
             
               - name: digit(5)
                 example: '28871'
@@ -591,6 +1028,36 @@ final class CreateSchemaTest extends TestCase
                   num_max: 72685
                 aggregate_rules:
                   is_unique: true
+                  sum: 292325.0
+                  average: 32480.555555556
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
+                  count_positive: 9
+                  count_negative: 0
+                  count_zero: 0
+                  count_even: 6
+                  count_odd: 3
+                  median: 28871.0
+                  harmonic_mean: 19080.515562922
+                  geometric_mean: 25302.751943673
+                  contraharmonic_mean: 46309.854288891
+                  root_mean_square: 38783.62792468
+                  trimean: 30735.0
+                  cubic_mean: 43727.001837069
+                  percentile:
+                    - 95
+                    - 66573.4
+                  midhinge: 32599.0
+                  mean_abs_dev: 29175.2
+                  median_abs_dev: 19187.0
+                  population_variance: 449183305.80247
+                  sample_variance: 505331219.02778
+                  stddev: 22479.573372904
+                  stddev_pop: 21193.945026881
+                  coef_of_var: 0.6920932535915
+                  interquartile_mean: 29175.2
             
               - name: dollar
                 example: $6162.12
@@ -600,6 +1067,10 @@ final class CreateSchemaTest extends TestCase
                   is_trimmed: true
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
               - name: domain
                 example: jubup.mv
@@ -611,6 +1082,10 @@ final class CreateSchemaTest extends TestCase
                   is_lowercase: true
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
               - name: email
                 example: ca@bi.sh
@@ -623,6 +1098,10 @@ final class CreateSchemaTest extends TestCase
                   is_email: true
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
               - name: first
                 example: Clifford
@@ -636,6 +1115,10 @@ final class CreateSchemaTest extends TestCase
                   is_alpha: true
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
               - name: float
                 example: '-188143105579.4176'
@@ -649,6 +1132,35 @@ final class CreateSchemaTest extends TestCase
                   precision_max: 4
                 aggregate_rules:
                   is_unique: true
+                  sum: -2501755164164.1
+                  average: -277972796018.23
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
+                  count_positive: 2
+                  count_negative: 7
+                  count_zero: 0
+                  count_even: 5
+                  count_odd: 4
+                  median: -387096037346.51
+                  geometric_mean: NAN
+                  contraharmonic_mean: -958859420983.89
+                  root_mean_square: 516272054482.24
+                  trimean: -373661706433.33
+                  cubic_mean: NAN
+                  percentile:
+                    - 95
+                    - 451166864953.83
+                  midhinge: -360227375520.15
+                  mean_abs_dev: -361059143898.89
+                  median_abs_dev: 242570025867.67
+                  population_variance: 1.8926795891312E+23
+                  sample_variance: 2.1292645377726E+23
+                  stddev: 461439545094.76
+                  stddev_pop: 435049375258.86
+                  coef_of_var: -1.6600169214562
+                  interquartile_mean: -361059143898.89
             
               - name: gender
                 example: Male
@@ -663,6 +1175,11 @@ final class CreateSchemaTest extends TestCase
                   is_capitalize: true
                   is_alnum: true
                   is_alpha: true
+                aggregate_rules:
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 2
             
               - name: guid
                 example: f3b79bb7-fc3c-5312-904b-284ce93e943e
@@ -672,6 +1189,10 @@ final class CreateSchemaTest extends TestCase
                   is_uuid: true
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
               - name: integer
                 example: '-489624'
@@ -683,6 +1204,35 @@ final class CreateSchemaTest extends TestCase
                   num_max: 951555
                 aggregate_rules:
                   is_unique: true
+                  sum: -1344247.0
+                  average: -149360.77777778
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
+                  count_positive: 3
+                  count_negative: 6
+                  count_zero: 0
+                  count_even: 4
+                  count_odd: 5
+                  median: -489624.0
+                  geometric_mean: 585574.8504808
+                  contraharmonic_mean: -2810514.2669621
+                  root_mean_square: 647904.77453789
+                  trimean: -265329.5
+                  cubic_mean: 150696.17500519
+                  percentile:
+                    - 95
+                    - 881943.8
+                  midhinge: -41035.0
+                  mean_abs_dev: -324923.6
+                  median_abs_dev: 223258.0
+                  population_variance: 397471954930.62
+                  sample_variance: 447155949296.94
+                  stddev: 668697.2029977
+                  stddev_pop: 630453.76906687
+                  coef_of_var: -4.477060262719
+                  interquartile_mean: -324923.6
             
               - name: last
                 example: Jennings
@@ -696,6 +1246,10 @@ final class CreateSchemaTest extends TestCase
                   is_alpha: true
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
               - name: latitude
                 example: '-65.42206'
@@ -709,6 +1263,35 @@ final class CreateSchemaTest extends TestCase
                   is_latitude: true
                 aggregate_rules:
                   is_unique: true
+                  sum: -179.9603
+                  average: -19.995588888889
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
+                  count_positive: 3
+                  count_negative: 6
+                  count_zero: 0
+                  count_even: 5
+                  count_odd: 4
+                  median: -46.06264
+                  geometric_mean: 38.812974735917
+                  contraharmonic_mean: -129.79496537452
+                  root_mean_square: 50.944349710998
+                  trimean: -28.2017425
+                  cubic_mean: NAN
+                  percentile:
+                    - 95
+                    - 61.384794
+                  midhinge: -10.340845
+                  mean_abs_dev: -36.49114
+                  median_abs_dev: 8.20801
+                  population_variance: 2195.503192463
+                  sample_variance: 2469.9410915209
+                  stddev: 49.698501904191
+                  stddev_pop: 46.856196948355
+                  coef_of_var: -2.4854732801497
+                  interquartile_mean: -36.49114
             
               - name: longitude
                 example: '94.97258'
@@ -723,6 +1306,35 @@ final class CreateSchemaTest extends TestCase
                   is_longitude: true
                 aggregate_rules:
                   is_unique: true
+                  sum: 508.54174
+                  average: 56.504637777778
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
+                  count_positive: 7
+                  count_negative: 2
+                  count_zero: 0
+                  count_even: 6
+                  count_odd: 3
+                  median: 95.86442
+                  geometric_mean: 78.990264350801
+                  contraharmonic_mean: 182.74070763348
+                  root_mean_square: 101.61543924072
+                  trimean: 69.0410525
+                  cubic_mean: 94.198456106845
+                  percentile:
+                    - 95
+                    - 127.170746
+                  midhinge: 42.217685
+                  mean_abs_dev: 86.477182
+                  median_abs_dev: 23.16747
+                  population_variance: 7132.9234016864
+                  sample_variance: 8024.5388268972
+                  stddev: 89.57979028161
+                  stddev_pop: 84.456636220527
+                  coef_of_var: 1.5853528808363
+                  interquartile_mean: 86.477182
             
               - name: mi
                 example: L
@@ -735,6 +1347,10 @@ final class CreateSchemaTest extends TestCase
                   is_alpha: true
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
               - name: name
                 example: 'Birdie Dean'
@@ -745,8 +1361,13 @@ final class CreateSchemaTest extends TestCase
                   is_trimmed: true
                   is_capitalize: true
                   is_sentence: true
+                  word_count: 2
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
               - name: natural
                 example: '6141664873676800'
@@ -759,6 +1380,36 @@ final class CreateSchemaTest extends TestCase
                   is_even: true
                 aggregate_rules:
                   is_unique: true
+                  sum: 4.242884063658E+16
+                  average: 4.7143156262866E+15
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
+                  count_positive: 9
+                  count_negative: 0
+                  count_zero: 0
+                  count_even: 9
+                  count_odd: 0
+                  median: 4.4618597867192E+15
+                  harmonic_mean: 1.3937078474242E+15
+                  geometric_mean: 3.1667759728973E+15
+                  contraharmonic_mean: 6.4723050764903E+15
+                  root_mean_square: 5.5238110901978E+15
+                  trimean: 4.5020178735432E+15
+                  cubic_mean: 6.0185922254176E+15
+                  percentile:
+                    - 95
+                    - 8.5134163241337E+15
+                  midhinge: 4.5421759603671E+15
+                  mean_abs_dev: 4.9191730590777E+15
+                  median_abs_dev: 2.5017812758036E+15
+                  population_variance: 8.2877171359422E+30
+                  sample_variance: 9.323681777935E+30
+                  stddev: 3.0534704481843E+15
+                  stddev_pop: 2.8788395467518E+15
+                  coef_of_var: 0.6477017429971
+                  interquartile_mean: 4.9191730590777E+15
             
               - name: natural(5)
                 example: '5'
@@ -777,6 +1428,36 @@ final class CreateSchemaTest extends TestCase
                   num_max: 5
                   is_angle: true
                   is_latitude: true
+                aggregate_rules:
+                  sum: 23.0
+                  average: 2.5555555555556
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 5
+                  count_positive: 7
+                  count_negative: 0
+                  count_zero: 2
+                  count_even: 4
+                  count_odd: 5
+                  median: 2.0
+                  geometric_mean: 0.0
+                  contraharmonic_mean: 4.0434782608696
+                  root_mean_square: 3.2145502536643
+                  trimean: 2.375
+                  cubic_mean: 3.5974146961893
+                  percentile:
+                    - 95
+                    - 5.0
+                  midhinge: 2.75
+                  mean_abs_dev: 2.6
+                  median_abs_dev: 2.0
+                  population_variance: 3.8024691358025
+                  sample_variance: 4.2777777777778
+                  stddev: 2.0682789409985
+                  stddev_pop: 1.9499920860871
+                  coef_of_var: 0.80932654212984
+                  interquartile_mean: 2.6
             
               - name: paragraph
                 example: 'Uz rahiluz hac sed awnop jimsufo pebob kebu jobon rac igowe icoseta heiz cawsidkiv rabod bak rohihaz. Bupinda wiz jiebavih jowomi linek hibetpok wopi fobagte ro dimsogow fusil jiilo badma saci tifi somvumdu tidudot ibueb. Da podu ijme uto ucobera nuw ecufagam mujuun bic vim mi jo dip ranuzi favib mo gu mipoh.'
@@ -787,8 +1468,14 @@ final class CreateSchemaTest extends TestCase
                   is_trimmed: true
                   is_capitalize: true
                   is_sentence: true
+                  word_count_min: 48
+                  word_count_max: 112
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
               - name: phone
                 example: '(214) 682-4113'
@@ -796,9 +1483,12 @@ final class CreateSchemaTest extends TestCase
                   not_empty: true
                   length: 14
                   is_trimmed: true
-                  is_sentence: true
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
               - name: pick(RED|BLUE|YELLOW|GREEN|WHITE)
                 example: WHITE
@@ -816,6 +1506,11 @@ final class CreateSchemaTest extends TestCase
                   is_uppercase: true
                   is_alnum: true
                   is_alpha: true
+                aggregate_rules:
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 5
             
               - name: postal
                 example: 'A5O 6P5'
@@ -825,8 +1520,13 @@ final class CreateSchemaTest extends TestCase
                   is_trimmed: true
                   is_uppercase: true
                   is_sentence: true
+                  word_count: 3
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
               - name: province
                 example: AB
@@ -843,6 +1543,11 @@ final class CreateSchemaTest extends TestCase
                   is_uppercase: true
                   is_alnum: true
                   is_alpha: true
+                aggregate_rules:
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 5
             
               - name: seq
                 example: '1'
@@ -857,6 +1562,36 @@ final class CreateSchemaTest extends TestCase
                   is_latitude: true
                 aggregate_rules:
                   is_unique: true
+                  sum: 45.0
+                  average: 5.0
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
+                  count_positive: 9
+                  count_negative: 0
+                  count_zero: 0
+                  count_even: 4
+                  count_odd: 5
+                  median: 5.0
+                  harmonic_mean: 3.1813718614111
+                  geometric_mean: 4.1471662743969
+                  contraharmonic_mean: 6.3333333333333
+                  root_mean_square: 5.6273143387114
+                  trimean: 5.0
+                  cubic_mean: 6.0822019955734
+                  percentile:
+                    - 95
+                    - 8.6
+                  midhinge: 5.0
+                  mean_abs_dev: 5.0
+                  median_abs_dev: 2.0
+                  population_variance: 6.6666666666667
+                  sample_variance: 7.5
+                  stddev: 2.7386127875258
+                  stddev_pop: 2.5819888974716
+                  coef_of_var: 0.54772255750517
+                  interquartile_mean: 5.0
             
               - name: seq(50)
                 example: '50'
@@ -871,6 +1606,36 @@ final class CreateSchemaTest extends TestCase
                   is_latitude: true
                 aggregate_rules:
                   is_unique: true
+                  sum: 486.0
+                  average: 54.0
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
+                  count_positive: 9
+                  count_negative: 0
+                  count_zero: 0
+                  count_even: 5
+                  count_odd: 4
+                  median: 54.0
+                  harmonic_mean: 53.876325145744
+                  geometric_mean: 53.938181724003
+                  contraharmonic_mean: 54.123456790123
+                  root_mean_square: 54.061693153902
+                  trimean: 54.0
+                  cubic_mean: 54.123175609256
+                  percentile:
+                    - 95
+                    - 57.6
+                  midhinge: 54.0
+                  mean_abs_dev: 54.0
+                  median_abs_dev: 2.0
+                  population_variance: 6.6666666666667
+                  sample_variance: 7.5
+                  stddev: 2.7386127875258
+                  stddev_pop: 2.5819888974716
+                  coef_of_var: 0.050715051620849
+                  interquartile_mean: 54.0
             
               - name: sentence
                 example: 'Me cenuz la iwiluse gu na panu jazigca asafu horte gur va atautjen.'
@@ -881,8 +1646,14 @@ final class CreateSchemaTest extends TestCase
                   is_trimmed: true
                   is_capitalize: true
                   is_sentence: true
+                  word_count_min: 12
+                  word_count_max: 18
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
               - name: state
                 example: CT
@@ -893,6 +1664,11 @@ final class CreateSchemaTest extends TestCase
                   is_uppercase: true
                   is_alnum: true
                   is_alpha: true
+                aggregate_rules:
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 8
             
               - name: street
                 example: 'Bake Path'
@@ -903,8 +1679,13 @@ final class CreateSchemaTest extends TestCase
                   is_trimmed: true
                   is_capitalize: true
                   is_sentence: true
+                  word_count: 2
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
               - name: string
                 example: ']@W$eCD'
@@ -915,6 +1696,10 @@ final class CreateSchemaTest extends TestCase
                   is_trimmed: true
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
               - name: string(5)
                 example: NfP(J
@@ -924,6 +1709,10 @@ final class CreateSchemaTest extends TestCase
                   is_trimmed: true
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
               - name: word
                 example: zuc
@@ -938,6 +1727,10 @@ final class CreateSchemaTest extends TestCase
                   is_alpha: true
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
               - name: yn
                 example: 'Y'
@@ -952,6 +1745,11 @@ final class CreateSchemaTest extends TestCase
                   is_consonant: true
                   is_alnum: true
                   is_alpha: true
+                aggregate_rules:
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 2
             
               - name: zip
                 example: '70604'
@@ -964,6 +1762,36 @@ final class CreateSchemaTest extends TestCase
                   num_max: 72068
                 aggregate_rules:
                   is_unique: true
+                  sum: 445283.0
+                  average: 49475.888888889
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
+                  count_positive: 9
+                  count_negative: 0
+                  count_zero: 0
+                  count_even: 6
+                  count_odd: 3
+                  median: 49018.0
+                  harmonic_mean: 42726.801331982
+                  geometric_mean: 46104.095749062
+                  contraharmonic_mean: 55693.488300699
+                  root_mean_square: 52492.712246559
+                  trimean: 48800.125
+                  cubic_mean: 55004.957790006
+                  percentile:
+                    - 95
+                    - 71482.4
+                  midhinge: 48582.25
+                  mean_abs_dev: 49527.6
+                  median_abs_dev: 20579.0
+                  population_variance: 307621257.65432
+                  sample_variance: 346073914.86111
+                  stddev: 18603.061975414
+                  stddev_pop: 17539.135031532
+                  coef_of_var: 0.37600258213031
+                  interquartile_mean: 49527.6
             
               - name: zip9
                 example: 65424-5103
@@ -974,6 +1802,10 @@ final class CreateSchemaTest extends TestCase
                   is_slug: true
                 aggregate_rules:
                   is_unique: true
+                  count: 9
+                  count_empty: 0
+                  count_not_empty: 9
+                  count_distinct: 9
             
             YAML;
 

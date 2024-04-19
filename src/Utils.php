@@ -740,6 +740,25 @@ final class Utils
     }
 
     /**
+     * Analyze the column values and extract numeric values in a numeric array.
+     * @param  array      $columnValues the column values to be analyzed
+     * @return null|array The array of numeric values extracted from the column values.
+     *                    Returns null if there are not enough numeric values or non-numeric values present in
+     *                    the column values.
+     */
+    public static function analyzeGuard(array $columnValues): ?array
+    {
+        $valuesNotEmpty = \array_filter($columnValues, static fn (string $value): bool => $value !== '');
+        $numericArray = \array_filter($valuesNotEmpty, 'is_numeric');
+
+        if (\count($valuesNotEmpty) !== \count($numericArray) || \count($numericArray) === 0) {
+            return null;
+        }
+
+        return \array_map(static fn ($value) => (float)$value, $numericArray);
+    }
+
+    /**
      * @param SplFileInfo[] $files
      */
     private static function makeFileMap(array $files): array

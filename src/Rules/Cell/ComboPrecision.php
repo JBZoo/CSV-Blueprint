@@ -27,7 +27,7 @@ final class ComboPrecision extends AbstractCellRuleCombo
         return [['Number of digits after the decimal point (with zeros)'], []];
     }
 
-    public static function analyzeColumnValues(array $columnValues): array|bool|string
+    public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
     {
         $min = null;
         $max = null;
@@ -36,6 +36,7 @@ final class ComboPrecision extends AbstractCellRuleCombo
             if (
                 !Validator::floatVal()->validate($cellValue)
                 && !Validator::intVal()->validate($cellValue)
+                && $cellValue !== ''
             ) {
                 return false;
             }

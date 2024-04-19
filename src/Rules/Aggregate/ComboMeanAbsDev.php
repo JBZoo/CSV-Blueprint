@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
 use JBZoo\CsvBlueprint\Rules\AbstractRule;
+use MathPHP\Statistics\Average;
 use MathPHP\Statistics\Descriptive;
 
 final class ComboMeanAbsDev extends AbstractAggregateRuleCombo
@@ -35,6 +36,11 @@ final class ComboMeanAbsDev extends AbstractAggregateRuleCombo
             ],
             [],
         ];
+    }
+
+    public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
+    {
+        return Average::interquartileMean($columnValues);
     }
 
     protected function getActualAggregate(array $colValues): ?float

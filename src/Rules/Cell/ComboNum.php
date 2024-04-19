@@ -16,8 +16,6 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Rules\Cell;
 
-use Respect\Validation\Validator;
-
 use function JBZoo\Utils\float;
 
 final class ComboNum extends AbstractCellRuleCombo
@@ -38,13 +36,13 @@ final class ComboNum extends AbstractCellRuleCombo
         ];
     }
 
-    public static function analyzeColumnValues(array $columnValues): array|bool|string
+    public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
     {
         $min = null;
         $max = null;
 
         foreach ($columnValues as $cellValue) {
-            if (!Validator::floatVal()->validate($cellValue)) {
+            if (!IsFloat::testValue($cellValue) && $cellValue !== '') {
                 return false;
             }
 

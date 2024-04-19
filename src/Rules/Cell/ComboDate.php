@@ -46,7 +46,7 @@ final class ComboDate extends AbstractCellRuleCombo
         ];
     }
 
-    public static function analyzeColumnValues(array $columnValues): array|bool|string
+    public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
     {
         $min = null;
         $max = null;

@@ -30,6 +30,11 @@ final class ComboCubicMean extends AbstractAggregateRuleCombo
         return [['Cubic mean. See: https://en.wikipedia.org/wiki/Cubic_mean'], []];
     }
 
+    public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
+    {
+        return Average::cubicMean($columnValues);
+    }
+
     protected function getActualAggregate(array $colValues): ?float
     {
         if (\count($colValues) === 0) {

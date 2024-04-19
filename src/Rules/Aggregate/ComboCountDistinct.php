@@ -29,6 +29,11 @@ final class ComboCountDistinct extends AbstractAggregateRuleCombo
         return [['Number of unique values.'], []];
     }
 
+    public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
+    {
+        return (int)\count(\array_unique($columnValues));
+    }
+
     protected function getActualAggregate(array $colValues): ?float
     {
         if (\count($colValues) === 0) {

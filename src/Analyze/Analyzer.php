@@ -140,10 +140,47 @@ final class Analyzer
             }
         }
 
+        $isNumericColumn = isset($validRules['rules']['is_int']) || isset($validRules['rules']['is_float']);
+        $arrayOfNumbers = $isNumericColumn ? Utils::analyzeGuard($columnValues) : null; // CPU optimization
+        $nonNumeticRules = [
+            'is_unique',
+            'sorted',
+            'count',
+            'count_distinct',
+            'count_empty',
+            'count_not_empty',
+        ];
+
+        $oneTimeOperations = ['count' => false];
+
         /** @var class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule> $ruleClassname */
         foreach (self::getRuleClasses('Aggregate', 'aggregate_rules') as $ruleCode => $ruleClassname) {
-            if ($ruleClassname::analyzeColumnValues($columnValues) === true) {
-                $validRules['aggregate_rules'][$ruleCode] = true;
+            $ruleCode = \str_replace('combo_', '', $ruleCode);
+
+            if (isset($oneTimeOperations[$ruleCode])) {
+                if ($oneTimeOperations[$ruleCode]) {
+                    continue;
+                }
+
+                $oneTimeOperations[$ruleCode] = true;
+            }
+
+            if (\in_array($ruleCode, $nonNumeticRules, true)) {
+                $result = $ruleClassname::analyzeColumnValues($columnValues);
+            } else {
+                if ($arrayOfNumbers === null) {
+                    continue;
+                }
+
+                try {
+                    $result = $ruleClassname::analyzeColumnValues($arrayOfNumbers);
+                } catch (\Throwable) {
+                    continue;
+                }
+            }
+
+            if ($result !== false) {
+                $validRules['aggregate_rules'][$ruleCode] = $result;
             }
         }
 

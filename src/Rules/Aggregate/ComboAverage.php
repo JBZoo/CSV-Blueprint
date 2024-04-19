@@ -30,6 +30,11 @@ final class ComboAverage extends AbstractAggregateRuleCombo
         return [['Regular the arithmetic mean. The sum of the numbers divided by the count.'], []];
     }
 
+    public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
+    {
+        return Average::mean($columnValues);
+    }
+
     protected function getActualAggregate(array $colValues): ?float
     {
         if (\count($colValues) === 0) {

@@ -29,6 +29,11 @@ final class ComboCountNegative extends AbstractAggregateRuleCombo
         return [['Number of negative values.'], []];
     }
 
+    public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
+    {
+        return (int)\count(\array_filter($columnValues, static fn ($value) => $value < 0));
+    }
+
     protected function getActualAggregate(array $colValues): ?float
     {
         if (\count($colValues) === 0) {

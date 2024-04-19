@@ -74,6 +74,11 @@ abstract class AbstractRuleCombo extends AbstractRule
 
     protected static function compare(float $expected, float $actual, string $mode): bool
     {
+        // Lifehack: if the values are toooo small aor tooo huge, ot they have scientific notation
+        if ($mode === self::EQ) {
+            return (string)$expected === (string)$actual;
+        }
+
         // Rounding numbers to 10 decimal places before strict comparison is necessary due to the inherent
         // imprecision of floating-point arithmetic. Computers represent floating-point numbers in binary,
         // which can lead to small rounding errors for what we expect to be precise decimal values.
@@ -89,7 +94,6 @@ abstract class AbstractRuleCombo extends AbstractRule
             self::MIN     => $expected <= $actual,
             self::GREATER => $expected < $actual,
             self::NOT     => $expected !== $actual,
-            self::EQ      => $expected === $actual,
             self::LESS    => $expected > $actual,
             self::MAX     => $expected >= $actual,
             default       => throw new Exception("Unknown mode: {$mode}"),

@@ -40,6 +40,11 @@ final class ComboInterquartileMean extends AbstractAggregateRuleCombo
         ];
     }
 
+    public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
+    {
+        return Average::interquartileMean($columnValues);
+    }
+
     protected function getActualAggregate(array $colValues): ?float
     {
         if (\count($colValues) === 0) {

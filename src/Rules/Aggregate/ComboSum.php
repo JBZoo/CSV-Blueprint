@@ -29,6 +29,11 @@ final class ComboSum extends AbstractAggregateRuleCombo
         return [['Sum of the numbers in the column. Example: [1, 2, 3] => 6.'], []];
     }
 
+    public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
+    {
+        return \array_sum($columnValues);
+    }
+
     protected function getActualAggregate(array $colValues): ?float
     {
         return \array_sum($colValues);

@@ -54,6 +54,11 @@ final class ComboPercentile extends AbstractAggregateRuleCombo
         ];
     }
 
+    public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
+    {
+        return [95, Descriptive::percentile($columnValues, 95)];
+    }
+
     protected function getExpected(): float
     {
         return float($this->getParams()[self::VAL]);

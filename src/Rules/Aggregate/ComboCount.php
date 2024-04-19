@@ -36,6 +36,11 @@ final class ComboCount extends AbstractAggregateRuleCombo
         ];
     }
 
+    public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
+    {
+        return (int)\count($columnValues);
+    }
+
     protected function getActualAggregate(array $colValues): ?float
     {
         return \count($colValues);
