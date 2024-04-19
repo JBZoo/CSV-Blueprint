@@ -1630,6 +1630,7 @@ final class CreateSchemaTest extends TestCase
                   length: 2
                   is_trimmed: true
                   is_uppercase: true
+                  is_usa_state: true
                   is_alnum: true
                   is_alpha: true
                 aggregate_rules:

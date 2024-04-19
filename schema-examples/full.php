@@ -169,6 +169,7 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'is_geohash'            => true,
                 'is_cardinal_direction' => true,
                 'is_usa_market_name'    => true,
+                'is_usa_state'          => true,
 
                 'country_code'  => 'alpha-2',
                 'language_code' => 'alpha-2',

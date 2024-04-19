@@ -11,8 +11,8 @@
 <!-- auto-update:/top-badges -->
 
 <!-- auto-update:rules-counter -->
-[![Static Badge](https://img.shields.io/badge/Rules-340-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
-[![Static Badge](https://img.shields.io/badge/Rules-126-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
+[![Static Badge](https://img.shields.io/badge/Rules-341-green?label=Total%20number%20of%20rules&labelColor=darkgreen&color=gray)](schema-examples/full.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-127-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
 [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)
 [![Static Badge](https://img.shields.io/badge/Rules-8-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)
 [![Static Badge](https://img.shields.io/badge/Rules-22/11/20-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
@@ -506,6 +506,7 @@ columns:
       is_geohash: true                  # Check if the value is a valid geohash. Example: "u4pruydqqvj".
       is_cardinal_direction: true       # Valid cardinal direction. Case-insensitive. Available values: ["N", "S", "E", "W", "NE", "SE", "NW", "SW", "NONE"]
       is_usa_market_name: true          # Check if the value is a valid USA market name. Example: "New York, NY".
+      is_usa_state: true                # Name or code of USA state name. Case-insensitive. Example: "CA" or "California".
 
       # Validates whether the input is a country code in ISO 3166-1 standard.
       # Available options: "alpha-2" (Ex: "US"), "alpha-3" (Ex: "USA"), "numeric" (Ex: "840").
