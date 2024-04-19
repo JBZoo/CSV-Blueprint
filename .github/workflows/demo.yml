@@ -104,10 +104,7 @@ jobs:
         run: docker pull jbzoo/csv-blueprint:latest
 
       - name: 👍 Create schema based on `demo.csv`
-        run: |
-          docker run --rm --workdir=/files -v .:/files
-          jbzoo/csv-blueprint:latest
-          create-schema -c ./tests/fixtures/demo.csv --check-syntax --ansi
+        run: docker run --rm --workdir=/files -v .:/files jbzoo/csv-blueprint:latest create-schema -c ./tests/fixtures/demo.csv --check-syntax --ansi
 
 
   debug-schema:
@@ -121,7 +118,4 @@ jobs:
         run: docker pull jbzoo/csv-blueprint:latest
 
       - name: 👍 Debug schema with presets `preset_usage.yml`
-        run: |
-          docker run --rm --workdir=/files -v .:/files
-          jbzoo/csv-blueprint:latest
-          debug-schema -s ./schema-examples/preset_usage.yml --ansi
+        run: docker run --rm --workdir=/files -v .:/files jbzoo/csv-blueprint:latest debug-schema -s ./schema-examples/preset_usage.yml --ansi
