@@ -132,10 +132,10 @@ abstract class AbstractRule
 
     /**
      * Test if all values in the given column pass the testValue check.
-     * @param  array             $columnValues the values of the column to test
-     * @return array|bool|string true if all values pass the testValue check, false otherwise
+     * @param  array                       $columnValues the values of the column to test
+     * @return array|bool|float|int|string true if all values pass the testValue check, false otherwise
      */
-    public static function analyzeColumnValues(array $columnValues): array|bool|string
+    public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
     {
         foreach ($columnValues as $cellValue) {
             if ($cellValue === '') {
@@ -161,7 +161,9 @@ abstract class AbstractRule
      */
     public static function testValue(string $cellValue): bool
     {
-        throw new Exception('Not implemented yet. Please override this method in the child class.');
+        throw new NotImplementedException(
+            'Not implemented yet. Please override this method in the child class: ' . static::class,
+        );
     }
 
     /**

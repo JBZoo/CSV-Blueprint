@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
+use JBZoo\CsvBlueprint\Rules\AbstractRule;
 use JBZoo\CsvBlueprint\Utils;
 use JBZoo\Utils\FS;
 use Symfony\Component\Finder\SplFileInfo;
@@ -260,6 +261,60 @@ final class UtilsTest extends TestCase
         isFalse(Utils::isArrayInOrder(['a', 'c', 'b'], ['a', 'b', 'c']));
         isFalse(Utils::isArrayInOrder(['c', 'a', 'b'], ['a', 'b', 'c']));
         isFalse(Utils::isArrayInOrder(['b', 'a'], ['a', 'b', 'c']));
+    }
+
+    public function testAnalyzeGuard(): void
+    {
+        $type = AbstractRule::INPUT_TYPE_COUNTER;
+        isSame([], Utils::analyzeGuard([], $type));
+        isSame([1], Utils::analyzeGuard([1], $type));
+        isSame(['1'], Utils::analyzeGuard(['1'], $type));
+        isSame(['1', ''], Utils::analyzeGuard(['1', ''], $type));
+        isSame(['1', ' '], Utils::analyzeGuard(['1', ' '], $type));
+        isSame(['1', 2, ' '], Utils::analyzeGuard(['1', 2, ' '], $type));
+        isSame(['1', 2, ' ', ''], Utils::analyzeGuard(['1', 2, ' ', ''], $type));
+        isSame(['1', 2, ' ', '', true], Utils::analyzeGuard(['1', 2, ' ', '', true], $type));
+        isSame(['1', 2, ' ', '', true], Utils::analyzeGuard(['1', 2, ' ', '', true], $type));
+        isSame(
+            ['1', 2, 3.0, ' ', '', true, 'qwerty'],
+            Utils::analyzeGuard(['1', 2, 3.0, ' ', '', true, 'qwerty'], $type),
+        );
+
+        $type = AbstractRule::INPUT_TYPE_INTS;
+        isSame(null, Utils::analyzeGuard([], $type));
+        isSame([1], Utils::analyzeGuard([1], $type));
+        isSame([1], Utils::analyzeGuard(['1'], $type));
+        isSame([1], Utils::analyzeGuard(['1', ''], $type));
+        isSame([1], Utils::analyzeGuard(['1', ' '], $type));
+        isSame([1, 2], Utils::analyzeGuard(['1', 2, ' '], $type));
+        isSame([1, 2], Utils::analyzeGuard(['1', 2, ' ', ''], $type));
+        isSame([0 => 1, 1 => 2, 4 => 1], Utils::analyzeGuard(['1', 2, ' ', '', true], $type));
+        isSame(null, Utils::analyzeGuard(['1', 2, 3.0, ' ', '', true, 'qwerty'], $type));
+
+        $type = AbstractRule::INPUT_TYPE_FLOATS;
+        isSame(null, Utils::analyzeGuard([], $type));
+        isSame([1.0], Utils::analyzeGuard([1], $type));
+        isSame([1.0], Utils::analyzeGuard(['1'], $type));
+        isSame([1.0], Utils::analyzeGuard(['1', ''], $type));
+        isSame([1.0], Utils::analyzeGuard(['1', ' '], $type));
+        isSame([1.0, 2.0], Utils::analyzeGuard(['1', 2, ' '], $type));
+        isSame([1.0, 2.0], Utils::analyzeGuard(['1', 2, ' ', ''], $type));
+        isSame([0 => 1.0, 1 => 2.0, 4 => 1.0], Utils::analyzeGuard(['1', 2, ' ', '', true], $type));
+        isSame(null, Utils::analyzeGuard(['1', 2, 3.0, ' ', '', true, 'qwerty'], $type));
+
+        $type = AbstractRule::INPUT_TYPE_STRINGS;
+        isSame([], Utils::analyzeGuard([], $type));
+        isSame(['1'], Utils::analyzeGuard([1], $type));
+        isSame(['1'], Utils::analyzeGuard(['1'], $type));
+        isSame(['1', ''], Utils::analyzeGuard(['1', ''], $type));
+        isSame(['1', ' '], Utils::analyzeGuard(['1', ' '], $type));
+        isSame(['1', '2', ' '], Utils::analyzeGuard(['1', 2, ' '], $type));
+        isSame(['1', '2', ' ', ''], Utils::analyzeGuard(['1', 2, ' ', ''], $type));
+        isSame(['1', '2', ' ', '', '1'], Utils::analyzeGuard(['1', 2, ' ', '', true], $type));
+        isSame(
+            ['1', '2', '3', ' ', '', '1', 'qwerty'],
+            Utils::analyzeGuard(['1', 2, 3.0, ' ', '', true, 'qwerty'], $type),
+        );
     }
 
     /**

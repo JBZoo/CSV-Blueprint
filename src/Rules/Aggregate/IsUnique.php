@@ -47,7 +47,7 @@ final class IsUnique extends AbstractAggregateRule
         return null;
     }
 
-    public static function analyzeColumnValues(array $columnValues): array|bool|string
+    public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
     {
         $uValuesCount = \count(\array_unique($columnValues));
         $valuesCount = \count($columnValues);

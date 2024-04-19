@@ -17,10 +17,11 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
 use JBZoo\CsvBlueprint\Rules\AbstractRule;
+use JBZoo\CsvBlueprint\Utils;
 
 final class ComboCountPositive extends AbstractAggregateRuleCombo
 {
-    public const INPUT_TYPE = AbstractRule::INPUT_TYPE_INTS;
+    public const INPUT_TYPE = AbstractRule::INPUT_TYPE_FLOATS;
 
     protected const NAME = 'number of positive values';
 
@@ -29,12 +30,13 @@ final class ComboCountPositive extends AbstractAggregateRuleCombo
         return [['Number of positive values.'], []];
     }
 
-    protected function getActualAggregate(array $colValues): ?float
+    protected static function calcValue(array $columnValues, ?array $options = null): null|float|int
     {
-        if (\count($colValues) === 0) {
+        $columnValues = Utils::analyzeGuard($columnValues, self::INPUT_TYPE);
+        if ($columnValues === null) {
             return null;
         }
 
-        return \count(\array_filter($colValues, static fn ($value) => $value > 0));
+        return \count(\array_filter($columnValues, static fn ($value) => $value > 0));
     }
 }

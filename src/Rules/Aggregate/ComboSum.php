@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
 use JBZoo\CsvBlueprint\Rules\AbstractRule;
+use JBZoo\CsvBlueprint\Utils;
 
 final class ComboSum extends AbstractAggregateRuleCombo
 {
@@ -29,8 +30,13 @@ final class ComboSum extends AbstractAggregateRuleCombo
         return [['Sum of the numbers in the column. Example: [1, 2, 3] => 6.'], []];
     }
 
-    protected function getActualAggregate(array $colValues): ?float
+    protected static function calcValue(array $columnValues, ?array $options = null): null|float|int
     {
-        return \array_sum($colValues);
+        $columnValues = Utils::analyzeGuard($columnValues, self::INPUT_TYPE);
+        if ($columnValues === null) {
+            return null;
+        }
+
+        return \array_sum($columnValues);
     }
 }

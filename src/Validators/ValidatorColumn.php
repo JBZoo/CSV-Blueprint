@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Validators;
 
 use JBZoo\CsvBlueprint\Csv\Column;
-use JBZoo\CsvBlueprint\Rules\AbstractRule;
 use JBZoo\CsvBlueprint\Rules\Ruleset;
 
 final class ValidatorColumn
@@ -64,28 +63,5 @@ final class ValidatorColumn
     public function getAggregationInputType(): int
     {
         return $this->aggRuleset->getAggregationInputType();
-    }
-
-    /**
-     * Prepares a cell value based on an aggregation input type.
-     * @See Ruleset::getAggregationInputType().
-     * @param string $cellValue    the cell value to be prepared
-     * @param int    $aggInputType the aggregation input type to determine the preparation logic
-     */
-    public static function prepareValue(string $cellValue, int $aggInputType): null|float|int|string
-    {
-        if ($aggInputType === AbstractRule::INPUT_TYPE_COUNTER) {
-            return null;
-        }
-
-        if ($aggInputType === AbstractRule::INPUT_TYPE_INTS) {
-            return (int)$cellValue;
-        }
-
-        if ($aggInputType === AbstractRule::INPUT_TYPE_FLOATS) {
-            return (float)$cellValue;
-        }
-
-        return $cellValue;
     }
 }

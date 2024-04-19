@@ -37,7 +37,7 @@ class ComboCountZeroTest extends TestAbstractAggregateRuleCombo
         isSame('', $rule->test([' ']));
 
         isSame(
-            'The number of zero values in the column is "3", which is not equal than the expected "1"',
+            'The number of zero values in the column is "2", which is not equal than the expected "1"',
             $rule->test(['1', '0', '0.0', '-1', '', '-2']),
         );
     }

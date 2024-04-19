@@ -42,13 +42,8 @@ final class CountryCode extends AbstractCellRule
             return null;
         }
 
-        $validSets = [
-            RespectCountryCode::ALPHA2,
-            RespectCountryCode::ALPHA3,
-            RespectCountryCode::NUMERIC,
-        ];
-
         $set = $this->getOptionAsString();
+        $validSets = self::getFormats();
 
         if (!\in_array($set, $validSets, true)) {
             return "Unknown country set: \"<c>{$set}</c>\". " .
@@ -60,5 +55,42 @@ final class CountryCode extends AbstractCellRule
         }
 
         return null;
+    }
+
+    public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
+    {
+        $formats = self::getFormats();
+
+        $countByRegex = [];
+
+        foreach ($columnValues as $value) {
+            if ($value === '') {
+                continue;
+            }
+
+            foreach ($formats as $format) {
+                if (Validator::countryCode($format)->validate($value)) {
+                    $countByRegex[$format] = ($countByRegex[$format] ?? 0) + 1;
+                }
+            }
+        }
+
+        $originalCount = \count(\array_filter($columnValues, static fn (string $value) => $value !== ''));
+        $validFormats = \array_keys(\array_filter($countByRegex, static fn (int $count) => $count === $originalCount));
+
+        if (\count($validFormats) > 0) {
+            return (string)\reset($validFormats);
+        }
+
+        return false;
+    }
+
+    private static function getFormats(): array
+    {
+        return [
+            RespectCountryCode::ALPHA2,
+            RespectCountryCode::ALPHA3,
+            RespectCountryCode::NUMERIC,
+        ];
     }
 }

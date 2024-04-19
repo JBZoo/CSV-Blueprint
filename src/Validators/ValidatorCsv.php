@@ -143,12 +143,8 @@ final class ValidatorCsv
 
             $isAggRules = \count($column->getAggregateRules()) > 0;
             $isRules = \count($column->getRules()) > 0;
-            if ($isAggRules) {
-                $aggInputType = $colValidator->getAggregationInputType();
-                Utils::debug("{$messPrefix} Aggregation Flag: {$aggInputType}");
-            } else {
-                $aggInputType = AbstractRule::INPUT_TYPE_UNDEF;
-            }
+            $aggInputType = $isAggRules ? $colValidator->getAggregationInputType() : AbstractRule::INPUT_TYPE_UNDEF;
+            Utils::debug("{$messPrefix} Aggregation Flag: {$aggInputType}");
 
             if (!$isAggRules && !$isRules) { // Time optimization
                 Utils::debug("{$messPrefix} Skipped (no rules)");
@@ -185,7 +181,7 @@ final class ValidatorCsv
                 }
 
                 if ($isAggRules && isset($record[$columnIndex])) {  // Time & memory optimization
-                    $columValues[] = ValidatorColumn::prepareValue($record[$columnIndex], $aggInputType);
+                    $columValues[] = $record[$columnIndex];
                 }
             }
             Utils::debug("{$messPrefix} Lines <yellow>" . \number_format($lineCounter) . '</yellow>');

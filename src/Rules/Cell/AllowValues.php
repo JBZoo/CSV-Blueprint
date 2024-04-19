@@ -44,7 +44,7 @@ final class AllowValues extends AbstractCellRule
         return null;
     }
 
-    public static function analyzeColumnValues(array $columnValues): array|bool|string
+    public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
     {
         $maxLimit = 5;
 

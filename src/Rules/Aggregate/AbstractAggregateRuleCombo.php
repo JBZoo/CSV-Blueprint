@@ -23,11 +23,29 @@ abstract class AbstractAggregateRuleCombo extends AbstractRuleCombo
 {
     public const INPUT_TYPE = AbstractRule::INPUT_TYPE_STRINGS;
 
-    abstract protected function getActualAggregate(array $colValues): ?float;
+    abstract protected static function calcValue(array $columnValues, ?array $options = null): null|float|int;
 
     public function getRuleCode(?string $mode = null): string
     {
         return 'ag:' . parent::getRuleCode($mode);
+    }
+
+    /**
+     * @phan-suppress PhanAbstractStaticMethodCallInStatic
+     */
+    public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
+    {
+        $result = static::calcValue($columnValues);
+        if ($result === null) {
+            return false;
+        }
+
+        return $result;
+    }
+
+    protected function getActualAggregate(array $colValues): ?float
+    {
+        return static::calcValue($colValues);
     }
 
     protected function getActual(array|string $value): float
@@ -53,15 +71,6 @@ abstract class AbstractAggregateRuleCombo extends AbstractRuleCombo
         $name = static::NAME;
 
         try {
-            // TODO: Think about the performance optimization here
-            if (static::INPUT_TYPE === AbstractRule::INPUT_TYPE_FLOATS) {
-                $colValues = \array_map('floatval', $colValues);
-            }
-
-            if (static::INPUT_TYPE === AbstractRule::INPUT_TYPE_INTS) {
-                $colValues = \array_map('intval', $colValues);
-            }
-
             $actual = $this->getActualAggregate($colValues); // Important to use the original method here!
         } catch (\Throwable $exception) {
             return "<red>{$exception->getMessage()}</red>"; // TODO: Expose the error/warning message in the report?

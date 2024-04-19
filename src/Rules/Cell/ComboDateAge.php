@@ -43,6 +43,34 @@ final class ComboDateAge extends AbstractCellRuleCombo
         ];
     }
 
+    public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
+    {
+        $min = null;
+        $max = null;
+
+        foreach ($columnValues as $cellValue) {
+            if (!IsDate::testValue($cellValue)) {
+                return false;
+            }
+
+            $age = self::calculateAge($cellValue);
+            if ($min === null || $age < $min) {
+                $min = $age;
+            }
+            if ($max === null || $age > $max) {
+                $max = $age;
+            }
+        }
+
+        if ($min === null) {
+            return false;
+        }
+
+        return $max === $min
+            ? ['' => $max]
+            : ['min' => $min, 'max' => $max];
+    }
+
     protected function getActualCell(string $cellValue): float
     {
         try {

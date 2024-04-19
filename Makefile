@@ -17,7 +17,7 @@ ifneq (, $(wildcard ./vendor/jbzoo/codestyle/src/init.Makefile))
 endif
 
 DOCKER_IMAGE     ?= jbzoo/csv-blueprint:local
-CMD_VALIDATE     := validate-csv --ansi
+CMD_VALIDATE     := validate:csv --ansi
 BLUEPRINT        := COLUMNS=300 time $(PHP_BIN) ./csv-blueprint $(CMD_VALIDATE)
 BLUEPRINT_PHAR   := COLUMNS=300 time $(PHP_BIN) ./build/csv-blueprint.phar $(CMD_VALIDATE)
 BLUEPRINT_DOCKER := time docker run --rm  --workdir=/parent-host -v .:/parent-host $(DOCKER_IMAGE) $(CMD_VALIDATE)

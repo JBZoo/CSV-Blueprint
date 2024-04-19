@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
 use JBZoo\CsvBlueprint\Rules\AbstractRule;
+use JBZoo\CsvBlueprint\Utils;
 
 final class ComboCountNotEmpty extends AbstractAggregateRuleCombo
 {
@@ -29,12 +30,13 @@ final class ComboCountNotEmpty extends AbstractAggregateRuleCombo
         return [['Counts only not empty values (string length is not 0).'], []];
     }
 
-    protected function getActualAggregate(array $colValues): ?float
+    protected static function calcValue(array $columnValues, ?array $options = null): null|float|int
     {
-        if (\count($colValues) === 0) {
+        $columnValues = Utils::analyzeGuard($columnValues, self::INPUT_TYPE);
+        if ($columnValues === null) {
             return null;
         }
 
-        return \count(\array_filter($colValues, static fn ($colValue) => $colValue !== ''));
+        return \count(\array_filter($columnValues, static fn ($colValue) => $colValue !== ''));
     }
 }

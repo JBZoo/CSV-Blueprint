@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Analyze;
 
 use JBZoo\CsvBlueprint\Csv\CsvFile;
+use JBZoo\CsvBlueprint\Rules\NotImplementedException;
 use JBZoo\CsvBlueprint\Schema;
 use JBZoo\CsvBlueprint\Utils;
 use Symfony\Component\Finder\Finder;
@@ -24,41 +25,95 @@ use Symfony\Component\Finder\Finder;
 final class Analyzer
 {
     /**
-     * Creates a new instance of the class.
-     * @param string $csvFilename the filename of the CSV file to be parsed
-     */
-    public function __construct(
-        private string $csvFilename,
-    ) {
-    }
-
-    /**
      * Analyzes a CSV file and suggests parameters for parsing and creating a schema.
      * @param  null|bool $forceHeader Whether to force the presence of a header row. Null to auto-detect.
      * @param  int       $lineLimit   number of lines to read when detecting parameters
      * @return Schema    the suggested schema for the CSV file
      */
-    public function analyzeCsv(?bool $forceHeader, int $lineLimit): Schema
+    public static function analyzeCsv(string $csvFilename, ?bool $forceHeader, int $lineLimit): Schema
     {
         $suggestedSchema = [
-            'name'        => 'Schema for ' . \basename($this->csvFilename),
+            'name'        => 'Schema for ' . \basename($csvFilename),
             'description' => \implode("\n", [
-                'CSV file ' . Utils::cutPath($this->csvFilename),
+                'CSV file ' . Utils::cutPath($csvFilename),
                 "Suggested schema based on the first {$lineLimit} lines.",
                 'Please REVIEW IT BEFORE using.',
             ]),
-            'filename_pattern' => self::suggestFilenamePattern($this->csvFilename),
-            'csv'              => self::autoDetectCsvParams($this->csvFilename, $forceHeader, $lineLimit),
+            'filename_pattern' => self::suggestFilenamePattern($csvFilename),
+            'csv'              => self::autoDetectCsvParams($csvFilename, $forceHeader, $lineLimit),
             'columns'          => [],
         ];
 
-        $csv = new CsvFile($this->csvFilename, ['csv' => $suggestedSchema['csv']]);
+        $csv = new CsvFile($csvFilename, ['csv' => $suggestedSchema['csv']]);
         $hasHeader = $csv->getSchema()->csvHasHeader();
         $columns = $hasHeader ? $csv->getHeader() : \range(0, $csv->getRealColumNumber() - 1);
 
         $suggestedSchema = self::analyzeColumns($columns, $csv, $hasHeader, $lineLimit, $suggestedSchema);
 
         return new Schema($suggestedSchema);
+    }
+
+    private static function analyzeColumnAggregateRules(array $columnValues, int $columnId): array
+    {
+        $validRules = [];
+
+        /** @var class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule> $ruleClassname */
+        foreach (self::getRuleClasses('Aggregate', 'aggregate_rules') as $ruleCode => $ruleClassname) {
+            $ruleCode = \str_replace('combo_', '', $ruleCode);
+
+            if ($columnId > 0 && $ruleCode === 'count') { // Only one time rule is enough
+                continue;
+            }
+
+            try {
+                $result = $ruleClassname::analyzeColumnValues($columnValues);
+            } catch (\Throwable) {
+                $result = false;
+            }
+
+            if ($result !== false) {
+                if (\is_float($result) && (\is_infinite($result) || \is_nan($result))) {
+                    continue;
+                }
+
+                $validRules[$ruleCode] = $result;
+            }
+        }
+
+        return $validRules;
+    }
+
+    private static function analyzeColumnRules(array $columnValues): array
+    {
+        $validRules = [];
+
+        /** @var class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule> $ruleClassname */
+        foreach (self::getRuleClasses('Cell', 'rules') as $ruleCode => $ruleClassname) {
+            try {
+                $result = $ruleClassname::analyzeColumnValues($columnValues);
+            } catch (NotImplementedException) {
+                $result = false;
+            }
+
+            // Always add `not_empty` rule to make it explicit.
+            if ($ruleCode === 'not_empty') {
+                $validRules['not_empty'] = $result;
+                continue;
+            }
+
+            if ($result !== false) {
+                if (\is_array($result) && \str_contains($ruleCode, 'combo_')) {
+                    foreach ($result as $subKey => $subValue) {
+                        $comboRuleCode = \trim(\str_replace('combo_', '', $ruleCode) . '_' . $subKey, '_');
+                        $validRules[$comboRuleCode] = $subValue;
+                    }
+                } else {
+                    $validRules[$ruleCode] = $result;
+                }
+            }
+        }
+
+        return $validRules;
     }
 
     private static function analyzeColumns(
@@ -73,7 +128,7 @@ final class Analyzer
             $example = null;
 
             foreach ($csv->getRecords((int)$columnId) as $line => $recordValue) {
-                if ($line >= $lineLimit) {
+                if ($line > $lineLimit) {
                     break;
                 }
 
@@ -97,7 +152,10 @@ final class Analyzer
                 $base['example'] = $example;
             }
 
-            $suggestedSchema['columns'][$columnId] = \array_merge($base, self::analyzeColumn($columnValues));
+            $suggestedSchema['columns'][$columnId] = \array_merge(
+                $base,
+                self::analyzeColumn($columnValues, (int)$columnId),
+            );
             $suggestedSchema['columns'][$columnId]['rules'] = RuleOptimizer::optimize(
                 $suggestedSchema['columns'][$columnId]['rules'],
             );
@@ -111,43 +169,21 @@ final class Analyzer
      * @param  array $columnValues the values of the column to analyze
      * @return array the suggested rules for the column
      */
-    private static function analyzeColumn(array $columnValues): array
+    private static function analyzeColumn(array $columnValues, int $columnId): array
     {
         $validRules = [
             'rules'           => [],
             'aggregate_rules' => [],
         ];
 
-        /** @var class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule> $ruleClassname */
-        foreach (self::getRuleClasses('Cell', 'rules') as $ruleCode => $ruleClassname) {
-            $result = $ruleClassname::analyzeColumnValues($columnValues);
-
-            // Always add `not_empty` rule to make it explicit.
-            if ($ruleCode === 'not_empty') {
-                $validRules['rules']['not_empty'] = $result;
-                continue;
-            }
-
-            if ($result !== false) {
-                if (\is_array($result) && \str_contains($ruleCode, 'combo_')) {
-                    foreach ($result as $subKey => $subValue) {
-                        $comboRuleCode = \trim(\str_replace('combo_', '', $ruleCode) . '_' . $subKey, '_');
-                        $validRules['rules'][$comboRuleCode] = $subValue;
-                    }
-                } else {
-                    $validRules['rules'][$ruleCode] = $result;
-                }
-            }
+        if (\count($columnValues) === 0) {
+            return $validRules;
         }
 
-        /** @var class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule> $ruleClassname */
-        foreach (self::getRuleClasses('Aggregate', 'aggregate_rules') as $ruleCode => $ruleClassname) {
-            if ($ruleClassname::analyzeColumnValues($columnValues) === true) {
-                $validRules['aggregate_rules'][$ruleCode] = true;
-            }
-        }
-
-        return $validRules;
+        return [
+            'rules'           => self::analyzeColumnRules($columnValues),
+            'aggregate_rules' => self::analyzeColumnAggregateRules($columnValues, $columnId),
+        ];
     }
 
     /**
@@ -238,20 +274,13 @@ final class Analyzer
                 /** @var class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule> $ruleClassname */
                 $ruleClassname = "JBZoo\\CsvBlueprint\\Rules\\{$directory}\\{$filename}";
 
-                if (\class_exists($ruleClassname)) {
-                    try {
-                        $reflection = new \ReflectionClass($ruleClassname);
-                        $origClassOfMethodOne = $reflection->getMethod('testValue')->class;
-                        $origClassOfMethodMulti = $reflection->getMethod('analyzeColumnValues')->class;
+                if (\str_contains($ruleClassname, 'Abstract') || \str_contains($ruleClassname, 'Exception')) {
+                    continue;
+                }
 
-                        if ($ruleClassname !== $origClassOfMethodOne && $ruleClassname !== $origClassOfMethodMulti) {
-                            continue;
-                        }
-
-                        $availableRules[$mapTo][$ruleName] = $ruleClassname;
-                    } catch (\ReflectionException) {
-                        continue;
-                    }
+                $className = self::ruleCanAnalyze($ruleClassname, $directory);
+                if ($className !== null) {
+                    $availableRules[$mapTo][$ruleName] = $className;
                 }
             }
         }
@@ -300,5 +329,41 @@ final class Analyzer
     private static function suggestFilenamePattern(string $csvFilename): string
     {
         return '/' . \preg_quote(\basename($csvFilename), '/') . '$/';
+    }
+
+    /**
+     * @param  class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule>      $ruleClassname
+     * @return null|class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule>
+     */
+    private static function ruleCanAnalyze(string $ruleClassname, string $directory): ?string
+    {
+        if (!\class_exists($ruleClassname)) {
+            return null;
+        }
+
+        try {
+            if ($directory === 'Aggregate') {
+                $reflection = new \ReflectionClass($ruleClassname);
+
+                if (\method_exists($ruleClassname, 'calcValue')) { // Combo only!
+                    $origClassCalcValue = $reflection->getMethod('calcValue')->class;
+                    if ($ruleClassname !== $origClassCalcValue) {
+                        return null;
+                    }
+                } else {
+                    $origClassAnalyzeColumnValues = $reflection->getMethod('analyzeColumnValues')->class;
+                    if ($ruleClassname !== $origClassAnalyzeColumnValues) {
+                        return null;
+                    }
+                }
+            }
+
+            return $ruleClassname;
+        } catch (\Exception $exception) {
+            if (Utils::isPhpUnit()) {
+                throw $exception;
+            }
+            return null;
+        }
     }
 }

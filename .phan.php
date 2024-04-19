@@ -18,6 +18,7 @@ $default = include __DIR__ . '/vendor/jbzoo/codestyle/src/phan.php';
 
 // Remove SimplifyExpressionPlugin from plugin list
 $default['plugins'] = \array_diff($default['plugins'], ['SimplifyExpressionPlugin']);
+$default['suppress_issue_types'][] = 'PhanUnusedProtectedFinalMethodParameter';
 
 return \array_merge($default, [
     'directory_list' => [

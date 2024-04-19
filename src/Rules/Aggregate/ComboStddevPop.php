@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
 use JBZoo\CsvBlueprint\Rules\AbstractRule;
+use JBZoo\CsvBlueprint\Utils;
 use MathPHP\Statistics\Descriptive;
 
 final class ComboStddevPop extends AbstractAggregateRuleCombo
@@ -35,12 +36,13 @@ final class ComboStddevPop extends AbstractAggregateRuleCombo
         ];
     }
 
-    protected function getActualAggregate(array $colValues): ?float
+    protected static function calcValue(array $columnValues, ?array $options = null): null|float|int
     {
-        if (\count($colValues) === 0) {
+        $columnValues = Utils::analyzeGuard($columnValues, self::INPUT_TYPE);
+        if ($columnValues === null) {
             return null;
         }
 
-        return Descriptive::standardDeviation($colValues, Descriptive::POPULATION);
+        return Descriptive::standardDeviation($columnValues, Descriptive::POPULATION);
     }
 }

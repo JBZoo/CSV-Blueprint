@@ -17,10 +17,11 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
 use JBZoo\CsvBlueprint\Rules\AbstractRule;
+use JBZoo\CsvBlueprint\Utils;
 
 final class ComboCountZero extends AbstractAggregateRuleCombo
 {
-    public const INPUT_TYPE = AbstractRule::INPUT_TYPE_INTS;
+    public const INPUT_TYPE = AbstractRule::INPUT_TYPE_FLOATS;
 
     protected const NAME = 'number of zero values';
 
@@ -35,12 +36,13 @@ final class ComboCountZero extends AbstractAggregateRuleCombo
         ];
     }
 
-    protected function getActualAggregate(array $colValues): ?float
+    protected static function calcValue(array $columnValues, ?array $options = null): null|float|int
     {
-        if (\count($colValues) === 0) {
+        $columnValues = Utils::analyzeGuard($columnValues, self::INPUT_TYPE);
+        if ($columnValues === null) {
             return null;
         }
 
-        return \count(\array_filter($colValues, static fn ($value) => (float)$value === 0.0));
+        return \count(\array_filter($columnValues, static fn ($value) => (float)$value === 0.0));
     }
 }

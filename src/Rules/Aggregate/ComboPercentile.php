@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
 use JBZoo\CsvBlueprint\Rules\AbstractRule;
+use JBZoo\CsvBlueprint\Utils;
 use MathPHP\Statistics\Descriptive;
 
 use function JBZoo\Utils\float;
@@ -54,6 +55,16 @@ final class ComboPercentile extends AbstractAggregateRuleCombo
         ];
     }
 
+    public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
+    {
+        $result = self::calcValue($columnValues, ['p' => 95.0]);
+        if ($result === null) {
+            return false;
+        }
+
+        return [95.0, $result];
+    }
+
     protected function getExpected(): float
     {
         return float($this->getParams()[self::VAL]);
@@ -67,7 +78,21 @@ final class ComboPercentile extends AbstractAggregateRuleCombo
 
         $percentile = (float)$this->getParams()[self::PERC];
 
-        return Descriptive::percentile($colValues, $percentile);
+        return self::calcValue($colValues, ['p' => $percentile]);
+    }
+
+    protected static function calcValue(array $columnValues, ?array $options = null): null|float|int
+    {
+        $columnValues = Utils::analyzeGuard($columnValues, self::INPUT_TYPE);
+        if ($columnValues === null) {
+            return null;
+        }
+
+        if (!isset($options['p'])) {
+            throw new Exception('The rule expects the "p" option');
+        }
+
+        return Descriptive::percentile($columnValues, $options['p']);
     }
 
     private function getParams(): array
