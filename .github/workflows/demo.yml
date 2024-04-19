@@ -65,6 +65,7 @@ jobs:
         with:
           csv: ${{ env.CSV_FILES }}
           schema: ${{ env.INVALID_SCHEMA }}
+          report: github
         continue-on-error: true
 
       - name: Invalid CSV files - TeamCity
@@ -90,3 +91,37 @@ jobs:
           schema: ${{ env.INVALID_SCHEMA }}
           report: junit
         continue-on-error: true
+
+
+  create-schema:
+    name: Create schema based on CSV
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Docker pull
+        run: docker pull jbzoo/csv-blueprint:latest
+
+      - name: 👍 Create schema based on `demo.csv`
+        run: |
+          docker run --rm --workdir=/files -v .:/files
+          jbzoo/csv-blueprint:master
+          create-schema -c ./tests/fixtures/demo.csv --check-syntax --ansi
+
+
+  debug-schema:
+    name: Debug schema with presets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Docker pull
+        run: docker pull jbzoo/csv-blueprint:latest
+
+      - name: 👍 Debug schema with presets `preset_usage.yml`
+        run: |
+          docker run --rm --workdir=/files -v .:/files
+          jbzoo/csv-blueprint:master
+          debug-schema -s ./schema-examples/preset_usage.yml --ansi
