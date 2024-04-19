@@ -278,28 +278,9 @@ final class Analyzer
                     continue;
                 }
 
-                if (\class_exists($ruleClassname)) {
-                    try {
-                        if ($directory === 'Aggregate') {
-                            $reflection = new \ReflectionClass($ruleClassname);
-
-                            if (\method_exists($ruleClassname, 'calcValue')) { // Combo only!
-                                $origClassCalcValue = $reflection->getMethod('calcValue')->class;
-                                if ($ruleClassname !== $origClassCalcValue) {
-                                    continue;
-                                }
-                            } else {
-                                $origClassAnalyzeColumnValues = $reflection->getMethod('analyzeColumnValues')->class;
-                                if ($ruleClassname !== $origClassAnalyzeColumnValues) {
-                                    continue;
-                                }
-                            }
-                        }
-
-                        $availableRules[$mapTo][$ruleName] = $ruleClassname;
-                    } catch (\ReflectionException) {
-                        continue;
-                    }
+                $className = self::ruleCanAnalyze($ruleClassname, $directory);
+                if ($className !== null) {
+                    $availableRules[$mapTo][$ruleName] = $className;
                 }
             }
         }
@@ -348,5 +329,41 @@ final class Analyzer
     private static function suggestFilenamePattern(string $csvFilename): string
     {
         return '/' . \preg_quote(\basename($csvFilename), '/') . '$/';
+    }
+
+    /**
+     * @param  class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule>      $ruleClassname
+     * @return null|class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule>
+     */
+    private static function ruleCanAnalyze(string $ruleClassname, string $directory): ?string
+    {
+        if (!\class_exists($ruleClassname)) {
+            return null;
+        }
+
+        try {
+            if ($directory === 'Aggregate') {
+                $reflection = new \ReflectionClass($ruleClassname);
+
+                if (\method_exists($ruleClassname, 'calcValue')) { // Combo only!
+                    $origClassCalcValue = $reflection->getMethod('calcValue')->class;
+                    if ($ruleClassname !== $origClassCalcValue) {
+                        return null;
+                    }
+                } else {
+                    $origClassAnalyzeColumnValues = $reflection->getMethod('analyzeColumnValues')->class;
+                    if ($ruleClassname !== $origClassAnalyzeColumnValues) {
+                        return null;
+                    }
+                }
+            }
+
+            return $ruleClassname;
+        } catch (\Exception $exception) {
+            if (Utils::isPhpUnit()) {
+                throw $exception;
+            }
+            return null;
+        }
     }
 }
