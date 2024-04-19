@@ -27,8 +27,9 @@ final class CreateSchemaTest extends TestCase
     public function testWithoutHeader(): void
     {
         [$actual, $exitCode] = Tools::virtualExecution('create-schema', [
-            'csv'    => './tests/fixtures/demo.csv',
-            'header' => 'no',
+            'csv'          => './tests/fixtures/demo.csv',
+            'header'       => 'no',
+            'check-syntax' => null,
         ]);
 
         $expected = <<<'YAML'
@@ -131,8 +132,9 @@ final class CreateSchemaTest extends TestCase
     public function testWithHeader(): void
     {
         [$actual, $exitCode] = Tools::virtualExecution('create-schema', [
-            'csv'    => './tests/fixtures/demo.csv',
-            'header' => 'true',
+            'csv'          => './tests/fixtures/demo.csv',
+            'header'       => 'true',
+            'check-syntax' => null,
         ]);
 
         $expected = <<<'YAML'
@@ -275,8 +277,9 @@ final class CreateSchemaTest extends TestCase
     public function testWithHeaderComplex(): void
     {
         [$actual, $exitCode] = Tools::virtualExecution('create-schema', [
-            'csv'    => './tests/fixtures/complex_header.csv',
-            'header' => 'true',
+            'csv'          => './tests/fixtures/complex_header.csv',
+            'header'       => 'true',
+            'check-syntax' => null,
         ]);
 
         $expected = <<<'YAML'
@@ -654,8 +657,9 @@ final class CreateSchemaTest extends TestCase
     public function testBigComplex(): void
     {
         [$actual, $exitCode] = Tools::virtualExecution('create-schema', [
-            'csv'    => './tests/fixtures/big_header.csv',
-            'header' => 'true',
+            'csv'          => './tests/fixtures/big_header.csv',
+            'header'       => 'true',
+            'check-syntax' => null,
         ]);
 
         $expected = <<<'YAML'
@@ -1773,9 +1777,10 @@ final class CreateSchemaTest extends TestCase
     public function testWithHeaderOneLine(): void
     {
         [$actual, $exitCode] = Tools::virtualExecution('create-schema', [
-            'csv'    => './tests/fixtures/demo.csv',
-            'header' => 'true',
-            'lines'  => 1,
+            'csv'          => './tests/fixtures/demo.csv',
+            'header'       => 'true',
+            'lines'        => 1,
+            'check-syntax' => null,
         ]);
 
         $expected = <<<'YAML'
