@@ -45,11 +45,6 @@ final class IsInt extends AbstractCellRule
 
     public static function testValue(string $cellValue): bool
     {
-        $maxLimit = 19;
-        if (\strlen($cellValue) > $maxLimit) {
-            return false;
-        }
-
         return Validator::intVal()->validate($cellValue);
     }
 }
