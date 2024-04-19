@@ -38,9 +38,8 @@ I believe it is the simplest yet flexible and powerful CSV validator in the worl
 * Create a CSV in your pipelines/ETL/CI and ensure that it meets the most stringent expectations.
 * Prepare your own libraries with complex rules using [presets](#presets-and-reusable-schemas). This will help you work
   with hundreds of different files at the same time.
-* [Create schema on the fly](#complete-cli-help-message) based on an existing CSV file (It's beta for now).
-* [Comming really soon](#coming-soon). Analyze data in CSV - find out what is stored in your file and get a summary report, and
-  creating dummy files based on the schema. 
+* [Create schema on the fly](#complete-cli-help-message) based on an existing CSV file and also analyze data in CSV -
+  find out what is stored in your file and get a summary report. 
 
 
 <details>
@@ -1958,10 +1957,6 @@ It's random ideas and plans. No promises and deadlines. Feel free to [help me!](
     * Create CSV files based on the schema (like "create 1000 rows with random data based on schema and rules").
     * Use [Faker](https://github.com/FakerPHP/Faker) for random data generation.
     * [ReverseRegex](https://github.com/enso-media/ReverseRegex) to generate text from regex.
-
-* **Analize CSV dataset**
-    * Calculate statistics for the column (like min, max, average, median, etc).
-    * Generate valid schema file based on the CSV file.
 
 * **Reporting**
     * More report formats (like JSON, XML, etc). Any ideas?
