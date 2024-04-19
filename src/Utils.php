@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint;
 
+use JBZoo\CsvBlueprint\Rules\AbstractRule;
 use JBZoo\CsvBlueprint\Validators\ValidatorSchema;
 use JBZoo\CsvBlueprint\Workers\WorkerPool;
 use JBZoo\Utils\Cli;
@@ -746,16 +747,33 @@ final class Utils
      *                    Returns null if there are not enough numeric values or non-numeric values present in
      *                    the column values.
      */
-    public static function analyzeGuard(array $columnValues): ?array
+    public static function analyzeGuard(array $columnValues, int $varType = AbstractRule::INPUT_TYPE_FLOATS): ?array
     {
-        $valuesNotEmpty = \array_filter($columnValues, static fn (string $value): bool => $value !== '');
-        $numericArray = \array_filter($valuesNotEmpty, 'is_numeric');
+        if ($varType === AbstractRule::INPUT_TYPE_COUNTER) {
+            return $columnValues;
+        }
 
-        if (\count($valuesNotEmpty) !== \count($numericArray) || \count($numericArray) === 0) {
+        if ($varType === AbstractRule::INPUT_TYPE_STRINGS) {
+            return \array_map('\strval', $columnValues);
+        }
+
+        $notEmptyArray = \array_filter($columnValues, static fn (string $value): bool => \trim($value) !== '');
+        $nonNumeric = \array_filter($notEmptyArray, static fn (string $value) => !\is_numeric($value));
+        if (\count($nonNumeric) > 0) {
             return null;
         }
 
-        return \array_map(static fn ($value) => (float)$value, $numericArray);
+        if ($varType === AbstractRule::INPUT_TYPE_FLOATS) {
+            $notEmptyArray = \array_map('\floatval', $notEmptyArray);
+        } elseif ($varType === AbstractRule::INPUT_TYPE_INTS) {
+            $notEmptyArray = \array_map('\intval', $notEmptyArray);
+        }
+
+        if (\count($notEmptyArray) === 0) {
+            return null;
+        }
+
+        return $notEmptyArray;
     }
 
     /**

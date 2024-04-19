@@ -67,7 +67,7 @@ final class DateFormat extends AbstractCellRule
         $validFormats = \array_keys(\array_filter($countByRegex, static fn (int $count) => $count === $originalCount));
 
         if (\count($validFormats) > 0) {
-            return (string)\reset($validFormats);
+            return \reset($validFormats);
         }
 
         return false;
@@ -79,6 +79,9 @@ final class DateFormat extends AbstractCellRule
         return !($date === false || $date->format($expectedDateFormat) !== $cellValue);
     }
 
+    /**
+     * @return array<string, non-empty-string>
+     */
     private static function getRegexList(): array
     {
         return [

@@ -75,9 +75,32 @@ final class ComboQuartiles extends AbstractAggregateRuleCombo
 
         $method = $this->getMethod();
         $type = $this->getType();
-        $result = Descriptive::quartiles($colValues, $method);
 
-        return $result[$type];
+        return self::calcValue($colValues, ['method' => $method, 'type' => $type]);
+    }
+
+    protected static function calcValue(array $columnValues, ?array $options = null): null|float|int
+    {
+        $columnValues = Utils::analyzeGuard($columnValues, self::INPUT_TYPE);
+        if ($columnValues === null) {
+            return null;
+        }
+
+        if (!isset($options['method'])) {
+            throw new Exception('The rule expects the "method" option');
+        }
+
+        if (!isset($options['type'])) {
+            throw new Exception('The rule expects the "type" option');
+        }
+
+        $result = Descriptive::quartiles($columnValues, $options['method']);
+
+        if (!isset($result[$options['type']])) {
+            throw new Exception("Unknown quartile type: {$options['type']}");
+        }
+
+        return $result[$options['type']];
     }
 
     private function getType(): string

@@ -23,6 +23,8 @@ abstract class AbstractAggregateRuleCombo extends AbstractRuleCombo
 {
     public const INPUT_TYPE = AbstractRule::INPUT_TYPE_STRINGS;
 
+    abstract protected static function calcValue(array $columnValues, ?array $options = null): null|float|int;
+
     abstract protected function getActualAggregate(array $colValues): ?float;
 
     public function getRuleCode(?string $mode = null): string
@@ -53,15 +55,6 @@ abstract class AbstractAggregateRuleCombo extends AbstractRuleCombo
         $name = static::NAME;
 
         try {
-            // TODO: Think about the performance optimization here
-            if (static::INPUT_TYPE === AbstractRule::INPUT_TYPE_FLOATS) {
-                $colValues = \array_map('floatval', $colValues);
-            }
-
-            if (static::INPUT_TYPE === AbstractRule::INPUT_TYPE_INTS) {
-                $colValues = \array_map('intval', $colValues);
-            }
-
             $actual = $this->getActualAggregate($colValues); // Important to use the original method here!
         } catch (\Throwable $exception) {
             return "<red>{$exception->getMessage()}</red>"; // TODO: Expose the error/warning message in the report?

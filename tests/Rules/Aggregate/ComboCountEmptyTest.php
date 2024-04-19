@@ -30,7 +30,6 @@ class ComboCountEmptyTest extends TestAbstractAggregateRuleCombo
     {
         $rule = $this->create(3, Combo::EQ);
 
-        isSame('', $rule->test([]));
         isSame('', $rule->test(['', '', '']));
         isSame('', $rule->test(['', '', '', '1']));
         isSame('', $rule->test(['', '', '', ' ', '1']));
@@ -38,6 +37,11 @@ class ComboCountEmptyTest extends TestAbstractAggregateRuleCombo
         isSame(
             'The number of empty rows in the column is "2", which is not equal than the expected "3"',
             $rule->test(['', '', ' ', '1']),
+        );
+
+        isSame(
+            'The number of empty rows in the column is "0", which is not equal than the expected "3"',
+            $rule->test([]),
         );
     }
 

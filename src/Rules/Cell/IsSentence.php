@@ -49,6 +49,6 @@ final class IsSentence extends AbstractCellRule
         $shortLimit = 3;
         return \str_contains($cellValue, ' ')
             && \strlen($cellValue) > $shortLimit
-            && \preg_match('/[a-z]/i', $cellValue);
+            && \preg_match('/[a-z]/i', $cellValue) > 0;
     }
 }

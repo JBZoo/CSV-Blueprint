@@ -84,8 +84,7 @@ final class CreateSchema extends AbstractValidate
         foreach ($csvFilenames as $csvFilename) {
             $csvFilename = (string)$csvFilename->getRealPath();
 
-            $suggestedSchema = (new Analyzer($csvFilename))
-                ->analyzeCsv($this->getHeaderOption(), $this->getLinesOption());
+            $suggestedSchema = Analyzer::analyzeCsv($csvFilename, $this->getHeaderOption(), $this->getLinesOption());
 
             $this->out(
                 $suggestedSchema->dumpAsYamlString(

@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint\Rules\Aggregate;
 
 use JBZoo\CsvBlueprint\Rules\AbstractRule;
+use JBZoo\CsvBlueprint\Utils;
 use MathPHP\Statistics\Average;
 
 final class ComboCubicMean extends AbstractAggregateRuleCombo
@@ -32,15 +33,26 @@ final class ComboCubicMean extends AbstractAggregateRuleCombo
 
     public static function analyzeColumnValues(array $columnValues): array|bool|float|int|string
     {
-        return Average::cubicMean($columnValues);
+        $result = self::calcValue($columnValues);
+        if ($result === null) {
+            return false;
+        }
+
+        return $result;
     }
 
     protected function getActualAggregate(array $colValues): ?float
     {
-        if (\count($colValues) === 0) {
+        return self::calcValue($colValues);
+    }
+
+    protected static function calcValue(array $columnValues, ?array $options = null): null|float|int
+    {
+        $columnValues = Utils::analyzeGuard($columnValues, self::INPUT_TYPE);
+        if ($columnValues === null) {
             return null;
         }
 
-        return Average::cubicMean($colValues);
+        return Average::cubicMean($columnValues);
     }
 }

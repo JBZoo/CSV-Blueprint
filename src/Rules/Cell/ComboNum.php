@@ -69,9 +69,6 @@ final class ComboNum extends AbstractCellRuleCombo
         return float($this->getOptionAsString(), self::PRECISION);
     }
 
-    /**
-     * @phan-suppress PhanUnusedProtectedFinalMethodParameter
-     */
     protected function getCurrentStr(string $cellValue): string
     {
         return '';

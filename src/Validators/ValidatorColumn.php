@@ -72,17 +72,23 @@ final class ValidatorColumn
      * @param string $cellValue    the cell value to be prepared
      * @param int    $aggInputType the aggregation input type to determine the preparation logic
      */
-    public static function prepareValue(string $cellValue, int $aggInputType): null|float|int|string
+    public static function prepareValue(string $cellValue, int $aggInputType): null|bool|float|int|string
     {
         if ($aggInputType === AbstractRule::INPUT_TYPE_COUNTER) {
-            return null;
+            return true;
         }
 
         if ($aggInputType === AbstractRule::INPUT_TYPE_INTS) {
+            if ($cellValue === '') {
+                return null;
+            }
             return (int)$cellValue;
         }
 
         if ($aggInputType === AbstractRule::INPUT_TYPE_FLOATS) {
+            if ($cellValue === '') {
+                return null;
+            }
             return (float)$cellValue;
         }
 
