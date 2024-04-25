@@ -87,7 +87,7 @@ See also:
 - [demo.csv](tests/fixtures/demo.csv)
 
 
-### Table of content
+## Table of content
 <!-- auto-update:toc -->
 - [Features](#features)
 - [Usage](#usage)
@@ -120,7 +120,7 @@ docker run --rm                                  \
     --workdir=/parent-host                       \
     -v $(pwd):/parent-host                       \
     jbzoo/csv-blueprint:latest                   \
-    validate-csv                                 \ # See available commands and options below. 
+    validate-csv                                 \ # See available commands and options below.
     --csv=./tests/fixtures/demo.csv              \ # Your CSV(s).
     --schema=./tests/schemas/demo_invalid.yml    \ # Your schema(s).
     --ansi
@@ -208,7 +208,7 @@ cd ./csv-blueprint
 
 # OR build from source
 git clone git@github.com:jbzoo/csv-blueprint.git csv-blueprint
-cd csv-blueprint 
+cd csv-blueprint
 make build
 ./csv-blueprint validate-csv                    \
     --csv=./tests/fixtures/demo.csv             \
@@ -2001,7 +2001,7 @@ make build
 
 # Make your local changes
 
-# Autofix code style 
+# Autofix code style
 make test-phpcsfixer-fix test-phpcs
 
 # Run all tests and check code style

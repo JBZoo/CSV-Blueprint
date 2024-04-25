@@ -143,7 +143,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - uses: articulate/actions-markdownlint@v1
+      - name: 👍 Markdown Lint
+        uses: articulate/actions-markdownlint@v1
         with:
           config: .markdownlint.yml
           files: '*.md'
