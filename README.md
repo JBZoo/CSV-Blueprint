@@ -90,6 +90,7 @@ See also:
 ## Table of content
 <!-- auto-update:toc -->
 - [Features](#features)
+- [Table of content](#table-of-content)
 - [Usage](#usage)
 - [Schema definition](#schema-definition)
 - [Presets and reusable schemas](#presets-and-reusable-schemas)
@@ -2001,7 +2002,7 @@ make build
 
 # Make your local changes
 
-# Autofix code style
+# Autofix code style 
 make test-phpcsfixer-fix test-phpcs
 
 # Run all tests and check code style
