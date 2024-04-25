@@ -27,28 +27,28 @@ use function JBZoo\Data\yml;
 final class ReadmeTest extends TestCase
 {
     private const EXTRA_RULES = [
-        '* The `filename_pattern` rule verifies that the file name adheres to the specified regex pattern, ' .
+        '- The `filename_pattern` rule verifies that the file name adheres to the specified regex pattern, ' .
         'ensuring file naming conventions are followed.',
-        '* Ensures that the `name` property is defined for each column, applicable only when `csv.header` ' .
+        '- Ensures that the `name` property is defined for each column, applicable only when `csv.header` ' .
         'is set to `true`, to guarantee header integrity.',
-        '* The `required` property, when set to `true`, mandates the presence of the specified column in ' .
-        'the CSV file, enhancing data completeness. This is only relevant if `csv.header` is true.',
-        "* Validates that each row contains the correct number of columns, aligning with the schema's defined " .
+        '- The `required` property, when set to `true`, mandates the presence of the specified column in ' .
+        "the CSV file, enhancing data completeness.\n  This is only relevant if `csv.header` is true.",
+        "- Validates that each row contains the correct number of columns, aligning with the schema's defined " .
         'structure, to prevent data misalignment.',
-        '* The `strict_column_order` rule checks for the correct sequential order of columns as defined in ' .
+        '- The `strict_column_order` rule checks for the correct sequential order of columns as defined in ' .
         'the schema, ensuring structural consistency.',
-        '* The `allow_extra_columns` rule asserts no additional columns are present in the CSV file beyond ' .
-        'those specified in the schema, maintaining strict data fidelity.',
-        '  * For `csv.header: true`, it checks if the schema contains any column `name` not found in the ' .
+        '- The `allow_extra_columns` rule asserts no additional columns are present in the CSV file beyond ' .
+        "those specified in the schema,\n  maintaining strict data fidelity.",
+        '  - For `csv.header: true`, it checks if the schema contains any column `name` not found in the ' .
         'CSV file, addressing header discrepancies.',
-        '  * For `csv.header: false`, it compares the number of columns in the schema against those in the ' .
+        '  - For `csv.header: false`, it compares the number of columns in the schema against those in the ' .
         'CSV file, ensuring schema conformity.',
     ];
 
     public function testValidateCsvHelp(): void
     {
         $text = \implode("\n", [
-            '```',
+            '```txt',
             \trim(Tools::realExecution('validate-csv', ['help' => null])),
             '```',
         ]);
@@ -59,7 +59,7 @@ final class ReadmeTest extends TestCase
     public function testValidateSchemaHelp(): void
     {
         $text = \implode("\n", [
-            '```',
+            '```txt',
             \trim(Tools::realExecution('validate-schema', ['help' => null])),
             '```',
         ]);
@@ -70,7 +70,7 @@ final class ReadmeTest extends TestCase
     public function testCreateSchemaHelp(): void
     {
         $text = \implode("\n", [
-            '```',
+            '```txt',
             \trim(Tools::realExecution('create-schema', ['help' => null])),
             '```',
         ]);
@@ -81,7 +81,7 @@ final class ReadmeTest extends TestCase
     public function testDumpSchemaHelp(): void
     {
         $text = \implode("\n", [
-            '```',
+            '```txt',
             \trim(Tools::realExecution('debug-schema', ['help' => null])),
             '```',
         ]);
@@ -103,7 +103,7 @@ final class ReadmeTest extends TestCase
         isSame(1, $exitCode, $actual);
 
         $text = \implode("\n", [
-            '```',
+            '```txt',
             "./csv-blueprint validate-csv {$optionsAsString}",
             '',
             '',

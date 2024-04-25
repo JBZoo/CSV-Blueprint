@@ -156,3 +156,8 @@ bench-phar: ##@Benchmarks Run CSV file with Phar
 bench-php: ##@Benchmarks Run CSV file with classic PHP binary
 	$(PHP_BIN) ./csv-blueprint --ansi --version
 	-$(BLUEPRINT) $(BENCH_CSV) $(BENCH_SCHEMAS) $(BENCH_FLAGS)
+
+# Extrat tests #########################################################################################################
+test-md: ##@Tests Run Markdown tests
+	$(call title,"Markdown lint")
+	@markdownlint --config .markdownlint.yml *.md
