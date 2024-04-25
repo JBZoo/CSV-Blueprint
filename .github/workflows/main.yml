@@ -136,6 +136,19 @@ jobs:
         run: make codestyle --no-print-directory
 
 
+  markdown-lint:
+    name: Markdown Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - uses: articulate/actions-markdownlint@v1
+        with:
+          config: .markdownlint.yml
+          files: '*.md'
+
+
   verify-php-binary:
     name: Verify PHP binary
     runs-on: ubuntu-latest

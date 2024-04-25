@@ -10,24 +10,28 @@
 # @see        https://github.com/JBZoo/Csv-Blueprint
 #
 
-# EditorConfig is awesome: http://EditorConfig.org
+# See https://github.com/DavidAnson/markdownlint/tree/main/doc
 
-# top-most EditorConfig file
-root = true
+MD043: false
 
-[*]
-end_of_line = lf
-charset = utf-8
-trim_trailing_whitespace = true
-insert_final_newline = true
-indent_style = space
-indent_size = 4
+MD033:
+  allowed_elements:
+    - summary
+    - details
+    - table
+    - tr
+    - td
+    - b
+    - br
 
-[*.md]
-max_line_length = 150
+MD012:
+  maximum: 2
 
-[Makfile]
-indent_style = tab
-
-[{*yml,*yaml}]
-indent_size = 2
+MD013:
+  line_length: 150
+  heading_line_length: 120
+  code_blocks: false
+  tables: false
+  headings: true
+  strict: false
+  stern: false
