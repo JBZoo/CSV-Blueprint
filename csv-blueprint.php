@@ -17,7 +17,25 @@ declare(strict_types=1);
 namespace JBZoo\CsvBlueprint;
 
 \define('PATH_ROOT', __DIR__);
-require_once PATH_ROOT . '/vendor/autoload.php';
+
+$vendorPaths = [
+    __DIR__ . '/../../autoload.php',
+    __DIR__ . '/../vendor/autoload.php',
+    __DIR__ . '/vendor/autoload.php',
+];
+
+foreach ($vendorPaths as $file) {
+    if (\file_exists($file)) {
+        \define('JBZOO_AUTOLOAD_FILE', $file);
+        break;
+    }
+}
+
+if (\defined('JBZOO_AUTOLOAD_FILE')) {
+    require_once JBZOO_AUTOLOAD_FILE;
+} else {
+    throw new Exception('Cannot find composer autoload file');
+}
 
 if ('cli' !== \PHP_SAPI) {
     throw new Exception('This script must be run from the command line.');
