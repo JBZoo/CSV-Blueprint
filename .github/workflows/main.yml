@@ -180,6 +180,8 @@ jobs:
 
       - name: Test as composer package
         run: |
+          mkdir -pv ./build/composer-test
+          cd ./build/composer-test
           composer init --no-interaction --name="test/test"
           composer require jbzoo/csv-blueprint
           ./vendor/bin/csv-blueprint
