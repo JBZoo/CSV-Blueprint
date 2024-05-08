@@ -18,13 +18,13 @@ namespace JBZoo\CsvBlueprint;
 
 \define('PATH_ROOT', __DIR__);
 
-$vendorPaths = [
-    __DIR__ . '/../../autoload.php',
-    __DIR__ . '/../vendor/autoload.php',
-    __DIR__ . '/vendor/autoload.php',
-];
-
-foreach ($vendorPaths as $file) {
+foreach (
+    [
+        PATH_ROOT . '/../../autoload.php',
+        PATH_ROOT . '/../vendor/autoload.php',
+        PATH_ROOT . '/vendor/autoload.php',
+    ] as $file
+) {
     if (\file_exists($file)) {
         \define('JBZOO_AUTOLOAD_FILE', $file);
         break;
