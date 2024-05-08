@@ -178,6 +178,13 @@ jobs:
         run: |
           ! $BLUEPRINT $CMD_VALIDATE $INVALID_TEST
 
+      - name: Test as composer package
+        run: |
+          composer init --no-interaction --name="test/test"
+          composer require jbzoo/csv-blueprint
+          ./vendor/bin/csv-blueprint
+          ./vendor/bin/csv-blueprint $CMD_VALIDATE $VALID_TEST
+
 
   verify-phar-binary:
     name: Verify Phar
