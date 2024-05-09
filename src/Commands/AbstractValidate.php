@@ -86,7 +86,10 @@ abstract class AbstractValidate extends CliCommand
     {
         if ($showIntro) {
             if ($this->isHumanReadableMode()) {
-                $this->_('CSV Blueprint: ' . Utils::getVersion(true));
+                $version = Utils::getVersion(true);
+                if ($version !== null) {
+                    $this->_("CSV Blueprint: {$version}");
+                }
             }
 
             $threads = $this->getNumberOfThreads();

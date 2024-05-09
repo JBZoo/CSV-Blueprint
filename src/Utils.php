@@ -463,11 +463,11 @@ final class Utils
 
     /**
      * Retrieves the version of the software.
-     * @param  bool   $showFull Whether to display the full version information or not. Default is false.
-     * @return string the version of the software as a string, or an error message if the version file is
-     *                not found
+     * @param  bool        $showFull Whether to display the full version information or not. Default is false.
+     * @return null|string the version of the software as a string, or an error message if the version file is
+     *                     not found
      */
-    public static function getVersion(bool $showFull): string
+    public static function getVersion(bool $showFull): ?string
     {
         if (self::isPhpUnit()) {
             return 'Unknown version (PhpUnit)';
@@ -475,7 +475,7 @@ final class Utils
 
         $versionFile = __DIR__ . '/../.version';
         if (!\file_exists($versionFile)) {
-            return 'Version file not found';
+            return null;
         }
 
         return self::parseVersion((string)\file_get_contents($versionFile), $showFull);

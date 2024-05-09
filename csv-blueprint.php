@@ -43,6 +43,6 @@ if ('cli' !== \PHP_SAPI) {
 
 Utils::init();
 
-(new CliApplication('CSV Blueprint', Utils::getVersion(true)))
+(new CliApplication('CSV Blueprint', (string)Utils::getVersion(true)))
     ->registerCommandsByPath(PATH_ROOT . '/src/Commands', __NAMESPACE__)
     ->run();
