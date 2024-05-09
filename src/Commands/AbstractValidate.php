@@ -139,7 +139,7 @@ abstract class AbstractValidate extends CliCommand
         $filenames = \array_values(Utils::findFiles($patterns));
 
         // Hackish. Clear cache for schema files because we have aggressive opcode caching.
-        if ($option === 'schema') {
+        if ($option === 'schema' && \function_exists('opcache_invalidate')) {
             foreach ($filenames as $filename) {
                 \opcache_invalidate((string)$filename->getRealPath(), true);
             }
