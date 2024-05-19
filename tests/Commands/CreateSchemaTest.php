@@ -58,7 +58,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 11
                   count_distinct: 11
-            
+
               - example: City
                 rules:
                   not_empty: true
@@ -72,7 +72,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 11
                   count_distinct: 10
-            
+
               - example: Float
                 rules:
                   not_empty: true
@@ -85,7 +85,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 11
                   count_distinct: 11
-            
+
               - example: Birthday
                 rules:
                   not_empty: true
@@ -97,7 +97,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 11
                   count_distinct: 10
-            
+
               - example: 'Favorite color'
                 rules:
                   not_empty: true
@@ -113,7 +113,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 11
                   count_distinct: 4
-            
+
             YAML;
 
         isSame($expected, $actual);
@@ -162,7 +162,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 10
                   count_distinct: 10
-            
+
               - name: City
                 example: Rivsikgo
                 rules:
@@ -177,7 +177,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 10
                   count_distinct: 9
-            
+
               - name: Float
                 example: '4825.185'
                 rules:
@@ -219,7 +219,7 @@ final class CreateSchemaTest extends TestCase
                   stddev_pop: 1455.1902968725
                   coef_of_var: 3.2696642124506
                   interquartile_mean: 20.083083333333
-            
+
               - name: Birthday
                 example: '2000-01-01'
                 rules:
@@ -237,7 +237,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 10
                   count_distinct: 9
-            
+
               - name: 'Favorite color'
                 example: green
                 rules:
@@ -258,7 +258,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 10
                   count_distinct: 3
-            
+
             YAML;
 
         isSame($expected, $actual);
@@ -337,7 +337,7 @@ final class CreateSchemaTest extends TestCase
                   stddev_pop: 28.866070047722
                   coef_of_var: 0.57448498962143
                   interquartile_mean: 50.5
-            
+
               - name: bool
                 example: 'true'
                 rules:
@@ -357,7 +357,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 100
                   count_distinct: 4
-            
+
               - name: yn
                 example: 'N'
                 rules:
@@ -375,7 +375,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 100
                   count_distinct: 2
-            
+
               - name: integer
                 example: '577928'
                 rules:
@@ -414,7 +414,7 @@ final class CreateSchemaTest extends TestCase
                   stddev_pop: 584145.49564741
                   coef_of_var: 9.0774001634119
                   interquartile_mean: 97757.411764706
-            
+
               - name: float
                 example: '-308500353777.664'
                 rules:
@@ -455,7 +455,7 @@ final class CreateSchemaTest extends TestCase
                   stddev_pop: 523238798303.76
                   coef_of_var: 14.464558402952
                   interquartile_mean: 58474577243.668
-            
+
               - name: name/first
                 example: Emma
                 rules:
@@ -470,7 +470,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 100
                   count_distinct: 91
-            
+
               - name: date
                 example: 2042/11/18
                 rules:
@@ -488,7 +488,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 100
                   count_distinct: 100
-            
+
               - name: gender
                 example: Female
                 rules:
@@ -506,7 +506,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 100
                   count_distinct: 2
-            
+
               - name: email
                 example: naduka@jamci.kw
                 rules:
@@ -521,7 +521,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 100
                   count_distinct: 100
-            
+
               - name: guid
                 example: 2feb87a1-a0c2-57f7-82d3-a5eec01cea41
                 rules:
@@ -533,7 +533,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 100
                   count_distinct: 100
-            
+
               - name: latitude
                 example: '-27.94845'
                 rules:
@@ -575,7 +575,7 @@ final class CreateSchemaTest extends TestCase
                   stddev_pop: 53.162542825189
                   coef_of_var: -4.1582099643237
                   interquartile_mean: -17.8857418
-            
+
               - name: longitude
                 example: '-143.16108'
                 rules:
@@ -617,7 +617,7 @@ final class CreateSchemaTest extends TestCase
                   stddev_pop: 104.17013887356
                   coef_of_var: 10789.509737693
                   interquartile_mean: 3.519376
-            
+
               - name: sentence
                 example: 'En afu emoharhin itu me rectoge gacoseh tob taug raf tet oh hettulob gom tafba no loka.'
                 rules:
@@ -633,7 +633,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 100
                   count_distinct: 100
-            
+
               - name: empty_string
                 rules:
                   exact_value: ''
@@ -641,7 +641,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 100
                   count_not_empty: 0
                   count_distinct: 1
-            
+
             YAML;
 
         isSame($expected, $actual);
@@ -718,7 +718,7 @@ final class CreateSchemaTest extends TestCase
                   stddev_pop: 14.598325626972
                   coef_of_var: 0.39702211710774
                   interquartile_mean: 38.2
-            
+
               - name: alpha
                 example: EPZYEIbgkOIilbOlTLiT
                 rules:
@@ -733,7 +733,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
               - name: alpha(5)
                 example: AyXUN
                 rules:
@@ -747,7 +747,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
               - name: birthday
                 example: 10/4/1994
                 rules:
@@ -765,7 +765,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
               - name: bool
                 example: 'false'
                 rules:
@@ -785,7 +785,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 2
-            
+
               - name: char
                 example: M
                 rules:
@@ -797,7 +797,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
               - name: city
                 example: Luheez
                 rules:
@@ -813,7 +813,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
               - name: ccnumber
                 example: '6378806183401521'
                 rules:
@@ -857,7 +857,7 @@ final class CreateSchemaTest extends TestCase
                   stddev_pop: 9.7904095599534E+14
                   coef_of_var: 0.19531147800773
                   interquartile_mean: 5.5344308670268E+15
-            
+
               - name: date
                 example: 09/06/1970
                 rules:
@@ -875,7 +875,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
               - name: date(2)
                 example: 21/09/2040
                 rules:
@@ -887,7 +887,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
               - name: date(3)
                 example: 2055/04/15
                 rules:
@@ -905,7 +905,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
               - name: date(4)
                 example: '20940316'
                 rules:
@@ -955,7 +955,7 @@ final class CreateSchemaTest extends TestCase
                   stddev_pop: 247949.37226422
                   coef_of_var: 0.012666327044278
                   interquartile_mean: 20774949.2
-            
+
               - name: digit
                 example: '6757447'
                 rules:
@@ -996,7 +996,7 @@ final class CreateSchemaTest extends TestCase
                   stddev_pop: 3.0048911877047E+15
                   coef_of_var: 2.4782372711177
                   interquartile_mean: 557293097095.8
-            
+
               - name: digit(5)
                 example: '28871'
                 rules:
@@ -1038,7 +1038,7 @@ final class CreateSchemaTest extends TestCase
                   stddev_pop: 21193.945026881
                   coef_of_var: 0.6920932535915
                   interquartile_mean: 29175.2
-            
+
               - name: dollar
                 example: $6162.12
                 rules:
@@ -1050,7 +1050,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
               - name: domain
                 example: jubup.mv
                 rules:
@@ -1064,7 +1064,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
               - name: email
                 example: ca@bi.sh
                 rules:
@@ -1079,7 +1079,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
               - name: first
                 example: Clifford
                 rules:
@@ -1095,7 +1095,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
               - name: float
                 example: '-188143105579.4176'
                 rules:
@@ -1135,7 +1135,7 @@ final class CreateSchemaTest extends TestCase
                   stddev_pop: 435049375258.86
                   coef_of_var: -1.6600169214562
                   interquartile_mean: -361059143898.89
-            
+
               - name: gender
                 example: Male
                 rules:
@@ -1153,7 +1153,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 2
-            
+
               - name: guid
                 example: f3b79bb7-fc3c-5312-904b-284ce93e943e
                 rules:
@@ -1165,7 +1165,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
               - name: integer
                 example: '-489624'
                 rules:
@@ -1205,7 +1205,7 @@ final class CreateSchemaTest extends TestCase
                   stddev_pop: 630453.76906687
                   coef_of_var: -4.477060262719
                   interquartile_mean: -324923.6
-            
+
               - name: last
                 example: Jennings
                 rules:
@@ -1221,7 +1221,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
               - name: latitude
                 example: '-65.42206'
                 rules:
@@ -1262,7 +1262,7 @@ final class CreateSchemaTest extends TestCase
                   stddev_pop: 46.856196948355
                   coef_of_var: -2.4854732801497
                   interquartile_mean: -36.49114
-            
+
               - name: longitude
                 example: '94.97258'
                 rules:
@@ -1305,7 +1305,7 @@ final class CreateSchemaTest extends TestCase
                   stddev_pop: 84.456636220527
                   coef_of_var: 1.5853528808363
                   interquartile_mean: 86.477182
-            
+
               - name: mi
                 example: L
                 rules:
@@ -1320,7 +1320,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
               - name: name
                 example: 'Birdie Dean'
                 rules:
@@ -1336,7 +1336,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
               - name: natural
                 example: '6141664873676800'
                 rules:
@@ -1378,7 +1378,7 @@ final class CreateSchemaTest extends TestCase
                   stddev_pop: 2.8788395467518E+15
                   coef_of_var: 0.6477017429971
                   interquartile_mean: 4.9191730590777E+15
-            
+
               - name: natural(5)
                 example: '5'
                 rules:
@@ -1426,7 +1426,7 @@ final class CreateSchemaTest extends TestCase
                   stddev_pop: 1.9499920860871
                   coef_of_var: 0.80932654212984
                   interquartile_mean: 2.6
-            
+
               - name: paragraph
                 example: 'Uz rahiluz hac sed awnop jimsufo pebob kebu jobon rac igowe icoseta heiz cawsidkiv rabod bak rohihaz. Bupinda wiz jiebavih jowomi linek hibetpok wopi fobagte ro dimsogow fusil jiilo badma saci tifi somvumdu tidudot ibueb. Da podu ijme uto ucobera nuw ecufagam mujuun bic vim mi jo dip ranuzi favib mo gu mipoh.'
                 rules:
@@ -1443,7 +1443,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
               - name: phone
                 example: '(214) 682-4113'
                 rules:
@@ -1455,7 +1455,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
               - name: pick(RED|BLUE|YELLOW|GREEN|WHITE)
                 example: WHITE
                 rules:
@@ -1476,7 +1476,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 5
-            
+
               - name: postal
                 example: 'A5O 6P5'
                 rules:
@@ -1491,7 +1491,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
               - name: province
                 example: AB
                 rules:
@@ -1511,7 +1511,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 5
-            
+
               - name: seq
                 example: '1'
                 rules:
@@ -1558,7 +1558,7 @@ final class CreateSchemaTest extends TestCase
                   stddev_pop: 2.5819888974716
                   coef_of_var: 0.54772255750517
                   interquartile_mean: 5.0
-            
+
               - name: seq(50)
                 example: '50'
                 rules:
@@ -1605,7 +1605,7 @@ final class CreateSchemaTest extends TestCase
                   stddev_pop: 2.5819888974716
                   coef_of_var: 0.050715051620849
                   interquartile_mean: 54.0
-            
+
               - name: sentence
                 example: 'Me cenuz la iwiluse gu na panu jazigca asafu horte gur va atautjen.'
                 rules:
@@ -1622,7 +1622,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
               - name: state
                 example: CT
                 rules:
@@ -1637,7 +1637,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 8
-            
+
               - name: street
                 example: 'Bake Path'
                 rules:
@@ -1653,7 +1653,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
               - name: string
                 example: ']@W$eCD'
                 rules:
@@ -1666,7 +1666,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
               - name: string(5)
                 example: NfP(J
                 rules:
@@ -1678,7 +1678,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
               - name: word
                 example: zuc
                 rules:
@@ -1695,7 +1695,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
               - name: yn
                 example: 'Y'
                 rules:
@@ -1713,7 +1713,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 2
-            
+
               - name: zip
                 example: '70604'
                 rules:
@@ -1755,7 +1755,7 @@ final class CreateSchemaTest extends TestCase
                   stddev_pop: 17539.135031532
                   coef_of_var: 0.37600258213031
                   interquartile_mean: 49527.6
-            
+
               - name: zip9
                 example: 65424-5103
                 rules:
@@ -1768,7 +1768,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 9
                   count_distinct: 9
-            
+
             YAML;
 
         isSame($expected, $actual);
@@ -1820,7 +1820,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 1
                   count_distinct: 1
-            
+
               - name: City
                 example: Rivsikgo
                 rules:
@@ -1840,7 +1840,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 1
                   count_distinct: 1
-            
+
               - name: Float
                 example: '4825.185'
                 rules:
@@ -1888,7 +1888,7 @@ final class CreateSchemaTest extends TestCase
                   stddev_pop: 0.0
                   coef_of_var: 0.0
                   interquartile_mean: 4825.185
-            
+
               - name: Birthday
                 example: '2000-01-01'
                 rules:
@@ -1909,7 +1909,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 1
                   count_distinct: 1
-            
+
               - name: 'Favorite color'
                 example: green
                 rules:
@@ -1930,7 +1930,7 @@ final class CreateSchemaTest extends TestCase
                   count_empty: 0
                   count_not_empty: 1
                   count_distinct: 1
-            
+
             YAML;
 
         isSame($expected, $actual);
