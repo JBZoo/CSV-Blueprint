@@ -367,8 +367,7 @@ final class Utils
             return true;
         }
 
-        return isset($mapOfValidConvertions[$expectedType])
-            && \in_array($actualType, $mapOfValidConvertions[$expectedType], true);
+        return \in_array($actualType, $mapOfValidConvertions[$expectedType], true);
     }
 
     /**
