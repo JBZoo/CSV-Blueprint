@@ -27,7 +27,7 @@ final class WorkerPool
 
     private static ?string $bootstrap = null;
     private int            $maxThreads;
-    private \SplQueue      $tasksQueue;
+    private \SplQueue      $tasksQueue; /** @phpstan-ignore-line */
 
     /** @var null[]|\parallel\Future[] */
     private array $runningTasks = [];
