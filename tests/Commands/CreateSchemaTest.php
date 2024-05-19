@@ -231,7 +231,7 @@ final class CreateSchemaTest extends TestCase
                   date_max: '2010-07-20'
                   date_format: Y-m-d
                   date_age_min: 13
-                  date_age_max: 68
+                  date_age_max: 69
                   is_slug: true
                 aggregate_rules:
                   count_empty: 0
