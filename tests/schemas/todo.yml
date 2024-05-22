@@ -50,6 +50,17 @@ columns:
       is_realtive_path: true
       is_scientific_notation: true
 
+      is_positive: true
+      is_positive_zero: true
+      is_negative: true
+      is_negative_zero: true
+      soft_precision: "1.1 == 1.10"
+      # https://stackoverflow.com/questions/69107743/regular-expression-for-wkt-polygon: true
+      is_unicode: true
+      is_ascii: true
+      is_latin: true
+      coordinates: "1.0, -2.0"
+
       # identifier
       is_bsn: true                    # Validates a Dutch citizen service number (BSN).
       is_cnh: true                    # Validates a Brazilian national health card number (CNH).

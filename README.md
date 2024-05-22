@@ -15,7 +15,7 @@
 [![Static Badge](https://img.shields.io/badge/Rules-127-green?label=Cell%20rules&labelColor=blue&color=gray)](src/Rules/Cell)
 [![Static Badge](https://img.shields.io/badge/Rules-206-green?label=Aggregate%20rules&labelColor=blue&color=gray)](src/Rules/Aggregate)
 [![Static Badge](https://img.shields.io/badge/Rules-8-green?label=Extra%20checks&labelColor=blue&color=gray)](#extra-checks)
-[![Static Badge](https://img.shields.io/badge/Rules-22/11/20-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
+[![Static Badge](https://img.shields.io/badge/Rules-31/11/20-green?label=Plan%20to%20add&labelColor=gray&color=gray)](tests/schemas/todo.yml)
 <!-- auto-update:/rules-counter -->
 
 Strict and automated line-by-line CSV validation tool based on customizable Yaml schemas.
@@ -1976,6 +1976,7 @@ It's random ideas and plans. No promises and deadlines. Feel free to [help me!](
     see all errors in one place. Especially for GitLab and JUnit reports.
 
 - **Misc**
+  - Rewrite in Go/Rust. It's a good idea to have a standalone binary with the same functionality.
   - Install via brew on MacOS.
   - Install via apt on Ubuntu.
   - Use it as PHP SDK. Examples in Readme.
