@@ -16,5 +16,6 @@ includes:
 parameters:
     level: max
     checkExplicitMixed: false
-    checkMissingIterableValueType: false
     reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        -   identifier: missingType.iterableValue
