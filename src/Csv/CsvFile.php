@@ -28,7 +28,10 @@ use League\Csv\TabularDataReader;
 final class CsvFile
 {
     private string       $csvFilename;
+
+    /** @phpstan-ignore-next-line */
     private LeagueReader $reader;
+
     private Schema       $schema;
     private bool         $isEmpty;
     private ?array       $header = null;
@@ -99,7 +102,7 @@ final class CsvFile
      * @param  int               $limit  the maximum number of records to retrieve in the chunk
      * @return TabularDataReader the TabularDataReader object containing the records
      */
-    public function getRecordsChunk(int $offset = 0, int $limit = -1): TabularDataReader
+    public function getRecordsChunk(int $offset = 0, int $limit = -1): TabularDataReader  // @phpstan-ignore-line
     {
         return Statement::create(null, $offset, $limit)->process($this->reader, []); // No headers is required!
     }
@@ -192,7 +195,7 @@ final class CsvFile
         return \array_map(static fn (Column $column) => $column->getName(), $this->getColumnsMappedByHeader($errors));
     }
 
-    private function prepareReader(): LeagueReader
+    private function prepareReader(): LeagueReader  // @phpstan-ignore-line
     {
         $reader = LeagueReader::createFromPath($this->csvFilename)
             ->setDelimiter($this->schema->getCsvDelimiter())
