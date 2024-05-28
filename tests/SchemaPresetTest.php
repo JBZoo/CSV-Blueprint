@@ -306,7 +306,7 @@ final class SchemaPresetTest extends TestCase
         $parentColum = [
             'name'        => 'Name',
             'description' => 'Description',
-            'extra'       => ["123", "456"],
+            'extra'       => ['123', '456'],
             'rules'       => [
                 'allow_values' => ['a', 'b', 'c'],
                 'length_min'   => 1,
@@ -338,7 +338,7 @@ final class SchemaPresetTest extends TestCase
                 'description' => 'Description',             // Parent
                 'example'     => null,                      // Default
                 'required'    => true,                      // Default
-                'extra'       => ["123", "456"],            // Parent
+                'extra'       => ['123', '456'],            // Parent
                 'rules'       => [
                     'allow_values' => ['c'],                // Child
                     'length_min'   => 2,                    // Child
