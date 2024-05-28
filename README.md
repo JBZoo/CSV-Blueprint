@@ -300,7 +300,8 @@ description: |-                         # Any description of the CSV file. Not u
   supporting a wide range of data validation rules from basic type checks to complex regex validations.
   This example serves as a comprehensive guide for creating robust CSV file validations.
 
-presets: # Include another schema and define an alias for it.
+# Include another schema and define an alias for it.
+presets:
   my-preset: ./preset_users.yml         # Define preset alias "my-preset". See README.md for details.
 
 # Regular expression to match the file name. If not set, then no pattern check.
