@@ -293,6 +293,7 @@ final class Utils
             'rules.contains_any',
             'rules.contains_all',
             'rules.ip_v4_range',
+            'extra',
         ];
 
         foreach ($actualSchema as $key => $value) {

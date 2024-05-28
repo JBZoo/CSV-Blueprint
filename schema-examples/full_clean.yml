@@ -40,12 +40,17 @@ structural_rules:
   strict_column_order: true
   allow_extra_columns: false
 
+extra:
+  - key: value
+
 columns:
   - preset: my-preset/login
     name: 'Column Name (header)'
     description: 'Lorem ipsum'
     example: 'Some example'
     required: true
+    extra:
+      - key: value
 
     rules:
       preset: my-preset/login

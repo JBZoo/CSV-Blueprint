@@ -44,11 +44,14 @@ final class SchemaDataPrep
             'allow_extra_columns' => false,
         ],
 
+        'extra' => null,
+
         'column' => [
             'name'            => '',
             'description'     => '',
             'example'         => null,
             'required'        => true,
+            'extra'           => null,
             'rules'           => [],
             'aggregate_rules' => [],
         ],

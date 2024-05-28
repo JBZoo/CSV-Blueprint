@@ -94,6 +94,7 @@ final class SchemaPresetTest extends TestCase
                     'description'     => '',
                     'example'         => null,
                     'required'        => true,
+                    'extra'           => null,
                     'rules'           => [],
                     'aggregate_rules' => [],
                 ],
@@ -102,6 +103,7 @@ final class SchemaPresetTest extends TestCase
                     'description'     => '',
                     'example'         => null,
                     'required'        => false,
+                    'extra'           => null,
                     'rules'           => [],
                     'aggregate_rules' => [],
                 ],
@@ -259,6 +261,7 @@ final class SchemaPresetTest extends TestCase
             'description'     => 'Description',
             'example'         => '123',
             'required'        => false,
+            'extra'           => null,
             'rules'           => ['not_empty' => true],
             'aggregate_rules' => ['sum' => 10],
         ];
@@ -268,6 +271,7 @@ final class SchemaPresetTest extends TestCase
             'description'     => 'Another Description',
             'example'         => '234',
             'required'        => false,
+            'extra'           => null,
             'rules'           => ['is_int' => true],
             'aggregate_rules' => ['sum_max' => 100],
         ];
@@ -302,6 +306,7 @@ final class SchemaPresetTest extends TestCase
         $parentColum = [
             'name'        => 'Name',
             'description' => 'Description',
+            'extra'       => ["123", "456"],
             'rules'       => [
                 'allow_values' => ['a', 'b', 'c'],
                 'length_min'   => 1,
@@ -333,6 +338,7 @@ final class SchemaPresetTest extends TestCase
                 'description' => 'Description',             // Parent
                 'example'     => null,                      // Default
                 'required'    => true,                      // Default
+                'extra'       => ["123", "456"],            // Parent
                 'rules'       => [
                     'allow_values' => ['c'],                // Child
                     'length_min'   => 2,                    // Child
@@ -377,6 +383,7 @@ final class SchemaPresetTest extends TestCase
                 'description' => '',                    // Default
                 'example'     => null,                  // Default
                 'required'    => true,                  // Default
+                'extra'       => null,                  // Default
                 'rules'       => [                      // Parent All
                     'allow_values' => ['a', 'b', 'c'],
                     'length_min'   => 1,
@@ -424,6 +431,7 @@ final class SchemaPresetTest extends TestCase
                 'description' => '',                    // Default
                 'example'     => null,                  // Default
                 'required'    => true,                  // Default
+                'extra'       => null,                  // Default
                 'rules'       => [
                     'allow_values' => ['d', 'c'],       // Child
                     'length_min'   => 1,                // Parent
@@ -467,6 +475,7 @@ final class SchemaPresetTest extends TestCase
                 'description'     => '',                    // Default
                 'example'         => null,                  // Default
                 'required'        => true,                  // Default
+                'extra'           => null,                  // Default
                 'rules'           => [],                    // default
                 'aggregate_rules' => [                      // Parent All
                     'sum_max'   => 42,
@@ -512,6 +521,7 @@ final class SchemaPresetTest extends TestCase
                 'description'     => '',                    // Default
                 'example'         => null,                  // Default
                 'required'        => true,                  // Default
+                'extra'           => null,                  // Default
                 'rules'           => [],                    // default
                 'aggregate_rules' => [
                     'sum_max'   => 4200,                    // Child
@@ -549,6 +559,7 @@ final class SchemaPresetTest extends TestCase
                     'description' => 'Full name of the person.',
                     'example'     => 'John D',
                     'required'    => true,
+                    'extra'       => null,
                     'rules'       => [
                         'not_empty'  => true,
                         'length_min' => 5,
@@ -563,6 +574,7 @@ final class SchemaPresetTest extends TestCase
                     'description' => 'Some number.',
                     'example'     => 123,
                     'required'    => false,
+                    'extra'       => null,
                     'rules'       => [
                         'length_min' => 1,
                         'length_max' => 4,
@@ -604,6 +616,7 @@ final class SchemaPresetTest extends TestCase
                     'description' => 'Full name of the person.',
                     'example'     => 'John D',
                     'required'    => true,
+                    'extra'       => null,
                     'rules'       => [
                         'not_empty'  => true,
                         'length_min' => 5,
@@ -616,6 +629,7 @@ final class SchemaPresetTest extends TestCase
                     'description' => 'Full name of the person.',
                     'example'     => 'John D',
                     'required'    => true,
+                    'extra'       => null,
                     'rules'       => [
                         'not_empty'  => true,
                         'length_min' => 5,
@@ -628,6 +642,7 @@ final class SchemaPresetTest extends TestCase
                     'description' => 'Full name of the person.',
                     'example'     => 'John D',
                     'required'    => true,
+                    'extra'       => null,
                     'rules'       => [
                         'not_empty'  => true,
                         'length_min' => 5,
@@ -640,6 +655,7 @@ final class SchemaPresetTest extends TestCase
                     'description' => 'Full name of the person.',
                     'example'     => 'John D',
                     'required'    => true,
+                    'extra'       => null,
                     'rules'       => [
                         'not_empty'  => true,
                         'length_min' => 5,
@@ -652,6 +668,7 @@ final class SchemaPresetTest extends TestCase
                     'description' => 'Full name of the person.',
                     'example'     => 'John D',
                     'required'    => true,
+                    'extra'       => null,
                     'rules'       => [
                         'not_empty'  => true,
                         'length_min' => 1,
@@ -664,6 +681,7 @@ final class SchemaPresetTest extends TestCase
                     'description' => 'Full name of the person.',
                     'example'     => 'John D',
                     'required'    => true,
+                    'extra'       => null,
                     'rules'       => [
                         'not_empty'  => true,
                         'length_min' => 5,
@@ -676,6 +694,7 @@ final class SchemaPresetTest extends TestCase
                     'description' => '',
                     'example'     => null,
                     'required'    => true,
+                    'extra'       => null,
                     'rules'       => [
                         'not_empty'  => true,
                         'length_min' => 5,
@@ -688,6 +707,7 @@ final class SchemaPresetTest extends TestCase
                     'description'     => '',
                     'example'         => null,
                     'required'        => true,
+                    'extra'           => null,
                     'rules'           => [],
                     'aggregate_rules' => ['nth_num' => [4, 0.001]],
                 ],
@@ -696,6 +716,7 @@ final class SchemaPresetTest extends TestCase
                     'description' => 'Some number.',
                     'example'     => 123,
                     'required'    => false,
+                    'extra'       => null,
                     'rules'       => [
                         'length_min' => 1,
                         'length_max' => 4,
@@ -735,6 +756,7 @@ final class SchemaPresetTest extends TestCase
                     'description' => 'Some number.',
                     'example'     => 123,
                     'required'    => false,
+                    'extra'       => null,
                     'rules'       => [
                         'length_min' => 1,
                         'length_max' => 4,

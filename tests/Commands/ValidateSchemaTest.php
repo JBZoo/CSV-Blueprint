@@ -32,9 +32,9 @@ final class ValidateSchemaTest extends TestCase
         $expected = <<<'TXT'
             CSV Blueprint: Unknown version (PhpUnit)
             Found schemas: 1
-            
+
             OK ./tests/schemas/demo_valid.yml
-            
+
             TXT;
 
         isSame($expected, $actual);
@@ -50,14 +50,14 @@ final class ValidateSchemaTest extends TestCase
         $expected = <<<'TXT'
             CSV Blueprint: Unknown version (PhpUnit)
             Found schemas: 1
-            
+
             1 issue in ./tests/schemas/broken/syntax.yml
               +------+-----------+---------------+---------------------------------------------------+
               | Line | id:Column | Rule          | Message                                           |
               +------+-----------+---------------+---------------------------------------------------+
               |   15 |           | schema.syntax | Unable to parse at line 15 (near "(*$#)@(@$*)("). |
               +------+-----------+---------------+---------------------------------------------------+
-            
+
             TXT;
 
         isSame($expected, $actual);
@@ -73,7 +73,7 @@ final class ValidateSchemaTest extends TestCase
         $expected = <<<'TXT'
             CSV Blueprint: Unknown version (PhpUnit)
             Found schemas: 2
-            
+
             (1/2) 1 issue in ./tests/schemas/broken/invalid_schema.yml
               +-------+-----------+--------+----------------------------------+
               |  Line | id:Column | Rule   | Message                          |
@@ -86,7 +86,7 @@ final class ValidateSchemaTest extends TestCase
               +------+-----------+---------------+---------------------------------------------------+
               |   15 |           | schema.syntax | Unable to parse at line 15 (near "(*$#)@(@$*)("). |
               +------+-----------+---------------+---------------------------------------------------+
-            
+
             TXT;
 
         isSame($expected, $actual);
@@ -103,7 +103,7 @@ final class ValidateSchemaTest extends TestCase
         $expected = <<<'TXT'
             CSV Blueprint: Unknown version (PhpUnit)
             Found schemas: 2
-            
+
             (1/2) 1 issue in ./tests/schemas/broken/invalid_schema.yml
               +-------+-----------+--------+----------------------------------+
               |  Line | id:Column | Rule   | Message                          |
@@ -128,7 +128,7 @@ final class ValidateSchemaTest extends TestCase
               allow_extra_columns: false
             columns: []
             unknow_root_option: true
-            
+
             (2/2) 1 issue in ./tests/schemas/broken/syntax.yml
               +------+-----------+---------------+---------------------------------------------------+
               | Line | id:Column | Rule          | Message                                           |
@@ -137,8 +137,8 @@ final class ValidateSchemaTest extends TestCase
               +------+-----------+---------------+---------------------------------------------------+
             # File: ./tests/schemas/broken/syntax.yml
             Unable to parse schema file: Unable to parse at line 15 (near "(*$#)@(@$*)(").
-            
-            
+
+
             TXT;
 
         isSame($expected, $actual);
@@ -182,7 +182,7 @@ final class ValidateSchemaTest extends TestCase
         $expected = <<<'TXT'
             CSV Blueprint: Unknown version (PhpUnit)
             Found schemas: 9
-            
+
             (1/9) OK ./schema-examples/full.json
             (2/9) OK ./schema-examples/full.php
             (3/9) OK ./schema-examples/full.yml
@@ -192,7 +192,7 @@ final class ValidateSchemaTest extends TestCase
             (7/9) OK ./schema-examples/preset_usage.yml
             (8/9) OK ./schema-examples/preset_users.yml
             (9/9) OK ./schema-examples/readme_sample.yml
-            
+
             TXT;
 
         isSame($expected, $actual);

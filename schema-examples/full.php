@@ -44,6 +44,8 @@ This example serves as a comprehensive guide for creating robust CSV file valida
         'allow_extra_columns' => false,
     ],
 
+    'extra' => [['key' => 'value']],
+
     'columns' => [
         [
             'preset'      => 'my-preset/login',
@@ -51,6 +53,7 @@ This example serves as a comprehensive guide for creating robust CSV file valida
             'description' => 'Lorem ipsum',
             'example'     => 'Some example',
             'required'    => true,
+            'extra'       => [['key' => 'value']],
 
             'rules' => [
                 'preset'           => 'my-preset/login',

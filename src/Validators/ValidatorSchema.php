@@ -21,6 +21,7 @@ use JBZoo\CsvBlueprint\Schema;
 use JBZoo\CsvBlueprint\Utils;
 use JBZoo\Data\AbstractData;
 
+use function JBZoo\Data\data;
 use function JBZoo\Data\phpArray;
 
 final class ValidatorSchema
@@ -51,6 +52,7 @@ final class ValidatorSchema
             }
         }
 
+        unset($expectedColumn['extra']);
         $errors = $this->validateColumns($expectedColumn, $actualColumns, $quickStop);
         if ($errors->count() > 0) {
             $allErrors->addErrorSuit($errors);
@@ -83,10 +85,15 @@ final class ValidatorSchema
 
     private function getActual(): array
     {
-        $actualColumns = $this->data->findSelf('columns');
+        $actualColumns = $this->data->findSelf('columns')->getArrayCopy();
         $actualMeta = $this->data->remove('columns');
+        unset($actualMeta['extra']);
 
-        return [$actualMeta, $actualColumns];
+        foreach (\array_keys($actualColumns) as $index) {
+            unset($actualColumns[$index]['extra']);
+        }
+
+        return [$actualMeta, data($actualColumns)];
     }
 
     private function validateColumns(
@@ -167,7 +174,12 @@ final class ValidatorSchema
 
         $actualMetaAsArray = $actualMeta->getArrayCopy();
         $actualPresets = $actualMetaAsArray['presets'] ?? [];
-        unset($expectedMeta['presets'], $actualMetaAsArray['presets']);
+        unset(
+            $expectedMeta['presets'],
+            $expectedMeta['extra'],
+            $actualMetaAsArray['presets'],
+            $actualMetaAsArray['extra'],
+        );
 
         $metaErrors = Utils::compareArray($expectedMeta, $actualMetaAsArray, 'meta', '.');
 

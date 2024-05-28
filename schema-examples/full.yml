@@ -22,7 +22,8 @@ description: |-                         # Any description of the CSV file. Not u
   supporting a wide range of data validation rules from basic type checks to complex regex validations.
   This example serves as a comprehensive guide for creating robust CSV file validations.
 
-presets:                                # Include another schema and define an alias for it.
+# Include another schema and define an alias for it.
+presets:
   my-preset: ./preset_users.yml         # Define preset alias "my-preset". See README.md for details.
 
 # Regular expression to match the file name. If not set, then no pattern check.
@@ -51,6 +52,14 @@ structural_rules: # Here are default values.
   strict_column_order: true             # Ensure columns in CSV follow the same order as defined in this YML schema. It works only if "csv.header" is true.
   allow_extra_columns: false            # Allow CSV files to have more columns than specified in this YML schema.
 
+# Any extra data that you want to add. It will be ignored by the tool, but you can use it in your own code.
+# The option has an arbitrary data format, i.e. you can use it 100% at your discretion and store anything in any format.
+# extra: 'some text'
+# extra: [some, options, here]
+# extra: 42
+extra:
+  - key: "value"
+
 # Description of each column in CSV.
 # It is recommended to present each column in the same order as presented in the CSV file.
 # This will not affect the validator, but will make it easier for you to navigate.
@@ -65,6 +74,14 @@ columns:
     # So, if you want to make the column optional, set this value to false, and it will validate the column only if it is present.
     # By default, the column is required. It works only if "csv.header" is true and "structural_rules.allow_extra_columns" is false.
     required: true
+
+    # Any extra data that you want to add. It will be ignored by the tool, but you can use it in your own code.
+    # The option has an arbitrary data format, i.e. you can use it 100% at your discretion and store anything in any format.
+    # extra: 'some text'
+    # extra: [some, options, here]
+    # extra: 42
+    extra:
+      - key: "value"
 
     ####################################################################################################################
     # Data validation for each(!) value in the column. Please, see notes in README.md
