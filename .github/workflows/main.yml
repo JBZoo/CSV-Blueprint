@@ -183,7 +183,7 @@ jobs:
           mkdir -pv ./build/composer-test
           cd ./build/composer-test
           composer init --no-interaction --name="test/test"
-          composer require jbzoo/csv-blueprint
+          composer require jbzoo/csv-blueprint:dev-${{ github.event.pull_request.head.ref }}
           ./vendor/bin/csv-blueprint
           ./vendor/bin/csv-blueprint validate-csv --ansi -vvv --csv="../../tests/fixtures/batch/*.csv" --schema="../../tests/schemas/demo_valid.yml"
 
