@@ -1014,6 +1014,8 @@ columns:
   - name: id
     description: Unique identifier, usually used to denote a primary key in databases.
     example: 12345
+    extra: 
+      custom_key: custom value
     rules:
       not_empty: true
       is_trimmed: true
@@ -1209,6 +1211,8 @@ columns:
   - name: id
     description: 'Unique identifier, usually used to denote a primary key in databases.'
     example: 12345
+    extra:
+      custom_key: 'custom value'
     rules:
       not_empty: true
       is_trimmed: true
