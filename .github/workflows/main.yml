@@ -308,13 +308,13 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
 
       - name: 👍 Valid CSV files
-        uses: ./
+        uses: Dockerfile
         with:
           csv: ./tests/fixtures/batch/*.csv
           schema: ./tests/schemas/demo_valid.yml
 
       - name: 👎 Invalid CSV files
-        uses: ./
+        uses: Dockerfile
         with:
           csv: ./tests/fixtures/batch/*.csv
           schema: ./tests/schemas/demo_*.yml
