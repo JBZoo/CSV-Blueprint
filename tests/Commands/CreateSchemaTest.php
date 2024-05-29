@@ -919,7 +919,7 @@ final class CreateSchemaTest extends TestCase
                   date_min: '2040-05-29'
                   date_max: '2121-03-23'
                   date_format: Ymd
-                  date_age_min: 16
+                  date_age_min: 15
                   date_age_max: 96
                   postal_code: BR
                   hash: crc32

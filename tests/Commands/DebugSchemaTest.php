@@ -50,6 +50,7 @@ final class DebugSchemaTest extends TestCase
                 description: ''
                 example: ~
                 required: true
+                extra: 123
                 rules:
                   not_empty: true
                   length_min: 4
@@ -61,6 +62,7 @@ final class DebugSchemaTest extends TestCase
                 description: ''
                 example: ~
                 required: true
+                extra: ~
                 rules:
                   not_empty: true
                   is_capitalize: true
@@ -70,6 +72,9 @@ final class DebugSchemaTest extends TestCase
                 description: ''
                 example: ~
                 required: true
+                extra:
+                  custom_key: custom_value
+                  custom_key_2: custom_value_2
                 rules:
                   not_empty: true
                   is_float: true
@@ -82,6 +87,9 @@ final class DebugSchemaTest extends TestCase
                 description: ''
                 example: ~
                 required: true
+                extra:
+                  - 123
+                  - 456
                 rules:
                   not_empty: true
                   date_format: Y-m-d
@@ -91,6 +99,7 @@ final class DebugSchemaTest extends TestCase
                 description: ''
                 example: ~
                 required: true
+                extra: ~
                 rules:
                   not_empty: true
                   allow_values:
@@ -98,6 +107,7 @@ final class DebugSchemaTest extends TestCase
                     - green
                     - blue
                 aggregate_rules: []
+            extra: 123
             
             YAML;
 
@@ -117,6 +127,7 @@ final class DebugSchemaTest extends TestCase
             filename_pattern: '/(demo|demo_.*|demo-.*)\.csv$/'
             columns:
               - name: Name
+                extra: 123
                 rules:
                   not_empty: true
                   length_min: 4
@@ -130,6 +141,9 @@ final class DebugSchemaTest extends TestCase
                   is_capitalize: true
             
               - name: Float
+                extra:
+                  custom_key: custom_value
+                  custom_key_2: custom_value_2
                 rules:
                   not_empty: true
                   is_float: true
@@ -139,6 +153,9 @@ final class DebugSchemaTest extends TestCase
                   sum_max: 4692
             
               - name: Birthday
+                extra:
+                  - 123
+                  - 456
                 rules:
                   not_empty: true
                   date_format: Y-m-d
@@ -150,6 +167,7 @@ final class DebugSchemaTest extends TestCase
                     - red
                     - green
                     - blue
+            extra: 123
             
             YAML;
 
@@ -178,6 +196,8 @@ final class DebugSchemaTest extends TestCase
               - name: id
                 description: 'Unique identifier, usually used to denote a primary key in databases.'
                 example: 12345
+                extra:
+                  custom_key: 'custom value'
                 rules:
                   not_empty: true
                   is_trimmed: true

@@ -14,8 +14,11 @@
 
 filename_pattern: /(demo|demo_.*|demo-.*)\.csv$/
 
+extra: 123
+
 columns:
   - name: Name
+    extra: 123
     rules:
       not_empty: true
       length_min: 4
@@ -24,11 +27,15 @@ columns:
       is_unique: true
 
   - name: City
+    extra: null
     rules:
       not_empty: true
       is_capitalize: true
 
   - name: Float
+    extra:
+      custom_key: "custom_value"
+      custom_key_2: "custom_value_2"
     rules:
       not_empty: true
       is_float: true
@@ -39,6 +46,7 @@ columns:
 
 
   - name: Birthday
+    extra: [123, 456]
     rules:
       not_empty: true
       date_format: Y-m-d
