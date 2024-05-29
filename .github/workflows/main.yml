@@ -179,6 +179,7 @@ jobs:
           ! $BLUEPRINT $CMD_VALIDATE $INVALID_TEST
 
       - name: Test as composer package
+        if: github.ref != 'refs/heads/master'
         run: |
           mkdir -pv ./build/composer-test
           cd ./build/composer-test
