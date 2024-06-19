@@ -146,7 +146,7 @@ final class CsvValidatorTest extends TestCase
 
     public function testFilenamePattern(): void
     {
-        $csv = new CsvFile(Tools::CSV_COMPLEX, ['filename_pattern' => '/demo(-\\d+)?\\.csv$/']);
+        $csv = new CsvFile(Tools::CSV_COMPLEX, ['filename_pattern' => '/demo(-\d+)?\.csv$/']);
         isSame(
             '"filename_pattern". ' .
             'Filename "./tests/fixtures/complex_header.csv" does not match pattern: "/demo(-\d+)?\.csv$/".',

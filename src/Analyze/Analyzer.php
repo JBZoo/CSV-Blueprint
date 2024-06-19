@@ -264,7 +264,7 @@ final class Analyzer
                 ->in(__DIR__ . "/../Rules/{$directory}")
                 ->ignoreDotFiles(false)
                 ->ignoreVCS(true)
-                ->name('/\\.php$/')
+                ->name('/\.php$/')
                 ->files();
 
             foreach ($finder as $file) {

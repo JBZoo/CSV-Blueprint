@@ -49,6 +49,6 @@ final class IsPasswordSafeChars extends AbstractCellRule
 
     public static function testValue(string $cellValue): bool
     {
-        return !Utils::testRegex('/^[a-zA-Z\d!@#$%^&*()_+\-=\[\]{};\':"\\|,.<>\/?~]+$/', $cellValue);
+        return !Utils::testRegex('/^[a-zA-Z\d!@#$%^&*()_+\-=\[\]{};\':"\|,.<>\/?~]+$/', $cellValue);
     }
 }

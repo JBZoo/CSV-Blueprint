@@ -26,7 +26,7 @@ This example serves as a comprehensive guide for creating robust CSV file valida
         'my-preset' => './preset_users.yml',
     ],
 
-    'filename_pattern' => '/\\.csv$/i',
+    'filename_pattern' => '/\.csv$/i',
 
     'csv' => [
         'preset'     => 'my-preset',
@@ -62,7 +62,7 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'allow_values'     => ['y', 'n', ''],
                 'not_allow_values' => ['invalid'],
 
-                'regex' => '/^[\\d]{2}$/',
+                'regex' => '/^[\d]{2}$/',
 
                 'length_min'     => 1,
                 'length_greater' => 2,
