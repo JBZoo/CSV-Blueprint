@@ -38,7 +38,7 @@ final class ExampleSchemasTest extends TestCase
             ->in(PROJECT_ROOT . '/src/Rules/Cell')
             ->ignoreDotFiles(false)
             ->ignoreVCS(true)
-            ->name('/\\.php$/')
+            ->name('/\.php$/')
             ->sortByName(true);
 
         foreach ($finder as $file) {
@@ -95,7 +95,7 @@ final class ExampleSchemasTest extends TestCase
             ->in(PROJECT_ROOT . '/src/Rules/Aggregate')
             ->ignoreDotFiles(false)
             ->ignoreVCS(true)
-            ->name('/\\.php$/')
+            ->name('/\.php$/')
             ->sortByName(true);
 
         foreach ($finder as $file) {

@@ -23,7 +23,7 @@ final class PhpdocsTest extends TestCase
         $classes = include PROJECT_ROOT . '/vendor/composer/autoload_classmap.php';
         $projectClasses = [];
         foreach (\array_keys($classes) as $class) {
-            if (\str_contains($class, 'JBZoo\\CsvBlueprint')) {
+            if (\str_contains($class, 'JBZoo\CsvBlueprint')) {
                 $projectClasses[] = $class;
             }
         }
