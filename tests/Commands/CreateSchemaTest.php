@@ -1855,7 +1855,7 @@ final class CreateSchemaTest extends TestCase
                   precision: 3
                   is_date: true
                   date: '4825-07-04'
-                  date_age: 2801
+                  date_age: 2800
                 aggregate_rules:
                   is_unique: true
                   sum: 4825.185
