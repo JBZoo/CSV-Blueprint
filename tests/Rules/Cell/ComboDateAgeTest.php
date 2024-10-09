@@ -34,7 +34,7 @@ class ComboDateAgeTest extends TestAbstractCellRuleCombo
         isSame('', $rule->test('now'));
 
         isSame(
-            'The age of the value "2020-10-02" is parsed as "3" years, ' .
+            'The age of the value "2020-10-02" is parsed as "4" years, ' .
             'which is not equal than the expected "0 years"',
             $rule->test('2020-10-02'),
         );
@@ -58,7 +58,7 @@ class ComboDateAgeTest extends TestAbstractCellRuleCombo
         isSame('', $rule->test('2100-01'));
 
         isSame(
-            'The age of the value "2020-10-02" is parsed as "3" years, ' .
+            'The age of the value "2020-10-02" is parsed as "4" years, ' .
             'which is less than the expected "21 years"',
             $rule->test('2020-10-02'),
         );
