@@ -118,7 +118,8 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: highest
+          # Todo: Should be `highest` instead of 8.3
+          php-version: 8.3
           coverage: none
           extensions: ast
 
