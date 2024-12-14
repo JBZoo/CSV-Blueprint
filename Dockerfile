@@ -38,17 +38,18 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY ./docker/php.ini /usr/local/etc/php/conf.d/docker-z99-php.ini
 
 # Warmup caches
-RUN php ./docker/random-csv.php \
-    && JBZOO_BUILD_PRELOADER=1 \
-      ./csv-blueprint validate-csv \
-      --schema=/app/schema-examples/full.yml \
-      --csv=/app/docker/random_data.csv \
-      --apply-all=yes \
-      --report=text --mute-errors | grep issues \
-    && rm ./docker/random_data.csv \
-    && php ./docker/build-preloader.php \
-    && php ./docker/preload.php \
-    && du -sh /app/docker
+#RUN php ./docker/random-csv.php \
+#    && JBZOO_BUILD_PRELOADER=1 \
+#      ./csv-blueprint validate-csv \
+#      --schema=/app/schema-examples/full.yml \
+#      --csv=/app/docker/random_data.csv \
+#      --apply-all=yes \
+#      --report=text --mute-errors | grep issues \
+#    && rm ./docker/random_data.csv \
+#    && php ./docker/build-preloader.php \
+#    && php ./docker/preload.php \
+#    && du -sh /app/docker
+
 #    && echo "opcache.preload=/app/docker/preload.php" >> /usr/local/etc/php/conf.d/docker-z99-php.ini
 
 # Quick test
