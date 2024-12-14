@@ -20,10 +20,20 @@ use JBZoo\CsvBlueprint\Rules\Cell\Charset;
 use JBZoo\PHPUnit\Rules\TestAbstractCellRule;
 
 use function JBZoo\PHPUnit\isSame;
+use function JBZoo\PHPUnit\skip;
 
 final class CharsetTest extends TestAbstractCellRule
 {
     protected string $ruleClass = Charset::class;
+
+    public function testHelpMessageInExample(): void
+    {
+        if (\version_compare(\PHP_VERSION, '8.4.0', '>=')) {
+            parent::testHelpMessageInExample();
+        } else {
+            skip('Help message depends on PHP version');
+        }
+    }
 
     public function testPositive(): void
     {

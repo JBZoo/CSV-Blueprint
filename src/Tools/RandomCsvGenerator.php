@@ -43,7 +43,7 @@ final class RandomCsvGenerator
             throw new Exception("Can't open file: {$this->filePath}");
         }
 
-        \fputcsv($fileHandle, $this->columns);
+        \fputcsv($fileHandle, $this->columns, ',', '"', '\\');
 
         for ($i = 0; $i < $this->rows; $i++) {
             $rowData = [];
@@ -52,7 +52,7 @@ final class RandomCsvGenerator
                 $rowData[$columnIndex] = \random_int(self::MIN, self::MAX);
             }
 
-            \fputcsv($fileHandle, $rowData);
+            \fputcsv($fileHandle, $rowData, ',', '"', '\\');
         }
 
         \fclose($fileHandle);
