@@ -30,26 +30,27 @@
         "php"                                 : "^8.2",
         "ext-mbstring"                        : "*",
 
-        "league/csv"                          : "^9.15.0",
+        "league/csv"                          : "^9.20.0",
         "jbzoo/data"                          : "^7.1.1",
         "jbzoo/cli"                           : "^7.2.2",
-        "jbzoo/utils"                         : "^7.2.1",
+        "jbzoo/utils"                         : "^7.2.2",
         "jbzoo/ci-report-converter"           : "^7.2.1",
 
-        "symfony/yaml"                        : "^7.0.3",
-        "symfony/filesystem"                  : "^7.0.6",
-        "symfony/finder"                      : "^7.0.0",
+        "symfony/yaml"                        : "^7.2.0",
+        "symfony/filesystem"                  : "^7.2.0",
+        "symfony/finder"                      : "^7.2.0",
+        "symfony/console"                     : "^7.2.1",
         "markrogoyski/math-php"               : "^2.10.0",
-        "respect/validation"                  : "^2.3.7",
-        "giggsey/libphonenumber-for-php-lite" : "^8.13.35",
-        "fidry/cpu-core-counter"              : "^1.1.0"
+        "respect/validation"                  : "^2.3.11",
+        "giggsey/libphonenumber-for-php-lite" : "^8.13.52",
+        "fidry/cpu-core-counter"              : "^1.2.0"
     },
 
     "require-dev"       : {
         "roave/security-advisories" : "dev-latest",
         "jbzoo/toolbox-dev"         : "^7.1.0",
         "jbzoo/codestyle"           : "^7.1.2",
-        "fakerphp/faker"            : "^1.23.1",
+        "fakerphp/faker"            : "^1.24.1",
         "phpstan/phpstan"           : "1.11.1"
     },
 
