@@ -121,12 +121,12 @@ final class Schema
         }
 
         // by "index:"
-        if (\preg_match('/^(\d+):$/', $columNameOrId, $matches) !== 0) {
+        if (\preg_match('/^(\d+):$/', $columNameOrId, $matches) !== 0 && isset($matches[1])) {
             return $this->getColumn((int)$matches[1]);
         }
 
         // by "index:name"
-        if (\preg_match('/^(\d+):(.*)$/', $columNameOrId, $matches) !== 0) {
+        if (\preg_match('/^(\d+):(.*)$/', $columNameOrId, $matches) !== 0 && isset($matches[1], $matches[2])) {
             return $this->getColumn((int)$matches[1], $matches[2]);
         }
 
