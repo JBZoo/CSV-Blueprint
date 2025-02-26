@@ -869,7 +869,7 @@ final class CreateSchemaTest extends TestCase
                   date_max: '2046-08-21'
                   date_format: m/d/Y
                   date_age_min: 7
-                  date_age_max: 117
+                  date_age_max: 118
                 aggregate_rules:
                   is_unique: true
                   count_empty: 0
@@ -1902,7 +1902,7 @@ final class CreateSchemaTest extends TestCase
                   is_leap_year: true
                   date: '2000-01-01'
                   date_format: Y-m-d
-                  date_age: 24
+                  date_age: 25
                   is_slug: true
                 aggregate_rules:
                   is_unique: true
