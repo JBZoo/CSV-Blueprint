@@ -19,8 +19,6 @@ on:
   push:
     branches:
       - 'master'
-  schedule:
-    - cron: '0 0 * * *'
 
 
 # To avoid copy-pasting the same commands and add control over the environment
