@@ -24,8 +24,8 @@ columns:
     aggregate_rules:
       last_num: 5.0
       count: 0
-      nth: [ 2, Not expected ] ]
-      nth_num: [ 2, 123 ] ]
+      nth: [ 2, Not expected ]
+      nth_num: [ 2, 123 ]
 
       first_num: 5.0
       last: Not expected
