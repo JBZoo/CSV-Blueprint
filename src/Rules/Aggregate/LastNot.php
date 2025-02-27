@@ -43,8 +43,8 @@ final class LastNot extends AbstractAggregateRule
 
         $last = \end($columnValues);
         if ($last === $this->getOptionAsString()) {
-            return "The last value in the column is \"<c>{$last}</c>\", " .
-                "which is equal than the not allowed \"<green>{$this->getOptionAsString()}</green>\"";
+            return "The last value in the column is \"<c>{$last}</c>\", "
+                . "which is equal than the not allowed \"<green>{$this->getOptionAsString()}</green>\"";
         }
 
         return null;

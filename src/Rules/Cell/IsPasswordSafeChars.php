@@ -27,8 +27,8 @@ final class IsPasswordSafeChars extends AbstractCellRule
             [
                 self::DEFAULT => [
                     'true',
-                    'Check that the cell value contains only safe characters for regular passwords. ' .
-                    'Allowed characters: a-z, A-Z, 0-9, !@#$%^&*()_+-=[]{};:\'"|,.<>/?~.',
+                    'Check that the cell value contains only safe characters for regular passwords. '
+                    . 'Allowed characters: a-z, A-Z, 0-9, !@#$%^&*()_+-=[]{};:\'"|,.<>/?~.',
                 ],
             ],
         ];

@@ -33,8 +33,8 @@ final class IsUsaMarketName extends AbstractCellRule
     public function validateRule(string $cellValue): ?string
     {
         if (!self::testValue($cellValue)) {
-            return "Invalid market name format for value \"<c>{$cellValue}</c>\". " .
-                'Market name must have format "<green>New York, NY</green>"';
+            return "Invalid market name format for value \"<c>{$cellValue}</c>\". "
+                . 'Market name must have format "<green>New York, NY</green>"';
         }
 
         return null;

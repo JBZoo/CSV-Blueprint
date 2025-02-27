@@ -43,8 +43,8 @@ final class FirstNot extends AbstractAggregateRule
 
         $first = \reset($columnValues);
         if ($first === $this->getOptionAsString()) {
-            return "The first value in the column is \"<c>{$first}</c>\", " .
-                "which is equal than the not allowed \"<green>{$this->getOptionAsString()}</green>\"";
+            return "The first value in the column is \"<c>{$first}</c>\", "
+                . "which is equal than the not allowed \"<green>{$this->getOptionAsString()}</green>\"";
         }
 
         return null;

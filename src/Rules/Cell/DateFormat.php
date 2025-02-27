@@ -38,8 +38,8 @@ final class DateFormat extends AbstractCellRule
         }
 
         if (!self::testDate($cellValue, $expectedDateFormat)) {
-            return "Date format of value \"<c>{$cellValue}</c>\" is not valid. " .
-                "Expected format: \"<green>{$expectedDateFormat}</green>\"";
+            return "Date format of value \"<c>{$cellValue}</c>\" is not valid. "
+                . "Expected format: \"<green>{$expectedDateFormat}</green>\"";
         }
 
         return null;

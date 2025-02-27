@@ -27,8 +27,8 @@ final class IsUuid extends AbstractCellRule
             [
                 self::DEFAULT => [
                     'true',
-                    'Validates whether the input is a valid UUID. ' .
-                    'It also supports validation of specific versions 1, 3, 4 and 5.',
+                    'Validates whether the input is a valid UUID. '
+                    . 'It also supports validation of specific versions 1, 3, 4 and 5.',
                 ],
             ],
         ];

@@ -40,16 +40,16 @@ final class ComboQuartiles extends AbstractAggregateRuleCombo
     {
         return [
             [
-                'Quartiles. Three points that divide the data set into four equal groups, ' .
-                'each group comprising a quarter of the data.',
+                'Quartiles. Three points that divide the data set into four equal groups, '
+                . 'each group comprising a quarter of the data.',
                 'See: https://en.wikipedia.org/wiki/Quartile',
                 // Options
-                'There are multiple methods for computing quartiles: ' . Utils::printList(self::METHODS) . '. ' .
-                'Exclusive is ussually classic.',
+                'There are multiple methods for computing quartiles: ' . Utils::printList(self::METHODS) . '. '
+                . 'Exclusive is ussually classic.',
                 'Available types: ' . Utils::printList(self::TYPES) . ' ("IQR" is Interquartile Range)',
                 // Example
-                'Example: `[ ' . self::METHODS[1] . ", '" . self::TYPES[3] . "', 42.0 ]`" .
-                ' - the ' . self::TYPES[3] . ' ' . self::METHODS[1] . ' quartile is 42.0',
+                'Example: `[ ' . self::METHODS[1] . ", '" . self::TYPES[3] . "', 42.0 ]`"
+                . ' - the ' . self::TYPES[3] . ' ' . self::METHODS[1] . ' quartile is 42.0',
             ],
             [
                 self::MIN     => ['[ ' . self::METHODS[0] . ", '" . self::TYPES[0] . "', 1.0 ]", 'x >= 1.0'],
@@ -134,10 +134,10 @@ final class ComboQuartiles extends AbstractAggregateRuleCombo
         $params = $this->getOptionAsArray();
         if (\count($params) !== self::ARGS) {
             throw new Exception(
-                'The rule expects exactly three params: ' .
-                'method ' . Utils::printList(self::METHODS) . ', ' .
-                'type ' . Utils::printList(self::TYPES) . ', ' .
-                'expected value (float)',
+                'The rule expects exactly three params: '
+                . 'method ' . Utils::printList(self::METHODS) . ', '
+                . 'type ' . Utils::printList(self::TYPES) . ', '
+                . 'expected value (float)',
             );
         }
 

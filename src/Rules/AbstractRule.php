@@ -178,8 +178,8 @@ abstract class AbstractRule
         if (!\is_bool($this->options)) {
             $options = Utils::printList($this->options);
             throw new Exception(
-                "Invalid option {$options} for the \"{$this->getRuleCode()}\" rule. " .
-                'It should be true|false.',
+                "Invalid option {$options} for the \"{$this->getRuleCode()}\" rule. "
+                . 'It should be true|false.',
             );
         }
 
@@ -198,8 +198,8 @@ abstract class AbstractRule
         if (\is_array($this->options)) {
             $options = Utils::printList($this->options);
             throw new Exception(
-                "Invalid option {$options} for the \"{$this->getRuleCode()}\" rule. " .
-                'It should be int/float/string.',
+                "Invalid option {$options} for the \"{$this->getRuleCode()}\" rule. "
+                . 'It should be int/float/string.',
             );
         }
 
@@ -218,8 +218,8 @@ abstract class AbstractRule
         if ($this->options === '' || !\is_numeric($this->options)) {
             $options = Utils::printList($this->options);
             throw new Exception(
-                "Invalid option {$options} for the \"{$this->getRuleCode()}\" rule. " .
-                'It should be integer.',
+                "Invalid option {$options} for the \"{$this->getRuleCode()}\" rule. "
+                . 'It should be integer.',
             );
         }
 
@@ -238,8 +238,8 @@ abstract class AbstractRule
         if ($this->options === '' || !\is_numeric($this->options)) {
             $options = Utils::printList($this->options);
             throw new Exception(
-                "Invalid option {$options} for the \"{$this->getRuleCode()}\" rule. " .
-                'It should be integer/float.',
+                "Invalid option {$options} for the \"{$this->getRuleCode()}\" rule. "
+                . 'It should be integer/float.',
             );
         }
 
@@ -260,8 +260,8 @@ abstract class AbstractRule
         if (!\is_array($this->options)) {
             $options = Utils::printList($this->options);
             throw new Exception(
-                "Invalid option {$options} for the \"{$this->getRuleCode()}\" rule. " .
-                'It should be array of strings.',
+                "Invalid option {$options} for the \"{$this->getRuleCode()}\" rule. "
+                . 'It should be array of strings.',
             );
         }
 

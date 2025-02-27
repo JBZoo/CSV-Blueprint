@@ -46,8 +46,8 @@ final class CountryCode extends AbstractCellRule
         $validSets = self::getFormats();
 
         if (!\in_array($set, $validSets, true)) {
-            return "Unknown country set: \"<c>{$set}</c>\". " .
-                'Available options: ' . Utils::printList($validSets, 'green');
+            return "Unknown country set: \"<c>{$set}</c>\". "
+                . 'Available options: ' . Utils::printList($validSets, 'green');
         }
 
         if (!Validator::countryCode($set)->validate($cellValue)) {

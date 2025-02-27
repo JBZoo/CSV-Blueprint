@@ -43,8 +43,8 @@ final class ValidateCsv extends AbstractValidate
                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
                 \implode("\n", [
                     'Specify the path(s) to the CSV files you want to validate.',
-                    'This can include a direct path to a file or a directory to search with a maximum depth of ' .
-                    Utils::MAX_DIRECTORY_DEPTH . ' levels.',
+                    'This can include a direct path to a file or a directory to search with a maximum depth of '
+                    . Utils::MAX_DIRECTORY_DEPTH . ' levels.',
                     'Examples: <info>' . \implode('</info>; <info>', [
                         'p/file.csv',
                         'p/*.csv',
@@ -90,12 +90,12 @@ final class ValidateCsv extends AbstractValidate
                 \implode("\n", [
                     "Apply all schemas (also without `filename_pattern`) to all CSV files found as global rules.\n",
                     'Available options:',
-                    ' - <info>auto</info>: If no glob pattern (*) is used for --schema, the schema is applied to all ' .
-                    'found CSV files.',
-                    ' - <info>yes|y|1</info>: Apply all schemas to all CSV files, Schemas without `filename_pattern` ' .
-                    'are applied as a global rule.',
-                    ' - <info>no|n|0</info>: Apply only schemas with not empty `filename_pattern` and ' .
-                    'match the CSV files.',
+                    ' - <info>auto</info>: If no glob pattern (*) is used for --schema, the schema is applied to all '
+                    . 'found CSV files.',
+                    ' - <info>yes|y|1</info>: Apply all schemas to all CSV files, Schemas without `filename_pattern` '
+                    . 'are applied as a global rule.',
+                    ' - <info>no|n|0</info>: Apply only schemas with not empty `filename_pattern` and '
+                    . 'match the CSV files.',
                     'Note. If specify the option `--apply-all` without value, it will be treated as "yes".',
                     '',
                 ]),
@@ -307,8 +307,8 @@ final class ValidateCsv extends AbstractValidate
 
         if ($errorInCsvCounter > 0) {
             $this->out(
-                "Found <c>{$errorInCsvCounter}</c> issues in {$invalidCsvFiles} " .
-                "out of {$totalCsvFiles} CSV files.",
+                "Found <c>{$errorInCsvCounter}</c> issues in {$invalidCsvFiles} "
+                . "out of {$totalCsvFiles} CSV files.",
                 $indent,
             );
         } elseif (!$this->isQuickMode()) {

@@ -27,8 +27,8 @@ final class IsCurrencyCode extends AbstractCellRule
             [
                 self::DEFAULT => [
                     'true',
-                    'Validates an ISO 4217 currency code like GBP or EUR. Case-sensitive. ' .
-                    'See: https://en.wikipedia.org/wiki/ISO_4217',
+                    'Validates an ISO 4217 currency code like GBP or EUR. Case-sensitive. '
+                    . 'See: https://en.wikipedia.org/wiki/ISO_4217',
                 ],
             ],
         ];

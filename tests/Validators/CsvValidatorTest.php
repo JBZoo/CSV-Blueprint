@@ -106,8 +106,8 @@ final class CsvValidatorTest extends TestCase
 
         $csv = new CsvFile(Tools::DEMO_CSV, Tools::getAggregateRule('Float', 'sum', 20));
         isSame(
-            '"ag:sum" at line <red>1</red>, column "2:Float". The sum of numbers in the column is ' .
-            '"<c>4691.3235</c>", which is not equal than the expected "<green>20</green>".' . "\n",
+            '"ag:sum" at line <red>1</red>, column "2:Float". The sum of numbers in the column is '
+            . '"<c>4691.3235</c>", which is not equal than the expected "<green>20</green>".' . "\n",
             (string)$csv->validate(),
         );
     }
@@ -148,8 +148,8 @@ final class CsvValidatorTest extends TestCase
     {
         $csv = new CsvFile(Tools::CSV_COMPLEX, ['filename_pattern' => '/demo(-\d+)?\.csv$/']);
         isSame(
-            '"filename_pattern". ' .
-            'Filename "./tests/fixtures/complex_header.csv" does not match pattern: "/demo(-\d+)?\.csv$/".',
+            '"filename_pattern". '
+            . 'Filename "./tests/fixtures/complex_header.csv" does not match pattern: "/demo(-\d+)?\.csv$/".',
             \strip_tags((string)$csv->validate()->get(0)),
         );
 
@@ -288,9 +288,9 @@ final class CsvValidatorTest extends TestCase
         $csv = new CsvFile(Tools::DEMO_CSV, ['columns' => $columns]);
 
         isSame(
-            '"strict_column_order" at line <red>1</red>. Real columns order doesn\'t match schema. ' .
-            'Expected: <c>["Name", "City", "Float", "Birthday", "Favorite color"]</c>. ' .
-            'Actual: <green>["City", "Name", "Float", "Birthday", "Favorite color"]</green>.' . "\n",
+            '"strict_column_order" at line <red>1</red>. Real columns order doesn\'t match schema. '
+            . 'Expected: <c>["Name", "City", "Float", "Birthday", "Favorite color"]</c>. '
+            . 'Actual: <green>["City", "Name", "Float", "Birthday", "Favorite color"]</green>.' . "\n",
             $csv->validate()->render(),
         );
 
@@ -306,9 +306,9 @@ final class CsvValidatorTest extends TestCase
         $csv = new CsvFile(Tools::DEMO_CSV, ['columns' => $columns]);
 
         isSame(
-            '"strict_column_order" at line <red>1</red>. Real columns order doesn\'t match schema. ' .
-            'Expected: <c>["Name", "City", "Float", "Birthday", "Favorite color"]</c>. ' .
-            'Actual: <green>["City", "Name", "Float", "Favorite color", "Birthday", "Birthday"]</green>.' . "\n",
+            '"strict_column_order" at line <red>1</red>. Real columns order doesn\'t match schema. '
+            . 'Expected: <c>["Name", "City", "Float", "Birthday", "Favorite color"]</c>. '
+            . 'Actual: <green>["City", "Name", "Float", "Favorite color", "Birthday", "Birthday"]</green>.' . "\n",
             $csv->validate()->render(),
         );
     }
@@ -588,8 +588,8 @@ final class CsvValidatorTest extends TestCase
         $csv = new CsvFile(Tools::DEMO_CSV, ['filename_pattern' => '/.*())))\.csv$/']);
 
         isSame(
-            '"filename_pattern". Filename pattern error: Invalid regex: "/.*())))\.csv$/". ' .
-            'Error: "preg_match(): Compilation failed: unmatched closing parenthesis at offset 4".',
+            '"filename_pattern". Filename pattern error: Invalid regex: "/.*())))\.csv$/". '
+            . 'Error: "preg_match(): Compilation failed: unmatched closing parenthesis at offset 4".',
             $csv->validate()->render(cleanOutput: true),
         );
     }

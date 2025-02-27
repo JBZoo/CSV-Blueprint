@@ -85,8 +85,8 @@ final class IsTimeTest extends TestAbstractCellRule
 
         foreach ($invalidTimeFormats as $invalidTimeFormat) {
             isSame(
-                "Value \"{$invalidTimeFormat}\" is not a valid time. " .
-                'Example: "12:34:56 AM", "23:34:56", "12:34"',
+                "Value \"{$invalidTimeFormat}\" is not a valid time. "
+                . 'Example: "12:34:56 AM", "23:34:56", "12:34"',
                 $rule->test($invalidTimeFormat),
             );
         }

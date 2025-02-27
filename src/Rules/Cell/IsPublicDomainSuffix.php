@@ -36,8 +36,8 @@ final class IsPublicDomainSuffix extends AbstractCellRule
     public function validateRule(string $cellValue): ?string
     {
         if (!self::testValue($cellValue)) {
-            return "The value \"<c>{$cellValue}</c>\" is not a valid public domain suffix. " .
-                'Example: "com", "nom.br", "net" etc.';
+            return "The value \"<c>{$cellValue}</c>\" is not a valid public domain suffix. "
+                . 'Example: "com", "nom.br", "net" etc.';
         }
 
         return null;

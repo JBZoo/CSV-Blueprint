@@ -35,10 +35,10 @@ final class ComboNthNum extends AbstractAggregateRuleCombo
         return [
             [
                 'N-th value in the column.',
-                'The rule expects exactly two arguments: ' .
-                'the first is the line number (without header), the second is the expected value.',
-                'Example: `[ 42, 5.0 ]` On the line 42 (disregarding the header), we expect the 5.0. ' .
-                'The comparison is always as float.',
+                'The rule expects exactly two arguments: '
+                . 'the first is the line number (without header), the second is the expected value.',
+                'Example: `[ 42, 5.0 ]` On the line 42 (disregarding the header), we expect the 5.0. '
+                . 'The comparison is always as float.',
             ],
             [
                 self::MIN     => ['[ 42, 1.0 ]', 'x >= 1.0'],
@@ -85,8 +85,8 @@ final class ComboNthNum extends AbstractAggregateRuleCombo
         $params = $this->getOptionAsArray();
         if (\count($params) !== self::ARGS) {
             throw new Exception(
-                'The rule expects exactly two arguments: ' .
-                'the first is the line number (without header), the second is the expected value',
+                'The rule expects exactly two arguments: '
+                . 'the first is the line number (without header), the second is the expected value',
             );
         }
 

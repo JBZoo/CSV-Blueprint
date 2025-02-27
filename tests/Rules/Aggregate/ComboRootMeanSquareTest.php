@@ -34,8 +34,8 @@ class ComboRootMeanSquareTest extends TestAbstractAggregateRuleCombo
 
         $rule = $this->create(1, Combo::EQ);
         isSame(
-            'The root mean square (quadratic mean) in the column is "15.235193176035", ' .
-            'which is not equal than the expected "1"',
+            'The root mean square (quadratic mean) in the column is "15.235193176035", '
+            . 'which is not equal than the expected "1"',
             $rule->test(['13', '18', '13', '14', '13', '16', '14', '21', '13']),
         );
     }

@@ -47,8 +47,8 @@ final class LanguageCode extends AbstractCellRule
         $set = $this->getOptionAsString();
 
         if (!\in_array($set, $validSets, true)) {
-            return "Unknown language set: \"<c>{$set}</c>\". " .
-                'Available options: ' . Utils::printList($validSets, 'green');
+            return "Unknown language set: \"<c>{$set}</c>\". "
+                . 'Available options: ' . Utils::printList($validSets, 'green');
         }
 
         if (!Validator::languageCode($set)->validate($cellValue)) {

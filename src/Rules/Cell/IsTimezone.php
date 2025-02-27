@@ -38,8 +38,8 @@ final class IsTimezone extends AbstractCellRule
         }
 
         if (!self::testValue($cellValue)) {
-            return "Value \"<c>{$cellValue}</c>\" is not a valid timezone identifier. " .
-                'Example: "<green>Europe/London</green>".';
+            return "Value \"<c>{$cellValue}</c>\" is not a valid timezone identifier. "
+                . 'Example: "<green>Europe/London</green>".';
         }
 
         return null;

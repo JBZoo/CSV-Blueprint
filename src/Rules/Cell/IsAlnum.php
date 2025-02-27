@@ -40,8 +40,8 @@ final class IsAlnum extends AbstractCellRule
         }
 
         if (!self::testValue($cellValue)) {
-            return "The value \"<c>{$cellValue}</c>\" should contain only alphanumeric characters. " .
-                'Example: "aBc123"';
+            return "The value \"<c>{$cellValue}</c>\" should contain only alphanumeric characters. "
+                . 'Example: "aBc123"';
         }
 
         return null;

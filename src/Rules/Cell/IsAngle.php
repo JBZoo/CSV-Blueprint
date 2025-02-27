@@ -36,8 +36,8 @@ final class IsAngle extends AbstractCellRule
     public function validateRule(string $cellValue): ?string
     {
         if (!self::testValue($cellValue)) {
-            return "Value \"<c>{$cellValue}</c>\" is not a valid angle <green>" .
-                '(' . self::MIN_VALUE . ' to ' . self::MAX_VALUE . ')</green>';
+            return "Value \"<c>{$cellValue}</c>\" is not a valid angle <green>"
+                . '(' . self::MIN_VALUE . ' to ' . self::MAX_VALUE . ')</green>';
         }
 
         return null;

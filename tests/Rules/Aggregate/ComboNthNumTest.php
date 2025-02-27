@@ -37,15 +37,15 @@ class ComboNthNumTest extends TestAbstractAggregateRuleCombo
 
         $rule = $this->create([100, 30], Combo::EQ);
         isSame(
-            '"ag:nth_num" at line <red>1</red>, column "prop". ' .
-            '<red>The column does not have a line 100, so the value cannot be checked</red>.',
+            '"ag:nth_num" at line <red>1</red>, column "prop". '
+            . '<red>The column does not have a line 100, so the value cannot be checked</red>.',
             (string)$rule->validate(['2.00', '3', '4.5']),
         );
         $rule = $this->create([], Combo::EQ);
         isSame(
-            '"ag:nth_num" at line <red>1</red>, column "prop". ' .
-            '<red>The rule expects exactly two arguments: the first is the line number (without header), ' .
-            'the second is the expected value</red>.',
+            '"ag:nth_num" at line <red>1</red>, column "prop". '
+            . '<red>The rule expects exactly two arguments: the first is the line number (without header), '
+            . 'the second is the expected value</red>.',
             (string)$rule->validate(['2.00', '3', '4.5']),
         );
     }

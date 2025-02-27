@@ -27,8 +27,8 @@ final class IsIsbn extends AbstractCellRule
             [
                 self::DEFAULT => [
                     'true',
-                    'Validates an International Standard Book Number (ISBN). ' .
-                    'See: https://www.isbn-international.org/content/what-isbn',
+                    'Validates an International Standard Book Number (ISBN). '
+                    . 'See: https://www.isbn-international.org/content/what-isbn',
                 ],
             ],
         ];

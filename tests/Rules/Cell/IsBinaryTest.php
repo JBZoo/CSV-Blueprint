@@ -53,8 +53,8 @@ final class IsBinaryTest extends TestAbstractCellRule
 
         $rule = $this->create(true);
         isSame(
-            '"is_binary" at line <red>1</red>, column "prop". ' .
-            'Value "<c>qwerty</c>" is not a valid binary number. Example: "0b10" or "10".',
+            '"is_binary" at line <red>1</red>, column "prop". '
+            . 'Value "<c>qwerty</c>" is not a valid binary number. Example: "0b10" or "10".',
             (string)$rule->validate('qwerty'),
         );
     }

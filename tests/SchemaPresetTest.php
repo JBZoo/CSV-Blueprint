@@ -771,8 +771,8 @@ final class SchemaPresetTest extends TestCase
     public function testInvalidPresetFile(): void
     {
         $this->expectExceptionMessage(
-            "Invalid schema \"undefined\" data.\n" .
-            'Unexpected error: "Unknown included file: "invalid.yml""',
+            "Invalid schema \"undefined\" data.\n"
+            . 'Unexpected error: "Unknown included file: "invalid.yml""',
         );
 
         $schema = new Schema(['presets' => ['alias' => 'invalid.yml']]);

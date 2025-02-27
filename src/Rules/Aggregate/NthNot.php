@@ -47,8 +47,8 @@ final class NthNot extends AbstractAggregateRule
 
         $params = $this->getOptionAsArray();
         if (\count($params) !== self::ARGS) {
-            return 'The rule expects exactly two arguments: ' .
-                'the first is the line number (without header), the second is the not expected value';
+            return 'The rule expects exactly two arguments: '
+                . 'the first is the line number (without header), the second is the not expected value';
         }
 
         $realLine = (int)$params[self::NTH];
@@ -61,8 +61,8 @@ final class NthNot extends AbstractAggregateRule
         }
 
         if ($actual === $expValue) {
-            return "The value on line {$realLine} in the column is \"<c>{$actual}</c>\", " .
-                "which is equal than the not expected \"<green>{$expValue}</green>\"";
+            return "The value on line {$realLine} in the column is \"<c>{$actual}</c>\", "
+                . "which is equal than the not expected \"<green>{$expValue}</green>\"";
         }
 
         return null;

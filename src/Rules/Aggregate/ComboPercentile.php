@@ -37,11 +37,12 @@ final class ComboPercentile extends AbstractAggregateRuleCombo
         return [
             [
                 'Compute the P-th percentile of a list of numbers.',
-                'Linear interpolation between closest ranks method - Second variant, ' .
-                'C = 1 P-th percentile (0 <= P <= 100) of a list of N ordered values (sorted from least to greatest).',
+                'Linear interpolation between closest ranks method - Second variant, '
+                . 'C = 1 P-th percentile (0 <= P <= 100) of a list of N ordered values '
+                . '(sorted from least to greatest).',
                 'Similar method used in NumPy and Excel.',
-                'See: https://en.wikipedia.org/wiki/Percentile#' .
-                'Second_variant.2C_.7F.27.22.60UNIQ--postMath-00000043-QINU.60.22.27.7F',
+                'See: https://en.wikipedia.org/wiki/Percentile#'
+                . 'Second_variant.2C_.7F.27.22.60UNIQ--postMath-00000043-QINU.60.22.27.7F',
                 'Example: `[ 95.5, 1.234 ]` The 95.5th percentile in the column must be "1.234" (float).',
             ],
             [
@@ -100,8 +101,8 @@ final class ComboPercentile extends AbstractAggregateRuleCombo
         $params = $this->getOptionAsArray();
         if (\count($params) !== self::ARGS) {
             throw new Exception(
-                'The rule expects exactly two params: ' .
-                'the first is percentile (P is beet 0.0 and 100.0), the second is the expected value (float)',
+                'The rule expects exactly two params: '
+                . 'the first is percentile (P is beet 0.0 and 100.0), the second is the expected value (float)',
             );
         }
 

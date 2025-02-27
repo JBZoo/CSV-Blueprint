@@ -49,8 +49,8 @@ final class IsOctalTest extends TestAbstractCellRule
 
         $rule = $this->create(true);
         isSame(
-            '"is_octal" at line <red>1</red>, column "prop". Value "<c>qwerty</c>" is not a valid octal number. ' .
-            'Examples: "0o123".',
+            '"is_octal" at line <red>1</red>, column "prop". Value "<c>qwerty</c>" is not a valid octal number. '
+            . 'Examples: "0o123".',
             (string)$rule->validate('qwerty'),
         );
     }

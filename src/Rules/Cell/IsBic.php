@@ -25,8 +25,8 @@ final class IsBic extends AbstractCellRule
             [
                 self::DEFAULT => [
                     'true',
-                    'Validates a Bank Identifier Code (BIC) according to ISO 9362 standards. ' .
-                    'See: https://en.wikipedia.org/wiki/ISO_9362',
+                    'Validates a Bank Identifier Code (BIC) according to ISO 9362 standards. '
+                    . 'See: https://en.wikipedia.org/wiki/ISO_9362',
                 ],
             ],
         ];

@@ -41,8 +41,8 @@ class ComboPercentileTest extends TestAbstractAggregateRuleCombo
     {
         $rule = $this->create([950.05], Combo::EQ);
         isSame(
-            'The rule expects exactly two params: ' .
-            'the first is percentile (P is beet 0.0 and 100.0), the second is the expected value (float)',
+            'The rule expects exactly two params: '
+            . 'the first is percentile (P is beet 0.0 and 100.0), the second is the expected value (float)',
             $rule->test(Tools::range(1, 200)),
         );
     }

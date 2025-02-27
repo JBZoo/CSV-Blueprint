@@ -46,8 +46,8 @@ final class IsUsaMarketNameTest extends TestAbstractCellRule
         $rule = $this->create(true);
 
         isSame(
-            'Invalid market name format for value ", ST". ' .
-            'Market name must have format "New York, NY"',
+            'Invalid market name format for value ", ST". '
+            . 'Market name must have format "New York, NY"',
             $rule->test(', ST'),
         );
         isSame(

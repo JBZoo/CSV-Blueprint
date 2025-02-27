@@ -27,8 +27,8 @@ final class IsHexRgbColor extends AbstractCellRule
             [
                 self::DEFAULT => [
                     'true',
-                    'Validates weather the input is a hex RGB color or not. ' .
-                    'Examples: "#FF0000", "#123", "ffffff", "fff".',
+                    'Validates weather the input is a hex RGB color or not. '
+                    . 'Examples: "#FF0000", "#123", "ffffff", "fff".',
                 ],
             ],
         ];

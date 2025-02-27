@@ -27,8 +27,8 @@ final class IsIban extends AbstractCellRule
             [
                 self::DEFAULT => [
                     'true',
-                    'IBAN - International Bank Account Number. ' .
-                    'See: https://en.wikipedia.org/wiki/International_Bank_Account_Number',
+                    'IBAN - International Bank Account Number. '
+                    . 'See: https://en.wikipedia.org/wiki/International_Bank_Account_Number',
                 ],
             ],
         ];

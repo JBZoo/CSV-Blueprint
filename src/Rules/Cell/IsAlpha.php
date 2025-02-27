@@ -40,8 +40,8 @@ final class IsAlpha extends AbstractCellRule
         }
 
         if (!self::testValue($cellValue)) {
-            return "The value \"<c>{$cellValue}</c>\" should contain only alphabetic characters. " .
-                'Example: "aBc"';
+            return "The value \"<c>{$cellValue}</c>\" should contain only alphabetic characters. "
+                . 'Example: "aBc"';
         }
 
         return null;

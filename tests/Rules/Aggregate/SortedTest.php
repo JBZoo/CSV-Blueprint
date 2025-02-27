@@ -79,8 +79,8 @@ class SortedTest extends TestAbstractAggregateRule
 
         $rule = $this->create(['']);
         isSame(
-            'The rule expects exactly two params: ' .
-            'direction ["asc", "desc"] and method ["numeric", "string", "natural", "regular"]',
+            'The rule expects exactly two params: '
+            . 'direction ["asc", "desc"] and method ["numeric", "string", "natural", "regular"]',
             $rule->test(['1', '11', '2', '20', '21']),
         );
     }

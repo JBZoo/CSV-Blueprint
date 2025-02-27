@@ -40,8 +40,8 @@ final class Hash extends AbstractCellRule
         }
 
         if (\preg_match($regex[$hashAlg], $cellValue) === 0) {
-            return "The value \"<c>{$cellValue}</c>\" is not a valid hash for the " .
-                "algorithm \"<green>{$hashAlg}</green>\"";
+            return "The value \"<c>{$cellValue}</c>\" is not a valid hash for the "
+                . "algorithm \"<green>{$hashAlg}</green>\"";
         }
 
         return null;

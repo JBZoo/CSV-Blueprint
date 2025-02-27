@@ -38,8 +38,8 @@ final class First extends AbstractAggregateRule
 
         $first = \reset($columnValues);
         if ($first !== $this->getOptionAsString()) {
-            return "The first value in the column is \"<c>{$first}</c>\", " .
-                "which is not equal than the expected \"<green>{$this->getOptionAsString()}</green>\"";
+            return "The first value in the column is \"<c>{$first}</c>\", "
+                . "which is not equal than the expected \"<green>{$this->getOptionAsString()}</green>\"";
         }
 
         return null;
