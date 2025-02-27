@@ -43,9 +43,9 @@ final class CreditCardTest extends TestAbstractCellRule
 
         $rule = $this->create('Qwerty');
         isSame(
-            '"credit_card" at line <red>1</red>, column "prop". ' .
-            'Unexpected error: "Qwerty" is not a valid credit card brand ' .
-            '(Available: Any, American Express, Diners Club, Discover, JCB, MasterCard, Visa, RuPay).',
+            '"credit_card" at line <red>1</red>, column "prop". '
+            . 'Unexpected error: "Qwerty" is not a valid credit card brand '
+            . '(Available: Any, American Express, Diners Club, Discover, JCB, MasterCard, Visa, RuPay).',
             (string)$rule->validate('qwerty'),
         );
     }

@@ -27,8 +27,8 @@ final class IsIpPrivate extends AbstractCellRule
             [
                 self::DEFAULT => [
                     'true',
-                    'IPv4 has ranges: 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16. ' .
-                    'IPv6 has ranges starting with FD or FC.',
+                    'IPv4 has ranges: 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16. '
+                    . 'IPv6 has ranges starting with FD or FC.',
                 ],
             ],
         ];

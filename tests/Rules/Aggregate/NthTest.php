@@ -37,15 +37,15 @@ final class NthTest extends TestAbstractAggregateRule
     {
         $rule = $this->create('Value');
         isSame(
-            '"ag:nth" at line 1, column "prop". ' .
-            'Unexpected error: Invalid option "Value" for the "ag:nth" rule. It should be array of strings.',
+            '"ag:nth" at line 1, column "prop". '
+            . 'Unexpected error: Invalid option "Value" for the "ag:nth" rule. It should be array of strings.',
             \strip_tags((string)$rule->validate(['1', 'Value', '2', '3'])),
         );
 
         $rule = $this->create([]);
         isSame(
-            'The rule expects exactly two arguments: ' .
-            'the first is the line number (without header), the second is the expected value',
+            'The rule expects exactly two arguments: '
+            . 'the first is the line number (without header), the second is the expected value',
             $rule->test(['1', 'Value', '2', '3']),
         );
 

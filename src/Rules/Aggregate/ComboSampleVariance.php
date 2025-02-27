@@ -30,8 +30,8 @@ final class ComboSampleVariance extends AbstractAggregateRuleCombo
     {
         return [
             [
-                'Unbiased sample variance Use when only a subset ' .
-                'of all possible observations of the system are present.',
+                'Unbiased sample variance Use when only a subset '
+                . 'of all possible observations of the system are present.',
                 'n - 1 degrees of freedom, where n is the number of observations.',
             ],
             [],

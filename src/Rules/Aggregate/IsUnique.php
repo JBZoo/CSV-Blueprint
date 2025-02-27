@@ -40,8 +40,8 @@ final class IsUnique extends AbstractAggregateRule
             $uValuesCount = \count(\array_unique($columnValues));
             $valuesCount = \count($columnValues);
 
-            return 'Column has non-unique values. ' .
-                "Unique: <c>{$uValuesCount}</c>, total: <green>{$valuesCount}</green>";
+            return 'Column has non-unique values. '
+                . "Unique: <c>{$uValuesCount}</c>, total: <green>{$valuesCount}</green>";
         }
 
         return null;

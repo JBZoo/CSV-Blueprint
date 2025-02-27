@@ -35,8 +35,8 @@ final class IsTimezoneOffset extends AbstractCellRule
         }
 
         if (!self::testValue($cellValue)) {
-            return "Value \"<c>{$cellValue}</c>\" is not a valid timezone offset. " .
-                'Example: "<green>+03:00</green>".';
+            return "Value \"<c>{$cellValue}</c>\" is not a valid timezone offset. "
+                . 'Example: "<green>+03:00</green>".';
         }
 
         return null;

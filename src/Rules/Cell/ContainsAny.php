@@ -45,7 +45,7 @@ final class ContainsAny extends AbstractCellRule
             }
         }
 
-        return "Value \"<c>{$cellValue}</c>\" must contain at least one of the following: " .
-            Utils::printList($inclusions, 'green');
+        return "Value \"<c>{$cellValue}</c>\" must contain at least one of the following: "
+            . Utils::printList($inclusions, 'green');
     }
 }

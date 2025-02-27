@@ -62,9 +62,9 @@ final class PhpdocsTest extends TestCase
                     $file = $method->getFileName();
 
                     if (\str_contains($file, PROJECT_SRC)) {
-                        $issues[] =
-                            $file . ':' . $method->getStartLine() . "\n" .
-                            "Method '{$projectClass}::{$method->name}' has no PHPDoc comment";
+                        $issues[]
+                            = $file . ':' . $method->getStartLine() . "\n"
+                            . "Method '{$projectClass}::{$method->name}' has no PHPDoc comment";
                     }
                 }
             }

@@ -40,8 +40,8 @@ final class IsRoman extends AbstractCellRule
         }
 
         if (!self::testValue($cellValue)) {
-            return "The value \"<c>{$cellValue}</c>\" should contain only Roman numeral. " .
-                'Example: "I", "IV", "XX"';
+            return "The value \"<c>{$cellValue}</c>\" should contain only Roman numeral. "
+                . 'Example: "I", "IV", "XX"';
         }
 
         return null;

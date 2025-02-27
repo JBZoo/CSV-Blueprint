@@ -50,8 +50,8 @@ final class IsHexTest extends TestAbstractCellRule
 
         $rule = $this->create(true);
         isSame(
-            '"is_hex" at line <red>1</red>, column "prop". ' .
-            'Value "<c>qwerty</c>" is not a valid hexadecimal number. Example: "0x1A".',
+            '"is_hex" at line <red>1</red>, column "prop". '
+            . 'Value "<c>qwerty</c>" is not a valid hexadecimal number. Example: "0x1A".',
             (string)$rule->validate('qwerty'),
         );
     }

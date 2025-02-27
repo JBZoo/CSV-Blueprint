@@ -35,14 +35,14 @@ class ComboDateTest extends TestAbstractCellRuleCombo
         isSame('', $rule->test('2000-10-02 00:00:00'));
 
         isSame(
-            'The date of the value "2000-10-02 00:00:01" is parsed as "2000-10-02 00:00:01 +00:00", ' .
-            'which is not equal than the expected "2000-10-02 00:00:00 +00:00 (2000-10-02)"',
+            'The date of the value "2000-10-02 00:00:01" is parsed as "2000-10-02 00:00:01 +00:00", '
+            . 'which is not equal than the expected "2000-10-02 00:00:00 +00:00 (2000-10-02)"',
             $rule->test('2000-10-02 00:00:01'),
         );
 
         isSame(
-            'The date of the value "<c>2000-10-02 00:00:01</c>" is parsed as "2000-10-02 00:00:01 +00:00", ' .
-            'which is not equal than the expected "<green>2000-10-02 00:00:00 +00:00 (2000-10-02)</green>"',
+            'The date of the value "<c>2000-10-02 00:00:01</c>" is parsed as "2000-10-02 00:00:01 +00:00", '
+            . 'which is not equal than the expected "<green>2000-10-02 00:00:00 +00:00 (2000-10-02)</green>"',
             $rule->test('2000-10-02 00:00:01', true),
         );
     }
@@ -53,8 +53,8 @@ class ComboDateTest extends TestAbstractCellRuleCombo
 
         isSame('', $rule->test('2000-01-11'));
         isSame(
-            'The date of the value "2000-01-10" is parsed as "2000-01-10 00:00:00 +00:00", ' .
-            'which is equal than the not expected "2000-01-10 00:00:00 +00:00 (2000-01-10)"',
+            'The date of the value "2000-01-10" is parsed as "2000-01-10 00:00:00 +00:00", '
+            . 'which is equal than the not expected "2000-01-10 00:00:00 +00:00 (2000-01-10)"',
             $rule->test('2000-01-10'),
         );
     }
@@ -65,16 +65,16 @@ class ComboDateTest extends TestAbstractCellRuleCombo
         isSame('', $rule->test(''));
         isSame('', $rule->test('2000-01-10'));
         isSame(
-            'The date of the value "2000-01-09" is parsed as "2000-01-09 00:00:00 +00:00", ' .
-            'which is less than the expected "2000-01-10 00:00:00 +00:00 (2000-01-10)"',
+            'The date of the value "2000-01-09" is parsed as "2000-01-09 00:00:00 +00:00", '
+            . 'which is less than the expected "2000-01-10 00:00:00 +00:00 (2000-01-10)"',
             $rule->test('2000-01-09'),
         );
 
         $rule = $this->create('2000-01-10 00:00:00 +01:00', Combo::MIN);
         isSame('', $rule->test('2000-01-10 00:00:00 +01:00'));
         isSame(
-            'The date of the value "2000-01-09 23:59:59 Europe/Berlin" is parsed as "2000-01-09 23:59:59 +01:00", ' .
-            'which is less than the expected "2000-01-10 00:00:00 +01:00 (2000-01-10 00:00:00 +01:00)"',
+            'The date of the value "2000-01-09 23:59:59 Europe/Berlin" is parsed as "2000-01-09 23:59:59 +01:00", '
+            . 'which is less than the expected "2000-01-10 00:00:00 +01:00 (2000-01-10 00:00:00 +01:00)"',
             $rule->test('2000-01-09 23:59:59 Europe/Berlin'),
         );
 
@@ -88,16 +88,16 @@ class ComboDateTest extends TestAbstractCellRuleCombo
         isSame('', $rule->test(''));
         isSame('', $rule->test('2000-01-09'));
         isSame(
-            'The date of the value "2000-01-11" is parsed as "2000-01-11 00:00:00 +00:00", ' .
-            'which is greater than the expected "2000-01-10 00:00:00 +00:00 (2000-01-10)"',
+            'The date of the value "2000-01-11" is parsed as "2000-01-11 00:00:00 +00:00", '
+            . 'which is greater than the expected "2000-01-10 00:00:00 +00:00 (2000-01-10)"',
             $rule->test('2000-01-11'),
         );
 
         $rule = $this->create('2000-01-10 00:00:00', Combo::MAX);
         isSame('', $rule->test('2000-01-10 00:00:00'));
         isSame(
-            'The date of the value "2000-01-10 00:00:01" is parsed as "2000-01-10 00:00:01 +00:00", ' .
-            'which is greater than the expected "2000-01-10 00:00:00 +00:00 (2000-01-10 00:00:00)"',
+            'The date of the value "2000-01-10 00:00:01" is parsed as "2000-01-10 00:00:01 +00:00", '
+            . 'which is greater than the expected "2000-01-10 00:00:00 +00:00 (2000-01-10 00:00:00)"',
             $rule->test('2000-01-10 00:00:01'),
         );
 
@@ -109,8 +109,8 @@ class ComboDateTest extends TestAbstractCellRuleCombo
     {
         $rule = $this->create('invalid', Combo::MAX);
         isSame(
-            'The date of the value "2000-01-10" is parsed as "2000-01-10 00:00:00 +00:00", ' .
-            'which is greater than the expected "Can\'t parse date: invalid"',
+            'The date of the value "2000-01-10" is parsed as "2000-01-10 00:00:00 +00:00", '
+            . 'which is greater than the expected "Can\'t parse date: invalid"',
             $rule->test('2000-01-10'),
         );
     }
@@ -119,8 +119,8 @@ class ComboDateTest extends TestAbstractCellRuleCombo
     {
         $rule = $this->create('2000-01-10', Combo::MIN);
         isSame(
-            'The date of the value "invalid" is parsed as "Can\'t parse date: invalid", ' .
-            'which is less than the expected "2000-01-10 00:00:00 +00:00 (2000-01-10)"',
+            'The date of the value "invalid" is parsed as "Can\'t parse date: invalid", '
+            . 'which is less than the expected "2000-01-10 00:00:00 +00:00 (2000-01-10)"',
             $rule->test('invalid'),
         );
     }

@@ -38,8 +38,8 @@ final class CreateSchema extends AbstractValidate
                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
                 \implode("\n", [
                     'Specify the path(s) to the CSV files you want to analyze.',
-                    'This can include a direct path to a file or a directory to search with a maximum depth of ' .
-                    Utils::MAX_DIRECTORY_DEPTH . ' levels.',
+                    'This can include a direct path to a file or a directory to search with a maximum depth of '
+                    . Utils::MAX_DIRECTORY_DEPTH . ' levels.',
                     'Examples: <info>' . \implode('</info>; <info>', [
                         'p/file.csv',
                         'p/*.csv',

@@ -42,16 +42,16 @@ class ComboDateIntervalTest extends TestAbstractCellRuleCombo
         }
 
         isSame(
-            'The date interval of the value "<c>qwerty</c>" is ' .
-            '<red>Can\'t parse date interval: qwerty</red>, ' .
-            'which is not equal than the expected "<green>31557600 (P1Y) seconds</green>"',
+            'The date interval of the value "<c>qwerty</c>" is '
+            . '<red>Can\'t parse date interval: qwerty</red>, '
+            . 'which is not equal than the expected "<green>31557600 (P1Y) seconds</green>"',
             $rule->test('qwerty', true),
         );
 
         $rule = $this->create('P2W', Combo::EQ);
         isSame(
-            'The date interval of the value "1 day" is parsed as "86400" seconds, ' .
-            'which is not equal than the expected "1209600 (P2W) seconds"',
+            'The date interval of the value "1 day" is parsed as "86400" seconds, '
+            . 'which is not equal than the expected "1209600 (P2W) seconds"',
             $rule->test('1 day'),
         );
     }

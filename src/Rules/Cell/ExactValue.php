@@ -35,8 +35,8 @@ final class ExactValue extends AbstractCellRule
         }
 
         if ($this->getOptionAsString() !== $cellValue) {
-            return "Value \"<c>{$cellValue}</c>\" is not strict equal to " .
-                "\"<green>{$this->getOptionAsString()}</green>\"";
+            return "Value \"<c>{$cellValue}</c>\" is not strict equal to "
+                . "\"<green>{$this->getOptionAsString()}</green>\"";
         }
 
         return null;

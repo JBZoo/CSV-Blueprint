@@ -25,8 +25,8 @@ final class IsUsaState extends AbstractCellRule
             [
                 self::DEFAULT => [
                     'true',
-                    'Name or code of USA state name. Case-insensitive. ' .
-                    'Example: "CA" or "California".',
+                    'Name or code of USA state name. Case-insensitive. '
+                    . 'Example: "CA" or "California".',
                 ],
             ],
         ];

@@ -30,8 +30,8 @@ final class ComboCount extends AbstractAggregateRuleCombo
         return [
             [
                 'Total number of rows in the CSV file.',
-                'Since any(!) values are taken into account, ' .
-                'it only makes sense to use these rules once in any column.',
+                'Since any(!) values are taken into account, '
+                . 'it only makes sense to use these rules once in any column.',
             ],
             [],
         ];

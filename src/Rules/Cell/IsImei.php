@@ -27,8 +27,8 @@ final class IsImei extends AbstractCellRule
             [
                 self::DEFAULT => [
                     'true',
-                    'Validates an International Mobile Equipment Identity (IMEI). ' .
-                    'See: https://en.wikipedia.org/wiki/International_Mobile_Station_Equipment_Identity',
+                    'Validates an International Mobile Equipment Identity (IMEI). '
+                    . 'See: https://en.wikipedia.org/wiki/International_Mobile_Station_Equipment_Identity',
                 ],
             ],
         ];

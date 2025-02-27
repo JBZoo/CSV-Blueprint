@@ -27,8 +27,8 @@ final class Phone extends AbstractCellRule
             [
                 self::DEFAULT => [
                     'ALL',
-                    'Validates if the input is a phone number. Specify the country code to validate the phone number ' .
-                    'for a specific country. Example: "ALL", "US", "BR".',
+                    'Validates if the input is a phone number. Specify the country code to validate the phone number '
+                    . 'for a specific country. Example: "ALL", "US", "BR".',
                 ],
             ],
         ];

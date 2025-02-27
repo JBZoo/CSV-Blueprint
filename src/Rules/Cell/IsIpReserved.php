@@ -27,8 +27,8 @@ final class IsIpReserved extends AbstractCellRule
             [
                 self::DEFAULT => [
                     'true',
-                    'IPv4 has ranges: 0.0.0.0/8, 169.254.0.0/16, 127.0.0.0/8 and 240.0.0.0/4. ' .
-                    'IPv6 has ranges: ::1/128, ::/128, ::ffff:0:0/96 and fe80::/10.',
+                    'IPv4 has ranges: 0.0.0.0/8, 169.254.0.0/16, 127.0.0.0/8 and 240.0.0.0/4. '
+                    . 'IPv6 has ranges: ::1/128, ::/128, ::ffff:0:0/96 and fe80::/10.',
                 ],
             ],
         ];

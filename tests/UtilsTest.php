@@ -128,11 +128,11 @@ final class UtilsTest extends TestCase
 
         $tags = \explode(
             '|',
-            'i|c|q|e' .
-            '|comment|info|error|question' .
-            '|black|red|green|yellow|blue|magenta|cyan|white|default' .
-            '|bl|b|u|r|bg' .
-            '|details|summary',
+            'i|c|q|e'
+            . '|comment|info|error|question'
+            . '|black|red|green|yellow|blue|magenta|cyan|white|default'
+            . '|bl|b|u|r|bg'
+            . '|details|summary',
         );
 
         foreach ($packs as $files) {

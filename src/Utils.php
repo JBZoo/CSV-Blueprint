@@ -303,8 +303,8 @@ final class Utils
                 if (!\is_array($value)) {
                     $differences[$columnId . '/' . $curPath] = [
                         $columnId,
-                        'Expected type "<c>array</c>", actual "<green>' . \gettype($value) . '</green>" in ' .
-                        ".{$keyPrefix}.{$curPath}",
+                        'Expected type "<c>array</c>", actual "<green>' . \gettype($value) . '</green>" in '
+                        . ".{$keyPrefix}.{$curPath}",
                     ];
                 }
                 continue;
@@ -327,8 +327,8 @@ final class Utils
 
                 $differences[$columnId . '/' . $curPath] = [
                     $columnId,
-                    "Expected type \"<c>{$expectedType}</c>\", actual \"<green>{$actualType}</green>\" in " .
-                    ".{$keyPrefix}.{$curPath}",
+                    "Expected type \"<c>{$expectedType}</c>\", actual \"<green>{$actualType}</green>\" in "
+                    . ".{$keyPrefix}.{$curPath}",
                 ];
             } elseif (\is_array($value)) {
                 $differences += \array_merge(

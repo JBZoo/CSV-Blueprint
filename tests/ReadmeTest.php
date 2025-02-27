@@ -27,22 +27,22 @@ use function JBZoo\Data\yml;
 final class ReadmeTest extends TestCase
 {
     private const EXTRA_RULES = [
-        '- The `filename_pattern` rule verifies that the file name adheres to the specified regex pattern, ' .
-        'ensuring file naming conventions are followed.',
-        '- Ensures that the `name` property is defined for each column, applicable only when `csv.header` ' .
-        'is set to `true`, to guarantee header integrity.',
-        '- The `required` property, when set to `true`, mandates the presence of the specified column in ' .
-        "the CSV file, enhancing data completeness.\n  This is only relevant if `csv.header` is true.",
-        "- Validates that each row contains the correct number of columns, aligning with the schema's defined " .
-        'structure, to prevent data misalignment.',
-        '- The `strict_column_order` rule checks for the correct sequential order of columns as defined in ' .
-        'the schema, ensuring structural consistency.',
-        '- The `allow_extra_columns` rule asserts no additional columns are present in the CSV file beyond ' .
-        "those specified in the schema,\n  maintaining strict data fidelity.",
-        '  - For `csv.header: true`, it checks if the schema contains any column `name` not found in the ' .
-        'CSV file, addressing header discrepancies.',
-        '  - For `csv.header: false`, it compares the number of columns in the schema against those in the ' .
-        'CSV file, ensuring schema conformity.',
+        '- The `filename_pattern` rule verifies that the file name adheres to the specified regex pattern, '
+        . 'ensuring file naming conventions are followed.',
+        '- Ensures that the `name` property is defined for each column, applicable only when `csv.header` '
+        . 'is set to `true`, to guarantee header integrity.',
+        '- The `required` property, when set to `true`, mandates the presence of the specified column in '
+        . "the CSV file, enhancing data completeness.\n  This is only relevant if `csv.header` is true.",
+        "- Validates that each row contains the correct number of columns, aligning with the schema's defined "
+        . 'structure, to prevent data misalignment.',
+        '- The `strict_column_order` rule checks for the correct sequential order of columns as defined in '
+        . 'the schema, ensuring structural consistency.',
+        '- The `allow_extra_columns` rule asserts no additional columns are present in the CSV file beyond '
+        . "those specified in the schema,\n  maintaining strict data fidelity.",
+        '  - For `csv.header: true`, it checks if the schema contains any column `name` not found in the '
+        . 'CSV file, addressing header discrepancies.',
+        '  - For `csv.header: false`, it compares the number of columns in the schema against those in the '
+        . 'CSV file, ensuring schema conformity.',
     ];
 
     public function testValidateCsvHelp(): void
@@ -141,8 +141,8 @@ final class ReadmeTest extends TestCase
 
         $badge = static function (string $label, int|string $count, string $url, string $color): string {
             $label = \str_replace(' ', '%20', $label);
-            $badge = "![Static Badge](https://img.shields.io/badge/Rules-{$count}-green" .
-                "?label={$label}&labelColor={$color}&color=gray)";
+            $badge = "![Static Badge](https://img.shields.io/badge/Rules-{$count}-green"
+                . "?label={$label}&labelColor={$color}&color=gray)";
             return $url ? "[{$badge}]({$url})" : $badge;
         };
 

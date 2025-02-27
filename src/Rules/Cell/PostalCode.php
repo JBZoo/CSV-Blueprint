@@ -27,8 +27,8 @@ final class PostalCode extends AbstractCellRule
             [
                 self::DEFAULT => [
                     'US',
-                    'Validate postal code by country code (alpha-2). ' .
-                    'Example: "02179". Extracted from https://www.geonames.org',
+                    'Validate postal code by country code (alpha-2). '
+                    . 'Example: "02179". Extracted from https://www.geonames.org',
                 ],
             ],
         ];
@@ -84,12 +84,12 @@ final class PostalCode extends AbstractCellRule
     {
         return \explode(
             '|',
-            'KY|AD|AL|AM|AR|AS|AT|AU|AX|AZ|BA|BB|BD|BE|BG|BH|BL|BM|BN|BR|BY|CA|CH|CL|CN|CO|CR|CS|CU|CV|CX|CY|' .
-            'CZ|DE|DK|DO|DZ|EC|EE|EG|ES|ET|FI|FM|FO|FR|GB|GE|GF|GG|GL|GP|GR|GT|GU|GW|HN|HR|HT|HU|ID|IE|IL|IM|' .
-            'IN|IQ|IR|IS|IT|JE|JO|JP|KE|KG|KH|KP|KR|KW|KZ|LA|LB|LI|LK|LR|LS|LT|LU|LV|MA|MC|MD|ME|MF|MG|MH|MK|' .
-            'MM|MN|MP|MQ|MT|MV|MW|MX|MY|MZ|NC|NE|NF|NG|NI|NL|NO|NP|NZ|OM|PE|PF|PG|PH|PK|PL|PM|PR|PT|PW|PY|RE|' .
-            'RO|RS|RU|SA|SD|SE|SG|SH|SI|SJ|SK|SM|SN|SO|SV|SZ|TC|TH|TJ|TM|TN|TR|TW|UA|US|UY|UZ|VA|VE|VI|VN|WF|' .
-            'YT|ZA|ZM',
+            'KY|AD|AL|AM|AR|AS|AT|AU|AX|AZ|BA|BB|BD|BE|BG|BH|BL|BM|BN|BR|BY|CA|CH|CL|CN|CO|CR|CS|CU|CV|CX|CY|'
+            . 'CZ|DE|DK|DO|DZ|EC|EE|EG|ES|ET|FI|FM|FO|FR|GB|GE|GF|GG|GL|GP|GR|GT|GU|GW|HN|HR|HT|HU|ID|IE|IL|IM|'
+            . 'IN|IQ|IR|IS|IT|JE|JO|JP|KE|KG|KH|KP|KR|KW|KZ|LA|LB|LI|LK|LR|LS|LT|LU|LV|MA|MC|MD|ME|MF|MG|MH|MK|'
+            . 'MM|MN|MP|MQ|MT|MV|MW|MX|MY|MZ|NC|NE|NF|NG|NI|NL|NO|NP|NZ|OM|PE|PF|PG|PH|PK|PL|PM|PR|PT|PW|PY|RE|'
+            . 'RO|RS|RU|SA|SD|SE|SG|SH|SI|SJ|SK|SM|SN|SO|SV|SZ|TC|TH|TJ|TM|TN|TR|TW|UA|US|UY|UZ|VA|VE|VI|VN|WF|'
+            . 'YT|ZA|ZM',
         );
     }
 }

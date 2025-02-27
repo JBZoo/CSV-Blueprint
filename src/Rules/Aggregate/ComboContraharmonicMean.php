@@ -30,8 +30,8 @@ final class ComboContraharmonicMean extends AbstractAggregateRuleCombo
     {
         return [
             [
-                'Contraharmonic mean. A function complementary to the harmonic mean. ' .
-                'A special case of the Lehmer mean, L₂(x), where p = 2.',
+                'Contraharmonic mean. A function complementary to the harmonic mean. '
+                . 'A special case of the Lehmer mean, L₂(x), where p = 2.',
                 'See: https://en.wikipedia.org/wiki/Contraharmonic_mean',
             ],
             [],

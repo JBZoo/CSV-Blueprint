@@ -38,8 +38,8 @@ final class Last extends AbstractAggregateRule
 
         $last = \end($columnValues);
         if ($last !== $this->getOptionAsString()) {
-            return "The last value in the column is \"<c>{$last}</c>\", " .
-                "which is not equal than the expected \"<green>{$this->getOptionAsString()}</green>\"";
+            return "The last value in the column is \"<c>{$last}</c>\", "
+                . "which is not equal than the expected \"<green>{$this->getOptionAsString()}</green>\"";
         }
 
         return null;

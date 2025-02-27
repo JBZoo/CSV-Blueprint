@@ -25,8 +25,8 @@ final class IsTime extends AbstractCellRule
             [
                 self::DEFAULT => [
                     'true',
-                    'Check if the cell value is a valid time in the format ' .
-                    '"HH:MM:SS AM/PM" / "HH:MM:SS" / "HH:MM". Case-insensitive.',
+                    'Check if the cell value is a valid time in the format '
+                    . '"HH:MM:SS AM/PM" / "HH:MM:SS" / "HH:MM". Case-insensitive.',
                 ],
             ],
         ];
@@ -39,8 +39,8 @@ final class IsTime extends AbstractCellRule
         }
 
         if (!self::testValue($cellValue)) {
-            return "Value \"<c>{$cellValue}</c>\" is not a valid time. " .
-                'Example: "<green>12:34:56 AM</green>", "<green>23:34:56</green>", "<green>12:34</green>"';
+            return "Value \"<c>{$cellValue}</c>\" is not a valid time. "
+                . 'Example: "<green>12:34:56 AM</green>", "<green>23:34:56</green>", "<green>12:34</green>"';
         }
 
         return null;

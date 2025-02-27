@@ -31,8 +31,8 @@ final class ComboTrimean extends AbstractAggregateRuleCombo
         return [
             [
                 "Trimean (TM, or Tukey's trimean).",
-                "A measure of a probability distribution's location defined as a weighted average of" .
-                " the distribution's median and its two quartiles.",
+                "A measure of a probability distribution's location defined as a weighted average of"
+                . " the distribution's median and its two quartiles.",
                 'See: https://en.wikipedia.org/wiki/Trimean',
             ],
             [],

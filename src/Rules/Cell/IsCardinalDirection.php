@@ -27,8 +27,8 @@ final class IsCardinalDirection extends AbstractCellRule
             [
                 self::DEFAULT => [
                     'true',
-                    'Valid cardinal direction. Case-insensitive. ' .
-                    'Available values: ' . Utils::printList(self::getOptions()),
+                    'Valid cardinal direction. Case-insensitive. '
+                    . 'Available values: ' . Utils::printList(self::getOptions()),
                 ],
             ],
         ];
@@ -41,8 +41,8 @@ final class IsCardinalDirection extends AbstractCellRule
         }
 
         if (!self::testValue($cellValue)) {
-            return "Value \"<c>{$cellValue}</c>\" is not allowed. Allowed values: " .
-                Utils::printList(self::getOptions());
+            return "Value \"<c>{$cellValue}</c>\" is not allowed. Allowed values: "
+                . Utils::printList(self::getOptions());
         }
 
         return null;

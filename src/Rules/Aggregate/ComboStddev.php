@@ -31,12 +31,12 @@ final class ComboStddev extends AbstractAggregateRuleCombo
         return [
             [
                 'Standard deviation (For a sample; uses sample variance). It also known as SD or StdDev.',
-                'StdDev is a measure that is used to quantify the amount ' .
-                'of variation or dispersion of a set of data values.',
-                ' - Low standard deviation indicates that the data points tend to be close to the mean ' .
-                '(also called the expected value) of the set.',
-                ' - High standard deviation indicates that ' .
-                'the data points are spread out over a wider range of values.',
+                'StdDev is a measure that is used to quantify the amount '
+                . 'of variation or dispersion of a set of data values.',
+                ' - Low standard deviation indicates that the data points tend to be close to the mean '
+                . '(also called the expected value) of the set.',
+                ' - High standard deviation indicates that '
+                . 'the data points are spread out over a wider range of values.',
                 'See: https://en.wikipedia.org/wiki/Standard_deviation',
             ],
             [],

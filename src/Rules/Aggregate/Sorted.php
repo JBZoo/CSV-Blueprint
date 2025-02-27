@@ -146,9 +146,9 @@ final class Sorted extends AbstractAggregateRule
         $params = $this->getOptionAsArray();
         if (\count($params) !== self::ARGS) {
             throw new Exception(
-                'The rule expects exactly two params: ' .
-                'direction ' . Utils::printList(self::DIRS) . ' and ' .
-                'method ' . Utils::printList(\array_keys(self::METHODS)),
+                'The rule expects exactly two params: '
+                . 'direction ' . Utils::printList(self::DIRS) . ' and '
+                . 'method ' . Utils::printList(\array_keys(self::METHODS)),
             );
         }
 

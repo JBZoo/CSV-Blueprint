@@ -83,8 +83,8 @@ final class ValidatorCsv
             if ($column->getName() === '') {
                 $error = new Error(
                     'csv.header',
-                    'Property "<c>name</c>" is not defined in schema: ' .
-                    "\"<c>{$this->schema->getFilename(true)}</c>\"",
+                    'Property "<c>name</c>" is not defined in schema: '
+                    . "\"<c>{$this->schema->getFilename(true)}</c>\"",
                     $column->getHumanName(),
                     ValidatorColumn::FALLBACK_LINE,
                 );
@@ -104,9 +104,9 @@ final class ValidatorCsv
             if (!Utils::isArrayInOrder($schemaColumns, $realColumns)) {
                 $error = new Error(
                     'strict_column_order',
-                    "Real columns order doesn't match schema. " .
-                    'Expected: <c>' . Utils::printList($realColumns) . '</c>. ' .
-                    'Actual: <green>' . Utils::printList($schemaColumns) . '</green>',
+                    "Real columns order doesn't match schema. "
+                    . 'Expected: <c>' . Utils::printList($realColumns) . '</c>. '
+                    . 'Actual: <green>' . Utils::printList($schemaColumns) . '</green>',
                     '',
                     ValidatorColumn::FALLBACK_LINE,
                 );
@@ -214,8 +214,8 @@ final class ValidatorCsv
             ) {
                 $error = new Error(
                     'filename_pattern',
-                    'Filename "<c>' . Utils::cutPath($this->csv->getCsvFilename()) . '</c>" ' .
-                    "does not match pattern: \"<c>{$filenamePattern}</c>\"",
+                    'Filename "<c>' . Utils::cutPath($this->csv->getCsvFilename()) . '</c>" '
+                    . "does not match pattern: \"<c>{$filenamePattern}</c>\"",
                 );
 
                 $errors->addError($error);
@@ -273,8 +273,8 @@ final class ValidatorCsv
                 if ($realColumns < $schemaColumns) {
                     $error = new Error(
                         'allow_extra_columns',
-                        "Schema number of columns \"<c>{$schemaColumns}</c>\" greater " .
-                        "than real \"<green>{$realColumns}</green>\"",
+                        "Schema number of columns \"<c>{$schemaColumns}</c>\" greater "
+                        . "than real \"<green>{$realColumns}</green>\"",
                         '',
                         ValidatorColumn::FALLBACK_LINE,
                     );

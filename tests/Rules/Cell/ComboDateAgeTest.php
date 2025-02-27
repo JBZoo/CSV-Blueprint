@@ -34,16 +34,16 @@ class ComboDateAgeTest extends TestAbstractCellRuleCombo
         isSame('', $rule->test('now'));
 
         isSame(
-            'The age of the value "2020-10-02" is parsed as "4" years, ' .
-            'which is not equal than the expected "0 years"',
+            'The age of the value "2020-10-02" is parsed as "4" years, '
+            . 'which is not equal than the expected "0 years"',
             $rule->test('2020-10-02'),
         );
 
         isSame(
-            'The age of the value "<c>qwerty</c>" is ' .
-            '<red>Failed to parse time string (qwerty) at position 0 (q): ' .
-            'The timezone could not be found in the database</red>, ' .
-            'which is not equal than the expected "<green>0 years</green>"',
+            'The age of the value "<c>qwerty</c>" is '
+            . '<red>Failed to parse time string (qwerty) at position 0 (q): '
+            . 'The timezone could not be found in the database</red>, '
+            . 'which is not equal than the expected "<green>0 years</green>"',
             $rule->test('qwerty', true),
         );
     }
@@ -58,16 +58,16 @@ class ComboDateAgeTest extends TestAbstractCellRuleCombo
         isSame('', $rule->test('2100-01'));
 
         isSame(
-            'The age of the value "2020-10-02" is parsed as "4" years, ' .
-            'which is less than the expected "21 years"',
+            'The age of the value "2020-10-02" is parsed as "4" years, '
+            . 'which is less than the expected "21 years"',
             $rule->test('2020-10-02'),
         );
 
         isSame(
-            'The age of the value "<c>qwerty</c>" is ' .
-            '<red>Failed to parse time string (qwerty) at position 0 (q): ' .
-            'The timezone could not be found in the database</red>, ' .
-            'which is less than the expected "<green>21 years</green>"',
+            'The age of the value "<c>qwerty</c>" is '
+            . '<red>Failed to parse time string (qwerty) at position 0 (q): '
+            . 'The timezone could not be found in the database</red>, '
+            . 'which is less than the expected "<green>21 years</green>"',
             $rule->test('qwerty', true),
         );
     }

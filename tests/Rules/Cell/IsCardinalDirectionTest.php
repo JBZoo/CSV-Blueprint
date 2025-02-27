@@ -54,14 +54,14 @@ final class IsCardinalDirectionTest extends TestAbstractCellRule
     {
         $rule = $this->create(true);
         isSame(
-            'Value "qwe" is not allowed. ' .
-            'Allowed values: ["N", "S", "E", "W", "NE", "SE", "NW", "SW", "NONE"]',
+            'Value "qwe" is not allowed. '
+            . 'Allowed values: ["N", "S", "E", "W", "NE", "SE", "NW", "SW", "NONE"]',
             $rule->test('qwe'),
         );
 
         isSame(
-            'Value "Q" is not allowed. ' .
-            'Allowed values: ["N", "S", "E", "W", "NE", "SE", "NW", "SW", "NONE"]',
+            'Value "Q" is not allowed. '
+            . 'Allowed values: ["N", "S", "E", "W", "NE", "SE", "NW", "SW", "NONE"]',
             $rule->test('Q'),
         );
     }

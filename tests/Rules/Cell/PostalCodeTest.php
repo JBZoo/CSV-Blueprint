@@ -43,8 +43,8 @@ final class PostalCodeTest extends TestAbstractCellRule
 
         $rule = $this->create('QQ');
         isSame(
-            '"postal_code" at line <red>1</red>, column "prop". ' .
-            'Unexpected error: Cannot validate postal code from "QQ" country.',
+            '"postal_code" at line <red>1</red>, column "prop". '
+            . 'Unexpected error: Cannot validate postal code from "QQ" country.',
             (string)$rule->validate('qwerty'),
         );
     }
