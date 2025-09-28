@@ -90,6 +90,9 @@ final class ComboDateInterval extends AbstractCellRuleCombo
         return "parsed as \"{$seconds}\" seconds";
     }
 
+    /**
+     * @phan-suppress PhanRedundantCondition
+     */
     private static function dateIntervalToSeconds(string $dateIntervalOrAsString): int
     {
         try {

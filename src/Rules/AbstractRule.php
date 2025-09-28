@@ -67,7 +67,6 @@ abstract class AbstractRule
      * @param  array|string $cellValue the value of the cell to validate
      * @param  int          $line      the line number of the cell
      * @return ?Error       An Error object if validation fails, null otherwise
-     * @throws Exception    If the "validateRule" method is not found in the subclass
      */
     public function validate(array|string $cellValue, int $line = ValidatorColumn::FALLBACK_LINE): ?Error
     {
@@ -152,9 +151,8 @@ abstract class AbstractRule
 
     /**
      * Checks if the given cell value is valid.
-     * @param  string    $cellValue the value to test
-     * @return bool      true if the cell value is valid, false otherwise
-     * @throws Exception when the method is not implemented in the child class
+     * @param  string $cellValue the value to test
+     * @return bool   true if the cell value is valid, false otherwise
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @phan-suppress PhanUnusedPublicMethodParameter
@@ -169,8 +167,7 @@ abstract class AbstractRule
     /**
      * Checks if the rule is enabled based on the value of the options property.
      * Converts the options property to a boolean value and throws an exception if it is not a boolean.
-     * @return bool      true if the rule is enabled, false otherwise
-     * @throws Exception if the options property is not a boolean
+     * @return bool true if the rule is enabled, false otherwise
      */
     protected function isEnabledByOption(): bool
     {
@@ -251,8 +248,7 @@ abstract class AbstractRule
      * Checks if the options property is an array and throws an exception if it is not.
      * The exception includes the invalid option and the rule code.
      * The options property should be an array of strings.
-     * @return array     the options as an array
-     * @throws Exception if the options property is not an array
+     * @return array the options as an array
      */
     protected function getOptionAsArray(): array
     {

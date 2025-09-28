@@ -88,7 +88,7 @@ final class CsvFile
     public function getRecords(?int $offset = null): \Iterator
     {
         if ($offset !== null) {
-            $records = $this->reader->fetchColumnByOffset($offset);
+            $records = $this->reader->fetchColumn($offset);
         } else {
             $records = $this->reader->getRecords();
         }

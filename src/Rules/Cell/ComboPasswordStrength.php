@@ -85,9 +85,9 @@ final class ComboPasswordStrength extends AbstractCellRuleCombo
             $deductions++;
         }
 
-        $deductions += \preg_match_all('/01|12|23|34|45|56|67|78|89|90/', $password);
+        $deductions += (int)\preg_match_all('/01|12|23|34|45|56|67|78|89|90/', $password);
 
-        $deductions += \preg_match_all(
+        $deductions += (int)\preg_match_all(
             '/abc|bcd|cde|def|efg|fgh|ghi|hij|ijk|jkl|klm|lmn|mno|nop|opq|pqr|qrs|rst|stu|tuv|uvw|vwx|wxy|xyz/',
             \strtolower($password),
         );

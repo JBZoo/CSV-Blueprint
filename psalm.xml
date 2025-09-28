@@ -11,13 +11,13 @@
     @see        https://github.com/JBZoo/Csv-Blueprint
 -->
 <psalm
-        errorLevel="8"
-        reportMixedIssues="false"
-        useDocblockPropertyTypes="true"
-        resolveFromConfigFile="false"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns="https://getpsalm.org/schema/config"
-        xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    errorLevel="8"
+    reportMixedIssues="false"
+    useDocblockPropertyTypes="true"
+    resolveFromConfigFile="false"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
     <projectFiles>
         <directory name="src"/>
@@ -34,8 +34,17 @@
                 <file name="src/Rules/Cell/Phone.php"/>
             </errorLevel>
         </TooManyArguments>
+        <MissingOverrideAttribute errorLevel="suppress"/>
+
+        <!-- From common codestyle JBZoo ruleset -->
+        <PossiblyUnusedMethod errorLevel="suppress"/>
+        <InvalidOperand errorLevel="suppress"/>
+        <MissingOverrideAttribute errorLevel="suppress"/>
+        <UnusedClass errorLevel="suppress"/>
+        <PossiblyUnusedReturnValue errorLevel="suppress"/>
+        <UnusedReturnValue errorLevel="suppress"/>
     </issueHandlers>
     <stubs>
-        <file name="tests/stubs/parallel.stub_php" />
+        <file name="tests/stubs/parallel.stub_php"/>
     </stubs>
 </psalm>

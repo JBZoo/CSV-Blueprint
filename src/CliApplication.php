@@ -16,6 +16,9 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 final class CliApplication extends \JBZoo\Cli\CliApplication
 {
     private array $appLogo = [

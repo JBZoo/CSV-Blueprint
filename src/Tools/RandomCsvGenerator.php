@@ -34,7 +34,6 @@ final class RandomCsvGenerator
      * The number of rows is determined by the `rows` property of the class, and the columns
      * are determined by the `columns` property. The data for each cell in the CSV is a random integer
      * between `MIN` and `MAX` constants defined in the class.
-     * @throws Exception if the file cannot be opened for writing
      */
     public function generateCsv(): void
     {

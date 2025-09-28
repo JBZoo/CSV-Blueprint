@@ -16,6 +16,9 @@ declare(strict_types=1);
 
 namespace JBZoo\CsvBlueprint\Analyze;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 final class Exception extends \JBZoo\CsvBlueprint\Exception
 {
 }

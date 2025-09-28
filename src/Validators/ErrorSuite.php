@@ -64,7 +64,6 @@ final class ErrorSuite
      * @param  string      $mode        the render mode
      * @param  bool        $cleanOutput Whether to clean the output. Default is false.
      * @return null|string the rendered batch of errors as a string, or null if there are no errors
-     * @throws Exception   if the specified render mode is unknown
      */
     public function render(string $mode = self::REPORT_TEXT, bool $cleanOutput = false): ?string
     {

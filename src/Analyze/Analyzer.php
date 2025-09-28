@@ -57,7 +57,6 @@ final class Analyzer
     {
         $validRules = [];
 
-        /** @var class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule> $ruleClassname */
         foreach (self::getRuleClasses('Aggregate', 'aggregate_rules') as $ruleCode => $ruleClassname) {
             $ruleCode = \str_replace('combo_', '', $ruleCode);
 
@@ -87,7 +86,6 @@ final class Analyzer
     {
         $validRules = [];
 
-        /** @var class-string<\JBZoo\CsvBlueprint\Rules\AbstractRule> $ruleClassname */
         foreach (self::getRuleClasses('Cell', 'rules') as $ruleCode => $ruleClassname) {
             try {
                 $result = $ruleClassname::analyzeColumnValues($columnValues);

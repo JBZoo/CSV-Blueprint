@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0438979e716f3f657de258cae44dae1e",
+    "content-hash": "9e35b0b648ce5b57f75c7dfede62b2d1",
     "packages": [
         {
             "name": "fidry/cpu-core-counter",
@@ -238,16 +238,16 @@
         },
         {
             "name": "jbzoo/cli",
-            "version": "7.2.4",
+            "version": "7.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JBZoo/Cli.git",
-                "reference": "85c14649e91cac976a00967f4d8baedc9b297aa0"
+                "reference": "c4d0dfdd61005ff55f4551485179b7170cfb63c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JBZoo/Cli/zipball/85c14649e91cac976a00967f4d8baedc9b297aa0",
-                "reference": "85c14649e91cac976a00967f4d8baedc9b297aa0",
+                "url": "https://api.github.com/repos/JBZoo/Cli/zipball/c4d0dfdd61005ff55f4551485179b7170cfb63c6",
+                "reference": "c4d0dfdd61005ff55f4551485179b7170cfb63c6",
                 "shasum": ""
             },
             "require": {
@@ -260,7 +260,7 @@
                 "symfony/process": ">=7.3.4"
             },
             "require-dev": {
-                "jbzoo/toolbox-dev": "^7.2"
+                "jbzoo/toolbox-dev": "^7.3"
             },
             "type": "library",
             "extra": {
@@ -308,9 +308,9 @@
             ],
             "support": {
                 "issues": "https://github.com/JBZoo/Cli/issues",
-                "source": "https://github.com/JBZoo/Cli/tree/7.2.4"
+                "source": "https://github.com/JBZoo/Cli/tree/7.2.5"
             },
-            "time": "2025-09-28T11:02:40+00:00"
+            "time": "2025-09-28T18:53:47+00:00"
         },
         {
             "name": "jbzoo/data",
@@ -4409,16 +4409,16 @@
         },
         {
             "name": "kubawerlos/php-cs-fixer-custom-fixers",
-            "version": "v3.35.0",
+            "version": "v3.35.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kubawerlos/php-cs-fixer-custom-fixers.git",
-                "reference": "7c3d422b9e86b536c8fd8947d3f69af56e920b51"
+                "reference": "2a35f80ae24ca77443a7af1599c3a3db1b6bd395"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kubawerlos/php-cs-fixer-custom-fixers/zipball/7c3d422b9e86b536c8fd8947d3f69af56e920b51",
-                "reference": "7c3d422b9e86b536c8fd8947d3f69af56e920b51",
+                "url": "https://api.github.com/repos/kubawerlos/php-cs-fixer-custom-fixers/zipball/2a35f80ae24ca77443a7af1599c3a3db1b6bd395",
+                "reference": "2a35f80ae24ca77443a7af1599c3a3db1b6bd395",
                 "shasum": ""
             },
             "require": {
@@ -4449,7 +4449,7 @@
             "description": "A set of custom fixers for PHP CS Fixer",
             "support": {
                 "issues": "https://github.com/kubawerlos/php-cs-fixer-custom-fixers/issues",
-                "source": "https://github.com/kubawerlos/php-cs-fixer-custom-fixers/tree/v3.35.0"
+                "source": "https://github.com/kubawerlos/php-cs-fixer-custom-fixers/tree/v3.35.1"
             },
             "funding": [
                 {
@@ -4457,7 +4457,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-09-27T11:34:54+00:00"
+            "time": "2025-09-28T18:43:35+00:00"
         },
         {
             "name": "league/uri",
