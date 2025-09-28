@@ -78,7 +78,7 @@ final class Ruleset
      */
     public function ruleDiscovery(
         string $origRuleName,
-        null|array|bool|float|int|string $options = null,
+        array|bool|float|int|string|null $options = null,
     ): ?AbstractRule {
         $mode = AbstractCellRuleCombo::parseMode($origRuleName);
         $noCombo = \preg_replace("/(_{$mode})\$/", '', $origRuleName);
@@ -123,7 +123,7 @@ final class Ruleset
      */
     private function createRuleClassAttempt(
         string $posibleClassName,
-        null|array|bool|float|int|string $options,
+        array|bool|float|int|string|null $options,
         string $mode,
     ): ?AbstractRule {
         if (\class_exists($posibleClassName)) {

@@ -155,7 +155,7 @@ abstract class AbstractValidate extends CliCommand
         return $filenames;
     }
 
-    protected function out(null|array|string $messge, int $indent = 0): void
+    protected function out(array|string|null $messge, int $indent = 0): void
     {
         if ($messge === null) {
             return;

@@ -83,11 +83,6 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
         parent::setUp();
     }
 
-    public static function testGithubActionsWorkflow(): void
-    {
-        success('It uses different workflows for CI');
-    }
-
     public function testComposerType(): void
     {
         $composer = json(PROJECT_ROOT . '/composer.json');
@@ -118,6 +113,11 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
         $expectedBadgeLine = \implode("\n", $expectedBadges);
 
         Tools::insertInReadme('top-badges', $expectedBadgeLine);
+    }
+
+    public static function testGithubActionsWorkflow(): void
+    {
+        success('It uses different workflows for CI');
     }
 
     protected function checkBadgeGithubActionsDemo(): ?string

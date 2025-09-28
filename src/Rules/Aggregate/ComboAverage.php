@@ -31,7 +31,7 @@ final class ComboAverage extends AbstractAggregateRuleCombo
         return [['Regular the arithmetic mean. The sum of the numbers divided by the count.'], []];
     }
 
-    protected static function calcValue(array $columnValues, ?array $options = null): null|float|int
+    protected static function calcValue(array $columnValues, ?array $options = null): float|int|null
     {
         $columnValues = Utils::analyzeGuard($columnValues, self::INPUT_TYPE);
         if ($columnValues === null) {

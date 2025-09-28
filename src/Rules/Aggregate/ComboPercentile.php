@@ -82,7 +82,7 @@ final class ComboPercentile extends AbstractAggregateRuleCombo
         return self::calcValue($colValues, ['p' => $percentile]);
     }
 
-    protected static function calcValue(array $columnValues, ?array $options = null): null|float|int
+    protected static function calcValue(array $columnValues, ?array $options = null): float|int|null
     {
         $columnValues = Utils::analyzeGuard($columnValues, self::INPUT_TYPE);
         if ($columnValues === null) {

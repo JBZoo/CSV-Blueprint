@@ -79,7 +79,7 @@ final class ComboQuartiles extends AbstractAggregateRuleCombo
         return self::calcValue($colValues, ['method' => $method, 'type' => $type]);
     }
 
-    protected static function calcValue(array $columnValues, ?array $options = null): null|float|int
+    protected static function calcValue(array $columnValues, ?array $options = null): float|int|null
     {
         $columnValues = Utils::analyzeGuard($columnValues, self::INPUT_TYPE);
         if ($columnValues === null) {
