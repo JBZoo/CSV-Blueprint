@@ -53,10 +53,10 @@ inputs:
     default: no
     required: true
 
-  # Only for debbuging and profiling
+  # Only for debugging and profiling
   extra:
     description: |
-      Extra options for the CSV Blueprint. Only for debbuging and profiling.
+      Extra options for the CSV Blueprint. Only for debugging and profiling.
       Available options:
         Add flag `--parallel` if you want to validate CSV files in parallel.
         Add flag `--dump-schema` if you want to see the final schema after all includes and inheritance.

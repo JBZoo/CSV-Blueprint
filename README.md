@@ -170,7 +170,7 @@ You can find launch examples in the [workflow demo](https://github.com/JBZoo/Csv
     # Default value: 'no'
     skip-schema: 'no'
 
-    # Extra options for the CSV Blueprint. Only for debbuging and profiling.
+    # Extra options for the CSV Blueprint. Only for debugging and profiling.
     # Available options:
     #   Add flag `--parallel` if you want to validate CSV files in parallel.
     #   Add flag `--dump-schema` if you want to see the final schema after all includes and inheritance.
@@ -565,7 +565,7 @@ columns:
       is_consonant: true                # Validates if the input contains only consonants. Example: "bcd".
       is_alnum: true                    # Validates whether the input is only alphanumeric. Example: "aBc123".
       is_alpha: true                    # This is similar to `is_alnum`, but it does not allow numbers. Example: "aBc".
-      is_hex_rgb_color: true            # Validates weather the input is a hex RGB color or not. Examples: "#FF0000", "#123", "ffffff", "fff".
+      is_hex_rgb_color: true            # Validates whether the input is a hex RGB color or not. Examples: "#FF0000", "#123", "ffffff", "fff".
 
       # Check if the value is a valid hash. Supported algorithms:
       #  - md5, md4, md2, sha1, sha224, sha256, sha384, sha512/224, sha512/256, sha512
@@ -1441,7 +1441,7 @@ application of the CLI commands, helping users make the most out of the tool's c
 `./csv-blueprint validate-csv --help`
 
 <details>
-  <summary>CLICK to see validate-csv help messege</summary>
+  <summary>CLICK to see validate-csv help message</summary>
 
 <!-- auto-update:validate-csv-help -->
 ```txt
@@ -1517,7 +1517,7 @@ Options:
 `./csv-blueprint validate-schema --help`
 
 <details>
-  <summary>CLICK to see validate-schema help messege</summary>
+  <summary>CLICK to see validate-schema help message</summary>
 
 <!-- auto-update:validate-schema-help -->
 ```txt
@@ -1578,7 +1578,7 @@ Options:
 `./csv-blueprint dump-schema --help`
 
 <details>
-  <summary>CLICK to see debug-schema help messege</summary>
+  <summary>CLICK to see debug-schema help message</summary>
 
 <!-- auto-update:debug-schema-help -->
 ```txt
@@ -1623,7 +1623,7 @@ Options:
 It's beta. Work in progress.
 
 <details>
-  <summary>CLICK to see create-schema help messege</summary>
+  <summary>CLICK to see create-schema help message</summary>
 
 <!-- auto-update:create-schema-help -->
 ```txt
