@@ -36,8 +36,8 @@ final class Utils
 
     /**
      * Checks if the elements in an array are in a specific order.
-     * @param  array $array        the array to check the order of
-     * @param  array $correctOrder the correct order that the elements should be in
+     * @param array $array        the array to check the order of
+     * @param array $correctOrder the correct order that the elements should be in
      * @return bool  returns true if the elements are in the correct order, false otherwise
      */
     public static function isArrayInOrder(array $array, array $correctOrder): bool
@@ -58,8 +58,8 @@ final class Utils
 
     /**
      * Prints a list of items for CLI output.
-     * @param  null|array|bool|float|int|string $items the list of items to print
-     * @param  string                           $color the color to apply to each item
+     * @param null|array|bool|float|int|string $items the list of items to print
+     * @param string                           $color the color to apply to each item
      * @return string                           the formatted string representation of the list
      */
     public static function printList(null|array|bool|float|int|string $items, string $color = ''): string
@@ -118,7 +118,7 @@ final class Utils
 
     /**
      * Convert a kebab-case string to camelCase.
-     * @param  string $input the kebab-case string to be converted
+     * @param string $input the kebab-case string to be converted
      * @return string the converted camelCase string
      */
     public static function kebabToCamelCase(string $input): string
@@ -129,7 +129,7 @@ final class Utils
     /**
      * Converts a camelCase string to kebab-case.
      *
-     * @param  string $input the camelCase string to be converted
+     * @param string $input the camelCase string to be converted
      * @return string the converted kebab-case string
      */
     public static function camelToKebabCase(string $input): string
@@ -139,10 +139,10 @@ final class Utils
 
     /**
      * Prepares a regular expression pattern by adding a delimiter if necessary.
-     * @param  null|string $pattern      The regular expression pattern to prepare. If null or empty, returns null.
-     * @param  string      $addDelimiter the delimiter to be added if the pattern doesn't already have a delimiter
+     * @param null|string $pattern      The regular expression pattern to prepare. If null or empty, returns null.
+     * @param string      $addDelimiter the delimiter to be added if the pattern doesn't already have a delimiter
      * @return null|string the prepared regular expression pattern with a delimiter, or null if the input pattern
-     *                     is null or empty
+     *                                  is null or empty
      */
     public static function prepareRegex(?string $pattern, string $addDelimiter = '/'): ?string
     {
@@ -163,7 +163,7 @@ final class Utils
 
     /**
      * Find files based on the given paths.
-     * @param  string[]      $paths an array of file or directory paths
+     * @param string[] $paths an array of file or directory paths
      * @return SplFileInfo[] an array of SplFileInfo objects representing the found files
      * @throws Exception     if a file is not readable
      */
@@ -205,9 +205,9 @@ final class Utils
 
     /**
      * Cuts the path of a given file and replaces the current working directory with a dot (.).
-     * @param  null|string $fullpath the full path of the file
+     * @param null|string $fullpath the full path of the file
      * @return string      The modified path with the current working directory replaced by a dot (.) or an empty
-     *                     string if the $fullpath is null.
+     *                              string if the $fullpath is null.
      */
     public static function cutPath(?string $fullpath): string
     {
@@ -266,11 +266,11 @@ final class Utils
 
     /**
      * Compare two arrays and return the differences between them.
-     * @param  array  $expectedSchema the expected schema array
-     * @param  array  $actualSchema   the actual schema array
-     * @param  string $columnId       the column ID
-     * @param  string $keyPrefix      the key prefix
-     * @param  string $path           the current path
+     * @param array  $expectedSchema the expected schema array
+     * @param array  $actualSchema   the actual schema array
+     * @param string $columnId       the column ID
+     * @param string $keyPrefix      the key prefix
+     * @param string $path           the current path
      * @return array  an array containing the differences between the two arrays
      */
     public static function compareArray(
@@ -343,10 +343,10 @@ final class Utils
 
     /**
      * Checks whether the expected type matches the actual type and if there is a valid conversion between them.
-     * @param  null|array|bool|float|int|string $expected The expected type
-     * @param  null|array|bool|float|int|string $actual   The actual type
+     * @param null|array|bool|float|int|string $expected The expected type
+     * @param null|array|bool|float|int|string $actual   The actual type
      * @return bool                             returns true if the expected type matches the actual type or if there
-     *                                          is a valid conversion between them, otherwise returns false
+     *                                                   is a valid conversion between them, otherwise returns false
      */
     public static function matchTypes(
         null|array|bool|float|int|string $expected,
@@ -373,8 +373,8 @@ final class Utils
 
     /**
      * Test if a regex pattern matches a subject string.
-     * @param  null|string $regex   the regex pattern to match
-     * @param  string      $subject the subject string
+     * @param null|string $regex   the regex pattern to match
+     * @param string      $subject the subject string
      * @return bool        returns true if the pattern does not match the subject, false otherwise
      * @throws Exception   if an invalid regex pattern is provided
      */
@@ -385,7 +385,13 @@ final class Utils
         }
 
         try {
-            return \preg_match($regex, $subject) === 0;
+            $result = \preg_match($regex, $subject) === 0;
+            $errorMessage = \preg_last_error_msg();
+            if ($errorMessage !== 'No error') {
+                throw new Exception($errorMessage);
+            }
+
+            return $result;
         } catch (\Throwable $exception) {
             throw new Exception("Invalid regex: \"{$regex}\". Error: \"{$exception->getMessage()}\"");
         }
@@ -393,11 +399,11 @@ final class Utils
 
     /**
      * Matches schema files with CSV files based on the filename pattern in the schema.
-     * @param  SplFileInfo[] $csvFiles         an array of CSV files to match
-     * @param  SplFileInfo[] $schemaFiles      an array of schema files to match
-     * @param  bool          $useGlobalSchemas whether to include global schemas without a filename pattern
+     * @param SplFileInfo[] $csvFiles         an array of CSV files to match
+     * @param SplFileInfo[] $schemaFiles      an array of schema files to match
+     * @param bool          $useGlobalSchemas whether to include global schemas without a filename pattern
      * @return array         an array containing the matched pairs of schema and CSV files, as well as additional
-     *                       information
+     *                                        information
      */
     public static function matchSchemaAndCsvFiles(
         array $csvFiles,
@@ -449,8 +455,8 @@ final class Utils
 
     /**
      * Prints the file path with an optional HTML tag around the filename.
-     * @param  string $fullpath the full path of the file
-     * @param  string $tag      the HTML tag to wrap the filename with
+     * @param string $fullpath the full path of the file
+     * @param string $tag      the HTML tag to wrap the filename with
      * @return string the file path with the filename wrapped in the specified HTML tag
      */
     public static function printFile(string $fullpath, string $tag = 'bright-blue'): string
@@ -463,9 +469,9 @@ final class Utils
 
     /**
      * Retrieves the version of the software.
-     * @param  bool        $showFull Whether to display the full version information or not. Default is false.
+     * @param bool $showFull Whether to display the full version information or not. Default is false.
      * @return null|string the version of the software as a string, or an error message if the version file is
-     *                     not found
+     *                       not found
      */
     public static function getVersion(bool $showFull): ?string
     {
@@ -483,8 +489,8 @@ final class Utils
 
     /**
      * Parses the version information from a content string.
-     * @param  string $content  the content string containing the version information
-     * @param  bool   $showFull Optional. Whether to show the full version information.
+     * @param string $content  the content string containing the version information
+     * @param bool   $showFull Optional. Whether to show the full version information.
      * @return string the parsed version string
      */
     public static function parseVersion(string $content, bool $showFull): string
@@ -519,9 +525,9 @@ final class Utils
 
     /**
      * Returns the size of a file.
-     * @param  string $csv the path of the file
+     * @param string $csv the path of the file
      * @return string The size of the file, formatted as a string.
-     *                If the file is not found, returns 'file not found'.
+     *                    If the file is not found, returns 'file not found'.
      */
     public static function getFileSize(string $csv): string
     {
@@ -547,7 +553,7 @@ final class Utils
 
     /**
      * Fix the command line arguments by extracting flags from the original arguments.
-     * @param  array $originalArgs the original command line arguments
+     * @param array $originalArgs the original command line arguments
      * @return array the fixed command line arguments with extracted flags
      */
     public static function fixArgv(array $originalArgs): array
@@ -565,7 +571,7 @@ final class Utils
                 $extraArgs = \str_replace(['extra:', 'options:'], '', $argValue);
                 $flags = \array_filter(
                     \array_map('trim', \explode(' ', $extraArgs)),
-                    static fn ($flag): bool => $flag !== '',
+                    static fn($flag): bool => $flag !== '',
                 );
 
                 foreach ($flags as $flag) {
@@ -582,7 +588,7 @@ final class Utils
     /**
      * Merge multiple arrays of configurations into a single configuration array.
      *
-     * @param  array<string, null|array|bool|string>|int[]|string[] ...$configs the arrays of configs to be merged
+     * @param array<string, null|array|bool|string>|int[]|string[] ...$configs the arrays of configs to be merged
      * @return array                                                the merged configuration array
      */
     public static function mergeConfigs(array ...$configs): array
@@ -667,8 +673,8 @@ final class Utils
 
     /**
      * Remove default settings from an array of original settings.
-     * @param  array $original the original settings array
-     * @param  array $defaults the default settings array to compare against
+     * @param array $original the original settings array
+     * @param array $defaults the default settings array to compare against
      * @return array the modified settings array with default settings removed
      */
     public static function removeDefaultSettings(array $original, array $defaults): array
@@ -697,7 +703,7 @@ final class Utils
 
     /**
      * Sort the rules in the given schema dump based on the original rule order.
-     * @param  array $schemaDump the schema dump containing the rules to be sorted
+     * @param array $schemaDump the schema dump containing the rules to be sorted
      * @return array the sorted schema dump with rules sorted based on the original order
      */
     public static function sortRules(array $schemaDump): array
@@ -727,25 +733,25 @@ final class Utils
 
     /**
      * Sorts an array based on a reference order.
-     * @param  array $dataArray the array to be sorted
-     * @param  array $refOrder  the reference order used for sorting
+     * @param array $dataArray the array to be sorted
+     * @param array $refOrder  the reference order used for sorting
      * @return array the sorted array
      */
     public static function sortByArray(array $dataArray, array $refOrder): array
     {
         \uksort(
             $dataArray,
-            static fn ($arrA, $arrB) => \array_search($arrA, $refOrder, true) <=> \array_search($arrB, $refOrder, true),
+            static fn($arrA, $arrB) => \array_search($arrA, $refOrder, true) <=> \array_search($arrB, $refOrder, true),
         );
         return $dataArray;
     }
 
     /**
      * Analyze the column values and extract numeric values in a numeric array.
-     * @param  array      $columnValues the column values to be analyzed
+     * @param array $columnValues the column values to be analyzed
      * @return null|array The array of numeric values extracted from the column values.
-     *                    Returns null if there are not enough numeric values or non-numeric values present in
-     *                    the column values.
+     *                            Returns null if there are not enough numeric values or non-numeric values present in
+     *                            the column values.
      */
     public static function analyzeGuard(array $columnValues, int $varType = AbstractRule::INPUT_TYPE_FLOATS): ?array
     {
@@ -757,8 +763,8 @@ final class Utils
             return \array_map('\strval', $columnValues);
         }
 
-        $notEmptyArray = \array_filter($columnValues, static fn (string $value): bool => \trim($value) !== '');
-        $nonNumeric = \array_filter($notEmptyArray, static fn (string $value) => !\is_numeric($value));
+        $notEmptyArray = \array_filter($columnValues, static fn(string $value): bool => \trim($value) !== '');
+        $nonNumeric = \array_filter($notEmptyArray, static fn(string $value) => !\is_numeric($value));
         if (\count($nonNumeric) > 0) {
             return null;
         }
@@ -792,7 +798,7 @@ final class Utils
 
     private static function filterNotUsedFiles(array $files): array
     {
-        return \array_keys(\array_filter($files, static fn ($value) => $value === false));
+        return \array_keys(\array_filter($files, static fn($value) => $value === false));
     }
 
     private static function convertTzToUTC(string $dateWithSourceTZ): \DateTime

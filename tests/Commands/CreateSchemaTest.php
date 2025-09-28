@@ -230,8 +230,8 @@ final class CreateSchemaTest extends TestCase
                   date_min: '1955-05-14'
                   date_max: '2010-07-20'
                   date_format: Y-m-d
-                  date_age_min: 14
-                  date_age_max: 69
+                  date_age_min: 15
+                  date_age_max: 70
                   is_slug: true
                 aggregate_rules:
                   count_empty: 0
@@ -482,7 +482,7 @@ final class CreateSchemaTest extends TestCase
                   date_max: '2124-05-22'
                   date_format: Y/m/d
                   date_age_min: 0
-                  date_age_max: 99
+                  date_age_max: 98
                 aggregate_rules:
                   is_unique: true
                   count_empty: 0
@@ -759,7 +759,7 @@ final class CreateSchemaTest extends TestCase
                   date_min: '1975-03-13'
                   date_max: '2005-11-12'
                   date_age_min: 19
-                  date_age_max: 49
+                  date_age_max: 50
                 aggregate_rules:
                   is_unique: true
                   count_empty: 0
@@ -868,7 +868,7 @@ final class CreateSchemaTest extends TestCase
                   date_min: '1907-02-13'
                   date_max: '2046-08-21'
                   date_format: m/d/Y
-                  date_age_min: 7
+                  date_age_min: 8
                   date_age_max: 118
                 aggregate_rules:
                   is_unique: true
@@ -898,8 +898,8 @@ final class CreateSchemaTest extends TestCase
                   date_min: '2044-07-23'
                   date_max: '2114-03-25'
                   date_format: Y/m/d
-                  date_age_min: 19
-                  date_age_max: 89
+                  date_age_min: 18
+                  date_age_max: 88
                 aggregate_rules:
                   is_unique: true
                   count_empty: 0
@@ -919,8 +919,8 @@ final class CreateSchemaTest extends TestCase
                   date_min: '2040-05-29'
                   date_max: '2121-03-23'
                   date_format: Ymd
-                  date_age_min: 15
-                  date_age_max: 96
+                  date_age_min: 14
+                  date_age_max: 95
                   postal_code: BR
                   hash: crc32
                 aggregate_rules:
@@ -1855,7 +1855,7 @@ final class CreateSchemaTest extends TestCase
                   precision: 3
                   is_date: true
                   date: '4825-07-04'
-                  date_age: 2800
+                  date_age: 2799
                 aggregate_rules:
                   is_unique: true
                   sum: 4825.185

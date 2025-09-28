@@ -21,3 +21,4 @@ phpunit.xml
 *.cache
 *.phar
 .version
+.claude
