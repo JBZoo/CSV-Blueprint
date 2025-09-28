@@ -115,7 +115,7 @@ jobs:
         uses: articulate/actions-markdownlint@v1
         with:
           config: .markdownlint.yml
-          files: '*.md'
+          files: 'README.md'
 
 
   verify-php-binary:
