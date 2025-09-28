@@ -28,31 +28,31 @@ use Symfony\Component\Console\Output\BufferedOutput;
 
 final class Tools
 {
-    public const CSV_SIMPLE_HEADER = './tests/fixtures/simple_header.csv';
-    public const CSV_SIMPLE_NO_HEADER = './tests/fixtures/simple_no_header.csv';
-    public const CSV_COMPLEX = './tests/fixtures/complex_header.csv';
+    public const string CSV_SIMPLE_HEADER = './tests/fixtures/simple_header.csv';
+    public const string CSV_SIMPLE_NO_HEADER = './tests/fixtures/simple_no_header.csv';
+    public const string CSV_COMPLEX = './tests/fixtures/complex_header.csv';
 
-    public const SCHEMA_SIMPLE_HEADER = './tests/schemas/simple_header.yml';
-    public const SCHEMA_SIMPLE_NO_HEADER = './tests/schemas/simple_no_header.yml';
-    public const SCHEMA_SIMPLE_HEADER_PHP = './tests/schemas/simple_header.php';
-    public const SCHEMA_SIMPLE_HEADER_JSON = './tests/schemas/simple_header.json';
-    public const SCHEMA_EXAMPLE_EMPTY = PROJECT_ROOT . '/tests/schemas/example_empty.yml';
+    public const string SCHEMA_SIMPLE_HEADER = './tests/schemas/simple_header.yml';
+    public const string SCHEMA_SIMPLE_NO_HEADER = './tests/schemas/simple_no_header.yml';
+    public const string SCHEMA_SIMPLE_HEADER_PHP = './tests/schemas/simple_header.php';
+    public const string SCHEMA_SIMPLE_HEADER_JSON = './tests/schemas/simple_header.json';
+    public const string SCHEMA_EXAMPLE_EMPTY = PROJECT_ROOT . '/tests/schemas/example_empty.yml';
 
-    public const SCHEMA_FULL_YML = PROJECT_ROOT . '/schema-examples/full.yml';
-    public const SCHEMA_FULL_YML_CLEAN = './schema-examples/full_clean.yml';
-    public const SCHEMA_FULL_JSON = './schema-examples/full.json';
-    public const SCHEMA_FULL_PHP = './schema-examples/full.php';
-    public const SCHEMA_INVALID = './tests/schemas/invalid_schema.yml';
+    public const string SCHEMA_FULL_YML = PROJECT_ROOT . '/schema-examples/full.yml';
+    public const string SCHEMA_FULL_YML_CLEAN = './schema-examples/full_clean.yml';
+    public const string SCHEMA_FULL_JSON = './schema-examples/full.json';
+    public const string SCHEMA_FULL_PHP = './schema-examples/full.php';
+    public const string SCHEMA_INVALID = './tests/schemas/invalid_schema.yml';
 
-    public const SCHEMA_TODO = './tests/schemas/todo.yml';
+    public const string SCHEMA_TODO = './tests/schemas/todo.yml';
 
-    public const DEMO_YML_VALID = './tests/schemas/demo_valid.yml';
-    public const DEMO_YML_INVALID = './tests/schemas/demo_invalid.yml';
-    public const DEMO_CSV = './tests/fixtures/demo.csv';
-    public const DEMO_INVALID_CSV = './tests/fixtures/demo_invalid.csv';
-    public const DEMO_CSV_FULL = PROJECT_ROOT . '/tests/fixtures/demo.csv';
+    public const string DEMO_YML_VALID = './tests/schemas/demo_valid.yml';
+    public const string DEMO_YML_INVALID = './tests/schemas/demo_invalid.yml';
+    public const string DEMO_CSV = './tests/fixtures/demo.csv';
+    public const string DEMO_INVALID_CSV = './tests/fixtures/demo_invalid.csv';
+    public const string DEMO_CSV_FULL = PROJECT_ROOT . '/tests/fixtures/demo.csv';
 
-    public const README = PROJECT_ROOT . '/README.md';
+    public const string README = PROJECT_ROOT . '/README.md';
 
     public static function virtualExecution(string $action, array|string $params = []): array
     {
@@ -90,7 +90,7 @@ final class Tools
             ]),
             $params,
             $rootDir,
-            false,
+            true,
         );
     }
 

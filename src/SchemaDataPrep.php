@@ -110,8 +110,7 @@ final class SchemaDataPrep
 
     /**
      * Validates a preset alias.
-     * @param  string    $alias the alias to validate
-     * @throws Exception if the alias is empty or invalid
+     * @param string $alias the alias to validate
      */
     public static function validateAlias(string $alias): void
     {

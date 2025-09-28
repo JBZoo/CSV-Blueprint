@@ -157,6 +157,9 @@ final class WorkerPool
         return $results;
     }
 
+    /**
+     * @phan-suppress PhanTypeMismatchProperty
+     */
     private function maintainTaskPool(): void
     {
         $bootstrap = self::$bootstrap;

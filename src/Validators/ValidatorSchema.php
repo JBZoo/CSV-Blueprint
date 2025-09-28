@@ -26,7 +26,7 @@ use function JBZoo\Data\phpArray;
 
 final class ValidatorSchema
 {
-    private ?string      $filename;
+    private string       $filename;
     private bool         $isHeader;
     private AbstractData $data;
 
@@ -66,8 +66,7 @@ final class ValidatorSchema
 
     /**
      * Retrieve the expected meta and column structure.
-     * @return array     the expected meta and column data
-     * @throws Exception if the reference schema file is not found
+     * @return array the expected meta and column data
      */
     public static function getExpected(): array
     {

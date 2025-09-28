@@ -222,8 +222,7 @@ final class Schema
 
     /**
      * Retrieves the CSV delimiter from the internal state.
-     * @return string    the CSV delimiter as a single character
-     * @throws Exception if the delimiter is not a single character
+     * @return string the CSV delimiter as a single character
      */
     public function getCsvDelimiter(): string
     {
@@ -237,8 +236,7 @@ final class Schema
 
     /**
      * Retrieves the CSV quote character from the internal state.
-     * @return string    the CSV quote character
-     * @throws Exception if the quote char is not a single character
+     * @return string the CSV quote character
      */
     public function getCsvQuoteChar(): string
     {
@@ -252,8 +250,7 @@ final class Schema
 
     /**
      * Retrieves the CSV enclosure character from the internal state.
-     * @return string    the CSV enclosure character
-     * @throws Exception if the enclosure is not a single character
+     * @return string the CSV enclosure character
      */
     public function getCsvEnclosure(): string
     {
@@ -269,11 +266,10 @@ final class Schema
     /**
      * Returns the CSV encoding specified in the internal state.
      *
-     * @return string    the CSV encoding. It can be one of the following values:
-     *                   - self::ENCODING_UTF8: UTF-8 encoding
-     *                   - self::ENCODING_UTF16: UTF-16 encoding
-     *                   - self::ENCODING_UTF32: UTF-32 encoding
-     * @throws Exception if the specified encoding is not valid
+     * @return string the CSV encoding. It can be one of the following values:
+     *                - self::ENCODING_UTF8: UTF-8 encoding
+     *                - self::ENCODING_UTF16: UTF-16 encoding
+     *                - self::ENCODING_UTF32: UTF-32 encoding
      */
     public function getCsvEncoding(): string
     {

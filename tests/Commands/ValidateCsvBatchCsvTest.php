@@ -145,8 +145,8 @@ final class ValidateCsvBatchCsvTest extends TestCase
         );
 
         // Remove version
-        $actual = \preg_replace('/^.+\n/', '', $actual);
-        $expected = \preg_replace('/^.+\n/', '', $expected);
+        $actual = \preg_replace('/^CSV Blueprint.*\n/', '', $actual);
+        $expected = \preg_replace('/^CSV Blueprint.*\n/', '', $expected);
 
         // Remove file size
         $actual = \preg_replace('/; Size: .*B/', '; Size: 123.34 MB', $actual);

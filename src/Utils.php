@@ -165,7 +165,6 @@ final class Utils
      * Find files based on the given paths.
      * @param  string[]      $paths an array of file or directory paths
      * @return SplFileInfo[] an array of SplFileInfo objects representing the found files
-     * @throws Exception     if a file is not readable
      */
     public static function findFiles(array $paths): array
     {
@@ -376,7 +375,6 @@ final class Utils
      * @param  null|string $regex   the regex pattern to match
      * @param  string      $subject the subject string
      * @return bool        returns true if the pattern does not match the subject, false otherwise
-     * @throws Exception   if an invalid regex pattern is provided
      */
     public static function testRegex(?string $regex, string $subject): bool
     {
