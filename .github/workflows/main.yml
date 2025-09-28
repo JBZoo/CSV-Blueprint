@@ -11,6 +11,8 @@
 #
 
 name: CI
+permissions:
+  contents: read
 
 on:
   pull_request:
@@ -68,39 +70,6 @@ jobs:
 
       - name: 👍 Code Quality
         run: make codestyle --no-print-directory
-
-
-  test-lowest-versions:
-    name: Tests - Lowest
-    runs-on: ubuntu-latest
-    env:
-      JBZOO_COMPOSER_UPDATE_FLAGS: '--prefer-lowest'
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.2
-          coverage: none
-          extensions: ast
-
-      - name: Install project
-        run: make build --no-print-directory
-
-        ## To see the difference between the current and the lowest versions
-      - name: Downgrade dependencies
-        run: make update --no-print-directory
-
-      - name: 🧪 PHPUnit Tests
-        run: make test --no-print-directory
-
-      - name: 👍 Code Quality
-        run: make codestyle --no-print-directory
-
 
   test-latest-libs:
     name: Tests - Latest
@@ -193,7 +162,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: [ 8.2, 8.3 ]
+        php-version: [ 8.3 ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

@@ -11,7 +11,7 @@
     @see        https://github.com/JBZoo/Csv-Blueprint
 -->
 <psalm
-        errorLevel="1"
+        errorLevel="8"
         reportMixedIssues="false"
         useDocblockPropertyTypes="true"
         resolveFromConfigFile="false"

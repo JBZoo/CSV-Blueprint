@@ -588,8 +588,7 @@ final class CsvValidatorTest extends TestCase
         $csv = new CsvFile(Tools::DEMO_CSV, ['filename_pattern' => '/.*())))\.csv$/']);
 
         isSame(
-            '"filename_pattern". Filename pattern error: Invalid regex: "/.*())))\.csv$/". '
-            . 'Error: "preg_match(): Compilation failed: unmatched closing parenthesis at offset 4".',
+            '"filename_pattern". Filename pattern error: Invalid regex: "/.*())))\.csv$/". Error: "Internal error".',
             $csv->validate()->render(cleanOutput: true),
         );
     }

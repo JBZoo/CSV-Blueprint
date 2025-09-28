@@ -21,7 +21,7 @@ use function JBZoo\Data\json;
 final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
 {
     protected string $packageName = 'Csv-Blueprint';
-    protected string $composerPhpVersion = '^8.2';
+    protected string $composerPhpVersion = '^8.3';
 
     protected array $params = [ // Needs refactoring
         'packagist_latest_stable_version'   => true,
@@ -83,7 +83,7 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
         parent::setUp();
     }
 
-    public function testGithubActionsWorkflow(): void
+    public static function testGithubActionsWorkflow(): void
     {
         success('It uses different workflows for CI');
     }

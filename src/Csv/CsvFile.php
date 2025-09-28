@@ -104,7 +104,7 @@ final class CsvFile
      */
     public function getRecordsChunk(int $offset = 0, int $limit = -1): TabularDataReader  // @phpstan-ignore-line
     {
-        return Statement::create(null, $offset, $limit)->process($this->reader, []); // No headers is required!
+        return (new Statement())->offset($offset)->limit($limit)->process($this->reader, []); // No headers is required!
     }
 
     /**
