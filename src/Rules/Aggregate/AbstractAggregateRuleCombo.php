@@ -23,7 +23,7 @@ abstract class AbstractAggregateRuleCombo extends AbstractRuleCombo
 {
     public const INPUT_TYPE = AbstractRule::INPUT_TYPE_STRINGS;
 
-    abstract protected static function calcValue(array $columnValues, ?array $options = null): null|float|int;
+    abstract protected static function calcValue(array $columnValues, ?array $options = null): float|int|null;
 
     public function getRuleCode(?string $mode = null): string
     {

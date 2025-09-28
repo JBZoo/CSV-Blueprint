@@ -38,7 +38,7 @@ final class ComboFirstNum extends AbstractAggregateRuleCombo
         return (float)$colValues[0];
     }
 
-    protected static function calcValue(array $columnValues, ?array $options = null): null|float|int
+    protected static function calcValue(array $columnValues, ?array $options = null): float|int|null
     {
         return null;
     }

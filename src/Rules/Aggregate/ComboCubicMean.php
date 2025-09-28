@@ -31,7 +31,7 @@ final class ComboCubicMean extends AbstractAggregateRuleCombo
         return [['Cubic mean. See: https://en.wikipedia.org/wiki/Cubic_mean'], []];
     }
 
-    protected static function calcValue(array $columnValues, ?array $options = null): null|float|int
+    protected static function calcValue(array $columnValues, ?array $options = null): float|int|null
     {
         $columnValues = Utils::analyzeGuard($columnValues, self::INPUT_TYPE);
         if ($columnValues === null) {

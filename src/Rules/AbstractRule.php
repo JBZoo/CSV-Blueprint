@@ -46,13 +46,13 @@ abstract class AbstractRule
     protected string $ruleCode;
     protected string $mode;
 
-    private null|array|bool|float|int|string $options;
+    private array|bool|float|int|string|null $options;
 
     abstract public function getHelpMeta(): array;
 
     public function __construct(
         string $columnNameId,
-        null|array|bool|float|int|string $options,
+        array|bool|float|int|string|null $options,
         string $mode = self::DEFAULT,
     ) {
         $this->mode = $mode;

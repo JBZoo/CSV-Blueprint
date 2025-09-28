@@ -38,7 +38,7 @@ final class Schema
     private ?string      $filename;
     private AbstractData $internalState;
 
-    public function __construct(null|array|string $csvSchemaFilenameOrArray = null)
+    public function __construct(array|string|null $csvSchemaFilenameOrArray = null)
     {
         if (\is_array($csvSchemaFilenameOrArray)) {
             $this->filename = '_custom_array_';

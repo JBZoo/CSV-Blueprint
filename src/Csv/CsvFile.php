@@ -36,7 +36,7 @@ final class CsvFile
     private bool         $isEmpty;
     private ?array       $header = null;
 
-    public function __construct(string $csvFilename, null|array|string $csvSchemaFilenameOrArray = null)
+    public function __construct(string $csvFilename, array|string|null $csvSchemaFilenameOrArray = null)
     {
         if (\realpath($csvFilename) !== false && \file_exists($csvFilename) === false) {
             throw new Exception('File not found: ' . $csvFilename);
