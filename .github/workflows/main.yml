@@ -50,7 +50,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         id: setup-php
         with:
-          php-version: 8.3
+          php-version: 8.4
           coverage: xdebug
           extensions: ast, ${{ matrix.ext-parallel }}
         env:
@@ -85,8 +85,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          # Todo: Should be `highest` instead of 8.3
-          php-version: 8.3
+          php-version: 8.4
           coverage: none
           extensions: ast
 
@@ -131,7 +130,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.3
+          php-version: 8.4
 
       - name: Build project in production mode
         run: make build-prod --no-print-directory
@@ -162,7 +161,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: [ 8.3 ]
+        php-version: [ 8.4 ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -212,7 +211,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.3
+          php-version: 8.4
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -302,7 +301,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.3
+          php-version: 8.4
           coverage: xdebug
           extensions: ast
 

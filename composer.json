@@ -27,7 +27,7 @@
     "prefer-stable"     : true,
 
     "require"           : {
-        "php"                                 : "^8.3",
+        "php"                                 : "^8.4",
         "ext-mbstring"                        : "*",
 
         "league/csv"                          : "^9.25.0",

@@ -102,10 +102,6 @@ final class ComboDateInterval extends AbstractCellRuleCombo
             }
         }
 
-        if (!$interval instanceof \DateInterval) {
-            throw new Exception("Can't parse date interval: {$dateIntervalOrAsString}");
-        }
-
         $daysPerYear = 365.25;  // Average considering leap years
         $daysPerMonth = 30;     // Average. "365.25 / 12 ~ 30.4166666667"
         $hoursPerDay = 24;
