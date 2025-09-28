@@ -23,3 +23,4 @@ parameters:
         - identifier: arrayFilter.strict
         - identifier: arrayFilter.same
         - identifier: return.unusedType
+        - identifier: property.nonObject
