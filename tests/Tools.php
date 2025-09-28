@@ -90,7 +90,7 @@ final class Tools
             ]),
             $params,
             $rootDir,
-            true,
+            false,
         );
     }
 
