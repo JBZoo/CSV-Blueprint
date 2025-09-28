@@ -39,7 +39,7 @@ build-prod: ##@Project Build project in production mode
 	@make build-version
 
 build-phar-file: ##@Project Build Phar file
-	curl -L "https://github.com/box-project/box/releases/download/4.5.1/box.phar" -o ./build/box.phar
+	curl -L "https://github.com/box-project/box/releases/download/4.6.7/box.phar" -o ./build/box.phar
 	@make build-version
 	@php ./build/box.phar --version
 	@php ./build/box.phar compile -vv
