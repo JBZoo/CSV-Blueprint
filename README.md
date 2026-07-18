@@ -70,6 +70,8 @@ I believe it is the simplest yet flexible and powerful CSV validator in the worl
 - **Automation:** Storing validation rules in the repository eases the process of checking automation and simplifies
   updating validation criteria.
 
+See [CLAUDE.md](CLAUDE.md) for schema repository structure recommendations and team workflow guidelines.
+
 </details>
 
 ### Live demo
