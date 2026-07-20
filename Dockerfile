@@ -21,9 +21,10 @@ RUN make build-version
 # builds and runs stably (see plans/70-wave-d.md, Wave D bench experiment 2026-07-20).
 FROM php:8.5-zts-alpine
 
-# Install PHP extensions
+# Install PHP extensions. ext-parallel is pinned to 1.2.15 (the version verified stable with
+# opcache on 8.5 ZTS) for reproducible image builds; bump it deliberately, not implicitly.
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
-RUN install-php-extensions opcache parallel @composer
+RUN install-php-extensions opcache parallel-1.2.15 @composer
 
 # Install application
 WORKDIR /app
