@@ -116,7 +116,7 @@ final class CreateSchemaTest extends TestCase
 
             YAML;
 
-        isSame($expected, $actual);
+        isSame(self::maskAges($expected), self::maskAges($actual));
         isSame(0, $exitCode, $actual);
 
         \file_put_contents(PROJECT_ROOT . '/build/demo.schema.yml', $actual);
@@ -202,7 +202,6 @@ final class CreateSchemaTest extends TestCase
                   count_odd: 4
                   count_prime: 1
                   median: 2.24875
-                  geometric_mean: 0.0
                   contraharmonic_mean: 4982.9519578607
                   root_mean_square: 1528.9421054861
                   trimean: 19.624375
@@ -261,7 +260,7 @@ final class CreateSchemaTest extends TestCase
 
             YAML;
 
-        isSame($expected, $actual);
+        isSame(self::maskAges($expected), self::maskAges($actual));
         isSame(0, $exitCode, $actual);
 
         \file_put_contents(PROJECT_ROOT . '/build/demo.schema.yml', $actual);
@@ -559,7 +558,6 @@ final class CreateSchemaTest extends TestCase
                   count_odd: 55
                   count_prime: 11
                   median: -27.951455
-                  geometric_mean: 37.982002577775
                   contraharmonic_mean: -232.802300062
                   root_mean_square: 54.693346870901
                   trimean: -18.87635375
@@ -601,7 +599,6 @@ final class CreateSchemaTest extends TestCase
                   count_odd: 50
                   count_prime: 11
                   median: 7.67539
-                  geometric_mean: 72.227371737957
                   contraharmonic_mean: 1118310.89382
                   root_mean_square: 104.1701393255
                   trimean: 1.65878625
@@ -644,7 +641,7 @@ final class CreateSchemaTest extends TestCase
 
             YAML;
 
-        isSame($expected, $actual);
+        isSame(self::maskAges($expected), self::maskAges($actual));
         isSame(0, $exitCode, $actual);
 
         \file_put_contents(PROJECT_ROOT . '/build/demo.schema.yml', $actual);
@@ -1188,7 +1185,6 @@ final class CreateSchemaTest extends TestCase
                   count_odd: 5
                   count_prime: 0
                   median: -489624.0
-                  geometric_mean: 585574.8504808
                   contraharmonic_mean: -2810514.2669621
                   root_mean_square: 647904.77453789
                   trimean: -265329.5
@@ -1246,7 +1242,6 @@ final class CreateSchemaTest extends TestCase
                   count_odd: 4
                   count_prime: 2
                   median: -46.06264
-                  geometric_mean: 38.812974735917
                   contraharmonic_mean: -129.79496537452
                   root_mean_square: 50.944349710998
                   trimean: -28.2017425
@@ -1288,7 +1283,6 @@ final class CreateSchemaTest extends TestCase
                   count_odd: 3
                   count_prime: 0
                   median: 95.86442
-                  geometric_mean: 78.990264350801
                   contraharmonic_mean: 182.74070763348
                   root_mean_square: 101.61543924072
                   trimean: 69.0410525
@@ -1771,7 +1765,7 @@ final class CreateSchemaTest extends TestCase
 
             YAML;
 
-        isSame($expected, $actual);
+        isSame(self::maskAges($expected), self::maskAges($actual));
         isSame(0, $exitCode, $actual);
 
         \file_put_contents(PROJECT_ROOT . '/build/demo.schema.yml', $actual);
@@ -1933,7 +1927,17 @@ final class CreateSchemaTest extends TestCase
 
             YAML;
 
-        isSame($expected, $actual);
+        isSame(self::maskAges($expected), self::maskAges($actual));
         isSame(0, $exitCode, $actual);
+    }
+
+    /**
+     * Suggested `date_age*` values are relative to the current date, so their exact numbers
+     * drift over time (a time-bomb for hardcoded fixtures). Mask them on both sides;
+     * everything else is still compared strictly.
+     */
+    private static function maskAges(string $yaml): string
+    {
+        return (string)\preg_replace('/^(\s+date_age(?:_min|_max)?): -?\d+$/m', '$1: <AGE>', $yaml);
     }
 }

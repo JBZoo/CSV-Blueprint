@@ -57,10 +57,13 @@ final class Tools
     public static function virtualExecution(string $action, array|string $params = []): array
     {
         $application = new CliApplication();
-        $application->add(new ValidateCsv());
-        $application->add(new ValidateSchema());
-        $application->add(new CreateSchema());
-        $application->add(new DebugSchema());
+        // Symfony Console 8.0 removed Application::add(); addCommands() exists on 7.3+/8.x.
+        $application->addCommands([
+            new ValidateCsv(),
+            new ValidateSchema(),
+            new CreateSchema(),
+            new DebugSchema(),
+        ]);
         $command = $application->find($action);
 
         $buffer = new BufferedOutput();
@@ -83,7 +86,9 @@ final class Tools
         return Cli::exec(
             \implode(' ', [
                 'COLUMNS=200',
-                Sys::getBinary(),
+                // -d error_reporting mutes E_DEPRECATED in the child process: the --prefer-lowest CI
+                // leg pulls old amphp/sabre (via dev deps) whose deprecations pollute captured output.
+                Sys::getBinary() . ' -d error_reporting=' . (\E_ALL & ~\E_DEPRECATED),
                 "{$rootDir}/csv-blueprint.php {$extra}",
                 $action,
                 '2>&1',

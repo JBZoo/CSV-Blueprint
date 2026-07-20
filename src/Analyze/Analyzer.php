@@ -164,8 +164,8 @@ final class Analyzer
 
     /**
      * Analyzes the values of a column and determines the valid rules.
-     * @param  array $columnValues the values of the column to analyze
-     * @return array the suggested rules for the column
+     * @param  array                                       $columnValues the values of the column to analyze
+     * @return array{rules: array, aggregate_rules: array} the suggested rules for the column
      */
     private static function analyzeColumn(array $columnValues, int $columnId): array
     {
@@ -198,7 +198,6 @@ final class Analyzer
         $delimiters = [',', ';', "\t", '|'];
         $delimiterCounts = \array_fill_keys($delimiters, 0);
         $lineCount = 0;
-        $headerChecked = false;
         $detectedHeaderFlag = true;
 
         // Read up to first lines to detect the delimiter
@@ -212,11 +211,8 @@ final class Analyzer
                 foreach ($delimiters as $delimiter) {
                     $delimiterCounts[$delimiter] += \substr_count($line, $delimiter);
                 }
-            }
 
-            if (!$headerChecked && $lineCount === 0) {
                 $detectedHeaderFlag = self::hasHeader($line, self::detectPopularDelimiter($delimiterCounts));
-                $headerChecked = true;
             }
 
             $lineCount++;

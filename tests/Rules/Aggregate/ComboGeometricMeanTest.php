@@ -38,4 +38,25 @@ class ComboGeometricMeanTest extends TestAbstractAggregateRuleCombo
             $rule->test(['13', '18', '13', '14', '13', '16', '14', '21', '13']),
         );
     }
+
+    /**
+     * A geometric mean is only defined for non-negative values. Since math-php 2.13 a column with an
+     * even number of negative values yields NAN (previously it produced a spurious real number); an
+     * odd count was already NAN. Because every comparison against NAN is false, the rule then reports
+     * the value as "NAN" and never matches. This documents that behaviour so it can't regress silently.
+     */
+    public function testNegativeDomainIsNan(): void
+    {
+        $rule = $this->create(4, Combo::EQ);
+        isSame(
+            'The geometric mean in the column is "NAN", which is not equal than the expected "4"',
+            $rule->test(['-2', '-8']), // even count of negatives
+        );
+
+        $rule = $this->create(0, Combo::MIN);
+        isSame(
+            'The geometric mean in the column is "NAN", which is less than the expected "0"',
+            $rule->test(['-2', '-3', '-4']), // odd count of negatives
+        );
+    }
 }

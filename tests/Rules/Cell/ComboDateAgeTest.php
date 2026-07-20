@@ -34,7 +34,7 @@ class ComboDateAgeTest extends TestAbstractCellRuleCombo
         isSame('', $rule->test('now'));
 
         isSame(
-            'The age of the value "2020-10-02" is parsed as "4" years, '
+            'The age of the value "2020-10-02" is parsed as "' . self::age('2020-10-02') . '" years, '
             . 'which is not equal than the expected "0 years"',
             $rule->test('2020-10-02'),
         );
@@ -58,7 +58,7 @@ class ComboDateAgeTest extends TestAbstractCellRuleCombo
         isSame('', $rule->test('2100-01'));
 
         isSame(
-            'The age of the value "2020-10-02" is parsed as "4" years, '
+            'The age of the value "2020-10-02" is parsed as "' . self::age('2020-10-02') . '" years, '
             . 'which is less than the expected "21 years"',
             $rule->test('2020-10-02'),
         );
@@ -70,5 +70,14 @@ class ComboDateAgeTest extends TestAbstractCellRuleCombo
             . 'which is less than the expected "<green>21 years</green>"',
             $rule->test('qwerty', true),
         );
+    }
+
+    /**
+     * Mirrors ComboDateAge::calculateAge() so the expected age tracks the current date
+     * instead of being a hardcoded time-bomb value.
+     */
+    private static function age(string $dateString): int
+    {
+        return (new \DateTimeImmutable($dateString))->diff(new \DateTimeImmutable('now'))->y;
     }
 }

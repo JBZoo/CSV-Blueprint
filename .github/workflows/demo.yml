@@ -23,7 +23,7 @@ on:
         description: 'Branch Name'
         required: false
   workflow_run:
-    workflows: [ "Publish Docker" ]
+    workflows: [ "Publish" ]
     types:
       - completed
 
@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: 👍 Valid CSV files
         uses: jbzoo/csv-blueprint@master
@@ -100,7 +100,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Docker pull
         run: docker pull jbzoo/csv-blueprint:latest
@@ -114,7 +114,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Docker pull
         run: docker pull jbzoo/csv-blueprint:latest

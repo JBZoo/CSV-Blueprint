@@ -70,6 +70,8 @@ I believe it is the simplest yet flexible and powerful CSV validator in the worl
 - **Automation:** Storing validation rules in the repository eases the process of checking automation and simplifies
   updating validation criteria.
 
+See [CLAUDE.md](CLAUDE.md) for schema repository structure recommendations and team workflow guidelines.
+
 </details>
 
 ### Live demo
@@ -1495,7 +1497,7 @@ Options:
       --timestamp                  Show timestamp at the beginning of each message.It will be used only for text output format.
       --profile                    Display timing and memory usage information.
       --output-mode=OUTPUT-MODE    Output format. Available options:
-                                   text - Default text output format, userfriendly and easy to read.
+                                   text - Default text output format, user-friendly and easy to read.
                                    cron - Shortcut for crontab. It's basically focused on human-readable logs output.
                                    It's combination of --timestamp --profile --stdout-only --no-progress -vv.
                                    logstash - Logstash output format, for integration with ELK stack.
@@ -1556,7 +1558,7 @@ Options:
       --timestamp                Show timestamp at the beginning of each message.It will be used only for text output format.
       --profile                  Display timing and memory usage information.
       --output-mode=OUTPUT-MODE  Output format. Available options:
-                                 text - Default text output format, userfriendly and easy to read.
+                                 text - Default text output format, user-friendly and easy to read.
                                  cron - Shortcut for crontab. It's basically focused on human-readable logs output.
                                  It's combination of --timestamp --profile --stdout-only --no-progress -vv.
                                  logstash - Logstash output format, for integration with ELK stack.
@@ -1600,7 +1602,7 @@ Options:
       --timestamp                Show timestamp at the beginning of each message.It will be used only for text output format.
       --profile                  Display timing and memory usage information.
       --output-mode=OUTPUT-MODE  Output format. Available options:
-                                 text - Default text output format, userfriendly and easy to read.
+                                 text - Default text output format, user-friendly and easy to read.
                                  cron - Shortcut for crontab. It's basically focused on human-readable logs output.
                                  It's combination of --timestamp --profile --stdout-only --no-progress -vv.
                                  logstash - Logstash output format, for integration with ELK stack.
@@ -1660,7 +1662,7 @@ Options:
       --timestamp                    Show timestamp at the beginning of each message.It will be used only for text output format.
       --profile                      Display timing and memory usage information.
       --output-mode=OUTPUT-MODE      Output format. Available options:
-                                     text - Default text output format, userfriendly and easy to read.
+                                     text - Default text output format, user-friendly and easy to read.
                                      cron - Shortcut for crontab. It's basically focused on human-readable logs output.
                                      It's combination of --timestamp --profile --stdout-only --no-progress -vv.
                                      logstash - Logstash output format, for integration with ELK stack.
@@ -1910,7 +1912,7 @@ id,bool_int,bool_str,number,float,date,datetime,domain,email,ip4,uuid,address,po
 
 ### Run benchmark locally
 
-Make sure you have PHP 8.2+ and Docker installed.
+Make sure you have PHP 8.4+ and Docker installed.
 
 ```shell
 # Clone the latest version
