@@ -1912,7 +1912,7 @@ id,bool_int,bool_str,number,float,date,datetime,domain,email,ip4,uuid,address,po
 
 ### Run benchmark locally
 
-Make sure you have PHP 8.2+ and Docker installed.
+Make sure you have PHP 8.4+ and Docker installed.
 
 ```shell
 # Clone the latest version
