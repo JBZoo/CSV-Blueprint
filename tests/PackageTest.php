@@ -22,6 +22,7 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
 {
     protected string $packageName = 'Csv-Blueprint';
     protected string $composerPhpVersion = '^8.4';
+    protected string $composerDevVersion = '1.x-dev';
 
     protected array $params = [ // Needs refactoring
         'packagist_latest_stable_version'   => true,
@@ -70,9 +71,6 @@ final class PackageTest extends \JBZoo\Codestyle\PHPUnit\AbstractPackageTest
         'github_actions',
         'github_actions_demo',
         'psalm_coverage',
-        'sonarqube_coverage',
-        'sonarqube_bugs',
-        'sonarqube_smells',
         'docker_pulls',
     ];
 

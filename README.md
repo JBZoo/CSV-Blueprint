@@ -4,9 +4,6 @@
 [![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/main.yml?query=branch%3Amaster)
 [![CI](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml/badge.svg)](https://github.com/JBZoo/Csv-Blueprint/actions/workflows/demo.yml)
 [![Psalm Coverage](https://shepherd.dev/github/JBZoo/Csv-Blueprint/coverage.svg)](https://shepherd.dev/github/JBZoo/Csv-Blueprint)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=JBZoo_Csv-Blueprint&metric=coverage)](https://sonarcloud.io/code?id=JBZoo_Csv-Blueprint&selected=JBZoo_Csv-Blueprint%3Asrc)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=JBZoo_Csv-Blueprint&metric=bugs)](https://sonarcloud.io/project/issues?resolved=false&id=JBZoo_Csv-Blueprint)
-[![Code smells](https://sonarcloud.io/api/project_badges/measure?project=JBZoo_Csv-Blueprint&metric=code_smells)](https://sonarcloud.io/project/issues?resolved=false&id=JBZoo_Csv-Blueprint)
 [![Docker Pulls](https://img.shields.io/docker/pulls/jbzoo/csv-blueprint.svg)](https://hub.docker.com/r/jbzoo/csv-blueprint/tags)
 <!-- auto-update:/top-badges -->
 
