@@ -660,10 +660,10 @@ final class Utils
         // So, we need to catch all errors and handle them.
         \set_error_handler(static function (int $severity, string $message, string $file, int $line): bool {
             $severity = match ($severity) {
-                \E_ERROR, \E_CORE_ERROR, \E_COMPILE_ERROR, \E_USER_ERROR => 'Error',
+                \E_ERROR, \E_CORE_ERROR, \E_COMPILE_ERROR, \E_USER_ERROR         => 'Error',
                 \E_WARNING, \E_CORE_WARNING, \E_COMPILE_WARNING, \E_USER_WARNING => 'Warning',
-                \E_NOTICE, \E_USER_NOTICE => 'Notice',
-                default => 'Unknown',
+                \E_NOTICE, \E_USER_NOTICE                                        => 'Notice',
+                default                                                          => 'Unknown',
             };
             throw new Exception("Unexpected {$severity}: \"{$message}\" in file\n{$file}:{$line}");
         });

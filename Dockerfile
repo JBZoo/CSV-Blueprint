@@ -10,14 +10,16 @@
 # @see        https://github.com/JBZoo/Csv-Blueprint
 #
 
-FROM alpine:3.9 AS preparatory
+FROM alpine:3.24 AS preparatory
 RUN apk add --no-cache make git
 WORKDIR /tmp
 COPY . /tmp
 RUN make build-version
 
 ########################################################################################
-FROM php:8.4-zts-alpine
+# ZTS is required for ext-parallel (multi-threaded validation). Verified on 8.5: parallel 1.2.15
+# builds and runs stably (see plans/70-wave-d.md, Wave D bench experiment 2026-07-20).
+FROM php:8.5-zts-alpine
 
 # Install PHP extensions
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/

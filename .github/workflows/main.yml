@@ -21,6 +21,9 @@ on:
   push:
     branches:
       - 'master'
+  schedule:
+    - cron: '30 5 * * *'
+  workflow_dispatch:
 
 
 # To avoid copy-pasting the same commands and add control over the environment
@@ -39,10 +42,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        php-version: [ 8.4, 8.5 ]
         ext-parallel: [ '', 'parallel' ]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -50,7 +54,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         id: setup-php
         with:
-          php-version: 8.4
+          php-version: ${{ matrix.php-version }}
           coverage: xdebug
           extensions: ast, ${{ matrix.ext-parallel }}
         env:
@@ -63,7 +67,7 @@ jobs:
         run: make test --no-print-directory
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@v8.2.1
         continue-on-error: true
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -74,18 +78,21 @@ jobs:
   test-latest-libs:
     name: Tests - Latest
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: [ 8.4, 8.5 ]
     env:
       JBZOO_COMPOSER_UPDATE_FLAGS: '--with-all-dependencies'
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.4
+          php-version: ${{ matrix.php-version }}
           coverage: none
           extensions: ast
 
@@ -108,21 +115,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: 👍 Markdown Lint
-        uses: articulate/actions-markdownlint@v1
+        uses: DavidAnson/markdownlint-cli2-action@v24.1.0
         with:
           config: .markdownlint.yml
-          files: 'README.md'
+          globs: 'README.md'
 
 
   verify-php-binary:
     name: Verify PHP binary
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: [ 8.4, 8.5 ]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
@@ -130,7 +140,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.4
+          php-version: ${{ matrix.php-version }}
 
       - name: Build project in production mode
         run: make build-prod --no-print-directory
@@ -161,10 +171,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: [ 8.4 ]
+        php-version: [ 8.4, 8.5 ]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
@@ -188,12 +198,13 @@ jobs:
           ! $BLUEPRINT_PHAR $CMD_VALIDATE $INVALID_TEST
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         continue-on-error: true
         with:
           name: PHAR - PHP v${{ matrix.php-version }}
           path: ./build/csv-blueprint.phar
           compression-level: 0
+          overwrite: true
 
 
   verify-docker:
@@ -203,7 +214,7 @@ jobs:
       BENCH_COLS: 1
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
@@ -214,13 +225,13 @@ jobs:
           php-version: 8.4
 
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: 🐳 Building Docker Image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: .
           push: false
@@ -257,7 +268,7 @@ jobs:
           ! make bench-docker-quick-parallel --no-print-directory
 
       - name: Push Docker Image (master)
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         if: github.ref == 'refs/heads/master'
         with:
           context: .
@@ -270,7 +281,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
@@ -294,7 +305,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -312,8 +323,9 @@ jobs:
         run: make report-all --no-print-directory
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         continue-on-error: true
         with:
           name: Reports
           path: build/
+          overwrite: true

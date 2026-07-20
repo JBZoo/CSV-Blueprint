@@ -36,7 +36,7 @@ jobs:
       DOCKER_IMAGE: jbzoo/csv-blueprint:${{ matrix.version }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           ref: ${{ github.event.inputs.branch || github.ref }}
@@ -52,7 +52,7 @@ jobs:
 
       - name: Build local image
         if: matrix.version == 'local'
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: .
           push: false
@@ -80,7 +80,7 @@ jobs:
 #      BENCH_COLS: ${{ matrix.columns }}
 #    steps:
 #      - name: Checkout code
-#        uses: actions/checkout@v4
+#        uses: actions/checkout@v7
 #        with:
 #          fetch-depth: 0
 #          ref: ${{ github.event.inputs.branch || github.ref }}

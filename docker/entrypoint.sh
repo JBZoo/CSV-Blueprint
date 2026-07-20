@@ -12,12 +12,7 @@
 # @see        https://github.com/JBZoo/Csv-Blueprint
 #
 
-# Check for the presence of the "--parallel" option in the command line arguments
-# If the option is present, disable the opcache for the script execution
-# This is necessary because the opcache is not thread-safe and will cause segfaults.
-# We have to debug the segfaults and fix them, but for now, this is a workaround.
-if [[ " $* " =~ " --parallel" ]] || [[ " $* " =~ " --parallel=" ]] || [[ " $* " =~ " --parallel " ]]; then
-    php -d opcache.enable_cli=0 /app/csv-blueprint.php "$@"
-else
-    php /app/csv-blueprint.php "$@"
-fi
+# Note: the historical "disable opcache under --parallel" workaround (opcache segfaults with
+# ext-parallel) was removed after verifying on PHP 8.5 ZTS that opcache + parallel runs are
+# stable and produce identical results.
+php /app/csv-blueprint.php "$@"

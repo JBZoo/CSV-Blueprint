@@ -197,7 +197,8 @@ final class CsvFile
 
     private function prepareReader(): LeagueReader  // @phpstan-ignore-line
     {
-        $reader = LeagueReader::createFromPath($this->csvFilename)
+        // Reader::createFromPath() is deprecated since league/csv 9.27 in favor of Reader::from()
+        $reader = LeagueReader::from($this->csvFilename)
             ->setDelimiter($this->schema->getCsvDelimiter())
             ->setEnclosure($this->schema->getCsvEnclosure())
             ->setEscape($this->schema->getCsvQuoteChar())

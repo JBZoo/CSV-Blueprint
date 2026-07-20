@@ -30,26 +30,26 @@
         "php"                                 : "^8.4",
         "ext-mbstring"                        : "*",
 
-        "league/csv"                          : "^9.25.0",
-        "jbzoo/data"                          : "^7.2.0",
-        "jbzoo/cli"                           : "^7.2.5",
-        "jbzoo/utils"                         : "^7.3.0",
-        "jbzoo/ci-report-converter"           : "^7.2.3",
+        "league/csv"                          : "^9.28.0",
+        "jbzoo/data"                          : "^8.0",
+        "jbzoo/cli"                           : "^8.0",
+        "jbzoo/utils"                         : "^8.0",
+        "jbzoo/ci-report-converter"           : "^8.0",
 
-        "symfony/yaml"                        : "^7.2.3",
-        "symfony/filesystem"                  : "^7.3.2",
-        "symfony/finder"                      : "^7.3.2",
-        "symfony/console"                     : "^7.3.4",
-        "markrogoyski/math-php"               : "^2.11.0",
-        "respect/validation"                  : "^2.4.4",
-        "giggsey/libphonenumber-for-php-lite" : "^8.13.55",
+        "symfony/yaml"                        : "^7.4.14",
+        "symfony/filesystem"                  : "^7.4.11",
+        "symfony/finder"                      : "^7.4.14",
+        "symfony/console"                     : "^7.4.14",
+        "markrogoyski/math-php"               : "^2.13.0",
+        "respect/validation"                  : "^2.4.12",
+        "giggsey/libphonenumber-for-php-lite" : "^9.0.35",
         "fidry/cpu-core-counter"              : "^1.3.0"
     },
 
     "require-dev"       : {
         "roave/security-advisories" : "dev-latest",
-        "jbzoo/toolbox-dev"         : "^7.3.0",
-        "jbzoo/codestyle"           : "^7.2.2",
+        "jbzoo/toolbox-dev"         : "^8.0",
+        "jbzoo/codestyle"           : "^8.0",
         "fakerphp/faker"            : "^1.24.1"
     },
 
@@ -71,7 +71,7 @@
 
     "extra"             : {
         "branch-alias" : {
-            "dev-master" : "7.x-dev"
+            "dev-master" : "8.x-dev"
         }
     }
 }
