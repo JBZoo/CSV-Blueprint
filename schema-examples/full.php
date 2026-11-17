@@ -160,6 +160,7 @@ This example serves as a comprehensive guide for creating robust CSV file valida
                 'is_ip_private'           => true,
                 'is_ip_reserved'          => true,
                 'ip_v4_range'             => ['127.0.0.1-127.0.0.5', '127.0.0.0/21'],
+                'is_azure_nsg_cidr'       => true,
                 'is_mac_address'          => true,
                 'is_domain'               => true,
                 'is_public_domain_suffix' => true,
