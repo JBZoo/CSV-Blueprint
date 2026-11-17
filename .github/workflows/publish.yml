@@ -51,6 +51,12 @@ jobs:
   docker:
     name: Publish Docker
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    env:
+      IMAGE: ghcr.io/blackmesaltd/csv-blueprint
+      TAG: ${{ github.event.release.tag_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -58,17 +64,25 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.ref_name }}
 
+      - name: Check action.yml is pinned to this release
+        run: |
+          grep -qF "image: 'docker://${IMAGE}:${TAG}'" action.yml || {
+            echo "::error file=action.yml::runs.image must be 'docker://${IMAGE}:${TAG}'"
+            exit 1
+          }
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
-      - name: Login to Docker Hub
+      - name: Login to GitHub Container Registry
         uses: docker/login-action@v4
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
         uses: docker/build-push-action@v7
@@ -76,14 +90,17 @@ jobs:
           push: true
           context: .
           tags: |
-            jbzoo/csv-blueprint:latest
-            jbzoo/csv-blueprint:${{ github.event.release.tag_name }}
+            ${{ env.IMAGE }}:latest
+            ${{ env.IMAGE }}:${{ env.TAG }}
           platforms: linux/amd64,linux/arm64
           build-args: |
-            VERSION=${{ github.event.release.tag_name }}
+            VERSION=${{ env.TAG }}
 
       - name: Verify the Docker image by tag
-        run: docker run --rm jbzoo/csv-blueprint:${{ github.event.release.tag_name }} --ansi -vvv
+        run: docker run --rm "${IMAGE}:${TAG}" --ansi -vvv
 
-      - name: Verify the Docker image by latest
-        run: docker run --rm jbzoo/csv-blueprint:latest --ansi -vvv
+      - name: Verify the Docker image is publicly pullable
+        run: |
+          docker logout ghcr.io
+          docker rmi "${IMAGE}:${TAG}" "${IMAGE}:latest" || true
+          docker pull "${IMAGE}:${TAG}"
